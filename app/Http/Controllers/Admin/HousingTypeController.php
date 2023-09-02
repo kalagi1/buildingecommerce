@@ -20,16 +20,17 @@ class HousingTypeController extends Controller
     }
 
     public function store(Request $request)
-    {
+    { //validation hataları için türkçe dil paketi yüklenecek
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:housing_types',
             'active' => 'required|numeric',
+            'form_json' => 'required|string'
         ]);
 
         HousingType::create($validatedData);
 
-        return redirect()->route('admin.housing_type.index')->with('success', 'Housing type created successfully.');
+        return redirect()->route('admin.housing_types.create')->with('success', 'Housing type created successfully.');
     }
 
     public function edit($id)
@@ -44,6 +45,7 @@ class HousingTypeController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:housing_types,slug,' . $id,
             'active' => 'required|numeric',
+            'form_json' => 'required|string'
         ]);
 
         $housingType = HousingType::findOrFail($id);
