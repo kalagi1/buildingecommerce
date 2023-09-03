@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class HousingTypeController extends Controller
 {
+    public function getHousingTypeForm(Request $req)
+    {
+        $ht = HousingType::where('id', $req->id)->first();
+        return response()->json($ht);
+    }
     public function index()
     {
         $housingTypes = HousingType::all();
