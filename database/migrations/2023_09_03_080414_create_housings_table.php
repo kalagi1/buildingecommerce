@@ -18,6 +18,10 @@ return new class extends Migration {
             $table->string('address');
             $table->string('room_count');
             $table->unsignedSmallInteger('square_meter');
+            $table->integer('price');
+            $table->tinyInteger('secondhand');
+            $table->integer('view_count')->default(0);
+            $table->integer('order')->default(0);
             $table->timestamps();
 
             $table->foreign('housing_type_id')->references('id')->on('housing_types');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Housing;
+use App\Models\HousingImages;
 use App\Models\HousingType;
 use Illuminate\Http\Request;
 
@@ -45,32 +46,61 @@ class HousingController extends Controller
     public function store(Request $request)
     {
         $postData = $request->all();
-
         $vData = $request->validate([
             'room_count' => 'required|string|max:4',
             'square_meter' => 'required|integer',
             'title' => 'required|string',
-            'housing_type' => 'required|integer'
+            'address' => 'required|string|max:128',
+            'housing_type' => 'required|integer',
+            'images' => 'required|array',
+            'secondhand' => 'required|in:1,0',
+            'price' => 'required|integer'
         ]);
 
         $room_count = $vData['room_count'];
         $square_meter = $vData['square_meter'];
         $title = $vData['title'];
+        $address = $vData['address'];
         $housing_type = $vData['housing_type'];
-        unset($postData['_token']);
+        $images = $vData['images'];
+        $secondhand = $vData['secondhand'];
+        $price = $vData['price'];
+
+        unset($postData['_token']); //Housing type için gelen form inputlarını ayırt etmek için
         unset($postData['room_count']);
         unset($postData['housing_type']);
         unset($postData['square_meter']);
+        unset($postData['images']);
+        unset($postData['address']);
         unset($postData['title']);
-        Housing::create(
+        unset($postData['secondhand']);
+        unset($postData['price']);
+
+        $lastId = Housing::create(
             [
                 'room_count' => $room_count,
                 'square_meter' => $square_meter,
+                'address' => $address,
                 'title' => $title,
                 'housing_type_id' => $housing_type,
-                'housing_type_data' => json_encode($postData)
+                'secondhand' => $secondhand,
+                'price' => $price,
+                'housing_type_data' => json_encode($postData) //dinamik formdan gelen veriler
             ]
-        );
+        )->id;
+
+        $imageData = [];
+        foreach ($images as $image) {
+
+            $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
+            $image_path = $image->storeAs('housing/images/' . $lastId, $fileName, 'public');
+            $imageData[] = [
+                'imagepath' => $image_path,
+                'housing_id' => $lastId
+            ];
+        }
+
+        HousingImages::insert($imageData);
         return redirect()->route('admin.housing.create')->with('success', 'Housing created successfully');
     }
 

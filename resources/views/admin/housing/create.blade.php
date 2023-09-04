@@ -27,7 +27,7 @@
                                 <div class="p-4">
 
                                     <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                        action="{{ route('admin.housing.store') }}">
+                                        action="{{ route('admin.housing.store') }}" enctype="multipart/form-data">
                                         @csrf
                                         <div class="col-md-4">
                                             <label class="form-label" for="validationCustom01">Title</label>
@@ -47,7 +47,33 @@
                                                 type="text" value="" required="">
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
-                                        <select name="housing_type" id="housing_type" class="form-select" aria-label="Default select example">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="address">Address</label>
+                                            <textarea class="form-control" id="address" name="address" rows="3"> </textarea>
+                                        </div>
+                                        <div class="col-md-12">
+
+                                            <label class="form-label" for="images">Images</label>
+                                            <input name="images[]" class="form-control" id="images" type="file"
+                                                accept="image/*" multiple />
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="price">Price</label>
+                                            <input name="price" class="form-control" id="price" type="text"
+                                                value="" required="">
+                                            <div class="valid-feedback">Looks good!</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="hidden" name="secondhand" value="0">
+                                            <input class="form-check-input" id="secondhand" name="secondhand"
+                                                type="checkbox" value="1" />
+
+                                            <label class="form-check-label" for="secondhand">Is Second Hand</label>
+                                        </div>
+
+                                        <select name="housing_type" id="housing_type" class="form-select"
+                                            aria-label="Default select example">
                                             <option selected="">Select housing type:</option>
                                             @foreach ($housing_types as $type)
                                                 <option value="{{ $type->id }}">{{ $type->title }}</option>
@@ -58,7 +84,7 @@
                                         <div class="col-12">
                                             <button class="btn btn-primary" type="submit">Kaydet</button>
                                         </div>
-
+                                        
                                     </form>
 
                                 </div>
@@ -82,8 +108,8 @@
             <div class="toast align-items-center text-white bg-dark border-0 light" id="icon-copied-toast" role="alert"
                 aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
-                    <div class="toast-body p-3"></div><button class="btn-close btn-close-white me-2 m-auto" type="button"
-                        data-bs-dismiss="toast" aria-label="Close"></button>
+                    <div class="toast-body p-3"></div><button class="btn-close btn-close-white me-2 m-auto"
+                        type="button" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
         </div>
@@ -91,8 +117,9 @@
             <div class="row g-0 justify-content-between align-items-center h-100">
                 <div class="col-12 col-sm-auto text-center">
                     <p class="mb-0 mt-2 mt-sm-0 text-900">Thank you for creating with Phoenix<span
-                            class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br
-                            class="d-sm-none" />2023 &copy;<a class="mx-1" href="https://themewagon.com/">Themewagon</a>
+                            class="d-none d-sm-inline-block"></span><span
+                            class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 &copy;<a
+                            class="mx-1" href="https://themewagon.com/">Themewagon</a>
                     </p>
                 </div>
                 <div class="col-12 col-sm-auto text-center">

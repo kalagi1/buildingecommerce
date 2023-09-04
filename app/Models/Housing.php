@@ -14,4 +14,8 @@ class Housing extends Model
     {
         return $this->belongsTo(HousingType::class);
     }
+    public function images()
+    {
+        return $this->hasMany(HousingImages::class);
+    }
 }

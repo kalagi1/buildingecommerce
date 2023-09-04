@@ -453,8 +453,8 @@
             </div>
             <div class="portfolio col-xl-12">
                 <div class="slick-agents">
-                    @if (count($housings))
-                        @foreach ($housings as $item)
+                    @if (count($secondhandHousings))
+                        @foreach ($secondhandHousings as $item)
                             <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                                 <div class="landscapes">
                                     <div class="project-single">
@@ -469,9 +469,10 @@
                                                     <div class="homes-tag button alt sale"
                                                         style="background-color: rgba(255, 1, 1, 0.849) !important;">Yeni
                                                     </div>
-
-                                                    <img src="images/blog/b-11.jpg" alt="home-1"
-                                                        class="img-responsive">
+                                                    @php
+                                                        $imagePath = isset($item->images[0]) ? asset('storage/' . $item->images[0]->imagepath) : 'images/blog/b-11.jpg';
+                                                    @endphp
+                                                    <img src={{ $imagePath }} alt="home-1" class="img-responsive">
                                                 </a>
                                             </div>
                                             <div class="button-effect">
@@ -504,7 +505,7 @@
                                             </ul>
                                             <ul class="homes-list clearfix pb-0"
                                                 style="display: flex; justify-content: space-between;">
-                                                <li style="font-size: large; font-weight: 700;">6.000TL</li>
+                                                <li style="font-size: large; font-weight: 700;">{{$item->price}}TL</li>
                                                 <li style="display: flex; justify-content: end;">{{ $item->created_at }}
                                                 </li>
                                             </ul>
@@ -521,7 +522,7 @@
                             </div>
                         @endforeach
                     @else
-                    <p>Veri Yok</p>
+                        <p>Veri Yok</p>
                     @endif
 
 
