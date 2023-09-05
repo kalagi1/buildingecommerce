@@ -65,11 +65,14 @@
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="hidden" name="secondhand" value="0">
-                                            <input class="form-check-input" id="secondhand" name="secondhand"
-                                                type="checkbox" value="1" />
+                                            <select name="status" id="status" class="form-select"
+                                                aria-label="Default select example">
+                                                <option selected="">Select housing status:</option>
+                                                @foreach ($housing_status as $status)
+                                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                                @endforeach
 
-                                            <label class="form-check-label" for="secondhand">Is Second Hand</label>
+                                            </select>
                                         </div>
 
                                         <select name="housing_type" id="housing_type" class="form-select"
@@ -84,7 +87,7 @@
                                         <div class="col-12">
                                             <button class="btn btn-primary" type="submit">Kaydet</button>
                                         </div>
-                                        
+
                                     </form>
 
                                 </div>

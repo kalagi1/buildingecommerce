@@ -11,10 +11,10 @@
                             <div class="card-body p-0">
                                 <div class="p-4 code-to-copy">
                                     <div class="d-flex align-items-center justify-content-end my-3">
-                                        <div id="bulk-select-replace-element"><a href="{{route('admin.housing.create')}}" class="btn btn-phoenix-success btn-sm"
+                                        <div id="bulk-select-replace-element"><button class="btn btn-phoenix-success btn-sm"
                                                 type="button"><span class="fas fa-plus"
                                                     data-fa-transform="shrink-3 down-2"></span><span
-                                                    class="ms-1">New</span></a></div>
+                                                    class="ms-1">New</span></button></div>
                                         <div class="d-none ms-3" id="bulk-select-actions">
                                             <div class="d-flex"><select class="form-select form-select-sm"
                                                     aria-label="Bulk actions">

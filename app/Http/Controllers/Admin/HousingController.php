@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Housing;
 use App\Models\HousingImages;
+use App\Models\HousingStatus;
 use App\Models\HousingType;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,8 @@ class HousingController extends Controller
     public function create()
     {
         $housing_types = HousingType::all();
-        return view('admin.housing.create', ['housing_types' => $housing_types]);
+        $housing_status = HousingStatus::all();
+        return view('admin.housing.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status]);
     }
 
     /**
@@ -53,7 +55,7 @@ class HousingController extends Controller
             'address' => 'required|string|max:128',
             'housing_type' => 'required|integer',
             'images' => 'required|array',
-            'secondhand' => 'required|in:1,0',
+            'status' => 'required|in:1,2,3',
             'price' => 'required|integer'
         ]);
 
@@ -63,7 +65,7 @@ class HousingController extends Controller
         $address = $vData['address'];
         $housing_type = $vData['housing_type'];
         $images = $vData['images'];
-        $secondhand = $vData['secondhand'];
+        $status = $vData['status'];
         $price = $vData['price'];
 
         unset($postData['_token']); //Housing type için gelen form inputlarını ayırt etmek için
@@ -73,7 +75,7 @@ class HousingController extends Controller
         unset($postData['images']);
         unset($postData['address']);
         unset($postData['title']);
-        unset($postData['secondhand']);
+        unset($postData['status']);
         unset($postData['price']);
 
         $lastId = Housing::create(
@@ -83,7 +85,7 @@ class HousingController extends Controller
                 'address' => $address,
                 'title' => $title,
                 'housing_type_id' => $housing_type,
-                'secondhand' => $secondhand,
+                'status_id' => $status,
                 'price' => $price,
                 'housing_type_data' => json_encode($postData) //dinamik formdan gelen veriler
             ]
