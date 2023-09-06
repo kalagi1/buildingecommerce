@@ -56,7 +56,9 @@ class HousingController extends Controller
             'housing_type' => 'required|integer',
             'images' => 'required|array',
             'status' => 'required|in:1,2,3',
-            'price' => 'required|integer'
+            'price' => 'required|integer',
+            'description' => 'required|string|max:2048',
+            'location' => 'required|string'
         ]);
 
         $room_count = $vData['room_count'];
@@ -67,16 +69,29 @@ class HousingController extends Controller
         $images = $vData['images'];
         $status = $vData['status'];
         $price = $vData['price'];
+        $description = $vData['description'];
+        $location = explode(',', $vData['location']);
+        $latitude = $location[0];
+        $longitude = $location[1];
 
-        unset($postData['_token']); //Housing type için gelen form inputlarını ayırt etmek için
-        unset($postData['room_count']);
-        unset($postData['housing_type']);
-        unset($postData['square_meter']);
-        unset($postData['images']);
-        unset($postData['address']);
-        unset($postData['title']);
-        unset($postData['status']);
-        unset($postData['price']);
+        $unsetKeys = [
+            //Housing type için gelen form inputlarını ayırt etmek için
+            '_token',
+            'room_count',
+            'housing_type',
+            'square_meter',
+            'images',
+            'address',
+            'title',
+            'status',
+            'price',
+            'description',
+            'location'
+        ];
+
+        foreach ($unsetKeys as $key) {
+            unset($postData[$key]);
+        }
 
         $lastId = Housing::create(
             [
@@ -87,7 +102,13 @@ class HousingController extends Controller
                 'housing_type_id' => $housing_type,
                 'status_id' => $status,
                 'price' => $price,
-                'housing_type_data' => json_encode($postData) //dinamik formdan gelen veriler
+                'housing_type_data' => json_encode($postData),
+                //dinamik formdan gelen veriler
+                'user_id' => 1,
+                //güncellenecek
+                'description' => $description,
+                'latitude' => $latitude,
+                'longitude' => $longitude
             ]
         )->id;
 

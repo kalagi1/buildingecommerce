@@ -48,9 +48,14 @@
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-6">
+                                            <label class="form-label" for="description">Description</label>
+                                            <textarea class="form-control" id="description" name="description" rows="3"> </textarea>
+                                        </div>
+                                        <div class="col-md-6">
                                             <label class="form-label" for="address">Address</label>
                                             <textarea class="form-control" id="address" name="address" rows="3"> </textarea>
                                         </div>
+
                                         <div class="col-md-12">
 
                                             <label class="form-label" for="images">Images</label>
@@ -65,14 +70,21 @@
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-4">
+                                            <label class="form-label" for="status">Status</label>
                                             <select name="status" id="status" class="form-select"
                                                 aria-label="Default select example">
                                                 <option selected="">Select housing status:</option>
                                                 @foreach ($housing_status as $status)
                                                     <option value="{{ $status->id }}">{{ $status->name }}</option>
                                                 @endforeach
-
                                             </select>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="location">Location:</label>
+                                            <input name="location" class="form-control" id="location" readonly type="text"
+                                                value="39.1667,35.6667" />
+                                            <div id="mapContainer"></div>
+
                                         </div>
 
                                         <select name="housing_type" id="housing_type" class="form-select"
@@ -135,6 +147,16 @@
 @section('scripts')
     <script>
         jQuery($ => {
+            $('#location').leafletLocationPicker({
+                alwaysOpen: true,
+                mapContainer: "#mapContainer",
+                height: 300,
+                map: {
+                    zoom: 5
+                }
+
+
+            });
 
             $('#housing_type').change(function() {
                 var selectedid = this.value

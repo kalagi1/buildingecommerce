@@ -461,7 +461,7 @@
                                         <div class="project-inner project-head">
                                             <div class="homes">
                                                 <!-- homes img -->
-                                                <a href="single-property-1.html" class="homes-img">
+                                                <a href="{{ route('housing.show', $item->id) }}" class="homes-img">
                                                     <div class="homes-tag button alt featured"
                                                         style="background-color: rgba(255, 166, 0, 0.89) !important;">Öne
                                                         Çıkan
@@ -482,9 +482,9 @@
                                         <!-- homes content -->
                                         <div class="homes-content">
                                             <!-- homes address -->
-                                            <h3><a href="single-property-1.html">{{ $item->title }}</a></h3>
+                                            <h3><a href="{{ route('housing.show', $item->id) }}"">{{ $item->title }}</a></h3>
                                             <p class="homes-address mb-3">
-                                                <a href="single-property-1.html">
+                                                <a href="{{ route('housing.show', $item->id) }}">
                                                     <i class="fa fa-map-marker"></i><span>{{ $item->address }}</span>
                                                 </a>
                                             </p>
@@ -505,7 +505,7 @@
                                             </ul>
                                             <ul class="homes-list clearfix pb-0"
                                                 style="display: flex; justify-content: space-between;">
-                                                <li style="font-size: large; font-weight: 700;">{{$item->price}}TL</li>
+                                                <li style="font-size: large; font-weight: 700;">{{ $item->price }}TL</li>
                                                 <li style="display: flex; justify-content: end;">{{ $item->created_at }}
                                                 </li>
                                             </ul>

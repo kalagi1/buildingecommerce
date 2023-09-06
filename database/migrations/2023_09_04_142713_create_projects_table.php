@@ -10,6 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
+        //ilişkisel yakın konumlar tablosu
+        //slider resimleri
+        //ek resimler 
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('housing_type_id');
