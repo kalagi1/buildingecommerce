@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\HousingController;
 use App\Http\Controllers\Admin\HousingTypeController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\PermissionGroupController;
 use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Admin\ProjectController;
@@ -43,6 +45,9 @@ Route::group(['prefix' => 'admin', "as" => "admin."], function () {
     Route::resource('/roles', RoleController::class);
     Route::delete('/roles/bulkDelete', [RoleController::class, "bulkDelete"])->name('roles.bulkDelete');
     Route::resource('/pages', PageController::class);
+    Route::resource('/permissions', PermissionController::class);
+    Route::resource('/permission_groups', PermissionGroupController::class);
+
 
 });
 

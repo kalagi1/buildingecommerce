@@ -5,7 +5,7 @@
         <div class="row">
             <div class="mb-9">
                 <div id="projectSummary"
-                    data-list='{"valueNames":["projectName","assigness","start","deadline","task","projectprogress","status","action"],"page":6,"pagination":true}'>
+                    data-list='{"valueNames":["projectName","assigness","start","deadline","task","projectprogress","status","action"],"page":12,"pagination":true}'>
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
                             <h2 class="mb-0">Roles<span class="fw-normal text-700 ms-3">({{ count($roles) }})</span>

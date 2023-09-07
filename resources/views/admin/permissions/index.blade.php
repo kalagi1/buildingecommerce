@@ -3,23 +3,20 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-lg-12">
-                <div id="projectSummary"
-                    data-list='{"valueNames":["projectName","assigness","start","deadline","task","projectprogress","status","action"],"page":12,"pagination":true}'>
+            <div class="mb-9">
+                <div id="permissionList"
+                    data-list='{"valueNames":["id","key","description","title","is_active","action"],"page":12,"pagination":true}'>
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
-                            <h2 class="mb-0">Pages<span class="fw-normal text-700 ms-3">({{ count($pages) }})</span>
-                            </h2>
+                            <h2 class="mb-0">Permissions<span
+                                    class="fw-normal text-700 ms-3">({{ count($permissions) }})</span></h2>
                         </div>
                         <div class="col-auto">
-                            <div class="col-auto">
-                                <a class="btn btn-primary px-5" href="{{ route('admin.pages.create') }}">
-                                    <i class="fa-solid fa-plus me-2"></i>Add New Page
-                                </a>
-                            </div>
+                            <div class="col-auto"><a class="btn btn-primary px-5"
+                                    href="{{ route('admin.permissions.create') }}"><i class="fa-solid fa-plus me-2"></i>Add
+                                    New Permission</a></div>
                         </div>
                     </div>
-
                     @if (session('success'))
                         <div class="alert alert-success text-white">
                             {{ session('success') }}
@@ -31,43 +28,49 @@
                             {{ session('error') }}
                         </div>
                     @endif
+
                     <div class="card shadow-none border border-300 my-4 p-5">
                         <div class="table-responsive scrollbar">
                             <table class="table fs--1 mb-0 border-top border-200">
                                 <thead>
                                     <tr>
-                                        <th style="width:15%;">ID</th>
+                                        <th style="width:10%;">ID</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="projectName" style="width:60%;">PAGE TITLE</th>
+                                            data-sort="key">Key</th>
+                                        <th class="sort white-space-nowrap align-middle ps-0" scope="col"
+                                            data-sort="is_active">Active</th>
                                         <th style="width:10%;">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="list" id="project-list-table-body">
-                                    @foreach ($pages as $key => $page)
+                                <tbody class="list" id="permission-list-table-body">
+                                    @foreach ($permissions as $key => $permission)
                                         <tr class="position-static">
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $page->title }}</td>
+                                            <td>{{ $permission->key }}</td>
                                             <td>
-                                                <a href="{{ route('admin.pages.edit', $page->id) }}"
+                                                @if ($permission->is_active)
+                                                    <span class="badge bg-success">Yes</span>
+                                                @else
+                                                    <span class="badge bg-danger">No</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.permissions.edit', $permission->id) }}"
                                                     class="btn btn-sm btn-primary">Edit</a>
-
                                                 <!-- Silme işlemi için modal -->
                                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $page->id }}">
-                                                    Delete
-                                                </button>
-
+                                                    data-bs-target="#deleteModal{{ $permission->id }}">Delete</button>
 
                                                 <!-- Silme işlemi için modal -->
-                                                <div class="modal fade" id="deleteModal{{ $page->id }}" tabindex="-1"
-                                                    aria-labelledby="deleteModalLabel{{ $page->id }}"
+                                                <div class="modal fade" id="deleteModal{{ $permission->id }}" tabindex="-1"
+                                                    aria-labelledby="deleteModalLabel{{ $permission->id }}"
                                                     aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title"
-                                                                    id="deleteModalLabel{{ $page->id }}">Delete page
-                                                                </h5>
+                                                                    id="deleteModalLabel{{ $permission->id }}">Delete
+                                                                    permission</h5>
                                                                 <button type="button" class="btn p-1"
                                                                     data-bs-dismiss="modal" aria-label="Close">
                                                                     <svg class="svg-inline--fa fa-xmark fs--1"
@@ -83,12 +86,11 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <p class="text-700 lh-lg mb-0">Are you sure you want to
-                                                                    delete
-                                                                    this page?</p>
+                                                                    delete this permission?</p>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <form
-                                                                    action="{{ route('admin.pages.destroy', $page->id) }}"
+                                                                    action="{{ route('admin.permissions.destroy', $permission->id) }}"
                                                                     method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -112,8 +114,7 @@
                             class="d-flex flex-wrap align-items-center justify-content-between py-3 pe-0 fs--1 border-bottom border-200">
                             <div class="d-flex">
                                 <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
-                                    data-list-info="data-list-info">
-                                </p>
+                                    data-list-info="data-list-info"></p>
                             </div>
                             <div class="d-flex"><button class="page-link" data-list-pagination="prev"><span
                                         class="fas fa-chevron-left"></span></button>
@@ -123,11 +124,7 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 @endsection
-
-@push('scripts')
-@endpush
