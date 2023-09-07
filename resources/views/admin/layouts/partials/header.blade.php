@@ -13,7 +13,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Phoenix</title>
+    <title>Yönetim Paneli</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
@@ -27,8 +27,6 @@
     <link rel="shortcut icon" type="image/x-icon"
         href="{{ URL::to('/') }}/adminassets/assets/img/favicons/favicon.ico">
     <link rel="manifest" href="{{ URL::to('/') }}/adminassets/assets/img/favicons/manifest.json">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <meta name="msapplication-TileImage"
         content="{{ URL::to('/') }}/adminassets/assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
@@ -53,7 +51,6 @@
         id="user-style-rtl">
     <link href="{{ URL::to('/') }}/adminassets/assets/css/user.min.css" type="text/css" rel="stylesheet"
         id="user-style-default">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/leaflet-locationpicker.src.css" />
     <script>
         var phoenixIsRTL = window.config.config.phoenixIsRTL;
         if (phoenixIsRTL) {
@@ -92,125 +89,290 @@
                 <!-- scrollbar removed-->
                 <div class="navbar-vertical-content">
                     <ul class="navbar-nav flex-column" id="navbarVerticalNav">
-
-
                         <li class="nav-item">
-                            <!-- label-->
-                            <p class="navbar-vertical-label">Pages</p>
+                            <p class="navbar-vertical-label">Management</p>
                             <hr class="navbar-vertical-line" /><!-- parent pages-->
-                            <div class="nav-item-wrapper"><a class="nav-link label-1" href=""
-                                    role="button" data-bs-toggle="" aria-expanded="false">
-                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span
-                                                data-feather="compass">
-                                            </span>
-                                        </span>
-                                        <span class="nav-link-text-wrapper"><span
-                                                class="nav-link-text">Starter</span></span>
-                                    </div>
-                                </a>
-                            </div><!-- parent pages-->
-
-                            <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1" href="#nv-faq"
-                                    role="button" data-bs-toggle="collapse" aria-expanded="false"
-                                    aria-controls="nv-faq">
+                            <!-- parent pages-->
+                            <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1" href="#nv-role"
+                                    role="button" data-bs-toggle="collapse" aria-expanded="true"
+                                    aria-controls="nv-home">
                                     <div class="d-flex align-items-center">
-                                        <div class="dropdown-indicator-icon">
-                                            <span class="fas fa-caret-right"></span>
-                                        </div>
-                                        <span class="nav-link-icon"><span data-feather="help-circle">
-                                            </span></span><span class="nav-link-text">Housings
-                                        </span>
-                                        <span class="fa-solid fa-circle text-info ms-1 new-page-indicator"
-                                            style="font-size: 6px">
+                                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span>
+                                        </div><span class="nav-link-icon"><span data-feather="user"></span></span><span
+                                            class="nav-link-text">Roles
                                         </span>
                                     </div>
                                 </a>
                                 <div class="parent-wrapper label-1">
-                                    <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
-                                        id="nv-faq">
-                                        <li class="collapsed-nav-item-title d-none">Housings</li>
-                                        <li class="nav-item"><a class="nav-link" href="{{route('admin.housing.index')}}"
-                                                data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">List</span></div>
-                                            </a><!-- more inner pages-->
+                                    <ul class="nav collapse parent @if (request()->is('admin/roles*')) show @endif"
+                                        data-bs-parent="#navbarVerticalCollapse" id="nv-role">
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/roles/create')) active @endif"
+                                                href="{{ route('admin.roles.create') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">Create</span></div>
+                                            </a>
                                         </li>
-                                        <li class="nav-item"><a class="nav-link" href="{{route('admin.housing.create')}}"
-                                                data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span class="nav-link-text">Create</span>
-                                                </div>
-                                            </a><!-- more inner pages-->
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/roles')) active @endif"
+                                                href="{{ route('admin.roles.index') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">List</span></div>
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
-                            </div><!-- parent pages-->
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <!-- parent pages-->
                             <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
-                                    href="#nv-landing" role="button" data-bs-toggle="collapse"
-                                    aria-expanded="false" aria-controls="nv-landing">
+                                    href="#nv-page" role="button" data-bs-toggle="collapse" aria-expanded="true"
+                                    aria-controls="nv-home">
                                     <div class="d-flex align-items-center">
                                         <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span>
                                         </div><span class="nav-link-icon"><span
-                                                data-feather="globe"></span></span><span
-                                            class="nav-link-text">Housing Types</span><span
-                                            class="fa-solid fa-circle text-info ms-1 new-page-indicator"
-                                            style="font-size: 6px"></span>
+                                                data-feather="file"></span></span><span class="nav-link-text">Pages
+                                        </span>
                                     </div>
                                 </a>
                                 <div class="parent-wrapper label-1">
-                                    <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
-                                        id="nv-landing">
-                                        <li class="collapsed-nav-item-title d-none">Housing Types</li>
-                                        <li class="nav-item"><a class="nav-link" href="{{route('admin.housing_types.index')}}"
-                                                data-bs-toggle="" aria-expanded="false">
+                                    <ul class="nav collapse @if (request()->is('admin/pages*')) show @endif"
+                                        data-bs-parent="#navbarVerticalCollapse" id="nv-page">
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/pages/create')) active @endif"
+                                                href="{{ route('admin.pages.create') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">Create</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/pages')) active @endif"
+                                                href="{{ route('admin.pages.index') }}" data-bs-toggle=""
+                                                aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span
                                                         class="nav-link-text">List</span></div>
-                                            </a><!-- more inner pages-->
-                                        </li>
-                                        <li class="nav-item"><a class="nav-link" href="{{route('admin.housing_types.create')}}"
-                                                data-bs-toggle="" aria-expanded="false">
-                                                <div class="d-flex align-items-center"><span
-                                                        class="nav-link-text">Create</span>
-                                                </div>
-                                            </a><!-- more inner pages-->
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
-                            </div><!-- parent pages-->
-                            <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
-                                href="#nv-landing" role="button" data-bs-toggle="collapse"
-                                aria-expanded="false" aria-controls="nv-landing">
-                                <div class="d-flex align-items-center">
-                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span>
-                                    </div><span class="nav-link-icon"><span
-                                            data-feather="globe"></span></span><span
-                                        class="nav-link-text">Projects</span><span
-                                        class="fa-solid fa-circle text-info ms-1 new-page-indicator"
-                                        style="font-size: 6px"></span>
-                                </div>
-                            </a>
-                            <div class="parent-wrapper label-1">
-                                <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
-                                    id="nv-landing">
-                                    <li class="collapsed-nav-item-title d-none">Projects</li>
-                                    <li class="nav-item"><a class="nav-link" href="{{route('admin.project.index')}}"
-                                            data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span
-                                                    class="nav-link-text">List</span></div>
-                                        </a><!-- more inner pages-->
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" href="{{route('admin.project.create')}}"
-                                            data-bs-toggle="" aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span
-                                                    class="nav-link-text">Create</span>
-                                            </div>
-                                        </a><!-- more inner pages-->
-                                    </li>
-                                </ul>
                             </div>
-                        </div>
-                         
-                           
                         </li>
-
+                        <li class="nav-item">
+                            <!-- parent pages-->
+                            <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
+                                    href="#nv-permission-group" role="button" data-bs-toggle="collapse" aria-expanded="true"
+                                    aria-controls="nv-permission-group">
+                                    <div class="d-flex align-items-center">
+                                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span>
+                                        </div><span class="nav-link-icon"><span
+                                                data-feather="link"></span></span><span class="nav-link-text">Permission Groups
+                                        </span>
+                                    </div>
+                                </a>
+                                <div class="parent-wrapper label-1">
+                                    <ul class="nav collapse @if (request()->is('admin/permission_groups*')) show @endif"
+                                        data-bs-parent="#navbarVerticalCollapse" id="nv-permission-group">
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/permission_groups/create')) active @endif"
+                                                href="{{ route('admin.permission_groups.create') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">Create</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/permission_groups')) active @endif"
+                                                href="{{ route('admin.permission_groups.index') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">List</span></div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <!-- parent pages-->
+                            <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
+                                    href="#nv-permissions" role="button" data-bs-toggle="collapse" aria-expanded="true"
+                                    aria-controls="nv-permissions">
+                                    <div class="d-flex align-items-center">
+                                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span>
+                                        </div><span class="nav-link-icon"><span
+                                                data-feather="link-2"></span></span><span class="nav-link-text">Permissions
+                                        </span>
+                                    </div>
+                                </a>
+                                <div class="parent-wrapper label-1">
+                                    <ul class="nav collapse @if (request()->is('admin/permissions*')) show @endif"
+                                        data-bs-parent="#navbarVerticalCollapse" id="nv-permissions">
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/permissions/create')) active @endif"
+                                                href="{{ route('admin.permissions.create') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">Create</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/permissions')) active @endif"
+                                                href="{{ route('admin.permissions.index') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">List</span></div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <!-- parent pages-->
+                            <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
+                                    href="#nv-permissions" role="button" data-bs-toggle="collapse" aria-expanded="true"
+                                    aria-controls="nv-permissions">
+                                    <div class="d-flex align-items-center">
+                                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span>
+                                        </div><span class="nav-link-icon"><span
+                                                data-feather="link-2"></span></span><span class="nav-link-text">Kullanıcılar
+                                        </span>
+                                    </div>
+                                </a>
+                                <div class="parent-wrapper label-1">
+                                    <ul class="nav collapse @if (request()->is('admin/users*')) show @endif"
+                                        data-bs-parent="#navbarVerticalCollapse" id="nv-permissions">
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/users/create')) active @endif"
+                                                href="{{ route('admin.users.create') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">Create</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/users')) active @endif"
+                                                href="{{ route('admin.users.index') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">List</span></div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <p class="navbar-vertical-label">Apps</p>
+                            <hr class="navbar-vertical-line" /><!-- parent pages-->
+                            <!-- parent pages-->
+                            <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
+                                    href="#nv-housing" role="button" data-bs-toggle="collapse" aria-expanded="true"
+                                    aria-controls="nv-home">
+                                    <div class="d-flex align-items-center">
+                                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span>
+                                        </div><span class="nav-link-icon"><span
+                                                data-feather="home"></span></span><span class="nav-link-text">Housings
+                                        </span>
+                                    </div>
+                                </a>
+                                <div class="parent-wrapper label-1">
+                                    <ul class="nav collapse @if (request()->is('admin/housing/*')) show @endif"
+                                        data-bs-parent="#navbarVerticalCollapse" id="nv-housing">
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/housing/create')) active @endif"
+                                                href="{{ route('admin.housing.create') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">Create</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/housing')) active @endif"
+                                                href="{{ route('admin.housing.index') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">List</span></div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <!-- parent pages-->
+                            <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
+                                    href="#nv-housing_types" role="button" data-bs-toggle="collapse" aria-expanded="true"
+                                    aria-controls="nv-housing_types">
+                                    <div class="d-flex align-items-center">
+                                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span>
+                                        </div><span class="nav-link-icon"><span
+                                                data-feather="info"></span></span><span class="nav-link-text">Housing Types
+                                        </span>
+                                    </div>
+                                </a>
+                                <div class="parent-wrapper label-1">
+                                    <ul class="nav collapse @if (request()->is('admin/housing_types*')) show @endif"
+                                        data-bs-parent="#navbarVerticalCollapse" id="nv-housing_types">
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/housing_types/create')) active @endif"
+                                                href="{{ route('admin.housing_types.create') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">Create</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/housing_types')) active @endif"
+                                                href="{{ route('admin.housing_types.index') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">List</span></div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <!-- parent pages-->
+                            <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
+                                    href="#nv-project" role="button" data-bs-toggle="collapse" aria-expanded="true"
+                                    aria-controls="nv-project">
+                                    <div class="d-flex align-items-center">
+                                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span>
+                                        </div><span class="nav-link-icon"><span
+                                                data-feather="globe"></span></span><span class="nav-link-text">Projects
+                                        </span>
+                                    </div>
+                                </a>
+                                <div class="parent-wrapper label-1">
+                                    <ul class="nav collapse @if (request()->is('admin/project*')) show @endif"
+                                        data-bs-parent="#navbarVerticalCollapse" id="nv-project">
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/project/create')) active @endif"
+                                                href="{{ route('admin.project.create') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">Create</span></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link @if (request()->is('admin/project')) active @endif"
+                                                href="{{ route('admin.project.index') }}" data-bs-toggle=""
+                                                aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">List</span></div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
 
                     </ul>
                 </div>
@@ -661,8 +823,7 @@
                         <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-nide-dots shadow border border-300"
                             aria-labelledby="navbarDropdownNindeDots">
                             <div class="card bg-white position-relative border-0">
-                                <div class="card-body pt-3 px-3 pb-0 overflow-auto scrollbar"
-                                    style="height: 20rem;">
+                                <div class="card-body pt-3 px-3 pb-0 overflow-auto scrollbar" style="height: 20rem;">
                                     <div class="row text-center align-items-center gx-0 gy-0">
                                         <div class="col-4"><a
                                                 class="d-block hover-bg-200 p-2 rounded-3 text-center text-decoration-none mb-3"
@@ -789,8 +950,8 @@
                                         <h6 class="mt-2 text-black">Jerry Seinfield</h6>
                                     </div>
                                     <div class="mb-3 mx-3"><input class="form-control form-control-sm"
-                                            id="statusUpdateInput" type="text"
-                                            placeholder="Update your status" /></div>
+                                            id="statusUpdateInput" type="text" placeholder="Update your status" />
+                                    </div>
                                 </div>
                                 <div class="overflow-auto scrollbar" style="height: 10rem;">
                                     <ul class="nav d-flex flex-column mb-2 pb-1">
@@ -821,8 +982,7 @@
                                                 another account</a></li>
                                     </ul>
                                     <hr />
-                                    <div class="px-3"> <a
-                                            class="btn btn-phoenix-secondary d-flex flex-center w-100"
+                                    <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100"
                                             href="#!"> <span class="me-2" data-feather="log-out">
                                             </span>Sign out</a></div>
                                     <div class="my-2 text-center fw-bold fs--2 text-600"><a class="text-600 me-1"
