@@ -1,0 +1,1 @@
+@extends('institutional.layouts.master')
