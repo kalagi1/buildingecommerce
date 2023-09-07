@@ -22,7 +22,8 @@ class HomeController extends Controller
             'housings.address',
             'housings.price'
         )->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->where('secondhand', 1)
+            ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+            ->where('housings.status_id', 1)
             ->get();
 
         return view('client.home.index', compact('menu', 'secondhandHousings'));

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Housing;
 use App\Models\HousingImages;
+use App\Models\HousingStatus;
 use App\Models\HousingType;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,8 @@ class HousingController extends Controller
     public function create()
     {
         $housing_types = HousingType::all();
-        return view('admin.housing.create', ['housing_types' => $housing_types]);
+        $housing_status = HousingStatus::all();
+        return view('admin.housing.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status]);
     }
 
     /**
@@ -53,8 +55,10 @@ class HousingController extends Controller
             'address' => 'required|string|max:128',
             'housing_type' => 'required|integer',
             'images' => 'required|array',
-            'secondhand' => 'required|in:1,0',
-            'price' => 'required|integer'
+            'status' => 'required|in:1,2,3',
+            'price' => 'required|integer',
+            'description' => 'required|string|max:2048',
+            'location' => 'required|string'
         ]);
 
         $room_count = $vData['room_count'];
@@ -63,18 +67,31 @@ class HousingController extends Controller
         $address = $vData['address'];
         $housing_type = $vData['housing_type'];
         $images = $vData['images'];
-        $secondhand = $vData['secondhand'];
+        $status = $vData['status'];
         $price = $vData['price'];
+        $description = $vData['description'];
+        $location = explode(',', $vData['location']);
+        $latitude = $location[0];
+        $longitude = $location[1];
 
-        unset($postData['_token']); //Housing type için gelen form inputlarını ayırt etmek için
-        unset($postData['room_count']);
-        unset($postData['housing_type']);
-        unset($postData['square_meter']);
-        unset($postData['images']);
-        unset($postData['address']);
-        unset($postData['title']);
-        unset($postData['secondhand']);
-        unset($postData['price']);
+        $unsetKeys = [
+            //Housing type için gelen form inputlarını ayırt etmek için
+            '_token',
+            'room_count',
+            'housing_type',
+            'square_meter',
+            'images',
+            'address',
+            'title',
+            'status',
+            'price',
+            'description',
+            'location'
+        ];
+
+        foreach ($unsetKeys as $key) {
+            unset($postData[$key]);
+        }
 
         $lastId = Housing::create(
             [
@@ -83,9 +100,15 @@ class HousingController extends Controller
                 'address' => $address,
                 'title' => $title,
                 'housing_type_id' => $housing_type,
-                'secondhand' => $secondhand,
+                'status_id' => $status,
                 'price' => $price,
-                'housing_type_data' => json_encode($postData) //dinamik formdan gelen veriler
+                'housing_type_data' => json_encode($postData),
+                //dinamik formdan gelen veriler
+                'user_id' => 1,
+                //güncellenecek
+                'description' => $description,
+                'latitude' => $latitude,
+                'longitude' => $longitude
             ]
         )->id;
 

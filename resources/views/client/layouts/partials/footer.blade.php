@@ -165,34 +165,34 @@
 <!-- END PRELOADER -->
 
 <!-- ARCHIVES JS -->
-<script src="js/jquery-3.5.1.min.js"></script>
-<script src="js/rangeSlider.js"></script>
-<script src="js/tether.min.js"></script>
-<script src="js/moment.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/mmenu.min.js"></script>
-<script src="js/mmenu.js"></script>
-<script src="js/aos.js"></script>
-<script src="js/aos2.js"></script>
-<script src="js/slick.min.js"></script>
-<script src="js/fitvids.js"></script>
-<script src="js/jquery.waypoints.min.js"></script>
-<script src="js/jquery.counterup.min.js"></script>
-<script src="js/imagesloaded.pkgd.min.js"></script>
-<script src="js/isotope.pkgd.min.js"></script>
-<script src="js/smooth-scroll.min.js"></script>
-<script src="js/lightcase.js"></script>
-<script src="js/search.js"></script>
-<script src="js/owl.carousel.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/ajaxchimp.min.js"></script>
-<script src="js/newsletter.js"></script>
-<script src="js/jquery.form.js"></script>
-<script src="js/jquery.validate.min.js"></script>
-<script src="js/searched.js"></script>
-<script src="js/forms-2.js"></script>
-<script src="js/range.js"></script>
-<script src="js/color-switcher.js"></script>
+<script src="{{URL::to('/')}}/js/jquery-3.5.1.min.js"></script>
+<script src="{{URL::to('/')}}/js/rangeSlider.js"></script>
+<script src="{{URL::to('/')}}/js/tether.min.js"></script>
+<script src="{{URL::to('/')}}/js/moment.js"></script>
+<script src="{{URL::to('/')}}/js/bootstrap.min.js"></script>
+<script src="{{URL::to('/')}}/js/mmenu.min.js"></script>
+<script src="{{URL::to('/')}}/js/mmenu.js"></script>
+<script src="{{URL::to('/')}}/js/aos.js"></script>
+<script src="{{URL::to('/')}}/js/aos2.js"></script>
+<script src="{{URL::to('/')}}/js/slick.min.js"></script>
+<script src="{{URL::to('/')}}/js/fitvids.js"></script>
+<script src="{{URL::to('/')}}/js/jquery.waypoints.min.js"></script>
+<script src="{{URL::to('/')}}/js/jquery.counterup.min.js"></script>
+<script src="{{URL::to('/')}}/js/imagesloaded.pkgd.min.js"></script>
+<script src="{{URL::to('/')}}/js/isotope.pkgd.min.js"></script>
+<script src="{{URL::to('/')}}/js/smooth-scroll.min.js"></script>
+<script src="{{URL::to('/')}}/js/lightcase.js"></script>
+<script src="{{URL::to('/')}}/js/search.js"></script>
+<script src="{{URL::to('/')}}/js/owl.carousel.js"></script>
+<script src="{{URL::to('/')}}/js/jquery.magnific-popup.min.js"></script>
+<script src="{{URL::to('/')}}/js/ajaxchimp.min.js"></script>
+<script src="{{URL::to('/')}}/js/newsletter.js"></script>
+<script src="{{URL::to('/')}}/js/jquery.form.js"></script>
+<script src="{{URL::to('/')}}/js/jquery.validate.min.js"></script>
+<script src="{{URL::to('/')}}/js/searched.js"></script>
+<script src="{{URL::to('/')}}/js/forms-2.js"></script>
+<script src="{{URL::to('/')}}/js/range.js"></script>
+<script src="{{URL::to('/')}}/js/color-switcher.js"></script>
 
 <script>
     $('.slick-agents').slick({
@@ -358,11 +358,11 @@
 </script>
 
 <!-- Slider Revolution scripts -->
-<script src="revolution/js/jquery.themepunch.tools.min.js"></script>
-<script src="revolution/js/jquery.themepunch.revolution.min.js"></script>
+<script src="{{URL::to('/')}}/revolution/js/jquery.themepunch.tools.min.js"></script>
+<script src="{{URL::to('/')}}/revolution/js/jquery.themepunch.revolution.min.js"></script>
 
 <!-- MAIN JS -->
-<script src="js/script.js"></script>
+<script src="{{URL::to('/')}}/js/script.js"></script>
 
 </div>
 <!-- Wrapper / End -->
