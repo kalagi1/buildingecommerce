@@ -102,7 +102,7 @@
                                     </div>
                                 </a>
                                 <div class="parent-wrapper label-1">
-                                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse"
+                                    <ul class="nav collapse parent @if (request()->is('admin/roles*')) show @endif" data-bs-parent="#navbarVerticalCollapse"
                                         id="nv-role">
                                         <li class="nav-item">
                                             <a class="nav-link @if (request()->is('admin/roles/create')) active @endif"
@@ -137,7 +137,7 @@
                                     </div>
                                 </a>
                                 <div class="parent-wrapper label-1">
-                                    <ul class="nav collapse" data-bs-parent="#navbarVerticalCollapse"
+                                    <ul class="nav collapse @if (request()->is('admin/pages*')) show @endif" data-bs-parent="#navbarVerticalCollapse"
                                         id="nv-page">
                                         <li class="nav-item">
                                             <a class="nav-link @if (request()->is('admin/pages/create')) active @endif"
