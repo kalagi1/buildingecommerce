@@ -2,75 +2,78 @@
 
 @section('content')
     <div class="content">
-        <h2 class="mb-2 lh-sm">Kullanıcı Oluştur</h2>
-        <div class="mt-4">
-            <div class="row g-4">
-                <div class="col-12 col-xl-12 order-1 order-xl-0">
-                    <div class="mb-9">
-                        <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
-                            @if (session()->has('success'))
-                                <div class="alert alert-success">
-                                    {{ session()->get('success') }}
-                                </div>
-                            @endif
+        <div class="row">
+            <div class="card shadow-none border border-300 p-0 " data-component-card="data-component-card">
+                <div class="card-header border-bottom border-300 bg-soft">
+                    <div class="row g-3 justify-content-between align-items-center">
+                        <div class="col-12 col-md">
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Kullanıcı Oluştur
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                @if (session()->has('success'))
+                    <div class="alert alert-success">
+                        {{ session()->get('success') }}
+                    </div>
+                @endif
 
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-                            <div class="card-body p-0">
-                                <div class="p-4">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <div class="card-body p-0">
+                    <div class="p-4">
 
-                                    <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                        action="{{ route('admin.users.store') }}">
-                                        @csrf
-                                        <div class="col-md-12">
-                                            <label class="form-label" for="name">İsim Soyisim</label>
-                                            <input name="name" class="form-control" id="name"
-                                                type="text" value="" required="">
-                                            <div class="valid-feedback">Looks good!</div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label class="form-label" for="email">Email</label>
-                                            <input name="email" class="form-control" id="email"
-                                                type="email" value="" required="">
-                                            <div class="valid-feedback">Looks good!</div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label class="form-label" for="password">Şifre</label>
-                                            <input name="password" class="form-control" id="password"
-                                                type="password" value="" required="">
-                                            <div class="valid-feedback">Looks good!</div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label class="form-label" for="validationCustom04">Kullanıcı Tipi</label>
-                                            <select name="type" class="form-select" id="validationCustom04"
-                                                required="">
-                                                <option selected disabled value="">Seç...</option>
-                                                <option value="1">Normal Kullanıcı</option>
-                                                <option value="2">Kurumsal Üye</option>
-                                            </select>
+                        <form class="row g-3 needs-validation" novalidate="" method="POST"
+                            action="{{ route('admin.users.store') }}">
+                            @csrf
+                            <div class="col-md-12">
+                                <label class="form-label" for="name">İsim Soyisim</label>
+                                <input name="name" class="form-control" id="name" type="text" value=""
+                                    required="">
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label" for="email">Email</label>
+                                <input name="email" class="form-control" id="email" type="email" value=""
+                                    required="">
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label" for="password">Şifre</label>
+                                <input name="password" class="form-control" id="password" type="password" value=""
+                                    required="">
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label" for="validationCustom04">Kullanıcı Tipi</label>
+                                <select name="type" class="form-select" id="validationCustom04" required="">
+                                    <option selected disabled value="">Seç...</option>
 
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" name="is_active" id="flexSwitchCheckCheckedDisabled" type="checkbox" checked="" />
-                                                <label class="form-check-label"  for="flexSwitchCheckCheckedDisabled">Aktif</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-primary" type="submit">Kaydet</button>
-                                        </div>
-                                    </form>
+                                    @foreach ($roles as $item)
+                                        <option value={{ $item->id }}>{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
 
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" name="is_active" id="flexSwitchCheckCheckedDisabled"
+                                        type="checkbox" checked="" />
+                                    <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Aktif</label>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary" type="submit">Kaydet</button>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>

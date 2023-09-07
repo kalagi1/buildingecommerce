@@ -239,7 +239,7 @@
                                     <div class="d-flex align-items-center">
                                         <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span>
                                         </div><span class="nav-link-icon"><span
-                                                data-feather="link-2"></span></span><span class="nav-link-text">Kullanıcılar
+                                                data-feather="user"></span></span><span class="nav-link-text">Kullanıcılar
                                         </span>
                                     </div>
                                 </a>

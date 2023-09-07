@@ -3,8 +3,7 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="card shadow-sm border-300 border-bottom mb-4">
+                <div class="card shadow-sm border-300 border-bottom mb-4 p-0">
                     <div class="card-header border-bottom border-300 bg-soft">
                         <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Create Permission Group</h4>
                     </div>
@@ -33,7 +32,6 @@
                         </form>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 @endsection

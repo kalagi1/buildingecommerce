@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index(){
-        $users = User::where('type','!=',3)->get();
-        return view('admin.users.index',compact('users'));
+    public function index()
+    {
+        $users = User::where('type', '!=', 3)->get();
+        return view('admin.users.index', compact('users'));
     }
 
-    public function create(){
-        return view('admin.users.create');
+    public function create()
+    {
+        $roles = Role::where("name", "!=", "Admin")->get();
+        return view('admin.users.create', compact("roles"));
     }
 
     public function store(Request $request)
@@ -49,8 +53,9 @@ class UserController extends Controller
 
     public function edit($id)
     {
+        $roles = Role::where("name", "!=", "Admin")->get();
         $user = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
-        return view('admin.users.edit', compact('user'));
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     public function update(Request $request, $id)
