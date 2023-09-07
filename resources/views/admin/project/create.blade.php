@@ -168,11 +168,23 @@
 
                 var temp = $("#formContainer").find('form').toArray();
                 var allForms = {}
-                allForms.projectForm = $("#projectForm").serializeArray()
-                var csrfToken = allForms.projectForm[0].value;
+                var projectForm = $("#projectForm").serializeArray()
+                var csrfToken = projectForm[0].value;
+
+                var projectFormData = {}
+                projectForm.map((item) => { //statik alanların verilerini formatlamak için
+
+                    var key = item['name']
+                    var val = item['value']
+                    projectFormData[key] = val
+
+                })
+                allForms.projectForm = projectFormData
+
+
 
                 var dynamicData = []
-                temp.map((item) => {   // FORM verilerini manuel olarak formatlamak için
+                temp.map((item) => { // dinamik form verilerini formatlamak için
                     var formData = $('#' + item.id).serializeArray();
                     var row = {}
                     formData.map(item2 => {
