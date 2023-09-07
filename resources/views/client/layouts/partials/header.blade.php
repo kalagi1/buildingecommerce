@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="{{URL::to('/')}}/css/slick.css">
     <link rel="stylesheet" href="{{URL::to('/')}}/css/styles.css">
     <link rel="stylesheet" id="color" href="{{URL::to('/')}}/css/colors/dark-gray.css">
+    @yield('styles')
 </head>
 
 <body class=" m0a homepage-2 the-search hd-white inner-pages">
