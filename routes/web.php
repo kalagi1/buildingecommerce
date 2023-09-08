@@ -77,5 +77,6 @@ Route::group(['prefix' => 'institutional', "as" => "institutional."], function (
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/brands', BrandController::class);
     Route::resource('/project', InstitutionalProjectController::class);
+    Route::get('/get_counties', [InstitutionalProjectController::class,"getCounties"])->name('get.counties');
     
 });

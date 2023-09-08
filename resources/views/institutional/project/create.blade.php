@@ -102,6 +102,32 @@
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-12">
+                      <div class="mb-4">
+                          <div class="d-flex flex-wrap mb-2">
+                              <h5 class="mb-0 text-1000 me-2">Şehir</h5>
+                          </div>
+                          <div class="col-md-12">
+                              <select name="city_id" id="cities" class="form-control">
+                                @foreach($cities as $city)
+                                  <option value="{{$city->id}}">{{$city->title}}</option>
+                                @endforeach
+                              </select>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-12">
+                      <div class="mb-4">
+                          <div class="d-flex flex-wrap mb-2">
+                              <h5 class="mb-0 text-1000 me-2">İlçe</h5>
+                          </div>
+                          <div class="col-md-12">
+                              <select name="county_id" id="counties" class="form-control">
+                                <option value="">Pendik</option>
+                              </select>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-12">
                         <div class="mb-4">
                           <div class="d-flex flex-wrap mb-2">
                             <h5 class="mb-0 text-1000 me-2">Adresini Yazınız</h5>
@@ -239,7 +265,39 @@
     <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('editor');
-        
+
+        $('#cities').change(function(){
+          console.log("asd");
+          var selectedCity = $(this).val(); // Seçilen şehir değerini al
+
+          // AJAX isteği yap
+          $.ajax({
+              url: '{{route("institutional.get.counties")}}', // Endpoint URL'si (get.counties olarak varsayalım)
+              method: 'GET',
+              data: { city: selectedCity }, // Şehir verisini isteğe ekle
+              dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
+              success: function(response) {
+                  // Yanıt başarılı olduğunda çalışacak kod
+                  var countiesSelect = $('#counties'); // counties id'li select'i seç
+                  countiesSelect.empty(); // Select içeriğini temizle
+
+                  // Dönen yanıttaki ilçeleri döngüyle ekleyin
+                  for (var i = 0; i < response.length; i++) {
+                      countiesSelect.append($('<option>', {
+                          value: response[i].id, // İlçe ID'si
+                          text: response[i].title // İlçe adı
+                      }));
+                  }
+              },
+              error: function(xhr, status, error) {
+                  // Hata durumunda çalışacak kod
+                  console.error('Hata: ' + error);
+              }
+          });
+      });
+      
+
+
     </script>
     @stack('scripts')
 @endsection

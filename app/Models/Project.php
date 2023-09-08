@@ -31,4 +31,12 @@ class Project extends Model
     public function housingType(){
         return $this->hasOne(HousingType::class,"id","housing_type_id");
     }
+
+    public function city(){
+        return $this->hasOne(City::class,"id","city_id");
+    }
+
+    public function county(){
+        return $this->hasOne(City::class,"id","county_id");
+    }
 }

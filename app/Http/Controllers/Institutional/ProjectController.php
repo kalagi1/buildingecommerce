@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\City;
+use App\Models\County;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\Project;
@@ -23,7 +25,8 @@ class ProjectController extends Controller
         $brands = Brand::where('user_id',auth('institutional')->id())->where('status',1)->get();
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
-        return view('institutional.project.create',compact('housing_types','housing_status','brands'));
+        $cities = City::get();
+        return view('institutional.project.create',compact('housing_types','housing_status','brands','cities'));
     }
 
     public function store(Request $request){
@@ -68,6 +71,8 @@ class ProjectController extends Controller
                 "brand_id" => $request->input('brand_id'),
                 "description" => $request->input('description'),
                 "room_count" => $request->input('house_count'),
+                "city_id" => $request->input('city_id'),
+                "county_id" => $request->input('county_id'),
                 "status_id" => 1,
                 "image" =>  $filePath
             ]);
@@ -97,5 +102,11 @@ class ProjectController extends Controller
                 }
             }
         }
+    }
+
+    public function getCounties(Request $request){
+        $counties = County::where('city_id',$request->input('city'))->get();
+
+        return $counties;
     }
 }
