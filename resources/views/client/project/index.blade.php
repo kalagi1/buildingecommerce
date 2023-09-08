@@ -191,7 +191,7 @@
                                         <!-- homes img -->
                                         <a href="single-property-1.html" class="homes-img">
 
-                                            <img src="{{URL::to('/')}}/images/blog/b-11.jpg" alt="home-1" class="img-responsive">
+                                            <img src="{{URL::to('/').'/project_housing_images/'.getData($project,'image[]',$i+1)->value}}" alt="home-1" class="img-responsive">
                                         </a>
                                     </div>
 
@@ -263,7 +263,7 @@
 </section>
 
 
-<section class="ui-element">
+<section class="ui-elements">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 ">
@@ -297,14 +297,13 @@
 
                         </li>
                     </ul>
-                    <div id="map" class="contactmap">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3015.3091375028957!2d29.17737287645882!3d40.908967225533395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac554b56486c5%3A0x19df79713477599e!2sMaliyetine%20Ev!5e0!3m2!1str!2str!4v1692189778851!5m2!1str!2str"
-                            width="100%" height="300px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div id="map" style="height: 300px" class="contactmap">
+                        
                     </div>
-                    <ul class="content mt-3">
+                    <ul class="content mt-3" style="list-style: none">
                         <li class="active">
                             <div class="tab-content">
-                                <div class="slick-lancers">
+                                <div class="slick-lancersx">
 
                                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                                         <div class="landscapes" style="width: 140px; border: solid 1px #dcdcdc !important; ">
@@ -467,6 +466,117 @@
 @section('scripts')
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script>
+    @php
+        $location = explode(',',$project->location);
+        $location['latitude'] = $location[0];
+        $location['longitude'] = $location[1];
+
+        $location = json_encode($location);
+        $location = json_decode($location);
+    @endphp
+    var map = L.map('map').setView([{{ $location->latitude }},{{ $location->longitude }}], 13);
+    var marker = L.marker([{{ $location->latitude }}, {{ $location->longitude }}]).addTo(map);
+
+    // OpenStreetMap katmanını haritaya ekleyin
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var overpassUrl = 'https://overpass-api.de/api/interpreter';
+var query = `[out:json];
+(
+    node["public_transport"](around:1000,{{ $location->latitude }},{{ $location->longitude }});
+    way["public_transport"](around:1000,{{ $location->latitude }},{{ $location->longitude }});
+    relation["public_transport"](around:1000,{{ $location->latitude }},{{ $location->longitude }});
+);
+out center;`;
+var url = `${overpassUrl}?data=${encodeURIComponent(query)}`;
+
+fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        var listingsContainer = document.querySelector('.slick-lancersx'); // Listeyi içeren div
+        listingsContainer.innerHTML = ''; // Önceki içeriği temizleyin
+        data.elements.forEach(element => {
+            var lat = element.lat;
+            var lon = element.lon;
+            var name = element.tags.name || 'Bilinmeyen Mağaza';
+
+            // Yeni bir liste öğesi oluşturun
+            var listingItem = document.createElement('div');
+            listingItem.classList.add('agents-grid');
+            listingItem.dataset.aos = 'fade-up';
+            listingItem.dataset.aosDelay = '150';
+            if(element.tags.highway == "bus_stop" || element.tags.type == "public_transport"){
+                // Liste içeriğini oluşturun
+                listingItem.innerHTML = `
+                    <div class="landscapes" style="width: 140px; border: solid 1px #dcdcdc !important; ">
+                        <div class="project-single">
+                            <div class="project-inner project-head">
+                                <div class="location-card">
+                                    <div class="location-card-head">
+                                        <img src="https://www.sahibinden.com/assets/images/durak:7299b7f721d8e670e9d070f1f816991a.png" alt="">
+                                    </div>
+                                    <div class="location-card-body">
+                                        ${element.tags.type == "public_transport" ? `<p>${name} Metro Durağı </p>` : `<p>${name} Otobüs Durağı</p>`}
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                
+                // Listeyi ekrana ekleyin
+                listingsContainer.appendChild(listingItem);
+            }
+            
+
+
+            
+        });
+
+        $('.slick-lancersx').slick({
+            infinite: false,
+            slidesToShow: 6,
+            slidesToScroll: 1,
+            dots: true,
+            arrows: true,
+            adaptiveHeight: true,
+            responsive: [
+                {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    dots: true,
+                    arrows: false
+                }
+                },
+                {
+                breakpoint: 993,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    dots: true,
+                    arrows: false
+                }
+                },
+                {
+                breakpoint: 769,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: true,
+                    arrows: false
+                }
+                }
+        ]
+        });
+    })
+    .catch(error => console.error('Hata:', error));
+
     
 </script>
 @endsection

@@ -49,6 +49,6 @@ class Project extends Model
     }
 
     public function county(){
-        return $this->hasOne(City::class,"id","county_id");
+        return $this->hasOne(County::class,"id","county_id");
     }
 }

@@ -217,7 +217,6 @@
                             '</div>';
                         }
 
-
                         $('#tablist').html(html);
                         $('.tab-content').html(htmlContent)
                         for (let i = 1; i <= houseCount; i++) {
@@ -229,8 +228,10 @@
 
                             var renderedForm = $('<div>');
                             renderedForm.formRender(formRenderOpts);
-                            console.log($('#renderForm'+(i)),renderedForm.html());
-                            $('#renderForm'+(i)).html(renderedForm.html());
+                            var renderHtml = renderedForm.html().toString();
+                            renderHtml = renderHtml.toString().split('images[][]');
+                            renderHtml = renderHtml[0]+'images'+i+'[][]'+renderHtml[1];
+                            $('#renderForm'+(i)).html(renderHtml);
                             $('#tablist a.nav-link').click(function(e) {
                                 e.preventDefault(); // Linki tıklamayı engelleyin
 
@@ -262,6 +263,11 @@
     <script src="{{ URL::to('/') }}/adminassets/vendors/dropzone/dropzone.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/vendors/choices/choices.min.js"></script>
     
+    <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.4.2/form-render.min.js">
+    <script src="
+https://cdn.jsdelivr.net/npm/fine-uploader@5.16.2/fine-uploader/fine-uploader.min.js
+"></script>
     <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('editor');
@@ -303,6 +309,9 @@
 @endsection
 
 @section('css')
+<link href="
+https://cdn.jsdelivr.net/npm/fine-uploader@5.16.2/fine-uploader/fine-uploader-gallery.min.css
+" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css" integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         .leaflet-container{

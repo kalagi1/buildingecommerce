@@ -1,5 +1,21 @@
 @extends('client.layouts.master')
 
+
+@php 
+
+    function getData($housing,$key){
+        $housing_type_data= json_decode($housing->housing_type_data);
+        $a = $housing_type_data->$key;
+        return $a[0];
+    }
+
+    function getImages($housing,$key){
+        $housing_type_data= json_decode($housing->housing_type_data);
+        $a = $housing_type_data->$key;
+        return $a;
+    }
+@endphp
+
 @section('content')
     <section class="single-proper blog details bg-white">
         <div class="container">
@@ -22,7 +38,7 @@
                                 <div class="single detail-wrapper mr-2">
                                     <div class="detail-wrapper-body">
                                         <div class="listing-title-bar">
-                                            <h4>{{ $housing->price }} TL</h4>
+                                            <h4>{{getData($housing,'price')}} TL</h4>
                                             <!-- <div class="mt-0">
                                                                         <a href="#listing-location" class="listing-address">
                                                                             <p>$ 1,200 / sq ft</p>
@@ -47,10 +63,10 @@
                                     @php
                                         $i = 0;
                                     @endphp
-                                    @foreach ($housing->images as $image)
+                                    @foreach (json_decode(getImages($housing,'images')) as $image)
                                         <div class="item carousel-item {{ $i == 0 ? 'active' : '' }}"
                                             data-slide-number="{{ $i }}">
-                                            <img src="{{ asset('storage/' . $image->imagepath) }}" class="img-fluid"
+                                            <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
                                                 alt="slider-listing">
                                             @php
                                                 $i++;
@@ -100,7 +116,7 @@
                                 <h4><i class="fa fa-calendar pr-3 padd-r-10"></i>İletişim Bilgileri</h4>
                             </div>
                             <div class="widget-boxed-body">
-                                <h5 class="" style="font-size: 20px; font-weight: 600;">Göktuğ Onur Bilgeli</h5>
+                                <h5 class="" style="font-size: 20px; font-weight: 600;">{{$housing->brand->title}}</h5>
                                 <p>0507 585 40 33</p>
                             </div>
                         </div>
@@ -135,7 +151,7 @@
                         @foreach (json_decode($housing->housing_type_data) as $key=>$val)
                           <li style="border: none !important;">
                             <span class="font-weight-bold mr-1">{{$key}}:</span>
-                            <span class="det">{{$val}}</span>
+                            <span class="det">{{json_encode($val[0])}}</span>
                         </li>
                         @endforeach
 
@@ -203,9 +219,9 @@
     var overpassUrl = 'https://overpass-api.de/api/interpreter';
     var query = `[out:json];
     (
-        node["amenity"="clinic"](around:1000,{{ $housing->latitude }},{{ $housing->longitude }});
-        way["amenity"="clinic"](around:1000,{{ $housing->latitude }},{{ $housing->longitude }});
-        relation["amenity"="clinic"](around:1000,{{ $housing->latitude }},{{ $housing->longitude }});
+        node["amenity"="clinic"](around:12000,{{ $housing->latitude }},{{ $housing->longitude }});
+        way["amenity"="clinic"](around:12000,{{ $housing->latitude }},{{ $housing->longitude }});
+        relation["amenity"="clinic"](around:12000,{{ $housing->latitude }},{{ $housing->longitude }});
     );
     out center;`;
     var url = `${overpassUrl}?data=${encodeURIComponent(query)}`;
@@ -218,7 +234,8 @@
             data.elements.forEach(element => {
                 var lat = element.lat;
                 var lon = element.lon;
-                L.marker([lat, lon]).addTo(map).bindPopup(element.tags.name || 'Bilinmeyen Mağaza');
+                var marker = L.marker([lat, lon]).addTo(map);
+                marker.bindPopup(element.tags.name || 'Bilinmeyen Mağaza');
             });
         })
         .catch(error => console.error('Hata:', error));

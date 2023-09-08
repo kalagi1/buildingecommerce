@@ -8,6 +8,7 @@
         <div class="row project-filter-reverse">
             <aside class="col-lg-3 col-md-12 car">
                 <div class="widget">
+                    <form class="form">
                     <!-- Search Fields -->
                     <div class="widget-boxed main-search-field">
                         <div class="widget-boxed-header">
@@ -15,7 +16,6 @@
                         </div>
                         <!-- Search Form -->
                         <div class="trip-search">
-                            <form class="form">
                                 <!-- Form Lookin for -->
                                 <div class="form-group looking">
                                     <div class="first-select wide">
@@ -60,59 +60,6 @@
                                     </div>
                                 </div>
                         </div>
-                        <!--/ End Search Form -->
-                        <!-- Price Fields -->
-                        <div class="main-search-field-2">
-                            <!-- Area Range -->
-                            <div class="range-slider">
-                                <label>Metrekare</label>
-                                <div id="area-range" data-min="0" data-max="1300" data-unit="m2"></div>
-                                <div class="clearfix"></div>
-                                <input type="hidden" name="area" id="area-input" value="0">
-                            </div>
-                            <br>
-                            <!-- Price Range -->
-                            <div class="range-slider">
-                                <label>Fiyat</label>
-                                <div id="price-range" data-min="0" data-max="600000" data-unit="₺"></div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                        {{-- <div class="more-search-options relative">
-                            <!-- Checkboxes -->
-                            <div class="checkboxes one-in-row margin-bottom-10">
-                                <input id="check-2" type="checkbox" name="check">
-                                <label for="check-2">Air Conditioning</label>
-                                <input id="check-3" type="checkbox" name="check">
-                                <label for="check-3">Swimming Pool</label>
-                                <input id="check-4" type="checkbox" name="check">
-                                <label for="check-4">Central Heating</label>
-                                <input id="check-5" type="checkbox" name="check">
-                                <label for="check-5">Laundry Room</label>
-                                <input id="check-6" type="checkbox" name="check">
-                                <label for="check-6">Gym</label>
-                                <input id="check-7" type="checkbox" name="check">
-                                <label for="check-7">Alarm</label>
-                                <input id="check-8" type="checkbox" name="check">
-                                <label for="check-8">Window Covering</label>
-                                <input id="check-9" type="checkbox" name="check">
-                                <label for="check-9">WiFi</label>
-                                <input id="check-10" type="checkbox" name="check">
-                                <label for="check-10">TV Cable</label>
-                                <input id="check-11" type="checkbox" name="check">
-                                <label for="check-11">Dryer</label>
-                                <input id="check-12" type="checkbox" name="check">
-                                <label for="check-12">Microwave</label>
-                                <input id="check-13" type="checkbox" name="check">
-                                <label for="check-13">Washer</label>
-                                <input id="check-14" type="checkbox" name="check">
-                                <label for="check-14">Refrigerator</label>
-                                <input id="check-15" type="checkbox" name="check">
-                                <label for="check-15">Outdoor Shower</label>
-                            </div>
-                            <!-- Checkboxes / End -->
-                        </div> --}}
-                        <!-- More Search Options / End -->
                         <div class="col-lg-12 no-pds">
                             <div class="at-col-default-mar">
                                 <button class="btn btn-default hvr-bounce-to-right" type="submit">Search</button>

@@ -49,7 +49,7 @@ class ProjectController extends Controller
 
         for($i = 0; $i < $request->input('house_count'); $i++){
             for($j = 0; $j < count($housingTypeInputs); $j++){
-                if(isset($housingTypeInputs[$j]->name) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] == null && $housingTypeInputs[$j]->required){
+                if(isset($housingTypeInputs[$j]->name) && $housingTypeInputs[$j]->type != "file" && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] == null && $housingTypeInputs[$j]->required){
                     array_push($errors,($i+1)." nolu konutun ".$housingTypeInputs[$j]->label." alanı boş bırakılamaz");
                 }
             }
@@ -90,14 +90,54 @@ class ProjectController extends Controller
 
             for($i = 0; $i < $request->input('house_count'); $i++){
                 for($j = 0; $j < count($housingTypeInputs); $j++){
-                    if(isset($housingTypeInputs[$j]->name) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null){
-                        ProjectHousing::create([
-                            "key" => $housingTypeInputs[$j]->label,
-                            "name" => $housingTypeInputs[$j]->name,
-                            "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) ? json_encode($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) : $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i],
-                            "project_id" => $project->id,
-                            "room_order" => $i+1
-                        ]);
+                    if($housingTypeInputs[$j]->type == "file"){
+                        if ($request->hasFile(substr($housingTypeInputs[$j]->name, 0, -2))) {
+                            $images = $request->file(substr($housingTypeInputs[$j]->name, 0, -2));
+                        
+                            foreach ($images as $key=>$image) {
+                                if ($image->isValid()) {
+                                    $imageName = Str::slug(Str::slug($request->input('name'))).'-'.($key+1).time().'.'.$image->getClientOriginalExtension();
+                                    $image->move(public_path('/project_housing_images'), $imageName);
+                                    ProjectHousing::create([
+                                        "key" => $housingTypeInputs[$j]->label,
+                                        "name" => $housingTypeInputs[$j]->name,
+                                        "value" => $imageName ,
+                                        "project_id" => $project->id,
+                                        "room_order" => $key + 1
+                                    ]);
+                                } else {
+
+                                }
+                            }
+                        }
+
+                        if($housingTypeInputs[$j]->name == "images[]"){
+                            $files = [];
+                            for($k = 0 ; $k < count($request->file('images'.($i+1))); $k++){
+                                $image = $request->file('images'.($i+1))[$k][0];
+                                $imageName = Str::slug(Str::slug($request->input('name'))).'-'.($i).'-'.$k.'-'.time().'.'.$image->getClientOriginalExtension();
+                                $image->move(public_path('/project_housing_images'), $imageName);
+                                array_push($files,$imageName);
+                            }
+
+                            ProjectHousing::create([
+                                "key" => $housingTypeInputs[$j]->label,
+                                "name" => $housingTypeInputs[$j]->name,
+                                "value" => json_encode($files) ,
+                                "project_id" => $project->id,
+                                "room_order" => $i + 1
+                            ]);
+                        }
+                    }else{
+                        if(isset($housingTypeInputs[$j]->name) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null){
+                            ProjectHousing::create([
+                                "key" => $housingTypeInputs[$j]->label,
+                                "name" => $housingTypeInputs[$j]->name,
+                                "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) ? json_encode($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) : $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i],
+                                "project_id" => $project->id,
+                                "room_order" => $i+1
+                            ]);
+                        }
                     }
                 }
             }

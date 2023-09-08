@@ -29,47 +29,43 @@
                                     <form class="row g-3 needs-validation" novalidate="" method="POST"
                                         action="{{ route('admin.housing.store') }}" enctype="multipart/form-data">
                                         @csrf
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">Title</label>
                                             <input name="title" class="form-control" id="validationCustom01"
                                                 type="text" value="" required="">
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label" for="validationCustom02">Room count</label>
-                                            <input name="room_count" class="form-control" id="validationCustom02"
-                                                type="text" value="" required="">
-                                            <div class="valid-feedback">Looks good!</div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label" for="validationCustom01">Square Meter</label>
-                                            <input name="square_meter" class="form-control" id="validationCustom01"
-                                                type="text" value="" required="">
-                                            <div class="valid-feedback">Looks good!</div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="validationCustom01">Hangi Marka Adına Ekliyorsun</label>
+                                            <select name="brand_id" class="form-control" id="">
+                                                @foreach($brands as $brand)
+                                                    <option value="{{$brand->id}}">{{$brand->title}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-label" for="description">Description</label>
-                                            <textarea class="form-control" id="description" name="description" rows="3"> </textarea>
+                                            <label class="form-label" for="validationCustom01">Şehir</label>
+                                            <select name="city_id" class="form-control" id="cities">
+                                                @foreach($cities as $city)
+                                                    <option value="{{$city->id}}">{{$city->title}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="validationCustom01">İlçe</label>
+                                            <select name="county_id" class="form-control" id="counties">
+                                            </select>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="address">Address</label>
                                             <textarea class="form-control" id="address" name="address" rows="3"> </textarea>
                                         </div>
-
-                                        <div class="col-md-12">
-
-                                            <label class="form-label" for="images">Images</label>
-                                            <input name="images[]" class="form-control" id="images" type="file"
-                                                accept="image/*" multiple />
-
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="description">Açıklama</label>
+                                            <textarea class="form-control" id="description" name="description" rows="3"> </textarea>
                                         </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label" for="price">Price</label>
-                                            <input name="price" class="form-control" id="price" type="text"
-                                                value="" required="">
-                                            <div class="valid-feedback">Looks good!</div>
-                                        </div>
-                                        <div class="col-md-4">
+
+                                        <div class="col-md-6">
                                             <label class="form-label" for="status">Status</label>
                                             <select name="status" id="status" class="form-select"
                                                 aria-label="Default select example">
@@ -79,22 +75,24 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <div class="col-md-6">
+                                            <label for="">Daire Türünü Seçiniz</label>
+                                            <select name="housing_type" id="housing_type" class="form-select"
+                                                aria-label="Default select example">
+                                                <option selected="">Daire Türünü Seçiniz:</option>
+                                                @foreach ($housing_types as $type)
+                                                    <option value="{{ $type->id }}">{{ $type->title }}</option>
+                                                @endforeach
+
+                                            </select>
+                                        </div>
                                         <div class="col-md-12">
                                             <label class="form-label" for="location">Location:</label>
-                                            <input name="location" class="form-control" id="location" readonly type="text"
+                                            <input name="location" class="form-control" id="location" readonly type="hidden"
                                                 value="39.1667,35.6667" />
                                             <div id="mapContainer"></div>
-
                                         </div>
 
-                                        <select name="housing_type" id="housing_type" class="form-select"
-                                            aria-label="Default select example">
-                                            <option selected="">Select housing type:</option>
-                                            @foreach ($housing_types as $type)
-                                                <option value="{{ $type->id }}">{{ $type->title }}</option>
-                                            @endforeach
-
-                                        </select>
                                         <div id="renderForm"></div>
                                         <div class="col-12">
                                             <button class="btn btn-primary" type="submit">Kaydet</button>
@@ -179,6 +177,35 @@
             })
 
         });
+
+        $('#cities').change(function(){
+          var selectedCity = $(this).val(); // Seçilen şehir değerini al
+
+          // AJAX isteği yap
+          $.ajax({
+              url: '{{route("institutional.get.counties")}}', // Endpoint URL'si (get.counties olarak varsayalım)
+              method: 'GET',
+              data: { city: selectedCity }, // Şehir verisini isteğe ekle
+              dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
+              success: function(response) {
+                  // Yanıt başarılı olduğunda çalışacak kod
+                  var countiesSelect = $('#counties'); // counties id'li select'i seç
+                  countiesSelect.empty(); // Select içeriğini temizle
+
+                  // Dönen yanıttaki ilçeleri döngüyle ekleyin
+                  for (var i = 0; i < response.length; i++) {
+                      countiesSelect.append($('<option>', {
+                          value: response[i].id, // İlçe ID'si
+                          text: response[i].title // İlçe adı
+                      }));
+                  }
+              },
+              error: function(xhr, status, error) {
+                  // Hata durumunda çalışacak kod
+                  console.error('Hata: ' + error);
+              }
+          });
+      });
     </script>
     @stack('scripts')
 @endsection

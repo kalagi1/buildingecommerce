@@ -24,4 +24,11 @@ class HousingController extends Controller
         // return $housing;
         return view('client.housing.detail', compact('housing', 'menu'));
     }
+
+    public function list(){
+        $housings = Housing::get();
+        $menu = Menu::getMenuItems();
+
+        return view('client.housing.list',compact('housings','menu'));
+    }
 }
