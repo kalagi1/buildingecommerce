@@ -78,7 +78,7 @@
                                         @if (in_array('UpdateUser', $userPermissions))
                                             <button type="submit" class="btn btn-primary">Update</button>
                                         @else
-                                            <p>You don't have permission to update this page.</p>
+                                            <p>Bu işlem için yetkiniz yok</p>
                                         @endif
                                     </div>
                                 </form>

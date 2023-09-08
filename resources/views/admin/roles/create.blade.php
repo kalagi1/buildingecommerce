@@ -7,7 +7,7 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Create Role</h4>
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Rol Oluştur</h4>
                         </div>
                     </div>
                 </div>
@@ -16,12 +16,11 @@
                         <form action="{{ route('admin.roles.store') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label" for="name">Role Name</label>
-                                <input class="form-control" id="name" name="name" type="text"
-                                    placeholder="Role Name">
+                                <label class="form-label" for="name">Rol</label>
+                                <input class="form-control" id="name" name="name" type="text" placeholder="Rol">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Permissions</label>
+                                <label class="form-label">İzinler</label>
                                 <div class="row">
                                     @foreach ($permissions as $permission)
                                         <div class="col-6 col-md-4 col-lg-3">
@@ -34,13 +33,13 @@
                                             </div>
                                         </div>
                                         @if ($loop->iteration % 20 == 0)
-                                            </div>
-                                            <div class="row">
-                                        @endif
+                                </div>
+                                <div class="row">
+                                    @endif
                                     @endforeach
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Create Role</button>
+                            <button type="submit" class="btn btn-primary">Oluştur</button>
                         </form>
                     </div>
                 </div>

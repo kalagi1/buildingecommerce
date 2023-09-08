@@ -8,13 +8,13 @@
                     data-list='{"valueNames":["id","key","description","title","is_active","action"],"page":12,"pagination":true}'>
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
-                            <h2 class="mb-0">Permissions<span
-                                    class="fw-normal text-700 ms-3">({{ count($permissions) }})</span></h2>
+                            <h2 class="mb-0">İzinler<span class="fw-normal text-700 ms-3">({{ count($permissions) }})</span>
+                            </h2>
                         </div>
                         <div class="col-auto">
                             <div class="col-auto"><a class="btn btn-primary px-5"
-                                    href="{{ route('admin.permissions.create') }}"><i class="fa-solid fa-plus me-2"></i>Add
-                                    New Permission</a></div>
+                                    href="{{ route('admin.permissions.create') }}"><i class="fa-solid fa-plus me-2"></i>Yeni
+                                    Ekle</a></div>
                         </div>
                     </div>
                     @if (session('success'))
@@ -36,10 +36,10 @@
                                     <tr>
                                         <th style="width:10%;">ID</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="key">Key</th>
+                                            data-sort="key">ANAHTAR</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="is_active">Active</th>
-                                        <th>Action</th>
+                                            data-sort="is_active">AKTİF</th>
+                                        <th>İŞLEMLER</th>
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="permission-list-table-body">
@@ -49,15 +49,15 @@
                                             <td>{{ $permission->key }}</td>
                                             <td>
                                                 @if ($permission->is_active)
-                                                    <span class="badge bg-success">Yes</span>
+                                                    <span class="badge bg-success">Evet</span>
                                                 @else
-                                                    <span class="badge bg-danger">No</span>
+                                                    <span class="badge bg-danger">Hayır</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 @if (in_array('GetPermissionById', $userPermissions) && in_array('UpdatePermission', $userPermissions))
                                                     <a href="{{ route('admin.permissions.edit', $permission->id) }}"
-                                                        class="btn btn-sm btn-primary">Edit</a>
+                                                        class="btn btn-sm btn-primary">Güncelle</a>
                                                 @elseif (in_array('GetPermissionById', $userPermissions))
                                                     <a href="{{ route('admin.permissions.edit', $permission->id) }}"
                                                         class="btn btn-sm btn-primary">Önizle</a>
@@ -76,8 +76,7 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title"
-                                                                    id="deleteModalLabel{{ $permission->id }}">Delete
-                                                                    permission</h5>
+                                                                    id="deleteModalLabel{{ $permission->id }}">Sil</h5>
                                                                 <button type="button" class="btn p-1"
                                                                     data-bs-dismiss="modal" aria-label="Close">
                                                                     <svg class="svg-inline--fa fa-xmark fs--1"
@@ -92,8 +91,8 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <p class="text-700 lh-lg mb-0">Are you sure you want to
-                                                                    delete this permission?</p>
+                                                                <p class="text-700 lh-lg mb-0">Silmek istediğinize emin
+                                                                    misiniz ?</p>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <form
@@ -101,11 +100,11 @@
                                                                     method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <button type="submit" class="btn btn-danger">Yes,
-                                                                        Delete</button>
+                                                                    <button type="submit" class="btn btn-danger">Evet,
+                                                                        Sil</button>
                                                                 </form>
                                                                 <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Cancel</button>
+                                                                    data-bs-dismiss="modal">İptal</button>
                                                             </div>
                                                         </div>
                                                     </div>

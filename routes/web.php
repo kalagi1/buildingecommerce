@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\PermissionGroupController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SiteSettingController;
+use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\HousingController as ClientHousingController;
@@ -73,11 +75,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'a
         Route::post('/housings', [HousingController::class, 'store'])->name('housings.store');
     });
 
-    
     Route::middleware(['checkPermission:GetHousingById'])->group(function () {
         Route::get('/housings/{housing}/edit', [HousingController::class, 'edit'])->name('housings.edit');
     });
-
 
     Route::middleware(['checkPermission:UpdateHousing'])->group(function () {
         Route::put('/housings/{housing}', [HousingController::class, 'update'])->name('housings.update');
@@ -100,7 +100,6 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'a
     Route::middleware(['checkPermission:GetProjectById'])->group(function () {
         Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
     });
-
 
     Route::middleware(['checkPermission:UpdateProject'])->group(function () {
         Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
@@ -253,6 +252,24 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'a
     Route::middleware(['checkPermission:DeletePage'])->group(function () {
         Route::delete('/pages/{page}', [PageController::class, 'destroy'])->name('pages.destroy');
     });
+    Route::get('/site-settings', [SiteSettingController::class, 'index'])
+        ->name('site-settings.index')
+        ->middleware('checkPermission:GetSiteSettings'); // İzin kontrolü
+
+    Route::post('/site-settings/update', [SiteSettingController::class, 'update'])
+        ->name('site-settings.update')
+        ->middleware('checkPermission:UpdateSiteSetting'); // İzin kontrolü
+
+    Route::post('/site-settings/create', [SiteSettingController::class, 'store'])
+        ->name('site-settings.create')
+        ->middleware('checkPermission:CreateSiteSetting'); // İzin kontrolü
+
+    Route::post('/site-settings/delete', [SiteSettingController::class, 'destroy'])
+        ->name('site-settings.create')
+        ->middleware('checkPermission:DeleteSiteSetting'); // İzin kontrolü
+
+    Route::get('/smtp/edit', [SmtpSettingController::class, 'edit'])->name('smtp.edit')->middleware('checkPermission:GetSmtpSettingById');
+    Route::put('/smtp/update', [SmtpSettingController::class, 'update'])->name('smtp.update')->middleware('checkPermission:UpdateSmtpSetting');
 
 });
 

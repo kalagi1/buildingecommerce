@@ -17,19 +17,35 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
-                                <label class="form-label" for="name">Page Title</label>
-                                <input class="form-control" id="name" name="title" type="text"
+                                <label class="form-label" for="title">Page Title</label>
+                                <input class="form-control" id="title" name="title" type="text"
                                     placeholder="Page Title" value="{{ $page->title }}">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="name">Page Content</label>
+                                <label class="form-label" for="content">Page Content</label>
                                 <textarea id="editor" name="content">{{ $page->content }}</textarea>
                             </div>
-                            @if (in_array('UpdatePage', $userPermissions))
-                                <button type="submit" class="btn btn-primary">Update Page</button>
-                            @else
-                                <p>You don't have permission to update this page.</p>
-                            @endif
+                            <div class="mb-3">
+                                <label class="form-label" for="meta_title">Meta Title</label>
+                                <input class="form-control" id="meta_title" name="meta_title" type="text"
+                                    placeholder="Meta Title" value="{{ $page->meta_title }}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="meta_description">Meta Description</label>
+                                <textarea class="form-control" id="meta_description" name="meta_description"
+                                    rows="3" placeholder="Meta Description">{{ $page->meta_description }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="meta_keywords">Meta Keywords</label>
+                                <input class="form-control" id="meta_keywords" name="meta_keywords" type="text"
+                                    placeholder="Meta Keywords" value="{{ $page->meta_keywords }}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="meta_author">Meta Author</label>
+                                <input class="form-control" id="meta_author" name="meta_author" type="text"
+                                    placeholder="Meta Author" value="{{ $page->meta_author }}">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Page</button>
                         </form>
                     </div>
                 </div>
