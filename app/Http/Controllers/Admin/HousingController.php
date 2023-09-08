@@ -44,7 +44,7 @@ class HousingController extends Controller
         $cities = City::get();
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
-        return view('admin.housing.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status,'cities' => $cities, 'brands' => $brands]);
+        return view('admin.housings.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status,'cities' => $cities, 'brands' => $brands]);
     }
 
     /**
