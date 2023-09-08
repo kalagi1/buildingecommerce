@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Housing;
 use App\Models\Menu;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -26,6 +27,7 @@ class HomeController extends Controller
             ->where('housings.status_id', 1)
             ->get();
 
-        return view('client.home.index', compact('menu', 'secondhandHousings'));
+        $projects = Project::listForMarketing();
+        return view('client.home.index', compact('menu', 'secondhandHousings','projects'));
     }
 }

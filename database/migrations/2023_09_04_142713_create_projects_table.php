@@ -21,7 +21,6 @@ return new class extends Migration {
             $table->unsignedBigInteger('status_id');
             $table->string('image');
             $table->integer('view_count')->default(0);
-            $table->integer('order')->default(0);
             $table->timestamps();
 
             $table->foreign('status_id')->references('id')->on('housing_status');

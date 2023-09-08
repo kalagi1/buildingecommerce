@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\HousingController;
 use App\Http\Controllers\Admin\HousingTypeController;
 use App\Http\Controllers\Admin\LoginController as AdminLoginController;
+use App\Http\Controllers\Admin\MarketingController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -17,9 +18,11 @@ use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\HousingController as ClientHousingController;
+use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\DashboardController;
 use App\Http\Controllers\Institutional\LoginController;
+use App\Http\Controllers\Institutional\ProjectController as InstitutionalProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +40,9 @@ Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/housing/{id}', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/admin', [AdminHomeController::class, "index"]);
+Route::get('/project/{slug}', [ClientProjectController::class, "index"])->name('project.detail');
+Route::get('/marka_projeleri/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
+Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
 Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
@@ -271,6 +277,12 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'a
     Route::get('/smtp/edit', [SmtpSettingController::class, 'edit'])->name('smtp.edit')->middleware('checkPermission:GetSmtpSettingById');
     Route::put('/smtp/update', [SmtpSettingController::class, 'update'])->name('smtp.update')->middleware('checkPermission:UpdateSmtpSetting');
 
+    Route::get('/marketing/project/marketed', [MarketingController::class, 'marketedProjects'])->name('marketing.project.marketed');
+    Route::get('/marketing/project', [MarketingController::class, 'marketing'])->name('marketing.project.index');
+    Route::post('/marketing/project/setmarketed', [MarketingController::class, 'market'])->name('marketing.project.setmarketed');
+    Route::get('/marketing/project/get', [MarketingController::class, 'getMarketing'])->name('marketing.project.get');
+    Route::post('/marketing/project/store', [MarketingController::class, 'storeMarketing'])->name('marketing.project.store');
+
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional."], function () {
@@ -279,5 +291,6 @@ Route::group(['prefix' => 'institutional', "as" => "institutional."], function (
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/brands', BrandController::class);
+    Route::resource('/project', InstitutionalProjectController::class);
 
 });

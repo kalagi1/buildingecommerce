@@ -45,6 +45,12 @@
                                             <input name="cover_photo" class="form-control" id="cover_photo"
                                                 type="file" accept="image/*" required="">
                                         </div>
+                                        <div class="col-md-12">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" value="1" name="status" id="flexSwitchCheckCheckedDisabled" type="checkbox" checked="" />
+                                                <label class="form-check-label"  for="flexSwitchCheckCheckedDisabled">Aktif</label>
+                                            </div>
+                                        </div>
                                         <div class="col-12">
                                             <button class="btn btn-primary" type="submit">Kaydet</button>
                                         </div>

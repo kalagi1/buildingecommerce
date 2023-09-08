@@ -12,7 +12,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Yönetim Paneli</title>
+    <title>Phoenix</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
@@ -26,6 +26,8 @@
     <link rel="shortcut icon" type="image/x-icon"
         href="{{ URL::to('/') }}/adminassets/assets/img/favicons/favicon.ico">
     <link rel="manifest" href="{{ URL::to('/') }}/adminassets/assets/img/favicons/manifest.json">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <meta name="msapplication-TileImage"
         content="{{ URL::to('/') }}/adminassets/assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
@@ -50,6 +52,7 @@
         id="user-style-rtl">
     <link href="{{ URL::to('/') }}/adminassets/assets/css/user.min.css" type="text/css" rel="stylesheet"
         id="user-style-default">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/leaflet-locationpicker.src.css" />
     <script>
         var phoenixIsRTL = window.config.config.phoenixIsRTL;
         if (phoenixIsRTL) {
@@ -152,6 +155,158 @@
                                 @endforeach
                             </li>
                         @endforeach
+
+
+                        <li class="nav-item">
+                            <!-- label-->
+                            <p class="navbar-vertical-label">Pages</p>
+                            <hr class="navbar-vertical-line" /><!-- parent pages-->
+                            <div class="nav-item-wrapper"><a class="nav-link label-1" href=""
+                                    role="button" data-bs-toggle="" aria-expanded="false">
+                                    <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                                data-feather="compass">
+                                            </span>
+                                        </span>
+                                        <span class="nav-link-text-wrapper"><span
+                                                class="nav-link-text">Starter</span></span>
+                                    </div>
+                                </a>
+                            </div><!-- parent pages-->
+
+                            <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1" href="#nv-faq"
+                                    role="button" data-bs-toggle="collapse" aria-expanded="false"
+                                    aria-controls="nv-faq">
+                                    <div class="d-flex align-items-center">
+                                        <div class="dropdown-indicator-icon">
+                                            <span class="fas fa-caret-right"></span>
+                                        </div>
+                                        <span class="nav-link-icon"><span data-feather="help-circle">
+                                            </span></span><span class="nav-link-text">Housings
+                                        </span>
+                                        <span class="fa-solid fa-circle text-info ms-1 new-page-indicator"
+                                            style="font-size: 6px">
+                                        </span>
+                                    </div>
+                                </a>
+                                <div class="parent-wrapper label-1">
+                                    <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
+                                        id="nv-faq">
+                                        <li class="collapsed-nav-item-title d-none">Housings</li>
+                                        <li class="nav-item"><a class="nav-link" href="{{route('admin.housing.index')}}"
+                                                data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">List</span></div>
+                                            </a><!-- more inner pages-->
+                                        </li>
+                                        <li class="nav-item"><a class="nav-link" href="{{route('admin.housing.create')}}"
+                                                data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span class="nav-link-text">Create</span>
+                                                </div>
+                                            </a><!-- more inner pages-->
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- parent pages-->
+                            <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
+                                    href="#nv-landing" role="button" data-bs-toggle="collapse"
+                                    aria-expanded="false" aria-controls="nv-landing">
+                                    <div class="d-flex align-items-center">
+                                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span>
+                                        </div><span class="nav-link-icon"><span
+                                                data-feather="globe"></span></span><span
+                                            class="nav-link-text">Housing Types</span><span
+                                            class="fa-solid fa-circle text-info ms-1 new-page-indicator"
+                                            style="font-size: 6px"></span>
+                                    </div>
+                                </a>
+                                <div class="parent-wrapper label-1">
+                                    <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
+                                        id="nv-landing">
+                                        <li class="collapsed-nav-item-title d-none">Housing Types</li>
+                                        <li class="nav-item"><a class="nav-link" href="{{route('admin.housing_types.index')}}"
+                                                data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">List</span></div>
+                                            </a><!-- more inner pages-->
+                                        </li>
+                                        <li class="nav-item"><a class="nav-link" href="{{route('admin.housing_types.create')}}"
+                                                data-bs-toggle="" aria-expanded="false">
+                                                <div class="d-flex align-items-center"><span
+                                                        class="nav-link-text">Create</span>
+                                                </div>
+                                            </a><!-- more inner pages-->
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- parent pages-->
+                            <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
+                                href="#nv-projects" role="button" data-bs-toggle="collapse"
+                                aria-expanded="false" aria-controls="nv-landing">
+                                <div class="d-flex align-items-center">
+                                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span>
+                                    </div><span class="nav-link-icon"><span
+                                            data-feather="globe"></span></span><span
+                                        class="nav-link-text">Projects</span><span
+                                        class="fa-solid fa-circle text-info ms-1 new-page-indicator"
+                                        style="font-size: 6px"></span>
+                                </div>
+                            </a>
+                            <div class="parent-wrapper label-1">
+                                <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
+                                    id="nv-projects">
+                                    <li class="collapsed-nav-item-title d-none">Projects</li>
+                                    <li class="nav-item"><a class="nav-link" href="{{route('admin.project.index')}}"
+                                            data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span
+                                                    class="nav-link-text">List</span></div>
+                                        </a><!-- more inner pages-->
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link" href="{{route('admin.project.create')}}"
+                                            data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center"><span
+                                                    class="nav-link-text">Create</span>
+                                            </div>
+                                        </a><!-- more inner pages-->
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                         
+                        <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1" href="#nv-faq2"
+                            role="button" data-bs-toggle="collapse" aria-expanded="false"
+                            aria-controls="nv-faq2">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon">
+                                    <span class="fas fa-caret-right"></span>
+                                </div>
+                                <span class="nav-link-icon"><span data-feather="help-circle">
+                                    </span></span><span class="nav-link-text">Marketing
+                                </span>
+                                <span class="fa-solid fa-circle text-info ms-1 new-page-indicator"
+                                    style="font-size: 6px">
+                                </span>
+                            </div>
+                        </a>
+                        <div class="parent-wrapper label-1">
+                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapseA"
+                                id="nv-faq2">
+                                <li class="collapsed-nav-item-title d-none">Marketing</li>
+                                <li class="nav-item"><a class="nav-link" href="{{route('admin.marketing.project.index')}}"
+                                        data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">List & Create</span></div>
+                                    </a><!-- more inner pages-->
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="{{route('admin.marketing.project.marketed')}}"
+                                        data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Marketed</span>
+                                        </div>
+                                    </a><!-- more inner pages-->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                        </li>
+
+
                     </ul>
 
                 </div>
