@@ -43,4 +43,12 @@ class Project extends Model
             ->orderBy('projects.view_count', 'DESC')
             ->get();
     }
+
+    public function city(){
+        return $this->hasOne(City::class,"id","city_id");
+    }
+
+    public function county(){
+        return $this->hasOne(County::class,"id","county_id");
+    }
 }

@@ -3193,6 +3193,7 @@ Version      : 1.2
         margin-top: 20px;
     display: flex;
     justify-content: center;
+    text-align: center;
     }
     .location-card .location-card-body p{
         margin: 0;
@@ -16907,6 +16908,8 @@ Version      : 1.2
     .listing-details-sliders .img-fluid {
         max-width: 100%;
         height: auto;
+        width: 100%;
+        object-fit: contain;
     }
 
     .single-proper .mb-30,
@@ -25768,3 +25771,5 @@ Version      : 1.2
         padding: 48px;
         border-radius: 12px;
     }
+
+    
