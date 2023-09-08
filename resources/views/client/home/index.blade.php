@@ -220,7 +220,7 @@ function getImage($housing,$key){
                                     <!-- homes content -->
                                     <div class="homes-content p-3" style="padding:20px !important">
                                         <!-- homes address -->
-                                        <h3><a href="{{route('housing.show',$housing->id)}}">{{$housing->title}}</a></h3>
+                                        <h3><a href="{{route('housing.show',$housing->id)}}">{{$housing->housing_title}}</a></h3>
                                         <p class="homes-address mb-3">
                                             <a href="{{route('housing.show',$housing->id)}}">
                                                 <i class="fa fa-map-marker"></i><span>{{$housing->address}}</span>
