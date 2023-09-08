@@ -33,6 +33,7 @@ class HousingTypeController extends Controller
             'form_json' => 'required|string'
         ]);
 
+
         HousingType::create($validatedData);
 
         return redirect()->route('admin.housing_types.create')->with('success', 'Housing type created successfully.');

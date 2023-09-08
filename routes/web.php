@@ -13,9 +13,11 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\HousingController as ClientHousingController;
+use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\DashboardController;
 use App\Http\Controllers\Institutional\LoginController;
+use App\Http\Controllers\Institutional\ProjectController as InstitutionalProjectController;
 use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +36,9 @@ Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/housing/{id}', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/admin', [AdminHomeController::class, "index"]);
+Route::get('/project/{slug}', [ClientProjectController::class, "index"])->name('project.detail');
+Route::get('/marka_projeleri/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
+Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
 Route::group(['prefix' => 'admin', "as" => "admin."], function () {
     Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
@@ -63,5 +68,6 @@ Route::group(['prefix' => 'institutional', "as" => "institutional."], function (
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/brands', BrandController::class);
+    Route::resource('/project', InstitutionalProjectController::class);
     
 });

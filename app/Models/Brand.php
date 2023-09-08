@@ -12,5 +12,7 @@ class Brand extends Model
 
     protected $guarded = [];
 
-    
+    public function projects(){
+        return $this->hasMany(Project::class,"brand_id","id")->orderBy('order');
+    }
 }

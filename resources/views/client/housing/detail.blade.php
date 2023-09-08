@@ -188,3 +188,43 @@
         </div>
     </section>
 @endsection
+
+@section('scripts')
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([{{ $housing->latitude }},{{ $housing->longitude }}], 13);
+
+    // OpenStreetMap katmanını haritaya ekleyin
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Yakınındaki alışveriş yerlerini Overpass API kullanarak getirin
+    var overpassUrl = 'https://overpass-api.de/api/interpreter';
+    var query = `[out:json];
+    (
+        node["amenity"="clinic"](around:1000,{{ $housing->latitude }},{{ $housing->longitude }});
+        way["amenity"="clinic"](around:1000,{{ $housing->latitude }},{{ $housing->longitude }});
+        relation["amenity"="clinic"](around:1000,{{ $housing->latitude }},{{ $housing->longitude }});
+    );
+    out center;`;
+    var url = `${overpassUrl}?data=${encodeURIComponent(query)}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            // Alışveriş yerlerini işaretle
+            console.log(data.elements);
+            data.elements.forEach(element => {
+                var lat = element.lat;
+                var lon = element.lon;
+                L.marker([lat, lon]).addTo(map).bindPopup(element.tags.name || 'Bilinmeyen Mağaza');
+            });
+        })
+        .catch(error => console.error('Hata:', error));
+</script>
+@endsection
+
+@section('styles')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+@endsection

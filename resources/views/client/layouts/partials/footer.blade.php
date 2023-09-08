@@ -363,7 +363,7 @@
 
 <!-- MAIN JS -->
 <script src="{{URL::to('/')}}/js/script.js"></script>
-
+@yield('scripts')
 </div>
 <!-- Wrapper / End -->
 

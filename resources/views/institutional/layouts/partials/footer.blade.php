@@ -259,6 +259,7 @@
     src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js">
 </script>
 
+
 <script src="{{ URL::to('/') }}/adminassets/assets//js/ecommerce-dashboard.js"></script>
 <!--FormBuilder-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -273,7 +274,5 @@
 @yield('scripts')
 </body>
 
-
-<!-- Mirrored from prium.github.io/phoenix/v1.13.0/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 20 Aug 2023 12:29:52 GMT -->
 
 </html>
