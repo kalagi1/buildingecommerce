@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\HousingController;
 use App\Http\Controllers\Admin\HousingTypeController;
+use App\Http\Controllers\Admin\InfoController;
 use App\Http\Controllers\Admin\MarketingController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PageController;
@@ -42,6 +43,11 @@ Route::get('/marka_projeleri/{id}', [ClientProjectController::class, "brandProje
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
 Route::group(['prefix' => 'admin', "as" => "admin."], function () {
+    
+    Route::get('info/about-us',[InfoController::class,'about'])->name('info.about.index');
+    Route::post('info/setAboutUs',[InfoController::class,'aboutUsSetOrEdit'])->name('info.about.set');
+    
+
     Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
     Route::resource('/housing_types', HousingTypeController::class);
     Route::resource('/housing', HousingController::class);
