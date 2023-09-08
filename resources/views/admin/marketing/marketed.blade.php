@@ -40,7 +40,7 @@
                                                             </div>
                                                         </th>
                                                         <th>Title</th>
-                                                        <th>Order</th>
+                                                        <th>Sort Order</th>
                                                         <th>Date Start</th>
                                                         <th>Date End</th>
                                                     </tr>
@@ -141,7 +141,7 @@
 
             var orderCell = document.createElement("td");
             orderCell.className = "align-middle ";
-            orderCell.textContent = mp.order;
+            orderCell.textContent = mp.sort_order;
 
             var dateStartCell = document.createElement("td");
             dateStartCell.className = "align-middle ";

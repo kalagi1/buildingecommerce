@@ -10,11 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('projects_marketing', function (Blueprint $table) {
+        Schema::create('marketed_projects', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('sort_order')->unique();
-            $table->unsignedBigInteger('price');
-            
-            
+            $table->date('date_start')->useCurrent();
+            $table->date('date_end');
+            $table->foreign('sort_order')->references('sort_order')->on('projects_marketing');
         });
     }
 
@@ -23,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects_marketing');
+        Schema::dropIfExists('marketed_projects');
     }
 };

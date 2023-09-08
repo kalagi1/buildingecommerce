@@ -17,7 +17,8 @@
 
                                     <div class="col-md-4">
                                         <label class="form-label" for="projects">Projects</label>
-                                        <select name="project_id" class="form-select" id="validationCustom04" required="">
+                                        <select name="project_id" class="form-select" id="validationCustom04"
+                                            required="">
                                             <option selected disabled>Seç...</option>
                                             @foreach ($projects as $item)
                                                 <option value="{{ $item->id }}">{{ $item->project_title }}</option>
@@ -26,20 +27,20 @@
 
                                     </div>
                                     <div class="col-md-4">
-                                        <label class="form-label" for="project_marketing">Order</label>
+                                        <label class="form-label" for="project_marketing">Sort Order</label>
                                         <select name="marketing_id" class="form-select" id="project_marketing"
                                             required="">
                                             <option selected disabled>Seç...</option>
                                             @foreach ($avaliableMarketings as $item)
-                                                <option value="{{ $item->id }}">Order:{{ $item->order }}</option>
+                                                <option value="{{ $item->id }}">Order:{{ $item->sort_order }}</option>
                                             @endforeach
                                         </select>
 
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label" for="months">Months</label>
-                                        <input name="months" class="form-control" id="months"
-                                            type="text" value="" required="">
+                                        <input name="months" class="form-control" id="months" type="text"
+                                            value="" required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
 
@@ -64,8 +65,8 @@
                                         <div class="d-flex align-items-center justify-content-end my-3 row">
 
                                             <div class="col-md-4">
-                                                <label class="form-label" for="order">Order</label>
-                                                <input name="order" class="form-control" id="order" type="text"
+                                                <label class="form-label" for="sort_order">Sort Order</label>
+                                                <input name="sort_order" class="form-control" id="sort_order" type="text"
                                                     value="" required="">
                                                 <div class="valid-feedback">Looks good!</div>
                                             </div>
@@ -100,8 +101,9 @@
                                                                     type="checkbox" />
                                                             </div>
                                                         </th>
-                                                        <th>Order</th>
+                                                        <th>Sort Order</th>
                                                         <th>Price</th>
+                                                        <th>Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="list" id="bulk-select-body"></tbody>
@@ -118,7 +120,8 @@
                                                     <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
                                                 </a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">
                                                     View Less
-                                                    <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                                                    <span class="fas fa-angle-right ms-1"
+                                                        data-fa-transform="down-1"></span>
                                                 </a>
                                             </p>
                                             <div class="d-flex">
@@ -190,27 +193,27 @@
             checkboxInput.type = "button";
             checkboxInput.value = "Güncelle";
 
-            checkboxInput.setAttribute("data-order", marketing.order);
+            checkboxInput.setAttribute("data-order", marketing.sort_order);
             checkboxDiv.appendChild(checkboxInput);
             checkboxCell.appendChild(checkboxDiv);
 
             var orderCell = document.createElement("td");
             orderCell.className = "align-middle ps-3 order";
-            orderCell.textContent = marketing.order;
+            orderCell.textContent = marketing.sort_order;
 
             var priceCell = document.createElement("td");
             priceCell.className = "align-middle price";
             priceCell.textContent = marketing.price;
 
-            var projectCell = document.createElement("td");
-            projectCell.className = "align-middle project";
-            projectCell.textContent = marketing.project_id;
+            var statusCell = document.createElement("td");
+            statusCell.className = "align-middle status";
+            statusCell.textContent = !parseInt(marketing.status) ? 'Avaliable' : 'Not Avaliable';
 
 
             row.appendChild(checkboxCell);
             row.appendChild(orderCell);
             row.appendChild(priceCell);
-            row.appendChild(projectCell);
+            row.appendChild(statusCell);
 
             tbody.appendChild(row);
         });
