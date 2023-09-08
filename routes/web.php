@@ -41,6 +41,8 @@ Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/project/{slug}', [ClientProjectController::class, "index"])->name('project.detail');
 Route::get('/marka_projeleri/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
+Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housing.detail');
+Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 
 Route::group(['prefix' => 'admin', "as" => "admin."], function () {
     
@@ -83,5 +85,6 @@ Route::group(['prefix' => 'institutional', "as" => "institutional."], function (
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/brands', BrandController::class);
     Route::resource('/project', InstitutionalProjectController::class);
+    Route::get('/get_counties', [InstitutionalProjectController::class,"getCounties"])->name('get.counties');
     
 });

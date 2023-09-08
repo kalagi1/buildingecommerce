@@ -21,7 +21,7 @@ $("#area-range").each(function () {
     var dataMax = $(this).attr('data-max');
     var dataUnit = $(this).attr('data-unit');
 
-    $(this).append("<input type='text' class='first-slider-value'disabled/><input type='text' class='second-slider-value' disabled/>");
+    $(this).append("<input type='text'  name='min-square-meters' value='"+dataMin+"'  class='first-slider-value' /><input type='text' name='max-square-meters' value='"+dataMax+"'  class='second-slider-value' />");
 
     $(this).slider({
 
@@ -33,12 +33,13 @@ $("#area-range").each(function () {
 
         slide: function (event, ui) {
             event = event;
-            $(this).children(".first-slider-value").val(ui.values[0] + " " + dataUnit);
-            $(this).children(".second-slider-value").val(ui.values[1] + " " + dataUnit);
+            console.log(dataUnit);
+            $(this).children(".first-slider-value").val(ui.values[0]);
+            $(this).children(".second-slider-value").val(ui.values[1]);
         }
     });
-    $(this).children(".first-slider-value").val($(this).slider("values", 0) + " " + dataUnit);
-    $(this).children(".second-slider-value").val($(this).slider("values", 1) + " " + dataUnit);
+    $(this).children(".first-slider-value").val($(this).slider("values", 0));
+    $(this).children(".second-slider-value").val($(this).slider("values", 1));
 
 });
 
@@ -50,7 +51,7 @@ $("#price-range").each(function () {
     var dataMax = $(this).attr('data-max');
     var dataUnit = $(this).attr('data-unit');
 
-    $(this).append("<input type='text' class='first-slider-value' disabled/><input type='text' class='second-slider-value' disabled/>");
+    $(this).append("<input type='text' name='min-price' class='first-slider-value' /><input name='max-price' type='text' class='second-slider-value' />");
 
 
     $(this).slider({
@@ -62,12 +63,13 @@ $("#price-range").each(function () {
 
         slide: function (event, ui) {
             event = event;
+            console.log($(this));
             $(this).children(".first-slider-value").val(dataUnit + ui.values[0].toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             $(this).children(".second-slider-value").val(dataUnit + ui.values[1].toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         }
     });
-    $(this).children(".first-slider-value").val(dataUnit + $(this).slider("values", 0).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-    $(this).children(".second-slider-value").val(dataUnit + $(this).slider("values", 1).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+    $(this).children(".first-slider-value").val($(this).slider("values", 0).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+    $(this).children(".second-slider-value").val($(this).slider("values", 1).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
 
 });
