@@ -26,7 +26,7 @@ class ProjectController extends Controller
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
         $cities = City::get();
-        return view('institutional.project.create',compact('housing_types','housing_status','brands','cities'));
+        return view('institutional.projects.create',compact('housing_types','housing_status','brands','cities'));
     }
 
     public function store(Request $request){
