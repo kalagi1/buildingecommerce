@@ -85,7 +85,7 @@ class HousingController extends Controller
             'city_id',
             "county_id"
         ];
-        
+
         $files = [];
 
         for($k = 0 ; $k < count($request->file('images')); $k++){

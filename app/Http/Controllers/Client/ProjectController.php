@@ -45,12 +45,12 @@ class ProjectController extends Controller
         $cities = City::get();
         $projects = $projects->get();
         $menu = Menu::getMenuItems();
-        return view('client.project.list',compact('menu','projects','housingTypes','housingStatus','cities'));
+        return view('client.projects.list',compact('menu','projects','housingTypes','housingStatus','cities'));
     }
     
     public function projectHousingDetail($projectSlug,$housingOrder){
         $menu = Menu::getMenuItems();
         $project = Project::where('slug',$projectSlug)->firstOrFail();
-        return view('client.project.project_housing',compact('menu','project','housingOrder'));
+        return view('client.projects.project_housing',compact('menu','project','housingOrder'));
     }
 }
