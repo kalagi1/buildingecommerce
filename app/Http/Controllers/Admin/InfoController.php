@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AboutUs;
+use App\Models\ContactInfo;
 use Illuminate\Http\Request;
 
 class InfoController extends Controller
@@ -33,7 +34,33 @@ class InfoController extends Controller
         }
         return redirect()->route('admin.info.about.index')->with('success', 'About us info setted');
     }
-    public function contact(){
-        
+    public function contact()
+    {
+
+    }
+    public function contactSetOrEdit()
+    {
+        // Validation kuralları
+        $this->validate(request(), [
+            'address' => 'required',
+            'location' => 'required',
+            'phone' => 'required|numeric',
+            'email' => 'required|email',
+            'working_time' => 'required',
+        ]);
+
+
+        $contact_info = request()->only('address', 'location', 'phone', 'email', 'working_time');
+
+        $contact_info_model = ContactInfo::first();
+
+        if ($contact_info_model) {
+            $contact_info_model->update($contact_info);
+        } else {
+            $contact_info_model = ContactInfo::create($contact_info);
+        }
+
+        // Başarılı mesajı döndür
+        return response()->json(['success' => true, 'message' => 'İletişim bilgileri kaydedildi.'], 200);
     }
 }

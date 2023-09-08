@@ -45,10 +45,12 @@ Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::c
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 
 Route::group(['prefix' => 'admin', "as" => "admin."], function () {
-    
-    Route::get('info/about-us',[InfoController::class,'about'])->name('info.about.index');
-    Route::post('info/setAboutUs',[InfoController::class,'aboutUsSetOrEdit'])->name('info.about.set');
-    
+
+    Route::get('info/about-us', [InfoController::class, 'about'])->name('info.about.index');
+    Route::post('info/setAboutUs', [InfoController::class, 'aboutUsSetOrEdit'])->name('info.about.set');
+    Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
+    Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
+
 
     Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
     Route::resource('/housing_types', HousingTypeController::class);
@@ -85,6 +87,6 @@ Route::group(['prefix' => 'institutional', "as" => "institutional."], function (
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/brands', BrandController::class);
     Route::resource('/project', InstitutionalProjectController::class);
-    Route::get('/get_counties', [InstitutionalProjectController::class,"getCounties"])->name('get.counties');
-    
+    Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
+
 });
