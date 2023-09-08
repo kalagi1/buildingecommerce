@@ -27,7 +27,7 @@ class HousingController extends Controller
             'housing_types.form_json'
         )->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
             ->get();
-        return view('admin.housing.index', ['housing' => $housing]);
+        return view('admin.housings.index', ['housing' => $housing]);
         //
     }
 
@@ -39,7 +39,7 @@ class HousingController extends Controller
     {
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
-        return view('admin.housing.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status]);
+        return view('admin.housings.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status]);
     }
 
     /**
@@ -124,7 +124,7 @@ class HousingController extends Controller
         }
 
         HousingImages::insert($imageData);
-        return redirect()->route('admin.housing.create')->with('success', 'Housing created successfully');
+        return redirect()->route('admin.housings.create')->with('success', 'Housing created successfully');
     }
 
     /**

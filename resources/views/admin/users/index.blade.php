@@ -46,7 +46,7 @@
                                             data-sort="userType">Kullanıcı Tipi</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="userStatus">Durum</th>
-                                        <th style="width:10%;">İşlemler</th>
+                                        <th>İşlemler</th>
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="user-list-table-body">
@@ -56,11 +56,8 @@
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>
-                                                @if ($user->type == 1)
-                                                    <span class="badge bg-primary">Normal Kullanıcı</span>
-                                                @else
-                                                    <span class="badge bg-info">Kurumsal Üye</span>
-                                                @endif
+                                                <span class="badge bg-warning"> {{ $user->role->name }}</span>
+
                                             </td>
                                             <td>
                                                 @if ($user->status == 1)
@@ -69,16 +66,26 @@
                                                     <span class="badge bg-danger">Pasif</span>
                                                 @endif
                                             </td>
-                                            
-                                            <td>
-                                                <a href="{{ route('admin.users.edit', $user->id) }}"
-                                                    class="btn btn-sm btn-primary">Düzenle</a>
 
-                                                <!-- Silme işlemi için modal -->
-                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $user->id }}">
-                                                    Sil
-                                                </button>
+                                            <td>
+                                                @if (in_array('GetUserById', $userPermissions) && in_array('UpdateUser', $userPermissions))
+                                                    <a href="{{ route('admin.users.edit', $user->id) }}"
+                                                        class="btn btn-sm btn-primary">Düzenle</a>
+                                                @elseif (in_array('GetUserById', $userPermissions))
+                                                    <a href="{{ route('admin.users.edit', $user->id) }}"
+                                                        class="btn btn-sm btn-primary">Önizle</a>
+                                                @endif
+                                                @if (in_array('DeleteUser', $userPermissions))
+                                                    <!-- Silme işlemi için modal -->
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal{{ $user->id }}">
+                                                        Sil
+                                                    </button>
+                                                @endif
+
+
+
 
                                                 <!-- Silme işlemi için modal -->
                                                 <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1"

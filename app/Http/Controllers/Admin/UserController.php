@@ -11,13 +11,13 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::where('type', '!=', 3)->get();
+        $users = User::with("role")->get();
         return view('admin.users.index', compact('users'));
     }
 
     public function create()
     {
-        $roles = Role::where("name", "!=", "Admin")->get();
+        $roles = Role::all();
         return view('admin.users.create', compact("roles"));
     }
 
@@ -53,7 +53,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $roles = Role::where("name", "!=", "Admin")->get();
+        $roles = Role::all();
         $user = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
         return view('admin.users.edit', compact('user', 'roles'));
     }

@@ -1,0 +1,188 @@
+[
+    {
+        "id": "role",
+        "label": "Management",
+        "icon": "user",
+        "text": "Roles",
+        "key": "Roles",
+        "url": "#nv-role",
+        "activePath": "admin/roles*",
+        "subMenu": [
+            {
+                "text": "Create",
+                "key": "CreateRole",
+                "url": "admin.roles.create",
+                "activePath": "admin/roles/create"
+            },
+            {
+                "text": "List",
+                "key": "GetRoles",
+                "url": "admin.roles.index",
+                "activePath": "admin/roles"
+            }
+        ]
+    },
+    {
+        "id": "page",
+        "label": "Management",
+        "icon": "file",
+        "text": "Pages",
+        "key": "Pages",
+        "url": "#nv-page",
+        "activePath": "admin/pages*",
+        "subMenu": [
+            {
+                "text": "Create",
+                "key": "CreatePage",
+                "url": "admin.pages.create",
+                "activePath": "admin/pages/create"
+            },
+            {
+                "text": "List",
+                "key": "GetPages",
+                "url": "admin.pages.index",
+                "activePath": "admin/pages"
+            }
+        ]
+    },
+    {
+        "id": "permission_group",
+        "label": "Management",
+        "icon": "link",
+        "text": "Permission Groups",
+        "key": "PermissionGroups",
+        "url": "#nv-permission-group",
+        "activePath": "admin/permission_groups*",
+        "subMenu": [
+            {
+                "text": "Create",
+                "key": "CreatePermissionGroup",
+                "url": "admin.permission_groups.create",
+                "activePath": "admin/permission_groups/create"
+            },
+            {
+                "text": "List",
+                "key": "GetPermissionGroups",
+                "url": "admin.permission_groups.index",
+                "activePath": "admin/permission_groups"
+            }
+        ]
+    },
+    {
+        "id": "permission",
+        "label": "Management",
+        "icon": "link-2",
+        "text": "Permissions",
+        "key": "Permissions",
+        "url": "#nv-permissions",
+        "activePath": "admin/permissions*",
+        "subMenu": [
+            {
+                "text": "Create",
+                "key": "CreatePermission",
+                "url": "admin.permissions.create",
+                "activePath": "admin/permissions/create"
+            },
+            {
+                "text": "List",
+                "key": "GetPermissions",
+                "url": "admin.permissions.index",
+                "activePath": "admin/permissions"
+            }
+        ]
+    },
+    {
+        "id": "user",
+        "label": "Management",
+        "icon": "user",
+        "text": "Users",
+        "key": "Users",
+        "url": "#nv-users",
+        "activePath": "admin/users*",
+        "subMenu": [
+            {
+                "text": "Create",
+                "key": "CreateUser",
+                "url": "admin.users.create",
+                "activePath": "admin/users/create"
+            },
+            {
+                "text": "List",
+                "key": "GetUsers",
+                "url": "admin.users.index",
+                "activePath": "admin/users"
+            }
+        ]
+    },
+    {
+        "id": "housing",
+        "label": "Apps",
+        "icon": "home", 
+        "text": "Housings",
+        "key": "Housings",
+        "url": "#nv-housing",
+        "activePath": "admin/housing*",
+        "subMenu": [
+            {
+                "text": "Create",
+                "key": "CreateHousing",
+                "url": "admin.housings.create",
+                "activePath": "admin/housing/create"
+            },
+            {
+                "text": "List",
+                "key": "GetHousings",
+                "url": "admin.housings.index",
+                "activePath": "admin/housing"
+            }
+        ]
+    },
+    {
+        "id": "housing_types",
+        "label": "Apps",
+        "icon": "info", 
+        "text": "Housing Types",
+        "key": "HousingTypes",
+        "url": "#nv-housing-types",
+        "activePath": "admin/housing_types*",
+        "subMenu": [
+            {
+                "text": "Create",
+                "key": "CreateHousingType",
+                "url": "admin.housing_types.create",
+                "activePath": "admin/housing_types/create"
+            },
+            {
+                "text": "List",
+                "key": "GetHousingTypes",
+                "url": "admin.housing_types.index",
+                "activePath": "admin/housing_types"
+            }
+        ]
+    },
+    {
+        "id": "projects",
+        "label": "Apps",
+        "icon": "globe", 
+        "text": "Projects",
+        "key": "Projects",
+        "url": "#nv-projects",
+        "activePath": "admin/projects*",
+        "subMenu": [
+            {
+                "text": "Create",
+                "key": "CreateProject",
+                "url": "admin.projects.create",
+                "activePath": "admin/projects/create"
+            },
+            {
+                "text": "List",
+                "key": "GetProjects",
+                "url": "admin.projects.index",
+                "activePath": "admin/projects"
+            }
+        ]
+    }
+    
+    
+]

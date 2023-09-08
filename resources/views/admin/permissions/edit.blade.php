@@ -52,7 +52,11 @@
                                     value="1" {{ $permission->is_active ? 'checked' : '' }}>
                                 <label class="form-check-label" for="is_active">Active</label>
                             </div>
-                            <button type="submit" class="btn btn-primary">Update</button>
+                            @if (in_array('UpdatePermission', $userPermissions))
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            @else
+                                <p>You don't have permission to update this page.</p>
+                            @endif
                         </form>
                     </div>
                 </div>

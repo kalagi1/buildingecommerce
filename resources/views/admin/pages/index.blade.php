@@ -39,7 +39,7 @@
                                         <th style="width:15%;">ID</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="projectName" style="width:60%;">PAGE TITLE</th>
-                                        <th style="width:10%;">Action</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="project-list-table-body">
@@ -48,14 +48,23 @@
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $page->title }}</td>
                                             <td>
-                                                <a href="{{ route('admin.pages.edit', $page->id) }}"
-                                                    class="btn btn-sm btn-primary">Edit</a>
+                                                @if (in_array('GetPageById', $userPermissions) && in_array('UpdatePage', $userPermissions))
+                                                    <a href="{{ route('admin.pages.edit', $page->id) }}"
+                                                        class="btn btn-sm btn-primary">Edit</a>
+                                                @elseif (in_array('GetPageById', $userPermissions))
+                                                    <a href="{{ route('admin.pages.edit', $page->id) }}"
+                                                        class="btn btn-sm btn-primary">Önizle</a>
+                                                @endif
+                                                @if (in_array('DeletePage', $userPermissions))
+                                                    <!-- Silme işlemi için modal -->
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal{{ $page->id }}">
+                                                        Delete
+                                                    </button>
+                                                @endif
 
-                                                <!-- Silme işlemi için modal -->
-                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $page->id }}">
-                                                    Delete
-                                                </button>
+
 
 
                                                 <!-- Silme işlemi için modal -->

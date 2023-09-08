@@ -40,7 +40,7 @@
                                         <th style="width:15%;">ID</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="projectName" style="width:60%;">ROLE NAME</th>
-                                        <th style="width:10%;">Action</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="project-list-table-body">

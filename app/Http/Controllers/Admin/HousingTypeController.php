@@ -16,12 +16,12 @@ class HousingTypeController extends Controller
     public function index()
     {
         $housingTypes = HousingType::all();
-        return view('admin.housing_type.index', compact('housingTypes'));
+        return view('admin.housing_types.index', compact('housingTypes'));
     }
 
     public function create()
     {
-        return view('admin.housing_type.create');
+        return view('admin.housing_types.create');
     }
 
     public function store(Request $request)
@@ -41,7 +41,7 @@ class HousingTypeController extends Controller
     public function edit($id)
     {
         $housingType = HousingType::findOrFail($id);
-        return view('admin.housing_type.edit', compact('housingType'));
+        return view('admin.housing_types.edit', compact('housingType'));
     }
 
     public function update(Request $request, $id)
@@ -64,6 +64,6 @@ class HousingTypeController extends Controller
         $housingType = HousingType::findOrFail($id);
         $housingType->delete();
 
-        return redirect()->route('admin.housing_type.index')->with('success', 'Housing type deleted successfully.');
+        return redirect()->route('admin.housing_types.index')->with('success', 'Housing type deleted successfully.');
     }
 }

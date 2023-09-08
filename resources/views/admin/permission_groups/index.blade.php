@@ -13,7 +13,8 @@
                         </div>
                         <div class="col-auto">
                             <div class="col-auto"><a class="btn btn-primary px-5"
-                                    href="{{ route('admin.permission_groups.create') }}"><i class="fa-solid fa-plus me-2"></i>Add
+                                    href="{{ route('admin.permission_groups.create') }}"><i
+                                        class="fa-solid fa-plus me-2"></i>Add
                                     New Permission Group</a></div>
                         </div>
                     </div>
@@ -39,7 +40,7 @@
                                             data-sort="name">Name</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="is_active">Active</th>
-                                        <th style="width:10%;">Action</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="permission-group-list-table-body">
@@ -55,14 +56,23 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('admin.permission_groups.edit', $permissionGroup->id) }}"
-                                                    class="btn btn-sm btn-primary">Edit</a>
-                                                <!-- Silme işlemi için modal -->
-                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $permissionGroup->id }}">Delete</button>
+                                                @if (in_array('GetPermissionGroupById', $userPermissions) && in_array('UpdatePermissionGroup', $userPermissions))
+                                                    <a href="{{ route('admin.permission_groups.edit', $permissionGroup->id) }}"
+                                                        class="btn btn-sm btn-primary">Edit</a>
+                                                @elseif (in_array('GetPermissionGroupById', $userPermissions))
+                                                    <a href="{{ route('admin.permission_groups.edit', $permissionGroup->id) }}"
+                                                        class="btn btn-sm btn-primary">Önizle</a>
+                                                @endif
+                                                @if (in_array('DeletePermissionGroup', $userPermissions))
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal{{ $permissionGroup->id }}">Delete</button>
+                                                @endif
+
 
                                                 <!-- Silme işlemi için modal -->
-                                                <div class="modal fade" id="deleteModal{{ $permissionGroup->id }}" tabindex="-1"
+                                                <div class="modal fade" id="deleteModal{{ $permissionGroup->id }}"
+                                                    tabindex="-1"
                                                     aria-labelledby="deleteModalLabel{{ $permissionGroup->id }}"
                                                     aria-hidden="true">
                                                     <div class="modal-dialog">

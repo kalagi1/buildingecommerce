@@ -8,9 +8,6 @@ use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\RolePermission;
-use Dotenv\Validator;
-use Illuminate\Support\Facades\Request as FacadesRequest;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
 
 class RoleController extends Controller
 {
@@ -79,16 +76,6 @@ class RoleController extends Controller
     {
         $role->delete();
         return redirect()->route('admin.roles.index')->with('success', 'Role deleted successfully');
-    }
-
-    public function bulkDelete(FacadesRequest $request)
-    {
-        $roleIds = $request->input('role_ids');
-
-        // Seçilen rolleri silme işlemi
-        Role::whereIn('id', $roleIds)->delete();
-
-        return response()->json(['message' => 'Roles deleted successfully']);
     }
 
 }

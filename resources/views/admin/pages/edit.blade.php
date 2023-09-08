@@ -25,7 +25,11 @@
                                 <label class="form-label" for="name">Page Content</label>
                                 <textarea id="editor" name="content">{{ $page->content }}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">Update Page</button>
+                            @if (in_array('UpdatePage', $userPermissions))
+                                <button type="submit" class="btn btn-primary">Update Page</button>
+                            @else
+                                <p>You don't have permission to update this page.</p>
+                            @endif
                         </form>
                     </div>
                 </div>
