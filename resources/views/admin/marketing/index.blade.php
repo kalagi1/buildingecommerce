@@ -27,12 +27,12 @@
 
                                     </div>
                                     <div class="col-md-4">
-                                        <label class="form-label" for="project_marketing">Sort Order</label>
-                                        <select name="marketing_id" class="form-select" id="project_marketing"
+                                        <label class="form-label" for="sort_order">Sort Order</label>
+                                        <select name="sort_order" class="form-select" id="sort_order"
                                             required="">
                                             <option selected disabled>Seç...</option>
                                             @foreach ($avaliableMarketings as $item)
-                                                <option value="{{ $item->id }}">Order:{{ $item->sort_order }}</option>
+                                                <option value="{{ $item->sort_order }}">Order:{{ $item->sort_order }}</option>
                                             @endforeach
                                         </select>
 
