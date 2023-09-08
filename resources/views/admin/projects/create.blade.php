@@ -27,7 +27,7 @@
                                 <div class="p-4">
 
                                     <form class="row g-3 needs-validation" id="projectForm" novalidate="" method="POST"
-                                        action="{{ route('admin.project.store') }}" enctype="multipart/form-data">
+                                        action="{{ route('admin.projects.store') }}" enctype="multipart/form-data">
                                         @csrf
                                         <div class="col-md-12">
                                             <label class="form-label" for="project_title">Project Title</label>
@@ -206,7 +206,7 @@
                 */
                 $.ajax({
                     method: "POST",
-                    url: "{{ route('admin.project.store') }}",
+                    url: "{{ route('admin.projects.store') }}",
                     data: {
                         projectData: allForms.projectForm,
                         dynamicData: allForms.dynamicData

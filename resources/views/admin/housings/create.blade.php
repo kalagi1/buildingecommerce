@@ -27,7 +27,7 @@
                                 <div class="p-4">
 
                                     <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                        action="{{ route('admin.housing.store') }}" enctype="multipart/form-data">
+                                        action="{{ route('admin.housings.store') }}" enctype="multipart/form-data">
                                         @csrf
                                         <div class="col-md-4">
                                             <label class="form-label" for="validationCustom01">Title</label>

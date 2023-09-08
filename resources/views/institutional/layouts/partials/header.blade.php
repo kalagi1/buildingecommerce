@@ -129,12 +129,12 @@
                                     <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
                                         id="nv-faq">
                                         <li class="collapsed-nav-item-title d-none">Housings</li>
-                                        <li class="nav-item"><a class="nav-link" href="{{route('admin.housing.index')}}"
+                                        <li class="nav-item"><a class="nav-link" href="{{route('admin.housings.index')}}"
                                                 data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">List</span></div>
                                             </a><!-- more inner pages-->
                                         </li>
-                                        <li class="nav-item"><a class="nav-link" href="{{route('admin.housing.create')}}"
+                                        <li class="nav-item"><a class="nav-link" href="{{route('admin.housings.create')}}"
                                                 data-bs-toggle="" aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span class="nav-link-text">Create</span>
                                                 </div>
@@ -191,13 +191,13 @@
                                 <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse"
                                     id="nv-landing">
                                     <li class="collapsed-nav-item-title d-none">Projects</li>
-                                    <li class="nav-item"><a class="nav-link" href="{{route('admin.project.index')}}"
+                                    <li class="nav-item"><a class="nav-link" href="{{route('admin.projects.index')}}"
                                             data-bs-toggle="" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text">List</span></div>
                                         </a><!-- more inner pages-->
                                     </li>
-                                    <li class="nav-item"><a class="nav-link" href="{{route('admin.project.create')}}"
+                                    <li class="nav-item"><a class="nav-link" href="{{route('admin.projects.create')}}"
                                             data-bs-toggle="" aria-expanded="false">
                                             <div class="d-flex align-items-center"><span
                                                     class="nav-link-text">Create</span>
