@@ -22,7 +22,6 @@ return new class extends Migration {
             $table->string('image');
             $table->integer('view_count')->default(0);
             $table->timestamps();
-
             $table->foreign('status_id')->references('id')->on('housing_status');
             $table->foreign('housing_type_id')->references('id')->on('housing_types');
         });

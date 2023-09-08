@@ -277,11 +277,11 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'a
     Route::get('/smtp/edit', [SmtpSettingController::class, 'edit'])->name('smtp.edit')->middleware('checkPermission:GetSmtpSettingById');
     Route::put('/smtp/update', [SmtpSettingController::class, 'update'])->name('smtp.update')->middleware('checkPermission:UpdateSmtpSetting');
 
-    Route::get('/marketing/project/marketed', [MarketingController::class, 'marketedProjects'])->name('marketing.project.marketed');
-    Route::get('/marketing/project', [MarketingController::class, 'marketing'])->name('marketing.project.index');
-    Route::post('/marketing/project/setmarketed', [MarketingController::class, 'market'])->name('marketing.project.setmarketed');
-    Route::get('/marketing/project/get', [MarketingController::class, 'getMarketing'])->name('marketing.project.get');
-    Route::post('/marketing/project/store', [MarketingController::class, 'storeMarketing'])->name('marketing.project.store');
+    Route::get('/marketing/project/marketed', [MarketingController::class, 'marketedProjects'])->name('marketing.projects.marketed');
+    Route::get('/marketing/project', [MarketingController::class, 'marketing'])->name('marketing.projects.index');
+    Route::post('/marketing/project/setmarketed', [MarketingController::class, 'market'])->name('marketing.projects.setmarketed');
+    Route::get('/marketing/project/get', [MarketingController::class, 'getMarketing'])->name('marketing.projects.get');
+    Route::post('/marketing/project/store', [MarketingController::class, 'storeMarketing'])->name('marketing.projects.store');
 
 });
 

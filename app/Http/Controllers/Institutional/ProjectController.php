@@ -16,14 +16,14 @@ use Illuminate\Support\Str;
 class ProjectController extends Controller
 {
     public function index(){
-        return view('institutional.project.index');
+        return view('institutional.projects.index');
     }
 
     public function create(){
         $brands = Brand::where('user_id',auth('institutional')->id())->where('status',1)->get();
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
-        return view('institutional.project.create',compact('housing_types','housing_status','brands'));
+        return view('institutional.projects.create',compact('housing_types','housing_status','brands'));
     }
 
     public function store(Request $request){

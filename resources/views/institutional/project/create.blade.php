@@ -4,7 +4,7 @@
     
 <div class="content">
     
-    <form class="mb-9" method="post" action="{{route('institutional.project.store')}}" enctype="multipart/form-data">
+    <form class="mb-9" method="post" action="{{route('institutional.projects.store')}}" enctype="multipart/form-data">
         @csrf
       <div class="row g-3 flex-between-end mb-5">
         <div class="col-auto">

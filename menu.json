@@ -205,5 +205,28 @@
                 "activePath": "admin/smtp/edit"
             }
         ]
+    },
+    {
+        "id": "marketings",
+        "label": "Uygulama",
+        "icon": "shopping-bag",
+        "text": "Pazarlama",
+        "key": "Marketings",
+        "url": "#nv-marketings",
+        "activePath": "admin/marketings*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateMarketing",
+                "url": "admin.marketing.projects.index",
+                "activePath": "admin/marketing/project"
+            },
+            {
+                "text": "Listele",
+                "key": "GetMarketings",
+                "url": "admin.marketing.projects.marketed",
+                "activePath": "admin/marketing/project/marketed"
+            }
+        ]
     }
 ]
