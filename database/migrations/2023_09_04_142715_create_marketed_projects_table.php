@@ -12,11 +12,12 @@ return new class extends Migration {
     {
         Schema::create('marketed_projects', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('project_id')->unique();
             $table->unsignedBigInteger('sort_order')->unique();
             $table->date('date_start')->useCurrent();
             $table->date('date_end');
             $table->foreign('sort_order')->references('sort_order')->on('projects_marketing');
+            $table->foreign('project_id')->references('id')->on('projects');
         });
     }
 

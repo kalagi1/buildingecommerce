@@ -14,8 +14,8 @@ class MarketingController extends Controller
 $results = DB::table('projects')
 ->orderByRaw('
 CASE
-   WHEN order = 0 THEN 1
-   ELSE 0
+ WHEN order = 0 THEN 1
+ ELSE 0
 END,
 view_count DESC
 ')
@@ -23,7 +23,9 @@ view_count DESC
 */
     public function marketing()
     {
-        $projects = Project::select()->join('marketed_projects', 'marketed_projects.project_id', '<>', 'projects.id')->get();
+        $projects = Project::whereNotIn('id', function ($query) {
+            $query->select('project_id')->from('marketed_projects');
+        })->get();
         $avaliableMarketings = ProjectMarketing::whereNotIn('sort_order', function ($query) {
             $query->select('sort_order')->from('marketed_projects');
         })->get();
@@ -44,7 +46,7 @@ view_count DESC
         $postData = $req->validate([
             'project_id' => 'required|integer',
             //veritabanında veri var mı kontrolü eklenecek
-            'marketing_id' => 'required|integer',
+            'sort_order' => 'required|integer',
             'months' => 'required|integer'
         ]);
         $month = $postData['months'];
@@ -53,7 +55,7 @@ view_count DESC
 
         MarketedProject::create([
             'project_id' => $postData['project_id'],
-            'marketing_id' => $postData['marketing_id'],
+            'sort_order' => $postData['sort_order'],
             'date_start' => $date_start,
             'date_end' => $date_end
         ]);
@@ -80,6 +82,16 @@ view_count DESC
     }
     public function getMarketing(Request $req)
     {
+        $results = DB::table('projects')
+            ->orderByRaw('
+        CASE
+           WHEN sort_order = NULL THEN 1
+           ELSE NULL
+        END,
+        view_count DESC
+        ')
+            ->get();
+        return $results;
         $sort_order = $req->sort_order;
         $marketing = ProjectMarketing::where('sort_order', $sort_order);
         return $marketing;
@@ -90,11 +102,10 @@ view_count DESC
 
         $marketedProjects = MarketedProject::select(
             'projects.project_title',
-            'projects_marketing.sort_order',
+            'marketed_projects.sort_order',
             'marketed_projects.date_start',
             'marketed_projects.date_end'
         )->join('projects', 'projects.id', '=', 'marketed_projects.project_id')
-            ->join('projects_marketing', 'projects_marketing.sort_order', '=', 'projects.sort_order')
             ->get();
         return view('admin.marketing.marketed', compact('marketedProjects'));
     }

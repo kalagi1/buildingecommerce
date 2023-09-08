@@ -346,90 +346,17 @@
             <div class="row">
                 <div class="col-md-12">
                 </div>
-                <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                    <!-- Image Box -->
-                    <a href="projects.html" class="img-box hover-effect">
-                        <img src="https://cdn.dsmcdn.com/ty866/campaign/banners/original/618435/d52d6e00a5_0.jpg"
-                            class="img-fluid w100" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                    <!-- Image Box -->
-                    <a href="projects.html" class="img-box hover-effect">
-                        <img src="https://cdn.dsmcdn.com/ty866/campaign/banners/original/618435/d52d6e00a5_0.jpg"
-                            class="img-fluid w100" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                    <!-- Image Box -->
-                    <a href="projects.html" class="img-box hover-effect">
-                        <img src="https://cdn.dsmcdn.com/ty866/campaign/banners/original/618435/d52d6e00a5_0.jpg"
-                            class="img-fluid w100" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                    <!-- Image Box -->
-                    <a href="projects.html" class="img-box hover-effect">
-                        <img src="https://cdn.dsmcdn.com/ty866/campaign/banners/original/618435/d52d6e00a5_0.jpg"
-                            class="img-fluid w100" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                    <!-- Image Box -->
-                    <a href="projects.html" class="img-box hover-effect">
-                        <img src="https://cdn.dsmcdn.com/ty866/campaign/banners/original/618435/d52d6e00a5_0.jpg"
-                            class="img-fluid w100" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                    <!-- Image Box -->
-                    <a href="projects.html" class="img-box hover-effect">
-                        <img src="https://cdn.dsmcdn.com/ty866/campaign/banners/original/618435/d52d6e00a5_0.jpg"
-                            class="img-fluid w100" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                    <!-- Image Box -->
-                    <a href="projects.html" class="img-box hover-effect">
-                        <img src="https://cdn.dsmcdn.com/ty866/campaign/banners/original/618435/d52d6e00a5_0.jpg"
-                            class="img-fluid w100" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                    <!-- Image Box -->
-                    <a href="projects.html" class="img-box hover-effect">
-                        <img src="https://cdn.dsmcdn.com/ty866/campaign/banners/original/618435/d52d6e00a5_0.jpg"
-                            class="img-fluid w100" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                    <!-- Image Box -->
-                    <a href="projects.html" class="img-box hover-effect">
-                        <img src="https://cdn.dsmcdn.com/ty866/campaign/banners/original/618435/d52d6e00a5_0.jpg"
-                            class="img-fluid w100" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                    <!-- Image Box -->
-                    <a href="projects.html" class="img-box hover-effect">
-                        <img src="https://cdn.dsmcdn.com/ty866/campaign/banners/original/618435/d52d6e00a5_0.jpg"
-                            class="img-fluid w100" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                    <!-- Image Box -->
-                    <a href="projects.html" class="img-box hover-effect">
-                        <img src="https://cdn.dsmcdn.com/ty866/campaign/banners/original/618435/d52d6e00a5_0.jpg"
-                            class="img-fluid w100" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                    <!-- Image Box -->
-                    <a href="projects.html" class="img-box hover-effect">
-                        <img src="https://cdn.dsmcdn.com/ty866/campaign/banners/original/618435/d52d6e00a5_0.jpg"
-                            class="img-fluid w100" alt="">
-                    </a>
-                </div>
+                @foreach ($projects as $item)
+                    <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
+                        <!-- Image Box -->
+                        <a href="projects.html" class="img-box hover-effect">
+                            <img src="{{ asset('storage/' . $item->image) }}" class="img-fluid w100" alt="">
+                            {{ $item->project_title }}
+                        </a>
+                    </div>
+                @endforeach
+
+
             </div>
         </div>
     </section>
@@ -482,7 +409,8 @@
                                         <!-- homes content -->
                                         <div class="homes-content">
                                             <!-- homes address -->
-                                            <h3><a href="{{ route('housing.show', $item->id) }}"">{{ $item->title }}</a></h3>
+                                            <h3><a href="{{ route('housing.show', $item->id) }}"">{{ $item->title }}</a>
+                                            </h3>
                                             <p class="homes-address mb-3">
                                                 <a href="{{ route('housing.show', $item->id) }}">
                                                     <i class="fa fa-map-marker"></i><span>{{ $item->address }}</span>

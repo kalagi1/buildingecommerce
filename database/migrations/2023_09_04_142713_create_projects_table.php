@@ -21,12 +21,10 @@ return new class extends Migration {
             $table->unsignedBigInteger('status_id');
             $table->string('image');
             $table->integer('view_count')->default(0);
-            $table->unsignedBigInteger('sort_order')->nullable();
             $table->timestamps();
 
             $table->foreign('status_id')->references('id')->on('housing_status');
             $table->foreign('housing_type_id')->references('id')->on('housing_types');
-            $table->foreign('sort_order')->references('sort_order')->on('marketed_projects');
         });
     }
 
