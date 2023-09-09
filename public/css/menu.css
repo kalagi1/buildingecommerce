@@ -663,7 +663,7 @@ a.button {
 #navigation.style-1 ul a {
     font-weight: 600;
     color: #333;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 34px;
     padding: 0;
     display: flex;
@@ -1570,7 +1570,7 @@ em.mm-counter+a.mm-fullsubopen+span {
     border-radius: 50%;
     color: #fff;
     line-height: 23px;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
 }
 

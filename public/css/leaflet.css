@@ -419,7 +419,7 @@
 
 .leaflet-container .leaflet-control-attribution,
 .leaflet-container .leaflet-control-scale {
-    font-size: 11px;
+    font-size: 13px;
 }
 
 .leaflet-left .leaflet-control-scale {
@@ -435,7 +435,7 @@
     border-top: none;
     line-height: 1.1;
     padding: 2px 5px 1px;
-    font-size: 11px;
+    font-size: 13px;
     white-space: nowrap;
     overflow: hidden;
     -moz-box-sizing: content-box;

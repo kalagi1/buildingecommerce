@@ -395,7 +395,7 @@ html[data-lc-type=image] #lightcase-content .lightcase-contentInner {
 }
 /* line 39, ../scss/components/modules/_info.scss */
 #lightcase-info #lightcase-sequenceInfo {
-  font-size: 11px;
+  font-size: 13px;
   color: #aaa;
 }
 @media screen and (max-width: 640px) {
