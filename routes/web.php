@@ -60,8 +60,7 @@ Route::get('/logout', [ClientLoginController::class, "logout"])->name('user.logo
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'admin']], function () {
 
-    Route::get('info/about-us', [InfoController::class, 'about'])->name('info.about.index');
-    Route::post('info/setAboutUs', [InfoController::class, 'aboutUsSetOrEdit'])->name('info.about.set');
+
     Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
     Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
 

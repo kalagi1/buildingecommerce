@@ -12,16 +12,17 @@
                             <div class="p-4 code-to-copy">
                                 <form action="{{ route('admin.marketing.projects.store') }}" method="POST">
                                     @csrf
+                                    <small>NOT:Sıra zaten kayıtlı ise fiyat güncellemesi yapılır</small>
                                     <div class="d-flex align-items-center justify-content-end my-3 row">
 
                                         <div class="col-md-5">
-                                            <label class="form-label" for="sort_order">Sort Order</label>
+                                            <label class="form-label" for="sort_order">Sıra</label>
                                             <input name="sort_order" class="form-control" id="sort_order" type="text"
                                                 value="" required="">
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-5">
-                                            <label class="form-label" for="price">Price</label>
+                                            <label class="form-label" for="price">Fiyat</label>
                                             <input name="price" class="form-control" id="price" type="text"
                                                 value="" required="">
                                             <div class="valid-feedback">Looks good!</div>
@@ -31,7 +32,7 @@
                                             <button class="btn btn-phoenix-success btn-sm "
                                                 style="width: 100%; height:100%;margin-top: 20px" type="submit">
                                                 <span class="fas fa-save" data-fa-transform="shrink-3 down-2"></span>
-                                                <span class="ms-1">Save</span>
+                                                <span class="ms-1">Kaydet</span>
                                             </button>
                                         </div>
 
@@ -44,9 +45,9 @@
                                     <table class="table table-sm border-top border-200 fs--1 mb-0">
                                         <thead>
                                             <tr>
-                                                <th>Sort Order</th>
-                                                <th>Price</th>
-                                                <th>Status</th>
+                                                <th>Sıra</th>
+                                                <th>Fiyat</th>
+                                                <th>Durum</th>
                                             </tr>
                                         </thead>
                                         <tbody class="list" id="bulk-select-body"></tbody>
@@ -79,7 +80,7 @@
 
 
                                 <div class="col-md-4">
-                                    <label class="form-label" for="projects">Projects</label>
+                                    <label class="form-label" for="projects">Projeler</label>
                                     <select name="project_id" class="form-select" id="validationCustom04" required="">
                                         <option selected disabled>Seç...</option>
                                         @foreach ($projects as $item)
@@ -89,7 +90,7 @@
 
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label" for="sort_order">Sort Order</label>
+                                    <label class="form-label" for="sort_order">Sıra</label>
                                     <select name="sort_order" class="form-select" id="sort_order" required="">
                                         <option selected disabled>Seç...</option>
                                         @foreach ($avaliableMarketings as $item)
@@ -100,7 +101,7 @@
 
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label" for="months">Months</label>
+                                    <label class="form-label" for="months">Fiyat</label>
                                     <input name="months" class="form-control" id="months" type="text" value=""
                                         required="">
                                     <div class="valid-feedback">Looks good!</div>
@@ -108,7 +109,7 @@
 
 
                                 <div class="col-12">
-                                    <button class="btn btn-primary" type="submit">Kaydet</button>
+                                    <button class="btn btn-primary" type="submit">Sıra ataması yap</button>
                                 </div>
 
                             </form>

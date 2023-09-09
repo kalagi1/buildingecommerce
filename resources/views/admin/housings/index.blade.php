@@ -24,9 +24,9 @@
                                                 <thead>
                                                     <tr>
                                                         <th>ID</th>
-                                                        <th>Title</th>
-                                                        <th>Housing Type</th>
-                                                        <th>Created At</th>
+                                                        <th>Başlık</th>
+                                                        <th>Daire Türü</th>
+                                                        <th>Oluşturulma Tarihi</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="list" id="bulk-select-body"></tbody>
