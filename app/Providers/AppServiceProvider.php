@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\FooterLink;
+use App\Models\Menu;
 use App\Models\SocialMediaIcon;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -28,13 +29,15 @@ class AppServiceProvider extends ServiceProvider
         View::composer("client*", function ($view) {
             $footerLinks = FooterLink::all();
             $socialMediaIcons = SocialMediaIcon::all();
-
+            $menu = Menu::getMenuItems();
             $widgetGroups = FooterLink::select('widget')
                 ->distinct()
                 ->get();
             $view->with('footerLinks', $footerLinks);
             $view->with('widgetGroups', $widgetGroups);
             $view->with("socialMediaIcons", $socialMediaIcons);
+            $view->with("menu", $menu);
+
 
         });
 

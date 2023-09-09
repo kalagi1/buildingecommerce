@@ -20519,7 +20519,7 @@ Version      : 1.2
         background-color: #eaedf3;
         border-radius: 0 2px 2px 0;
         display: inline-block;
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 600;
         line-height: 1.2727272727;
         margin: 2px 15px 5px 0;
@@ -23293,7 +23293,7 @@ Version      : 1.2
     .map-popup-content-wrapper .close {
         color: #fff;
         display: block;
-        font-size: 11px;
+        font-size: 13px;
         opacity: 1;
         position: absolute;
         right: 15px;
@@ -23573,7 +23573,7 @@ Version      : 1.2
     .noUi-horizontal .noUi-tooltip {
         bottom: auto;
         top: 23px;
-        font-size: 11px;
+        font-size: 13px;
         background: rgba(0, 0, 0, 0.05);
         border: none;
         padding: 3px 4px;
@@ -24821,7 +24821,7 @@ Version      : 1.2
         outline: none;
         padding-left: 20px;
         position: relative;
-        font-size: 11px;
+        font-size: 13px;
         text-transform: uppercase;
         font-weight: bold;
         letter-spacing: 1px;
@@ -25011,7 +25011,7 @@ Version      : 1.2
     .ui-elements .barfiller .tip {
         margin-top: -30px;
         padding: 2px 4px;
-        font-size: 11px;
+        font-size: 13px;
         color: #fff;
         left: 0px;
         position: absolute;
@@ -25636,7 +25636,7 @@ Version      : 1.2
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 600;
         line-height: 15px;
         white-space: nowrap;
@@ -25677,8 +25677,9 @@ Version      : 1.2
     }
 
     .loginItems {
-        margin-top: 100px;
-        margin-bottom: 100px;
+        padding-bottom: 100px;
+        padding-top: 100px;
+        background-color: #f2f2f2;
     }
 
     .loginItems .button {
@@ -25719,13 +25720,60 @@ Version      : 1.2
     }
 
     .loginItems input {
-        margin: .8rem;
+        width: 100% !important;
+        border-radius: 3px !important;
+        background-color: #fafafa !important;
+        width: inherit;
+        height: 40px;
+        padding: 10px;
+        color: #666;
+        height: 40px;
     }
 
-    .loginItems input[type="email"] {
-        border: 1px gray solid;
+    .social-account-login-buttons .social-login-button {
+        background-color: #fff;
+        font-size: 14px;
+        border-radius: 6px;
+        border: solid 1px #e6e6e6;
+        padding: 8px 10px;
+        align-items: flex-start;
+        align-self: flex-start;
+        line-height: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .forgot-password {
+        margin-top: 15px;
+        font-size: 14px;
+        text-align: end;
+    }
+
+    .social-account-login-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .loginItems .q-button {
+        height: 44px;
+        margin-top: 20px;
+        height: 48px;
         border-radius: 4px;
-        padding: .4rem 1rem;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        font-size: 13px;
+    }
+
+    .loginItems .q-label {
+        display: block;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+        padding: 0;
+        color: #333;
+        margin-bottom: 10px;
     }
 
     .loginItems input[type="email"]:focus {

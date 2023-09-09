@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\HousingController as ClientHousingController;
+use App\Http\Controllers\Client\LoginController as ClientLoginController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\DashboardController;
@@ -52,6 +53,10 @@ Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing
 Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
 Route::get('/admin/logout', [AdminLoginController::class, "logout"])->name('admin.logout');
+
+Route::get('/login', [ClientLoginController::class, "showLoginForm"])->name('user.login');
+Route::post('/login', [ClientLoginController::class, "login"])->name('user.submit.login');
+Route::get('/logout', [ClientLoginController::class, "logout"])->name('user.logout');
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'admin']], function () {
 

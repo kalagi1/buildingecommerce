@@ -173,7 +173,7 @@
 .map-popup-content-wrapper .close {
     color: #fff;
     display: block;
-    font-size: 11px;
+    font-size: 13px;
     opacity: 1;
     position: absolute;
     right: 15px;
@@ -469,7 +469,7 @@
     background-color: #3685cf;
     display: block;
     color: #fff;
-    font-size: 12px;
+    font-size: 13px;
     z-index: 101;
     text-align: center;
     -webkit-transition: all .2s ease-in-out;
@@ -1948,7 +1948,7 @@ img.mfp-img {
 .mfp-figure small {
     color: #bdbdbd;
     display: block;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 14px
 }
 
