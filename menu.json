@@ -1,0 +1,232 @@
+[
+    {
+        "id": "role",
+        "label": "Yönetim",
+        "icon": "user",
+        "text": "Roller",
+        "key": "Roles",
+        "url": "#nv-role",
+        "activePath": "admin/roles*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateRole",
+                "url": "admin.roles.create",
+                "activePath": "admin/roles/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetRoles",
+                "url": "admin.roles.index",
+                "activePath": "admin/roles"
+            }
+        ]
+    },
+    {
+        "id": "page",
+        "label": "Yönetim",
+        "icon": "file",
+        "text": "Sayfalar",
+        "key": "Pages",
+        "url": "#nv-page",
+        "activePath": "admin/pages*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreatePage",
+                "url": "admin.pages.create",
+                "activePath": "admin/pages/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetPages",
+                "url": "admin.pages.index",
+                "activePath": "admin/pages"
+            }
+        ]
+    },
+    {
+        "id": "permission_group",
+        "label": "Yönetim",
+        "icon": "link",
+        "text": "İzin Grupları",
+        "key": "PermissionGroups",
+        "url": "#nv-permission-group",
+        "activePath": "admin/permission_groups*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreatePermissionGroup",
+                "url": "admin.permission_groups.create",
+                "activePath": "admin/permission_groups/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetPermissionGroups",
+                "url": "admin.permission_groups.index",
+                "activePath": "admin/permission_groups"
+            }
+        ]
+    },
+    {
+        "id": "permission",
+        "label": "Yönetim",
+        "icon": "link-2",
+        "text": "İzinler",
+        "key": "Permissions",
+        "url": "#nv-permissions",
+        "activePath": "admin/permissions*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreatePermission",
+                "url": "admin.permissions.create",
+                "activePath": "admin/permissions/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetPermissions",
+                "url": "admin.permissions.index",
+                "activePath": "admin/permissions"
+            }
+        ]
+    },
+    {
+        "id": "user",
+        "label": "Yönetim",
+        "icon": "user",
+        "text": "Kullanıcılar",
+        "key": "Users",
+        "url": "#nv-users",
+        "activePath": "admin/users*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateUser",
+                "url": "admin.users.create",
+                "activePath": "admin/users/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetUsers",
+                "url": "admin.users.index",
+                "activePath": "admin/users"
+            }
+        ]
+    },
+    {
+        "id": "housing",
+        "label": "Uygulama",
+        "icon": "home",
+        "text": "Konutlar",
+        "key": "Housings",
+        "url": "#nv-housing",
+        "activePath": "admin/housing*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateHousing",
+                "url": "admin.housings.create",
+                "activePath": "admin/housing/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetHousings",
+                "url": "admin.housings.index",
+                "activePath": "admin/housing"
+            }
+        ]
+    },
+    {
+        "id": "housing_types",
+        "label": "Uygulama",
+        "icon": "info",
+        "text": "Konut Tipleri",
+        "key": "HousingTypes",
+        "url": "#nv-housing-types",
+        "activePath": "admin/housing_types*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateHousingType",
+                "url": "admin.housing_types.create",
+                "activePath": "admin/housing_types/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetHousingTypes",
+                "url": "admin.housing_types.index",
+                "activePath": "admin/housing_types"
+            }
+        ]
+    },
+    {
+        "id": "projects",
+        "label": "Uygulama",
+        "icon": "globe",
+        "text": "Projeler",
+        "key": "Projects",
+        "url": "#nv-projects",
+        "activePath": "admin/projects*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateProject",
+                "url": "admin.projects.create",
+                "activePath": "admin/projects/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetProjects",
+                "url": "admin.projects.index",
+                "activePath": "admin/projects"
+            }
+        ]
+    },
+    {
+        "id": "settings",
+        "label": "Yönetim",
+        "icon": "lock",
+        "text": "Ayarlar",
+        "key": "SiteSettings",
+        "url": "#nv-settings",
+        "activePath": "admin/settings*",
+        "subMenu": [
+            {
+                "text": "Genel Ayarlar",
+                "key": "GetSiteSettings",
+                "url": "admin.site-settings.index",
+                "activePath": "admin/site-settings"
+            },
+            {
+                "text": "SMTP Ayarları",
+                "key": "GetSmtpSettingById",
+                "url": "admin.smtp.edit",
+                "activePath": "admin/smtp/edit"
+            }
+        ]
+    },
+    {
+        "id": "marketings",
+        "label": "Uygulama",
+        "icon": "shopping-bag",
+        "text": "Pazarlama",
+        "key": "Marketings",
+        "url": "#nv-marketings",
+        "activePath": "admin/marketings*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateMarketing",
+                "url": "admin.marketing.projects.index",
+                "activePath": "admin/marketing/project"
+            },
+            {
+                "text": "Listele",
+                "key": "GetMarketings",
+                "url": "admin.marketing.projects.marketed",
+                "activePath": "admin/marketing/project/marketed"
+            }
+        ]
+    }
+]

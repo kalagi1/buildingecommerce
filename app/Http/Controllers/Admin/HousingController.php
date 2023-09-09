@@ -30,7 +30,7 @@ class HousingController extends Controller
             'housing_types.form_json'
         )->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
             ->get();
-        return view('admin.housing.index', ['housing' => $housing]);
+        return view('admin.housings.index', ['housing' => $housing]);
         //
     }
 
@@ -44,7 +44,7 @@ class HousingController extends Controller
         $cities = City::get();
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
-        return view('admin.housing.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status,'cities' => $cities, 'brands' => $brands]);
+        return view('admin.housings.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status,'cities' => $cities, 'brands' => $brands]);
     }
 
     /**
@@ -85,7 +85,7 @@ class HousingController extends Controller
             'city_id',
             "county_id"
         ];
-        
+
         $files = [];
 
         for($k = 0 ; $k < count($request->file('images')); $k++){

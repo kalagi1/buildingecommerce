@@ -8,13 +8,13 @@
                     data-list='{"valueNames":["projectName","assigness","start","deadline","task","projectprogress","status","action"],"page":12,"pagination":true}'>
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
-                            <h2 class="mb-0">Pages<span class="fw-normal text-700 ms-3">({{ count($pages) }})</span>
+                            <h2 class="mb-0">Sayfalar<span class="fw-normal text-700 ms-3">({{ count($pages) }})</span>
                             </h2>
                         </div>
                         <div class="col-auto">
                             <div class="col-auto">
                                 <a class="btn btn-primary px-5" href="{{ route('admin.pages.create') }}">
-                                    <i class="fa-solid fa-plus me-2"></i>Add New Page
+                                    <i class="fa-solid fa-plus me-2"></i>Yeni Ekle
                                 </a>
                             </div>
                         </div>
@@ -38,8 +38,8 @@
                                     <tr>
                                         <th style="width:15%;">ID</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="projectName" style="width:60%;">PAGE TITLE</th>
-                                        <th style="width:10%;">Action</th>
+                                            data-sort="projectName" style="width:60%;">SAYFA</th>
+                                        <th>İŞLEMLER</th>
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="project-list-table-body">
@@ -48,14 +48,23 @@
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $page->title }}</td>
                                             <td>
-                                                <a href="{{ route('admin.pages.edit', $page->id) }}"
-                                                    class="btn btn-sm btn-primary">Edit</a>
+                                                @if (in_array('GetPageById', $userPermissions) && in_array('UpdatePage', $userPermissions))
+                                                    <a href="{{ route('admin.pages.edit', $page->id) }}"
+                                                        class="btn btn-sm btn-primary">Güncelle</a>
+                                                @elseif (in_array('GetPageById', $userPermissions))
+                                                    <a href="{{ route('admin.pages.edit', $page->id) }}"
+                                                        class="btn btn-sm btn-primary">Önizle</a>
+                                                @endif
+                                                @if (in_array('DeletePage', $userPermissions))
+                                                    <!-- Silme işlemi için modal -->
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal{{ $page->id }}">
+                                                        Sil
+                                                    </button>
+                                                @endif
 
-                                                <!-- Silme işlemi için modal -->
-                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $page->id }}">
-                                                    Delete
-                                                </button>
+
 
 
                                                 <!-- Silme işlemi için modal -->
@@ -66,7 +75,7 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title"
-                                                                    id="deleteModalLabel{{ $page->id }}">Delete page
+                                                                    id="deleteModalLabel{{ $page->id }}">Sil
                                                                 </h5>
                                                                 <button type="button" class="btn p-1"
                                                                     data-bs-dismiss="modal" aria-label="Close">
@@ -82,9 +91,8 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <p class="text-700 lh-lg mb-0">Are you sure you want to
-                                                                    delete
-                                                                    this page?</p>
+                                                                <p class="text-700 lh-lg mb-0">Silmek istediğinize emin
+                                                                    misiniz ?</p>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <form
@@ -92,11 +100,11 @@
                                                                     method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <button type="submit" class="btn btn-danger">Yes,
-                                                                        Delete</button>
+                                                                    <button type="submit" class="btn btn-danger">Evet,
+                                                                        Sil</button>
                                                                 </form>
                                                                 <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Cancel</button>
+                                                                    data-bs-dismiss="modal">İptal</button>
                                                             </div>
                                                         </div>
                                                     </div>

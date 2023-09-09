@@ -16,7 +16,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return view('admin.project.index');
+        return view('admin.projects.index');
     }
 
     /**
@@ -26,7 +26,7 @@ class ProjectController extends Controller
     {
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
-        return view('admin.project.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status]);
+        return view('admin.projects.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status]);
     }
 
     /**
@@ -51,7 +51,7 @@ class ProjectController extends Controller
         }
         return $dynamicDatas;
         ProjectHousings::insert($dynamicDatas);
-        return redirect()->route('admin.project.create')->with('success', 'Project and housings created successfully');
+        return redirect()->route('admin.projects.create')->with('success', 'Project and housings created successfully');
     }
 
     /**

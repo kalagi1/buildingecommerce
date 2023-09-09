@@ -8,13 +8,13 @@
                     data-list='{"valueNames":["projectName","assigness","start","deadline","task","projectprogress","status","action"],"page":12,"pagination":true}'>
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
-                            <h2 class="mb-0">Roles<span class="fw-normal text-700 ms-3">({{ count($roles) }})</span>
+                            <h2 class="mb-0">Roller<span class="fw-normal text-700 ms-3">({{ count($roles) }})</span>
                             </h2>
                         </div>
                         <div class="col-auto">
                             <div class="col-auto">
                                 <a class="btn btn-primary px-5" href="{{ route('admin.roles.create') }}">
-                                    <i class="fa-solid fa-plus me-2"></i>Add New Role
+                                    <i class="fa-solid fa-plus me-2"></i>Yeni Ekle
                                 </a>
                             </div>
                         </div>
@@ -39,8 +39,8 @@
                                     <tr>
                                         <th style="width:15%;">ID</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="projectName" style="width:60%;">ROLE NAME</th>
-                                        <th style="width:10%;">Action</th>
+                                            data-sort="projectName" style="width:60%;">ROL</th>
+                                        <th>İŞLEMLER</th>
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="project-list-table-body">
@@ -50,24 +50,26 @@
                                             <td>{{ $role->name }}</td>
                                             <td>
                                                 <a href="{{ route('admin.roles.edit', $role->id) }}"
-                                                    class="btn btn-sm btn-primary">Edit</a>
+                                                    class="btn btn-sm btn-primary">Güncelle</a>
 
                                                 <!-- Silme işlemi için modal -->
                                                 <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                                     data-bs-target="#deleteModal{{ $role->id }}">
-                                                    Delete
+                                                    Sil
                                                 </button>
 
                                                 <!-- Silme işlemi için modal -->
                                                 <div class="modal fade" id="deleteModal{{ $role->id }}" tabindex="-1"
-                                                    aria-labelledby="deleteModalLabel{{ $role->id }}" aria-hidden="true">
+                                                    aria-labelledby="deleteModalLabel{{ $role->id }}"
+                                                    aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title"
-                                                                    id="deleteModalLabel{{ $role->id }}">Delete Role</h5>
-                                                                <button type="button" class="btn p-1" data-bs-dismiss="modal"
-                                                                    aria-label="Close">
+                                                                    id="deleteModalLabel{{ $role->id }}">Sil
+                                                                </h5>
+                                                                <button type="button" class="btn p-1"
+                                                                    data-bs-dismiss="modal" aria-label="Close">
                                                                     <svg class="svg-inline--fa fa-xmark fs--1"
                                                                         aria-hidden="true" focusable="false"
                                                                         data-prefix="fas" data-icon="xmark" role="img"
@@ -80,8 +82,8 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <p class="text-700 lh-lg mb-0">Are you sure you want to delete
-                                                                    this role?</p>
+                                                                <p class="text-700 lh-lg mb-0">Silmek istediğinize emin
+                                                                    misiniz ?</p>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <form
@@ -89,11 +91,11 @@
                                                                     method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
-                                                                    <button type="submit" class="btn btn-danger">Yes,
-                                                                        Delete</button>
+                                                                    <button type="submit" class="btn btn-danger">Evet,
+                                                                        Sil</button>
                                                                 </form>
                                                                 <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Cancel</button>
+                                                                    data-bs-dismiss="modal">İptal</button>
                                                             </div>
                                                         </div>
                                                     </div>

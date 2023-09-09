@@ -22,13 +22,13 @@ class HousingController extends Controller
             ->leftJoin('housing_status', 'housing_status.id', '=', 'housings.status_id')
             ->where('housings.id', $id)->first();
         // return $housing;
-        return view('client.housing.detail', compact('housing', 'menu'));
+        return view('client.housings.detail', compact('housing', 'menu'));
     }
 
     public function list(){
         $housings = Housing::get();
         $menu = Menu::getMenuItems();
 
-        return view('client.housing.list',compact('housings','menu'));
+        return view('client.housings.list',compact('housings','menu'));
     }
 }

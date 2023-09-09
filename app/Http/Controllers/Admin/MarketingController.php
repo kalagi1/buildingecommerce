@@ -59,7 +59,7 @@ view_count DESC
             'date_start' => $date_start,
             'date_end' => $date_end
         ]);
-        return redirect()->route('admin.marketing.project.index')->with('success', 'Project marketed succesfully');
+        return redirect()->route('admin.marketing.projects.index')->with('success', 'Project marketed succesfully');
     }
     public function storeMarketing(Request $request)
     {
@@ -68,7 +68,7 @@ view_count DESC
             'price' => 'required|integer'
         ]);
         ProjectMarketing::create($postData);
-        return redirect()->route('admin.marketing.project.index')->with('success', 'Marketing created successfully');
+        return redirect()->route('admin.marketing.projects.index')->with('success', 'Marketing created successfully');
     }
     public function updateMarketing(Request $request)
     {
@@ -78,7 +78,7 @@ view_count DESC
         ]));
         $marketing = ProjectMarketing::where('sort_order', $postData['sort_order']);
         $marketing->update($postData);
-        return redirect()->route('admin.marketing.project.index')->with('success', 'Marketing updated successfully');
+        return redirect()->route('admin.marketing.projects.index')->with('success', 'Marketing updated successfully');
     }
     public function getMarketing(Request $req)
     {

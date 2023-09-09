@@ -18,7 +18,7 @@ use Illuminate\Support\Str;
 class ProjectController extends Controller
 {
     public function index(){
-        return view('institutional.project.index');
+        return view('institutional.projects.index');
     }
 
     public function create(){
@@ -26,7 +26,7 @@ class ProjectController extends Controller
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
         $cities = City::get();
-        return view('institutional.project.create',compact('housing_types','housing_status','brands','cities'));
+        return view('institutional.projects.create',compact('housing_types','housing_status','brands','cities'));
     }
 
     public function store(Request $request){

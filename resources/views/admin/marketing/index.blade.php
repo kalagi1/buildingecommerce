@@ -11,7 +11,7 @@
                             <div class="card-body p-4">
 
                                 <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                    action="{{ route('admin.marketing.project.setmarketed') }}">
+                                    action="{{ route('admin.marketing.projects.setmarketed') }}">
                                     @csrf
 
 
@@ -60,7 +60,7 @@
                         <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
                             <div class="card-body p-0">
                                 <div class="p-4 code-to-copy">
-                                    <form action="{{ route('admin.marketing.project.store') }}" method="POST">
+                                    <form action="{{ route('admin.marketing.projects.store') }}" method="POST">
                                         @csrf
                                         <div class="d-flex align-items-center justify-content-end my-3 row">
 
