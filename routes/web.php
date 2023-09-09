@@ -47,22 +47,13 @@ Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 
-Route::group(['prefix' => 'admin', "as" => "admin."], function () {
-
-    Route::get('info/about-us', [InfoController::class, 'about'])->name('info.about.index');
-    Route::post('info/setAboutUs', [InfoController::class, 'aboutUsSetOrEdit'])->name('info.about.set');
-    Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
-    Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
-
-
-    Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
-    Route::resource('/housing_types', HousingTypeController::class);
-    Route::resource('/housing', HousingController::class);
 Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
 Route::get('/admin/logout', [AdminLoginController::class, "logout"])->name('admin.logout');
-
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'admin']], function () {
+
+
+
     Route::middleware(['checkPermission:GetHousingTypeForm'])->group(function () {
         Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
     });
@@ -83,6 +74,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'a
 
     Route::middleware(['checkPermission:GetHousingTypes'])->group(function () {
         Route::get('/housing_types', [HousingTypeController::class, 'index'])->name('housing_types.index');
+        Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
     });
 
     Route::middleware(['checkPermission:DeleteHousingType'])->group(function () {
@@ -290,6 +282,8 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'a
 
     Route::get('/smtp/edit', [SmtpSettingController::class, 'edit'])->name('smtp.edit')->middleware('checkPermission:GetSmtpSettingById');
     Route::put('/smtp/update', [SmtpSettingController::class, 'update'])->name('smtp.update')->middleware('checkPermission:UpdateSmtpSetting');
+    Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
+    Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
 
     Route::get('/marketing/project/marketed', [MarketingController::class, 'marketedProjects'])->name('marketing.projects.marketed');
     Route::get('/marketing/project', [MarketingController::class, 'marketing'])->name('marketing.projects.index');

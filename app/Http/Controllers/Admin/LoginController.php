@@ -2,6 +2,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use DB;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,6 +16,7 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        //DB::table('users')->insert(['name' => 'test', 'email' => 'test@test.com', 'password' => Hash::make('test'), 'type' => 'admin','status'=>1]);
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {

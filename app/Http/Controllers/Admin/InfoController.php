@@ -9,34 +9,10 @@ use Illuminate\Http\Request;
 
 class InfoController extends Controller
 {
-    public function about()
-    {
-        return view('admin.info.about_us');
-    }
-    public function aboutUsSetOrEdit(Request $req)
-    {
 
-        $postData = $req->validate([
-            'text' => 'required|string',
-            'image' => 'required|image'
-        ]);
-        $image = $postData['image'];
-        $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
-        $image_path = $image->storeAs('about/', $fileName, 'public');
-        $about = AboutUs::first();
-
-        if (!$about) {
-            AboutUs::create($postData);
-        } else {
-            $about->text = $postData['text'];
-            $about->image = $image_path;
-            $about->save();
-        }
-        return redirect()->route('admin.info.about.index')->with('success', 'About us info setted');
-    }
     public function contact()
     {
-
+        return view('admin.info.contact');
     }
     public function contactSetOrEdit()
     {
@@ -60,7 +36,7 @@ class InfoController extends Controller
             $contact_info_model = ContactInfo::create($contact_info);
         }
 
-        // Başarılı mesajı döndür
-        return response()->json(['success' => true, 'message' => 'İletişim bilgileri kaydedildi.'], 200);
+
+        return redirect()->route('admin.info.contact.index')->with('success', 'İletişim bilgileri kaydedildi');
     }
 }

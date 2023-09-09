@@ -20,9 +20,8 @@ class HousingController extends Controller
     public function index()
     {
         $housing = Housing::select(
+            'housings.id',
             'housings.title AS housing_title',
-            'housings.room_count',
-            'housings.square_meter',
             'housings.address',
             'housings.created_at',
             'housing_types.title as housing_type',
