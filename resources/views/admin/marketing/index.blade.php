@@ -39,58 +39,33 @@
                                     </div>
                                 </form>
                                 <div id="tableExample"
-                                    data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
-                                    <div class="table-responsive mx-n1 px-1">
-                                        <table class="table table-sm border-top border-200 fs--1 mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        Actions
-                                                    </th>
-                                                    <th>Sort Order</th>
-                                                    <th>Price</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="list" id="bulk-select-body"></tbody>
-                                        </table>
+                                data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
+                                <div class="table-responsive mx-n1 px-1">
+                                    <table class="table table-sm border-top border-200 fs--1 mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Sort Order</th>
+                                                <th>Price</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="list" id="bulk-select-body"></tbody>
+                                    </table>
+                                </div>
+                                <div
+                                    class="d-flex flex-wrap align-items-center justify-content-between py-3 pe-0 fs--1 border-bottom border-200">
+                                    <div class="d-flex">
+                                        <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
+                                            data-list-info="data-list-info"></p>
                                     </div>
-                                    <div
-                                        class="d-flex flex-wrap align-items-center justify-content-between py-3 pe-0 fs--1 border-bottom border-200">
-                                        <div class="d-flex">
-                                            <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
-                                                data-list-info="data-list-info"></p>
-                                        </div>
-                                    </form>
-                                    <div id="tableExample"
-                                        data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
-                                        <div class="table-responsive mx-n1 px-1">
-                                            <table class="table table-sm border-top border-200 fs--1 mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Sort Order</th>
-                                                        <th>Price</th>
-                                                        <th>Status</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="list" id="bulk-select-body"></tbody>
-                                            </table>
-                                        </div>
-                                        <div
-                                            class="d-flex flex-wrap align-items-center justify-content-between py-3 pe-0 fs--1 border-bottom border-200">
-                                            <div class="d-flex">
-                                                <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
-                                                    data-list-info="data-list-info"></p>
-                                            </div>
-                                            <div class="d-flex"><button class="page-link" data-list-pagination="prev"><span
-                                                        class="fas fa-chevron-left"></span></button>
-                                                <ul class="mb-0 pagination"></ul><button class="page-link pe-0"
-                                                    data-list-pagination="next"><span
-                                                        class="fas fa-chevron-right"></span></button>
-                                            </div>
-                                        </div>
+                                    <div class="d-flex"><button class="page-link" data-list-pagination="prev"><span
+                                                class="fas fa-chevron-left"></span></button>
+                                        <ul class="mb-0 pagination"></ul><button class="page-link pe-0"
+                                            data-list-pagination="next"><span
+                                                class="fas fa-chevron-right"></span></button>
                                     </div>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>
