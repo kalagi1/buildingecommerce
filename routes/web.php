@@ -168,7 +168,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'a
         Route::get('/', [AdminHomeController::class, "index"])->name("index");
     });
 
-    Route::get('/menu_management', [MenuController::class, "index"]);
+    Route::get('/menu_management', [MenuController::class, "index"])->name("menu_management");
     Route::post('/save_menu', [MenuController::class, "saveMenu"])->name('save.menu');
     Route::get('/get_menu', [MenuController::class, "getMenu"])->name('get.menu');
 

@@ -268,7 +268,7 @@
 <script>
     $('.slick-lancers').slick({
         infinite: false,
-        slidesToShow: 10.5,
+        slidesToShow: 12.5,
         slidesToScroll: 5,
         dots: false,
         arrows: false,

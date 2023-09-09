@@ -2,58 +2,59 @@
 
 @section('content')
 
-@php
-                                                function convertMonthToTurkishCharacter($date){
-                                                    $aylar = array(
-                                                        'January'    =>    'Ocak',
-                                                        'February'    =>    'Şubat',
-                                                        'March'        =>    'Mart',
-                                                        'April'        =>    'Nisan',
-                                                        'May'        =>    'Mayıs',
-                                                        'June'        =>    'Haziran',
-                                                        'July'        =>    'Temmuz',
-                                                        'August'    =>    'Ağustos',
-                                                        'September'    =>    'Eylül',
-                                                        'October'    =>    'Ekim',
-                                                        'November'    =>    'Kasım',
-                                                        'December'    =>    'Aralık',
-                                                        'Monday'    =>    'Pazartesi',
-                                                        'Tuesday'    =>    'Salı',
-                                                        'Wednesday'    =>    'Çarşamba',
-                                                        'Thursday'    =>    'Perşembe',
-                                                        'Friday'    =>    'Cuma',
-                                                        'Saturday'    =>    'Cumartesi',
-                                                        'Sunday'    =>    'Pazar',
-                                                        'Jan' => 'Oca',
-                                                        'Feb' => 'Şub',
-                                                        'Mar' => 'Mar',
-                                                        'Apr' => 'Nis',
-                                                        'May' => 'May',
-                                                        'Jun' => 'Haz',
-                                                        'Jul' => 'Tem',
-                                                        'Aug' => 'Ağu',
-                                                        'Sep' => 'Eyl',
-                                                        'Oct' => 'Eki',
-                                                        'Nov' => 'Kas',
-                                                        'Dec' => 'Ara'
-
-                                                    );
-                                                    return  strtr($date, $aylar);
-                                                }
-
-
-function getData($housing,$key){
-        $housing_type_data= json_decode($housing->housing_type_data);
-        $a = $housing_type_data->$key;
-        return $a[0];
-    }
-    
-function getImage($housing,$key){
-        $housing_type_data= json_decode($housing->housing_type_data);
-        $a = $housing_type_data->$key;
-        return $a;
-    }
-@endphp
+    @php
+        function convertMonthToTurkishCharacter($date)
+        {
+            $aylar = [
+                'January' => 'Ocak',
+                'February' => 'Şubat',
+                'March' => 'Mart',
+                'April' => 'Nisan',
+                'May' => 'Mayıs',
+                'June' => 'Haziran',
+                'July' => 'Temmuz',
+                'August' => 'Ağustos',
+                'September' => 'Eylül',
+                'October' => 'Ekim',
+                'November' => 'Kasım',
+                'December' => 'Aralık',
+                'Monday' => 'Pazartesi',
+                'Tuesday' => 'Salı',
+                'Wednesday' => 'Çarşamba',
+                'Thursday' => 'Perşembe',
+                'Friday' => 'Cuma',
+                'Saturday' => 'Cumartesi',
+                'Sunday' => 'Pazar',
+                'Jan' => 'Oca',
+                'Feb' => 'Şub',
+                'Mar' => 'Mar',
+                'Apr' => 'Nis',
+                'May' => 'May',
+                'Jun' => 'Haz',
+                'Jul' => 'Tem',
+                'Aug' => 'Ağu',
+                'Sep' => 'Eyl',
+                'Oct' => 'Eki',
+                'Nov' => 'Kas',
+                'Dec' => 'Ara',
+            ];
+            return strtr($date, $aylar);
+        }
+        
+        function getData($housing, $key)
+        {
+            $housing_type_data = json_decode($housing->housing_type_data);
+            $a = $housing_type_data->$key;
+            return $a[0];
+        }
+        
+        function getImage($housing, $key)
+        {
+            $housing_type_data = json_decode($housing->housing_type_data);
+            $a = $housing_type_data->$key;
+            return $a;
+        }
+    @endphp
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container recently-slider">
 
@@ -89,30 +90,30 @@ function getImage($housing,$key){
             <div class="portfolio ">
                 <div class="slick-lancers">
 
-                    @foreach($brands as $brand)
-                    <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                        <div class="landscapes">
-                            <div class="project-single">
-                                <div class="project-inner project-head">
-                                    <div class="homes" >
-                                        <!-- homes img -->
-                                        <a href="{{route('brand.projects',$brand->id)}}" class="homes-img" style="display:flex;justify-content:center;flex-direction:column;align-items:center;">
-                                            <img style="height: 50px;width:50px;border-radius:100%;object-fit:cover;" src="{{ asset('storage/brand_images/' . $brand->logo) }}"
-                                                alt="home-1" class="img-responsive">
-                                            <span>{{$brand->title}}</span>
-                                        </a>
+                    @foreach ($brands as $brand)
+                        <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
+                            <div class="landscapes">
+                                <div class="project-single">
+                                    <div class="project-inner project-head">
+                                        <div class="homes">
+                                            <!-- homes img -->
+                                            <a href="{{ route('brand.projects', $brand->id) }}" class="homes-img">
+                                                <img src="{{ asset('storage/brand_images/' . $brand->logo) }}"
+                                                    alt="home-1" class="img-responsive">
+                                                <span>{{ $brand->title }}</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @endforeach
-                    
                 </div>
             </div>
         </div>
     </section>
     <!-- END SECTION RECENTLY PROPERTIES -->
+
 
 
     <!-- category banner headers -->
@@ -166,8 +167,9 @@ function getImage($housing,$key){
                 @foreach ($projects as $item)
                     <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
                         <!-- Image Box -->
-                        <a href="{{route('project.detail',$item->slug)}}" class="img-box hover-effect">
-                            <img src="{{URL::to('/').'/'.str_replace("public/", "storage/", $item->image)}}" class="img-fluid w100" alt="">
+                        <a href="{{ route('project.detail', $item->slug) }}" class="img-box hover-effect">
+                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $item->image) }}"
+                                class="img-fluid w100" alt="">
                             {{ $item->project_title }}
                         </a>
                     </div>
@@ -198,63 +200,76 @@ function getImage($housing,$key){
                 <div class="slick-agents">
                     @if (count($secondhandHousings))
                         @foreach ($secondhandHousings as $housing)
-                        <div class="agents-grid col-md-6" data-aos="fade-up" data-aos-delay="150">
-                            <div class="landscapes">
-                                <div class="project-single">
-                                    <div class="project-inner project-head">
-                                        <div class="homes">
-                                            <!-- homes img -->
-                                            <a href="{{route('housing.show',$housing->id)}}" class="homes-img">
-                                                <div class="homes-tag button alt featured" style="background-color: rgba(255, 166, 0, 0.89) !important;">Öne Çıkan
-                                                </div>
-                                                <div class="homes-tag button alt sale" style="background-color: rgba(255, 1, 1, 0.849) !important;">Yeni
-                                                </div>
+                            <div class="agents-grid col-md-6" data-aos="fade-up" data-aos-delay="150">
+                                <div class="landscapes">
+                                    <div class="project-single">
+                                        <div class="project-inner project-head">
+                                            <div class="homes">
+                                                <!-- homes img -->
+                                                <a href="{{ route('housing.show', $housing->id) }}" class="homes-img">
+                                                    <div class="homes-tag button alt featured"
+                                                        style="background-color: rgba(255, 166, 0, 0.89) !important;">Öne
+                                                        Çıkan
+                                                    </div>
+                                                    <div class="homes-tag button alt sale"
+                                                        style="background-color: rgba(255, 1, 1, 0.849) !important;">Yeni
+                                                    </div>
 
-                                                <img src="{{ asset('housing_images/' . getImage($housing,'image')) }}" style="height:190px;" alt="home-1" class="img-responsive">
-                                            </a>
+                                                    <img src="{{ asset('housing_images/' . getImage($housing, 'image')) }}"
+                                                        style="height:190px;" alt="home-1" class="img-responsive">
+                                                </a>
+                                            </div>
+                                            <div class="button-effect">
+
+                                            </div>
                                         </div>
-                                        <div class="button-effect">
+                                        <!-- homes content -->
+                                        <div class="homes-content p-3" style="padding:20px !important">
+                                            <!-- homes address -->
+                                            <h3><a
+                                                    href="{{ route('housing.show', $housing->id) }}">{{ $housing->housing_title }}</a>
+                                            </h3>
+                                            <p class="homes-address mb-3">
+                                                <a href="{{ route('housing.show', $housing->id) }}">
+                                                    <i class="fa fa-map-marker"></i><span>{{ $housing->address }}</span>
+                                                </a>
+                                            </p>
+                                            <!-- homes List -->
+                                            <ul class="homes-list clearfix pb-0"
+                                                style="display: flex;justify-content:space-between">
+                                                <li class="sude-the-icons" style="width:auto !important">
+                                                    <i class="flaticon-bed mr-2" aria-hidden="true"></i>
+                                                    <span>{{ $housing->housing_type_title }}</span>
+                                                </li>
+                                                <li class="sude-the-icons" style="width:auto !important">
+                                                    <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
+                                                    <span>{{ getData($housing, 'room_count') }}</span>
+                                                </li>
+                                                <li class="sude-the-icons" style="width:auto !important">
+                                                    <i class="flaticon-square mr-2" aria-hidden="true"></i>
+                                                    <span>{{ getData($housing, 'squaremeters') }} m2</span>
+                                                </li>
+                                            </ul>
+                                            <ul class="homes-list clearfix pb-0"
+                                                style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                <li style="font-size: large; font-weight: 700;">
+                                                    {{ getData($housing, 'price') }}TL</li>
 
+                                                <li style="display: flex; justify-content: center;">
+                                                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
+                                                </li>
+                                            </ul>
+                                            <ul class="homes-list clearfix pb-0"
+                                                style="display: flex; justify-content: center;margin-top:20px !important;">
+                                                <button
+                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;">Sepete
+                                                    Ekle</button>
+
+                                            </ul>
                                         </div>
-                                    </div>
-                                    <!-- homes content -->
-                                    <div class="homes-content p-3" style="padding:20px !important">
-                                        <!-- homes address -->
-                                        <h3><a href="{{route('housing.show',$housing->id)}}">{{$housing->housing_title}}</a></h3>
-                                        <p class="homes-address mb-3">
-                                            <a href="{{route('housing.show',$housing->id)}}">
-                                                <i class="fa fa-map-marker"></i><span>{{$housing->address}}</span>
-                                            </a>
-                                        </p>
-                                        <!-- homes List -->
-                                        <ul class="homes-list clearfix pb-0" style="display: flex;justify-content:space-between">
-                                            <li class="sude-the-icons" style="width:auto !important">
-                                                <i class="flaticon-bed mr-2"  aria-hidden="true"></i>
-                                                <span>{{$housing->housing_type_title}}</span>
-                                            </li>
-                                            <li class="sude-the-icons" style="width:auto !important">
-                                                <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
-                                                <span>{{getData($housing,'room_count')}}</span>
-                                            </li>
-                                            <li class="sude-the-icons" style="width:auto !important">
-                                                <i class="flaticon-square mr-2" aria-hidden="true"></i>
-                                                <span>{{getData($housing,'squaremeters')}} m2</span>
-                                            </li>
-                                        </ul>
-                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                            <li style="font-size: large; font-weight: 700;">{{getData($housing,'price')}}TL</li>
-                                            
-                                            <li style="display: flex; justify-content: center;">{{date('j', strtotime($housing->created_at)).' '.convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at)))}}</li>
-                                        </ul>
-                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;margin-top:20px !important;">
-                                            <button style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;">Sepete
-                                                Ekle</button>
-
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     @else
                         <p>Veri Yok</p>

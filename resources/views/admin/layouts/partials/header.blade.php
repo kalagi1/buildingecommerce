@@ -95,15 +95,15 @@
                     <ul class="navbar-nav flex-column" id="navbarVerticalNav">
                         @php
                             $groupedMenuData = [];
-                            
+
                             foreach ($menuData as $menuItem) {
                                 $label = $menuItem['label'];
-                            
+
                                 // Gruplandırılmış menüyü oluştur
                                 if (!isset($groupedMenuData[$label])) {
                                     $groupedMenuData[$label] = [];
                                 }
-                            
+
                                 // Menü öğesini ilgili gruba ekle
                                 $groupedMenuData[$label][] = $menuItem;
                             }
@@ -116,40 +116,47 @@
                                 <hr class="navbar-vertical-line" />
 
                                 @foreach ($groupedMenu as $menuItem)
-                                    @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0 && $menuItem['visible'])
+                                    @if ($menuItem['visible'])
                                         <!-- Parent Menü -->
                                         <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
-                                                href="#nv-{{ $menuItem['key'] }}" role="button"
-                                                data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home">
+                                                href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif "
+                                                role="button"
+                                                @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
                                                 <div class="d-flex align-items-center">
-                                                    <div class="dropdown-indicator-icon"><span
-                                                            class="fas fa-caret-right"></span></div>
+
                                                     <span class="nav-link-icon"><span
                                                             data-feather="{{ $menuItem['icon'] }}"></span></span>
                                                     <span class="nav-link-text">{{ $menuItem['text'] }}
                                                     </span>
+                                                    @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                                    <div class="dropdown-indicator-icon" style="margin-left: 1px"><span
+                                                            class="fas fa-caret-right"></span></div>
+                                                @endif
                                                 </div>
                                             </a>
-                                            <div class="parent-wrapper label-1">
-                                                <ul class="nav collapse parent @if (request()->is($menuItem['activePath'])) show @endif"
-                                                    data-bs-parent="#navbarVerticalCollapse"
-                                                    id="nv-{{ $menuItem['key'] }}">
-                                                    @foreach ($menuItem['subMenu'] as $subMenuItem)
-                                                        @if ($subMenuItem['visible'])
-                                                            <!-- Alt Menü Öğeleri -->
-                                                            <li class="nav-item">
-                                                                <a class="nav-link @if (request()->is($subMenuItem['activePath'])) active @endif"
-                                                                    href="{{ route($subMenuItem['url']) }}"
-                                                                    data-bs-toggle="" aria-expanded="false">
-                                                                    <div class="d-flex align-items-center"><span
-                                                                            class="nav-link-text">{{ $subMenuItem['text'] }}</span>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                        @endif
-                                                    @endforeach
-                                                </ul>
-                                            </div>
+                                            @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                                <div class="parent-wrapper label-1">
+                                                    <ul class="nav collapse parent @if (request()->is($menuItem['activePath'])) show @endif"
+                                                        data-bs-parent="#navbarVerticalCollapse"
+                                                        id="nv-{{ $menuItem['key'] }}">
+                                                        @foreach ($menuItem['subMenu'] as $subMenuItem)
+                                                            @if ($subMenuItem['visible'])
+                                                                <!-- Alt Menü Öğeleri -->
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link @if (request()->is($subMenuItem['activePath'])) active @endif"
+                                                                        href="{{ route($subMenuItem['url']) }}"
+                                                                        data-bs-toggle="" aria-expanded="false">
+                                                                        <div class="d-flex align-items-center"><span
+                                                                                class="nav-link-text">{{ $subMenuItem['text'] }}</span>
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+
                                         </div>
                                     @endif
                                 @endforeach
@@ -157,31 +164,34 @@
                         @endforeach
 
 
-                       
+
                         <div class="parent-wrapper label-1">
-                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapseA"
-                                id="nv-faq2">
+                            <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapseA" id="nv-faq2">
                                 <li class="collapsed-nav-item-title d-none">Marketing</li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('admin.marketing.projects.index')}}"
-                                        data-bs-toggle="" aria-expanded="false">
-                                        <div class="d-flex align-items-center"><span class="nav-link-text">List & Create</span></div>
+                                <li class="nav-item"><a class="nav-link"
+                                        href="{{ route('admin.marketing.projects.index') }}" data-bs-toggle=""
+                                        aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">List &
+                                                Create</span></div>
                                     </a><!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('admin.marketing.projects.marketed')}}"
-                                        data-bs-toggle="" aria-expanded="false">
-                                        <div class="d-flex align-items-center"><span class="nav-link-text">Marketed</span>
+                                <li class="nav-item"><a class="nav-link"
+                                        href="{{ route('admin.marketing.projects.marketed') }}" data-bs-toggle=""
+                                        aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span
+                                                class="nav-link-text">Marketed</span>
                                         </div>
                                     </a><!-- more inner pages-->
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                        </li>
-
-
-                    </ul>
-
                 </div>
+                </li>
+
+
+                </ul>
+
+            </div>
             </div>
 
         </nav>
@@ -415,22 +425,19 @@
                                                         Değiştir</span></a></li>
                                         @endif
 
-                                        @if (in_array('ViewDashboard',
-                                                $userPermissions))
+                                        @if (in_array('ViewDashboard', $userPermissions))
                                             <li class="nav-item"><a class="nav-link px-3"
                                                     href="{{ route('admin.index') }}"><span class="me-2 text-900"
                                                         data-feather="pie-chart"></span>Anasayfa</a>
                                             </li>
                                         @endif
 
-                                        @if (in_array('CreateUser',
-                                        $userPermissions))
-                                    <li class="nav-item"><a class="nav-link px-3"
-                                            href="{{ route('admin.users.create') }}"> <span class="me-2 text-900"
-                                                data-feather="user-plus"></span>Başka bir hesap ekle</a></li>
-                               
-                              
-                                @endif
+                                        @if (in_array('CreateUser', $userPermissions))
+                                            <li class="nav-item"><a class="nav-link px-3"
+                                                    href="{{ route('admin.users.create') }}"> <span
+                                                        class="me-2 text-900" data-feather="user-plus"></span>Başka
+                                                    bir hesap ekle</a></li>
+                                        @endif
 
 
 

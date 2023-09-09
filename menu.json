@@ -1,5 +1,14 @@
 [
     {
+        "id": "menu",
+        "label": "Yönetim",
+        "icon": "menu",
+        "text": "Menü",
+        "key": "Menus",
+        "url": "admin.menu_management",
+        "activePath": "admin/menus*"
+    },
+    {
         "id": "role",
         "label": "Yönetim",
         "icon": "user",

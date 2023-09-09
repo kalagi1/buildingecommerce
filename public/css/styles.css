@@ -432,7 +432,7 @@ Version      : 1.2
     }
 
     .top-social .login-wrap ul li {
-        padding: 0px 12px;
+        padding: 0px 13px;
         position: relative;
     }
 
@@ -2316,7 +2316,8 @@ Version      : 1.2
         border-radius: 6px;
         border: none;
     }
-    .locations{
+
+    .locations {
         border: solid 1px #dcdcdc !important;
         width: 140px !important;
     }
@@ -2329,7 +2330,7 @@ Version      : 1.2
         .agents-grid {
             margin-right: 0px;
         }
-      
+
         .recently.portfolio .item.landscapes.no-pb {
             padding-bottom: 0px;
             margin-bottom: 10px !important;
@@ -3176,26 +3177,30 @@ Version      : 1.2
     }
 
     .location-card {
-        
-      
+
+
         padding: 15px 10px;
-      
-       
+
+
     }
-    .location-card .location-card-head{
+
+    .location-card .location-card-head {
         justify-content: center;
-    display: flex;
+        display: flex;
     }
-    .location-card .location-card-head img{
+
+    .location-card .location-card-head img {
         width: 50px;
     }
-    .location-card .location-card-body{
+
+    .location-card .location-card-body {
         margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    text-align: center;
+        display: flex;
+        justify-content: center;
+        text-align: center;
     }
-    .location-card .location-card-body p{
+
+    .location-card .location-card-body p {
         margin: 0;
         padding: 0;
     }
@@ -3867,7 +3872,7 @@ Version      : 1.2
         transition: all 1s;
         position: relative;
         text-transform: uppercase;
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .team-wrap:hover .team-content span a {
@@ -5520,7 +5525,7 @@ Version      : 1.2
     }
 
     .homepage-2 .rld-main-search {
-        height: 112px;
+        height: 113px;
         padding: 30px 20px 30px 20px;
         -webkit-box-shadow: 0px 0px 0px 8px rgba(255, 255, 255, 0.2);
         box-shadow: 0px 0px 0px 8px rgba(255, 255, 255, 0.2);
@@ -5724,7 +5729,7 @@ Version      : 1.2
     }
 
     .homepage-2 .portfolio .footer span {
-        margin-top: 12px;
+        margin-top: 13px;
     }
 
     /*------ register form------------------------------------------------*/
@@ -5816,7 +5821,7 @@ Version      : 1.2
     }
 
     .login-and-register-form .soc-log p {
-        margin-bottom: 12px;
+        margin-bottom: 13px;
         font-size: 18px;
         color: #454545;
         font-weight: 600;
@@ -5896,7 +5901,7 @@ Version      : 1.2
         color: #fff;
         cursor: pointer;
         -webkit-appearance: none;
-        margin-top: 12px;
+        margin-top: 13px;
     }
 
     .login-and-register-form li {
@@ -5968,7 +5973,7 @@ Version      : 1.2
     }
 
     .login-and-register-form .main-register .custom-form label {
-        padding-bottom: 12px;
+        padding-bottom: 13px;
     }
 
     .login-and-register-form .custom-form label {
@@ -6016,7 +6021,7 @@ Version      : 1.2
         color: #fff;
         cursor: pointer;
         -webkit-appearance: none;
-        margin-top: 12px;
+        margin-top: 13px;
     }
 
     .login-and-register-form .main-register .filter-tags {
@@ -6464,7 +6469,7 @@ Version      : 1.2
     }
 
     .homepage-3 .portfolio .footer span {
-        margin-top: 12px;
+        margin-top: 13px;
     }
 
     .homepage-3 .sec-title {
@@ -7005,8 +7010,8 @@ Version      : 1.2
     .header-user-name span:after {
         position: absolute;
         content: "";
-        height: 12px;
-        width: 12px;
+        height: 13px;
+        width: 13px;
         bottom: -5px;
         right: -5px;
         background-color: #38b653;
@@ -7157,7 +7162,7 @@ Version      : 1.2
     }
 
     .homepage-4 .portfolio .footer span {
-        margin-top: 12px;
+        margin-top: 13px;
     }
 
     .homepage-4 .info-help {
@@ -7324,7 +7329,7 @@ Version      : 1.2
     }
 
     .homepage-5 .rld-main-search {
-        height: 112px;
+        height: 113px;
         padding: 30px 20px 30px 20px;
         border-radius: 3px;
     }
@@ -7843,7 +7848,7 @@ Version      : 1.2
     }
 
     .hp-6 .rld-main-search {
-        height: 112px;
+        height: 113px;
         padding: 30px 20px 30px 20px;
         border-radius: 3px;
     }
@@ -8007,7 +8012,7 @@ Version      : 1.2
         padding: 10px 10px 10px 0;
         position: relative;
         z-index: 106;
-        font-size: 12px;
+        font-size: 13px;
         border: 1px solid transparent;
     }
 
@@ -8025,7 +8030,7 @@ Version      : 1.2
         width: 100px;
         z-index: 105;
         background: #fff;
-        padding: 10px 0 12px;
+        padding: 10px 0 13px;
         border-radius: 4px;
         border: 1px solid #eee;
         border-top: none;
@@ -8692,7 +8697,7 @@ Version      : 1.2
     .hp-6 .checkboxes input[type=checkbox]:checked+label:before {
         content: "\f00c";
         font-family: "FontAwesome";
-        font-size: 12px;
+        font-size: 13px;
         color: #fff;
         text-align: center;
         line-height: 15px;
@@ -8945,7 +8950,7 @@ Version      : 1.2
 
     .search-2 .trip-search.vid {
         background: #fff;
-        padding: 12px;
+        padding: 13px;
         border: 1px solid rgba(255, 255, 255, 0.88);
         border-radius: 50px;
         text-align: left;
@@ -9801,7 +9806,7 @@ Version      : 1.2
     }
 
     .swiper_imgbox .swipper_img>h4 {
-        font-size: 12px;
+        font-size: 13px;
         letter-spacing: 8px;
         text-transform: uppercase;
         color: #c18847;
@@ -9814,7 +9819,7 @@ Version      : 1.2
         text-transform: uppercase;
         font-weight: 400;
         color: #252a2d;
-        letter-spacing: 12px;
+        letter-spacing: 13px;
         position: absolute;
         left: 10px;
         right: 0;
@@ -10117,7 +10122,7 @@ Version      : 1.2
             left: 48%;
             -webkit-transform: translate(-50px, 20px);
             transform: translate(-50px, 20px);
-            bottom: 12px;
+            bottom: 13px;
         }
 
         .main_imgblock {
@@ -10241,7 +10246,7 @@ Version      : 1.2
         line-height: 53px;
         background: #c18847;
         display: inline-block;
-        padding: 0px 12px;
+        padding: 0px 13px;
         position: absolute;
         top: 0;
         right: -29px;
@@ -10810,7 +10815,7 @@ Version      : 1.2
     }
 
     .int_white_bg .swiper_imgbox .swipper_img>h4 {
-        font-size: 12px;
+        font-size: 13px;
         letter-spacing: 8px;
         text-transform: uppercase;
         color: #c18847;
@@ -10823,7 +10828,7 @@ Version      : 1.2
         text-transform: uppercase;
         font-weight: 400;
         color: #f1f1f1;
-        letter-spacing: 12px;
+        letter-spacing: 13px;
         position: absolute;
         left: 10px;
         right: 0;
@@ -11644,7 +11649,7 @@ Version      : 1.2
         left: 50%;
         -webkit-transform: translate(-50%, 0);
         transform: translate(-50%, 0);
-        margin-top: -12px;
+        margin-top: -13px;
     }
 
     .single-featured-box .icon i::before {
@@ -11662,7 +11667,7 @@ Version      : 1.2
         -webkit-transition: .4s;
         transition: .4s;
         font-size: 14px;
-        margin-top: 12px;
+        margin-top: 13px;
         margin-bottom: 0;
     }
 
@@ -12938,10 +12943,10 @@ Version      : 1.2
         font-family: fontawesome;
         color: #687389;
         position: absolute;
-        top: 12px;
+        top: 13px;
         background-size: auto;
         height: 17px;
-        width: 12px;
+        width: 13px;
         left: 19px;
         background-repeat: no-repeat;
     }
@@ -14516,7 +14521,7 @@ Version      : 1.2
         border-top: 16px solid #f55d2c;
         content: "";
         height: 0;
-        left: 12px;
+        left: 13px;
         position: absolute;
         width: 0;
         -webkit-transform: rotate(0);
@@ -15832,7 +15837,7 @@ Version      : 1.2
     }
 
     .inner-pages .blog .block-heading .sorting {
-        padding: 8px 12px;
+        padding: 8px 13px;
         width: auto;
         background: #FFF;
         border: 1px solid #EEE;
@@ -15859,7 +15864,7 @@ Version      : 1.2
     .inner-pages .blog .block-heading .sorting {
         font-size: 13px;
         font-weight: 300;
-        padding: 5px 12px;
+        padding: 5px 13px;
         border: solid 1px #e7e7e7;
     }
 
@@ -16439,7 +16444,7 @@ Version      : 1.2
     .inner-pages .checkboxes input[type=checkbox]:checked+label:before {
         content: "\f00c";
         font-family: "FontAwesome";
-        font-size: 12px;
+        font-size: 13px;
         color: #fff;
         text-align: center;
         line-height: 15px;
@@ -16880,7 +16885,7 @@ Version      : 1.2
 
     .listing-details-sliders .left i {
         font-size: 23px;
-        margin-left: 12px;
+        margin-left: 13px;
         margin-top: 5px;
         color: #fff;
     }
@@ -17229,7 +17234,7 @@ Version      : 1.2
         cursor: pointer;
         font-size: 14px;
         text-transform: capitalize;
-        padding-top: 12px;
+        padding-top: 13px;
         margin-top: 10px;
         margin-bottom: 0px;
         -webkit-transition: all .3s ease;
@@ -17536,7 +17541,7 @@ Version      : 1.2
         .inner-pages .single.homes-content .homes-list li {
             width: 100%;
             line-height: 27px;
-            margin-bottom: 12px;
+            margin-bottom: 13px;
         }
 
         .inner-pages .homes-content.details.mb-30 .homes-list {
@@ -17550,7 +17555,7 @@ Version      : 1.2
         }
 
         .inner-pages.st-1 .blog .homes-content .homes-list li:last-child {
-            margin-left: 12px;
+            margin-left: 13px;
         }
 
         .property .popup-youtube,
@@ -17904,7 +17909,7 @@ Version      : 1.2
     .inner-pages .photoUpload {
         position: relative;
         overflow: hidden;
-        padding: 3px 12px;
+        padding: 3px 13px;
         cursor: pointer;
     }
 
@@ -18026,7 +18031,7 @@ Version      : 1.2
     .inner-pages .commented .rest img {
         width: 165px;
         height: 110px;
-        margin-top: 12px;
+        margin-top: 13px;
         border-radius: 3px;
         margin-right: 15px;
     }
@@ -18404,7 +18409,7 @@ Version      : 1.2
         transition: all 1s;
         position: relative;
         text-transform: uppercase;
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .inner-pages .team-wrap:hover .team-content span a {
@@ -19978,7 +19983,7 @@ Version      : 1.2
     }
 
     .my-properties table tbody tr td .price {
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 500;
     }
 
@@ -21088,7 +21093,7 @@ Version      : 1.2
     .plan-name small {
         font-family: 'Montserrat', sans-serif;
         display: block;
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 600;
         line-height: normal;
     }
@@ -21238,7 +21243,7 @@ Version      : 1.2
         color: #fff;
         min-width: 200px;
         display: block;
-        padding: 12px;
+        padding: 13px;
         line-height: 1;
         position: relative;
         -webkit-transition: all .3s ease-in-out;
@@ -21273,7 +21278,7 @@ Version      : 1.2
 
     a.social_bt.google:before {
         content: "\f0d5";
-        top: 12px;
+        top: 13px;
     }
 
     a.social_bt.linkedin:before {
@@ -21285,7 +21290,7 @@ Version      : 1.2
     a.social_bt.linkedin:before {
         font-family: FontAwesome;
         position: absolute;
-        left: 12px;
+        left: 13px;
         top: 10px;
         font-size: 1.3rem;
         color: #fff;
@@ -21319,7 +21324,7 @@ Version      : 1.2
         display: block;
         position: relative;
         padding-left: 35px;
-        margin-bottom: 12px;
+        margin-bottom: 13px;
         cursor: pointer;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -23697,7 +23702,7 @@ Version      : 1.2
 
     @media screen and (max-width: 991px) {
         .google-maps .slider_amount {
-            font-size: 12px;
+            font-size: 13px;
         }
 
         .info-box {
@@ -23887,7 +23892,7 @@ Version      : 1.2
 
     .form-block label .error {
         color: red;
-        font-size: 12px;
+        font-size: 13px;
         margin-left: 10px;
     }
 
@@ -23906,7 +23911,7 @@ Version      : 1.2
 
     .button.small {
         padding: 6px 23px 6px 23px;
-        font-size: 12px;
+        font-size: 13px;
         color: #fff;
         background: #446BB6;
         display: inline-block;
@@ -23996,7 +24001,7 @@ Version      : 1.2
     }
 
     .ui-elements .accordion-1 .title span {
-        font-size: 12px;
+        font-size: 13px;
         line-height: 24px;
         font-weight: 400;
         text-transform: uppercase;
@@ -24168,7 +24173,7 @@ Version      : 1.2
     }
 
     .ui-elements .text-tabs .tab-title span {
-        font-size: 12px;
+        font-size: 13px;
         line-height: 24px;
         font-weight: 400;
         text-transform: uppercase;
@@ -24977,7 +24982,7 @@ Version      : 1.2
 
     .ui-elements .barfiller {
         width: 95%;
-        height: 12px;
+        height: 13px;
         background: #0f1341;
         border: none;
         position: relative;
@@ -25613,20 +25618,25 @@ Version      : 1.2
         text-align: center;
         margin-top: 10px;
         color: #333;
-        font-size: 14px;
+        font-size: 13px;
         display: block;
         transition: all ease 0.2s;
-        line-height: 14px;
+        /* line-height: 14px; */
         height: 42px;
         font-weight: 600;
-        width: 80px;
+        /* width: 80px;*/
+    }
+
+    .rightNavText {
+        font-size: 12px !important;
+        font-weight: 600 !important;
     }
 
     .new-badge {
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 600;
         line-height: 15px;
         white-space: nowrap;
@@ -25634,7 +25644,7 @@ Version      : 1.2
         color: #fff;
         background: #dc2e2e;
         border-radius: 32px;
-        margin-left: 5px;
+        margin-left: 7px;
         height: 20px;
         width: 40px;
         text-transform: initial !important;
@@ -25769,7 +25779,5 @@ Version      : 1.2
         align-items: center;
         margin: 0 auto;
         padding: 48px;
-        border-radius: 12px;
+        border-radius: 13px;
     }
-
-    
