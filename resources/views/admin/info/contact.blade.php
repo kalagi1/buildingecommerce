@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="content">
-        <h2 class="mb-2 lh-sm">About Us</h2>
+        <h2 class="mb-2 lh-sm">İletişim Ayarları</h2>
         <div class="mt-4">
             <div class="row g-4">
                 <div class="col-12 col-xl-12 order-1 order-xl-0">
@@ -27,12 +27,31 @@
                                 <div class="p-4">
 
                                     <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                        action="{{ route('admin.info.about.set') }}" enctype="multipart/form-data">
+                                        action="{{ route('admin.info.contact.set') }}" enctype="multipart/form-data">
                                         @csrf
 
+                                       
                                         <div class="col-md-6">
-                                            <label class="form-label" for="text">Text</label>
-                                            <textarea class="form-control" id="text" name="text" rows="3"> </textarea>
+                                            <label class="form-label" for="email">Email</label>
+                                            <input name="email" class="form-control" id="email"
+                                                type="text" value="" required="">
+                                            <div class="valid-feedback">Looks good!</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="phone">Telefon</label>
+                                            <input name="phone" class="form-control" id="phone"
+                                                type="text" value="" required="">
+                                            <div class="valid-feedback">Looks good!</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="working_time">Çalışma zamanı(09:00-17:00)</label>
+                                            <input name="working_time" class="form-control" id="working_time"
+                                                type="text" value="" required="">
+                                            <div class="valid-feedback">Looks good!</div>
+                                        </div>
+                                         <div class="col-md-6">
+                                            <label class="form-label" for="address">Address</label>
+                                            <textarea class="form-control" id="address" name="address" rows="3"> </textarea>
                                         </div>
                                         <div class="col-md-12">
                                             <label class="form-label" for="location">Location:</label>

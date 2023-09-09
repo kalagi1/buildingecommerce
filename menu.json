@@ -203,7 +203,14 @@
                 "key": "GetSmtpSettingById",
                 "url": "admin.smtp.edit",
                 "activePath": "admin/smtp/edit"
+            },
+            {
+                "text": "İletişim Ayarları",
+                "key": "GetSmtpSettingById",
+                "url": "admin.info.contact.index",
+                "activePath": "admin/smtp/edit"
             }
+           
         ]
     },
     {
