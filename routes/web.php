@@ -19,13 +19,18 @@ use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
+use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboardController;
+use App\Http\Controllers\ClientPanel\ProfileController as ClientPanelProfileController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\HousingController as ClientHousingController;
 use App\Http\Controllers\Client\LoginController as ClientLoginController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Institutional\BrandController;
+use App\Http\Controllers\Institutional\ChangePasswordController as InstitutionalChangePasswordController;
 use App\Http\Controllers\Institutional\DashboardController;
 use App\Http\Controllers\Institutional\LoginController;
+use App\Http\Controllers\Institutional\ProfileController as InstitutionalProfileController;
 use App\Http\Controllers\Institutional\ProjectController as InstitutionalProjectController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,12 +59,11 @@ Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name
 Route::post('/admin/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
 Route::get('/admin/logout', [AdminLoginController::class, "logout"])->name('admin.logout');
 
-Route::get('/login', [ClientLoginController::class, "showLoginForm"])->name('user.login');
-Route::post('/login', [ClientLoginController::class, "login"])->name('user.submit.login');
-Route::get('/logout', [ClientLoginController::class, "logout"])->name('user.logout');
+Route::get('/login', [ClientLoginController::class, "showLoginForm"])->name('client.login');
+Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
+Route::get('/logout', [ClientLoginController::class, "logout"])->name('client.logout');
 
-Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'admin']], function () {
-
+Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
 
     Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
     Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
@@ -345,13 +349,50 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'a
 
 });
 
-Route::group(['prefix' => 'institutional', "as" => "institutional."], function () {
+Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional']], function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+
+    // Profile Controller Rotasının İzinleri
+    Route::middleware(['checkPermission:EditProfile'])->group(function () {
+        Route::get('/profile/edit', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
+        Route::put('/profile/update', [InstitutionalProfileController::class, "update"])->name('profile.update');
+    });
+
+    // ChangePassword Controller Rotasının İzinleri
+    Route::middleware(['checkPermission:ChangePassword'])->group(function () {
+        Route::get('/password/edit', [InstitutionalChangePasswordController::class, "edit"])->name('password.edit');
+        Route::post('/password/update', [InstitutionalChangePasswordController::class, "update"])->name('password.update');
+    });
+
+    // AdminHomeController Rotalarının İzinleri
+    Route::middleware(['checkPermission:ViewDashboard'])->group(function () {
+        Route::get('/', [DashboardController::class, "index"])->name("index");
+    });
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/brands', BrandController::class);
     Route::resource('/project', InstitutionalProjectController::class);
     Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
+});
+
+Route::group(['prefix' => 'client', "as" => "client.", 'middleware' => ['client']], function () {
+
+    // Profile Controller Rotasının İzinleri
+    Route::middleware(['checkPermission:EditProfile'])->group(function () {
+        Route::get('/profile/edit', [ClientPanelProfileController::class, "edit"])->name('profile.edit');
+        Route::put('/profile/update', [ClientPanelProfileController::class, "update"])->name('profile.update');
+    });
+
+    // ChangePassword Controller Rotasının İzinleri
+    Route::middleware(['checkPermission:ChangePassword'])->group(function () {
+        Route::get('/password/edit', [ClientPanelChangePasswordController::class, "edit"])->name('password.edit');
+        Route::post('/password/update', [ClientPanelChangePasswordController::class, "update"])->name('password.update');
+    });
+
+    // AdminHomeController Rotalarının İzinleri
+    Route::middleware(['checkPermission:ViewDashboard'])->group(function () {
+        Route::get('/', [ClientPanelDashboardController::class, "index"])->name("index");
+    });
 
 });

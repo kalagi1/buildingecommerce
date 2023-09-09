@@ -49,6 +49,13 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\AdminMiddleware::class, // Admin yetkisi kontrolü için kendi middleware'inizi oluşturabilirsiniz
         ],
 
+        'client' => [
+            \App\Http\Middleware\ClientMiddleware::class,
+        ],
+
+        'institutional' => [
+            \App\Http\Middleware\InstitutionalMiddleware::class,
+        ],
     ];
 
     /**

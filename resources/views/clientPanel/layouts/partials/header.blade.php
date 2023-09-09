@@ -192,7 +192,6 @@
             </div>
 
         </nav>
-
         <nav class="navbar navbar-top fixed-top navbar-expand" id="navbarDefault" style="display:none;">
             <div class="collapse navbar-collapse justify-content-between">
                 <div class="navbar-logo">
@@ -411,22 +410,21 @@
                                     <ul class="nav d-flex flex-column mb-2 pb-1">
                                         @if (in_array('EditProfile', $userPermissions))
                                             <li class="nav-item"><a class="nav-link px-3"
-                                                    href="{{ route('institutional.profile.edit') }}"> <span
+                                                    href="{{ route('client.profile.edit') }}"> <span
                                                         class="me-2 text-900" data-feather="user"></span><span>Profili
                                                         Güncelle</span></a></li>
                                         @endif
 
                                         @if (in_array('ChangePassword', $userPermissions))
                                             <li class="nav-item"><a class="nav-link px-3"
-                                                    href="{{ route('institutional.password.edit') }}"> <span
+                                                    href="{{ route('client.password.edit') }}"> <span
                                                         class="me-2 text-900" data-feather="lock"></span><span>Şifreyi
                                                         Değiştir</span></a></li>
                                         @endif
 
                                         @if (in_array('ViewDashboard', $userPermissions))
                                             <li class="nav-item"><a class="nav-link px-3"
-                                                    href="{{ route('institutional.index') }}"><span
-                                                        class="me-2 text-900"
+                                                    href="{{ route('client.index') }}"><span class="me-2 text-900"
                                                         data-feather="pie-chart"></span>Anasayfa</a>
                                             </li>
                                         @endif

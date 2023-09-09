@@ -25730,9 +25730,22 @@ Version      : 1.2
         height: 40px;
     }
 
+    .social-account-login-buttons .social-login-button .social-login-icon {
+        margin-right: 15px;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        border-radius: 4px;
+    }
+
     .social-account-login-buttons .social-login-button {
         background-color: #fff;
+        display: flex;
         font-size: 14px;
+        width: 48%;
         border-radius: 6px;
         border: solid 1px #e6e6e6;
         padding: 8px 10px;
@@ -25744,8 +25757,10 @@ Version      : 1.2
     }
 
     .forgot-password {
+        text-decoration: underline;
+        color: black;
         margin-top: 15px;
-        font-size: 14px;
+        font-size: 12px;
         text-align: end;
     }
 
@@ -25807,9 +25822,38 @@ Version      : 1.2
         cursor: pointer;
     }
 
+    .login-tabs {
+        width: 100%;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .login-tabs li a.active {
+        background: white !important;
+        border-color: white !important
+    }
+
+    .login-tabs li a:hover,
+    .login-tabs li:hover {
+        border-color: transparent !important;
+        background: white !important;
+    }
+
+    .login-tabs li {
+        width: 50%;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .login-tabs li a h3 {
+        margin-top: 10px;
+        font-size: 15px;
+    }
+
     .loginItems #signup {
         color: gray;
-        font-size: 14px;
+        font-weight: 600;
+        font-size: 12px;
     }
 
     .loginItems #signup a {
@@ -25817,15 +25861,16 @@ Version      : 1.2
         text-decoration: none;
     }
 
-    .loginItems .container {
+    .loginItems .login-container {
         display: flex;
-        width: 30%;
-        background: #fff;
         flex-direction: column;
         justify-content: center;
-        border: 1px solid #dedede;
         align-items: center;
         margin: 0 auto;
-        padding: 48px;
-        border-radius: 13px;
+    }
+
+    .loginItems .login-content {
+        background: #fff;
+        width: 100%;
+        padding: 0 5rem;
     }
