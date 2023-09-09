@@ -121,7 +121,7 @@
         "text": "Konutlar",
         "key": "Housings",
         "url": "#nv-housing",
-        "activePath": "admin/housing*",
+        "activePath": "admin/housing/*",
         "subMenu": [
             {
                 "text": "Oluştur",
@@ -206,11 +206,10 @@
             },
             {
                 "text": "İletişim Ayarları",
-                "key": "GetSmtpSettingById",
+                "key": "GetContactSettingById",
                 "url": "admin.info.contact.index",
                 "activePath": "admin/smtp/edit"
             }
-           
         ]
     },
     {

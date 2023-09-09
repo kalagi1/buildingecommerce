@@ -3,9 +3,8 @@
 @section('content')
     <div class="content">
         <h2 class="mb-2 lh-sm">Marketed</h2>
-        <div class="mt-4">
             <div class="row g-4">
-                <div class="col-12 col-xl-10 order-1 order-xl-0">
+                <div class="col-12 col-xl-12 order-1 order-xl-0">
                     <div class="mb-9">
                         <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
                             <div class="card-body p-0">
@@ -31,7 +30,7 @@
                                             <table class="table table-sm border-top border-200 fs--1 mb-0">
                                                 <thead>
                                                     <tr>
-                                              
+
                                                         <th>Title</th>
                                                         <th>Sort Order</th>
                                                         <th>Date Start</th>
@@ -62,9 +61,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-
     </div>
 @endsection
 

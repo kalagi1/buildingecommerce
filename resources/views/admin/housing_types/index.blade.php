@@ -5,7 +5,7 @@
         <h2 class="mb-2 lh-sm">Konut Tipleri</h2>
         <div class="mt-4">
             <div class="row g-4">
-                <div class="col-12 col-xl-10 order-1 order-xl-0">
+                <div class="col-12 col-xl-12  order-1 order-xl-0">
                     <div class="mb-9">
                         <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
                             <div class="card-body p-0">

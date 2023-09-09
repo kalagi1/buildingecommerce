@@ -5,7 +5,7 @@
         <h2 class="mb-2 lh-sm">Konut Tipleri</h2>
         <div class="mt-4">
             <div class="row g-4">
-                <div class="col-12 col-xl-10 order-1 order-xl-0">
+                <div class="col-12 col-xl-12  order-1 order-xl-0">
                     <div class="mb-9">
                         <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
                             @if (session()->has('success'))
@@ -72,16 +72,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-xl-2">
-                    <div class="position-sticky mt-xl-4" style="top: 80px;">
-                        <h5 class="lh-1">On this page </h5>
-                        <hr class="text-300" />
-                        <ul class="nav nav-vertical flex-column doc-nav" data-doc-nav="data-doc-nav">
-                            <li class="nav-item"> <a class="nav-link" href="#docs">Docs</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="#example">Example</a></li>
-                        </ul>
-                    </div>
-                </div>
+
             </div>
         </div>
         <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
