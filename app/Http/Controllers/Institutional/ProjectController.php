@@ -41,7 +41,7 @@ class ProjectController extends Controller
             "cover_photo" => "required",
         ]);
 
-        
+
 
         $housingTypeInputs = HousingType::where('id',$request->input('housing_type'))->first();
         $housingTypeInputs = json_decode($housingTypeInputs->form_json);
@@ -80,7 +80,7 @@ class ProjectController extends Controller
             foreach ($request->file('project_images') as $image) {
                 // Dosyayı uygun bir konuma kaydedin, örneğin "public/project_images" klasörüne
                 $path = $image->store('public/project_images');
-                
+
                 // Dosya yolunu veritabanına ekleyin
                 $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
                 $projectImage->image = $path;
@@ -93,7 +93,7 @@ class ProjectController extends Controller
                     if($housingTypeInputs[$j]->type == "file"){
                         if ($request->hasFile(substr($housingTypeInputs[$j]->name, 0, -2))) {
                             $images = $request->file(substr($housingTypeInputs[$j]->name, 0, -2));
-                        
+
                             foreach ($images as $key=>$image) {
                                 if ($image->isValid()) {
                                     $imageName = Str::slug(Str::slug($request->input('name'))).'-'.($key+1).time().'.'.$image->getClientOriginalExtension();
