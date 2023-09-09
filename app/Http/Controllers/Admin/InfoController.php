@@ -12,7 +12,9 @@ class InfoController extends Controller
 
     public function contact()
     {
-        return view('admin.info.contact');
+        $contactInfo = ContactInfo::first();
+
+        return view('admin.info.contact', compact('contactInfo'));
     }
     public function contactSetOrEdit()
     {

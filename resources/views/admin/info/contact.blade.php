@@ -30,33 +30,33 @@
                                         action="{{ route('admin.info.contact.set') }}" enctype="multipart/form-data">
                                         @csrf
 
-                                       
+
                                         <div class="col-md-6">
                                             <label class="form-label" for="email">Email</label>
-                                            <input name="email" class="form-control" id="email"
-                                                type="text" value="" required="">
+                                            <input name="email" class="form-control" id="email" type="text"
+                                                value="{{ $contactInfo->email }}" required="">
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="phone">Telefon</label>
-                                            <input name="phone" class="form-control" id="phone"
-                                                type="text" value="" required="">
+                                            <input name="phone" class="form-control" id="phone" type="text"
+                                                value="{{ $contactInfo->phone }}" required="">
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="working_time">Çalışma zamanı(09:00-17:00)</label>
-                                            <input name="working_time" class="form-control" id="working_time"
-                                                type="text" value="" required="">
+                                            <input name="working_time" class="form-control" id="working_time" type="text"
+                                                value="{{ $contactInfo->working_time }}" required="">
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
-                                         <div class="col-md-6">
-                                            <label class="form-label" for="address">Address</label>
-                                            <textarea class="form-control" id="address" name="address" rows="3"> </textarea>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="address">Adres</label>
+                                            <textarea class="form-control" id="address" name="address" rows="3">{{ $contactInfo->address }}</textarea>
                                         </div>
                                         <div class="col-md-12">
-                                            <label class="form-label" for="location">Location:</label>
+                                            <label class="form-label" for="location">Konum:</label>
                                             <input name="location" class="form-control" id="location" readonly
-                                                type="text" value="39.1667,35.6667" />
+                                                type="text" value="{{ $contactInfo->location }}" />
                                             <div id="mapContainer"></div>
 
                                         </div>

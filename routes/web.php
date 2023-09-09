@@ -26,6 +26,7 @@ use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\HousingController as ClientHousingController;
 use App\Http\Controllers\Client\LoginController as ClientLoginController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
+use App\Http\Controllers\Client\PageController as ClientPageController;
 use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\ChangePasswordController as InstitutionalChangePasswordController;
 use App\Http\Controllers\Institutional\DashboardController;
@@ -54,6 +55,7 @@ Route::get('/marka_projeleri/{id}', [ClientProjectController::class, "brandProje
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
+Route::get('page/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 
 Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, "login"])->name('admin.submit.login');

@@ -5,9 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="Maliyetine Ev">
-    <meta name="author" content="">
-    <title>Maliyetine Ev</title>
+    @if (isset($pageInfo))
+        <meta name="keywords" content="{{ $pageInfo->meta_keywords }}">
+        <meta name="description" content="{{ $pageInfo->meta_description }}">
+        <meta name="author" content="{{ $pageInfo->meta_author }}">
+        <title>{{ $pageInfo->meta_title }}</title>
+    @else
+        <meta name="description" content="Maliyetine Ev">
+        <meta name="author" content="">
+        <title>Maliyetine Ev</title>
+    @endif
+
+
     <!-- FAVICON -->
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/jquery-ui.css">
@@ -69,9 +78,10 @@
                         </div>
                         <div class="rightSide">
                             <div class="header-widget d-flex">
-                                <a href="{{ route('client.login') }}" class="userIcon"><svg viewBox="0 0 24 24" width="24"
-                                        height="24" stroke="currentColor" stroke-width="2" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                <a href="{{ route('client.login') }}" class="userIcon"><svg viewBox="0 0 24 24"
+                                        width="24" height="24" stroke="currentColor" stroke-width="2"
+                                        fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                        class="css-i6dzq1">
                                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                         <circle cx="12" cy="7" r="4"></circle>
                                     </svg>
