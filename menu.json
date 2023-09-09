@@ -243,5 +243,51 @@
                 "activePath": "admin/marketing/project/marketed"
             }
         ]
+    },
+    {
+        "id": "footer_links",
+        "label": "Yönetim",
+        "icon": "link",
+        "text": "Footer Bağlantıları",
+        "key": "FooterLinks",
+        "url": "#nv-footer-links",
+        "activePath": "admin/footer_links*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateFooterLink",
+                "url": "admin.footer_links.create",
+                "activePath": "admin/footer_links/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetFooterLinks",
+                "url": "admin.footer_links.index",
+                "activePath": "admin/footer_links"
+            }
+        ]
+    },
+    {
+        "id": "social_media_icons",
+        "label": "Yönetim",
+        "icon": "instagram",
+        "text": "Sosyal Medya İkonları",
+        "key": "SocialMediaIcons",
+        "url": "#nv-social-media-icons",
+        "activePath": "admin/social_media_icons*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateSocialMediaIcon",
+                "url": "admin.social_media_icons.create",
+                "activePath": "admin/social_media_icons/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetSocialMediaIcons",
+                "url": "admin.social_media_icons.index",
+                "activePath": "admin/social_media_icons"
+            }
+        ]
     }
 ]

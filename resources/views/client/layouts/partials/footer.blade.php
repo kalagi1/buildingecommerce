@@ -10,71 +10,23 @@
                     </div>
 
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg col-xl">
-                    <div class="navigation">
-                        <h3>Kurumsal</h3>
-                        <div class="nav-footer">
-                            <ul>
-                                <li><a href="index.html">Hakkımızda</a></li>
-                                <li><a href="index.html">Reklam</a></li>
-                                <li><a href="index.html">İletişim</a></li>
+                @foreach ($widgetGroups as $widgetGroup)
+                    <div class="col-sm-6 col-md-6 col-lg col-xl">
+                        <div class="navigation">
+                            <h3>{{ $widgetGroup->widget }}</h3>
+                            <div class="nav-footer">
+                                <ul>
+                                    @foreach ($footerLinks as $footerLink)
+                                        @if ($footerLink->widget === $widgetGroup->widget)
+                                            <li><a href="{{ $footerLink->url }}">{!! $footerLink->title !!}</a></li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </div>
 
-                            </ul>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg col-xl">
-                    <div class="navigation">
-                        <h3>Kategoriler</h3>
-                        <div class="nav-footer">
-                            <ul>
-                                <li><a href="index.html">Devre Mülk</a></li>
-                                <li><a href="index.html">Bina</a></li>
-                                <li><a href="index.html">Turistik Tesis</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-md-6 col-lg col-xl">
-                    <div class="navigation">
-                        <h3>Kategoriler</h3>
-                        <div class="nav-footer">
-                            <ul>
-                                <li><a href="index.html">Devre Mülk</a></li>
-                                <li><a href="index.html">Bina</a></li>
-                                <li><a href="index.html">Turistik Tesis</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg col-xl">
-                    <div class="newsletters">
-                        <h3>Bize Ulaşın</h3>
-                    </div>
-                    <div class="contactus">
-                        <ul>
-                            <li>
-                                <div class="info">
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    <p class="in-p ti">support@maliyetineev.com</p>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="info">
-                                    <i class="fa fa-phone" aria-hidden="true"></i>
-                                    <p class="in-p ti">0555 555 55 55</p>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="info">
-                                    <i class="fa fa-map" aria-hidden="true"></i>
-                                    <p class="in-p ti">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo, laudantium!</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -82,11 +34,12 @@
         <div class="container">
             <p>2023 © Copyright - All Rights Reserved. @innovaticacode</p>
             <ul class="netsocials">
-                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                @foreach ($socialMediaIcons as $icon)
+                    <li><a href="{{ $icon->url }}"><i class="{{ $icon->icon_class }}" aria-hidden="true"></i></a>
+                    </li>
+                @endforeach
             </ul>
+
         </div>
     </div>
 </footer>
@@ -135,7 +88,8 @@
                     <div class="tab">
                         <div id="tab-2" class="tab-contents">
                             <div class="custom-form">
-                                <form method="post" name="registerform" class="main-register-form" id="main-register-form2">
+                                <form method="post" name="registerform" class="main-register-form"
+                                    id="main-register-form2">
                                     <label>First Name * </label>
                                     <input name="name" type="text" onClick="this.select()" value="">
                                     <label>Second Name *</label>
@@ -165,34 +119,34 @@
 <!-- END PRELOADER -->
 
 <!-- ARCHIVES JS -->
-<script src="{{URL::to('/')}}/js/jquery-3.5.1.min.js"></script>
-<script src="{{URL::to('/')}}/js/rangeSlider.js"></script>
-<script src="{{URL::to('/')}}/js/tether.min.js"></script>
-<script src="{{URL::to('/')}}/js/moment.js"></script>
-<script src="{{URL::to('/')}}/js/bootstrap.min.js"></script>
-<script src="{{URL::to('/')}}/js/mmenu.min.js"></script>
-<script src="{{URL::to('/')}}/js/mmenu.js"></script>
-<script src="{{URL::to('/')}}/js/aos.js"></script>
-<script src="{{URL::to('/')}}/js/aos2.js"></script>
-<script src="{{URL::to('/')}}/js/slick.min.js"></script>
-<script src="{{URL::to('/')}}/js/fitvids.js"></script>
-<script src="{{URL::to('/')}}/js/jquery.waypoints.min.js"></script>
-<script src="{{URL::to('/')}}/js/jquery.counterup.min.js"></script>
-<script src="{{URL::to('/')}}/js/imagesloaded.pkgd.min.js"></script>
-<script src="{{URL::to('/')}}/js/isotope.pkgd.min.js"></script>
-<script src="{{URL::to('/')}}/js/smooth-scroll.min.js"></script>
-<script src="{{URL::to('/')}}/js/lightcase.js"></script>
-<script src="{{URL::to('/')}}/js/search.js"></script>
-<script src="{{URL::to('/')}}/js/owl.carousel.js"></script>
-<script src="{{URL::to('/')}}/js/jquery.magnific-popup.min.js"></script>
-<script src="{{URL::to('/')}}/js/ajaxchimp.min.js"></script>
-<script src="{{URL::to('/')}}/js/newsletter.js"></script>
-<script src="{{URL::to('/')}}/js/jquery.form.js"></script>
-<script src="{{URL::to('/')}}/js/jquery.validate.min.js"></script>
-<script src="{{URL::to('/')}}/js/searched.js"></script>
-<script src="{{URL::to('/')}}/js/forms-2.js"></script>
-<script src="{{URL::to('/')}}/js/range.js"></script>
-<script src="{{URL::to('/')}}/js/color-switcher.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery-3.5.1.min.js"></script>
+<script src="{{ URL::to('/') }}/js/rangeSlider.js"></script>
+<script src="{{ URL::to('/') }}/js/tether.min.js"></script>
+<script src="{{ URL::to('/') }}/js/moment.js"></script>
+<script src="{{ URL::to('/') }}/js/bootstrap.min.js"></script>
+<script src="{{ URL::to('/') }}/js/mmenu.min.js"></script>
+<script src="{{ URL::to('/') }}/js/mmenu.js"></script>
+<script src="{{ URL::to('/') }}/js/aos.js"></script>
+<script src="{{ URL::to('/') }}/js/aos2.js"></script>
+<script src="{{ URL::to('/') }}/js/slick.min.js"></script>
+<script src="{{ URL::to('/') }}/js/fitvids.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery.waypoints.min.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery.counterup.min.js"></script>
+<script src="{{ URL::to('/') }}/js/imagesloaded.pkgd.min.js"></script>
+<script src="{{ URL::to('/') }}/js/isotope.pkgd.min.js"></script>
+<script src="{{ URL::to('/') }}/js/smooth-scroll.min.js"></script>
+<script src="{{ URL::to('/') }}/js/lightcase.js"></script>
+<script src="{{ URL::to('/') }}/js/search.js"></script>
+<script src="{{ URL::to('/') }}/js/owl.carousel.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery.magnific-popup.min.js"></script>
+<script src="{{ URL::to('/') }}/js/ajaxchimp.min.js"></script>
+<script src="{{ URL::to('/') }}/js/newsletter.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery.form.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery.validate.min.js"></script>
+<script src="{{ URL::to('/') }}/js/searched.js"></script>
+<script src="{{ URL::to('/') }}/js/forms-2.js"></script>
+<script src="{{ URL::to('/') }}/js/range.js"></script>
+<script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
 
 <script>
     $('.slick-agents').slick({
@@ -358,11 +312,11 @@
 </script>
 
 <!-- Slider Revolution scripts -->
-<script src="{{URL::to('/')}}/revolution/js/jquery.themepunch.tools.min.js"></script>
-<script src="{{URL::to('/')}}/revolution/js/jquery.themepunch.revolution.min.js"></script>
+<script src="{{ URL::to('/') }}/revolution/js/jquery.themepunch.tools.min.js"></script>
+<script src="{{ URL::to('/') }}/revolution/js/jquery.themepunch.revolution.min.js"></script>
 
 <!-- MAIN JS -->
-<script src="{{URL::to('/')}}/js/script.js"></script>
+<script src="{{ URL::to('/') }}/js/script.js"></script>
 @yield('scripts')
 </div>
 <!-- Wrapper / End -->

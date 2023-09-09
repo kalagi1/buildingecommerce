@@ -4949,7 +4949,7 @@ Version      : 1.2
         }
     }
 
-    .first-footer .contactus .info {
+    .first-footer .info {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -4960,7 +4960,7 @@ Version      : 1.2
         margin-bottom: 0px;
     }
 
-    .first-footer .contactus .info p {
+    .first-footer .info p {
         margin: 0px;
         font-size: 15px;
         color: rgba(245, 255, 255, 0.8);

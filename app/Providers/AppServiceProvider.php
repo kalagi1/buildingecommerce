@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\FooterLink;
+use App\Models\SocialMediaIcon;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -22,6 +24,19 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+
+        View::composer("client*", function ($view) {
+            $footerLinks = FooterLink::all();
+            $socialMediaIcons = SocialMediaIcon::all();
+
+            $widgetGroups = FooterLink::select('widget')
+                ->distinct()
+                ->get();
+            $view->with('footerLinks', $footerLinks);
+            $view->with('widgetGroups', $widgetGroups);
+            $view->with("socialMediaIcons", $socialMediaIcons);
+
+        });
 
         View::composer('admin*', function ($view) {
 
@@ -47,7 +62,7 @@ class AppServiceProvider extends ServiceProvider
                             } else {
                                 $menuItem['visible'] = false;
                             }
-                        
+
                             // Alt menü öğelerini kontrol et
                             if (isset($menuItem['subMenu'])) {
                                 foreach ($menuItem['subMenu'] as &$subMenuItem) {
@@ -59,8 +74,7 @@ class AppServiceProvider extends ServiceProvider
                                 }
                             }
                         }
-                        
-                        
+
                         $view->with('menuData', $menuData);
 
                     }

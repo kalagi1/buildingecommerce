@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ChangePasswordController;
+use App\Http\Controllers\Admin\FooterLinkController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\HousingController;
 use App\Http\Controllers\Admin\HousingTypeController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SmtpSettingController;
+use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\HousingController as ClientHousingController;
@@ -294,6 +296,48 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['auth', 'a
     Route::post('/marketing/project/setmarketed', [MarketingController::class, 'market'])->name('marketing.projects.setmarketed');
     Route::get('/marketing/project/get', [MarketingController::class, 'getMarketing'])->name('marketing.projects.get');
     Route::post('/marketing/project/store', [MarketingController::class, 'storeMarketing'])->name('marketing.projects.store');
+
+    Route::middleware(['checkPermission:DeleteFooterLink'])->group(function () {
+        Route::delete('/footer_links/{footer_link}', [FooterLinkController::class, 'destroy'])->name('footer_links.destroy');
+    });
+
+    Route::middleware(['checkPermission:CreateFooterLink'])->group(function () {
+        Route::get('/footer_links/create', [FooterLinkController::class, 'create'])->name('footer_links.create');
+        Route::post('/footer_links', [FooterLinkController::class, 'store'])->name('footer_links.store');
+    });
+
+    Route::middleware(['checkPermission:GetFooterLinkById'])->group(function () {
+        Route::get('/footer_links/{footer_link}/edit', [FooterLinkController::class, 'edit'])->name('footer_links.edit');
+    });
+
+    Route::middleware(['checkPermission:UpdateFooterLink'])->group(function () {
+        Route::put('/footer_links/{footer_link}', [FooterLinkController::class, 'update'])->name('footer_links.update');
+    });
+
+    Route::middleware(['checkPermission:GetFooterLinks'])->group(function () {
+        Route::get('/footer_links', [FooterLinkController::class, 'index'])->name('footer_links.index');
+    });
+
+    Route::middleware(['checkPermission:DeleteSocialMediaIcon'])->group(function () {
+        Route::delete('/social_media_icons/{social_media_icon}', [SocialMediaIconController::class, 'destroy'])->name('social_media_icons.destroy');
+    });
+
+    Route::middleware(['checkPermission:CreateSocialMediaIcon'])->group(function () {
+        Route::get('/social_media_icons/create', [SocialMediaIconController::class, 'create'])->name('social_media_icons.create');
+        Route::post('/social_media_icons', [SocialMediaIconController::class, 'store'])->name('social_media_icons.store');
+    });
+
+    Route::middleware(['checkPermission:GetSocialMediaIconById'])->group(function () {
+        Route::get('/social_media_icons/{social_media_icon}/edit', [SocialMediaIconController::class, 'edit'])->name('social_media_icons.edit');
+    });
+
+    Route::middleware(['checkPermission:UpdateSocialMediaIcon'])->group(function () {
+        Route::put('/social_media_icons/{social_media_icon}', [SocialMediaIconController::class, 'update'])->name('social_media_icons.update');
+    });
+
+    Route::middleware(['checkPermission:GetSocialMediaIcons'])->group(function () {
+        Route::get('/social_media_icons', [SocialMediaIconController::class, 'index'])->name('social_media_icons.index');
+    });
 
 });
 
