@@ -14,8 +14,8 @@ class MarketingController extends Controller
 $results = DB::table('projects')
 ->orderByRaw('
 CASE
- WHEN order = 0 THEN 1
- ELSE 0
+WHEN order = 0 THEN 1
+ELSE 0
 END,
 view_count DESC
 ')
@@ -63,11 +63,20 @@ view_count DESC
     }
     public function storeMarketing(Request $request)
     {
-        $postData = $request->validate([
-            'sort_order' => 'required|integer|unique:projects_marketing',
-            'price' => 'required|integer'
+        $this->validate($request, [
+            'sort_order' => 'required',
+            'price' => 'required|integer',
         ]);
-        ProjectMarketing::create($postData);
+        $projectsMarketing = ProjectMarketing::where('sort_order', $request->get('sort_order'))->first();
+        if ($projectsMarketing) {
+            $projectsMarketing->price = $request->get('price');
+            $projectsMarketing->save();
+        } else {
+            ProjectMarketing::create([
+                'sort_order' => $request->get('sort_order'),
+                'price' => $request->get('price'),
+            ]);
+        }
         return redirect()->route('admin.marketing.projects.index')->with('success', 'Marketing created successfully');
     }
     public function updateMarketing(Request $request)

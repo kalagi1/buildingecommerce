@@ -61,11 +61,33 @@
                                             <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
                                                 data-list-info="data-list-info"></p>
                                         </div>
-                                        <div class="d-flex"><button class="page-link" data-list-pagination="prev"><span
-                                                    class="fas fa-chevron-left"></span></button>
-                                            <ul class="mb-0 pagination"></ul><button class="page-link pe-0"
-                                                data-list-pagination="next"><span
-                                                    class="fas fa-chevron-right"></span></button>
+                                    </form>
+                                    <div id="tableExample"
+                                        data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
+                                        <div class="table-responsive mx-n1 px-1">
+                                            <table class="table table-sm border-top border-200 fs--1 mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sort Order</th>
+                                                        <th>Price</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="list" id="bulk-select-body"></tbody>
+                                            </table>
+                                        </div>
+                                        <div
+                                            class="d-flex flex-wrap align-items-center justify-content-between py-3 pe-0 fs--1 border-bottom border-200">
+                                            <div class="d-flex">
+                                                <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
+                                                    data-list-info="data-list-info"></p>
+                                            </div>
+                                            <div class="d-flex"><button class="page-link" data-list-pagination="prev"><span
+                                                        class="fas fa-chevron-left"></span></button>
+                                                <ul class="mb-0 pagination"></ul><button class="page-link pe-0"
+                                                    data-list-pagination="next"><span
+                                                        class="fas fa-chevron-right"></span></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -135,19 +157,8 @@
         marketings.forEach(function(marketing) {
             var row = document.createElement("tr");
 
-            var checkboxCell = document.createElement("td");
-            var checkboxDiv = document.createElement("div");
-            var checkboxInput = document.createElement("input");
-            checkboxInput.className = "btn btn-warning btn-sm";
-            checkboxInput.type = "button";
-            checkboxInput.value = "Güncelle";
-
-            checkboxInput.setAttribute("data-order", marketing.sort_order);
-            checkboxDiv.appendChild(checkboxInput);
-            checkboxCell.appendChild(checkboxDiv);
-
             var orderCell = document.createElement("td");
-            orderCell.className = "align-middle ps-3 order";
+            orderCell.className = "align-middle ps-6 order";
             orderCell.textContent = marketing.sort_order;
 
             var priceCell = document.createElement("td");
@@ -158,8 +169,6 @@
             statusCell.className = "align-middle status";
             statusCell.textContent = !parseInt(marketing.status) ? 'Avaliable' : 'Not Avaliable';
 
-
-            row.appendChild(checkboxCell);
             row.appendChild(orderCell);
             row.appendChild(priceCell);
             row.appendChild(statusCell);
