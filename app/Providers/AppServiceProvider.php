@@ -37,11 +37,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('widgetGroups', $widgetGroups);
             $view->with("socialMediaIcons", $socialMediaIcons);
             $view->with("menu", $menu);
-
-
         });
 
-        View::composer('admin*', function ($view) {
+        View::composer(["admin*", "clientPanel*","institutional*"], function ($view) {
 
             if (Auth::check()) {
                 $user = User::with('role.rolePermissions.permissions')->find(Auth::user()->id);

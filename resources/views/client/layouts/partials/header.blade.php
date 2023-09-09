@@ -57,7 +57,8 @@
                                 </button>
                             </div>
                             <div id="logo">
-                                <a href="index.html"><img src="{{ URL::to('/') }}/images/logo.png" alt=""></a>
+                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
+                                        alt=""></a>
                             </div>
                         </div>
                         <div class="center">
@@ -68,14 +69,14 @@
                         </div>
                         <div class="rightSide">
                             <div class="header-widget d-flex">
-                                <a href="login.html" class="userIcon"><svg viewBox="0 0 24 24" width="24"
+                                <a href="{{ route('client.login') }}" class="userIcon"><svg viewBox="0 0 24 24" width="24"
                                         height="24" stroke="currentColor" stroke-width="2" fill="none"
                                         stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                         <circle cx="12" cy="7" r="4"></circle>
                                     </svg>
                                     <span class="d-xl-block d-none d-lg-block rightNavText">Giriş Yap</span></a>
-                                <a href="login.html" class="heartIcon">
+                                <a href="{{ route('client.login') }}" class="heartIcon">
                                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
                                         stroke-width="2" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round" class="css-i6dzq1">
@@ -84,7 +85,7 @@
                                         </path>
                                     </svg>
                                     <span class="d-xl-block d-none d-lg-block rightNavText">Favoriler</span></a>
-                                <a href="login.html">
+                                <a href="{{ route('client.login') }}">
                                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
                                         stroke-width="2" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round" class="css-i6dzq1">
@@ -115,7 +116,7 @@
                                         @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
                                             <span class="caret"></span>
                                         @endif
-                                        @if ($key == 0 || $key ==3 || $key == 7)
+                                        @if ($key == 0 || $key == 3 || $key == 7)
                                             <span class="new-badge">Yeni</span>
                                         @endif
                                     </a>
