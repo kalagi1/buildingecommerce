@@ -10,5 +10,7 @@ class ProjectMarketing extends Model
     protected $table = 'projects_marketing';
     protected $guarded = [];
     public $timestamps = false;
+    protected $primaryKey = 'sort_order';
+    public $incrementing = false;
     use HasFactory;
 }

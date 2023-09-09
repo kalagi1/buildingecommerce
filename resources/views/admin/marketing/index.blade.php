@@ -94,9 +94,6 @@
                                             <table class="table table-sm border-top border-200 fs--1 mb-0">
                                                 <thead>
                                                     <tr>
-                                                        <th>
-                                                            Actions
-                                                        </th>
                                                         <th>Sort Order</th>
                                                         <th>Price</th>
                                                         <th>Status</th>
@@ -140,19 +137,8 @@
         marketings.forEach(function(marketing) {
             var row = document.createElement("tr");
 
-            var checkboxCell = document.createElement("td");
-            var checkboxDiv = document.createElement("div");
-            var checkboxInput = document.createElement("input");
-            checkboxInput.className = "btn btn-warning btn-sm";
-            checkboxInput.type = "button";
-            checkboxInput.value = "Güncelle";
-
-            checkboxInput.setAttribute("data-order", marketing.sort_order);
-            checkboxDiv.appendChild(checkboxInput);
-            checkboxCell.appendChild(checkboxDiv);
-
             var orderCell = document.createElement("td");
-            orderCell.className = "align-middle ps-3 order";
+            orderCell.className = "align-middle ps-6 order";
             orderCell.textContent = marketing.sort_order;
 
             var priceCell = document.createElement("td");
@@ -163,8 +149,6 @@
             statusCell.className = "align-middle status";
             statusCell.textContent = !parseInt(marketing.status) ? 'Avaliable' : 'Not Avaliable';
 
-
-            row.appendChild(checkboxCell);
             row.appendChild(orderCell);
             row.appendChild(priceCell);
             row.appendChild(statusCell);
