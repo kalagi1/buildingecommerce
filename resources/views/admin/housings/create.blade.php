@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="content">
-        <h2 class="mb-2 lh-sm">Konut Tipleri</h2>
+        <h2 class="mb-2 lh-sm">Konut Ekle</h2>
         <div class="mt-4">
             <div class="row g-4">
                 <div class="col-12 col-xl-12 order-1 order-xl-0">
@@ -30,7 +30,7 @@
                                         action="{{ route('admin.housings.store') }}" enctype="multipart/form-data">
                                         @csrf
                                         <div class="col-md-6">
-                                            <label class="form-label" for="validationCustom01">Title</label>
+                                            <label class="form-label" for="validationCustom01">Başlık</label>
                                             <input name="title" class="form-control" id="validationCustom01"
                                                 type="text" value="" required="">
                                             <div class="valid-feedback">Looks good!</div>
@@ -57,7 +57,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-label" for="address">Address</label>
+                                            <label class="form-label" for="address">Adres</label>
                                             <textarea class="form-control" id="address" name="address" rows="3"> </textarea>
                                         </div>
                                         <div class="col-md-6">
@@ -66,10 +66,10 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label class="form-label" for="status">Status</label>
+                                            <label class="form-label" for="status">Durum</label>
                                             <select name="status" id="status" class="form-select"
                                                 aria-label="Default select example">
-                                                <option selected="">Select housing status:</option>
+                                                <option selected="">Konut durumunu seçiniz:</option>
                                                 @foreach ($housing_status as $status)
                                                     <option value="{{ $status->id }}">{{ $status->name }}</option>
                                                 @endforeach
@@ -87,7 +87,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-12">
-                                            <label class="form-label" for="location">Location:</label>
+                                            <label class="form-label" for="location">Konum:</label>
                                             <input name="location" class="form-control" id="location" readonly type="hidden"
                                                 value="39.1667,35.6667" />
                                             <div id="mapContainer"></div>
