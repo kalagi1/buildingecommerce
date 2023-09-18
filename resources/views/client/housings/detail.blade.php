@@ -1,7 +1,7 @@
 @extends('client.layouts.master')
 
 
-@php 
+@php
 
     function getData($housing,$key){
         $housing_type_data= json_decode($housing->housing_type_data);
@@ -158,7 +158,7 @@
                     </ul>
 
                     <!-- <h5 class="mt-5">Amenities</h5>
-                                                           
+
                                                             <ul class="homes-list clearfix">
                                                                 <li>
                                                                     <i class="fa fa-check-square" aria-hidden="true"></i>

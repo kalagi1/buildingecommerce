@@ -27,6 +27,7 @@ use App\Http\Controllers\Client\HousingController as ClientHousingController;
 use App\Http\Controllers\Client\LoginController as ClientLoginController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\PageController as ClientPageController;
+use App\Http\Controllers\Client\RegisterController;
 use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\ChangePasswordController as InstitutionalChangePasswordController;
 use App\Http\Controllers\Institutional\DashboardController;
@@ -63,6 +64,7 @@ Route::get('/admin/logout', [AdminLoginController::class, "logout"])->name('admi
 
 Route::get('/login', [ClientLoginController::class, "showLoginForm"])->name('client.login');
 Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
+Route::post('/register', [RegisterController::class, "register"])->name('client.submit.register');
 Route::get('/logout', [ClientLoginController::class, "logout"])->name('client.logout');
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {

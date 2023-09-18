@@ -2,7 +2,7 @@
 
 @section('content')
 
-@php 
+@php
     function getData($project,$key,$roomOrder){
         foreach ($project->roomInfo as  $room) {
             if($room->room_order == $roomOrder && $room->name == $key){
@@ -59,7 +59,7 @@
                                         <img src="{{URL::to('/').'/project_housing_images/'.$housingImage}}" class="img-fluid" alt="slider-listing">
                                     </div>
                                 @endforeach
-                                
+
 
                                 <a class="carousel-control left" href="#listingDetailsSlider"
                                     data-slide="prev"><i class="fa fa-angle-left"></i></a>
@@ -70,7 +70,7 @@
                             <!-- main slider carousel nav controls -->
                             <ul class="carousel-indicators smail-listing list-inline">
                                 @foreach($housingImages as $key => $housingImage)
-                                
+
                                     <li class="list-inline-item active">
                                         <a id="carousel-selector-0" class="selected" data-slide-to="0"
                                             data-target="#listingDetailsSlider">
@@ -78,7 +78,7 @@
                                         </a>
                                     </li>
                                 @endforeach
-                                
+
                             </ul>
                             <!-- main slider carousel items -->
                         </div>
@@ -142,7 +142,7 @@
                 </ul>
 
                 <!-- <h5 class="mt-5">Amenities</h5>
-                   
+
                     <ul class="homes-list clearfix">
                         <li>
                             <i class="fa fa-check-square" aria-hidden="true"></i>
@@ -245,7 +245,7 @@ fetch(url)
                                     </div>
                                     <div class="location-card-body">
                                         ${element.tags.type == "public_transport" ? `<p>${name} Metro Durağı </p>` : `<p>${name} Otobüs Durağı</p>`}
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -253,14 +253,14 @@ fetch(url)
                     </div>
                 `;
 
-                
+
                 // Listeyi ekrana ekleyin
                 listingsContainer.appendChild(listingItem);
             }
-            
 
 
-            
+
+
         });
 
         $('.slick-lancersx').slick({
@@ -303,7 +303,7 @@ fetch(url)
     })
     .catch(error => console.error('Hata:', error));
 
-    
+
 </script>
 @endsection
 

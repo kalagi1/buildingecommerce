@@ -1,0 +1,29 @@
+[
+    {
+        "id": "account",
+        "label": "Sana Özel",
+        "icon": "home",
+        "text": "Hesabım",
+        "key": "ViewDashboard",
+        "url": "client.index",
+        "activePath": "client"
+    },
+    {
+        "id": "EditProfile",
+        "label": "Sana Özel",
+        "icon": "edit",
+        "text": "Profili Güncelle",
+        "key": "EditProfile",
+        "url": "client.profile.edit",
+        "activePath": "client/profile/edit"
+    },
+    {
+        "id": "ChangePassword",
+        "label": "Sana Özel",
+        "icon": "lock",
+        "text": "Şifreyi Değiştir",
+        "key": "ChangePassword",
+        "url": "client.password.edit",
+        "activePath": "client/password/edit"
+    }
+]

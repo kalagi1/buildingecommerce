@@ -1,0 +1,29 @@
+[
+    {
+        "id": "account",
+        "label": "Sana Özel",
+        "icon": "home",
+        "text": "Hesabım",
+        "key": "ViewDashboard",
+        "url": "institutional.index",
+        "activePath": "institutional/"
+    },
+    {
+        "id": "EditProfile",
+        "label": "Sana Özel",
+        "icon": "edit",
+        "text": "Profili Güncelle",
+        "key": "EditProfile",
+        "url": "institutional.profile.edit",
+        "activePath": "institutional/profile/edit"
+    },
+    {
+        "id": "ChangePassword",
+        "label": "Sana Özel",
+        "icon": "lock",
+        "text": "Şifreyi Değiştir",
+        "key": "ChangePassword",
+        "url": "institutional.password.edit",
+        "activePath": "institutional/password/edit"
+    }
+]

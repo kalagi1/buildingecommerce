@@ -25828,6 +25828,49 @@ Version      : 1.2
         margin: 0 !important;
     }
 
+    .custom-control-label {
+        color: black;
+        margin-top: 15px;
+        line-height: 13px;
+        font-size: 12px;
+
+    }
+
+    .user-type-selection {
+        margin-top: 20px;
+    }
+
+    .user-type-selection label {
+        font-weight: bold;
+    }
+
+    .button-group {
+        display: flex;
+    }
+
+    .user-type-button {
+        flex: 1;
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        background-color: #f5f5f5;
+        transition: background-color 0.3s;
+    }
+
+    .user-type-button:focus {
+        outline: none !important;
+    }
+    .user-type-button:hover {
+        background-color: #e0e0e0;
+    }
+
+    .user-type-button.active {
+        background-color: transparent;
+        color: #007bff;
+        border-color: #007bff;
+    }
+
     .login-tabs li a.active {
         background: white !important;
         border-color: white !important

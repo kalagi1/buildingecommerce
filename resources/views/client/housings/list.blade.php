@@ -1,6 +1,6 @@
 @extends('client.layouts.master')
 
-@php 
+@php
                                                 function convertMonthToTurkishCharacter($date){
                                                     $aylar = array(
                                                         'January'    =>    'Ocak',
@@ -42,7 +42,7 @@
 
 @section('content')
 <div class="brand-head" style="margin-top: 20px;">
-    
+
     <section class="properties-right list featured portfolio blog  bg-white">
         <div class="container">
 
@@ -271,7 +271,7 @@
                             $a = $housing_type_data->$key;
                             return $a[0];
                         }
-                        
+
                     function getImage($housing,$key){
                             $housing_type_data= json_decode($housing->housing_type_data);
                             $a = $housing_type_data->$key;
@@ -325,7 +325,7 @@
                                         </ul>
                                         <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
                                             <li style="font-size: large; font-weight: 700;">{{getData($housing,'price')}}TL</li>
-                                            
+
                                             <li style="display: flex; justify-content: center;">{{date('j', strtotime($housing->created_at)).' '.convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at)))}}</li>
                                         </ul>
                                         <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;margin-top:20px !important;">
@@ -352,7 +352,7 @@
         </div>
 
     </section>
-    
+
 </div>
 @endsection
 

@@ -40,16 +40,13 @@ class ProjectController extends Controller
             'projectData.project_title' => 'required|string',
             'projectData.address' => 'required|string|max:128',
             'projectData.housing_type' => 'required|integer',
-            'projectData.image' => 'required',
             'projectData.status' => 'required|in:1,2,3',
         ]);
-        return $vData;
         $dynamicDatas = $request->dynamicData;
         $projectId = Project::create($vData);
         foreach ($dynamicDatas as $data) {
             $data[] = ['project_id' => $projectId];
         }
-        return $dynamicDatas;
         ProjectHousings::insert($dynamicDatas);
         return redirect()->route('admin.projects.create')->with('success', 'Project and housings created successfully');
     }
