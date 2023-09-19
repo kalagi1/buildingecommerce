@@ -201,15 +201,13 @@
                         aria-controls="navbarVerticalCollapse" aria-expanded="false"
                         aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                 class="toggle-line"></span></span></button>
-                    <a class="navbar-brand me-1 me-sm-3" href="index.html">
                         <div class="d-flex align-items-center">
-                            <div class="d-flex align-items-center"><img
-                                    src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png" alt="phoenix"
-                                    width="27" />
-                                <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
+                            <div class="d-flex align-items-center">
+                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
+                                        class="logo" alt=""></a>
+                                <p class="logo-text ms-2 d-none d-sm-block">Master Realtor</p>
                             </div>
                         </div>
-                    </a>
                 </div>
                 <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
                     style="width:25rem;">
@@ -7929,3 +7927,15 @@
                 navbarVertical.classList.add('navbar-darker');
             }
         </script>
+
+
+        <style>
+            .navbar-logo .logo {
+                height: 70px !important;
+                padding: 5px;
+            }
+
+            .navbar-logo .logo-text {
+                width: 300px
+            }
+        </style>

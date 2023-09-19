@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Institutional;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
@@ -19,7 +20,7 @@ class BrandController extends Controller
         // Formdan gelen dosyaları al
         $logo = $request->file('logo');
         $coverPhoto = $request->file('cover_photo');
-        
+
         // Yükleme için dosya adlarını oluştur
         $logoFileName = 'logo_' . time() . '.' . $logo->getClientOriginalExtension();
         $coverPhotoFileName = 'cover_photo_' . time() . '.' . $coverPhoto->getClientOriginalExtension();
@@ -35,7 +36,7 @@ class BrandController extends Controller
         $brand->title = $request->input('title');
         $brand->logo = $logoFileName;
         $brand->cover_photo = $coverPhotoFileName;
-        $brand->user_id = auth('institutional')->id();
+        $brand->user_id = Auth::user()->id;
         $brand->status = $status; // Status değerini kaydet
         $brand->save();
 
@@ -44,7 +45,7 @@ class BrandController extends Controller
 
     public function index()
     {
-        $brands = Brand::where('user_id', auth('institutional')->id())->get(); // Kullanıcının markalarını getir
+        $brands = Brand::where('user_id', Auth::user()->id)->get(); // Kullanıcının markalarını getir
         return view('institutional.brands.index', compact('brands'));
     }
 
@@ -65,7 +66,7 @@ class BrandController extends Controller
 
         // Marka verilerini güncelle
         $brand->title = $request->input('title');
-        
+
         if ($logo) {
             // Yeni logo yüklendiyse eski logoyu sil ve yeni logo kaydet
             if ($brand->logo) {

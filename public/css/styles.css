@@ -4910,6 +4910,7 @@ Version      : 1.2
             height: auto;
             margin-bottom: 1.6rem;
         }
+
         .homepage-2 .second-footer .container-fluid {
             -webkit-box-orient: vertical;
             -webkit-box-direction: normal;
@@ -25866,6 +25867,7 @@ Version      : 1.2
     .user-type-button:focus {
         outline: none !important;
     }
+
     .user-type-button:hover {
         background-color: #e0e0e0;
     }

@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('institutional.layouts.master')
 
 @section('content')
 
@@ -155,9 +155,6 @@
             var dropdownMenu = document.createElement("div");
             dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
             var viewLink = document.createElement("a");
-            viewLink.className = "dropdown-item";
-            viewLink.href = "#!";
-            viewLink.textContent = "View";
             var exportLink = document.createElement("a");
             exportLink.className = "dropdown-item";
             exportLink.href = "{{URL::to('/')}}/institutional/brands/"+brand.id+'/edit';

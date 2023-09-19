@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\City;
 use App\Models\Housing;
-use App\Models\HousingImages;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class HousingController extends Controller
@@ -39,11 +39,11 @@ class HousingController extends Controller
 
     public function create()
     {
-        $brands = Brand::where('user_id',auth('institutional')->id())->where('status',1)->get();
+        $brands = Brand::where('user_id', Auth::user()->id)->where('status', 1)->get();
         $cities = City::get();
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
-        return view('admin.housings.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status,'cities' => $cities, 'brands' => $brands]);
+        return view('admin.housings.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status, 'cities' => $cities, 'brands' => $brands]);
     }
 
     /**
@@ -82,27 +82,26 @@ class HousingController extends Controller
             'description',
             'brand_id',
             'city_id',
-            "county_id"
+            "county_id",
         ];
 
         $files = [];
 
-        for($k = 0 ; $k < count($request->file('images')); $k++){
+        for ($k = 0; $k < count($request->file('images')); $k++) {
             $image = $request->file('images')[$k][0];
-            $imageName = Str::slug(Str::slug($request->input('title'))).'-'.$k.'-'.time().'.'.$image->getClientOriginalExtension();
+            $imageName = Str::slug(Str::slug($request->input('title'))) . '-' . $k . '-' . time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('/housing_images'), $imageName);
-            array_push($files,$imageName);
+            array_push($files, $imageName);
         }
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $image = $request->file('image')[0];
-            $imageName = Str::slug($request->input('title')).'-'.time().'.'.$image->getClientOriginalExtension();
+            $imageName = Str::slug($request->input('title')) . '-' . time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('/housing_images'), $imageName);
         }
 
         $postData['images'] = json_encode($files);
         $postData['image'] = $imageName;
-
 
         foreach ($unsetKeys as $key) {
             unset($postData[$key]);
