@@ -30,6 +30,8 @@
                                 <div class="tab-pane fade show active" id="normal" role="tabpanel"
                                     aria-labelledby="normal-tab">
 
+
+
                                     <form method="POST"class="form w-100" action="{{ route('client.submit.login') }}">
 
                                         @csrf
@@ -52,7 +54,11 @@
                                             <input type="password" name="password" class="form-control">
                                         </div>
 
-                                        <div class="forgot-password"><a><span>Şifremi Unuttum</span></a></div>
+                                        <div class="forgot-password d-flex justify-content-between">
+                                            <a href="{{ route('institutional.login') }}"><span>Kurumsal Giriş</span></a>
+                                            <a href="#"><span>Şifremi Unuttum</span></a>
+                                        </div>
+
                                         <button class="btn btn-primary q-button" type="submit"> Giriş Yap</button>
 
                                         <div class="social-account-login-buttons pb-3">
@@ -83,15 +89,16 @@
                                         </div>
 
                                     </form>
+
                                 </div>
 
                                 <!-- Kurumsal Hesap Girişi Sekmesi -->
                                 <div class="tab-pane fade" id="corporate" role="tabpanel" aria-labelledby="corporate-tab">
-                                    <form method="POST" class="form w-100" action="{{route('client.submit.register')}}">
+                                    <form method="POST" class="form w-100" action="{{ route('client.submit.register') }}">
                                         @csrf
 
-                                         <!-- E-Posta -->
-                                         <div class="mt-3">
+                                        <!-- E-Posta -->
+                                        <div class="mt-3">
                                             <label class="q-label">İsim</label>
                                             <input type="text" name="name" class="form-control">
                                         </div>
@@ -120,7 +127,8 @@
                                         </div>
 
                                         <div class="form-group custom-control custom-checkbox mt-3">
-                                            <input type="checkbox" class="custom-control-input" id="exampleCheck3" required>
+                                            <input type="checkbox" class="custom-control-input" id="exampleCheck3"
+                                                required>
                                             <label class="custom-control-label" for="exampleCheck3">Kişisel verilerimin
                                                 işlenmesine yönelik aydınlatma metnini okudum anladım.</label>
                                         </div>

@@ -48,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
                         return $rolePermission->permissions->pluck('key');
                     })->unique()->toArray();
 
-                    $jsonFilePath = base_path('menu.json');
+                    $jsonFilePath = base_path('admin_menu.json');
 
                     // JSON dosyasının varlığını kontrol etmek için File sınıfını kullanabilirsiniz
                     if (File::exists($jsonFilePath)) {
@@ -90,7 +90,7 @@ class AppServiceProvider extends ServiceProvider
                         return $rolePermission->permissions->pluck('key');
                     })->unique()->toArray();
 
-                    $jsonFilePath = base_path('admin_menu.json');
+                    $jsonFilePath = base_path('institutional_menu.json');
 
                     // JSON dosyasının varlığını kontrol etmek için File sınıfını kullanabilirsiniz
                     if (File::exists($jsonFilePath)) {

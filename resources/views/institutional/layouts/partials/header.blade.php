@@ -403,7 +403,7 @@
                                                 src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
                                                 alt="" />
                                         </div>
-                                        <h6 class="mt-2 text-black">{{ Auth::guard("institutional")->user()->name }}</h6>
+                                        <h6 class="mt-2 text-black">{{ Auth::user()->name }}</h6>
                                     </div>
                                 </div>
                                 <div class="overflow-auto scrollbar">

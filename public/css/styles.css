@@ -25762,9 +25762,9 @@ Version      : 1.2
         transition: all 0.3s ease;
     }
 
-    .forgot-password {
+    .forgot-password  a {
         text-decoration: underline;
-        color: black;
+        color: inherit;
         margin-top: 15px;
         font-size: 12px;
         text-align: end;

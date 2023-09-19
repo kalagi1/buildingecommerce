@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Institutional;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Stmt\Return_;
 
 class LoginController extends Controller
 {
@@ -18,10 +19,11 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+   
 
-            if ($user->type == 2) {
+            if ($user->type == "2") {
                 // Giriş başarılı
-                return redirect()->intended(route('institutional.dashboard'));
+                return redirect()->intended(route('institutional.index'));
             } else {
                 // Type 3 user restriction
                 Auth::logout();

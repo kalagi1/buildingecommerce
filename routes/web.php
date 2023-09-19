@@ -392,7 +392,6 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::get('/', [DashboardController::class, "index"])->name("index");
     });
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
     Route::get('/project_stand_out/{project_id}', [InstitutionalProjectController::class,"standOut"])->name('project.stand.out');
