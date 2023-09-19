@@ -27,7 +27,7 @@
                                 <div class="p-4">
 
                                     <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                        action="{{ route('admin.housing_status.update', $housingStatus->id) }}">
+                                        action="{{ route('admin.housing_statuses.update', $housingStatus->id) }}">
                                         @csrf
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">Başlık</label>

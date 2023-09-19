@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class HousingStatusController extends Controller
 {
     public function index(){
-        $housingStatuses = HousingStatus::where("status",1)->get();
+        $housingStatuses = HousingStatus::all();
         return view('admin.housing_status.index',compact('housingStatuses'));
     }
 

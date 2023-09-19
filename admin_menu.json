@@ -170,6 +170,29 @@
         ]
     },
     {
+        "id": "housing_status",
+        "label": "Uygulama",
+        "icon": "bar-chart",
+        "text": "Konut Durumları",
+        "key": "HousingStatuses",
+        "url": "#nv-housing-status",
+        "activePath": "admin/housing_status*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateHousingStatus",
+                "url": "admin.housing_statuses.index",
+                "activePath": "admin/housing_status/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetHousingStatuses",
+                "url": "admin.housing_statuses.index",
+                "activePath": "admin/housing_status"
+            }
+        ]
+    },
+    {
         "id": "projects",
         "label": "Uygulama",
         "icon": "globe",

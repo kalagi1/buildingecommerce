@@ -40,7 +40,7 @@ class Project extends Model
     {
         return $this->hasOne(HousingType::class, "id", "housing_type_id");
     }
-    static function listForMarketing()
+    public static function listForMarketing()
     {
 
         return self::leftJoin('marketed_projects', 'marketed_projects.project_id', '=', 'projects.id')
@@ -49,11 +49,18 @@ class Project extends Model
             ->get();
     }
 
-    public function city(){
-        return $this->hasOne(City::class,"id","city_id");
+    public function city()
+    {
+        return $this->hasOne(City::class, "id", "city_id");
     }
 
-    public function county(){
-        return $this->hasOne(County::class,"id","county_id");
+    public function county()
+    {
+        return $this->hasOne(County::class, "id", "county_id");
+    }
+    
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'project_favorites', 'project_id', 'user_id');
     }
 }

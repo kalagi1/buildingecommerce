@@ -19,7 +19,13 @@ class Housing extends Model
         return $this->hasMany(HousingImages::class);
     }
 
-    public function brand(){
-        return $this->hasOne(Brand::class,"id","brand_id");
+    public function brand()
+    {
+        return $this->hasOne(Brand::class, "id", "brand_id");
+    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'housing_favorites', 'housing_id', 'user_id');
     }
 }

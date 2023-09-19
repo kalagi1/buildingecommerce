@@ -28,7 +28,7 @@ class HomeController extends Controller
             ->where('housings.status_id', 1)
             ->get();
         $dashboardProjects = StandOutUser::where('start_date',"<=",date("Y-m-d"))->where('end_date',">=",date("Y-m-d"))->orderBy("item_order")->get();
-        $dashboardStatuses = HousingStatus::where('in_dashboard',1)->orderBy("dashboard_order")->get();
+        $dashboardStatuses = HousingStatus::where('in_dashboard',1)->orderBy("dashboard_order")->where("status","1")->get();
         $brands = Brand::where('status',1)->get();
         $projects = Project::listForMarketing();
         return view('client.home.index', compact('menu', 'secondhandHousings','projects','brands','dashboardProjects','dashboardStatuses'));

@@ -105,8 +105,8 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     });
 
     Route::middleware(['checkPermission:EditHousingStatuses'])->group(function () {
-        Route::get('/housing_status/{id}/edit', [HousingStatusController::class, 'edit'])->name('housing_status.edit');
-        Route::post('/housing_status/{id}/edit', [HousingStatusController::class, 'update'])->name('housing_status.update');
+        Route::get('/housing_status/{id}/edit', [HousingStatusController::class, 'edit'])->name('housing_statuses.edit');
+        Route::post('/housing_status/{id}/edit', [HousingStatusController::class, 'update'])->name('housing_statuses.update');
     });
 
     Route::middleware(['checkPermission:DeleteHousingType'])->group(function () {
