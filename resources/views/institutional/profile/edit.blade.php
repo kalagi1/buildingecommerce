@@ -6,7 +6,7 @@
             <div class="col-lg-12">
                 <div class="card shadow-sm border-300 border-bottom mb-4">
                     <div class="card-header border-bottom border-300 bg-soft">
-                        <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Edit Profile</h4>
+                        <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Profili Güncelle</h4>
                     </div>
                     <div class="card-body">
                         @if ($errors->any())
@@ -39,7 +39,19 @@
                                     value="{{ $user->email }}" required>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Telefon</label>
+                                <input type="number" class="form-control" id="phone" name="phone"
+                                    value="{{ $user->phone }}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="birthday" class="form-label">Doğum Tarihi</label>
+                                <input type="date" class="form-control" id="birthday" name="birthday"
+                                    value="{{ $user->birthday }}" required>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Güncelle</button>
                         </form>
                     </div>
                 </div>

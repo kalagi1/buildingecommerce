@@ -1,0 +1,29 @@
+[
+    {
+        "id": "account",
+        "label": "Hesabım & Yardım",
+        "icon": "home",
+        "text": "Hesabım",
+        "key": "ViewDashboard",
+        "url": "institutional.index",
+        "activePath": "institutional/"
+    },
+    {
+        "id": "EditProfile",
+        "label": "Hesabım & Yardım",
+        "icon": "edit",
+        "text": "Profili Güncelle",
+        "key": "EditProfile",
+        "url": "institutional.profile.edit",
+        "activePath": "institutional/profile/edit"
+    },
+    {
+        "id": "ChangePassword",
+        "label": "Hesabım & Yardım",
+        "icon": "lock",
+        "text": "Şifreyi Değiştir",
+        "key": "ChangePassword",
+        "url": "institutional.password.edit",
+        "activePath": "institutional/password/edit"
+    }
+]

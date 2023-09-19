@@ -1,7 +1,7 @@
 @extends('client.layouts.master')
 
 
-@php 
+@php
 
     function getData($housing,$key){
         $housing_type_data= json_decode($housing->housing_type_data);
@@ -157,7 +157,46 @@
 
                     </ul>
 
-                   
+                    <!-- <h5 class="mt-5">Amenities</h5>
+
+                                                            <ul class="homes-list clearfix">
+                                                                <li>
+                                                                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                    <span>Air Cond</span>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                    <span>Balcony</span>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                    <span>Internet</span>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                    <span>Dishwasher</span>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                    <span>Bedding</span>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                    <span>Cable TV</span>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                    <span>Parking</span>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                    <span>Pool</span>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                                                                    <span>Fridge</span>
+                                                                </li>
+                                                            </ul> -->
                 </div>
 
             </section>

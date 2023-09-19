@@ -161,7 +161,7 @@
         </div>
     </div>
 </section>
-@php 
+@php
     function getData($project,$key,$roomOrder){
         foreach ($project->roomInfo as  $room) {
             if($room->room_order == $roomOrder && $room->name == $key){
@@ -298,7 +298,7 @@
                         </li>
                     </ul>
                     <div id="map" style="height: 300px" class="contactmap">
-                        
+
                     </div>
                     <ul class="content mt-3" style="list-style: none">
                         <li class="active">
@@ -519,7 +519,7 @@ fetch(url)
                                     </div>
                                     <div class="location-card-body">
                                         ${element.tags.type == "public_transport" ? `<p>${name} Metro Durağı </p>` : `<p>${name} Otobüs Durağı</p>`}
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -527,14 +527,14 @@ fetch(url)
                     </div>
                 `;
 
-                
+
                 // Listeyi ekrana ekleyin
                 listingsContainer.appendChild(listingItem);
             }
-            
 
 
-            
+
+
         });
 
         $('.slick-lancersx').slick({
@@ -577,7 +577,7 @@ fetch(url)
     })
     .catch(error => console.error('Hata:', error));
 
-    
+
 </script>
 @endsection
 

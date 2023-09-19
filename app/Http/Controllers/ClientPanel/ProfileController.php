@@ -11,7 +11,7 @@ class ProfileController extends Controller
     public function edit()
     {
         $user = auth()->user();
-        return view('clientPanel.profile.edit', compact('user'));
+        return view('client.client-panel.profile.edit', compact('user'));
     }
 
     public function update(UpdateProfileRequest $request)

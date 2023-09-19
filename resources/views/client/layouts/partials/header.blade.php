@@ -79,14 +79,46 @@
                         </div>
                         <div class="rightSide">
                             <div class="header-widget d-flex">
-                                <a href="{{ route('client.login') }}" class="userIcon"><svg viewBox="0 0 24 24"
-                                        width="24" height="24" stroke="currentColor" stroke-width="2"
-                                        fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                        class="css-i6dzq1">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </svg>
-                                    <span class="d-xl-block d-none d-lg-block rightNavText">Giriş Yap</span></a>
+                                @if (Auth::user())
+                                    @if (Auth::user()->type == 1)
+                                        <a href="{{ route('client.index') }}"  class="userIcon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                stroke-width="2" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round" class="css-i6dzq1">
+                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                            </svg>
+                                            <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
+                                    @elseif (Auth::user()->type == 2)
+                                        <a href="{{ route('instutional.index') }}" target="_blank" class="userIcon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24"
+                                                stroke="currentColor" stroke-width="2" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                            </svg>
+                                            <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
+                                    @elseif (Auth::user()->type == 3)
+                                        <a href="{{ route('admin.index') }}" target="_blank" class="userIcon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24"
+                                                stroke="currentColor" stroke-width="2" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                            </svg>
+                                            <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
+                                    @endif
+                                @else
+                                    <a href="{{ route('client.login') }}" class="userIcon"><svg viewBox="0 0 24 24"
+                                            width="24" height="24" stroke="currentColor" stroke-width="2"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                            class="css-i6dzq1">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                        <span class="d-xl-block d-none d-lg-block rightNavText">Giriş Yap</span></a>
+                                @endif
+
                                 <a href="{{ route('client.login') }}" class="heartIcon">
                                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
                                         stroke-width="2" fill="none" stroke-linecap="round"

@@ -14,20 +14,21 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // Validate the form data
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        $credentials = $request->only('email', 'password');
 
-        // Attempt to log in the user using the institutional guard
-        $credentials['type'] = 2; // Ekledik
-        if (Auth::guard('institutional')->attempt($credentials)) {
-            // Authentication success
-            // You can redirect the user or perform other actions here
-            return redirect()->intended(route('institutional.dashboard')); // Change 'institutional.dashboard' to your dashboard route
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            if ($user->type == 2) {
+                // Giriş başarılı
+                return redirect()->intended(route('institutional.dashboard'));
+            } else {
+                // Type 3 user restriction
+                Auth::logout();
+                return redirect()->back()->withInput()->withErrors(['email' => 'Giriş başarısız. Yetkiniz yok.']);
+            }
         }
-        
+
         // Authentication failed, redirect back with an error message
         return redirect()->route('institutional.login')->with('error', 'Kullanıcı bilgileri hatalı.');
     }

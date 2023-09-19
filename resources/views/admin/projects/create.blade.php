@@ -35,44 +35,49 @@
                                                 type="text" value="" required="">
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <label class="form-label" for="address">Address</label>
                                             <textarea class="form-control" id="address" name="address" rows="3"> </textarea>
                                         </div>
-                                        <div class="col-md-12">
 
+                                        <div class="col-md-12">
                                             <label class="form-label" for="images">Image</label>
                                             <input name="image" class="form-control" id="images" type="file"
                                                 accept="image/*" />
-
                                         </div>
 
                                         <div class="col-md-4">
+                                            <label class="form-label" for="status">Select housing status:</label>
+
                                             <select name="status" id="status" class="form-select"
                                                 aria-label="Default select example">
                                                 <option selected="">Select housing status:</option>
                                                 @foreach ($housing_status as $status)
                                                     <option value="{{ $status->id }}">{{ $status->name }}</option>
                                                 @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="form-label" for="housing_type">Select housing type:</label>
+
+                                            <select name="housing_type" id="housing_type" class="form-select"
+                                                aria-label="Default select example">
+                                                <option selected="">Select housing type:</option>
+                                                @foreach ($housing_types as $type)
+                                                    <option value="{{ $type->id }}">{{ $type->title }}</option>
+                                                @endforeach
 
                                             </select>
                                         </div>
 
 
-                                        <select name="housing_type" id="housing_type" class="form-select"
-                                            aria-label="Default select example">
-                                            <option selected="">Select housing type:</option>
-                                            @foreach ($housing_types as $type)
-                                                <option value="{{ $type->id }}">{{ $type->title }}</option>
-                                            @endforeach
-
-                                        </select>
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <label class="form-label" for="count">Housing Count</label>
                                             <input name="count" class="form-control" id="count" type="text"
-                                                value="" required="">
-                                            <div class="valid-feedback">Looks good!</div>
+                                                value="" placeholder="Housing Count" >
                                         </div>
+
                                         <div class="col-12">
                                             <button id="generateform" type="button" class="btn btn-success"> Generate
                                                 Forms</button>
@@ -97,7 +102,8 @@
                                                     <div class="valid-feedback">Looks good!</div>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <label class="form-label" for="validationCustom01">Square Meter</label>
+                                                    <label class="form-label" for="validationCustom01">Square
+                                                        Meter</label>
                                                     <input name="square_meter" class="form-control"
                                                         id="validationCustom01" type="text" value=""
                                                         required="">
@@ -112,7 +118,7 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 mt-5">
                                         <button class="btn btn-primary" id="saveFormsButton"
                                             type="submit">Kaydet</button>
                                     </div>

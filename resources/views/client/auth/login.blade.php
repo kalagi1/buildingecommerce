@@ -87,8 +87,49 @@
 
                                 <!-- Kurumsal Hesap Girişi Sekmesi -->
                                 <div class="tab-pane fade" id="corporate" role="tabpanel" aria-labelledby="corporate-tab">
-                                    <!-- Kurumsal Hesap Girişi içeriği buraya eklenebilir -->
+                                    <form method="POST" class="form w-100" action="{{route('client.submit.register')}}">
+                                        @csrf
+
+                                         <!-- E-Posta -->
+                                         <div class="mt-3">
+                                            <label class="q-label">İsim</label>
+                                            <input type="text" name="name" class="form-control">
+                                        </div>
+
+                                        <!-- E-Posta -->
+                                        <div class="mt-3">
+                                            <label class="q-label">E-Posta</label>
+                                            <input type="email" name="email" class="form-control">
+                                        </div>
+
+                                        <!-- Şifre -->
+                                        <div class="mt-3">
+                                            <label class="q-label">Şifre</label>
+                                            <input type="password" name="password" class="form-control">
+                                        </div>
+
+                                        <div class="user-type-selection">
+                                            <label>Kullanıcı Türü</label>
+                                            <div class="button-group">
+                                                <button class="user-type-button active" data-user-type="1"
+                                                    type="button">Bireysel</button>
+                                                <button class="user-type-button" data-user-type="2"
+                                                    type="button">Kurumsal</button>
+                                            </div>
+                                            <input type="hidden" name="type" id="user-type-input" value="1">
+                                        </div>
+
+                                        <div class="form-group custom-control custom-checkbox mt-3">
+                                            <input type="checkbox" class="custom-control-input" id="exampleCheck3" required>
+                                            <label class="custom-control-label" for="exampleCheck3">Kişisel verilerimin
+                                                işlenmesine yönelik aydınlatma metnini okudum anladım.</label>
+                                        </div>
+
+
+                                        <button class="btn btn-primary q-button" type="submit"> üYE OL</button>
+                                    </form>
                                 </div>
+
                             </div>
                         </div>
 
@@ -99,4 +140,26 @@
 
         </div>
     </section>
+@endsection
+
+
+@section('scripts')
+    <script>
+        const userTypeButtons = document.querySelectorAll('.user-type-button');
+        const userTypeInput = document.getElementById('user-type-input');
+
+        userTypeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Tüm düğmeleri aktiflikten çıkar
+                userTypeButtons.forEach(btn => btn.classList.remove('active'));
+
+                // Tıklanan düğmeyi aktif yap
+                this.classList.add('active');
+
+                // Seçilen türü gizli input alanına yaz
+                const userType = this.getAttribute('data-user-type');
+                userTypeInput.value = userType;
+            });
+        });
+    </script>
 @endsection

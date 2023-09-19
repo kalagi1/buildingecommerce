@@ -11,7 +11,7 @@ class ChangePasswordController extends Controller
 {
     public function edit()
     {
-        return view('clientPanel.change-password');
+        return view('client.client-panel.change-password');
     }
 
     public function update(Request $request)

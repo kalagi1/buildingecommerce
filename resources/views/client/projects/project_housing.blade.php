@@ -2,7 +2,7 @@
 
 @section('content')
 
-@php 
+@php
     function getData($project,$key,$roomOrder){
         foreach ($project->roomInfo as  $room) {
             if($room->room_order == $roomOrder && $room->name == $key){
@@ -79,7 +79,7 @@
                                         <img src="{{URL::to('/').'/project_housing_images/'.$housingImage}}" class="img-fluid" alt="slider-listing">
                                     </div>
                                 @endforeach
-                                
+
 
                                 <a class="carousel-control left" href="#listingDetailsSlider"
                                     data-slide="prev"><i class="fa fa-angle-left"></i></a>
@@ -90,7 +90,7 @@
                             <!-- main slider carousel nav controls -->
                             <ul class="carousel-indicators smail-listing list-inline">
                                 @foreach($housingImages as $key => $housingImage)
-                                
+
                                     <li class="list-inline-item active">
                                         <a id="carousel-selector-0" class="selected" data-slide-to="0"
                                             data-target="#listingDetailsSlider">
@@ -98,7 +98,7 @@
                                         </a>
                                     </li>
                                 @endforeach
-                                
+
                             </ul>
                             <!-- main slider carousel items -->
                         </div>
@@ -250,7 +250,7 @@ fetch(url)
                                     </div>
                                     <div class="location-card-body">
                                         ${element.tags.type == "public_transport" ? `<p>${name} Metro Durağı </p>` : `<p>${name} Otobüs Durağı</p>`}
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -258,14 +258,14 @@ fetch(url)
                     </div>
                 `;
 
-                
+
                 // Listeyi ekrana ekleyin
                 listingsContainer.appendChild(listingItem);
             }
-            
 
 
-            
+
+
         });
 
         $('.slick-lancersx').slick({
@@ -308,29 +308,7 @@ fetch(url)
     })
     .catch(error => console.error('Hata:', error));
 
-    $('.add-to-cart').click(function(e){
-        e.preventDefault();
-        $.ajax({
-            url: "{{route('add.to.cart')}}", // İstek yapılacak URL
-            type: "POST", // HTTP isteği türü
-            data : {
-                project_id : {{$project->id}},
-                order : {{$housingOrder}}
-            },
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            dataType: "json", // Veri türü olarak JSON kullan
-            success: function(data){
-                // İstek başarılı olduğunda bu işlev çalışır
-                $("#jsonResult").html(JSON.stringify(data));
-            },
-            error: function(xhr, status, error){
-                // İstek sırasında bir hata olursa bu işlev çalışır
-                console.error(xhr.responseText);
-            }
-        });
-    })
+    
 </script>
 @endsection
 
