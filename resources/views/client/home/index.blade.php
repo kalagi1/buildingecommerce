@@ -169,7 +169,6 @@
     <!-- END SECTION POPULAR PLACES -->
 
 
-
     <!-- START SECTION RECENTLY PROPERTIES -->
     <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
@@ -187,27 +186,20 @@
                 <div class="slick-agents">
                     @if (count($secondhandHousings))
                         @foreach ($secondhandHousings as $housing)
+                        
                             <div class="agents-grid col-md-6" data-aos="fade-up" data-aos-delay="150">
                                 <div class="landscapes">
                                     <div class="project-single">
                                         <div class="project-inner project-head">
                                             <div class="homes">
                                                 <!-- homes img -->
-                                                <a href="{{ route('housing.show', $housing->id) }}" class="homes-img">
-                                                    <div class="homes-tag button alt featured"
-                                                        style="background-color: rgba(255, 166, 0, 0.89) !important;">Öne
-                                                        Çıkan
-                                                    </div>
-                                                    <div class="homes-tag button alt sale"
-                                                        style="background-color: rgba(255, 1, 1, 0.849) !important;">Yeni
-                                                    </div>
-
-                                                    <img src="{{ asset('housing_images/' . getImage($housing, 'image')) }}"
-                                                        style="height:190px;" alt="home-1" class="img-responsive">
+                                                <a href="single-property-1.html" class="homes-img">
+                                                    <div class="homes-tag button sale rent" style="background-color:#ff5a5f !important">Öne Çıkan</div>
+                                                    <img src="{{ asset('housing_images/' . getImage($housing, 'image')) }}" alt="{{ $housing->housing_type_title }}" class="img-responsive">
                                                 </a>
                                             </div>
                                             <div class="button-effect">
-
+                                                <a href="single-property-1.html" class="btn"><i class="fa fa-heart"></i></a>
                                             </div>
                                         </div>
                                         <!-- homes content -->
