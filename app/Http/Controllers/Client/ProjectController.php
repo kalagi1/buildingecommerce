@@ -10,6 +10,7 @@ use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\Menu;
 use App\Models\Project;
+use App\Models\ProjectHouseSetting;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -51,6 +52,8 @@ class ProjectController extends Controller
     public function projectHousingDetail($projectSlug,$housingOrder){
         $menu = Menu::getMenuItems();
         $project = Project::where('slug',$projectSlug)->firstOrFail();
-        return view('client.projects.project_housing',compact('menu','project','housingOrder'));
+        $projectHousing = $project->roomInfo->keyBy('name');
+        $projectHousingSetting = ProjectHouseSetting::where('house_type',$project->housing_type_id)->orderBy('order')->get();
+        return view('client.projects.project_housing',compact('menu','project','housingOrder','projectHousingSetting','projectHousing'));
     }
 }

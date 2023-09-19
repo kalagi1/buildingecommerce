@@ -45,6 +45,26 @@
                     </section>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        @if(!Cart::session(1)->get($project->id.'.'.$housingOrder))
+                            <div class="add-to-cart" style="background-color: #2bf327; padding: 8px 0;text-align:center;  ">
+                                <h6 style="color: black;margin:0;">Sepete Ekle</h6>
+                            </div>
+                        @else
+                            <div style="background-color: #2bf327; padding: 8px 0;text-align:center;  ">
+                                <h6 style="color: black;margin:0;">Sepette</h6>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="col-md-6">
+                        <div class="add-to-cart" style="background-color: #2bf327; padding: 8px 0;text-align:center;  ">
+                            <h6 style="color: black;margin:0;">Favorilere Ekle</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-8 col-md-12 blog-pots">
@@ -124,63 +144,48 @@
                 <!-- title -->
                 <h5 class="mb-4">Bina Özellikleri</h5>
                 <ul class="homes-list clearfix">
-                    <li style="border: none !important;" >
-                        <span class="font-weight-bold mr-1">İlan No:</span>
-                        <span class="det">1029405223</span>
-                    </li>
-                    <li style="border: none !important;" >
-                        <span class="font-weight-bold mr-1">İlan Tarihi:</span>
-                        <span class="det">22 Temmuz 2023</span>
-                    </li>
-                    @foreach($project->roomInfo as $room)
+                    @php 
+                        function implodeData($array){
+                            $html = "";
+
+                            for($i = 0; $i < count($array); $i++){
+                                if($i == 0){
+                                    $html .= " ".$array[$i][0];
+                                }else{
+                                    $html .= ",".$array[$i][0];
+                                }
+                            }
+
+                            return $html;
+                        }
+                    @endphp
+                    @foreach($projectHousingSetting as $housingSetting)
+                    @php 
+                        $isArrayCheck = $housingSetting->is_array;
+                        $onProject = false;
+                        if($isArrayCheck){
+                            $onProject = false;
+                            $value = json_decode($projectHousing[$housingSetting->column_name.'[]']['value']);
+                            $value = implodeData($value);
+                        }else if($housingSetting->is_parent_table){
+                            $value = $project[$housingSetting->column_name];
+                            $onProject = true;
+                        }
+                    @endphp
                         <li style="border: none !important;" >
-                            <span class="font-weight-bold mr-1">{{$room->key}}:</span>
-                            <span class="det">{{$room->value}}</span>
+                            @if($onProject)
+                                <span class="font-weight-bold mr-1">{{$housingSetting->label}}:</span>
+                            @else
+                                <span class="font-weight-bold mr-1">{{$projectHousing[$housingSetting->column_name.'[]']['key']}}:</span>
+                            @endif
+                            <span class="det">
+                                {{$value}}
+                            </span>
                         </li>
                     @endforeach
 
                 </ul>
 
-                <!-- <h5 class="mt-5">Amenities</h5>
-
-                    <ul class="homes-list clearfix">
-                        <li>
-                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                            <span>Air Cond</span>
-                        </li>
-                        <li>
-                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                            <span>Balcony</span>
-                        </li>
-                        <li>
-                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                            <span>Internet</span>
-                        </li>
-                        <li>
-                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                            <span>Dishwasher</span>
-                        </li>
-                        <li>
-                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                            <span>Bedding</span>
-                        </li>
-                        <li>
-                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                            <span>Cable TV</span>
-                        </li>
-                        <li>
-                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                            <span>Parking</span>
-                        </li>
-                        <li>
-                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                            <span>Pool</span>
-                        </li>
-                        <li>
-                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                            <span>Fridge</span>
-                        </li>
-                    </ul> -->
             </div>
 
         </section>
@@ -303,7 +308,7 @@ fetch(url)
     })
     .catch(error => console.error('Hata:', error));
 
-
+    
 </script>
 @endsection
 

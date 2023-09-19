@@ -24,17 +24,17 @@
       @endif
       <div class="row g-5">
         <div class="col-12 col-xl-8">
-          <h4 class="mb-3">Proje Adı</h4><input name="name" class="form-control mb-5" type="text" placeholder="Proje Adı" />
+          <h4 class="mb-3">Proje Adı</h4><input value="{{old('name')}}" name="name" class="form-control mb-5" type="text" placeholder="Proje Adı" />
           <div class="mb-6">
             <h4 class="mb-3">Proje Açıklaması</h4>
-            <textarea id="editor" name="description" name="content" ></textarea>
+            <textarea id="editor" name="description" name="content" >{!!old('description')!!}</textarea>
           </div>
           <h4 class="mb-3">Projenin Kapak Fotoğrafı</h4>
           <input type="file" name="cover_photo" class="mb-4" id="">
           <h4 class="mb-3">Proje Görselleri</h4>
           <input type="file" name="project_images[]" multiple class="mb-4" id="">
           
-            <h4 class="mb-3">Kaç Adet Konutunuz Var</h4><input class="form-control mb-5" type="text" id="house_count" name="house_count" placeholder="Kaç Adet Konutunuz Var" />
+            <h4 class="mb-3">Kaç Adet Konutunuz Var</h4><input class="form-control mb-5" type="text" id="house_count" name="house_count" value="{{old('house_count')}}" placeholder="Kaç Adet Konutunuz Var" />
           
             <span id="generate_tabs" class=" btn btn-primary mb-5">Daireleri Oluştur</span>
 
@@ -79,16 +79,29 @@
                     <div class="col-12 col-sm-6 col-xl-12">
                         <div class="mb-4">
                           <div class="d-flex flex-wrap mb-2">
-                            <h5 class="mb-0 text-1000 me-2">Proje Hangi Tipte Konutlardan Oluşuyor</h5>
+                            <h5 class="mb-0 text-1000 me-2">Proje Hangi Tipte Konutlardan Oluşuyor {{old('housing_type')}}</h5>
                           </div>
                           <select class="form-select mb-3" name="housing_type" id="housing_type" aria-label="category">
-                            <option value="" selected="">Tİp Seç:</option>
+                            <option value="">Tİp Seç:</option>
                             @foreach ($housing_types as $type)
-                                <option value="{{ $type->id }}">{{ $type->title }}</option>
+                                <option @if(old('housing_type') && old('housing_type') == $type->id ) selected @endif value="{{ $type->id }}">{{ $type->title }}</option>
                             @endforeach
                           </select>
                         </div>
                     </div>
+                    <div class="col-12 col-sm-6 col-xl-12">
+                      <div class="mb-4">
+                        <div class="d-flex flex-wrap mb-2">
+                          <h5 class="mb-0 text-1000 me-2">Proje Konutlarının Statüsü Nedir?</h5>
+                        </div>
+                        <select multiple name="housing_status" id="housing_status" aria-label="category">
+                          <option value="" selected="">Tİp Seç:</option>
+                          @foreach ($housing_status as $status)
+                              <option value="{{ $status->id }}">{{ $status->name }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                  </div>
                     <div class="col-12 col-sm-6 col-xl-12">
                         <div class="mb-4">
                             <div class="d-flex flex-wrap mb-2">
@@ -160,17 +173,200 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         jQuery($ => {
-            $('#location').leafletLocationPicker({
-                alwaysOpen: true,
-                mapContainer: "#mapContainer",
-                height: 300,
-                width : '100%',
-                map: {
-                    zoom: 5
-                }
+      var houseCount = {{old('house_count') ? old('house_count') : 0}};
+      if(!isNaN(houseCount) && houseCount > 0){
+        var houseType = {{old('housing_type') ? old('housing_type') : 0}};
+        if(houseType != 0){
+          @php $housingType = DB::table('housing_types')->where('id',old('housing_type'))->first(); @endphp
+          var housingTypeData = @json($housingType);
+          var oldData = @json(old());
+          console.log(oldData);
+          var formInputs = JSON.parse(housingTypeData.form_json);
+          
+          $('.rendered-area').removeClass('d-none')
+          $.ajax({
+              method: "GET",
+              url: "{{ route('institutional.ht.getform') }}",
+              data: {
+                  id: houseType
+              },
+              success: function(response) {
+                  var html = "";
+                  var htmlContent = "";
+                  for(var i = 0 ; i < houseCount; i++ ){
+                      html += '<a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center '+(i == 0 ? 'active' : '')+'" id="Tab'+(i+1)+'" data-bs-toggle="tab" data-bs-target="#TabContent'+(i+1)+'" role="tab" aria-controls="TabContent'+(i+1)+'" aria-selected="true">'+
+                          '<span class="me-sm-2 fs-4 nav-icons" data-feather="tag"></span>'+
+                          '<span class="d-none d-sm-inline">'+(i+1)+' Nolu Konut Bilgileri</span>'+
+                      '</a>';
+
+                      htmlContent += '<div class="tab-pane fade show '+(i == 0 ? 'active' : '')+'" id="TabContent'+(i+1)+'" role="tabpanel">'+
+                          '<div id="renderForm'+(i+1)+'"></div>'+
+                      '</div>';
+                  }
+
+                  $('#tablist').html(html);
+                  $('.tab-content').html(htmlContent)
+                  for (let i = 1; i <= houseCount; i++) {
+                      formRenderOpts = {
+                          dataType: 'json',
+                          formData: response.form_json
+                      };
+
+                      var renderedForm = $('<div>');
+                      renderedForm.formRender(formRenderOpts);
+                      var renderHtml = renderedForm.html().toString();
+                      renderHtml = renderHtml.toString().split('images[][]');
+                      renderHtml = renderHtml[0]+'images'+i+'[][]'+renderHtml[1];
+                      var json = JSON.parse(response.form_json);
+                      for(var lm = 0 ; lm < json.length; lm++){
+                        if(json[lm].type == "checkbox-group"){
+                          var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
+                          renderHtmlx = "";
+                          var json = JSON.parse(response.form_json);
+                          for(var t = 0 ; t < renderHtml.length ; t++){
+                            if(t != renderHtml.length - 1){
+                              renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
+                            }else{
+                              renderHtmlx += renderHtml[t];
+                            }
+                          }
+
+                          renderHtml = renderHtmlx;
+                        }
+                      }
+                      $('#renderForm'+(i)).html(renderHtmlx);
+                      $('#tablist a.nav-link').click(function(e) {
+                          e.preventDefault(); // Linki tıklamayı engelleyin
+
+                          // Tüm sekmeleri gizleyin
+                          $('.tab-content .tab-pane').removeClass('show active');
+
+                          // Tıklanan tab linkine ait tabın kimliğini alın
+                          var tabId = $(this).attr('data-bs-target');
+
+                          // İlgili tabı gösterin
+                          $(tabId).addClass('show active');
+                      });
+
+                  }
+                  for (let i = 1; i <= houseCount; i++) {
+                    for(var j = 2 ; j < formInputs.length; j++){
+                      if(formInputs[j].type == "number" || formInputs[j].type == "text"){
+                        var inputName = formInputs[j].name;
+                        var inputNamex = inputName;
+                        inputNamex = inputNamex.split('[]')
+                        console.log(inputNamex);
+                        $($('input[name="'+formInputs[j].name+'"]')[i-1]).val(oldData[inputNamex[0]][i - 1]);
+                      }else if(formInputs[j].type == "select"){
+                        var inputName = formInputs[j].name;
+                        var inputNamex = inputName;
+                        inputNamex = inputNamex.split('[]')
+                        $($('select[name="'+formInputs[j].name+'"]')[i-1]).children('option').map((key,item) => {
+                          if($(item).attr("value") == oldData[inputNamex[0]][i - 1]){
+                            $(item).attr('selected','selected')
+                          }else{
+                            $(item).removeAttr('selected')
+                          }
+                        });
+                      }else if(formInputs[j].type == 'checkbox-group'){
+                        var inputName = formInputs[j].name;
+                        var inputNamex = inputName;
+                        inputNamex = inputNamex.split('[][]')
+                        var checkboxName = inputName;
+                        checkboxName = checkboxName.split('[]');
+                        checkboxName = checkboxName[0];
+                        $($('input[name="'+checkboxName+[i]+'[][]"]')).map((key,item) => {
+                          console.log(oldData[(checkboxName+i)],$(item).attr("value"))
+                          oldData[(checkboxName+i)].map((checkbox) => {
+                            if(checkbox[0] == $(item).attr("value")){
+                              $(item).attr('checked','checked')
+                            }
+                          })
+                        });
+                      }
+                      
+                    }
+                  }
+
+                  
+                  
 
 
-            });
+              },
+              error: function(error) {
+                  console.log(error)
+              }
+          })
+        }
+        
+      }
+          $('#location').leafletLocationPicker({
+              alwaysOpen: true,
+              mapContainer: "#mapContainer",
+              height: 300,
+              width: '100%',
+              map: {
+                  zoom: 5
+              },
+              event: 'click',
+              onChangeLocation: function(location) {
+                  var latitude = location.latlng.lat;
+                  var longitude = location.latlng.lng;
+
+                  var apiURL = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" + latitude + "&lon=" + longitude+'&zoom=18&addressdetails=1';
+
+                  $.ajax({
+                      url: apiURL,
+                      type: "GET",
+                      dataType: "json",
+                      success: function(data) {
+                        console.log(data);
+                          var cityName = data.address.province; // Şehir ismini alın
+                          $('#cities option').map((key,item) => {
+                            if($('#cities option').eq(key).html() == cityName.toUpperCase()){
+                              $.ajax({
+                                  url: '{{route("institutional.get.counties")}}', // Endpoint URL'si (get.counties olarak varsayalım)
+                                  method: 'GET',
+                                  data: { city: $('#cities option').eq(key).val() }, // Şehir verisini isteğe ekle
+                                  dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
+                                  success: function(response) {
+                                    $('#cities option').eq(key).attr('selected','selected');
+                                      // Yanıt başarılı olduğunda çalışacak kod
+                                      var countiesSelect = $('#counties'); // counties id'li select'i seç
+                                      countiesSelect.empty(); // Select içeriğini temizle
+
+                                      // Dönen yanıttaki ilçeleri döngüyle ekleyin
+                                      for (var i = 0; i < response.length; i++) {
+                                          countiesSelect.append($('<option>', {
+                                              value: response[i].id, // İlçe ID'si
+                                              text: response[i].title // İlçe adı
+                                          }));
+                                      }
+
+                                      $('#counties option').map((key,item) => {
+                                        if($('#counties option').eq(key).html() == data.address.town.toUpperCase()){
+                                          $('#counties option').eq(key).attr('selected','selected');
+                                        }
+                                      })
+                                  },
+                                  error: function(xhr, status, error) {
+                                      // Hata durumunda çalışacak kod
+                                      console.error('Hata: ' + error);
+                                  }
+                              });
+                            }else{
+                              $('#cities option').eq(key).removeAttr('selected');
+                            }
+                          })
+                          console.log("Tıklanan Şehir: " + cityName);
+                          console.log("Tıklanan İlçe: " + data.address.town);
+                      },
+                      error: function(error) {
+                          console.error("Hata: Şehir bilgisi alınamadı.");
+                      }
+                  });
+              }
+          });
 
             const houseCountInput = document.getElementById('house_count');
             const generateTabsButton = document.getElementById('generate_tabs');
@@ -199,7 +395,7 @@
                 
                 $.ajax({
                     method: "GET",
-                    url: "{{ route('admin.ht.getform') }}",
+                    url: "{{ route('institutional.ht.getform') }}",
                     data: {
                         id: selectedid
                     },
@@ -230,7 +426,25 @@
                             renderedForm.formRender(formRenderOpts);
                             var renderHtml = renderedForm.html().toString();
                             renderHtml = renderHtml.toString().split('images[][]');
+                            var json = JSON.parse(response.form_json);
                             renderHtml = renderHtml[0]+'images'+i+'[][]'+renderHtml[1];
+                            for(var lm = 0 ; lm < json.length; lm++){
+                              if(json[lm].type == "checkbox-group"){
+                                var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
+                                renderHtmlx = "";
+                                var json = JSON.parse(response.form_json);
+                                for(var t = 0 ; t < renderHtml.length ; t++){
+                                  if(t != renderHtml.length - 1){
+                                    renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
+                                  }else{
+                                    renderHtmlx += renderHtml[t];
+                                  }
+                                }
+
+                                renderHtml = renderHtmlx;
+                              }
+                            }
+                            
                             $('#renderForm'+(i)).html(renderHtml);
                             $('#tablist a.nav-link').click(function(e) {
                                 e.preventDefault(); // Linki tıklamayı engelleyin
@@ -262,6 +476,7 @@
     <script src="{{ URL::to('/') }}/adminassets/vendors/tinymce/tinymce.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/vendors/dropzone/dropzone.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/vendors/choices/choices.min.js"></script>
+    <script src="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.min.js"></script>
     
     <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.4.2/form-render.min.js">
@@ -273,7 +488,6 @@ https://cdn.jsdelivr.net/npm/fine-uploader@5.16.2/fine-uploader/fine-uploader.mi
         CKEDITOR.replace('editor');
 
         $('#cities').change(function(){
-          console.log("asd");
           var selectedCity = $(this).val(); // Seçilen şehir değerini al
 
           // AJAX isteği yap
@@ -302,6 +516,7 @@ https://cdn.jsdelivr.net/npm/fine-uploader@5.16.2/fine-uploader/fine-uploader.mi
           });
       });
       
+      $('#housing_status').selectize()
 
 
     </script>
@@ -309,9 +524,8 @@ https://cdn.jsdelivr.net/npm/fine-uploader@5.16.2/fine-uploader/fine-uploader.mi
 @endsection
 
 @section('css')
-<link href="
-https://cdn.jsdelivr.net/npm/fine-uploader@5.16.2/fine-uploader/fine-uploader-gallery.min.css
-" rel="stylesheet">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.css"/>
+<link href="https://cdn.jsdelivr.net/npm/fine-uploader@5.16.2/fine-uploader/fine-uploader-gallery.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css" integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         .leaflet-container{

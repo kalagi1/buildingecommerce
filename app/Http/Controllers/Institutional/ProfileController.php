@@ -11,7 +11,7 @@ class ProfileController extends Controller
 {
     public function edit()
     {
-        $user = auth()->user();
+        $user = auth()->guard("institutional")->user();
         return view('institutional.profile.edit', compact('user'));
     }
 

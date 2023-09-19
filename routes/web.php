@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\FooterLinkController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\HousingController;
+use App\Http\Controllers\Admin\HousingStatusController;
 use App\Http\Controllers\Admin\HousingTypeController;
 use App\Http\Controllers\Admin\InfoController;
 use App\Http\Controllers\Admin\LoginController as AdminLoginController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
 use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboardController;
 use App\Http\Controllers\ClientPanel\ProfileController as ClientPanelProfileController;
@@ -29,6 +31,7 @@ use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\PageController as ClientPageController;
 use App\Http\Controllers\Client\RegisterController;
 use App\Http\Controllers\Institutional\BrandController;
+use App\Http\Controllers\Institutional\BuyController;
 use App\Http\Controllers\Institutional\ChangePasswordController as InstitutionalChangePasswordController;
 use App\Http\Controllers\Institutional\DashboardController;
 use App\Http\Controllers\Institutional\LoginController;
@@ -57,6 +60,8 @@ Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('page/{slug}', [ClientPageController::class, 'index'])->name('page.show');
+Route::post('add_to_cart', [CartController::class, 'addProjectToCart'])->name('add.to.cart');
+Route::get('cart', [CartController::class, 'index'])->name('cart');
 
 Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
@@ -93,6 +98,15 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::middleware(['checkPermission:GetHousingTypes'])->group(function () {
         Route::get('/housing_types', [HousingTypeController::class, 'index'])->name('housing_types.index');
         Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
+    });
+
+    Route::middleware(['checkPermission:GetHousingStatuses'])->group(function () {
+        Route::get('/housing_statuses', [HousingStatusController::class, 'index'])->name('housing_statuses.index');
+    });
+
+    Route::middleware(['checkPermission:EditHousingStatuses'])->group(function () {
+        Route::get('/housing_status/{id}/edit', [HousingStatusController::class, 'edit'])->name('housing_status.edit');
+        Route::post('/housing_status/{id}/edit', [HousingStatusController::class, 'update'])->name('housing_status.update');
     });
 
     Route::middleware(['checkPermission:DeleteHousingType'])->group(function () {
@@ -353,15 +367,19 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
 });
 
+
+Route::get('/institutional/login', [LoginController::class, 'index'])->name('institutional.login');
+Route::post('/institutional/login', [LoginController::class, 'login'])->name('institutional.login.post');
+
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional']], function () {
-    Route::get('/login', [LoginController::class, 'index'])->name('login');
-    Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
         Route::get('/profile/edit', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
         Route::put('/profile/update', [InstitutionalProfileController::class, "update"])->name('profile.update');
     });
+
+    Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
 
     // ChangePassword Controller Rotasının İzinleri
     Route::middleware(['checkPermission:ChangePassword'])->group(function () {
@@ -377,7 +395,10 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
+    Route::get('/project_stand_out/{project_id}', [InstitutionalProjectController::class,"standOut"])->name('project.stand.out');
+    Route::get('/get_stand_out_prices', [InstitutionalProjectController::class,"pricingList"])->name('project.pricing.list');
     Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
+    Route::post('/buy_order', [BuyController::class, "buyOrder"])->name('buy.order');
 });
 
 Route::group(['prefix' => 'client', "as" => "client.", 'middleware' => ['client']], function () {
@@ -397,6 +418,12 @@ Route::group(['prefix' => 'client', "as" => "client.", 'middleware' => ['client'
     // AdminHomeController Rotalarının İzinleri
     Route::middleware(['checkPermission:ViewDashboard'])->group(function () {
         Route::get('/', [ClientPanelDashboardController::class, "index"])->name("index");
+    });
+
+    // User Controller İzin Kontrolleri
+    Route::middleware(['checkPermission:CreateUser'])->group(function () {
+        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/users', [UserController::class, 'store'])->name('users.store');
     });
 
 });

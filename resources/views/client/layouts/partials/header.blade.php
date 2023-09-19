@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/fontawesome-5-all.min.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/font-awesome.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- ARCHIVES CSS -->
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/search-form.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/search.css">
