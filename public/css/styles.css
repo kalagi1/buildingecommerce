@@ -4777,7 +4777,7 @@ Version      : 1.2
     }
 
     .first-footer .logo img {
-        width: 180px;
+        width: 50%;
         height: auto;
         margin-bottom: 1.6rem;
     }
@@ -4905,6 +4905,11 @@ Version      : 1.2
     }
 
     @media screen and (max-width: 768px) {
+        .first-footer .logo img {
+            width: 20%;
+            height: auto;
+            margin-bottom: 1.6rem;
+        }
         .homepage-2 .second-footer .container-fluid {
             -webkit-box-orient: vertical;
             -webkit-box-direction: normal;

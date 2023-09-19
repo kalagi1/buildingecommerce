@@ -1,7 +1,7 @@
 [
     {
         "id": "account",
-        "label": "Sana Özel",
+        "label": "Hesabım & Yardım",
         "icon": "home",
         "text": "Hesabım",
         "key": "ViewDashboard",
@@ -10,8 +10,8 @@
     },
     {
         "id": "EditProfile",
-        "label": "Sana Özel",
-        "icon": "edit",
+        "label": "Hesabım & Yardım",
+        "icon": "user",
         "text": "Profili Güncelle",
         "key": "EditProfile",
         "url": "client.profile.edit",
@@ -19,7 +19,7 @@
     },
     {
         "id": "ChangePassword",
-        "label": "Sana Özel",
+        "label": "Hesabım & Yardım",
         "icon": "lock",
         "text": "Şifreyi Değiştir",
         "key": "ChangePassword",

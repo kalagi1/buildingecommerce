@@ -2,10 +2,10 @@
     <div class="top-footer">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 col-md-6 col-lg col-xl">
+                <div class="col-sm-12 col-md-6 col-lg col-xl">
                     <div class="netabout">
                         <a href="index.html" class="logo">
-                            <img src="images/logo.png" alt="netcom">
+                            <img src="{{ URL::to('/') }}/images/logo.png" alt="netcom">
                         </a>
                     </div>
 
@@ -230,7 +230,7 @@
         responsive: [{
             breakpoint: 1292,
             settings: {
-                slidesToShow: 7,
+                slidesToShow: 10,
                 slidesToScroll: 4,
                 dots: true,
                 arrows: false
@@ -238,7 +238,7 @@
         }, {
             breakpoint: 993,
             settings: {
-                slidesToShow: 6,
+                slidesToShow: 8,
                 slidesToScroll: 3,
                 dots: true,
                 arrows: false
@@ -246,8 +246,8 @@
         }, {
             breakpoint: 769,
             settings: {
-                slidesToShow: 3.5,
-                slidesToScroll: 3,
+                slidesToShow: 5.5,
+                slidesToScroll: 1,
                 dots: true,
                 arrows: false
             }
