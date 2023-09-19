@@ -31,6 +31,11 @@ class Project extends Model
         return $this->hasMany(ProjectHousing::class, "project_id", "id");
     }
 
+    public function roomInfoKeyBy()
+    {
+        return $this->hasMany(ProjectHousing::class, "project_id", "id")->keyBy('name');
+    }
+
     public function housingType()
     {
         return $this->hasOne(HousingType::class, "id", "housing_type_id");

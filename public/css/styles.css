@@ -25874,3 +25874,316 @@ Version      : 1.2
         width: 100%;
         padding: 0 5rem;
     }
+
+    .sude .breadcrumb-nav ul {
+        text-decoration: none !important;
+        list-style: none;
+        display: flex;
+    }
+    
+    .sude .breadcrumb-nav ul li {
+        margin-right: 10px;
+        font-size: 14px;
+    }
+    
+    .sude .breadcrumb-nav ul li a {
+        text-decoration: none !important;
+        color: black;
+    }
+    
+    .sude .odeme-section .odeme-info .bill-info-left form .form-group .form-control {
+        background-color: rgb(247, 246, 246);
+        border-radius: 2px !important;
+    }
+    
+    .sude .odeme-section .odeme-info .bill-info-right form .form-group .form-control {
+        background-color: rgb(247, 246, 246);
+        border-radius: 2px !important;
+    }
+    
+    .sude .odeme-section .odeme-method button {
+        background-color: rgb(247, 246, 246);
+        border-radius: 2px !important;
+        border: 1px solid rgb(204, 204, 204);
+        color: black;
+        justify-content: space-between;
+    }
+    
+    .sude .sudespecialbuttonsd::hover {
+        background-color: red !important;
+    }
+    
+    
+    
+    
+    .sude .special-div {
+        background: rgb(255, 255, 255);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 1) 35%, rgba(237, 237, 237, 1) 100%);
+        border: 1px solid rgba(237, 237, 237, 1);
+    }
+    
+    
+    
+    .sude .content-sec .content-sec-box .special-div-left {
+        height: 250px;
+        background: rgb(255, 255, 255);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 1) 35%, rgba(237, 237, 237, 1) 100%);
+        border: 1px solid rgba(237, 237, 237, 1);
+        display: flex;
+        flex-direction: column;
+        padding-top: 20px;
+    
+    }
+    
+    
+    
+    .sude .content-sec .content-sec-box .special-div-right .order-info-payment {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+        border-bottom: 1px solid rgb(199, 197, 197);
+        padding-bottom: 30px;
+    
+    }
+    
+    .sude .content-sec .content-sec-box .special-div-right {
+        height: 350px;
+        background: rgb(255, 255, 255);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 1) 35%, rgba(237, 237, 237, 1) 100%);
+        border: 1px solid rgba(237, 237, 237, 1);
+        padding: 20px;
+    
+    }
+    
+    .sude .content-sec .content-sec-box .special-div-right-bottom {
+        height: 350px;
+        background: rgb(255, 255, 255);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 1) 35%, rgba(237, 237, 237, 1) 100%);
+        border: 1px solid rgba(237, 237, 237, 1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+    
+    .sude .content-sec .content-sec-box .main-div .special-div-left-bottom .image-content {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 1) 35%, rgba(237, 237, 237, 1) 100%);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .sudespecialbuttons {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 1) 35%, rgba(237, 237, 237, 1) 100%);
+        border: 1px solid rgb(228, 227, 227);
+        height: 80px;
+        color: rgb(2, 2, 202);
+        border-radius: 5px;
+        font-size: 20px;
+    }
+    
+    .sudespecialbuttons:hover {
+    
+    
+        background: linear-gradient(0deg, rgba(38, 80, 161, 1) 85%, rgba(98, 141, 225, 1) 100%);
+        height: 80px;
+        border-radius: 5px;
+        font-size: 20px;
+        color: white;
+    
+    }
+    
+    
+    .sudespecialbuttonsd {
+        background: rgb(38, 80, 161);
+        background: linear-gradient(0deg, rgba(38, 80, 161, 1) 35%, rgba(98, 141, 225, 1) 100%);
+        border: 1px solid rgb(228, 227, 227);
+        height: 80px;
+        color: white;
+        border-radius: 5px;
+        font-size: 20px;
+    }
+    
+    .sudespecialbuttonsd:hover {
+    
+        background: linear-gradient(0deg, rgba(38, 80, 161, 1) 85%, rgba(98, 141, 225, 1) 100%);
+        height: 80px;
+        border-radius: 5px;
+        font-size: 20px;
+        color: white;
+    
+    }
+    
+    
+    
+    .sudespecialbuttonsdd {
+        background: rgb(38, 80, 161);
+        background: linear-gradient(0deg, rgba(38, 80, 161, 1) 35%, rgba(98, 141, 225, 1) 100%);
+        height: 25px;
+        color: white;
+        font-size: 12px;
+        padding: 0px !important;
+        float: right;
+        position: relative;
+    }
+    
+    .sudespecialbuttonsdd:hover {
+        background: rgb(182, 182, 182);
+        border: 1px solid rgb(228, 227, 227);
+        height: 25px;
+        border-radius: 5px;
+        font-size: 12px;
+        color: black;
+    
+    }
+    
+    .bottom-price {
+        background-color: rgb(44, 44, 44);
+        font-size: 12px;
+        color: white;
+        top: 130px;
+        width: 100%;
+        position: relative;
+        margin-top: 2px;
+    }
+    
+    input[type="checkbox"] {
+        /* Add if not using autoprefixer */
+        -webkit-appearance: none;
+        appearance: none;
+        /* For iOS < 15 to remove gradient background */
+        background-color: #446BB6;
+        /* Not removed via appearance */
+        margin: 0;
+    }
+    
+    input[type="checkbox"] {
+        appearance: none;
+        background-color: #446BB6;
+        margin: 0;
+        font: inherit;
+        color: white;
+        width: 1.15em;
+        height: 1.15em;
+        border: 0.15em solid none;
+        transform: translateY(-0.075em);
+    }
+    
+    input[type="checkbox"] {
+        display: grid;
+        place-content: center;
+    }
+    
+    input[type="checkbox"]::before {
+        content: "";
+        width: 0.65em;
+        height: 0.65em;
+        transform: scale(0);
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em var(--form-control-color);
+    }
+    
+    input[type="checkbox"] {
+        /* ...existing styles */
+        display: grid;
+        place-content: center;
+    }
+    
+    input[type="checkbox"]::before {
+        content: "";
+        width: 0.65em;
+        height: 0.65em;
+        transform: scale(0);
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em var(--form-control-color);
+    }
+    
+    input[type="checkbox"]:checked::before {
+        transform: scale(1);
+    }
+    
+    input[type="checkbox"]::before {
+        /* ...existing styles */
+    
+        /* Windows High Contrast Mode */
+        background-color: white;
+    }
+    
+    input[type="checkbox"]::before {
+        /* ...existing styles */
+    
+        transform-origin: bottom left;
+        clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    }
+    
+    
+    @media screen and (max-width: 992px) {}
+    
+    @media screen and (max-width: 768px) {
+        .sude .odeme-section .odeme-info .odeme-info-left {
+            display: flex;
+            flex-direction: column !important;
+        }
+    
+        .special-checkbox-hide {
+            display: none;
+        }
+    
+        .sude .odeme-section {
+            display: flex;
+            flex-direction: column !important;
+        }
+    
+        .sude .content-sec .content-sec-box {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+    
+        .sude .content-sec .content-sec-box .main-div .special-div-left .images img {
+            height: auto;
+            margin-bottom: 10px;
+    
+        }
+    
+        .sude .content-sec .content-sec-box .main-div .special-div-left .images {
+            flex-direction: column;
+            padding: 20px;
+        }
+    
+        .sude .content-sec .content-sec-box .special-div-left {
+            height: auto;
+        }
+    
+        .sude .content-sec .content-sec-box .main-div .special-div-left-bottom .image-content {
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .sude .content-sec .content-sec-box .main-div .special-div-left-bottom .image-content .asdfg {
+            display: none;
+        }
+    
+        .image-content {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            flex-direction: column !important;
+            text-align: center;
+    
+        }
+    
+        .image-content input {
+            margin: 10px;
+    
+        }
+    
+        .hiddeninput {
+            display: none !important;
+        }
+    
+    
+    }

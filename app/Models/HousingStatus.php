@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class HousingStatus extends Model
 {
-    protected $table = 'housing_status';
     use HasFactory;
+    protected $table = 'housing_status';
+    public $timestamps = false;
+    protected $guarded = [];
 }

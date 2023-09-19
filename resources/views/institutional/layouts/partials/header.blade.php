@@ -28,6 +28,7 @@
     <link rel="manifest" href="{{ URL::to('/') }}/adminassets/assets/img/favicons/manifest.json">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}"> <!-- CSRF token'ını meta etiketi olarak sayfaya ekleyin -->
     <meta name="msapplication-TileImage"
         content="{{ URL::to('/') }}/adminassets/assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
@@ -404,7 +405,7 @@
                                                 src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
                                                 alt="" />
                                         </div>
-                                        <h6 class="mt-2 text-black">{{ Auth::user()->name }}</h6>
+                                        <h6 class="mt-2 text-black">{{ Auth::guard("institutional")->user()->name }}</h6>
                                     </div>
                                 </div>
                                 <div class="overflow-auto scrollbar">

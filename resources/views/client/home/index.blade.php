@@ -119,26 +119,13 @@
     <!-- category banner headers -->
     <section class="container justify-content-center">
         <div class="special-button-content row">
+            @foreach($dashboardStatuses as $statu)
             <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
                 <button style="background-color: #dee0f5; color: #504fa3;" class="w-100">
-                    Yeni Projeler
+                    {{$statu->name}}
                 </button>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
-                <button style="background-color: #fcebe1; color: #a3674f;" class="w-100">
-                    Satışı Devam Ediyor
-                </button>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
-                <button style="background-color: #e7fcec; color: #4fa353;" class="w-100">
-                    Oturuma Hazır Projeler
-                </button>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
-                <button style="background-color: #fbe7fc; color: #a34f6b;" class="w-100">
-                    Fırsat Daireleri
-                </button>
-            </div>
+            @endforeach
         </div>
     </section>
 
@@ -164,13 +151,13 @@
             <div class="row">
                 <div class="col-md-12">
                 </div>
-                @foreach ($projects as $item)
+                @foreach ($dashboardProjects as $project)
                     <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
                         <!-- Image Box -->
-                        <a href="{{ route('project.detail', $item->slug) }}" class="img-box hover-effect">
-                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $item->image) }}"
+                        <a href="{{ route('project.detail', $project->project->slug) }}" class="img-box hover-effect">
+                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"
                                 class="img-fluid w100" alt="">
-                            {{ $item->project_title }}
+                            {{ $project->project->project_title }}
                         </a>
                     </div>
                 @endforeach
