@@ -1,9 +1,9 @@
 @extends('institutional.layouts.master')
 
 @section('content')
-    
+
 <div class="content">
-    
+
     <form class="mb-9" method="post" action="{{route('institutional.projects.store')}}" enctype="multipart/form-data">
         @csrf
       <div class="row g-3 flex-between-end mb-5">
@@ -33,9 +33,9 @@
           <input type="file" name="cover_photo" class="mb-4" id="">
           <h4 class="mb-3">Proje Görselleri</h4>
           <input type="file" name="project_images[]" multiple class="mb-4" id="">
-          
+
             <h4 class="mb-3">Kaç Adet Konutunuz Var</h4><input class="form-control mb-5" type="text" id="house_count" name="house_count" value="{{old('house_count')}}" placeholder="Kaç Adet Konutunuz Var" />
-          
+
             <span id="generate_tabs" class=" btn btn-primary mb-5">Daireleri Oluştur</span>
 
             <div class="rendered-area d-none">
@@ -43,7 +43,7 @@
                     <div class="row g-0 border-top border-bottom border-300">
                     <div class="col-sm-4">
                         <div id="tablist" class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab h-100 justify-content-between" role="tablist" aria-orientation="vertical">
-                        
+
                         </div>
                     </div>
                     <div class="col-sm-8">
@@ -51,7 +51,7 @@
                             <div class="tab-pane fade show active" id="pricingTabContent" role="tabpanel">
                                 <div id="renderForm"></div>
                             </div>
-                        
+
                         </div>
                     </div>
                 </div>
@@ -182,7 +182,7 @@
           var oldData = @json(old());
           console.log(oldData);
           var formInputs = JSON.parse(housingTypeData.form_json);
-          
+
           $('.rendered-area').removeClass('d-none')
           $.ajax({
               method: "GET",
@@ -284,12 +284,12 @@
                           })
                         });
                       }
-                      
+
                     }
                   }
 
-                  
-                  
+
+
 
 
               },
@@ -298,7 +298,7 @@
               }
           })
         }
-        
+
       }
           $('#location').leafletLocationPicker({
               alwaysOpen: true,
@@ -373,7 +373,7 @@
             const tabsContainer = document.getElementById('tabs');
 
             generateTabsButton.addEventListener('click', function () {
-                
+
                 var selectedid = $('#housing_type').val();
                 if(selectedid){
                     $('.rendered-area').removeClass('d-none')
@@ -392,7 +392,7 @@
                     return;
                 }
 
-                
+
                 $.ajax({
                     method: "GET",
                     url: "{{ route('institutional.ht.getform') }}",
@@ -444,7 +444,7 @@
                                 renderHtml = renderHtmlx;
                               }
                             }
-                            
+
                             $('#renderForm'+(i)).html(renderHtml);
                             $('#tablist a.nav-link').click(function(e) {
                                 e.preventDefault(); // Linki tıklamayı engelleyin
@@ -459,7 +459,7 @@
                                 $(tabId).addClass('show active');
                             });
                         }
-                        
+
 
 
                     },
@@ -468,16 +468,16 @@
                     }
                 })
                 // Belirtilen sayıda sekme oluştur
-                
+
             });
         });
-           
+
     </script>
     <script src="{{ URL::to('/') }}/adminassets/vendors/tinymce/tinymce.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/vendors/dropzone/dropzone.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/vendors/choices/choices.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.min.js"></script>
-    
+
     <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.4.2/form-render.min.js">
     <script src="
@@ -515,7 +515,7 @@ https://cdn.jsdelivr.net/npm/fine-uploader@5.16.2/fine-uploader/fine-uploader.mi
               }
           });
       });
-      
+
       $('#housing_status').selectize()
 
 

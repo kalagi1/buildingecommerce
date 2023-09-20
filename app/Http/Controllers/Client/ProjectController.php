@@ -48,7 +48,7 @@ class ProjectController extends Controller
         $menu = Menu::getMenuItems();
         return view('client.projects.list',compact('menu','projects','housingTypes','housingStatus','cities'));
     }
-    
+
     public function projectHousingDetail($projectSlug,$housingOrder){
         $menu = Menu::getMenuItems();
         $project = Project::where('slug',$projectSlug)->firstOrFail();

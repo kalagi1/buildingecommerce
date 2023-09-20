@@ -42,9 +42,9 @@ class ProjectController extends Controller
             "brand_id" => "required",
             "description" => "required",
             "house_count" => "required",
-            "cover_photo" => "required",
+            "cover_photo" => "required"
         ]);
-        
+
         $housingTypeInputs = HousingType::where('id',$request->input('housing_type'))->first();
         $housingTypeInputs = json_decode($housingTypeInputs->form_json);
         $errors = [];
@@ -75,6 +75,7 @@ class ProjectController extends Controller
                 "room_count" => $request->input('house_count'),
                 "city_id" => $request->input('city_id'),
                 "county_id" => $request->input('county_id'),
+                "user_id" => Auth::user()->id,
                 "status_id" => 1,
                 "image" => $filePath,
             ]);
@@ -150,7 +151,7 @@ class ProjectController extends Controller
                                 "room_order" => $i + 1,
                             ]);
                         }
-                        
+
                     }
                 }
             }
