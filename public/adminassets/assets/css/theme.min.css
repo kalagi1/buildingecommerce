@@ -40346,3 +40346,30 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     border-radius: 0.25rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
+
+.dz-preview:hover .dz-remove{
+    background-color: #dc3545;
+    cursor: pointer;
+    border-radius: 100%;
+}
+
+.dz-preview:hover .dz-remove svg path{
+    cursor: pointer;
+}
+
+.edit_project_housing_image{
+    width: 100px;
+    height: 100px;
+}
+
+.dropzone2{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.project_images_area{
+    margin: 10px 0;
+    margin-right:10px;
+    display: flex;
+    flex-direction: column;
+}

@@ -56,4 +56,8 @@ class Project extends Model
     public function county(){
         return $this->hasOne(County::class,"id","county_id");
     }
+
+    public function housingStatus(){
+        return $this->hasMany(ProjectHousingType::class,"project_id","id");
+    }
 }

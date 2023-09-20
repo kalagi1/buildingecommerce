@@ -11,6 +11,7 @@ use App\Models\HousingType;
 use App\Models\PricingStandOut;
 use App\Models\Project;
 use App\Models\ProjectHousing;
+use App\Models\ProjectHousingType;
 use App\Models\ProjectImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -184,7 +185,7 @@ class ProjectController extends Controller
 
     public function edit($id){
         $project = Project::with("roomInfo")->where('id',$id)->first();
-
+        $project->housingStatusesFull = $project->housingStatus->keyBy('housing_type_id')->toArray();
         $results = ProjectHousing::
         select(DB::raw('max(name) as name , max(value) as value, max(room_order) as room_order'))
         ->where('project_id',$id)
@@ -197,8 +198,9 @@ class ProjectController extends Controller
             $groupedData[str_replace("[]", "", $result['name'])][$result->room_order-1] = $result->value;
         }
 
-        $project->roomInfoKeys = $groupedData;
 
+        $project->roomInfoKeys = $groupedData;
+        
         $brands = Brand::where('user_id', Auth::user()->id)->where('status', 1)->get();
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
@@ -215,7 +217,6 @@ class ProjectController extends Controller
             "brand_id" => "required",
             "description" => "required",
             "house_count" => "required",
-            "cover_photo" => "required",
         ]);
         
         $housingTypeInputs = HousingType::where('id',$request->input('housing_type'))->first();
@@ -257,19 +258,22 @@ class ProjectController extends Controller
                 "image" => $filePath,
             ]);
 
-            $project = Project::where('id',$id)->first();
+            ProjectHousingType::where('project_id',$id)->delete();
 
-            foreach ($request->file('project_images') as $image) {
-                // Dosyayı uygun bir konuma kaydedin, örneğin "public/project_images" klasörüne
-                $path = $image->store('public/project_images');
-
-                // Dosya yolunu veritabanına ekleyin
-                $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
-                $projectImage->image = $path;
-                $projectImage->project_id = $project->id;
-                $projectImage->save();
+            foreach($request->input('housing_status') as $housingStatus){
+                ProjectHousingType::create([
+                    "project_id" => $id,
+                    "housing_type_id" => $housingStatus
+                ]);
             }
-            ProjectHousing::where('project_id',$id)->delete();
+
+            $project = Project::where('id',$id)->first();
+            if($request->file('image')){
+
+                ProjectHousing::where('project_id',$id)->where('name','!=','images[]')->delete();
+            }else{
+                ProjectHousing::where('project_id',$id)->where('name','!=','images[]')->where('name','!=','image[]')->delete();
+            }
             for ($i = 0; $i < $request->input('house_count'); $i++) {
                 for ($j = 0; $j < count($housingTypeInputs); $j++) {
                     if ($housingTypeInputs[$j]->type == "file") {
@@ -291,24 +295,6 @@ class ProjectController extends Controller
 
                                 }
                             }
-                        }
-
-                        if ($housingTypeInputs[$j]->name == "images[]") {
-                            $files = [];
-                            for ($k = 0; $k < count($request->file('images' . ($i + 1))); $k++) {
-                                $image = $request->file('images' . ($i + 1))[$k][0];
-                                $imageName = Str::slug(Str::slug($request->input('name'))) . '-' . ($i) . '-' . $k . '-' . time() . '.' . $image->getClientOriginalExtension();
-                                $image->move(public_path('/project_housing_images'), $imageName);
-                                array_push($files, $imageName);
-                            }
-
-                            ProjectHousing::create([
-                                "key" => $housingTypeInputs[$j]->label,
-                                "name" => $housingTypeInputs[$j]->name,
-                                "value" => json_encode($files),
-                                "project_id" => $project->id,
-                                "room_order" => $i + 1,
-                            ]);
                         }
                     }else{
                         if($housingTypeInputs[$j]->type != "checkbox-group"){
@@ -337,5 +323,76 @@ class ProjectController extends Controller
         }
 
         return redirect()->route('institutional.projects.index',["status"=>"new_project"]);
+    }
+
+    public function newProjectImage(Request $request,$projectId){
+        if ($request->hasFile('file')) {
+            $uploadedFile = $request->file('file');
+
+            $filePath = $uploadedFile->store('public/project_images');
+        }
+
+        ProjectImage::create([
+            "image" => $filePath,
+            "project_id" => $projectId
+        ]);
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
+
+    public function deleteProjectImage($projectId,$filename){
+        $fileId = explode('--',$filename);
+
+        ProjectImage::where('id',$fileId[1])->delete();
+        return json_encode([
+            "status" => true
+        ]);
+    }
+
+    public function removeProjectHousingFile(Request $request){
+        $projectHousing = ProjectHousing::where('project_id',$request->input('projectId'))->where('room_order',$request->input('housingOrder'))->where('name','images[]')->first();
+
+        $projectHousingImagesTemp  = [];
+
+        $projectHousingImages= json_decode($projectHousing->value);
+
+        foreach($projectHousingImages as $key => $image){
+            if($key != $request->input('order')){
+                array_push($projectHousingImagesTemp,$image);
+            }
+        }
+
+        ProjectHousing::where('project_id',$request->input('projectId'))->where('room_order',$request->input('housingOrder'))->where('name','images[]')->update(["value" => json_encode($projectHousingImagesTemp)]);
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
+
+    public function addProjectHousingFile(Request $request){
+        $project = Project::where('id',$request->input('projectId'))->first();
+        $projectHousing = ProjectHousing::where('project_id',$request->input('projectId'))->where('room_order',$request->input('housingOrder'))->where('name','images[]')->first();
+        if($projectHousing->value){
+
+            $projectHousingImages= json_decode($projectHousing->value);
+        }else{
+            $projectHousingImages =[];
+        }
+
+        $image = $request->file('file');
+        $imageName = $project->slug . '-' . ($request->input('housingOrder')) . '-' . time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('/project_housing_images'), $imageName);
+
+        array_push($projectHousingImages,$imageName);
+
+        ProjectHousing::where('project_id',$request->input('projectId'))->where('room_order',$request->input('housingOrder'))->where('name','images[]')->update(["value" => json_encode($projectHousingImages)]);
+
+        $projectHousing = ProjectHousing::where('project_id',$request->input('projectId'))->where('room_order',$request->input('housingOrder'))->where('name','images[]')->first();
+        return json_encode([
+            "status" => true,
+            "imageName" => $imageName
+        ]);
     }
 }
