@@ -48,10 +48,13 @@
             <div class="col-md-4">
                 <div class="row">
                     <div class="col-md-6">
-                        @if(!Cart::session(1)->get($project->id.'.'.$housingOrder))
-                            <div class="add-to-cart" style="background-color: #2bf327; padding: 8px 0;text-align:center;  ">
+                        @if(!session('cart')['item']['id']==$project->id)
+                            <button class="addToCart" style="background-color: #2bf327; padding: 8px 0;text-align:center;  "
+                            data-type="project"
+                            data-id="{{$project->id}}"
+                            >
                                 <h6 style="color: black;margin:0;">Sepete Ekle</h6>
-                            </div>
+                    </button>
                         @else
                             <div style="background-color: #2bf327; padding: 8px 0;text-align:center;  ">
                                 <h6 style="color: black;margin:0;">Sepette</h6>
@@ -307,8 +310,63 @@ fetch(url)
         });
     })
     .catch(error => console.error('Hata:', error));
+    <script>
+        $("#addToCart").click(function() {
+            // Sepete eklenecek verileri burada hazırlayabilirsiniz
+            var cart = {
+                id: $(this).data('id'),
+                type: $(this).data('type'),
 
+                _token: "{{ csrf_token() }}"
+            };
+
+            // Ajax isteği gönderme
+            $.ajax({
+                url: "{{ route('add.to.cart') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+                type: "POST", // Veriyi göndermek için POST kullanabilirsiniz
+                data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
+                success: function(response) {
+                    // İşlem başarılı olduğunda buraya gelir
+                    toast.success(response)
+                    console.log("Ürün sepete eklendi: " + response);
+                },
+                error: function(error) {
+                    // Hata durumunda buraya gelir
+                    toast.error(error)
+                    console.error("Hata oluştu: " + error);
+                }
+            });
+        });
+    </script>
     
+</script>
+<script>
+    $("#addToCart").click(function() {
+        // Sepete eklenecek verileri burada hazırlayabilirsiniz
+        var cart = {
+            id: $(this).data('id'),
+            type: $(this).data('type'),
+
+            _token: "{{ csrf_token() }}"
+        };
+
+        // Ajax isteği gönderme
+        $.ajax({
+            url: "{{ route('add.to.cart') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+            type: "POST", // Veriyi göndermek için POST kullanabilirsiniz
+            data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
+            success: function(response) {
+                // İşlem başarılı olduğunda buraya gelir
+                toast.success(response)
+                console.log("Ürün sepete eklendi: " + response);
+            },
+            error: function(error) {
+                // Hata durumunda buraya gelir
+                toast.error(error)
+                console.error("Hata oluştu: " + error);
+            }
+        });
+    });
 </script>
 @endsection
 

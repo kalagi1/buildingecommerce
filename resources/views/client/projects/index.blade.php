@@ -237,10 +237,10 @@
                                             </div>
 
                                         </div>
-                                        <div style="background-color: #2bf327; padding: 4px; width: 172px;text-align:center;;  ">
+                                        <button id="addToCart" data-type="project" data-id="{{$project->id}}" style="background-color: #2bf327; padding: 4px; width: 172px;text-align:center;;  ">
                                             <h6 style="color: black;">%1 Sepete Ekle</h6>
 
-                                        </div>
+                                        </button>
 
                                     </div>
                                 </div>
@@ -578,6 +578,34 @@ fetch(url)
     .catch(error => console.error('Hata:', error));
 
 
+</script>
+<script>
+    $("#addToCart").click(function() {
+        // Sepete eklenecek verileri burada hazırlayabilirsiniz
+        var cart = {
+            id: $(this).data('id'),
+            type: $(this).data('type'),
+
+            _token: "{{ csrf_token() }}"
+        };
+
+        // Ajax isteği gönderme
+        $.ajax({
+            url: "{{ route('add.to.cart') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+            type: "POST", // Veriyi göndermek için POST kullanabilirsiniz
+            data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
+            success: function(response) {
+                // İşlem başarılı olduğunda buraya gelir
+                toast.success(response)
+                console.log("Ürün sepete eklendi: " + response);
+            },
+            error: function(error) {
+                // Hata durumunda buraya gelir
+                toast.error(error)
+                console.error("Hata oluştu: " + error);
+            }
+        });
+    });
 </script>
 @endsection
 

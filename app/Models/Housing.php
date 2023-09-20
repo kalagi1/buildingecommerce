@@ -28,4 +28,14 @@ class Housing extends Model
     {
         return $this->belongsToMany(User::class, 'housing_favorites', 'housing_id', 'user_id');
     }
+    public function city()
+    {
+        return $this->hasOne(City::class, "id", "city_id");
+    }
+
+    public function county()
+    {
+        return $this->hasOne(County::class, "id", "county_id");
+    }
+    
 }

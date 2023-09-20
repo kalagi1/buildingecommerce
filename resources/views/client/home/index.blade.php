@@ -40,14 +40,14 @@
             ];
             return strtr($date, $aylar);
         }
-
+        
         function getData($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
             $a = $housing_type_data->$key;
             return $a[0];
         }
-
+        
         function getImage($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
@@ -119,12 +119,12 @@
     <!-- category banner headers -->
     <section class="container justify-content-center">
         <div class="special-button-content row">
-            @foreach($dashboardStatuses as $statu)
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
-                <button style="background-color: #dee0f5; color: #504fa3;" class="w-100">
-                    {{$statu->name}}
-                </button>
-            </div>
+            @foreach ($dashboardStatuses as $statu)
+                <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+                    <button style="background-color: #dee0f5; color: #504fa3;" class="w-100">
+                        {{ $statu->name }}
+                    </button>
+                </div>
             @endforeach
         </div>
     </section>
@@ -186,7 +186,6 @@
                 <div class="slick-agents">
                     @if (count($secondhandHousings))
                         @foreach ($secondhandHousings as $housing)
-                        
                             <div class="agents-grid col-md-6" data-aos="fade-up" data-aos-delay="150">
                                 <div class="landscapes">
                                     <div class="project-single">
@@ -194,12 +193,15 @@
                                             <div class="homes">
                                                 <!-- homes img -->
                                                 <a href="single-property-1.html" class="homes-img">
-                                                    <div class="homes-tag button sale rent" style="background-color:#ff5a5f !important">Öne Çıkan</div>
-                                                    <img src="{{ asset('housing_images/' . getImage($housing, 'image')) }}" alt="{{ $housing->housing_type_title }}" class="img-responsive">
+                                                    <div class="homes-tag button sale rent"
+                                                        style="background-color:#ff5a5f !important">Öne Çıkan</div>
+                                                    <img src="{{ asset('housing_images/' . getImage($housing, 'image')) }}"
+                                                        alt="{{ $housing->housing_type_title }}" class="img-responsive">
                                                 </a>
                                             </div>
                                             <div class="button-effect">
-                                                <a href="single-property-1.html" class="btn"><i class="fa fa-heart"></i></a>
+                                                <a href="single-property-1.html" class="btn"><i
+                                                        class="fa fa-heart"></i></a>
                                             </div>
                                         </div>
                                         <!-- homes content -->
@@ -240,8 +242,9 @@
                                             </ul>
                                             <ul class="homes-list clearfix pb-0"
                                                 style="display: flex; justify-content: center;margin-top:20px !important;">
-                                                <button
-                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;">Sepete
+                                                <button id="addToCart"
+                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
+                                                    data-type='housing' data-id='{{ $housing->id }}'>Sepete
                                                     Ekle</button>
 
                                             </ul>
@@ -410,4 +413,34 @@
             </div>
         </div>
     </section>
+@endsection
+@section('scripts')
+    <script>
+        $("#addToCart").click(function() {
+            // Sepete eklenecek verileri burada hazırlayabilirsiniz
+            var cart = {
+                id: $(this).data('id'),
+                type: $(this).data('type'),
+
+                _token: "{{ csrf_token() }}"
+            };
+
+            // Ajax isteği gönderme
+            $.ajax({
+                url: "{{ route('add.to.cart') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+                type: "POST", // Veriyi göndermek için POST kullanabilirsiniz
+                data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
+                success: function(response) {
+                    // İşlem başarılı olduğunda buraya gelir
+                    toast.success(response)
+                    console.log("Ürün sepete eklendi: " + response);
+                },
+                error: function(error) {
+                    // Hata durumunda buraya gelir
+                    toast.error(error)
+                    console.error("Hata oluştu: " + error);
+                }
+            });
+        });
+    </script>
 @endsection

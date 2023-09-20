@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
 use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboardController;
 use App\Http\Controllers\ClientPanel\ProfileController as ClientPanelProfileController;
@@ -60,7 +61,7 @@ Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('page/{slug}', [ClientPageController::class, 'index'])->name('page.show');
-Route::post('add_to_cart', [CartController::class, 'addProjectToCart'])->name('add.to.cart');
+Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
 Route::get('cart', [CartController::class, 'index'])->name('cart');
 
 Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name('admin.login');
@@ -417,6 +418,8 @@ Route::group(['prefix' => 'client', "as" => "client.", 'middleware' => ['client'
     // AdminHomeController Rotalarının İzinleri
     Route::middleware(['checkPermission:ViewDashboard'])->group(function () {
         Route::get('/', [ClientPanelDashboardController::class, "index"])->name("index");
+        Route::post('/order',[OrderController::class,'createOrder'])->name('create.order');
+        Route::get('/getOrders',[OrderController::class,'getOrders']);
     });
 
     // User Controller İzin Kontrolleri

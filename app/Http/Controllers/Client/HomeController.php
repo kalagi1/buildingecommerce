@@ -16,6 +16,7 @@ class HomeController extends Controller
     public function index()
     {
         $menu = Menu::getMenuItems();
+        
         $secondhandHousings = Housing::with('images')->select(
             'housings.id',
             'housings.title AS housing_title',
