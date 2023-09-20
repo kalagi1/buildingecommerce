@@ -26,7 +26,7 @@
                         </select><button class="btn btn-phoenix-danger btn-sm ms-2" type="button">Apply</button></div>
                     </div>
                   </div>
-                  <div id="tableExample" data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
+                  <div id="tableExample" data-list='{"valueNames":["name","email","age"],"page":10,"pagination":true}'>
                     @if (session()->has('success'))
                         <div class="alert alert-success">
                             {{ session()->get('success') }}
@@ -46,7 +46,7 @@
                             <th>İşlemler</th>
                           </tr>
                         </thead>
-                        <tbody class="list" id="bulk-select-body"></tbody>  
+                        <tbody class="list" id="bulk-select-body"></tbody>
                       </table>
                     </div>
                     <div class="d-flex flex-between-center pt-3 mb-3">
