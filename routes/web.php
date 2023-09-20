@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\FavoriteController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
 use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboardController;
@@ -63,6 +64,10 @@ Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing
 Route::get('page/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
 Route::get('cart', [CartController::class, 'index'])->name('cart');
+Route::get('favorites', [FavoriteController::class, 'showFavorites'])->name('favorites');
+Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('client.remove.from.cart');
+Route::post('/add-housing-to-favorites/{id}', [FavoriteController::class, "addHousingToFavorites"])->name('add.housing.to.favorites');
+
 
 Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, "login"])->name('admin.submit.login');

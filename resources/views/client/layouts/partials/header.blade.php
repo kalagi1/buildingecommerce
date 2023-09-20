@@ -124,7 +124,7 @@
                                         <span class="d-xl-block d-none d-lg-block rightNavText">Giriş Yap</span></a>
                                 @endif
 
-                                <a href="{{ route('client.login') }}" class="heartIcon">
+                                <a href="{{ route('favorites') }}" class="heartIcon">
                                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
                                         stroke-width="2" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round" class="css-i6dzq1">
@@ -133,7 +133,7 @@
                                         </path>
                                     </svg>
                                     <span class="d-xl-block d-none d-lg-block rightNavText">Favoriler</span></a>
-                                <a href="{{ route('client.login') }}">
+                                <a href="{{ route('cart') }}">
                                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
                                         stroke-width="2" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round" class="css-i6dzq1">

@@ -62,9 +62,15 @@ class User extends Authenticatable
 
         return false;
     }
+
     public function orders()
     {
         return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function housingFavorites()
+    {
+        return $this->hasMany(HousingFavorite::class);
     }
 
 }

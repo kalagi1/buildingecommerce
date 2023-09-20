@@ -181,7 +181,7 @@
                                                     </div>
                                                     <button id="addToCart" data-type="project"
                                                         data-id="{{ $project->id }}">
-                                                        <h6 style="color: black;">%1 Sepete Ekle</h6>
+                                                        <h6 style="color: black;">Sepete Ekle</h6>
 
                                                     </button>
 

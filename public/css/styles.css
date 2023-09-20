@@ -3147,6 +3147,7 @@ Version      : 1.2
     .project-slide-img {
         height: 250px;
     }
+
     .portfolio .project-head img {
         width: 100%;
         z-index: 2;
@@ -15796,9 +15797,9 @@ Version      : 1.2
 
         .inner-pages .portfolio .homes-content .homes-button {
             width: 100% !important;
-    display: flex;
-    justify-content: space-around;
-    padding: 20px 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 0;
 
         }
 

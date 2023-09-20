@@ -7,9 +7,8 @@ use App\Models\Housing;
 use App\Models\Order;
 use App\Models\Project;
 use App\Models\ProjectHousing;
-use App\Models\Cart;
-use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -28,7 +27,7 @@ class CartController extends Controller
                 'address' => $project->address,
                 'title' => $project->project_title,
                 'price' => $price,
-                'image' => asset('project_housing_images/' . $image)
+                'image' => asset('project_housing_images/' . $image),
             ];
         } else if ($type == 'housing') {
             $housing = Housing::find($id);
@@ -40,7 +39,7 @@ class CartController extends Controller
                 'address' => $housing->address,
                 'title' => $housing->title,
                 'price' => $housingData->price[0],
-                'image' => asset('housing_images/' . json_decode($housingData->images)[0])
+                'image' => asset('housing_images/' . json_decode($housingData->images)[0]),
             ];
 
         }
@@ -52,20 +51,21 @@ class CartController extends Controller
 
         $cart = $request->session()->get('cart', []); // Get cart data from session
 
-        // If the product is already in the cart, increase the quantity
+        // Eğer sepeti temizlemeyi onaylamışsa, mevcut sepeti temizleyin
+        if ($request->input('clear_cart') === 'yes') {
+            $request->session()->forget('cart');
+        }
 
         // Add a new product to the cart
         $cart = [
             'item' => $cartItem,
-            'type' => $type
+            'type' => $type,
         ];
-
 
         $request->session()->put('cart', $cart); // Save cart data to session
 
         return response(['message' => 'success']);
     }
-
 
     public function clear(Request $request)
     {
@@ -78,10 +78,16 @@ class CartController extends Controller
     {
         $cart = $request->session()->get('cart', []); // Get cart data from session
 
-
-
         return view('client.cart.index', compact('cart'));
     }
+
+    public function removeFromCart(Request $request)
+    {
+        $request->session()->forget('cart'); // Clear the cart
+        return redirect()->route('cart')->with('success', 'Cart cleared');
+
+    }
+
     public function createOrder(Request $request)
     {
         $userId = Auth::user()->id;
@@ -92,7 +98,7 @@ class CartController extends Controller
         $type = session('cart')['type'];
         $orderData = [
             'user_id' => $userId,
-            'status' => 1 //status tablosu eklenecek
+            'status' => 1, //status tablosu eklenecek
         ];
 
         switch ($type) {
