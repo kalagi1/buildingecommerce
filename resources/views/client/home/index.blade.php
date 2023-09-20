@@ -157,7 +157,6 @@
                         <a href="{{ route('project.detail', $project->project->slug) }}" class="img-box hover-effect">
                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"
                                 class="img-fluid w100" alt="">
-                            {{ $project->project->project_title }}
                         </a>
                     </div>
                 @endforeach

@@ -58,9 +58,14 @@ class Project extends Model
     {
         return $this->hasOne(County::class, "id", "county_id");
     }
-    
+
     public function favorites()
     {
         return $this->belongsToMany(User::class, 'project_favorites', 'project_id', 'user_id');
+    }
+
+
+    public function housingStatus(){
+        return $this->hasMany(ProjectHousingType::class,"project_id","id");
     }
 }

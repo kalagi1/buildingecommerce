@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\HousingStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class HousingStatusController extends Controller
 {
@@ -23,6 +24,7 @@ class HousingStatusController extends Controller
 
         $housingStatus->update([
             "name" => $request->input('name'),
+            "slug" => Str::slug($request->input('name')),
             "in_dashboard" => $request->input('in_dashboard') ? 1 : 0,
             "status" => $request->input('active') ? 1 : 0,
             "dashboard_order" => $request->input('dashboard_order') ?? null,
