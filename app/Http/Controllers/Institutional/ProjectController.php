@@ -205,7 +205,8 @@ class ProjectController extends Controller
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
         $cities = City::get();
-        return view('institutional.projects.edit',compact('project','housing_types', 'housing_status', 'brands', 'cities'));
+        $counties = County::where('city_id',$project->city_id)->get();
+        return view('institutional.projects.edit',compact('project','housing_types', 'housing_status', 'brands', 'cities','counties'));
     }
 
     public function update(Request $request,$id){
@@ -253,7 +254,7 @@ class ProjectController extends Controller
                 "description" => $request->input('description'),
                 "room_count" => $request->input('house_count'),
                 "city_id" => $request->input('city_id'),
-                "county_id" => $request->input('county_id'),
+                "county_id" => $request->input('county_id') ?? $project->id,
                 "status_id" => 1,
                 "image" => $filePath,
             ]);

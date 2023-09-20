@@ -138,6 +138,9 @@
                           <div class="col-md-12">
                               <select name="county_id" id="counties" class="form-control">
                                 <option value="">İlçe Seç</option>
+                                @foreach($counties as $county)
+                                  <option @if($county->id == $project->county_id) selected @endif value="{{$county->id}}">{{$county->title}}</option>
+                                @endforeach
                               </select>
                           </div>
                       </div>
