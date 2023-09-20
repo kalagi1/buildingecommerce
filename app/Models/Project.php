@@ -25,6 +25,10 @@ class Project extends Model
     {
         return $this->hasOne(Brand::class, "id", "brand_id");
     }
+    public function user()
+    {
+        return $this->hasOne(User::class, "id", "user_id");
+    }
 
     public function roomInfo()
     {
@@ -58,7 +62,7 @@ class Project extends Model
     {
         return $this->hasOne(County::class, "id", "county_id");
     }
-    
+
     public function favorites()
     {
         return $this->belongsToMany(User::class, 'project_favorites', 'project_id', 'user_id');

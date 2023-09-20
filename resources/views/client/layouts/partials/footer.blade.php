@@ -154,6 +154,7 @@
         slidesToShow: 3,
         slidesToScroll: 1,
         dots: false,
+        autoplay: true,
         arrows: true,
         adaptiveHeight: true,
         responsive: [{
@@ -186,7 +187,7 @@
     $('.slick-agents-2').slick({
         infinite: false,
         slidesToShow: 3,
-        slidesToScroll: 1,
+        slidesToScroll: 3,
         dots: false,
         arrows: true,
         adaptiveHeight: true,

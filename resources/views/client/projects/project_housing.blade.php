@@ -147,7 +147,7 @@
                 <!-- title -->
                 <h5 class="mb-4">Bina Özellikleri</h5>
                 <ul class="homes-list clearfix">
-                    @php 
+                    @php
                         function implodeData($array){
                             $html = "";
 
@@ -163,7 +163,7 @@
                         }
                     @endphp
                     @foreach($projectHousingSetting as $housingSetting)
-                    @php 
+                    @php
                         $isArrayCheck = $housingSetting->is_array;
                         $onProject = false;
                         if($isArrayCheck){
@@ -338,7 +338,7 @@ fetch(url)
             });
         });
     </script>
-    
+
 </script>
 <script>
     $("#addToCart").click(function() {

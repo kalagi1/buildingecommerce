@@ -11,7 +11,8 @@
           <h2 class="mb-2">Proje Ekle</h2>
           <h5 class="text-700 fw-semi-bold">Aşağıdan proje ekleyebilirsiniz</h5>
         </div>
-        <div class="col-auto"><button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button">Discard</button><button class="btn btn-phoenix-primary me-2 mb-2 mb-sm-0" type="button">Save draft</button><button class="btn btn-primary mb-2 mb-sm-0" type="submit">Projeyi Oluştur</button></div>
+        <div class="col-auto">
+            <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Projeyi Oluştur</button></div>
       </div>
       @if ($errors->any())
         <div class="alert alert-danger">

@@ -130,7 +130,7 @@
     <script>
         $("#createOrder").click(function() {
             // Sepete eklenecek verileri burada hazırlayabilirsiniz
-           
+
 
             // Ajax isteği gönderme
             $.ajax({

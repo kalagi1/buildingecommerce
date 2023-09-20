@@ -13,7 +13,7 @@
                 <div class="p-4 code-to-copy">
                   <div class="d-flex align-items-center justify-content-end my-3">
                     <div id="bulk-select-replace-element">
-                        <a class="btn btn-phoenix-success btn-sm" href="{{route('institutional.brands.create')}}">
+                        <a class="btn btn-phoenix-success btn-sm" href="{{route('institutional.projects.create')}}">
                             <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
                             <span class="ms-1">Yeni Proje Ekle</span>
                         </a>
@@ -168,7 +168,7 @@
             removeLink.className = "dropdown-item text-danger";
             removeLink.href = "#!";
             removeLink.textContent = "Sil";
-            removeLink.setAttribute("data-brand-id", project.id);
+            removeLink.setAttribute("data-project-id", project.id);
             dropdownMenu.appendChild(viewLink);
             dropdownMenu.appendChild(exportLink);
             dropdownMenu.appendChild(divider);
@@ -189,8 +189,9 @@
         $('body').on('click', '.dropdown-item.text-danger', function(e) {
             e.preventDefault(); // Sayfa yenilemeyi engellemek için
 
-            var brandId = $(this).data('brand-id');
+            var projectId = $(this).data('project-id');
             var thisx = $(this);
+            console.log(projectId);
             // Silme işlemi için bir onay kutusu (Swal) göster
             Swal.fire({
                 title: 'Emin misiniz?',
@@ -205,7 +206,7 @@
                 if (willDelete.isConfirmed) {
                     // Silme işlemi için Ajax isteği gönder
                     $.ajax({
-                        url: '{{ route("institutional.brands.destroy", ":brandId") }}'.replace(':brandId', brandId),
+                        url: '{{ route("institutional.projects.destroy", ":projectId") }}'.replace(':projectId', projectId),
                         type: 'post',
                         data: {
                             _method:"DELETE",
@@ -216,11 +217,11 @@
                             // Örneğin, kullanıcıyı tablodan kaldırabilirsiniz
                             thisx.closest('tr').remove();
                             // Silme başarılı mesajı göster
-                            Swal.fire('Başarılı!', 'Marka başarıyla silindi.', 'success');
+                            Swal.fire('Başarılı!', 'Proje başarıyla silindi.', 'success');
                         },
                         error: function (xhr) {
                             // Hata durumunda yapılacak işlemler burada
-                            swal('Hata!', 'Marka silinirken bir hata oluştu.', 'error');
+                            swal('Hata!', 'Proje silinirken bir hata oluştu.', 'error');
                         }
                     });
                 }

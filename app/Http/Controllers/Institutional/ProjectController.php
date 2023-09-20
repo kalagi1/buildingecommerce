@@ -19,9 +19,10 @@ use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
-    public function index(){
-        $projects = Project::where('user_id',Auth::user()->id)->get();
-        return view('institutional.projects.index',compact('projects'));
+    public function index()
+    {
+        $projects = Project::where('user_id', Auth::user()->id)->get();
+        return view('institutional.projects.index', compact('projects'));
     }
 
     public function create()
@@ -43,17 +44,17 @@ class ProjectController extends Controller
             "brand_id" => "required",
             "description" => "required",
             "house_count" => "required",
-            "cover_photo" => "required"
+            "cover_photo" => "required",
         ]);
 
-        $housingTypeInputs = HousingType::where('id',$request->input('housing_type'))->first();
+        $housingTypeInputs = HousingType::where('id', $request->input('housing_type'))->first();
         $housingTypeInputs = json_decode($housingTypeInputs->form_json);
         $errors = [];
 
-        for($i = 0; $i < $request->input('house_count'); $i++){
-            for($j = 0; $j < count($housingTypeInputs); $j++){
-                if(isset($housingTypeInputs[$j]->name) && $housingTypeInputs[$j]->type != "file" && $housingTypeInputs[$j]->type != "checkbox-group" && $request->input(substr($housingTypeInputs[$j]->name, 0, -2)) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] == null && $housingTypeInputs[$j]->required){
-                    array_push($errors,($i+1)." nolu konutun ".$housingTypeInputs[$j]->label." alanı boş bırakılamaz");
+        for ($i = 0; $i < $request->input('house_count'); $i++) {
+            for ($j = 0; $j < count($housingTypeInputs); $j++) {
+                if (isset($housingTypeInputs[$j]->name) && $housingTypeInputs[$j]->type != "file" && $housingTypeInputs[$j]->type != "checkbox-group" && $request->input(substr($housingTypeInputs[$j]->name, 0, -2)) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] == null && $housingTypeInputs[$j]->required) {
+                    array_push($errors, ($i + 1) . " nolu konutun " . $housingTypeInputs[$j]->label . " alanı boş bırakılamaz");
                 }
             }
         }
@@ -132,22 +133,22 @@ class ProjectController extends Controller
                                 "room_order" => $i + 1,
                             ]);
                         }
-                    }else{
-                        if($housingTypeInputs[$j]->type != "checkbox-group"){
-                            if(isset($housingTypeInputs[$j]->name)  && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null){
+                    } else {
+                        if ($housingTypeInputs[$j]->type != "checkbox-group") {
+                            if (isset($housingTypeInputs[$j]->name) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null) {
                                 ProjectHousing::create([
                                     "key" => $housingTypeInputs[$j]->label,
                                     "name" => $housingTypeInputs[$j]->name,
                                     "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) ? json_encode($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) : $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i],
                                     "project_id" => $project->id,
-                                    "room_order" => $i+1
+                                    "room_order" => $i + 1,
                                 ]);
                             }
-                        }else{
+                        } else {
                             ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
-                                "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2).($i + 1))) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2).($i + 1))) ? json_encode($request->input(substr($housingTypeInputs[$j]->name, 0, -2).($i+1))) : '',
+                                "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1))) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1))) ? json_encode($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1))) : '',
                                 "project_id" => $project->id,
                                 "room_order" => $i + 1,
                             ]);
@@ -158,7 +159,7 @@ class ProjectController extends Controller
             }
         }
 
-        return redirect()->route('institutional.projects.index',["status"=>"new_project"]);
+        return redirect()->route('institutional.projects.index', ["status" => "new_project"]);
     }
 
     public function getCounties(Request $request)
@@ -168,34 +169,37 @@ class ProjectController extends Controller
         return $counties;
     }
 
-    public function standOut($projectId){
-        $project = Project::where('id',$projectId)->first();
+    public function standOut($projectId)
+    {
+        $project = Project::where('id', $projectId)->first();
 
-        return view('institutional.projects.stand_out',compact('project'));
+        return view('institutional.projects.stand_out', compact('project'));
     }
 
-    public function pricingList(Request $request){
-        $pricingStandOuts = PricingStandOut::where('type',$request->input('type'))->get();
+    public function pricingList(Request $request)
+    {
+        $pricingStandOuts = PricingStandOut::where('type', $request->input('type'))->get();
 
         return json_encode([
             "status" => true,
-            "data" => $pricingStandOuts
+            "data" => $pricingStandOuts,
         ]);
     }
 
-    public function edit($id){
-        $project = Project::with("roomInfo")->where('id',$id)->first();
+    public function edit($id)
+    {
+        $project = Project::with("roomInfo")->where('id', $id)->first();
 
         $results = ProjectHousing::
-        select(DB::raw('max(name) as name , max(value) as value, max(room_order) as room_order'))
-        ->where('project_id',$id)
-        ->groupBy('room_order', 'name')
-        ->orderBy('room_order')
-        ->get();
+            select(DB::raw('max(name) as name , max(value) as value, max(room_order) as room_order'))
+            ->where('project_id', $id)
+            ->groupBy('room_order', 'name')
+            ->orderBy('room_order')
+            ->get();
 
         $groupedData = [];
         foreach ($results as $key => $result) {
-            $groupedData[str_replace("[]", "", $result['name'])][$result->room_order-1] = $result->value;
+            $groupedData[str_replace("[]", "", $result['name'])][$result->room_order - 1] = $result->value;
         }
 
         $project->roomInfoKeys = $groupedData;
@@ -204,10 +208,11 @@ class ProjectController extends Controller
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
         $cities = City::get();
-        return view('institutional.projects.edit',compact('project','housing_types', 'housing_status', 'brands', 'cities'));
+        return view('institutional.projects.edit', compact('project', 'housing_types', 'housing_status', 'brands', 'cities'));
     }
 
-    public function update(Request $request,$id){
+    public function update(Request $request, $id)
+    {
         $request->validate([
             "housing_type" => "required",
             "name" => "required",
@@ -218,32 +223,30 @@ class ProjectController extends Controller
             "house_count" => "required",
             "cover_photo" => "required",
         ]);
-        
-        $housingTypeInputs = HousingType::where('id',$request->input('housing_type'))->first();
+
+        $housingTypeInputs = HousingType::where('id', $request->input('housing_type'))->first();
         $housingTypeInputs = json_decode($housingTypeInputs->form_json);
         $errors = [];
 
-        for($i = 0; $i < $request->input('house_count'); $i++){
-            for($j = 0; $j < count($housingTypeInputs); $j++){
-                if(isset($housingTypeInputs[$j]->name) && $housingTypeInputs[$j]->type != "file" && $housingTypeInputs[$j]->type != "checkbox-group" && $request->input(substr($housingTypeInputs[$j]->name, 0, -2)) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] == null && $housingTypeInputs[$j]->required){
-                    array_push($errors,($i+1)." nolu konutun ".$housingTypeInputs[$j]->label." alanı boş bırakılamaz");
+        for ($i = 0; $i < $request->input('house_count'); $i++) {
+            for ($j = 0; $j < count($housingTypeInputs); $j++) {
+                if (isset($housingTypeInputs[$j]->name) && $housingTypeInputs[$j]->type != "file" && $housingTypeInputs[$j]->type != "checkbox-group" && $request->input(substr($housingTypeInputs[$j]->name, 0, -2)) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] == null && $housingTypeInputs[$j]->required) {
+                    array_push($errors, ($i + 1) . " nolu konutun " . $housingTypeInputs[$j]->label . " alanı boş bırakılamaz");
                 }
             }
         }
 
-
-        $project = Project::where('id',$id)->first();
+        $project = Project::where('id', $id)->first();
         if ($request->hasFile('cover_photo')) {
             $uploadedFile = $request->file('cover_photo');
 
             $filePath = $uploadedFile->store('public/project_images');
-        }else{
+        } else {
             $filePath = $project->image;
         }
 
-
         if (count($errors) == 0) {
-            $projectNew = Project::where('id',$id)->update([
+            $projectNew = Project::where('id', $id)->update([
                 "housing_type_id" => $request->input('housing_type'),
                 "project_title" => $request->input('name'),
                 "slug" => Str::slug($request->input('name')),
@@ -258,7 +261,7 @@ class ProjectController extends Controller
                 "image" => $filePath,
             ]);
 
-            $project = Project::where('id',$id)->first();
+            $project = Project::where('id', $id)->first();
 
             foreach ($request->file('project_images') as $image) {
                 // Dosyayı uygun bir konuma kaydedin, örneğin "public/project_images" klasörüne
@@ -270,7 +273,7 @@ class ProjectController extends Controller
                 $projectImage->project_id = $project->id;
                 $projectImage->save();
             }
-            ProjectHousing::where('project_id',$id)->delete();
+            ProjectHousing::where('project_id', $id)->delete();
             for ($i = 0; $i < $request->input('house_count'); $i++) {
                 for ($j = 0; $j < count($housingTypeInputs); $j++) {
                     if ($housingTypeInputs[$j]->type == "file") {
@@ -311,32 +314,43 @@ class ProjectController extends Controller
                                 "room_order" => $i + 1,
                             ]);
                         }
-                    }else{
-                        if($housingTypeInputs[$j]->type != "checkbox-group"){
-                            if(isset($housingTypeInputs[$j]->name)  && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null){
+                    } else {
+                        if ($housingTypeInputs[$j]->type != "checkbox-group") {
+                            if (isset($housingTypeInputs[$j]->name) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null) {
                                 ProjectHousing::create([
                                     "key" => $housingTypeInputs[$j]->label,
                                     "name" => $housingTypeInputs[$j]->name,
                                     "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) ? json_encode($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) : $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i],
                                     "project_id" => $project->id,
-                                    "room_order" => $i+1
+                                    "room_order" => $i + 1,
                                 ]);
                             }
-                        }else{
+                        } else {
                             ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
-                                "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2).($i + 1))) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2).($i + 1))) ? json_encode($request->input(substr($housingTypeInputs[$j]->name, 0, -2).($i+1))) : '',
+                                "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1))) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1))) ? json_encode($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1))) : '',
                                 "project_id" => $project->id,
                                 "room_order" => $i + 1,
                             ]);
                         }
-                        
+
                     }
                 }
             }
         }
 
-        return redirect()->route('institutional.projects.index',["status"=>"new_project"]);
+        return redirect()->route('institutional.projects.index', ["status" => "new_project"]);
+    }
+
+    public function destroy($id)
+    {
+        // Silinecek markayı bulun
+        $project = Project::findOrFail($id);
+
+        // Markayı veritabanından sil
+        $project->delete();
+
+        return redirect()->route('institutional.projects.index')->with('success', 'Proje başarıyla silindi.');
     }
 }

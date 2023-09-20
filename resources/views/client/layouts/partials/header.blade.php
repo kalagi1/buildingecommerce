@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    
+
     @if (isset($pageInfo))
         <meta name="keywords" content="{{ $pageInfo->meta_keywords }}">
         <meta name="description" content="{{ $pageInfo->meta_description }}">
@@ -43,10 +43,14 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css">
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap" rel="stylesheet">
+
     @yield('styles')
 </head>
 
-<body class=" m0a homepage-2 the-search hd-white inner-pages">
+<body class="m0a homepage-2 the-search hd-white inner-pages">
     <!-- Wrapper -->
     <div id="wrapper">
         <div class="home-top-banner d-xl-block d-none d-lg-block">

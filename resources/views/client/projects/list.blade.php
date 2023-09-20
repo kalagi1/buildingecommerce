@@ -34,7 +34,7 @@
                                             <option @if(request('city_id') && request('city_id') == $city->id) selected @endif value="{{$city->id}}">{{$city->title}}</option>
                                         @endforeach
                                     </select>
-                                    
+
                                 </div>
                                 <!--/ End Form Location -->
                                 <!-- Form Categories -->
@@ -46,7 +46,7 @@
                                             <option @if(request('housing_type_id') && request('housing_type_id') == $housingType->id) selected @endif value="{{$housingType->id}}">{{$housingType->title}}</option>
                                         @endforeach
                                     </select>
-                                    
+
                                 </div>
                                 <!--/ End Form Categories -->
                                 <!-- Form Property Status -->
@@ -98,7 +98,7 @@
 @section('scripts')
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script>
-    
+
 </script>
 @endsection
 

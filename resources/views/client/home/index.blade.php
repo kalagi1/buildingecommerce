@@ -40,14 +40,14 @@
             ];
             return strtr($date, $aylar);
         }
-        
+
         function getData($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
             $a = $housing_type_data->$key;
             return $a[0];
         }
-        
+
         function getImage($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
