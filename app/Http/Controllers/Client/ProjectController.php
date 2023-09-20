@@ -59,4 +59,29 @@ class ProjectController extends Controller
         $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
         return view('client.projects.project_housing', compact('menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
+
+    public function propertyProjects(Request $request,$property){
+        $housingStatus = HousingStatus::where('slug',$property)->first();
+        $projects = Project::whereHas('housingStatus', function ($query) use ($housingStatus) {
+            $query->where('housing_type_id', $housingStatus->id);
+        })->orderBy('view_count');
+        if($request->input("search")){
+            $projects = $projects->where('project_title','LIKE','%'.$request->input('search').'%');
+        }
+
+        if($request->input("city_id")){
+            $projects = $projects->where('city_id',$request->input("city_id"));
+        }
+
+        if($request->input("housing_type_id")){
+            $projects = $projects->where('housing_type_id',$request->input("housing_type_id"));
+        }
+
+        $housingTypes = HousingType::where('active',1)->get();
+        $housingStatus = HousingStatus::get();
+        $cities = City::get();
+        $projects = $projects->get();
+        $menu = Menu::getMenuItems();
+        return view('client.projects.list',compact('menu','projects','housingTypes','housingStatus','cities'));
+    }
 }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectImage extends Model
+class ProjectHousingType extends Model
 {
     use HasFactory;
 

@@ -68,6 +68,7 @@ Route::get('favorites', [FavoriteController::class, 'showFavorites'])->name('fav
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('client.remove.from.cart');
 Route::post('/add-housing-to-favorites/{id}', [FavoriteController::class, "addHousingToFavorites"])->name('add.housing.to.favorites');
 
+Route::get('{property}-projeler', [ClientProjectController::class, 'propertyProjects'])->name('propertyProjects');
 
 Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
@@ -404,6 +405,12 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/get_stand_out_prices', [InstitutionalProjectController::class,"pricingList"])->name('project.pricing.list');
     Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
     Route::post('/buy_order', [BuyController::class, "buyOrder"])->name('buy.order');
+    Route::middleware(['checkPermission:NewProjectImage'])->group(function () {
+        Route::post('/new_project_file/{project_id}', [InstitutionalProjectController::class, "newProjectImage"])->name('new.project.image');
+        Route::post('/delete_project_image/{project_id}/{filename}', [InstitutionalProjectController::class, "deleteProjectImage"])->name('delete.project.image');
+        Route::post('/remove_project_housing_file', [InstitutionalProjectController::class, "removeProjectHousingFile"])->name('remove.project.housing.image');
+        Route::post('/add_project_housing_file', [InstitutionalProjectController::class, "addProjectHousingFile"])->name('add.project.housing.image');
+    });
 });
 
 Route::group(['prefix' => 'client', "as" => "client.", 'middleware' => ['client']], function () {

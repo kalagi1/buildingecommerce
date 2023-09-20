@@ -16,7 +16,6 @@
                         </div>
                         <!-- Search Form -->
                         <div class="trip-search">
-                                <!-- Form Lookin for -->
                                 <div class="form-group looking">
                                     <div class="first-select wide">
                                         <div class="main-search-input-item">
@@ -24,8 +23,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--/ End Form Lookin for -->
-                                <!-- Form Location -->
                                 <div class="form-group ">
                                     <select name="city_id" class="form-control mt-2" id="">
                                         <option value=""><i class="fa fa-home"
@@ -36,8 +33,6 @@
                                     </select>
 
                                 </div>
-                                <!--/ End Form Location -->
-                                <!-- Form Categories -->
                                 <div class="form-group categories mb-0">
                                     <select name="housing_type_id" class="form-control mt-2" id="">
                                         <option value=""><i class="fa fa-home"
@@ -48,8 +43,6 @@
                                     </select>
 
                                 </div>
-                                <!--/ End Form Categories -->
-                                <!-- Form Property Status -->
                                 <div class="form-group categories mb-0">
                                     <div class="nice-select form-control wide" tabindex="0"><span class="current"><i class="fa fa-home"></i>Konut Durumu</span>
                                         <ul class="list">
@@ -62,7 +55,7 @@
                         </div>
                         <div class="col-lg-12 no-pds">
                             <div class="at-col-default-mar">
-                                <button class="btn btn-default hvr-bounce-to-right" type="submit">Search</button>
+                                <button class="btn btn-default hvr-bounce-to-right" type="submit">Filtrele</button>
                             </div>
                         </div>
                     </form>
