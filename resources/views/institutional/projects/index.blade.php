@@ -160,7 +160,7 @@
             viewLink.textContent = "View";
             var exportLink = document.createElement("a");
             exportLink.className = "dropdown-item";
-            exportLink.href = "{{URL::to('/')}}/institutional/brands/"+project.id+'/edit';
+            exportLink.href = "{{URL::to('/')}}/institutional/projects/"+project.id+'/edit';
             exportLink.textContent = "Düzenle";
             var divider = document.createElement("div");
             divider.className = "dropdown-divider";
