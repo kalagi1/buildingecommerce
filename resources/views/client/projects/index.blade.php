@@ -1,49 +1,81 @@
 @extends('client.layouts.master')
 
 @section('content')
-<section class="recently portfolio bg-white homepage-5 ">
-    <div class="container recently-slider">
-
-        <div class="portfolio right-slider">
-            <div class="owl-carousel home5-right-slider">
-                @foreach($project->images as $image)
-                <div class="inner-box">
-                    <a href="single-property-1.html" class="recent-16" data-aos="fade-up" data-aos-delay="150">
-                        <div class="recent-img16 img-fluid img-center" style="background-image: url({{URL::to('/').'/'.str_replace("public/", "storage/", $image->image)}});"></div>
-                    </a>
+    <div class="brand-head">
+        <div class="container">
+            <div class="card mb-3">
+                <img src="https://genetikonvet.com/wp-content/uploads/revslider/slider-hardware/black-electronics-s-3-bg.jpg"
+                    class="card-img-top" alt="...">
+                <div class="brands-square">
+                    <img src="/images/4.png" alt="" class="brand-logo">
+                    <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
+                            style="color:White">{{ $project->user->name }}</a></p>
+                    <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                    <p class="brand-name">{{ $project->project_title }}</p>
                 </div>
-                @endforeach
+                <div class="card-body">
+                    <nav class="navbar">
+                        <div class="navbar-items">
+
+                            <a class="navbar-item"
+                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Tüm
+                                Projeler</a>
+                            <a class="navbar-item"
+                                href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">Satıcı
+                                Profili</a>
+                        </div>
+                        <form class="search-form">
+                            <input class="search-input" type="search" placeholder="Mağazada Ara" aria-label="Search">
+                            <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
+                        </form>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
-</section>
 
 
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
             <div class="blog-section">
                 <div class="news-item news-item-sm">
-                    <a href="javascript:void()" class="news-img-link">
+                    <div class="news-img-link">
                         <div class="news-item-img homes">
-                            <div class="homes-tag button alt featured">{{ $project->user->name }}</div>
+                            <div class="homes-tag button alt featured">
+                                <a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
+                                    style="color:White">{{ $project->user->name }}</a>
+                            </div>
                             <img class="resp-img"
                                 src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                                 alt="blog image">
                         </div>
-                    </a>
+                    </div>
                     <div class="news-item-text">
-                        <a href="agent-details.html">
+                        <a href="{{ route('project.housing.detail', $project->slug) }}">
                             <h3>{{ $project->project_title }}</h3>
                         </a>
                         <div class="the-agents">
                             <ul class="the-agents-details">
-                                <li><a href="#">{!! $project->description !!}</a></li>
-                                <li><a href="#"><strong>Adres:</strong> {!! $project->address !!}</a></li>
-                                <li><a href="#"><strong>İl:</strong> {!! $project->city->title !!}</a></li>
-                                <li><a href="#"><strong>İlçe:</strong> {!! $project->county->title !!}</a></li>
+                                <?php
+                                $totalHousingCount = 0;
+
+                                foreach ($project->user->projects as $userProject) {
+                                    $totalHousingCount += count($userProject->housings);
+                                }
+                                ?>
+
+                                <li><a href="#"><strong>Adres:</strong> {!! $project->address !!} </a></li>
+                                <li><a href="#"><strong>Proje Sayısı:</strong>
+                                        {{ count($project->user->projects) }}</a></li>
+                                <li><a href="#"><strong>Konut Sayısı:</strong> {{ $totalHousingCount }} </a></li>
+                                <li><a href="#"><strong>Konut Tipi:</strong> {{ $project->housingtype->title }} </a>
+                                </li>
+
                             </ul>
                         </div>
                         <div class="news-item-bottom">
+                            <a href="{{ route('project.housing.detail', $project->slug) }}" class="news-link">Proje
+                                Detayı</a>
                             <div class="admin">
                                 <p>{!! $project->brand->title !!}</p>
                                 <img src="{{ URL::to('/') . '/storage/brand_images/' . $project->brand->logo }}"
@@ -57,165 +89,11 @@
     </section>
 
 
-    {{-- <section class="featured portfolio rec-pro disc bg-white">
-        <div class="container">
-
-            <div class="portfolio  col-xl-12">
-                <div class="slick-agents">
-                    @foreach ($project->images as $image)
-                        <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                            <div class="landscapes">
-                                <div class="project-single">
-                                    <div class="project-inner project-head">
-                                        <div class="homes">
-                                            <!-- homes img -->
-                                            <a href="javascript:void()" class="homes-img">
-                                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $image->image) }}"
-                                                    alt="home-1" class="img-responsive project-slide-img" >
-                                            </a>
-                                        </div>
-                                        <div class="button-effect">
-
-                                        </div>
-                                    </div>
-                                    <!-- homes content -->
-
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-
-                </div>
-            </div>
-        </div>
-    </section> --}}
-
-
-    @php
-        function getData($project, $key, $roomOrder)
-        {
-            foreach ($project->roomInfo as $room) {
-                if ($room->room_order == $roomOrder && $room->name == $key) {
-                    return $room;
-                }
-            }
-        }
-    @endphp
-
-
-    <section class="properties-right list featured portfolio blog pt-5 pb-5 bg-white">
-        <div class="container">
-
-            <div class="row project-filter-reverse blog-pots">
-
-                @for ($i = 0; $i < $project->room_count; $i++)
-                    <div class="col-md-12 col-12">
-                        <div class="project-card mb-3">
-                            <div class="row">
-
-                                <div class="col-md-3 d-flex" style="height: 100%;">
-                                    <div class="" style="background-color: #446BB6; border-radius: 0px 8px 0px 8px;">
-                                        <p
-                                            style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
-                                            {{ $i + 1 }}</p>
-                                    </div>
-                                    <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
-                                        <div class="project-inner project-head">
-                                            <div class="homes">
-                                                <!-- homes img -->
-                                                <a href="javascript:void()" class="homes-img">
-
-                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
-                                                        alt="home-1" class="img-responsive">
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-9 col-md-12 homes-content pb-0 mb-44 aos-init aos-animate"
-                                    data-aos="fade-up">
-                                    <div class="row align-items-center justify-content-between">
-                                        <div class="col-md-7">
-                                            <div class="homes-list-div">
-
-                                                <ul class="homes-list clearfix pb-3 d-flex">
-                                                    <li class="the-icons">
-                                                        <i class="fas fa-home mr-2" style="color: #446BB6;"
-                                                            aria-hidden="true"></i>
-                                                        <span>{{ $project->housingType->title }}</span>
-                                                    </li>
-                                                    <li class="the-icons">
-                                                        <i class="flaticon-bed mr-2" aria-hidden="true"></i>
-                                                        <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
-                                                    </li>
-                                                    <li class="the-icons">
-                                                        <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
-                                                        <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}.Kat</span>
-                                                    </li>
-                                                    <li class="the-icons">
-                                                        <i class="flaticon-square mr-2" aria-hidden="true"></i>
-                                                        <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
-                                                    </li>
-                                                    <!-- <li class="the-icons">
-                                                                            <i class="flaticon-car mr-2" aria-hidden="true"></i>
-                                                                            <span>2 Garages</span>
-                                                                        </li> -->
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3" style="height: 120px">
-                                            <div class="homes-button">
-
-                                                <button class="first-btn">
-                                                    <h6>Ödeme Detaylarını Gör</h6>
-                                                </button>
-                                                <div class="second-btn">
-                                                    <div class="" style="">
-                                                        <div class="second-price-btn">
-                                                            <h6 style="color: black;">
-                                                                {{ getData($project, 'price[]', $i + 1)->value }} TL</h6>
-                                                        </div>
-
-                                                    </div>
-                                                    <button id="addToCart" data-type="project"
-                                                        data-id="{{ $project->id }}">
-                                                        <h6 style="color: black;">Sepete Ekle</h6>
-
-                                                    </button>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                @endfor
-
-
-
-
-            </div>
-
-        </div>
-    </section>
-
 
     <section class="ui-elements">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 ">
-                    <div class="listing-title-bar mb-3">
-                        <h3>KONUM</h3>
-                    </div>
                     <div class="tabbed-content button-tabs">
                         <ul class="tabs">
                             <li class="active">

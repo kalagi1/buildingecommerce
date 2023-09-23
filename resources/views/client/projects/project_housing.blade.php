@@ -208,7 +208,7 @@
         $location = json_encode($location);
         $location = json_decode($location);
     @endphp
-    var map = L.map('map').setView([{{ $location->latitude }},{{ $location->longitude }}], 13);
+        var map = L.map('map').setView([{{ $location->latitude }}, {{ $location->longitude }}], 13);
     var marker = L.marker([{{ $location->latitude }}, {{ $location->longitude }}]).addTo(map);
 
     // OpenStreetMap katmanını haritaya ekleyin
@@ -310,6 +310,7 @@ fetch(url)
         });
     })
     .catch(error => console.error('Hata:', error));
+    </script>
     <script>
         $("#addToCart").click(function() {
             // Sepete eklenecek verileri burada hazırlayabilirsiniz

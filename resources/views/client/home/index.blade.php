@@ -423,6 +423,7 @@
 
     <script>
         $(document).ready(function() {
+            checkFavorites();
             var cart = @json(session('cart', []));
             console.log(cart);
             // Sayfa yüklendiğinde düğme metnini güncellemek için bir işlev çağırın
@@ -460,6 +461,7 @@
                         data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
                         success: function(response) {
                             toastr.success("Ürün Sepete Eklendi");
+                            button.classList.add("bg-success");
 
                             // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
                             button.textContent = "Sepete Eklendi";
@@ -486,9 +488,11 @@
 
                     if (isProductInCart(productId)) {
                         button.textContent = "Sepete Eklendi";
+                        button.classList.add("bg-success");
                         button.disabled = true;
                     } else {
                         button.textContent = "Sepete Ekle";
+                        button.classList.remove("bg-success");
                         button.disabled = false;
                     }
                 });
@@ -505,6 +509,38 @@
                 }
                 return false; // Ürün sepette bulunamadı
             }
+
+
+            function checkFavorites() {
+                // Favorileri sorgula ve uygun renk ve ikonları ayarla
+                var favoriteButtons = document.querySelectorAll(".toggle-favorite");
+
+                favoriteButtons.forEach(function(button) {
+                    var housingId = button.getAttribute("data-housing-id");
+
+                    // AJAX isteği gönderme
+                    $.ajax({
+                        url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
+                            .replace(':id', housingId),
+                        type: "GET",
+                        success: function(response) {
+                            console.log(response);
+                            if (response.is_favorite) {
+                                button.querySelector("i.fa-heart").classList.add("text-danger");
+                                button.classList.add("bg-white");
+                            } else {
+                                button.querySelector("i.fa-heart").classList.remove(
+                                    "text-danger");
+                                button.classList.remove("bg-white");
+                            }
+                        },
+                        error: function(error) {
+                            console.error(error);
+                        }
+                    });
+                });
+            }
+
 
             // Favoriye Ekle/Kaldır İşlemi
             document.querySelectorAll(".toggle-favorite").forEach(function(button) {
@@ -524,16 +560,17 @@
                         success: function(response) {
                             if (response.status === 'added') {
                                 toastr.success("Ürün Favorilere Eklendi");
-
                                 // Favorilere eklenmişse rengi kırmızı yap
                                 button.querySelector("i.fa-heart").classList.add(
                                     "text-danger");
+                                button.classList.add(
+                                    "bg-white");
                             } else if (response.status === 'removed') {
-                                toastr.success("Ürün Favorilerden Kaldırıldı");
-
-                                // Favorilerden kaldırılmışsa rengi temizle
+                                toastr.warning("Ürün Favorilerden Kaldırıldı");
                                 button.querySelector("i.fa-heart").classList.remove(
                                     "text-danger");
+                                button.classList.remove(
+                                    "bg-white");
                             }
                         },
                         error: function(error) {

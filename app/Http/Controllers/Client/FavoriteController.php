@@ -38,24 +38,41 @@ class FavoriteController extends Controller
             ->first();
 
         if ($existingFavorite) {
-            // Eğer favorilerde varsa, favorilerden kaldır
             $existingFavorite->delete();
-            return redirect()->back()->with('success', 'Konut favorilerden kaldırıldı.');
+            $message = "Konut favorilerden kaldırıldı";
+            $status = "removed";
         } else {
-            // Eğer favorilerde yoksa, favorilere ekle
             HousingFavorite::create([
                 "user_id" => $user->id,
                 'housing_id' => $housing->id,
             ]);
-
-            return redirect()->back()->with('success', 'Konut favorilere eklendi.');
+            $message = "Konut favorilere eklendi.";
+            $status = "added";
         }
+
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+        ]);
     }
 
     public function showFavorites()
     {
-        $user = User::where("id", Auth::user()->id)->with("housingFavorites.housing",'housingFavorites.housing.city','housingFavorites.housing.brand')->first();
+        $user = User::where("id", Auth::user()->id)->with("housingFavorites.housing", 'housingFavorites.housing.city', 'housingFavorites.housing.brand')->first();
         $favorites = $user->housingFavorites;
         return view('client.favorites.index', compact('user', 'favorites'));
     }
+
+    public function getHousingFavoriteStatus($id)
+    {
+        $user = User::where("id", Auth::user()->id)->with("housingFavorites")->first();
+        $housing = Housing::findOrFail($id);
+
+        $isFavorite = $user->housingFavorites->contains('housing_id', $housing->id);
+
+        return response()->json([
+            'is_favorite' => $isFavorite,
+        ]);
+    }
+
 }

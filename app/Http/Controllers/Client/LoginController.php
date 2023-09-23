@@ -27,7 +27,12 @@ class LoginController extends Controller
                 // Giriş başarılı
                 return redirect()->intended('/institutional'); // Admin paneline yönlendir
             } else {
-                return redirect()->intended('/client');
+                // Oturumda saklanan sepeti kontrol et
+                $cart = session('cart', []);
+                if (count($cart) != 0) {
+                    session(['cart' => $cart]);
+                }
+                return redirect()->intended('/hesabim');
             }
         }
 
@@ -37,6 +42,6 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/login');
+        return redirect('/giris-yap');
     }
 }

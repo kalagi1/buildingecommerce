@@ -68,6 +68,21 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'user_id');
     }
 
+    public function projects()
+    {
+        return $this->hasMany(Project::class, 'user_id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function housings()
+    {
+        return $this->hasMany(Housing::class, 'user_id');
+    }
+
     public function housingFavorites()
     {
         return $this->hasMany(HousingFavorite::class);

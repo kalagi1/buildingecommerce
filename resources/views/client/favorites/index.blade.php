@@ -111,7 +111,6 @@
                     },
                     success: function(response) {
                         console.log(response);
-                        // İşlem başarılı olduğunda buraya gelir
                         toastr.success("Ürün favorilerden kaldırıldı");
                         console.log("Ürün favorilerden kaldırıldı: " + response);
                         location.reload();

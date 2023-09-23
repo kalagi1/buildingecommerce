@@ -494,11 +494,93 @@ Version      : 1.2
     }
 
     .card-body .navbar-brand {
-        font-weight: 500;
+        font-weight: 600;
         color: #333;
         font-size: 14px;
         line-height: 34px;
     }
+
+    /* .brand-head altındaki tüm öğeler için stil kuralları */
+
+    .brand-head {
+        margin-top: 20px;
+    }
+
+    .brand-head .card {
+        border: none;
+        margin-bottom: 1rem;
+    }
+
+    .brand-head .card-img-top {
+        position: relative;
+    }
+
+    .brand-head .brands-square {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        display: flex;
+        align-items: center;
+    }
+
+    .brand-head .brand-logo {
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 30px;
+        border: 3px solid #dc2e2e;
+        padding: 5px;
+    }
+
+    .brand-head .brand-name {
+        margin-left: 10px !important;
+        font-weight: 600;
+        margin: 0;
+        padding: 0;
+        color: white;
+    }
+
+    .brand-head .card-body {
+        border: solid 1px #e6e6e6;
+        padding: 0;
+
+    }
+
+    .brand-head .navbar {
+        justify-content: space-between;
+    }
+
+    .brand-head .navbar-items {
+        display: flex;
+        justify-content: left;
+    }
+
+    .brand-head .navbar-item {
+        text-decoration: none;
+        color: black;
+        font-weight: 600;
+        padding: 0 10px;
+    }
+
+    .brand-head .search-form {
+        flex-wrap: nowrap;
+    }
+
+    .brand-head .search-input {
+        flex-grow: 1;
+        border-radius: 50px;
+        padding: 10px;
+        border: solid 1px #e6e6e6;
+
+    }
+
+    .brand-head .search-button {
+        border: none;
+        border-radius: 50px;
+        background: transparent;
+        color: orange;
+        margin-left: -48px;
+    }
+
 
     .header-top .dropdown button {
         background: transparent none repeat scroll 0 0;
@@ -3079,7 +3161,8 @@ Version      : 1.2
     }
 
     .portfolio .homes-content .homes-list span {
-        color: #666;
+        color: black;
+        font-weight: 600;
     }
 
     .portfolio .footer {
@@ -3376,7 +3459,7 @@ Version      : 1.2
     /*------------------------------------*/
 
     section.popular-places {
-        padding: 4.6rem 0 !important;
+        padding: 2.6rem 0 !important;
         background: #fff;
     }
 
@@ -15643,7 +15726,7 @@ Version      : 1.2
     }
 
     .inner-pages .properties-right.list .homes-img img {
-        height: 120px;
+        height: 150px;
     }
 
     .inner-pages .properties-right.list .project-single {
@@ -15773,7 +15856,8 @@ Version      : 1.2
 
     .homes-button .first-btn {
         padding: 10px;
-        background-color: #ccef69;
+        color: white;
+        background-color: #446BB6;
         border: none;
         right: 0;
         position: absolute;
@@ -17233,7 +17317,6 @@ Version      : 1.2
     }
 
     .widget-boxed {
-        border-radius: 6px;
         padding: 1.5rem;
         -webkit-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
@@ -17253,7 +17336,7 @@ Version      : 1.2
     }
 
     .widget-boxed-header {
-        padding-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
         padding-top: 0px;
         border-bottom: 1px solid #eaeff5;
     }
@@ -17278,6 +17361,7 @@ Version      : 1.2
     .widget-boxed-body {
         padding: 1.5rem 0 0;
     }
+
 
     .widget-boxed {
         background: #fff;
@@ -17476,7 +17560,6 @@ Version      : 1.2
 
     .inner-pages .blog .blog-info.details {
         padding: 0;
-        border-bottom: 0px;
     }
 
     .inner-pages .blog .homes-content .homes-list {
@@ -17498,7 +17581,6 @@ Version      : 1.2
         list-style: none;
         justify-content: center;
         color: #0098ef;
-        border-right: 1px solid #dee2e6;
     }
 
     .inner-pages .blog .homes-content .homes-list li:last-child {
@@ -21758,6 +21840,7 @@ Version      : 1.2
 
     .inner-pages .blog-section .news-item-img .resp-img {
         background-size: cover;
+        object-fit: cover;
     }
 
     .inner-pages .blog-section .news-item-img {
@@ -23988,13 +24071,18 @@ Version      : 1.2
         position: relative;
     }
 
+    .the-agents {
+        display: flex;
+        justify-content: space-between;
+    }
+
     .search-form button[type="submit"] {
         border: none;
         background: none;
         position: absolute;
-        right: 13px;
-        top: 10px;
-        color: #97aab7;
+        right: 9px;
+        top: 6px;
+        color: black;
     }
 
     .button.small {
@@ -24151,7 +24239,7 @@ Version      : 1.2
         display: inline-block;
         overflow: hidden;
         width: 100%;
-        background: #446BB6;
+        background: #f3f3f3;
         border-radius: 9px;
     }
 
@@ -24170,7 +24258,7 @@ Version      : 1.2
         text-align: center;
         border-radius: 9px;
         width: auto;
-        background: #446BB6;
+        background: #f3f3f3;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -24186,20 +24274,80 @@ Version      : 1.2
     .ui-elements .button-tabs .tab-title span {
         font-size: 16px;
         line-height: 24px;
-        color: #fff;
+        color: black;
         font-weight: 400;
         text-transform: capitalize;
         letter-spacing: 2px;
     }
 
     .ui-elements .button-tabs .active .tab-title {
-        background: #ff797d;
-        color: #fff;
-        border-radius: 9px;
+        background: black;
+        color: #fff !important;
+    }
+
+    .seller-profile .seller-info-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-row-gap: 20px;
+        grid-column-gap: 18px;
+        margin-bottom: 20px
+    }
+
+    .seller-profile .seller-info-container__wrapper {
+        background: #fff;
+        border: 1px solid #e6e6e6;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .0511637);
+        border-radius: 6px;
+        height: 108px;
+        padding: 20px;
+        align-items: center;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row
+    }
+
+    .seller-profile .seller-info-container__wrapper:last-child {
+        margin-right: 0
+    }
+
+    .seller-profile .seller-info-container__wrapper__img {
+        width: 68px;
+        height: 68px;
+        margin-right: 15px;
+        background: #fff0e4;
+        border-radius: 100px
+    }
+
+    .seller-profile .seller-info-container__wrapper__text-container {
+        display: flex;
+        flex-direction: column
+    }
+
+    .seller-profile .seller-info-container__wrapper__text-container__title {
+        font-family: source_sans_proregular, sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 8px
+    }
+
+    .seller-profile .seller-info-container__wrapper__text-container__value {
+        font-family: source_sans_proregular, sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+        color: #333
+    }
+
+
+    .ui-elements .button-tabs .active .tab-title span {
+        color: #fff !important;
     }
 
     .ui-elements .button-tabs .active .tab-title:hover {
-        background: #ff797d;
+        background: #446BB6;
     }
 
     .ui-elements .button-tabs.vertical {
@@ -25467,6 +25615,7 @@ Version      : 1.2
 
         .blog .blog-pots img {
             width: 100%;
+            height: 250px !important;
         }
 
         .agents .admin.company img {

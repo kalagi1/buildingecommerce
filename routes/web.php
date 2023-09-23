@@ -28,6 +28,7 @@ use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboard
 use App\Http\Controllers\ClientPanel\ProfileController as ClientPanelProfileController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\HousingController as ClientHousingController;
+use App\Http\Controllers\Client\InstitutionalController;
 use App\Http\Controllers\Client\LoginController as ClientLoginController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\PageController as ClientPageController;
@@ -56,17 +57,23 @@ Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/housing/{id}', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/admin', [AdminHomeController::class, "index"]);
-Route::get('/project/{slug}', [ClientProjectController::class, "index"])->name('project.detail');
+
+Route::get('/proje/{slug}', [ClientProjectController::class, "index"])->name('project.detail');
+Route::get('/proje/{slug}/detay', [ClientProjectController::class, "detail"])->name('project.housing.detail');
+Route::get('/magaza/{slug}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
+Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectDetails"])->name('instituional.projects.detail');
+
 Route::get('/marka_projeleri/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
-Route::get('page/{slug}', [ClientPageController::class, 'index'])->name('page.show');
+Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
-Route::get('cart', [CartController::class, 'index'])->name('cart');
-Route::get('favorites', [FavoriteController::class, 'showFavorites'])->name('favorites');
+Route::get('sepetim', [CartController::class, 'index'])->name('cart');
+Route::get('favoriler', [FavoriteController::class, 'showFavorites'])->name('favorites');
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('client.remove.from.cart');
 Route::post('/add-housing-to-favorites/{id}', [FavoriteController::class, "addHousingToFavorites"])->name('add.housing.to.favorites');
+Route::get('/get-housing-favorite-status/{id}', [FavoriteController::class, "getHousingFavoriteStatus"])->name('get.housing.favorite.status');
 
 Route::get('{property}-projeler', [ClientProjectController::class, 'propertyProjects'])->name('propertyProjects');
 
@@ -74,10 +81,10 @@ Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name
 Route::post('/admin/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
 Route::get('/admin/logout', [AdminLoginController::class, "logout"])->name('admin.logout');
 
-Route::get('/login', [ClientLoginController::class, "showLoginForm"])->name('client.login');
+Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
 Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
-Route::post('/register', [RegisterController::class, "register"])->name('client.submit.register');
-Route::get('/logout', [ClientLoginController::class, "logout"])->name('client.logout');
+Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
+Route::get('/cikis-yap', [ClientLoginController::class, "logout"])->name('client.logout');
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
 
@@ -413,17 +420,17 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     });
 });
 
-Route::group(['prefix' => 'client', "as" => "client.", 'middleware' => ['client']], function () {
+Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client']], function () {
 
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
-        Route::get('/profile/edit', [ClientPanelProfileController::class, "edit"])->name('profile.edit');
+        Route::get('/profili-guncelle', [ClientPanelProfileController::class, "edit"])->name('profile.edit');
         Route::put('/profile/update', [ClientPanelProfileController::class, "update"])->name('profile.update');
     });
 
     // ChangePassword Controller Rotasının İzinleri
     Route::middleware(['checkPermission:ChangePassword'])->group(function () {
-        Route::get('/password/edit', [ClientPanelChangePasswordController::class, "edit"])->name('password.edit');
+        Route::get('/sifreyi-degistir', [ClientPanelChangePasswordController::class, "edit"])->name('password.edit');
         Route::post('/password/update', [ClientPanelChangePasswordController::class, "update"])->name('password.update');
     });
 

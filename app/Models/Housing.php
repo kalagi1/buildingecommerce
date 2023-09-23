@@ -37,5 +37,5 @@ class Housing extends Model
     {
         return $this->hasOne(County::class, "id", "county_id");
     }
-    
+
 }
