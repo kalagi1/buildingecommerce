@@ -143,9 +143,11 @@
                     <h2>Yeni Projeler</h2>
                 </div>
                 <div>
-                    <button>
-                        <h3>Tümünü Gör</h3>
-                    </button>
+                    <a href="{{ route('project.list') }}">
+                        <button>
+                            <h3>Tümünü Gör</h3>
+                        </button></a>
+
                 </div>
             </div>
             <div class="row">
@@ -176,9 +178,11 @@
                     <h2>Oturuma Hazır Projeler</h2>
                 </div>
                 <div>
-                    <button class="allView">
-                        <h3>Tümünü Gör</h3>
-                    </button>
+                    <a href="{{ route('housing.list') }}">
+                        <button class="allView">
+                            <h3>Tümünü Gör</h3>
+                        </button></a>
+
                 </div>
             </div>
             <div class="portfolio col-xl-12">
