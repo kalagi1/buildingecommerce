@@ -1371,7 +1371,7 @@ Version      : 1.2
     /*------------------------------------*/
 
     section.recently.portfolio {
-        padding: 3.6rem 0;
+        padding: 2.6rem 0;
         background: #f7f7f7;
     }
 
@@ -1675,7 +1675,7 @@ Version      : 1.2
 
     .hp1 div.partners-1,
     .hp1 div.partners {
-        padding: 4.6rem 0;
+        padding: 2.6rem 0;
     }
 
     .hp1 .top-location .tp-caption p {
@@ -2684,7 +2684,7 @@ Version      : 1.2
     /*------------------------------------*/
 
     section.services-home {
-        padding: 4.6rem 0;
+        padding: 2.6rem 0;
         background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0.8))), url(../images/bg/bg-counter.jpg) no-repeat center center;
         background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(../images/bg/bg-counter.jpg) no-repeat center center;
         background-attachment: fixed;
@@ -3793,7 +3793,7 @@ Version      : 1.2
     /*-----------------------------------*/
 
     section.team {
-        padding: 4.6rem 0;
+        padding: 2.6rem 0;
         background: #f6f6f6;
     }
 
@@ -4210,7 +4210,7 @@ Version      : 1.2
     /*------------------------------------*/
 
     section.blog-section {
-        padding: 4.6rem 0;
+        padding: 2.6rem 0;
         background: #f7f7f7;
     }
 
@@ -4538,7 +4538,7 @@ Version      : 1.2
 
     section.testimonials {
         background: #fff;
-        padding: 4.6rem 0;
+        padding: 2.6rem 0;
     }
 
     .testimonials .title-style h2,
@@ -7261,7 +7261,7 @@ Version      : 1.2
     }
 
     .homepage-4 .info-help {
-        padding: 4.6rem 0;
+        padding: 2.6rem 0;
         background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.3)), to(rgba(255, 255, 255, 0.3))), url(../images/bg/bg-info3.jpg) no-repeat scroll center center;
         background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url(../images/bg/bg-info3.jpg) no-repeat scroll center center;
         background-size: cover;
@@ -9646,7 +9646,7 @@ Version      : 1.2
     }
 
     .int_dark_bg section.services-home {
-        padding: 4.6rem 0;
+        padding: 2.6rem 0;
         background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.8)), to(rgba(0, 0, 0, 0.8))), url(../images/bg/bg-counter.jpg) no-repeat center center;
         background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(../images/bg/bg-counter.jpg) no-repeat center center;
         background-attachment: fixed;
@@ -11350,7 +11350,7 @@ Version      : 1.2
 
     .th-15 div.partners-1,
     .th-15 div.partners {
-        padding: 4.6rem 0;
+        padding: 2.6rem 0;
     }
 
     .th-15 .top-location .tp-caption p {
@@ -13331,7 +13331,7 @@ Version      : 1.2
     /*-----------------------------------*/
 
     section.team {
-        padding: 4.6rem 0;
+        padding: 2.6rem 0;
         background: #f7f7f7;
     }
 
@@ -14402,7 +14402,7 @@ Version      : 1.2
 
     section.how-it-works {
         background: #fff;
-        padding: 4.6rem 0;
+        padding: 2.6rem 0;
     }
 
     .how-it-works .serv-flex {
