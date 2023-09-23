@@ -24,13 +24,13 @@
                         @else
                             <tr>
                                 <td class="image myelist">
-                                    <a href="single-property-1.html"><img alt="my-properties-3"
-                                            src="{{ $cart['item']['image'] }}" class="img-fluid"></a>
+                                    <a href="#"><img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
+                                            class="img-fluid"></a>
                                 </td>
                                 <td>
                                     <div class="inner">
-                                        <a href="single-property-1.html">
-                                            <h2>{{ $cart['item']['title'] }}</h2>
+                                        <a href="#">
+                                            <h2 style="font-weight: 600">{{ $cart['item']['title'] }}</h2>
                                             <figure><i class="lni-map-marker"></i> {{ $cart['item']['address'] }}</figure>
                                         </a>
                                     </div>

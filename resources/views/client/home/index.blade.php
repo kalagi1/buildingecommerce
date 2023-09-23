@@ -195,7 +195,7 @@
                                         <div class="project-inner project-head">
                                             <div class="homes">
                                                 <!-- homes img -->
-                                                <a href="single-property-1.html" class="homes-img">
+                                                <a href="{{ route('housing.show', $housing->id) }}" class="homes-img">
                                                     <div class="homes-tag button sale rent"
                                                         style="background-color:#ff5a5f !important">Öne Çıkan</div>
                                                     <img src="{{ asset('housing_images/' . getImage($housing, 'image')) }}"

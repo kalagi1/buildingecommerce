@@ -8,7 +8,6 @@
                 <table class="table-responsive">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th class="pl-2">Konut</th>
                             <th class="p-0"></th>
                             <th class="pl-2">İl</th>
@@ -24,16 +23,15 @@
                         @else
                             @foreach ($favorites as $key => $item)
                                 <tr>
-                                    <td style="padding-left: 30px ">{{ $key + 1 }}</td>
                                     <td class="image myelist">
-                                        <a href="single-property-1.html"><img alt="my-properties-3"
+                                        <a href="{{ route('housing.show', $item->housing->id ) }}"><img alt="my-properties-3"
                                                 src="{{ asset('housing_images/') . '/' . json_decode($item->housing->housing_type_data)->image }}"
                                                 class="img-fluid"></a>
                                     </td>
                                     <td>
                                         <div class="inner">
-                                            <a href="single-property-1.html">
-                                                <h2>{{ $item->housing->title }}</h2>
+                                            <a href="{{ route('housing.show', $item->housing->id ) }}">
+                                                <h2 style="font-weight: 600">{{ $item->housing->title }}</h2>
                                                 <figure><i class="lni-map-marker"></i> {{ $item->housing->address }}
                                                 </figure>
                                             </a>
@@ -48,6 +46,7 @@
                                     </td>
                                 </tr>
                             @endforeach
+
                         @endif
 
                     </tbody>
