@@ -503,7 +503,7 @@ Version      : 1.2
     /* .brand-head altındaki tüm öğeler için stil kuralları */
 
     .brand-head {
-        margin-top: 20px;
+        padding-top: 2.4rem ;
     }
 
     .brand-head .card {
@@ -15907,7 +15907,6 @@ Version      : 1.2
     }
 
     .inner-pages .portfolio .homes-content {
-        padding: 0 !important;
         -webkit-box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
         box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
     }
