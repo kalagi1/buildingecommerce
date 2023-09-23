@@ -17,14 +17,14 @@ class ProjectController extends Controller
     public function index($slug)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         return view('client.projects.index', compact('menu', 'project'));
     }
 
     public function detail($slug)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings','user.brands', 'user.housings', 'images')->firstOrFail();
         return view('client.projects.detail', compact('menu', 'project'));
     }
 

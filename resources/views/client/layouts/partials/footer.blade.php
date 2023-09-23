@@ -149,6 +149,24 @@
 <script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
 
 <script>
+    $(document).ready(function() {
+        const searchInput = $(".search-input");
+        const suggestions = $(".header-search__suggestions");
+        searchInput.attr("autocomplete", "off");
+
+        // Arama alanına tıklama olayını ekle
+        searchInput.click(function() {
+
+            suggestions.show();
+        });
+
+        // Sayfa herhangi bir yerine tıklama olayını ekle
+        $(document).click(function(event) {
+            if (!searchInput.is(event.target) && !suggestions.is(event.target)) {
+                suggestions.hide();
+            }
+        });
+    });
     $('.slick-agents').slick({
         infinite: true,
         slidesToShow: 4,

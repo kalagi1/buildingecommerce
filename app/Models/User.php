@@ -83,6 +83,11 @@ class User extends Authenticatable
         return $this->hasMany(Housing::class, 'user_id');
     }
 
+    public function brands()
+    {
+        return $this->hasMany(Brand::class, 'user_id');
+    }
+
     public function housingFavorites()
     {
         return $this->hasMany(HousingFavorite::class);

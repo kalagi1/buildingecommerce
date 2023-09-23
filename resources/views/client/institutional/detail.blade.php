@@ -22,8 +22,19 @@
                                 href="{{ route('instituional.profile', Str::slug($institutional->name)) }}">Satıcı
                                 Profili</a>
                         </div>
-                        <form class="search-form">
-                            <input class="search-input" type="search" placeholder="Mağazada Ara" aria-label="Search">
+                        <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
+                            <input class="search-input" type="search" placeholder="Mağazada Ara" aria-label="Search"
+                                name="q">
+                            <div class="header-search__suggestions">
+                                <div class="header-search__suggestions__section">
+                                    <h5>Markalar</h5>
+                                    <div class="header-search__suggestions__section__items">
+                                        @foreach ($institutional->brands as $item)
+                                            <a href="#"><span>{{ $item->title }}</span></a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
                             <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
                         </form>
                     </nav>
