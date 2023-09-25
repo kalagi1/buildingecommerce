@@ -44,6 +44,7 @@ use App\Http\Controllers\Institutional\DashboardController;
 use App\Http\Controllers\Institutional\LoginController;
 use App\Http\Controllers\Institutional\ProfileController as InstitutionalProfileController;
 use App\Http\Controllers\Institutional\ProjectController as InstitutionalProjectController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -98,6 +99,19 @@ Route::get('/auth/facebook', [AuthLoginController::class, 'redirectToFacebook'])
 Route::get('/auth/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback'])->name('auth.facebook.callback');
 
 Route::get('/verify-email/{token}', [VerifyController::class, "verifyEmail"])->name('verify.email');
+
+// Şifre sıfırlama linkini gösterme ve isteme sayfası
+Route::get('password/reset', 'App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+
+// Şifre sıfırlama linkini e-posta ile gönderme işlemi
+Route::post('password/email', 'App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+
+// Yeni şifre belirleme sayfası
+Route::get('password/reset/{token}', 'App\Http\Controllers\Auth\ResetPasswordController@showResetForm')->name('password.reset');
+
+// Yeni şifreyi kaydetme işlemi
+Route::post('password/reset', 'App\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.update');
+
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
 
@@ -503,3 +517,4 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     });
 
 });
+

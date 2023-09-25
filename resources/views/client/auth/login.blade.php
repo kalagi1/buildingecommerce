@@ -62,34 +62,44 @@
 
                                         <div class="forgot-password d-flex justify-content-between">
                                             <a href="{{ route('institutional.login') }}"><span>Kurumsal Giriş</span></a>
-                                            <a href="#"><span>Şifremi Unuttum</span></a>
+                                            <a href="{{ route('password.request') }}"><span>Şifremi Unuttum</span></a>
                                         </div>
 
                                         <button class="btn btn-primary q-button" type="submit"> Giriş Yap</button>
 
                                         <div class="social-account-login-buttons pb-3">
                                             <div class="q-layout social-login-button flex flex-1">
+
                                                 <div class="social-login-icon" style="background-color: black;">
                                                     <i class="fa fa-apple"></i>
                                                 </div>
                                                 <div class="flex flex-column">
                                                     <div>
-                                                        <div style="text-transform: capitalize;">facebook</div> <small>ile giriş yap</small>
+                                                        <a href="{{ route('auth.facebook') }}"
+                                                            style="color: black;text-decoration:none">
+                                                            <div style="text-transform: capitalize;">facebook</div>
+                                                            <small>ile giriş yap</small>
+                                                        </a>
                                                     </div>
                                                 </div>
-                                                <a href="{{ route('auth.facebook') }}" class="stretched-link"></a>
+
                                             </div>
+
+
                                             <div class="q-layout social-login-button flex flex-1">
                                                 <div class="social-login-icon" style="background-color: rgb(241, 66, 54);">
                                                     <i class="fa fa-google"></i>
                                                 </div>
                                                 <div class="flex flex-column">
                                                     <div>
-                                                        <div style="text-transform: capitalize;">google</div> <small>ile giriş yap</small>
+                                                        <a href="{{ route('auth.google') }}" style="color: black;text-decoration:none">
+                                                            <div style="text-transform: capitalize;">google</div> <small>ile
+                                                                giriş yap</small>
+                                                        </a>
                                                     </div>
                                                 </div>
-                                                <a href="{{ route('auth.google') }}" class="stretched-link"></a>
                                             </div>
+
                                         </div>
 
 
