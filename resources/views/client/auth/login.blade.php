@@ -69,16 +69,15 @@
 
                                         <div class="social-account-login-buttons pb-3">
                                             <div class="q-layout social-login-button flex flex-1">
-                                                <div class="social-login-icon" style="background-color: black;"><i
-                                                        class="fa fa-apple"></i>
+                                                <div class="social-login-icon" style="background-color: black;">
+                                                    <i class="fa fa-apple"></i>
                                                 </div>
                                                 <div class="flex flex-column">
                                                     <div>
-                                                        <div style="text-transform: capitalize;">facebook</div> <small>ile
-                                                            giriş
-                                                            yap</small>
+                                                        <div style="text-transform: capitalize;">facebook</div> <small>ile giriş yap</small>
                                                     </div>
                                                 </div>
+                                                <a href="{{ route('auth.facebook') }}" class="stretched-link"></a>
                                             </div>
                                             <div class="q-layout social-login-button flex flex-1">
                                                 <div class="social-login-icon" style="background-color: rgb(241, 66, 54);">
@@ -86,13 +85,13 @@
                                                 </div>
                                                 <div class="flex flex-column">
                                                     <div>
-                                                        <div style="text-transform: capitalize;">google</div> <small>ile
-                                                            giriş
-                                                            yap</small>
+                                                        <div style="text-transform: capitalize;">google</div> <small>ile giriş yap</small>
                                                     </div>
                                                 </div>
+                                                <a href="{{ route('auth.google') }}" class="stretched-link"></a>
                                             </div>
                                         </div>
+
 
                                     </form>
 

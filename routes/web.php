@@ -32,6 +32,7 @@ use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\HousingController as ClientHousingController;
 use App\Http\Controllers\Client\InstitutionalController;
 use App\Http\Controllers\Client\LoginController as ClientLoginController;
+use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\PageController as ClientPageController;
 use App\Http\Controllers\Client\RegisterController;
@@ -89,6 +90,12 @@ Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name(
 Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
 Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
 Route::get('/cikis-yap', [ClientLoginController::class, "logout"])->name('client.logout');
+
+Route::get('/auth/google', [AuthLoginController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [AuthLoginController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+
+Route::get('/auth/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('auth.facebook');
+Route::get('/auth/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback'])->name('auth.facebook.callback');
 
 Route::get('/verify-email/{token}', [VerifyController::class, "verifyEmail"])->name('verify.email');
 
