@@ -257,7 +257,7 @@
                 <div class="col-lg-9 col-md-12 blog-pots">
                     <div class="row project-detalist-list" style="display: flex;justify-content: space-between;">
                         <h3 style="padding: 17px;">Daireler</h3>
-                        <div style="display: flex; float: right;">
+                        <div style="display: flex; float: right; padding-right: 17px;">
                             <select>
                                 <option selected>Sıralama</option>
                                 <option value="Fiyata Göre">Fiyata Göre</option>
