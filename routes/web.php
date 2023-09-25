@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ChangePasswordController;
+use App\Http\Controllers\Admin\EmailTemplateController;
 use App\Http\Controllers\Admin\FooterLinkController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\HousingController;
@@ -34,6 +35,7 @@ use App\Http\Controllers\Client\LoginController as ClientLoginController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\PageController as ClientPageController;
 use App\Http\Controllers\Client\RegisterController;
+use App\Http\Controllers\Client\VerifyController;
 use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\BuyController;
 use App\Http\Controllers\Institutional\ChangePasswordController as InstitutionalChangePasswordController;
@@ -87,6 +89,8 @@ Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name(
 Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
 Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
 Route::get('/cikis-yap', [ClientLoginController::class, "logout"])->name('client.logout');
+
+Route::get('/verify-email/{token}', [VerifyController::class, "verifyEmail"])->name('verify.email');
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
 
@@ -400,6 +404,27 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::middleware(['checkPermission:GetSliders'])->group(function () {
         Route::get('/sliders', [SliderController::class, 'index'])->name('sliders.index');
+    });
+
+    Route::middleware(['checkPermission:DeleteEmailTemplate'])->group(function () {
+        Route::delete('/email-templates/{email_template}', [EmailTemplateController::class, 'destroy'])->name('email-templates.destroy');
+    });
+
+    Route::middleware(['checkPermission:CreateEmailTemplate'])->group(function () {
+        Route::get('/email-templates/create', [EmailTemplateController::class, 'create'])->name('email-templates.create');
+        Route::post('/email-templates', [EmailTemplateController::class, 'store'])->name('email-templates.store');
+    });
+
+    Route::middleware(['checkPermission:GetEmailTemplateById'])->group(function () {
+        Route::get('/email-templates/{email_template}/edit', [EmailTemplateController::class, 'edit'])->name('email-templates.edit');
+    });
+
+    Route::middleware(['checkPermission:UpdateEmailTemplate'])->group(function () {
+        Route::put('/email-templates/{email_template}', [EmailTemplateController::class, 'update'])->name('email-templates.update');
+    });
+
+    Route::middleware(['checkPermission:GetEmailTemplates'])->group(function () {
+        Route::get('/email-templates', [EmailTemplateController::class, 'index'])->name('email-templates.index');
     });
 
 });

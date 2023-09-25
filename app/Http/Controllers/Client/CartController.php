@@ -76,7 +76,7 @@ class CartController extends Controller
 
     public function index(Request $request)
     {
-        $cart = $request->session()->get('cart', []); // Get cart data from session
+        $cart = $request->session()->get('cart', []);
 
         return view('client.cart.index', compact('cart'));
     }

@@ -251,7 +251,7 @@
     {
         "id": "smtp_settings",
         "label": "Ayarlar",
-        "icon": "mail",
+        "icon": "send",
         "text": "SMTP Ayarları",
         "key": "GetSmtpSettingById",
         "url": "admin.smtp.edit",
@@ -334,6 +334,30 @@
                 "activePath": "admin/social_media_icons"
             }
         ]
+    },
+    {
+        "id": "email_templates",
+        "label": "E-posta Şablonları",
+        "icon": "mail",
+        "text": "E-posta Şablonları",
+        "key": "EmailTemplates",
+        "url": "#nv-email-templates",
+        "activePath": "admin/email_templates*",
+        "subMenu": [
+            {
+                "text": "Yeni Ekle",
+                "key": "CreateEmailTemplate",
+                "url": "admin.email-templates.create",
+                "activePath": "admin/email-templates/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetEmailTemplates",
+                "url": "admin.email-templates.index",
+                "activePath": "admin/email-templates"
+            }
+        ]
     }
+
 
 ]

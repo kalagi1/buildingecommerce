@@ -22,15 +22,21 @@
                             </li>
                         </ul>
 
-
                         <div class="login-content">
                             <!-- Sekme İçeriği -->
                             <div class="tab-content" id="myTabContent">
                                 <!-- Normal Hesap Girişi Sekmesi -->
                                 <div class="tab-pane fade show active" id="normal" role="tabpanel"
                                     aria-labelledby="normal-tab">
-
-
+                                    @if (session()->has('success'))
+                                        <div class="alert alert-success">
+                                            {{ session()->get('success') }}
+                                        </div>
+                                    @elseif (session()->has('error'))
+                                        <div class="alert alert-danger">
+                                            {{ session()->get('error') }}
+                                        </div>
+                                    @endif
 
                                     <form method="POST"class="form w-100" action="{{ route('client.submit.login') }}">
 
