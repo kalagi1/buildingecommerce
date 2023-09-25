@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SiteSettingController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\UserController;
@@ -378,6 +379,27 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::middleware(['checkPermission:GetSocialMediaIcons'])->group(function () {
         Route::get('/social_media_icons', [SocialMediaIconController::class, 'index'])->name('social_media_icons.index');
+    });
+
+    Route::middleware(['checkPermission:DeleteSlider'])->group(function () {
+        Route::delete('/sliders/{slider}', [SliderController::class, 'destroy'])->name('sliders.destroy');
+    });
+
+    Route::middleware(['checkPermission:CreateSlider'])->group(function () {
+        Route::get('/sliders/create', [SliderController::class, 'create'])->name('sliders.create');
+        Route::post('/sliders', [SliderController::class, 'store'])->name('sliders.store');
+    });
+
+    Route::middleware(['checkPermission:GetSliderById'])->group(function () {
+        Route::get('/sliders/{slider}/edit', [SliderController::class, 'edit'])->name('sliders.edit');
+    });
+
+    Route::middleware(['checkPermission:UpdateSlider'])->group(function () {
+        Route::put('/sliders/{slider}', [SliderController::class, 'update'])->name('sliders.update');
+    });
+
+    Route::middleware(['checkPermission:GetSliders'])->group(function () {
+        Route::get('/sliders', [SliderController::class, 'index'])->name('sliders.index');
     });
 
 });

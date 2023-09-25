@@ -8,9 +8,10 @@
         "url": "admin.menu_management",
         "activePath": "admin/menus*"
     },
+
     {
         "id": "role",
-        "label": "Yönetim",
+        "label": "Yetkilendirme",
         "icon": "user",
         "text": "Roller",
         "key": "Roles",
@@ -18,7 +19,7 @@
         "activePath": "admin/roles*",
         "subMenu": [
             {
-                "text": "Oluştur",
+                "text": "Yeni Ekle",
                 "key": "CreateRole",
                 "url": "admin.roles.create",
                 "activePath": "admin/roles/create"
@@ -41,7 +42,7 @@
         "activePath": "admin/pages*",
         "subMenu": [
             {
-                "text": "Oluştur",
+                "text": "Yeni Ekle",
                 "key": "CreatePage",
                 "url": "admin.pages.create",
                 "activePath": "admin/pages/create"
@@ -56,7 +57,7 @@
     },
     {
         "id": "permission_group",
-        "label": "Yönetim",
+        "label": "Yetkilendirme",
         "icon": "link",
         "text": "İzin Grupları",
         "key": "PermissionGroups",
@@ -64,7 +65,7 @@
         "activePath": "admin/permission_groups*",
         "subMenu": [
             {
-                "text": "Oluştur",
+                "text": "Yeni Ekle",
                 "key": "CreatePermissionGroup",
                 "url": "admin.permission_groups.create",
                 "activePath": "admin/permission_groups/create"
@@ -79,7 +80,7 @@
     },
     {
         "id": "permission",
-        "label": "Yönetim",
+        "label": "Yetkilendirme",
         "icon": "link-2",
         "text": "İzinler",
         "key": "Permissions",
@@ -87,7 +88,7 @@
         "activePath": "admin/permissions*",
         "subMenu": [
             {
-                "text": "Oluştur",
+                "text": "Yeni Ekle",
                 "key": "CreatePermission",
                 "url": "admin.permissions.create",
                 "activePath": "admin/permissions/create"
@@ -101,6 +102,29 @@
         ]
     },
     {
+        "id": "sliders",
+        "label": "Slider",
+        "icon": "image",
+        "text": "Slider",
+        "key": "Sliders",
+        "url": "#nv-sliders",
+        "activePath": "admin/sliders*",
+        "subMenu": [
+            {
+                "text": "Yeni Ekle",
+                "key": "CreateSlider",
+                "url": "admin.sliders.create",
+                "activePath": "admin/sliders/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetSliders",
+                "url": "admin.sliders.index",
+                "activePath": "admin/sliders"
+            }
+        ]
+    },
+    {
         "id": "user",
         "label": "Yönetim",
         "icon": "user",
@@ -110,7 +134,7 @@
         "activePath": "admin/users*",
         "subMenu": [
             {
-                "text": "Oluştur",
+                "text": "Yeni Ekle",
                 "key": "CreateUser",
                 "url": "admin.users.create",
                 "activePath": "admin/users/create"
@@ -133,7 +157,7 @@
         "activePath": "admin/housing/*",
         "subMenu": [
             {
-                "text": "Oluştur",
+                "text": "Yeni Ekle",
                 "key": "CreateHousing",
                 "url": "admin.housings.create",
                 "activePath": "admin/housing/create"
@@ -156,7 +180,7 @@
         "activePath": "admin/housing_types*",
         "subMenu": [
             {
-                "text": "Oluştur",
+                "text": "Yeni Ekle",
                 "key": "CreateHousingType",
                 "url": "admin.housing_types.create",
                 "activePath": "admin/housing_types/create"
@@ -179,7 +203,7 @@
         "activePath": "admin/housing_status*",
         "subMenu": [
             {
-                "text": "Oluştur",
+                "text": "Yeni Ekle",
                 "key": "CreateHousingStatus",
                 "url": "admin.housing_statuses.index",
                 "activePath": "admin/housing_status/create"
@@ -202,7 +226,7 @@
         "activePath": "admin/projects*",
         "subMenu": [
             {
-                "text": "Oluştur",
+                "text": "Yeni Ekle",
                 "key": "CreateProject",
                 "url": "admin.projects.create",
                 "activePath": "admin/projects/create"
@@ -216,33 +240,31 @@
         ]
     },
     {
-        "id": "settings",
-        "label": "Yönetim",
+        "id": "general_settings",
+        "label": "Ayarlar",
         "icon": "lock",
-        "text": "Ayarlar",
-        "key": "SiteSettings",
-        "url": "#nv-settings",
-        "activePath": "admin/settings*",
-        "subMenu": [
-            {
-                "text": "Genel Ayarlar",
-                "key": "GetSiteSettings",
-                "url": "admin.site-settings.index",
-                "activePath": "admin/site-settings"
-            },
-            {
-                "text": "SMTP Ayarları",
-                "key": "GetSmtpSettingById",
-                "url": "admin.smtp.edit",
-                "activePath": "admin/smtp/edit"
-            },
-            {
-                "text": "İletişim Ayarları",
-                "key": "GetContactSettingById",
-                "url": "admin.info.contact.index",
-                "activePath": "admin/smtp/edit"
-            }
-        ]
+        "text": "Genel Ayarlar",
+        "key": "GetSiteSettings",
+        "url": "admin.site-settings.index",
+        "activePath": "admin/site-settings*"
+    },
+    {
+        "id": "smtp_settings",
+        "label": "Ayarlar",
+        "icon": "mail",
+        "text": "SMTP Ayarları",
+        "key": "GetSmtpSettingById",
+        "url": "admin.smtp.edit",
+        "activePath": "admin/smtp/edit*"
+    },
+    {
+        "id": "contact_settings",
+        "label": "Ayarlar",
+        "icon": "phone",
+        "text": "İletişim Ayarları",
+        "key": "GetContactSettingById",
+        "url": "admin.info.contact.index",
+        "activePath": "admin/info/contact*"
     },
     {
         "id": "marketings",
@@ -254,7 +276,7 @@
         "activePath": "admin/marketings*",
         "subMenu": [
             {
-                "text": "Oluştur",
+                "text": "Yeni Ekle",
                 "key": "CreateMarketing",
                 "url": "admin.marketing.projects.index",
                 "activePath": "admin/marketing/project"
@@ -277,7 +299,7 @@
         "activePath": "admin/footer_links*",
         "subMenu": [
             {
-                "text": "Oluştur",
+                "text": "Yeni Ekle",
                 "key": "CreateFooterLink",
                 "url": "admin.footer_links.create",
                 "activePath": "admin/footer_links/create"
@@ -300,7 +322,7 @@
         "activePath": "admin/social_media_icons*",
         "subMenu": [
             {
-                "text": "Oluştur",
+                "text": "Yeni Ekle",
                 "key": "CreateSocialMediaIcon",
                 "url": "admin.social_media_icons.create",
                 "activePath": "admin/social_media_icons/create"
@@ -313,4 +335,5 @@
             }
         ]
     }
+
 ]
