@@ -56,30 +56,24 @@
                                 </div>
                                 <!-- Search Form -->
                                 <div class="trip-search">
-                                    <form class="form">
+                                    <form class="form" method="get">
                                         <!-- Form Lookin for -->
                                         <div class="form-group looking">
                                             <div class="first-select wide">
                                                 <div class="main-search-input-item">
-                                                    <input type="text" placeholder="Enter Keyword..." value="" />
+                                                    <input type="text" value="{{request('search')}}" name="search" placeholder="Ara..." value="" />
                                                 </div>
                                             </div>
                                         </div>
                                         <!--/ End Form Lookin for -->
                                         <!-- Form Location -->
-                                        <div class="form-group location">
-                                            <div class="nice-select form-control wide" tabindex="0"><span
-                                                    class="current"><i class="fa fa-map-marker"></i>Location</span>
-                                                <ul class="list">
-                                                    <li data-value="1" class="option selected ">New York</li>
-                                                    <li data-value="2" class="option">Los Angeles</li>
-                                                    <li data-value="3" class="option">Chicago</li>
-                                                    <li data-value="3" class="option">Philadelphia</li>
-                                                    <li data-value="3" class="option">San Francisco</li>
-                                                    <li data-value="3" class="option">Miami</li>
-                                                    <li data-value="3" class="option">Houston</li>
-                                                </ul>
-                                            </div>
+                                        <div class="form-group location" style="margin-top:40px;">   
+                                            <select name="city" class="form-control" id="">
+                                                <option value="">İl Seç</option>
+                                                @foreach($cities as $city)
+                                                    <option value="{{$city->id}}">{{$city->title}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <!--/ End Form Location -->
                                         <!-- Form Categories -->
@@ -148,70 +142,71 @@
                                                 </ul>
                                             </div>
                                         </div>
+                                        <div class="main-search-field-2">
+                                            <!-- Area Range -->
+                                            <div class="range-slider">
+                                                <label>Area Size</label>
+                                                <div id="area-range" data-min="0" data-max="1300" data-unit="sq ft"></div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <br>
+                                            <!-- Price Range -->
+                                            <div class="range-slider">
+                                                <label>Price Range</label>
+                                                <div id="price-range" data-min="0" data-max="600000" data-unit="$"></div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <!-- More Search Options -->
+                                        <a href="#" class="more-search-options-trigger margin-bottom-10 margin-top-30"
+                                            data-open-title="Advanced Features" data-close-title="Advanced Features"></a>
+        
+                                        <div class="more-search-options relative">
+                                            <!-- Checkboxes -->
+                                            <div class="checkboxes one-in-row margin-bottom-10">
+                                                <input id="check-2" type="checkbox" name="check">
+                                                <label for="check-2">Air Conditioning</label>
+                                                <input id="check-3" type="checkbox" name="check">
+                                                <label for="check-3">Swimming Pool</label>
+                                                <input id="check-4" type="checkbox" name="check">
+                                                <label for="check-4">Central Heating</label>
+                                                <input id="check-5" type="checkbox" name="check">
+                                                <label for="check-5">Laundry Room</label>
+                                                <input id="check-6" type="checkbox" name="check">
+                                                <label for="check-6">Gym</label>
+                                                <input id="check-7" type="checkbox" name="check">
+                                                <label for="check-7">Alarm</label>
+                                                <input id="check-8" type="checkbox" name="check">
+                                                <label for="check-8">Window Covering</label>
+                                                <input id="check-9" type="checkbox" name="check">
+                                                <label for="check-9">WiFi</label>
+                                                <input id="check-10" type="checkbox" name="check">
+                                                <label for="check-10">TV Cable</label>
+                                                <input id="check-11" type="checkbox" name="check">
+                                                <label for="check-11">Dryer</label>
+                                                <input id="check-12" type="checkbox" name="check">
+                                                <label for="check-12">Microwave</label>
+                                                <input id="check-13" type="checkbox" name="check">
+                                                <label for="check-13">Washer</label>
+                                                <input id="check-14" type="checkbox" name="check">
+                                                <label for="check-14">Refrigerator</label>
+                                                <input id="check-15" type="checkbox" name="check">
+                                                <label for="check-15">Outdoor Shower</label>
+                                            </div>
+                                            <!-- Checkboxes / End -->
+                                        </div>
+                                        <!-- More Search Options / End -->
+                                        <div class="col-lg-12 no-pds">
+                                            <div class="at-col-default-mar">
+                                                <button class="btn btn-default hvr-bounce-to-right" type="submit">Search</button>
+                                            </div>
+                                        </div>
                                         <!--/ End Form Bathrooms -->
                                     </form>
                                 </div>
                                 <!--/ End Search Form -->
                                 <!-- Price Fields -->
-                                <div class="main-search-field-2">
-                                    <!-- Area Range -->
-                                    <div class="range-slider">
-                                        <label>Area Size</label>
-                                        <div id="area-range" data-min="0" data-max="1300" data-unit="sq ft"></div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <br>
-                                    <!-- Price Range -->
-                                    <div class="range-slider">
-                                        <label>Price Range</label>
-                                        <div id="price-range" data-min="0" data-max="600000" data-unit="$"></div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                                <!-- More Search Options -->
-                                <a href="#" class="more-search-options-trigger margin-bottom-10 margin-top-30"
-                                    data-open-title="Advanced Features" data-close-title="Advanced Features"></a>
-
-                                <div class="more-search-options relative">
-                                    <!-- Checkboxes -->
-                                    <div class="checkboxes one-in-row margin-bottom-10">
-                                        <input id="check-2" type="checkbox" name="check">
-                                        <label for="check-2">Air Conditioning</label>
-                                        <input id="check-3" type="checkbox" name="check">
-                                        <label for="check-3">Swimming Pool</label>
-                                        <input id="check-4" type="checkbox" name="check">
-                                        <label for="check-4">Central Heating</label>
-                                        <input id="check-5" type="checkbox" name="check">
-                                        <label for="check-5">Laundry Room</label>
-                                        <input id="check-6" type="checkbox" name="check">
-                                        <label for="check-6">Gym</label>
-                                        <input id="check-7" type="checkbox" name="check">
-                                        <label for="check-7">Alarm</label>
-                                        <input id="check-8" type="checkbox" name="check">
-                                        <label for="check-8">Window Covering</label>
-                                        <input id="check-9" type="checkbox" name="check">
-                                        <label for="check-9">WiFi</label>
-                                        <input id="check-10" type="checkbox" name="check">
-                                        <label for="check-10">TV Cable</label>
-                                        <input id="check-11" type="checkbox" name="check">
-                                        <label for="check-11">Dryer</label>
-                                        <input id="check-12" type="checkbox" name="check">
-                                        <label for="check-12">Microwave</label>
-                                        <input id="check-13" type="checkbox" name="check">
-                                        <label for="check-13">Washer</label>
-                                        <input id="check-14" type="checkbox" name="check">
-                                        <label for="check-14">Refrigerator</label>
-                                        <input id="check-15" type="checkbox" name="check">
-                                        <label for="check-15">Outdoor Shower</label>
-                                    </div>
-                                    <!-- Checkboxes / End -->
-                                </div>
-                                <!-- More Search Options / End -->
-                                <div class="col-lg-12 no-pds">
-                                    <div class="at-col-default-mar">
-                                        <button class="btn btn-default hvr-bounce-to-right" type="submit">Search</button>
-                                    </div>
-                                </div>
+                                
                             </div>
                             <!-- <div class="widget-boxed mt-5">
                                             <div class="widget-boxed-header">

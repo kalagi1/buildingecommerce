@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use App\Models\Housing;
 use App\Models\Menu;
 use App\Models\ProjectHouseSetting;
@@ -27,10 +28,20 @@ class HousingController extends Controller
         return view('client.housings.detail', compact('housing', 'menu','housingSetting'));
     }
 
-    public function list(){
-        $housings = Housing::get();
-        $menu = Menu::getMenuItems();
+    public function list(Request $request){
+        $housings = Housing::query();
+        if($request->input('search')){
+            $housings = $housings->where('title','LIKE','%'.$request->input('search').'%');
+        }
 
-        return view('client.housings.list',compact('housings','menu'));
+        if($request->input('city')){
+            $housings = $housings->where('city_id',$request->input('city'));
+        }
+
+        $housings = $housings->get();
+        $menu = Menu::getMenuItems();
+        $cities = City::get();
+
+        return view('client.housings.list',compact('housings','menu','cities'));
     }
 }
