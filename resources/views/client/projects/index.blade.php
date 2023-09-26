@@ -25,6 +25,7 @@
                                 Profili</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
+                            @csrf
                             <input class="search-input" type="search" placeholder="Mağazada Ara" aria-label="Search"
                                 name="q">
                             <div class="header-search__suggestions">

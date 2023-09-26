@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class InstitutionalController extends Controller
@@ -40,6 +40,7 @@ class InstitutionalController extends Controller
         return $request->all();
         $query = $request->input('q');
         $brand = $request->input('brand');
+        return $query;
 
         // Arama sorgularını işleyin ve sonuçları alın
         // Örneğin, mağaza adı veya markaya göre filtreleme yapabilirsiniz

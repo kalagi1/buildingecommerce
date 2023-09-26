@@ -62,7 +62,7 @@ Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/housing/{id}', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/admin', [AdminHomeController::class, "index"]);
-Route::get('/instituional/search', [InstituionalController::class, 'search'])->name('instituional.search');
+Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
 
 Route::get('/proje/{slug}', [ClientProjectController::class, "index"])->name('project.detail');
 Route::get('/proje/{slug}/detay', [ClientProjectController::class, "detail"])->name('project.housing.detail');
