@@ -10,7 +10,8 @@
                     <img src="/images/4.png" alt="" class="brand-logo">
                     <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($institutional->name)) }}"
                             style="color:White">{{ $institutional->name }}</a></p>
-
+                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                            <p class="brand-name">Profil</p>
                 </div>
                 <div class="card-body">
                     <nav class="navbar">

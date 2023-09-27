@@ -68,11 +68,17 @@ class ProjectController extends Controller
             abort(404); // Veya başka bir hata işleme yöntemi kullanabilirsiniz.
         }
 
-        // HousingStatus ID'sine sahip projeleri alın
-        $projects = Project::whereHas('housingStatus', function ($query) use ($status) {
-            $query->where('housing_type_id', $status->id);
-        })->get();
+        if ($status->id == 1) {
+            // HousingStatus ID'sine sahip projeleri alın
+            $projects = Project::all();
 
+        } else {
+            // HousingStatus ID'sine sahip projeleri alın
+            $projects = Project::whereHas('housingStatus', function ($query) use ($status) {
+                $query->where('housing_type_id', $status->id);
+            })->get();
+
+        }
 
         $housingTypes = HousingType::where('active', 1)->get();
         $housingStatuses = HousingStatus::get();
@@ -81,7 +87,6 @@ class ProjectController extends Controller
 
         return view('client.all-projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatuses', 'cities', 'status'));
     }
-
 
     public function projectHousingDetail($projectSlug, $housingOrder)
     {

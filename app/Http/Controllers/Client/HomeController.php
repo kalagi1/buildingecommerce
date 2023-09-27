@@ -34,6 +34,15 @@ class HomeController extends Controller
         $brands = Brand::where('status', 1)->get();
         $projects = Project::listForMarketing();
         $sliders = Slider::all();
-        return view('client.home.index', compact('menu', 'sliders', 'secondhandHousings', 'projects', 'brands', 'dashboardProjects', 'dashboardStatuses'));
+
+        $finishProjects = Project::whereHas('housingStatus', function ($query) {
+            $query->where('housing_type_id', '2');
+        })->with("housings", 'brand', 'roomInfo', 'housingType')->orderBy("created_at", "desc")->get();
+
+        $continueProjects = Project::whereHas('housingStatus', function ($query) {
+            $query->where('housing_type_id', '3');
+        })->with("housings", 'brand', 'roomInfo', 'housingType')->orderBy("created_at", "desc")->get();
+
+        return view('client.home.index', compact('menu', 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'projects', 'brands', 'dashboardProjects', 'dashboardStatuses'));
     }
 }

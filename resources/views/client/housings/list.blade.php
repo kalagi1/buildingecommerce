@@ -67,7 +67,7 @@
                                         </div>
 
 
-                                        <div class="form-group location" style="margin-top:40px;">   
+                                        <div class="form-group location" style="margin-top:40px;">
                                             <select name="city" class="form-control" id="">
                                                 <option value="">İl Seç</option>
                                                 @foreach($cities as $city)
@@ -76,7 +76,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="form-group location">   
+                                        <div class="form-group location">
                                             <select name="housing_type" class="form-control" id="">
                                                 <option value="">Konut Tipi Seç</option>
                                                 @foreach($housingTypes as $housingType)
@@ -84,8 +84,8 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        
-                                        <div class="form-group location">   
+
+                                        <div class="form-group location">
                                             <select name="room_count" class="form-control" id="">
                                                 <option disabled="null" selected="null">Oda Sayısı</option>
                                                 <option>Hepsi</option>
@@ -103,8 +103,8 @@
                                                 <option @if(request('room_count') && request('room_count') == "5+2") selected @endif value="5+2">5+2</option>
                                             </select>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="main-search-field-2">
                                             <!-- Area Range -->
                                             <div class="range-slider">
@@ -120,7 +120,7 @@
                                                 <div class="clearfix"></div>
                                             </div>
                                         </div>
-                                        
+
                                         <!-- More Search Options / End -->
                                         <div class="col-lg-12 no-pds">
                                             <div class="at-col-default-mar">

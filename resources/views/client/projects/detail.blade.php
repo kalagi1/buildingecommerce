@@ -11,6 +11,8 @@
                     <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
                             style="color:White">{{ $project->user->name }}</a></p>
                     <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                    <p class="brand-name">Projeler</p>
+                    <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
                     <p class="brand-name">{{ $project->project_title }}</p>
 
                 </div>
@@ -220,9 +222,9 @@
                                                         <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
                                                     </li>
                                                     <!-- <li class="the-icons">
-                                                                                                                                                <i class="flaticon-car mr-2" aria-hidden="true"></i>
-                                                                                                                                                <span>2 Garages</span>
-                                                                                                                                            </li> -->
+                                                                                                                                                    <i class="flaticon-car mr-2" aria-hidden="true"></i>
+                                                                                                                                                    <span>2 Garages</span>
+                                                                                                                                                </li> -->
                                                 </ul>
                                             </div>
                                         </div>
@@ -361,7 +363,7 @@ out center;`;
                             settings: {
                                 slidesToShow: 2,
                                 slidesToScroll: 2,
-                                dots:false,
+                                dots: false,
                                 arrows: false
                             }
                         },
@@ -370,7 +372,7 @@ out center;`;
                             settings: {
                                 slidesToShow: 4,
                                 slidesToScroll: 4,
-                                dots:false,
+                                dots: false,
                                 arrows: false
                             }
                         },
@@ -379,7 +381,7 @@ out center;`;
                             settings: {
                                 slidesToShow: 3,
                                 slidesToScroll: 3,
-                                dots:false,
+                                dots: false,
                                 arrows: false
                             }
                         }
