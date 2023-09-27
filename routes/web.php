@@ -71,6 +71,11 @@ Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectD
 
 Route::get('/marka_projeleri/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
+
+Route::get('/{slug}', [ClientProjectController::class, "allProjects"])
+    ->name('all.project.list');
+
+
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');

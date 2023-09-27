@@ -181,7 +181,7 @@
             settings: {
                 slidesToShow: 4,
                 slidesToScroll: 4,
-                dots: true,
+                dots:false,
                 arrows: false
             }
         }, {
@@ -189,7 +189,7 @@
             settings: {
                 slidesToShow: 3,
                 slidesToScroll: 2,
-                dots: true,
+                dots:false,
                 arrows: false
             }
         }, {
@@ -197,7 +197,7 @@
             settings: {
                 slidesToShow: 1,
                 slidesToScroll: 1,
-                dots: true,
+                dots:false,
                 arrows: false
             }
         }]
@@ -215,7 +215,7 @@
             settings: {
                 slidesToShow: 3,
                 slidesToScroll: 3,
-                dots: true,
+                dots:false,
                 arrows: false
             }
         }, {
@@ -223,7 +223,7 @@
             settings: {
                 slidesToShow: 3,
                 slidesToScroll: 2,
-                dots: true,
+                dots:false,
                 arrows: false
             }
         }, {
@@ -231,7 +231,7 @@
             settings: {
                 slidesToShow: 1,
                 slidesToScroll: 1,
-                dots: true,
+                dots:false,
                 arrows: false
             }
         }]
@@ -252,7 +252,7 @@
             settings: {
                 slidesToShow: 10,
                 slidesToScroll: 4,
-                dots: true,
+                dots:false,
                 arrows: false
             }
         }, {
@@ -260,7 +260,7 @@
             settings: {
                 slidesToShow: 8,
                 slidesToScroll: 3,
-                dots: true,
+                dots:false,
                 arrows: false
             }
         }, {
@@ -268,7 +268,7 @@
             settings: {
                 slidesToShow: 5.5,
                 slidesToScroll: 1,
-                dots: true,
+                dots:false,
                 arrows: false
             }
         }]

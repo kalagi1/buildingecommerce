@@ -58,6 +58,13 @@ class ProjectController extends Controller
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
     }
 
+
+    public function allProjects($slug)
+    {
+        $status = HousingStatus::where('slug', $slug)->first();
+        return view('client.all-projects.list', ['statuses' => $status]);
+    }
+
     public function projectHousingDetail($projectSlug, $housingOrder)
     {
         $menu = Menu::getMenuItems();
