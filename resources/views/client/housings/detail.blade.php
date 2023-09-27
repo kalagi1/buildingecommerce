@@ -116,7 +116,7 @@
                                 <h4><i class="fa fa-calendar pr-3 padd-r-10"></i>İletişim Bilgileri</h4>
                             </div>
                             <div class="widget-boxed-body">
-                                <h5 class="" style="font-size: 20px; font-weight: 600;">{{$housing->brand->title}}</h5>
+                                <h5 class="" style="font-size: 20px; font-weight: 600;">{{$housing->brand?->title}}</h5>
                                 <p>0507 585 40 33</p>
                             </div>
                         </div>

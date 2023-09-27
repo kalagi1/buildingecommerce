@@ -26537,3 +26537,7 @@ Version      : 1.2
     .header-search__suggestions__section__items a:hover {
         background-color: white;
     }
+
+    .filter-form select{
+        background: transparent !important;
+    }

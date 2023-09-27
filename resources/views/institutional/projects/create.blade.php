@@ -173,6 +173,19 @@
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
+      function getCopyList(housingCount,currentItemKey){
+        var html = '<select class="copy-item"><option value="">Daire bilgilerini kopyala</option>'
+        for(var i = 1; i <= housingCount; i++){
+          if(i != currentItemKey){
+            html += '<option value="'+i+'">Daire '+i+'</option>'
+          }
+        }
+
+        html += '</select>'
+
+        return html;
+      }
+
         jQuery($ => {
       var houseCount = {{old('house_count') ? old('house_count') : 0}};
       if(!isNaN(houseCount) && houseCount > 0){
@@ -406,7 +419,8 @@
                         for(var i = 0 ; i < houseCount; i++ ){
                             html += '<a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center '+(i == 0 ? 'active' : '')+'" id="Tab'+(i+1)+'" data-bs-toggle="tab" data-bs-target="#TabContent'+(i+1)+'" role="tab" aria-controls="TabContent'+(i+1)+'" aria-selected="true">'+
                                 '<span class="me-sm-2 fs-4 nav-icons" data-feather="tag"></span>'+
-                                '<span class="d-none d-sm-inline">'+(i+1)+' Nolu Konut Bilgileri</span>'+
+                                '<span class="d-block d-sm-inline">'+(i+1)+' Nolu Konut Bilgileri</span>'+
+                                '<span class="d-block d-sm-inline">Kopyala '+getCopyList(houseCount,i+1)+'</span>'+
                             '</a>';
 
                             htmlContent += '<div class="tab-pane fade show '+(i == 0 ? 'active' : '')+'" id="TabContent'+(i+1)+'" role="tabpanel">'+
@@ -461,7 +475,34 @@
                             });
                         }
 
-
+                        $('.copy-item').change(function(){
+                          var order = parseInt($(this).val()) - 1;
+                          var currentOrder = parseInt($(this).closest('a').attr('data-bs-target').replace('#TabContent','')) - 1;
+                          console.log(currentOrder);
+                          for(var lm = 0 ; lm < json.length; lm++){
+                            if(json[lm].type == "checkbox-group"){
+                              for(var i = 0 ; i < json[lm].values.length; i++){
+                                var isChecked = $('input[name="'+(json[lm].name.replace('[]',''))+(order+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').is(':checked')
+                                if(isChecked){
+                                  $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').attr('checked','checked')
+                                }else{
+                                  $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').removeAttr('checked')
+                                }
+                              }
+                            }else if(json[lm].type == "select"){
+                              var value = $('select[name="'+(json[lm].name)+'"]').eq(order).val();
+                              $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option').removeAttr('selected')
+                              $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value[0]+'"]').attr('selected','selected');
+                            }else if(json[lm].type == "file"){
+                              var files = $('input[name="'+(json[lm].name)+'"]').eq(order)[0].files;
+                              var input2 = $('input[name="'+(json[lm].name)+'"]').eq(currentOrder)[0];
+                            }else if(json[lm].type != "file"){
+                              var value = $('input[name="'+(json[lm].name)+'"]').eq(order).val();
+                              $('input[name="'+(json[lm].name)+'"]').eq(currentOrder).attr("value",value);
+                            }
+                          }
+                          $($(this).closest('a').attr("data-bs-target")).html($('#TabContent'+order).html())
+                        })
 
                     },
                     error: function(error) {
