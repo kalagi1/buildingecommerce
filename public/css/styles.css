@@ -267,7 +267,7 @@ Version      : 1.2
         align-items: center;
         padding-left: 35px;
         position: relative;
-       
+
     }
     .mbb{
  margin-bottom: 2.5rem;
@@ -16891,7 +16891,7 @@ Version      : 1.2
     }
 
     section.headings-2 {
-        padding: 60px 0 55px 0;
+        padding: 60px 0 5px 0;
     }
 
     .bg-white-inner {

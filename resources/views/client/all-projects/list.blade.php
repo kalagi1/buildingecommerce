@@ -67,9 +67,25 @@
             </div>
             </aside>
             <div class="col-lg-9 col-md-12 blog-pots">
-                <section class="popular-places home18">
+                <section class="headings-2 pt-0">
+                    <div class="pro-wrapper container">
+                        <div class="detail-wrapper-body">
+                            <div class="listing-title-bar">
+                                <div class="text-heading text-left">
+                                    <p class="pb-2"><a href="{{ url('/') }}"><strong>Anasayfa</strong> </a>
+                                        &nbsp;/&nbsp;
+                                        <strong>{{ $status->name }}</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="popular-places home18" style="padding-top:0 !important">
                     <div class="container">
+
                         <div class="row">
+
                             @forelse($projects as $project)
                                 <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
                                     <!-- Image Box -->
