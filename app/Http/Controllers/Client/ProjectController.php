@@ -24,7 +24,7 @@ class ProjectController extends Controller
     public function detail($slug)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings','user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         return view('client.projects.detail', compact('menu', 'project'));
     }
 
@@ -58,12 +58,30 @@ class ProjectController extends Controller
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
     }
 
-
     public function allProjects($slug)
     {
+        // HousingStatus modelini kullanarak slug'a göre durumu bulun
         $status = HousingStatus::where('slug', $slug)->first();
-        return view('client.all-projects.list', ['statuses' => $status]);
+
+        // HousingStatus bulunamazsa hata sayfasına yönlendirin
+        if (!$status) {
+            abort(404); // Veya başka bir hata işleme yöntemi kullanabilirsiniz.
+        }
+
+        // HousingStatus ID'sine sahip projeleri alın
+        $projects = Project::whereHas('housingStatus', function ($query) use ($status) {
+            $query->where('housing_type_id', $status->id);
+        })->get();
+
+
+        $housingTypes = HousingType::where('active', 1)->get();
+        $housingStatuses = HousingStatus::get();
+        $cities = City::get();
+        $menu = Menu::getMenuItems();
+
+        return view('client.all-projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatuses', 'cities', 'status'));
     }
+
 
     public function projectHousingDetail($projectSlug, $housingOrder)
     {
