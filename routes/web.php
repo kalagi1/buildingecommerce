@@ -72,8 +72,6 @@ Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectD
 Route::get('/marka_projeleri/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
-Route::get('/{slug}', [ClientProjectController::class, "allProjects"])
-    ->name('all.project.list');
 
 
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
@@ -82,6 +80,7 @@ Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.s
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
 Route::get('sepetim', [CartController::class, 'index'])->name('cart');
 Route::get('favoriler', [FavoriteController::class, 'showFavorites'])->name('favorites');
+
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('client.remove.from.cart');
 Route::post('/add-housing-to-favorites/{id}', [FavoriteController::class, "addHousingToFavorites"])->name('add.housing.to.favorites');
 Route::get('/get-housing-favorite-status/{id}', [FavoriteController::class, "getHousingFavoriteStatus"])->name('get.housing.favorite.status');
@@ -523,3 +522,7 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
 
 });
 
+
+
+Route::get('/{slug}', [ClientProjectController::class, "allProjects"])
+    ->name('all.project.list');

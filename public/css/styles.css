@@ -269,8 +269,9 @@ Version      : 1.2
         position: relative;
 
     }
-    .mbb{
- margin-bottom: 2.5rem;
+
+    .mbb {
+        margin-bottom: 2.5rem;
     }
 
     .section-title:before {
@@ -291,6 +292,8 @@ Version      : 1.2
         padding: 10px 15px;
         border-radius: 5px;
         display: flex;
+
+        justify-content: center;
         align-items: center;
     }
 
@@ -507,7 +510,7 @@ Version      : 1.2
     /* .brand-head altındaki tüm öğeler için stil kuralları */
 
     .brand-head {
-        padding-top: 2.4rem ;
+        padding-top: 2.4rem;
     }
 
     .brand-head .card {
@@ -26542,6 +26545,6 @@ Version      : 1.2
         background-color: white;
     }
 
-    .filter-form select{
+    .filter-form select {
         background: transparent !important;
     }

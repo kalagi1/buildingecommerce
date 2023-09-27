@@ -393,8 +393,11 @@
                                                 </a>
                                             </div>
                                             <div class="button-effect">
-                                                <a href="single-property-1.html" class="btn"><i
-                                                        class="fa fa-heart"></i></a>
+                                                <!-- Örneğin Kalp İkonu -->
+                                                <a href="#" class="btn toggle-favorite"
+                                                    data-housing-id="{{ $housing->id }}">
+                                                    <i class="fa fa-heart"></i>
+                                                </a>
                                             </div>
                                         </div>
                                         <!-- homes content -->

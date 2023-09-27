@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\City;
+use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\Menu;
@@ -72,6 +73,9 @@ class ProjectController extends Controller
             // HousingStatus ID'sine sahip projeleri alın
             $projects = Project::all();
 
+        } elseif ($status->id == 4) {
+            $projects = [];
+            $secondhandHousings = Housing::with('images')->get();
         } else {
             // HousingStatus ID'sine sahip projeleri alın
             $projects = Project::whereHas('housingStatus', function ($query) use ($status) {
@@ -85,7 +89,7 @@ class ProjectController extends Controller
         $cities = City::get();
         $menu = Menu::getMenuItems();
 
-        return view('client.all-projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatuses', 'cities', 'status'));
+        return view('client.all-projects.list', compact('menu', 'projects', 'secondhandHousings', 'housingTypes', 'housingStatuses', 'cities', 'status'));
     }
 
     public function projectHousingDetail($projectSlug, $housingOrder)
