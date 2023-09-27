@@ -5,7 +5,7 @@
 		infinite: false,
 		slidesToShow: 5,
 		slidesToScroll: 1,
-		dots: true,
+		dots:false,
 		arrows: false,
 		adaptiveHeight: true,
 		responsive: [
@@ -14,7 +14,7 @@
 		      settings: {
                 slidesToShow: 3,
 		        slidesToScroll: 3,
-		        dots: true,
+		        dots:false,
 		    	arrows: false
 		      }
 		    },
@@ -23,7 +23,7 @@
 		      settings: {
 		        slidesToShow: 2,
 		        slidesToScroll: 2,
-		        dots: true,
+		        dots:false,
 		    	arrows: false
 		      }
 		    },
@@ -32,7 +32,7 @@
 		      settings: {
 		        slidesToShow: 1,
 		        slidesToScroll: 1,
-		        dots: true,
+		        dots:false,
 		   		arrows: false
 		      }
 		    }

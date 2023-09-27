@@ -275,7 +275,7 @@ fetch(url)
             infinite: false,
             slidesToShow: 6,
             slidesToScroll: 1,
-            dots: true,
+            dots:false,
             arrows: true,
             adaptiveHeight: true,
             responsive: [
@@ -284,7 +284,7 @@ fetch(url)
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 2,
-                    dots: true,
+                    dots:false,
                     arrows: false
                 }
                 },
@@ -293,7 +293,7 @@ fetch(url)
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 2,
-                    dots: true,
+                    dots:false,
                     arrows: false
                 }
                 },
@@ -302,7 +302,7 @@ fetch(url)
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
-                    dots: true,
+                    dots:false,
                     arrows: false
                 }
                 }
