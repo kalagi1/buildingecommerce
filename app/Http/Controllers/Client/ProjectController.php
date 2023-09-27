@@ -69,6 +69,7 @@ class ProjectController extends Controller
             abort(404); // Veya başka bir hata işleme yöntemi kullanabilirsiniz.
         }
 
+        $secondhandHousings = [];
         if ($status->id == 1) {
             // HousingStatus ID'sine sahip projeleri alın
             $projects = Project::all();

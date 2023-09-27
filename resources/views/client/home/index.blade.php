@@ -109,7 +109,7 @@
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $status)
                 <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
-                    <a href="{{ url($status->slug) }}">
+                    <a href="{{ url('kategori/' . $status->slug) }}">
                         <button style="background-color: #dee0f5; color: #504fa3;" class="w-100">
                             {{ $status->name }}
                         </button>
