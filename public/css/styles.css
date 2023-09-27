@@ -267,7 +267,10 @@ Version      : 1.2
         align-items: center;
         padding-left: 35px;
         position: relative;
-        margin-bottom: 2.5rem;
+       
+    }
+    .mbb{
+ margin-bottom: 2.5rem;
     }
 
     .section-title:before {
@@ -296,6 +299,7 @@ Version      : 1.2
         color: white;
         font-size: 15px;
         margin-bottom: 0 !important;
+        padding: 10px 15px;
     }
 
     .section-title h3 {
@@ -15954,7 +15958,7 @@ Version      : 1.2
 
     .inner-pages .nice-select.open .list {
         overflow: visible;
-        z-index: 99999;
+        z-index: 100000;
         width: auto;
     }
 

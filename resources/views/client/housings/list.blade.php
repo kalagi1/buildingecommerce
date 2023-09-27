@@ -132,7 +132,7 @@
                                 </div>
                                 <!--/ End Search Form -->
                                 <!-- Price Fields -->
-                                
+
                             </div>
                             <!-- <div class="widget-boxed mt-5">
                                             <div class="widget-boxed-header">
