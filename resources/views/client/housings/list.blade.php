@@ -67,7 +67,7 @@
                                         </div>
                                         <!--/ End Form Lookin for -->
                                         <!-- Form Location -->
-                                        <div class="form-group location" style="margin-top:40px;">   
+                                        <div class="form-group location" style="margin-top:40px;">
                                             <select name="city" class="form-control" id="">
                                                 <option value="">İl Seç</option>
                                                 @foreach($cities as $city)
@@ -160,7 +160,7 @@
                                         <!-- More Search Options -->
                                         <a href="#" class="more-search-options-trigger margin-bottom-10 margin-top-30"
                                             data-open-title="Advanced Features" data-close-title="Advanced Features"></a>
-        
+
                                         <div class="more-search-options relative">
                                             <!-- Checkboxes -->
                                             <div class="checkboxes one-in-row margin-bottom-10">
@@ -206,7 +206,7 @@
                                 </div>
                                 <!--/ End Search Form -->
                                 <!-- Price Fields -->
-                                
+
                             </div>
                             <!-- <div class="widget-boxed mt-5">
                                             <div class="widget-boxed-header">
