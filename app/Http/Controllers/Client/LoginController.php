@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\City;
 use App\Models\EmailTemplate;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +16,8 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('client.auth.login');
+        $cities = City::all();
+        return view('client.auth.login', compact("cities"));
     }
 
     public function login(Request $request)
