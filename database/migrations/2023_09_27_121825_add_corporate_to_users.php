@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string("activity")->nullable();
             $table->integer("county_id")->nullable();
-            $table->integer("account_type")->nullable();
+            $table->string("account_type")->nullable();
             $table->integer("taxOfficeCity")->nullable();
             $table->integer("taxOffice")->nullable();
             $table->string("taxNumber")->nullable();

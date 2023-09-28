@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\City;
 use App\Models\EmailTemplate;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ class RegisterController extends Controller
 {
     public function register(Request $request)
     {
+
         $rules = [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -22,15 +24,30 @@ class RegisterController extends Controller
             'type' => 'required|in:1,2',
         ];
 
+        $city = City::where("title", $request->input("taxOfficeCity"))->first();
+
+        if ($request->input("account_type") == "1") {
+            $accountType = "Şahıs Şirketi";
+        } else {
+            $accountType = "Limited veya Anonim Şirketi";
+        }
+
         // Form doğrulama işlemini gerçekleştirin
         $validatedData = $request->validate($rules);
         // Yeni kullanıcıyı oluşturun
         $user = new User();
         $user->email = $validatedData['email'];
         $user->name = $validatedData['name'];
-        $user->password = bcrypt($validatedData['password']); // Şifreyi şifreleyin
+        $user->password = bcrypt($validatedData['password']);
         $user->type = $validatedData['type'];
-        $user->status = 0; // Aktiflik durumunu kontrol edin
+        $user->activity = $request->input("activity");
+        $user->county_id = $request->input("county_id");
+        $user->account_type = $accountType;
+        $user->taxOfficeCity = $city->id;
+        $user->taxOffice = $request->input("taxOffice");
+        $user->taxNumber = $request->input("taxNumber");
+        $user->idNumber = $request->input("idNumber");
+        $user->status = 0;
         $user->email_verification_token = Str::random(40);
         $user->save();
 

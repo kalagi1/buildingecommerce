@@ -141,14 +141,14 @@
                                                 <label class="q-label">Şifre</label>
                                                 <input type="password" name="password" class="form-control">
                                             </div>
-
+                                            {{--
                                             <div class="form-group custom-control custom-checkbox mt-3">
-                                                <input type="checkbox" class="custom-control-input" id="exampleCheck3"
+                                                <input type="checkbox" name="check" class="custom-control-input" id="exampleCheck3"
                                                     required>
                                                 <label class="custom-control-label" for="exampleCheck3">Kişisel
                                                     verilerimin
                                                     işlenmesine yönelik aydınlatma metnini okudum anladım.</label>
-                                            </div>
+                                            </div> --}}
                                         </div>
 
 
@@ -212,7 +212,7 @@
 
                                             <div class="mt-3">
                                                 <label for="" class="q-label">İl</label>
-                                                <select class="form-control">
+                                                <select class="form-control" id="citySelect">
                                                     <option value="">Seçiniz</option>
                                                     @foreach ($cities as $item)
                                                         <option for="{{ $item->title }}" value="{{ $item->id }}"
@@ -224,7 +224,7 @@
                                             </div>
                                             <div class="mt-3">
                                                 <label for="" class="q-label">İlçe</label>
-                                                <select class="form-control" name="county_id" id="county">
+                                                <select class="form-control" name="county_id" id="countySelect">
                                                     <option value="">Seçiniz</option>
                                                 </select>
                                             </div>
@@ -233,10 +233,12 @@
                                                 <label for="" class="q-label">İşletme Türü</label>
                                                 <div class="companyType">
                                                     <label for="of"><input type="radio" class="input-radio off"
-                                                            id="of" name="account_type" checked> Şahıs
+                                                            id="of" name="account_type" value="1" checked>
+                                                        Şahıs
                                                         Şirketi</label>
                                                     <label for="on"><input type="radio" class="input-radio off"
-                                                            id="on" name="account_type"> Limited veya
+                                                            id="on" name="account_type" value="2"> Limited
+                                                        veya
                                                         Anonim Şirketi</label>
                                                 </div>
                                             </div>
@@ -253,7 +255,7 @@
                                                                 <option value="">Seçiniz</option>
                                                                 @foreach ($cities as $item)
                                                                     <option for="{{ $item->title }}"
-                                                                        value="{{ $item->id }}"
+                                                                        value="{{ $item->title }}"
                                                                         data-title="{{ $item->title }}">
                                                                         {{ $item->title }}</option>
                                                                 @endforeach
@@ -298,7 +300,7 @@
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">TC Kimlik No
                                                             </label>
-                                                            <input type="text" name="idNumber" name="idNumber"
+                                                            <input type="text" id="idNumber" name="idNumber"
                                                                 class="form-control">
                                                         </div>
                                                     </div>
@@ -306,21 +308,13 @@
                                             </div>
 
 
-
-                                            <div class="form-group custom-control custom-checkbox mt-3">
-                                                <input type="checkbox" class="custom-control-input" id="exampleCheck3"
-                                                    required>
-                                                <label class="custom-control-label" for="exampleCheck3">Kişisel
-                                                    verilerimin
-                                                    işlenmesine yönelik aydınlatma metnini okudum anladım.</label>
-                                            </div>
                                         </div>
 
 
 
 
 
-                                        <button class="btn btn-primary q-button" type="submit"> üYE OL</button>
+                                        <button class="btn btn-primary q-button" type="submit"> Üye OL</button>
                                     </form>
                                 </div>
 
@@ -363,6 +357,57 @@
                     individualForm.style.display = 'block';
                 } else if (userType === '2') {
                     corporateForm.style.display = 'block';
+                }
+            });
+        });
+
+        const companyTypeRadios = document.querySelectorAll('input[name="account_type"]');
+        const taxNumberInput = document.getElementById('taxNumber');
+        const idNumberInput = document.getElementById('idNumber');
+
+        companyTypeRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === '1') { // Şahıs Şirketi seçildiğinde
+                    taxNumberInput.disabled = false; // Vergi Numarası aktif
+                    idNumberInput.disabled = false; // TC Kimlik Numarası pasif
+                } else if (this.value === '2') { // Limited veya Anonim Şirketi seçildiğinde
+                    taxNumberInput.disabled = false; // Vergi Numarası pasif
+                    idNumberInput.disabled = true; // TC Kimlik Numarası aktif
+                }
+            });
+        });
+
+        $('#citySelect').change(function() {
+            var selectedCity = $(this).val();
+
+            $.ajax({
+                type: 'GET',
+                url: '/get-counties/' + selectedCity,
+                success: function(data) {
+                    var countySelect = $('#countySelect');
+                    countySelect.empty();
+                    $.each(data, function(index, county) {
+                        countySelect.append('<option value="' + county.id + '">' + county
+                            .title +
+                            '</option>');
+                    });
+                }
+            });
+        });
+
+        $('#taxOfficeCity').change(function() {
+            var selectedCity = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '/get-tax-office/' + selectedCity,
+                success: function(data) {
+                    var taxOffice = $('#taxOffice');
+                    taxOffice.empty();
+                    $.each(data, function(index, office) {
+                        taxOffice.append('<option value="' + office.id + '">' + office
+                            .daire +
+                            '</option>');
+                    });
                 }
             });
         });

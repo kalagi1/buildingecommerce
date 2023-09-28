@@ -33,9 +33,11 @@ use App\Http\Controllers\Client\HousingController as ClientHousingController;
 use App\Http\Controllers\Client\InstitutionalController;
 use App\Http\Controllers\Client\LoginController as ClientLoginController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
+use App\Http\Controllers\Client\CountyController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\PageController as ClientPageController;
 use App\Http\Controllers\Client\RegisterController;
+use App\Http\Controllers\Client\TaxOfficeController;
 use App\Http\Controllers\Client\VerifyController;
 use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\BuyController;
@@ -72,6 +74,8 @@ Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectD
 Route::get('/marka_projeleri/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
+Route::get('/get-counties/{city}', [CountyController::class,"getCounties"])->name("getCounties");
+Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 
 
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
