@@ -270,31 +270,37 @@ a.button {
     .header-style-2 .right-side-menu-item {
         float: right !important
     }
+
     .header-style-2 #navigation ul#responsive {
         width: 100%;
     }
+
     .header-style-2 .sign-in i {
         top: 3px;
         position: relative;
         padding-right: 5px;
     }
+
     .header-style-2 .user-menu {
         float: right;
         margin-top: -52px;
         margin-right: 10px;
     }
+
     .header-style-2 .user-menu.active .user-name,
     .header-style-2 .user-menu .user-name,
     .header-style-2 .user-menu.active .user-name:hover,
     .header-style-2 .user-menu .user-name:hover {
         color: #fff !important;
     }
+
     .header-style-2 .user-menu.active .user-name:hover:after,
     .header-style-2 .user-menu .user-name:hover:after,
     .header-style-2 .user-menu.active .user-name:after,
     .header-style-2 .user-menu .user-name:after {
         color: rgba(255, 255, 255, 0.5) !important;
     }
+
     .header-style-2 .user-menu ul {
         top: 50px;
     }
@@ -308,6 +314,7 @@ a.button {
         margin: 15px;
         padding-top: 15px;
     }
+
     .mm-menu .sign-in i.fa.fa-user:before {
         font-size: 15px;
         position: relative;
@@ -320,14 +327,17 @@ a.button {
     .header-style-2 .right-side {
         margin-top: 5px;
     }
+
     .header-style-2 .header-widget a.button.border {
         margin-bottom: 0px;
     }
+
     #header-container.header-style-2 .header-widget {
         zoom: 0.7;
     }
+
     .popular-places .img-box {
-        height: 150px !important;
+        height: 250px !important;
     }
 }
 
@@ -651,9 +661,9 @@ a.button {
 }
 
 #navigation.style-1 ul a {
-    font-weight: 500;
+    font-weight: 600;
     color: #333;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 34px;
     padding: 0;
     display: flex;
@@ -887,13 +897,16 @@ a.button {
         right: 0;
         width: 150%;
     }
+
     .header-style-2 .header-widget {
         position: relative;
         width: auto;
     }
+
     .user-menu {
         top: 12px;
     }
+
     .right-side {
         position: relative;
     }
@@ -961,7 +974,7 @@ a.button {
 ------------------------------------- */
 
 .mm-hidden {
-    display: none!important
+    display: none !important
 }
 
 .mm-wrapper {
@@ -1037,8 +1050,8 @@ a.button {
 }
 
 .mm-panel.mm-noanimation {
-    -webkit-transition: none!important;
-    transition: none!important
+    -webkit-transition: none !important;
+    transition: none !important
 }
 
 .mm-panel.mm-noanimation.mm-subopened {
@@ -1073,9 +1086,9 @@ a.button {
 }
 
 .mm-vertical .mm-panel {
-    -webkit-transform: none!important;
-    -ms-transform: none!important;
-    transform: none!important
+    -webkit-transform: none !important;
+    -ms-transform: none !important;
+    transform: none !important
 }
 
 .mm-listview .mm-vertical .mm-panel,
@@ -1488,16 +1501,16 @@ html.mm-opening .mm-menu.mm-opened~.mm-slideout {
 }
 
 .mm-sronly {
-    border: 0!important;
-    clip: rect(1px, 1px, 1px, 1px)!important;
-    -webkit-clip-path: inset(50%)!important;
-    clip-path: inset(50%)!important;
-    white-space: nowrap!important;
-    width: 1px!important;
-    height: 1px!important;
-    padding: 0!important;
-    overflow: hidden!important;
-    position: absolute!important
+    border: 0 !important;
+    clip: rect(1px, 1px, 1px, 1px) !important;
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important
 }
 
 em.mm-counter {
@@ -1557,7 +1570,7 @@ em.mm-counter+a.mm-fullsubopen+span {
     border-radius: 50%;
     color: #fff;
     line-height: 23px;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
 }
 
@@ -1683,29 +1696,37 @@ em.mm-counter+a.mm-fullsubopen+span {
 }
 
 @media only screen and (max-width: 1024px) {
+
     /* Header Responsive Styles */
     #responsive {
         display: none;
     }
+
     .mmenu-trigger {
         display: inline-block !important;
     }
+
     .header-style-2 .mmenu-trigger {
         margin: 0;
         top: 6px;
     }
+
     .header-style-2 .header-widget a.button.border {
         float: left;
     }
+
     #header {
         padding-top: 20px;
     }
+
     .homepage-5 #header.cloned {
         display: none;
     }
+
     .header-widget {
         padding: 20px 0;
     }
+
     .header-widget a.button.border {
         padding: 7px 16px;
         background-color: transparent;
@@ -1713,32 +1734,39 @@ em.mm-counter+a.mm-fullsubopen+span {
         min-width: auto;
         float: right;
     }
+
     .header-widget .sign-in {
         top: 9px;
     }
+
     #header-container.header-style-2 .left-side,
     #header-container.header-style-2 .right-side,
     .right-side,
     .left-side {
         width: 50%;
     }
+
     #top-bar .right-side .social-icons {
         float: left;
         position: relative;
         z-index: 9;
     }
+
     #header-container.header-style-2 .header-widget {
         float: left;
         margin-top: 35px;
         margin-bottom: -5px
     }
+
     .header-widget {
         text-align: left;
     }
+
     ul.top-bar-menu {
         z-index: 99;
         position: relative;
     }
+
     .header-style-2 .menu-responsive {
         width: 750px;
         margin-left: auto;
@@ -1746,22 +1774,27 @@ em.mm-counter+a.mm-fullsubopen+span {
         float: none;
         padding: 0 15px;
     }
+
     #header-container.header-style-2 .header-widget {
         width: calc(100%);
         border-top: 1px solid #e0e0e0;
         padding-top: 30px;
     }
+
     .menu {
         max-height: none;
     }
+
     #responsive {
         display: none;
     }
+
     /* Header Responsive Styles */
     .responsive-search input:focus {
         border: none;
         color: #fff;
     }
+
     #header-container.header-style-2 .left-side,
     #header-container.header-style-2 .right-side,
     .right-side,
@@ -1771,23 +1804,28 @@ em.mm-counter+a.mm-fullsubopen+span {
         margin-bottom: 20px;
         flex-direction: row-reverse;
     }
+
     #top-bar .right-side .social-icons {
         float: left;
         position: relative;
         z-index: 9;
     }
+
     #header-container.header-style-2 .header-widget {
         float: left;
         margin-top: 35px;
         margin-bottom: -5px
     }
+
     .header-widget {
         text-align: left;
     }
+
     ul.top-bar-menu {
         z-index: 99;
         position: relative;
     }
+
     .header-style-2 .menu-responsive {
         width: 750px;
         margin-left: auto;
@@ -1795,6 +1833,7 @@ em.mm-counter+a.mm-fullsubopen+span {
         float: none;
         padding: 0 15px;
     }
+
     #header-container.header-style-2 .header-widget {
         width: calc(100%);
         border-top: 1px solid #e0e0e0;
@@ -1814,20 +1853,25 @@ em.mm-counter+a.mm-fullsubopen+span {
         float: none;
         padding: 0 15px;
     }
+
     #header-container.header-style-2 #header .container {
         width: 100%;
     }
+
     #header-container.header-style-2 .header-widget li .button {
         margin-left: 0;
     }
+
     #header-container.header-style-2 .header-widget li:after {
         display: none;
     }
+
     #header-container.header-style-2 .header-widget li {
         width: 100%;
         padding: 10px 0;
         margin: 0;
     }
+
     #header-container.header-style-2 .header-widget li i {
         width: 50px;
         margin: 0 0 0 0px;
@@ -1843,6 +1887,7 @@ em.mm-counter+a.mm-fullsubopen+span {
         top: 0;
         margin-bottom: 10px;
     }
+
     .header-widget a.button.border {
         float: left;
         margin-bottom: 10px;

@@ -173,7 +173,7 @@
 .map-popup-content-wrapper .close {
     color: #fff;
     display: block;
-    font-size: 11px;
+    font-size: 13px;
     opacity: 1;
     position: absolute;
     right: 15px;
@@ -469,7 +469,7 @@
     background-color: #3685cf;
     display: block;
     color: #fff;
-    font-size: 12px;
+    font-size: 13px;
     z-index: 101;
     text-align: center;
     -webkit-transition: all .2s ease-in-out;
@@ -1948,7 +1948,7 @@ img.mfp-img {
 .mfp-figure small {
     color: #bdbdbd;
     display: block;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 14px
 }
 
@@ -2240,7 +2240,7 @@ screen and (max-height:300px) {
     border: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Quicksand', sans-serif;
     font-weight: 500;
     font-size: 14px;
 }
@@ -2287,7 +2287,7 @@ screen and (max-height:300px) {
     border: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Quicksand', sans-serif;
     font-weight: 500;
     font-size: 16px;
 }
@@ -2666,7 +2666,7 @@ a.button {
 /*----------------------------------------------*/
 
 section.feature-categories {
-    padding: 4.6rem 0;
+    padding: 2.6rem 0;
 }
 
 .homepage-9 .small-category-2 {
@@ -2766,7 +2766,7 @@ section.feature-categories {
 }
 
 .homepage-9 section.portfolio {
-    padding: 4.6rem 0;
+    padding: 2.6rem 0;
     background: #446BB6;
 }
 

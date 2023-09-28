@@ -412,7 +412,7 @@ a.btn.btn-yellow:hover {
 .the-search .checkboxes input[type=checkbox]:checked+label:before {
     content: "\f00c";
     font-family: "FontAwesome";
-    font-size: 12px;
+    font-size: 13px;
     color: #fff;
     text-align: center;
     line-height: 15px;

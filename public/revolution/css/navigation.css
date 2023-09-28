@@ -144,7 +144,7 @@ website:    http://www.themepunch.com
 .ares .tp-bullet-title {
     position: absolute;
     color: #888;
-    font-size: 12px;
+    font-size: 13px;
     padding: 0px 10px;
     font-weight: 600;
     right: 27px;
@@ -234,7 +234,7 @@ website:    http://www.themepunch.com
     display: block;
     color: #aaa;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 13px;
     margin-bottom: 0px;
 }
 
@@ -766,7 +766,7 @@ website:    http://www.themepunch.com
 
 .erinyen .tp-thumb-more:before {
     font-family: "revicons";
-    font-size: 12px;
+    font-size: 13px;
     color: #aaa;
     color: rgba(255, 255, 255, 0.75);
     display: block;
@@ -786,7 +786,7 @@ website:    http://www.themepunch.com
 .erinyen .tp-thumb-title {
     font-family: "Raleway";
     letter-spacing: 1px;
-    font-size: 12px;
+    font-size: 13px;
     color: #fff;
     display: block;
     line-height: 15px;
@@ -1037,7 +1037,7 @@ website:    http://www.themepunch.com
     display: block;
     color: rgba(255, 255, 255, 0.25);
     font-weight: 500;
-    font-size: 12px;
+    font-size: 13px;
     margin-bottom: 0px;
 }
 
@@ -1426,7 +1426,7 @@ website:    http://www.themepunch.com
     text-transform: uppercase;
     color: #fff;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 90px;
     white-space: nowrap;
     padding: 0px 20px 0px 90px;
@@ -1756,7 +1756,7 @@ website:    http://www.themepunch.com
     color: #fff;
     font-weight: 600;
     position: absolute;
-    font-size: 12px;
+    font-size: 13px;
     white-space: nowrap;
     letter-spacing: 1px;
     -webkit-transition: all 0.3s;
@@ -1845,7 +1845,7 @@ website:    http://www.themepunch.com
     display: block;
     color: #888;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 13px;
     margin-bottom: 10px;
 }
 
@@ -1884,7 +1884,7 @@ website:    http://www.themepunch.com
         line-height: 16px;
     }
     .hermes .tp-tab-date {
-        font-size: 11px;
+        font-size: 13px;
         line-height: 13px;
         margin-bottom: 10px;
     }
@@ -1895,7 +1895,7 @@ website:    http://www.themepunch.com
 
 @media only screen and (max-width: 768px) {
     .hermes .tp-tab .tp-tab-title {
-        font-size: 12px;
+        font-size: 13px;
         line-height: 14px;
     }
     .hermes .tp-tab-date {
@@ -2021,7 +2021,7 @@ website:    http://www.themepunch.com
 }
 
 .hesperiden .tp-thumb .tp-thumb-title {
-    font-size: 12px;
+    font-size: 13px;
     position: absolute;
     margin-top: -10px;
     color: #fff;
@@ -2091,7 +2091,7 @@ website:    http://www.themepunch.com
     display: block;
     color: #aaa;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 13px;
     margin-bottom: 0px;
 }
 
@@ -2730,7 +2730,7 @@ website:    http://www.themepunch.com
 
 .zeus .tp-thumb-more:before {
     font-family: "revicons";
-    font-size: 12px;
+    font-size: 13px;
     color: #aaa;
     color: rgba(255, 255, 255, 0.75);
     display: block;
@@ -2750,7 +2750,7 @@ website:    http://www.themepunch.com
 .zeus .tp-thumb-title {
     font-family: "Raleway";
     letter-spacing: 1px;
-    font-size: 12px;
+    font-size: 13px;
     color: #fff;
     display: block;
     line-height: 15px;
@@ -2840,7 +2840,7 @@ website:    http://www.themepunch.com
 
 .post-tabs .tp-thumb-more:before {
     font-family: "revicons";
-    font-size: 12px;
+    font-size: 13px;
     color: #aaa;
     color: rgba(255, 255, 255, 0.75);
     display: block;
@@ -2860,7 +2860,7 @@ website:    http://www.themepunch.com
 .post-tabs .tp-thumb-title {
     font-family: "raleway";
     letter-spacing: 1px;
-    font-size: 12px;
+    font-size: 13px;
     color: #fff;
     display: block;
     line-height: 15px;

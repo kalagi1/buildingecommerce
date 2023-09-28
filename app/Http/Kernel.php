@@ -40,8 +40,21 @@ class Kernel extends HttpKernel
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
+
+        'admin' => [
+            \App\Http\Middleware\Authenticate::class,
+            \App\Http\Middleware\AdminMiddleware::class, // Admin yetkisi kontrolü için kendi middleware'inizi oluşturabilirsiniz
+        ],
+
+        'client' => [
+            \App\Http\Middleware\ClientMiddleware::class,
+        ],
+
+        'institutional' => [
+            \App\Http\Middleware\InstitutionalMiddleware::class,
         ],
     ];
 
@@ -64,5 +77,6 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'checkPermission' => \App\Http\Middleware\CheckPermission::class,
     ];
 }
