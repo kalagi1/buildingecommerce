@@ -183,7 +183,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     // Project Controller İzin Kontrolleri
     Route::middleware(['checkPermission:CreateProject'])->group(function () {
         Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.index');
+        Route::get('/project/{projectId}', [ProjectController::class, 'detail'])->name('projects.detail');
+        Route::get('/project/status_change/{projectId}', [ProjectController::class, 'setStatus'])->name('project.set.status');
     });
 
     Route::middleware(['checkPermission:GetProjectById'])->group(function () {
