@@ -98,4 +98,9 @@ class User extends Authenticatable
         return $this->hasMany(HousingFavorite::class);
     }
 
+    public function plan()
+    {
+        return $this->hasOne(UserPlan::class);
+    }
+
 }
