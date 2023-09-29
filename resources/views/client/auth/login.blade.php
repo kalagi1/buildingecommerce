@@ -341,7 +341,7 @@
                                             </div>
 
 
-                                            <div class="split-form corporate-input mt-3">
+                                            <div class="split-form corporate-input mt-3" id="idNumberDiv">
                                                 <div class="corporate-input input-city">
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
@@ -359,7 +359,7 @@
 
                                         <input type="hidden" id="selected-plan-id" name="subscription_plan_id">
 
-                                        <button class="btn btn-primary q-button" type="submit"> Üye OL</button>
+                                        <button class="btn btn-primary q-button mb-5" type="submit"> Üye OL</button>
                                     </form>
                                 </div>
 
@@ -415,19 +415,19 @@
 
         const companyTypeRadios = document.querySelectorAll('input[name="account_type"]');
         const taxNumberInput = document.getElementById('taxNumber');
-        const idNumberInput = document.getElementById('idNumber');
+        const idNumberInput = document.getElementById('idNumberDiv');
 
         companyTypeRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.value === '1') { // Şahıs Şirketi seçildiğinde
-                    taxNumberInput.disabled = false; // Vergi Numarası aktif
-                    idNumberInput.disabled = false; // TC Kimlik Numarası pasif
-                } else if (this.value === '2') { // Limited veya Anonim Şirketi seçildiğinde
-                    taxNumberInput.disabled = false; // Vergi Numarası pasif
-                    idNumberInput.disabled = true; // TC Kimlik Numarası aktif
-                }
-            });
-        });
+    radio.addEventListener('change', function() {
+        if (this.value === '1') { // Şahıs Şirketi seçildiğinde
+            taxNumberInput.style.display = 'block'; // Vergi Numarası görünür
+            idNumberInput.style.display = 'block'; // TC Kimlik Numarası gizli
+        } else if (this.value === '2') { // Limited veya Anonim Şirketi seçildiğinde
+            taxNumberInput.style.display = 'block'; // Vergi Numarası gizli
+            idNumberInput.style.display = 'none'; // TC Kimlik Numarası görünür
+        }
+    });
+});
 
         $('#citySelect').change(function() {
             var selectedCity = $(this).val();
@@ -469,12 +469,13 @@
                 items: 2, // Varsayılan olarak 2 öğe göster
                 loop: true,
                 margin: 10,
+                dots:true,
                 autoplay: true,
                 autoplayTimeout: 5000,
                 autoplayHoverPause: true,
                 responsive: {
                     0: {
-                        items: 1 // 768 piksel genişlikte 1 öğe göster
+                        items: 1
 
                     },
                     768: {
