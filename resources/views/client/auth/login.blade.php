@@ -113,7 +113,7 @@
                                     <form method="POST" class="form w-100" action="{{ route('client.submit.register') }}">
                                         @csrf
                                         <div class="user-type-selection">
-                                            <label>Kullanıcı Türü</label>
+                                            <label class="q-label">Kullanıcı Türü</label>
                                             <div class="button-group">
                                                 <button class="user-type-button individual active" data-user-type="1"
                                                     type="button">Bireysel</button>
@@ -154,6 +154,53 @@
 
                                         <div class="corporate-form" id="corporateForm">
                                             <!-- E-Posta -->
+                                            <div class="mt-3">
+                                                <label for="" class="q-label">Abonelik Planı</label>
+                                                <div class="owl-carousel">
+                                                    @foreach ($subscriptionPlans as $plan)
+                                                        <div class="item">
+                                                            <div class="card mb-4">
+                                                                <div class="card-body">
+                                                                    <label for=""
+                                                                        class="q-label">{{ $plan->name }}</label>
+
+                                                                    <label for="" class="q-label">Fiyat:
+                                                                        <span style="color:#446BB6">{{ $plan->price }}
+                                                                            TL</span></label>
+
+                                                                    <label for="" class="q-label">Proje Ekleme
+                                                                        Limiti:
+                                                                        <span
+                                                                            style="color:#446BB6">{{ $plan->project_limit }}
+                                                                        </span></label>
+
+                                                                    <label for="" class="q-label">Kullanıcı
+                                                                        Limiti:
+                                                                        <span
+                                                                            style="color:#446BB6">{{ $plan->user_limit }}</span></label>
+
+                                                                    <label for="" class="q-label">Konut Ekleme
+                                                                        Limiti:
+                                                                        <span
+                                                                            style="color:#446BB6">{{ $plan->housing_limit }}
+                                                                        </span></label>
+
+                                                                </div>
+                                                                <div class="card-footer">
+                                                                    <button type="button"
+                                                                        class="btn btn-primary btn-block plan-button"
+                                                                        data-plan-id="{{ $plan->id }}"
+                                                                        data-plan-name="{{ $plan->name }}"
+                                                                        data-plan-price="{{ $plan->price }}"
+                                                                        onclick="selectPlan(this)">
+                                                                        Seç
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
                                             <div class="mt-3 ">
                                                 <label class="q-label">İsim</label>
                                                 <input type="text" name="name" class="form-control">
@@ -310,9 +357,7 @@
 
                                         </div>
 
-
-
-
+                                        <input type="hidden" id="selected-plan-id" name="subscription_plan_id">
 
                                         <button class="btn btn-primary q-button" type="submit"> Üye OL</button>
                                     </form>
@@ -333,6 +378,13 @@
 
 
 @section('scripts')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         const individualForm = document.getElementById('individualForm');
         const corporateForm = document.getElementById('corporateForm');
@@ -411,5 +463,53 @@
                 }
             });
         });
+
+        $(document).ready(function() {
+            $('.owl-carousel').owlCarousel({
+                items: 2, // Varsayılan olarak 2 öğe göster
+                loop: true,
+                margin: 10,
+                autoplay: true,
+                autoplayTimeout: 5000,
+                autoplayHoverPause: true,
+                responsive: {
+                    0: {
+                        items: 1 // 768 piksel genişlikte 1 öğe göster
+
+                    },
+                    768: {
+                        items: 1 // 768 piksel genişlikte 1 öğe göster
+                    },
+                    1000: {
+                        items: 2
+                    }
+                }
+            });
+        });
+
+        function deselectOtherPlans() {
+            // Tüm abonelik planı düğmelerini seçin
+            const planButtons = document.querySelectorAll('.plan-button');
+
+            // Her düğmeden "selected-plan-btn" sınıfını kaldırın
+            planButtons.forEach(function(button) {
+                button.classList.remove("selected-plan-btn");
+                button.classList.add("btn-primary", "btn"); // Önceki stilini geri yükleyin
+            });
+        }
+
+        function selectPlan(button) {
+            const planId = button.getAttribute('data-plan-id');
+            const planName = button.getAttribute('data-plan-name');
+            const planPrice = button.getAttribute('data-plan-price');
+            toastr.success("Abonelik Planı Başarıyla Seçildi");
+            // Diğer plan düğmelerinden "selected-plan-btn" sınıfını kaldırın
+            deselectOtherPlans();
+
+            // Button'un sınıfını güncelle
+            button.classList.remove("btn-primary", "btn");
+            button.classList.add("btn-success", "selected-plan-btn");
+            document.getElementById('selected-plan-id').value = planId;
+        }
     </script>
 @endsection

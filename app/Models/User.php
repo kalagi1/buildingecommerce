@@ -40,6 +40,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function subscriptionPlan()
+    {
+        return $this->belongsTo(SubscriptionPlan::class, 'subscription_plan_id');
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class);

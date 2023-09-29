@@ -16,4 +16,9 @@ class SubscriptionPlan extends Model
         'user_limit',
         'housing_limit',
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'subscription_plan_id');
+    }
 }

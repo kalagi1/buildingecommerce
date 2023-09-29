@@ -37,6 +37,7 @@ class RegisterController extends Controller
         // Yeni kullanıcıyı oluşturun
         $user = new User();
         $user->email = $validatedData['email'];
+        $user->subscription_plan_id = $request->input("subscription_plan_id");
         $user->name = $validatedData['name'];
         $user->password = bcrypt($validatedData['password']);
         $user->type = $validatedData['type'];
