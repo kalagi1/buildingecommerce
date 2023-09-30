@@ -429,23 +429,30 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::middleware(['checkPermission:DeleteSlider'])->group(function () {
         Route::delete('/sliders/{slider}', [SliderController::class, 'destroy'])->name('sliders.destroy');
+        Route::delete('/footer-sliders/{slider}', [SliderController::class, 'footerDestroy'])->name('footer-sliders.destroy');
     });
 
     Route::middleware(['checkPermission:CreateSlider'])->group(function () {
         Route::get('/sliders/create', [SliderController::class, 'create'])->name('sliders.create');
         Route::post('/sliders', [SliderController::class, 'store'])->name('sliders.store');
+        
+        Route::get('/footer-sliders/create', [SliderController::class, 'footerCreate'])->name('footer-sliders.create');
+        Route::post('/footer-sliders', [SliderController::class, 'footerStore'])->name('footer-sliders.store');
     });
 
     Route::middleware(['checkPermission:GetSliderById'])->group(function () {
         Route::get('/sliders/{slider}/edit', [SliderController::class, 'edit'])->name('sliders.edit');
+        Route::get('/footer-sliders/{slider}/edit', [SliderController::class, 'footerEdit'])->name('footer-sliders.edit');
     });
 
     Route::middleware(['checkPermission:UpdateSlider'])->group(function () {
         Route::put('/sliders/{slider}', [SliderController::class, 'update'])->name('sliders.update');
+        Route::put('/footer-sliders/{slider}', [SliderController::class, 'footerUpdate'])->name('footer-sliders.update');
     });
 
     Route::middleware(['checkPermission:GetSliders'])->group(function () {
         Route::get('/sliders', [SliderController::class, 'index'])->name('sliders.index');
+        Route::get('/footer-sliders', [SliderController::class, 'footerIndex'])->name('footer-sliders.index');
     });
 
     Route::middleware(['checkPermission:DeleteEmailTemplate'])->group(function () {

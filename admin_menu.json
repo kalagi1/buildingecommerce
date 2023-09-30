@@ -143,6 +143,18 @@
                 "key": "GetSliders",
                 "url": "admin.sliders.index",
                 "activePath": "admin/sliders"
+            },
+            {
+                "text": "Yeni Footer Sliderı Ekle",
+                "key": "CreateFooterSlider",
+                "url": "admin.footer-sliders.create",
+                "activePath": "admin/footer-sliders/create"
+            },
+            {
+                "text": "Footer Sliderı Listele",
+                "key": "GetFooterSliders",
+                "url": "admin.footer-sliders.index",
+                "activePath": "admin/footer-sliders"
             }
         ]
     },
@@ -189,6 +201,12 @@
                 "key": "GetHousings",
                 "url": "admin.housings.index",
                 "activePath": "admin/housing"
+            },
+            {
+                "text": "Yorumlar",
+                "key": "GetHousingComments",
+                "url": "admin.housings.comments",
+                "activePath": "admin/housing/comments"
             }
         ]
     },
