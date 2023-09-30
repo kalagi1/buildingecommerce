@@ -65,12 +65,12 @@
     <div class="brand-head">
         <div class="container">
             <div class="card mb-3">
-                <div class="card-img-top" style="background-color: {{ $institutional->banner_hex_code }}">
+                <div class="card-img-top" style="background-color: {{ $store->banner_hex_code }}">
                     <div class="brands-square">
-                        <img src="{{ url('storage/profile_images/' . $institutional->profile_image) }}" alt=""
+                        <img src="{{ url('storage/profile_images/' . $store->profile_image) }}" alt=""
                             class="brand-logo">
-                        <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($institutional->name)) }}"
-                                style="color:White">{{ $institutional->name }}</a></p>
+                        <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($store->name)) }}"
+                                style="color:White">{{ $store->name }}</a></p>
                         <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
                         <p class="brand-name">Profil</p>
                     </div>
@@ -80,12 +80,12 @@
                     <nav class="navbar" style="padding: 0 !important">
                         <div class="navbar-items">
                             <a class="navbar-item active"
-                                href="{{ route('instituional.dashboard', Str::slug($institutional->name)) }}">Anasayfa</a>
+                                href="{{ route('instituional.dashboard', Str::slug($store->name)) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Tüm
+                                href="{{ route('instituional.projects.detail', Str::slug($store->name)) }}">Tüm
                                 Projeler</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.profile', Str::slug($institutional->name)) }}">Satıcı
+                                href="{{ route('instituional.profile', Str::slug($store->name)) }}">Satıcı
                                 Profili</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
@@ -96,7 +96,7 @@
                                 <div class="header-search__suggestions__section">
                                     <h5>Markalar</h5>
                                     <div class="header-search__suggestions__section__items">
-                                        @foreach ($institutional->brands as $item)
+                                        @foreach ($store->brands as $item)
                                             <a href="#"><span>{{ $item->title }}</span></a>
                                         @endforeach
                                     </div>
@@ -114,7 +114,7 @@
         <div class="container">
             <div class="portfolio  col-xl-12">
                 <div class="banner-agents">
-                    @foreach ($user->banners as $banner)
+                    @foreach ($store->banners as $banner)
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <div class="landscapes">
                                 <div class="project-single">

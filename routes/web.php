@@ -578,6 +578,7 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
 });
 
 
-
-Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
+Route::get('kategori/{id}', [ClientProjectController::class, "allProjects"])
     ->name('all.project.list');
+
+

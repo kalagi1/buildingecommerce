@@ -78,23 +78,24 @@
         <div class="container">
             <div class="portfolio ">
                 <div class="slick-lancers">
-
                     @foreach ($brands as $brand)
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
+                            <a href="{{ route('brand.projects', $brand->id) }}" class="homes-img">
+
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
                                         <div class="homes">
                                             <!-- homes img -->
-                                            <a href="{{ route('brand.projects', $brand->id) }}" class="homes-img">
-                                                <img src="{{ asset('storage/brand_images/' . $brand->logo) }}"
-                                                    alt="home-1" class="img-responsive">
-                                                <span>{{ $brand->title }}</span>
-                                            </a>
+                                            <img src="{{ asset('storage/brand_images/' . $brand->logo) }}" alt="home-1"
+                                                class="img-responsive">
+                                            <span>{{ $brand->title }}</span>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            </a>
                         </div>
                     @endforeach
                 </div>

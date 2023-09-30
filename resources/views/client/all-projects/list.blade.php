@@ -121,16 +121,17 @@
             </aside>
             <div class="col-lg-9 col-md-12 blog-pots">
                 <section class="headings-2 pt-0">
-                    <div class="pro-wrapper container">
-                        <div class="detail-wrapper-body">
-                            <div class="listing-title-bar">
-                                <div class="text-heading text-left">
-                                    <p class="pb-2"><a href="{{ url('/') }}"><strong>Anasayfa</strong> </a>
-                                        &nbsp;/&nbsp;
-                                        <strong>{{ $status->name }}</strong>
-                                    </p>
-                                </div>
-                            </div>
+                    <div class="brand-head" style="padding-top:0">
+                        <div class="brands-square" style="position: relative;top:0;left:0">
+                            <p class="brand-name"><a href="{{ url('/') }}" style="color:black">Anasayfa</a></p>
+                            <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i> </p>
+                            <p class="brand-name" style="color: black">
+                                Kategori
+                            </p>
+                            <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i> </p>
+                            <p class="brand-name" style="color: black">
+                                {{ $title }}
+                            </p>
                         </div>
                     </div>
                 </section>
