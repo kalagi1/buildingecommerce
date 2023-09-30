@@ -30,6 +30,14 @@ class ProfileController extends Controller
         // Vergi Dairesi İli'nin şehir kimliğini alın
         $city = City::where("title", $request->input("taxOfficeCity"))->first();
         $taxOfficeCityId = $city ? $city->id : null;
+        $data = $request->all();
+
+        if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $imageFileName = 'profile_image_' . time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('profile_images', $imageFileName, 'public');
+            $data['profile_image'] = $imageFileName; // Vergi Dairesi İli güncellendi
+        }
 
         if ($request->input("account_type") == "1") {
             $accountType = "Şahıs Şirketi";
@@ -37,7 +45,6 @@ class ProfileController extends Controller
             $accountType = "Limited veya Anonim Şirketi";
         }
 
-        $data = $request->all();
         $data['taxOfficeCity'] = $taxOfficeCityId; // Vergi Dairesi İli güncellendi
         $data['account_type'] = $accountType; // Vergi Dairesi İli güncellendi
 

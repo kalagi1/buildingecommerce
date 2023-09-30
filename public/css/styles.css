@@ -520,6 +520,9 @@ Version      : 1.2
 
     .brand-head .card-img-top {
         position: relative;
+        height: 100px;
+        object-fit: cover;
+        width: 100%;
     }
 
     .brand-head .brands-square {

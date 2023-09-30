@@ -65,15 +65,17 @@
     <div class="brand-head">
         <div class="container">
             <div class="card mb-3">
-                <img src="https://genetikonvet.com/wp-content/uploads/revslider/slider-hardware/black-electronics-s-3-bg.jpg"
-                    class="card-img-top" alt="...">
-                <div class="brands-square">
-                    <img src="/images/4.png" alt="" class="brand-logo">
-                    <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($institutional->name)) }}"
-                            style="color:White">{{ $institutional->name }}</a></p>
-                    <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                    <p class="brand-name">Profil</p>
+                <div class="card-img-top" style="background-color: {{ $institutional->banner_hex_code }}">
+                    <div class="brands-square">
+                        <img src="{{ url('storage/profile_images/' . $institutional->profile_image) }}" alt=""
+                            class="brand-logo">
+                        <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($institutional->name)) }}"
+                                style="color:White">{{ $institutional->name }}</a></p>
+                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                        <p class="brand-name">Profil</p>
+                    </div>
                 </div>
+
                 <div class="card-body">
                     <nav class="navbar" style="padding: 0 !important">
                         <div class="navbar-items">

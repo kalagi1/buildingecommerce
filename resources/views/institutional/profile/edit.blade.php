@@ -24,13 +24,28 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('institutional.profile.update') }}" method="POST">
+                        <form action="{{ route('institutional.profile.update') }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
                             <!-- Diğer giriş alanlarını buraya ekleyin -->
                             <div class="corporate-form" id="corporateForm">
                                 <!-- İsim -->
+                                <!-- Profil Resmi -->
+                                <div class="mt-3">
+                                    <label class="q-label">Profil Resmi</label>
+                                    <img src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
+                                        alt="Profil Resmi" width="150">
+                                    <input type="file" name="profile_image" class="form-control">
+                                </div>
+
+                                <!-- Banner Rengi -->
+                                <div class="mt-3">
+                                    <label class="q-label">Banner Rengi</label>
+                                    <input type="color" name="banner_hex_code" class="form-control"
+                                        value="{{ old('banner_hex_code', $user->banner_hex_code) }}">
+                                </div>
                                 <div class="mt-3">
                                     <label class="q-label">İsim</label>
                                     <input type="text" name="name" class="form-control"
