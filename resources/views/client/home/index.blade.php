@@ -590,22 +590,14 @@
 
             <div class="portfolio right-slider">
                 <div class="owl-carousel home5-right-slider">
+                    @foreach ($footerSlider as $slider)
                     <div class="inner-box">
-                        <a href="single-property-1.html" class="recent-16" data-aos="fade-up" data-aos-delay="150">
+                        <a href="#" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                             <div class="recent-img16 img-fluid img-center"
-                                style="background-image: url(images/bg/bg-15.jpg);"></div>
+                                style="background-image: url({{asset('storage/footer-sliders/'.$slider->image)}});"></div>
                         </a>
                     </div>
-                    <a href="single-property-1.html" class="recent-16" data-aos="fade-up" data-aos-delay="250">
-                        <div class="recent-img16 img-center" style="background-image: url(images/bg/bg-23.jpg);">
-                        </div>
-
-                    </a>
-                    <a href="single-property-1.html" class="recent-16" data-aos="fade-up" data-aos-delay="450">
-                        <div class="recent-img16 img-center" style="background-image: url(images/bg/bg-demo.jpg);">
-                        </div>
-
-                    </a>
+                    @endforeach
                 </div>
             </div>
         </div>
