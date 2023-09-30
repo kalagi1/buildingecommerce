@@ -418,16 +418,16 @@
         const idNumberInput = document.getElementById('idNumberDiv');
 
         companyTypeRadios.forEach(radio => {
-    radio.addEventListener('change', function() {
-        if (this.value === '1') { // Şahıs Şirketi seçildiğinde
-            taxNumberInput.style.display = 'block'; // Vergi Numarası görünür
-            idNumberInput.style.display = 'block'; // TC Kimlik Numarası gizli
-        } else if (this.value === '2') { // Limited veya Anonim Şirketi seçildiğinde
-            taxNumberInput.style.display = 'block'; // Vergi Numarası gizli
-            idNumberInput.style.display = 'none'; // TC Kimlik Numarası görünür
-        }
-    });
-});
+            radio.addEventListener('change', function() {
+                if (this.value === '1') { // Şahıs Şirketi seçildiğinde
+                    taxNumberInput.style.display = 'block'; // Vergi Numarası görünür
+                    idNumberInput.style.display = 'block'; // TC Kimlik Numarası gizli
+                } else if (this.value === '2') { // Limited veya Anonim Şirketi seçildiğinde
+                    taxNumberInput.style.display = 'block'; // Vergi Numarası gizli
+                    idNumberInput.style.display = 'none'; // TC Kimlik Numarası görünür
+                }
+            });
+        });
 
         $('#citySelect').change(function() {
             var selectedCity = $(this).val();
@@ -469,7 +469,7 @@
                 items: 2, // Varsayılan olarak 2 öğe göster
                 loop: true,
                 margin: 10,
-                dots:true,
+                dots: true,
                 autoplay: true,
                 autoplayTimeout: 5000,
                 autoplayHoverPause: true,

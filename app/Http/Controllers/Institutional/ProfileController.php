@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\City;
+use App\Models\County;
+use App\Models\SubscriptionPlan;
+use App\Models\TaxOffice;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,14 +15,36 @@ class ProfileController extends Controller
 {
     public function edit()
     {
+        $cities = City::all();
+        $counties = County::all();
+        $subscriptionPlans = SubscriptionPlan::all();
         $user = User::where("id", Auth::user()->id)->first();
-        return view('institutional.profile.edit', compact('user'));
+        $taxOffices = TaxOffice::all();
+        return view('institutional.profile.edit', compact('user', 'taxOffices', 'cities', 'subscriptionPlans', 'counties'));
     }
 
     public function update(UpdateProfileRequest $request)
     {
         $user = User::where("id", Auth::user()->id)->first();
-        $user->update($request->all());
+
+        // Vergi Dairesi İli'nin şehir kimliğini alın
+        $city = City::where("title", $request->input("taxOfficeCity"))->first();
+        $taxOfficeCityId = $city ? $city->id : null;
+
+        if ($request->input("account_type") == "1") {
+            $accountType = "Şahıs Şirketi";
+        } else {
+            $accountType = "Limited veya Anonim Şirketi";
+        }
+
+        $data = $request->all();
+        $data['taxOfficeCity'] = $taxOfficeCityId; // Vergi Dairesi İli güncellendi
+        $data['account_type'] = $accountType; // Vergi Dairesi İli güncellendi
+
+        // Kullanıcının bilgilerini güncelle
+        $user->update($data);
+
         return redirect()->route('institutional.profile.edit')->with('success', 'Profiliniz başarıyla güncellendi.');
     }
+
 }
