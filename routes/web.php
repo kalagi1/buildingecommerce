@@ -70,6 +70,8 @@ Route::get('/instituional/search', [InstitutionalController::class, 'search'])->
 
 Route::get('/proje/{slug}', [ClientProjectController::class, "index"])->name('project.detail');
 Route::get('/proje/{slug}/detay', [ClientProjectController::class, "detail"])->name('project.housing.detail');
+Route::get('/magaza/{slug}', [InstitutionalController::class, "dashboard"])->name('instituional.dashboard');
+
 Route::get('/magaza/{slug}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
 Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectDetails"])->name('instituional.projects.detail');
 
@@ -78,7 +80,6 @@ Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('
 
 Route::get('/get-counties/{city}', [CountyController::class,"getCounties"])->name("getCounties");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
-
 
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');

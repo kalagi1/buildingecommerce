@@ -565,7 +565,11 @@ Version      : 1.2
         text-decoration: none;
         color: black;
         font-weight: 600;
-        padding: 0 10px;
+        padding: 20px;
+    }
+
+    .brand-head .navbar-item.active {
+        border-bottom: 3px solid #f27a1a;
     }
 
     .brand-head .search-form {
@@ -1150,6 +1154,23 @@ Version      : 1.2
     @media screen and (max-width: 768px) {
         .bg-3 {
             padding-top: 1rem;
+        }
+
+        .brand-head .search-form {
+            display: none;
+        }
+
+        .seller-profile .seller-info-container {
+            display: block !important;
+        }
+
+        .seller-profile .seller-info-container__wrapper {
+            margin-top: 20px;
+        }
+
+        section.portfolio {
+            padding: 0 !important;
+
         }
     }
 

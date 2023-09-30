@@ -10,13 +10,15 @@
                     <img src="/images/4.png" alt="" class="brand-logo">
                     <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($institutional->name)) }}"
                             style="color:White">{{ $institutional->name }}</a></p>
-                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                            <p class="brand-name">Projeler</p>
+                    <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                    <p class="brand-name">Projeler</p>
                 </div>
                 <div class="card-body">
-                    <nav class="navbar">
+                    <nav class="navbar" style="padding: 0 !important">
                         <div class="navbar-items">
                             <a class="navbar-item"
+                                href="{{ route('instituional.dashboard', Str::slug($institutional->name)) }}">Anasayfa</a>
+                            <a class="navbar-item active"
                                 href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Tüm
                                 Projeler</a>
                             <a class="navbar-item"

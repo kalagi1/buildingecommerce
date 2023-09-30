@@ -10,7 +10,7 @@ class StoreBanner extends Model
     use HasFactory;
 
     protected $fillable = [
-        'store_id',
+        'user_id',
         'image_path',
     ];
 
