@@ -16,7 +16,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return view('admin.projects.index');
+        $projects = Project::get();
+        return view('admin.projects.index',compact('projects'));
     }
 
     /**
@@ -51,35 +52,24 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.create')->with('success', 'Project and housings created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+    public function detail($id){
+        $project = Project::where('id',$id)->first();
+        $housingTypeData = HousingType::where('id',$project->housing_type_id)->first();
+        $housingTypeData = json_decode($housingTypeData->form_json);
+        $housingData = $project->roomInfo->keyBy('name');
+        return view('admin.projects.detail',compact('project','housingTypeData','housingData'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+    public function setStatus($projectId){
+        $project = Project::where('id',$projectId)->firstOrFail();
+        Project::where('id',$projectId)->update([
+            "status" => !$project->status
+        ]);
+
+        return redirect()->route('admin.projects.detail',$projectId);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+    public function logs(){
+        
     }
 }

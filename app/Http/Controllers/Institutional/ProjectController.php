@@ -173,14 +173,14 @@ class ProjectController extends Controller
     public function standOut($projectId)
     {
         $project = Project::where('id', $projectId)->first();
-
+        
         return view('institutional.projects.stand_out', compact('project'));
     }
 
     public function pricingList(Request $request)
     {
-        $pricingStandOuts = PricingStandOut::where('type', $request->input('type'))->get();
-
+        $pricingStandOuts = PricingStandOut::where('housing_status_id',$request->input('housing_status_id'))->where('type', $request->input('type'))->get();
+        
         return json_encode([
             "status" => true,
             "data" => $pricingStandOuts,

@@ -420,7 +420,7 @@
                             html += '<a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center '+(i == 0 ? 'active' : '')+'" id="Tab'+(i+1)+'" data-bs-toggle="tab" data-bs-target="#TabContent'+(i+1)+'" role="tab" aria-controls="TabContent'+(i+1)+'" aria-selected="true">'+
                                 '<span class="me-sm-2 fs-4 nav-icons" data-feather="tag"></span>'+
                                 '<span class="d-block d-sm-inline">'+(i+1)+' Nolu Konut Bilgileri</span>'+
-                                '<span class="d-block d-sm-inline">Kopyala '+getCopyList(houseCount,i+1)+'</span>'+
+                                '<span class="d-block d-sm-inline">Kopyala (Aynı Olan Dairelere Otomatik Giriş) '+getCopyList(houseCount,i+1)+'</span>'+
                             '</a>';
 
                             htmlContent += '<div class="tab-pane fade show '+(i == 0 ? 'active' : '')+'" id="TabContent'+(i+1)+'" role="tabpanel">'+
@@ -478,7 +478,6 @@
                         $('.copy-item').change(function(){
                           var order = parseInt($(this).val()) - 1;
                           var currentOrder = parseInt($(this).closest('a').attr('data-bs-target').replace('#TabContent','')) - 1;
-                          console.log(currentOrder);
                           for(var lm = 0 ; lm < json.length; lm++){
                             if(json[lm].type == "checkbox-group"){
                               for(var i = 0 ; i < json[lm].values.length; i++){
@@ -493,15 +492,26 @@
                               var value = $('select[name="'+(json[lm].name)+'"]').eq(order).val();
                               $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option').removeAttr('selected')
                               $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value[0]+'"]').attr('selected','selected');
-                            }else if(json[lm].type == "file"){
+                            }else if(json[lm].type == "file" && json[lm].name == "image[]"){
                               var files = $('input[name="'+(json[lm].name)+'"]').eq(order)[0].files;
-                              var input2 = $('input[name="'+(json[lm].name)+'"]').eq(currentOrder)[0];
+                              var input2 = $('input[name="'+(json[lm].name)+'"]').eq(currentOrder);
+                              for (var i = 0; i < files.length; i++) {
+                                var file = files[i];
+                                input2.prop("files",files);
+                              }
+                            }else if(json[lm].type == "file" && json[lm].name != "image[]"){
+                              var files = $('input[name="'+(json[lm].name.replace('[]',''))+(order+1)+'[][]"]')[0].files;
+                              var input2 = $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1)+'[][]"]');
+                              for (var i = 0; i < files.length; i++) {
+                                var file = files[i];
+                                input2.prop("files",files);
+                              }
                             }else if(json[lm].type != "file"){
                               var value = $('input[name="'+(json[lm].name)+'"]').eq(order).val();
+                              console.log($('input[name="'+(json[lm].name)+'"]').eq(currentOrder));
                               $('input[name="'+(json[lm].name)+'"]').eq(currentOrder).attr("value",value);
                             }
                           }
-                          $($(this).closest('a').attr("data-bs-target")).html($('#TabContent'+order).html())
                         })
 
                     },

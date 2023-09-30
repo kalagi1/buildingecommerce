@@ -17,9 +17,10 @@
 
                 </div>
                 <div class="card-body">
-                    <nav class="navbar">
+                    <nav class="navbar" style="padding: 0 !important">
                         <div class="navbar-items">
-
+                            <a class="navbar-item"
+                                href="{{ route('instituional.dashboard', Str::slug($project->user->name)) }}">Anasayfa</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Tüm
                                 Projeler</a>
@@ -222,9 +223,9 @@
                                                         <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
                                                     </li>
                                                     <!-- <li class="the-icons">
-                                                                                                                                                    <i class="flaticon-car mr-2" aria-hidden="true"></i>
-                                                                                                                                                    <span>2 Garages</span>
-                                                                                                                                                </li> -->
+                                                                                                                                                                    <i class="flaticon-car mr-2" aria-hidden="true"></i>
+                                                                                                                                                                    <span>2 Garages</span>
+                                                                                                                                                                </li> -->
                                                 </ul>
                                             </div>
                                         </div>

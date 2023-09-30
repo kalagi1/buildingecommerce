@@ -46,7 +46,7 @@
                             <th>İşlemler</th>
                           </tr>
                         </thead>
-                        <tbody class="list" id="bulk-select-body"></tbody>  
+                        <tbody class="list" id="bulk-select-body"></tbody>
                       </table>
                     </div>
                     <div class="d-flex flex-between-center pt-3 mb-3">

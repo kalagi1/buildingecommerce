@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\SocialMediaIconController;
+use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\FavoriteController;
@@ -46,6 +47,7 @@ use App\Http\Controllers\Institutional\DashboardController;
 use App\Http\Controllers\Institutional\LoginController;
 use App\Http\Controllers\Institutional\ProfileController as InstitutionalProfileController;
 use App\Http\Controllers\Institutional\ProjectController as InstitutionalProjectController;
+use App\Http\Controllers\Institutional\StoreBannerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -68,6 +70,8 @@ Route::get('/instituional/search', [InstitutionalController::class, 'search'])->
 
 Route::get('/proje/{slug}', [ClientProjectController::class, "index"])->name('project.detail');
 Route::get('/proje/{slug}/detay', [ClientProjectController::class, "detail"])->name('project.housing.detail');
+Route::get('/magaza/{slug}', [InstitutionalController::class, "dashboard"])->name('instituional.dashboard');
+
 Route::get('/magaza/{slug}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
 Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectDetails"])->name('instituional.projects.detail');
 
@@ -76,7 +80,6 @@ Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('
 
 Route::get('/get-counties/{city}', [CountyController::class,"getCounties"])->name("getCounties");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
-
 
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
@@ -187,7 +190,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     // Project Controller İzin Kontrolleri
     Route::middleware(['checkPermission:CreateProject'])->group(function () {
         Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.index');
+        Route::get('/project/{projectId}', [ProjectController::class, 'detail'])->name('projects.detail');
+        Route::get('/project/status_change/{projectId}', [ProjectController::class, 'setStatus'])->name('project.set.status');
     });
 
     Route::middleware(['checkPermission:GetProjectById'])->group(function () {
@@ -456,6 +461,29 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::get('/email-templates', [EmailTemplateController::class, 'index'])->name('email-templates.index');
     });
 
+    Route::middleware(['checkPermission:CreateSubscriptionPlan'])->group(function () {
+        Route::get('/subscription-plans/create', [SubscriptionPlanController::class, 'create'])->name('subscriptionPlans.create');
+        Route::post('/subscription-plans', [SubscriptionPlanController::class, 'store'])->name('subscriptionPlans.store');
+    });
+
+    Route::middleware(['checkPermission:GetSubscriptionPlanById'])->group(function () {
+        Route::get('/subscription-plans/{subscriptionPlan}/edit', [SubscriptionPlanController::class, 'edit'])->name('subscriptionPlans.edit');
+    });
+
+    Route::middleware(['checkPermission:UpdateSubscriptionPlan'])->group(function () {
+        Route::put('/subscription-plans/{subscriptionPlan}', [SubscriptionPlanController::class, 'update'])->name('subscriptionPlans.update');
+    });
+
+    Route::middleware(['checkPermission:GetSubscriptionPlans'])->group(function () {
+        Route::get('/subscription-plans', [SubscriptionPlanController::class, 'index'])->name('subscriptionPlans.index');
+    });
+
+    Route::middleware(['checkPermission:DeleteSubscriptionPlan'])->group(function () {
+        Route::delete('/subscription-plans/{subscriptionPlan}', [SubscriptionPlanController::class, 'destroy'])->name('subscriptionPlans.destroy');
+    });
+
+
+
 });
 
 
@@ -495,6 +523,29 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/remove_project_housing_file', [InstitutionalProjectController::class, "removeProjectHousingFile"])->name('remove.project.housing.image');
         Route::post('/add_project_housing_file', [InstitutionalProjectController::class, "addProjectHousingFile"])->name('add.project.housing.image');
     });
+
+
+    Route::middleware(['checkPermission:CreateStoreBanner'])->group(function () {
+        Route::get('/store-banners/create', [StoreBannerController::class, 'create'])->name('storeBanners.create');
+        Route::post('/store-banners', [StoreBannerController::class, 'store'])->name('storeBanners.store');
+    });
+
+    Route::middleware(['checkPermission:GetStoreBannerById'])->group(function () {
+        Route::get('/store-banners/{storeBanner}/edit', [StoreBannerController::class, 'edit'])->name('storeBanners.edit');
+    });
+
+    Route::middleware(['checkPermission:UpdateStoreBanner'])->group(function () {
+        Route::put('/store-banners/{storeBanner}', [StoreBannerController::class, 'update'])->name('storeBanners.update');
+    });
+
+    Route::middleware(['checkPermission:GetStoreBanners'])->group(function () {
+        Route::get('/store-banners', [StoreBannerController::class, 'index'])->name('storeBanners.index');
+    });
+
+    Route::middleware(['checkPermission:DeleteStoreBanner'])->group(function () {
+        Route::delete('/store-banners/{storeBanner}', [StoreBannerController::class, 'destroy'])->name('storeBanners.destroy');
+    });
+
 });
 
 Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client']], function () {

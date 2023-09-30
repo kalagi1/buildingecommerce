@@ -11,6 +11,7 @@ use App\Models\HousingType;
 use App\Models\Menu;
 use App\Models\Project;
 use App\Models\ProjectHouseSetting;
+use App\Models\StandOutUser;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -78,11 +79,17 @@ class ProjectController extends Controller
             $projects = [];
             $secondhandHousings = Housing::with('images')->get();
         } else {
-            // HousingStatus ID'sine sahip projeleri alın
-            $projects = Project::whereHas('housingStatus', function ($query) use ($status) {
-                $query->where('housing_type_id', $status->id);
-            })->get();
+            $oncelikliProjeler = StandOutUser::where('housing_status_id',$status->id)->pluck('project_id')->toArray();
+            $firstProjects = Project::whereIn('id', $oncelikliProjeler)->get();
 
+            $anotherProjects = Project::whereNotIn('id', $oncelikliProjeler)
+            ->orderBy('created_at', 'desc') // Eklenme tarihine göre sırala (en son eklenenler en üstte olur)
+            ->get();
+
+            $projects = StandOutUser::join("projects",'projects.id','=','stand_out_users.project_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
+            ->orderBy('item_order', 'asc') // Öne çıkarılma sırasına göre sırala
+            ->get()
+            ->concat($anotherProjects);
         }
 
         $housingTypes = HousingType::where('active', 1)->get();

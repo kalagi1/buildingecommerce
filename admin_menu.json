@@ -8,7 +8,6 @@
         "url": "admin.menu_management",
         "activePath": "admin/menus*"
     },
-
     {
         "id": "role",
         "label": "Yetkilendirme",
@@ -98,6 +97,29 @@
                 "key": "GetPermissions",
                 "url": "admin.permissions.index",
                 "activePath": "admin/permissions"
+            }
+        ]
+    },
+    {
+        "id": "subscriptionPlans",
+        "label": "Abonelik Planları",
+        "icon": "credit-card",
+        "text": "Abonelik Planları",
+        "key": "SubscriptionPlans",
+        "url": "#nv-subscriptionPlans",
+        "activePath": "admin/subscription-plans*",
+        "subMenu": [
+            {
+                "text": "Yeni Ekle",
+                "key": "CreateSubscriptionPlan",
+                "url": "admin.subscriptionPlans.create",
+                "activePath": "admin/subscription-plans/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetSubscriptionPlans",
+                "url": "admin.subscriptionPlans.index",
+                "activePath": "admin/subscription-plans"
             }
         ]
     },
@@ -358,6 +380,4 @@
             }
         ]
     }
-
-
 ]

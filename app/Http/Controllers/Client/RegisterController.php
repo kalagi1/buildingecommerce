@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\City;
 use App\Models\EmailTemplate;
+use App\Models\SubscriptionPlan;
 use App\Models\User;
+use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
@@ -37,6 +39,11 @@ class RegisterController extends Controller
         // Yeni kullanıcıyı oluşturun
         $user = new User();
         $user->email = $validatedData['email'];
+        $user->subscription_plan_id = $request->input("subscription_plan_id");
+
+        $subscriptionPlan = SubscriptionPlan::where("id", $request->input("subscription_plan_id"))->first();
+
+
         $user->name = $validatedData['name'];
         $user->password = bcrypt($validatedData['password']);
         $user->type = $validatedData['type'];
@@ -51,6 +58,13 @@ class RegisterController extends Controller
         $user->email_verification_token = Str::random(40);
         $user->save();
 
+        UserPlan::create([
+            "user_id" => $user->id,
+            "subscription_plan_id" => $subscriptionPlan->id,
+            "project_limit" => $subscriptionPlan->project_limit,
+            "user_limit" => $subscriptionPlan->user_limit,
+            "housing_limit" => $subscriptionPlan->housing_limit,
+        ]);
         $emailTemplate = EmailTemplate::where('slug', "account-verify")->first();
 
         if (!$emailTemplate) {

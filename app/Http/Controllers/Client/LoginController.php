@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\City;
 use App\Models\EmailTemplate;
+use App\Models\SubscriptionPlan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,8 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         $cities = City::all();
-        return view('client.auth.login', compact("cities"));
+        $subscriptionPlans = SubscriptionPlan::all();
+        return view('client.auth.login', compact("cities", 'subscriptionPlans'));
     }
 
     public function login(Request $request)
@@ -88,7 +90,7 @@ class LoginController extends Controller
             session()->flash('error', 'Hata');
             return redirect()->route('client.login');
 
-        }    }
+        }}
     public function logout()
     {
         Auth::logout();
