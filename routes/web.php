@@ -67,6 +67,7 @@ Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/housing/{id}', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
+Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 
 Route::get('/proje/{slug}', [ClientProjectController::class, "index"])->name('project.detail');
 Route::get('/proje/{slug}/detay', [ClientProjectController::class, "detail"])->name('project.housing.detail');
@@ -75,7 +76,6 @@ Route::get('/magaza/{slug}', [InstitutionalController::class, "dashboard"])->nam
 Route::get('/magaza/{slug}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
 Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectDetails"])->name('instituional.projects.detail');
 
-Route::get('/marka_projeleri/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
 Route::get('/get-counties/{city}', [CountyController::class,"getCounties"])->name("getCounties");
