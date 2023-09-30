@@ -19,6 +19,12 @@
 @endphp
 
 @section('content')
+    <style>
+        .rating-area .rating.selected polygon
+        {
+            fill: gold;
+        }
+    </style>
     <section class="single-proper blog details bg-white">
         <div class="container">
             <div class="row">
@@ -190,7 +196,66 @@
                                                                                                         </li>
                                                                                                     </ul> -->
                 </div>
-
+                <div class="single homes-content details mb-30">
+                    <h5 class="mb-4">Yorumlar</h5>
+                    <div class="flex flex-col gap-6">
+                        @foreach ($housingComments as $comment)
+                        <div class="bg-white border rounded-md p-6">
+                            <div class="head d-flex w-full">
+                                <div>
+                                    <div class="font-weight-bold">{{$comment->user->name}}</div>
+                                    <i class="small"><?=strftime('%d %B %A', strtotime($comment->created_at))?></i>
+                                </div>
+                                <div class="ml-auto order-2">
+                                    @for ($i = 0; $i < $comment->rate; ++$i)
+                                        <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="gold" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="gold" stroke-miterlimit="10" stroke-width="2"/></svg>
+                                    @endfor
+                                    @for ($i = 0; $i < 5 - $comment->rate; ++$i)
+                                        <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="gold" stroke-miterlimit="10" stroke-width="2"/></svg>
+                                    @endfor
+                                </div>
+                            </div>
+                            <div class="body py-3">
+                                {{$comment->comment}}
+                            </div>
+                            <div class="mt-3" style="display: grid; grid-template-columns: 128px 128px 128px 128px;">
+                                @foreach (json_decode($comment->images, true) as $img)
+                                <img src="<?=asset('storage/'.preg_replace('@^public/@', null, $img))?>" width="128px" height="128px" class="rounded-lg" style="width: 128px; height: 128px; object-fit: cover"/>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="single homes-content details mb-30">
+                    <form action="{{ route('housing.send-comment', ['id' => $id]) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="rate" id="rate"/>
+                        <h5 class="mb-4">Yeni Yorum Ekle</h5>
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            @foreach ($errors->all() as $error)
+                            <li>{{$error}}</li>
+                            @endforeach
+                        </div>
+                        @endif
+                        <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                            <div class="d-flex rating-area">
+                                <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2"/></svg>
+                                <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2"/></svg>
+                                <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2"/></svg>
+                                <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2"/></svg>
+                                <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2"/></svg>
+                            </div>
+                            <div class="ml-auto">
+                                <input type="file" style="visibility: hidden;" id="fileinput" name="images[]" multiple accept="image/*"/>
+                                <button type="button" class="btn btn-primary btn-lg" onClick="jQuery('#fileinput').trigger('click');">Resimleri Seç</button>
+                            </div>
+                        </div>
+                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..."></textarea>
+                        <button type="submit" class="btn btn-primary btn-block btn-lg mt-4">YORUMU GÖNDER</button>
+                    </form>
+                </div>
             </section>
 
         </div>
@@ -231,6 +296,28 @@
                 });
             })
             .catch(error => console.error('Hata:', error));
+    </script>
+    <script>
+        jQuery('.rating-area .rating').on('mouseover', function()
+        {
+            jQuery('.rating-area .rating polygon').attr('fill', 'none');
+            for (var i = 0; i <= $(this).index(); ++i)
+                jQuery('.rating-area .rating polygon').eq(i).attr('fill', 'gold');
+        });
+
+        jQuery('.rating-area .rating').on('mouseleave', function()
+        {
+            jQuery('.rating-area .rating:not(.selected) polygon').attr('fill', 'none');
+        });
+
+        jQuery('.rating-area .rating').on('click', function()
+        {
+            jQuery('.rating-area .rating').removeClass('selected');
+            for (var i = 0; i <= $(this).index(); ++i)
+                jQuery('.rating-area .rating').eq(i).addClass('selected');
+
+            $('#rate').val($(this).index()+1);
+        });
     </script>
 @endsection
 

@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
+use App\Models\HousingComment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -31,6 +32,28 @@ class HousingController extends Controller
             ->get();
         return view('admin.housings.index', ['housing' => $housing]);
         //
+    }
+
+    /**
+     * Display a listing of the comments.
+     */
+    public function comments()
+    {
+        $housing = HousingComment::all();
+        return view('admin.housings.comments', ['housing' => $housing]);
+        //
+    }
+
+    public function approveComment(Request $request, $id)
+    {
+        HousingComment::where('id', $id)->update(['status' => 1]);
+        return redirect()->back();
+    }
+
+    public function unapproveComment(Request $request, $id)
+    {
+        HousingComment::where('id', $id)->update(['status' => 0]);
+        return redirect()->back();
     }
 
     /**

@@ -69,6 +69,11 @@ Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 
+Route::middleware('auth')->group(function()
+{
+    Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
+});
+
 Route::get('/proje/{slug}', [ClientProjectController::class, "index"])->name('project.detail');
 Route::get('/proje/{slug}/detay', [ClientProjectController::class, "detail"])->name('project.housing.detail');
 Route::get('/magaza/{slug}', [InstitutionalController::class, "dashboard"])->name('instituional.dashboard');
@@ -181,6 +186,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::middleware(['checkPermission:GetHousings'])->group(function () {
         Route::get('/housings', [HousingController::class, 'index'])->name('housings.index');
+        Route::get('/housing/comments', [HousingController::class, 'comments'])->name('housings.comments');
+        Route::get('/housing/comment/approve/{id}', [HousingController::class, 'approveComment'])->name('housings.approve');
+        Route::get('/housing/comment/unapprove/{id}', [HousingController::class, 'unapproveComment'])->name('housings.unapprove');
     });
 
     Route::middleware(['checkPermission:DeleteHousing'])->group(function () {
