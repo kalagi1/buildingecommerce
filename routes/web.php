@@ -191,8 +191,10 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::middleware(['checkPermission:CreateProject'])->group(function () {
         Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
         Route::post('/projects', [ProjectController::class, 'store'])->name('projects.index');
+        Route::get('/{project_id}/logs', [ProjectController::class, 'logs'])->name('projects.logs');
         Route::get('/project/{projectId}', [ProjectController::class, 'detail'])->name('projects.detail');
-        Route::get('/project/status_change/{projectId}', [ProjectController::class, 'setStatus'])->name('project.set.status');
+        Route::post('/project/status_change/{projectId}', [ProjectController::class, 'setStatus'])->name('project.set.status');
+        Route::get('/project/status_change/{projectId}', [ProjectController::class, 'setStatusGet'])->name('project.set.status.get');
     });
 
     Route::middleware(['checkPermission:GetProjectById'])->group(function () {

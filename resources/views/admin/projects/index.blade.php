@@ -45,16 +45,16 @@
                                                     @foreach($projects as $project)
                                                     <tr>
                                                         <td>{{$project->project_title}}</td>
-                                                        <td>@if($project->status) <span class="alert alert-success">Aktif</span> @else <span class="alert alert-danger">Pasif</span> @endif</td>
+                                                        <td>@if($project->status == 1) <span class="btn btn-success">Aktif</span> @elseif($project->status == 2) <span class="btn btn-warning">Admin Onayı Bekliyor</span> @elseif($project->status == 3) <span class="btn btn-danger">Admin Tarafından Reddedildi</span> @else <span class="btn btn-danger">Pasif</span> @endif</td>
                                                         <td>{{$project->brand->title}}</td>
                                                         <td>{{$project->room_count}}</td>
                                                         <td>{{$project->housingType->title}}</td>
                                                         <td>{{$project->city->title}}</td>
                                                         <td>{{$project->county->title}}</td>
                                                         <td>
-                                                            <a href="" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
+                                                            <a href="{{route('admin.projects.detail',$project->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
                                                             <a href="" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                                            <a href="" class="btn btn-info btn-sm">Log</a>
+                                                            <a href="{{route('admin.projects.logs',$project->id)}}" class="btn btn-info btn-sm">Log</a>
                                                         </td>
                                                     </tr>
                                                     @endforeach

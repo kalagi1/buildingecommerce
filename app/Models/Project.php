@@ -72,4 +72,8 @@ class Project extends Model
     public function housingStatus(){
         return $this->hasMany(ProjectHousingType::class,"project_id","id");
     }
+
+    public function rejectedLog(){
+        return $this->hasOne(Log::class,'item_id','id')->where('item_type',1)->where('is_rejected',1)->orderByDesc('created_at');
+    }
 }
