@@ -8,10 +8,47 @@ use App\Models\Housing;
 use App\Models\HousingType;
 use App\Models\Menu;
 use App\Models\ProjectHouseSetting;
+use App\Models\HousingComment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class HousingController extends Controller
 {
+    public function sendComment(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(),
+            [
+                'rate' => 'required|string|in:1,2,3,4,5',
+                'comment' => 'required|string',
+                'images' => 'array',
+                'images.*' => 'image',
+            ]
+        );
+
+        if ($validator->fails())
+            return redirect()->back()->withErrors($validator->errors());
+
+        $rate = $request->input('rate');
+        $comment = $request->input('comment');
+
+        $images = [];
+        if (is_array($request->images))
+            foreach ($request->images as $image)
+                $images[] = $image->store('housing-comment-images');
+
+        HousingComment::create(
+            [
+                'user_id' => auth()->user()->id,
+                'housing_id' => $id,
+                'comment' => $comment,
+                'rate' => $rate,
+                'images' => json_encode($images),
+            ]
+        );
+
+        return redirect()->back();
+    }
+
     public function show($id)
     {
         $menu = Menu::getMenuItems();
@@ -27,7 +64,7 @@ class HousingController extends Controller
             ->where('housings.id', $id)->first();
             $housingSetting = ProjectHouseSetting::where('house_type',$housing->housing_type_id)->get();
         // return $housing;
-        return view('client.housings.detail', compact('housing', 'menu','housingSetting'));
+        return view('client.housings.detail', compact('housing', 'menu','housingSetting', 'id'));
     }
 
     public function list(Request $request){
