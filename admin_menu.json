@@ -201,7 +201,7 @@
                 "key": "GetHousings",
                 "url": "admin.housings.index",
                 "activePath": "admin/housing"
-            }
+            },
             {
                 "text": "Yorumlar",
                 "key": "GetHousingComments",
