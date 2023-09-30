@@ -93,6 +93,11 @@ class User extends Authenticatable
         return $this->hasMany(Brand::class, 'user_id');
     }
 
+    public function banners()
+    {
+        return $this->hasMany(StoreBanner::class, 'user_id');
+    }
+
     public function housingFavorites()
     {
         return $this->hasMany(HousingFavorite::class);
@@ -100,7 +105,7 @@ class User extends Authenticatable
 
     public function plan()
     {
-        return $this->hasOne(UserPlan::class);
+        return $this->belongsTo(UserPlan::class, "subscription_plan_id");
     }
 
 }
