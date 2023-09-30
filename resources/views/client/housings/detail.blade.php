@@ -22,40 +22,30 @@
     <style>
         .rating-area .rating.selected polygon {
             fill: gold;
+            stroke: gold
         }
     </style>
     <section class="single-proper blog details bg-white">
         <div class="container">
-            <div class="row">
-                <div class="col-md-8">
+            <div class="row mb-3">
+                <div class="col-md-7">
                     <div class="container">
-                        <section class="headings-2 pt-0">
+                        <div class="headings-2 pt-0">
                             <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
                                 <div class="detail-wrapper-body">
                                     <div class="listing-title-bar">
                                         <h3>{{ $housing->title }} </h3>
-                                        <div class="mt-0">
-                                            <a href="#listing-location" class="listing-address">
-                                                <i
-                                                    class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5">{{ $housing->title }}</i>
-                                            </a>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="single detail-wrapper mr-2">
                                     <div class="detail-wrapper-body">
                                         <div class="listing-title-bar">
                                             <h4>{{ getData($housing, 'price') }} TL</h4>
-                                            <!-- <div class="mt-0">
-                                                                                                                                <a href="#listing-location" class="listing-address">
-                                                                                                                                    <p>$ 1,200 / sq ft</p>
-                                                                                                                                </a>
-                                                                                                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -107,14 +97,28 @@
                 <aside class="col-md-5  car">
                     <div class="single widget">
                         <!-- Start: Schedule a Tour -->
-                        <div class="schedule widget-boxed mt-33 mt-0" style="text-align: center;">
+                        <div class="schedule widget-boxed mt-33 mt-0">
                             <div class="widget-boxed-header">
-                                <h4><i class="fa fa-calendar pr-3 padd-r-10"></i>İletişim Bilgileri</h4>
+                                <h4>
+                                    <img src="{{ URL::to('/') . '/storage/brand_images/' . $housing->brand->logo }}"
+                                        alt="" style="height: 40px">
+                                    <strong style="margin-left: 10px">{!! $housing->brand->title !!}</strong>
+                                </h4>
                             </div>
+
                             <div class="widget-boxed-body">
-                                <h5 class="" style="font-size: 20px; font-weight: 600;">{{ $housing->brand?->title }}
-                                </h5>
-                                <p>0507 585 40 33</p>
+
+                                <div class="the-agents">
+                                    <ul class="the-agents-details">
+                                        <li><a href="#"><strong>Adres:</strong> {!! $housing->address !!} </a></li>
+                                        <li><a href="#"><strong>Telefon:</strong> {!! $housing->user->phone !!} </a></li>
+                                        <li><a href="#"><strong>E-Mail:</strong> {!! $housing->user->email !!} </a></li>
+
+
+
+                                    </ul>
+                                </div>
+
                             </div>
                         </div>
                         <!-- End: Schedule a Tour -->
@@ -151,56 +155,15 @@
                                 <span class="det">{{ json_encode($val[0]) }}</span>
                             </li>
                         @endforeach
-
                     </ul>
-
-                    <!-- <h5 class="mt-5">Amenities</h5>
-
-                                                                                                                    <ul class="homes-list clearfix">
-                                                                                                                        <li>
-                                                                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                                                                                                                            <span>Air Cond</span>
-                                                                                                                        </li>
-                                                                                                                        <li>
-                                                                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                                                                                                                            <span>Balcony</span>
-                                                                                                                        </li>
-                                                                                                                        <li>
-                                                                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                                                                                                                            <span>Internet</span>
-                                                                                                                        </li>
-                                                                                                                        <li>
-                                                                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                                                                                                                            <span>Dishwasher</span>
-                                                                                                                        </li>
-                                                                                                                        <li>
-                                                                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                                                                                                                            <span>Bedding</span>
-                                                                                                                        </li>
-                                                                                                                        <li>
-                                                                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                                                                                                                            <span>Cable TV</span>
-                                                                                                                        </li>
-                                                                                                                        <li>
-                                                                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                                                                                                                            <span>Parking</span>
-                                                                                                                        </li>
-                                                                                                                        <li>
-                                                                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                                                                                                                            <span>Pool</span>
-                                                                                                                        </li>
-                                                                                                                        <li>
-                                                                                                                            <i class="fa fa-check-square" aria-hidden="true"></i>
-                                                                                                                            <span>Fridge</span>
-                                                                                                                        </li>
-                                                                                                                    </ul> -->
                 </div>
                 <div class="single homes-content details mb-30">
                     <h5 class="mb-4">Yorumlar</h5>
                     @if (count($housingComments))
                         <div class="flex flex-col gap-6">
                             @foreach ($housingComments as $comment)
-                                <div class="bg-white border rounded-md pb-3 mb-3" style="border-bottom: 1px solid #E6E6E6 !important; ">
+                                <div class="bg-white border rounded-md pb-3 mb-3"
+                                    style="border-bottom: 1px solid #E6E6E6 !important; ">
                                     <div class="head d-flex w-full">
                                         <div>
                                             <div class="font-weight-bold">{{ $comment->user->name }}</div>
@@ -210,8 +173,8 @@
                                         <div class="ml-auto order-2">
                                             @for ($i = 0; $i < $comment->rate; ++$i)
                                                 <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1"
-                                                    version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                    version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                    xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink">
                                                     <rect fill="none" height="50" width="50" />
                                                     <polygon fill="gold"
@@ -239,7 +202,7 @@
                                         @foreach (json_decode($comment->images, true) as $img)
                                             <div class="col-md-2">
                                                 <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                style="object-fit: cover" />
+                                                    style="object-fit: cover" />
                                             </div>
                                         @endforeach
                                     </div>

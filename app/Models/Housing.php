@@ -33,6 +33,12 @@ class Housing extends Model
         return $this->hasOne(City::class, "id", "city_id");
     }
 
+    public function user()
+    {
+        return $this->hasOne(User::class, "id", "user_id");
+    }
+
+
     public function county()
     {
         return $this->hasOne(County::class, "id", "county_id");
