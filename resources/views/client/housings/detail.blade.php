@@ -199,28 +199,36 @@
                 <div class="single homes-content details mb-30">
                     <h5 class="mb-4">Yorumlar</h5>
                     <div class="flex flex-col gap-6">
+                        @foreach ($housingComments as $comment)
                         <div class="bg-white border rounded-md p-6">
                             <div class="head d-flex w-full">
                                 <div>
-                                    <div class="font-weight-bold">KULLANICI ADI</div>
-                                    <i class="small">20 EKİ</i>
+                                    <div class="font-weight-bold">{{$comment->user->name}}</div>
+                                    <i class="small"><?=strftime('%d %B %A', strtotime($comment->created_at))?></i>
                                 </div>
                                 <div class="ml-auto order-2">
-                                    <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2"/></svg>
-                                    <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2"/></svg>
-                                    <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2"/></svg>
-                                    <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2"/></svg>
-                                    <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2"/></svg>
+                                    @for ($i = 0; $i < $comment->rate; ++$i)
+                                        <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="gold" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="gold" stroke-miterlimit="10" stroke-width="2"/></svg>
+                                    @endfor
+                                    @for ($i = 0; $i < 5 - $comment->rate; ++$i)
+                                        <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="gold" stroke-miterlimit="10" stroke-width="2"/></svg>
+                                    @endfor
                                 </div>
                             </div>
                             <div class="body py-3">
-                                Lorem ipsum dolor sit amet, consectet ut labore et dolore magna aliqu fugiat nulla pariatur et accus ut labore et dolore magna aliqu fug et accus ut labore et dolore magna aliqu fugiat nulla par iatur et accus ut labore et dolore magna aliqu fugiat null a ante. Lorem ipsum dolor sit amet, consect et netis et dolore magna aliqu fugiat nulla par.
+                                {{$comment->comment}}
+                            </div>
+                            <div class="mt-3" style="display: grid; grid-template-columns: 128px 128px 128px 128px;">
+                                @foreach (json_decode($comment->images, true) as $img)
+                                <img src="<?=asset('storage/'.preg_replace('@^public/@', null, $img))?>" width="128px" height="128px" class="rounded-lg" style="width: 128px; height: 128px; object-fit: cover"/>
+                                @endforeach
                             </div>
                         </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="single homes-content details mb-30">
-                    <form action="{{ route('housing.send-comment', ['id' => $id]) }}" method="POST">
+                    <form action="{{ route('housing.send-comment', ['id' => $id]) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="rate" id="rate"/>
                         <h5 class="mb-4">Yeni Yorum Ekle</h5>
@@ -240,7 +248,7 @@
                                 <svg class="rating" enable-background="new 0 0 50 50" height="24px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon fill="none" points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 " stroke="#000000" stroke-miterlimit="10" stroke-width="2"/></svg>
                             </div>
                             <div class="ml-auto">
-                                <input type="file" style="visibility: hidden;" id="fileinput" name="files[]" multiple accept="image/*"/>
+                                <input type="file" style="visibility: hidden;" id="fileinput" name="images[]" multiple accept="image/*"/>
                                 <button type="button" class="btn btn-primary btn-lg" onClick="jQuery('#fileinput').trigger('click');">Resimleri Seç</button>
                             </div>
                         </div>

@@ -16,12 +16,11 @@ class HousingController extends Controller
 {
     public function sendComment(Request $request, $id)
     {
+
         $validator = Validator::make($request->all(),
             [
                 'rate' => 'required|string|in:1,2,3,4,5',
                 'comment' => 'required|string',
-                'images' => 'array',
-                'images.*' => 'image',
             ]
         );
 
@@ -34,7 +33,7 @@ class HousingController extends Controller
         $images = [];
         if (is_array($request->images))
             foreach ($request->images as $image)
-                $images[] = $image->store('housing-comment-images');
+                $images[] = $image->store('public/housing-comment-images');
 
         HousingComment::create(
             [
@@ -64,7 +63,9 @@ class HousingController extends Controller
             ->where('housings.id', $id)->first();
             $housingSetting = ProjectHouseSetting::where('house_type',$housing->housing_type_id)->get();
         // return $housing;
-        return view('client.housings.detail', compact('housing', 'menu','housingSetting', 'id'));
+
+        $housingComments = HousingComment::where('housing_id', $id)->where('status', 1)->with('user')->get();
+        return view('client.housings.detail', compact('housing', 'menu','housingSetting', 'id', 'housingComments'));
     }
 
     public function list(Request $request){

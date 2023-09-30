@@ -186,6 +186,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::middleware(['checkPermission:GetHousings'])->group(function () {
         Route::get('/housings', [HousingController::class, 'index'])->name('housings.index');
+        Route::get('/housing/comments', [HousingController::class, 'comments'])->name('housings.comments');
+        Route::get('/housing/comment/approve/{id}', [HousingController::class, 'approveComment'])->name('housings.approve');
+        Route::get('/housing/comment/unapprove/{id}', [HousingController::class, 'unapproveComment'])->name('housings.unapprove');
     });
 
     Route::middleware(['checkPermission:DeleteHousing'])->group(function () {

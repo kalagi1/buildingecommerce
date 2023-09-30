@@ -10,4 +10,9 @@ class HousingComment extends Model
     use HasFactory;
 
     protected $fillable = ['user_id', 'housing_id', 'comment', 'rate', 'images', 'status'];
+
+    function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
