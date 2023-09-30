@@ -14,9 +14,10 @@
                     <p class="brand-name">{{ $project->project_title }}</p>
                 </div>
                 <div class="card-body">
-                    <nav class="navbar">
+                    <nav class="navbar" style="padding: 0 !important">
                         <div class="navbar-items">
-
+                            <a class="navbar-item"
+                                href="{{ route('instituional.dashboard', Str::slug($project->user->name)) }}">Anasayfa</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Tüm
                                 Projeler</a>
@@ -402,7 +403,7 @@ out center;`;
                             settings: {
                                 slidesToShow: 2,
                                 slidesToScroll: 2,
-                                dots:false,
+                                dots: false,
                                 arrows: false
                             }
                         },
@@ -411,7 +412,7 @@ out center;`;
                             settings: {
                                 slidesToShow: 4,
                                 slidesToScroll: 4,
-                                dots:false,
+                                dots: false,
                                 arrows: false
                             }
                         },
@@ -420,7 +421,7 @@ out center;`;
                             settings: {
                                 slidesToShow: 3,
                                 slidesToScroll: 3,
-                                dots:false,
+                                dots: false,
                                 arrows: false
                             }
                         }

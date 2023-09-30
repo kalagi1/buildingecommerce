@@ -81,7 +81,7 @@ class ProjectController extends Controller
         } else {
             $oncelikliProjeler = StandOutUser::where('housing_status_id',$status->id)->pluck('project_id')->toArray();
             $firstProjects = Project::whereIn('id', $oncelikliProjeler)->get();
-            
+
             $anotherProjects = Project::whereNotIn('id', $oncelikliProjeler)
             ->orderBy('created_at', 'desc') // Eklenme tarihine göre sırala (en son eklenenler en üstte olur)
             ->get();

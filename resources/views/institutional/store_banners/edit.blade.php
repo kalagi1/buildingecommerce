@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="content">
-        <h2 class="mb-2 lh-sm">Marka Düzenle</h2>
+        <h2 class="mb-2 lh-sm">Mağaza Bannerını Düzenle</h2>
         <div class="mt-4">
             <div class="row g-4">
                 <div class="col-12 col-xl-12 order-1 order-xl-0">
@@ -27,44 +27,22 @@
                                 <div class="p-4">
 
                                     <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                        action="{{ route('institutional.brands.update', $brand->id) }}" enctype="multipart/form-data">
+                                        action="{{ route('institutional.storeBanners.update', $storeBanner->id) }}" enctype="multipart/form-data">
                                         @csrf
-                                        @method('PUT') <!-- Eğer Laravel sürümünüz 8 veya üzeriyse @method('PUT') kullanın -->
+                                        @method('PUT')
 
                                         <div class="col-md-12">
-                                            <label class="form-label" for="title">Başlık</label>
-                                            <input name="title" class="form-control" id="title"
-                                                type="text" value="{{ old('title', $brand->title) }}" required="">
+                                            <label class="form-label" for="image">Banner Resmi</label>
+                                            <input name="image" class="form-control" id="image"
+                                                type="file" accept="image/*" required="">
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <label class="form-label" for="logo">Logo</label>
-                                            <input name="logo" class="form-control" id="logo"
-                                                type="file" accept="image/*">
-                                        </div>
-                                        @if ($brand->logo)
+                                        @if ($storeBanner->image)
                                             <div class="col-md-12">
-                                                <label class="form-label">Mevcut Logo</label>
-                                                <img src="{{ asset('storage/brand_images/' . $brand->logo) }}" alt="Mevcut Logo" width="150">
+                                                <label class="form-label">Mevcut Banner Resmi</label>
+                                                <img src="{{ asset('storage/store_banners/' . $storeBanner->image) }}" alt="Mevcut Banner Resmi" width="150">
                                             </div>
                                         @endif
-                                        <div class="col-md-12">
-                                            <label class="form-label" for="cover_photo">Kapak Fotoğrafı</label>
-                                            <input name="cover_photo" class="form-control" id="cover_photo"
-                                                type="file" accept="image/*">
-                                        </div>
-                                        @if ($brand->cover_photo)
-                                            <div class="col-md-12">
-                                                <label class="form-label">Mevcut Kapak Fotoğrafı</label>
-                                                <img src="{{ asset('storage/brand_images/' . $brand->cover_photo) }}" alt="Mevcut Kapak Fotoğrafı" width="150">
-                                            </div>
-                                        @endif
-                                        <div class="col-md-12">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" value="1" name="status" id="flexSwitchCheckCheckedDisabled" type="checkbox" {{ $brand->status == 1 ? 'checked' : '' }}>
-                                                <label class="form-check-label"  for="flexSwitchCheckCheckedDisabled">Aktif</label>
-                                            </div>
-                                        </div>
                                         <div class="col-12">
                                             <button class="btn btn-primary" type="submit">Kaydet</button>
                                         </div>
@@ -89,7 +67,7 @@
         <footer class="footer position-absolute">
             <div class="row g-0 justify-content-between align-items-center h-100">
                 <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 mt-2 mt-sm-0 text-900">Thank you for creating with Phoenix<span
+                    <p class="mb-0 mt-2 mt-sm-0 text-900">Phoenix ile oluşturduğunuz için teşekkür ederiz<span
                             class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br
                             class="d-sm-none" />2023 &copy;<a class="mx-1" href="https://themewagon.com/">Themewagon</a>
                     </p>
