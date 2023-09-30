@@ -47,6 +47,7 @@ use App\Http\Controllers\Institutional\DashboardController;
 use App\Http\Controllers\Institutional\LoginController;
 use App\Http\Controllers\Institutional\ProfileController as InstitutionalProfileController;
 use App\Http\Controllers\Institutional\ProjectController as InstitutionalProjectController;
+use App\Http\Controllers\Institutional\StoreBannerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -480,6 +481,8 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::delete('/subscription-plans/{subscriptionPlan}', [SubscriptionPlanController::class, 'destroy'])->name('subscriptionPlans.destroy');
     });
 
+
+
 });
 
 
@@ -519,6 +522,29 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/remove_project_housing_file', [InstitutionalProjectController::class, "removeProjectHousingFile"])->name('remove.project.housing.image');
         Route::post('/add_project_housing_file', [InstitutionalProjectController::class, "addProjectHousingFile"])->name('add.project.housing.image');
     });
+
+
+    Route::middleware(['checkPermission:CreateStoreBanner'])->group(function () {
+        Route::get('/store-banners/create', [StoreBannerController::class, 'create'])->name('storeBanners.create');
+        Route::post('/store-banners', [StoreBannerController::class, 'store'])->name('storeBanners.store');
+    });
+
+    Route::middleware(['checkPermission:GetStoreBannerById'])->group(function () {
+        Route::get('/store-banners/{storeBanner}/edit', [StoreBannerController::class, 'edit'])->name('storeBanners.edit');
+    });
+
+    Route::middleware(['checkPermission:UpdateStoreBanner'])->group(function () {
+        Route::put('/store-banners/{storeBanner}', [StoreBannerController::class, 'update'])->name('storeBanners.update');
+    });
+
+    Route::middleware(['checkPermission:GetStoreBanners'])->group(function () {
+        Route::get('/store-banners', [StoreBannerController::class, 'index'])->name('storeBanners.index');
+    });
+
+    Route::middleware(['checkPermission:DeleteStoreBanner'])->group(function () {
+        Route::delete('/store-banners/{storeBanner}', [StoreBannerController::class, 'destroy'])->name('storeBanners.destroy');
+    });
+
 });
 
 Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client']], function () {
