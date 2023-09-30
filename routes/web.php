@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\SocialMediaIconController;
+use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\FavoriteController;
@@ -187,7 +188,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     // Project Controller İzin Kontrolleri
     Route::middleware(['checkPermission:CreateProject'])->group(function () {
         Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.index');
+        Route::get('/project/{projectId}', [ProjectController::class, 'detail'])->name('projects.detail');
+        Route::get('/project/status_change/{projectId}', [ProjectController::class, 'setStatus'])->name('project.set.status');
     });
 
     Route::middleware(['checkPermission:GetProjectById'])->group(function () {
@@ -454,6 +457,27 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::middleware(['checkPermission:GetEmailTemplates'])->group(function () {
         Route::get('/email-templates', [EmailTemplateController::class, 'index'])->name('email-templates.index');
+    });
+
+    Route::middleware(['checkPermission:CreateSubscriptionPlan'])->group(function () {
+        Route::get('/subscription-plans/create', [SubscriptionPlanController::class, 'create'])->name('subscriptionPlans.create');
+        Route::post('/subscription-plans', [SubscriptionPlanController::class, 'store'])->name('subscriptionPlans.store');
+    });
+
+    Route::middleware(['checkPermission:GetSubscriptionPlanById'])->group(function () {
+        Route::get('/subscription-plans/{subscriptionPlan}/edit', [SubscriptionPlanController::class, 'edit'])->name('subscriptionPlans.edit');
+    });
+
+    Route::middleware(['checkPermission:UpdateSubscriptionPlan'])->group(function () {
+        Route::put('/subscription-plans/{subscriptionPlan}', [SubscriptionPlanController::class, 'update'])->name('subscriptionPlans.update');
+    });
+
+    Route::middleware(['checkPermission:GetSubscriptionPlans'])->group(function () {
+        Route::get('/subscription-plans', [SubscriptionPlanController::class, 'index'])->name('subscriptionPlans.index');
+    });
+
+    Route::middleware(['checkPermission:DeleteSubscriptionPlan'])->group(function () {
+        Route::delete('/subscription-plans/{subscriptionPlan}', [SubscriptionPlanController::class, 'destroy'])->name('subscriptionPlans.destroy');
     });
 
 });

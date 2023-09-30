@@ -97,15 +97,15 @@
 
                         @php
                             $groupedMenuData = [];
-                            
+
                             foreach ($menuData as $menuItem) {
                                 $label = $menuItem['label'];
-                            
+
                                 // Gruplandırılmış menüyü oluştur
                                 if (!isset($groupedMenuData[$label])) {
                                     $groupedMenuData[$label] = [];
                                 }
-                            
+
                                 // Menü öğesini ilgili gruba ekle
                                 $groupedMenuData[$label][] = $menuItem;
                             }

@@ -7,9 +7,13 @@
     <div class="form-area card p-5">
         <div class="row">
             <div class="col-md-4">
-                <label for="">Projenizi seçiniz</label>
-                <select name="" class="form-control project" id="">
-                    <option value="">Proje 1</option>
+                <label for="">Hangi Başlıkta Öne Çıksın</label>
+                <select name="housing_status_id" id="housing_status_id" class="form-control project" id="">
+                    <option value="">Başlık Seçiniz</option>
+                    <option value="full">Tüm Projeler</option>
+                    @foreach($project->housingStatus as $statue)
+                      <option value="{{$statue->housingStatus->id}}">{{$statue->housingStatus->name}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col-md-4">
@@ -32,21 +36,7 @@
             <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
               <div class="card-body p-0">
                 <div class="p-4 code-to-copy">
-                  <div class="d-flex align-items-center justify-content-end my-3">
-                    <div id="bulk-select-replace-element">
-                        <a class="btn btn-phoenix-success btn-sm" href="{{route('institutional.brands.create')}}">
-                            <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
-                            <span class="ms-1">Yeni Proje Ekle</span>
-                        </a>
-                    </div>
-                    <div class="d-none ms-3" id="bulk-select-actions">
-                      <div class="d-flex"><select class="form-select form-select-sm" aria-label="Bulk actions">
-                          <option selected="selected">Bulk actions</option>
-                          <option value="Delete">Delete</option>
-                          <option value="Archive">Archive</option>
-                        </select><button class="btn btn-phoenix-danger btn-sm ms-2" type="button">Apply</button></div>
-                    </div>
-                  </div>
+                  
                   <div id="tableExample" data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
                     @if (session()->has('success'))
                         <div class="alert alert-success">
@@ -123,6 +113,7 @@
   @endsection
 
   @section('scripts')
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
     <script>
@@ -251,117 +242,146 @@
         });
 
         $('.list-pricing').click(function(){
-            var startDate = $('.start_date').val();
-            var endDate = $('.end_date').val();
-            var tarih1 = new Date(startDate);
-            var tarih2 = new Date(endDate);
 
-            // İki tarih arasındaki milisaniye farkını hesaplayın
-            var milisaniyeFarki = tarih2 - tarih1;
+            if(!$('#housing_status_id').val()){
+              $.toast({
+                heading: 'Hata',
+                text: 'Hangi Başlıkta Öne Çıksın Seçeneğini Lütfen Seçiniz',
+                position: 'top-right',
+                stack: false
+              })
+            }else{
+              if(!$('.start_date').val()){
+                $.toast({
+                  heading: 'Hata',
+                  text: 'Öne Çıkarım Başlangıç Tarihini Lütfen Seçiniz',
+                  position: 'top-right',
+                  stack: false
+                })
+              }else{
+                if(!$('.end_date').val()){
+                  $.toast({
+                    heading: 'Hata',
+                    text: 'Öne Çıkarım Bitiş Tarihini Lütfen Seçiniz',
+                    position: 'top-right',
+                    stack: false
+                  })
+                }else{
+                  var startDate = $('.start_date').val();
+                  var endDate = $('.end_date').val();
+                  var tarih1 = new Date(startDate);
+                  var tarih2 = new Date(endDate);
 
-            // Milisaniyeyi gün olarak çevirin (1 gün = 24 * 60 * 60 * 1000 milisaniye)
-            var gunFarki = Math.floor(milisaniyeFarki / (1000 * 60 * 60 * 24));
-            var params = {
-                type: '1',
-            };
+                  // İki tarih arasındaki milisaniye farkını hesaplayın
+                  var milisaniyeFarki = tarih2 - tarih1;
 
-            $.ajax({
-                url: '{{route("institutional.project.pricing.list")}}', // AJAX isteği gönderilecek URL
-                type: 'GET', // GET veya POST olarak isteği ayarlayabilirsiniz
-                dataType: 'json', // Yanıt veri türü (json, xml, text, vb.)
-                data: params, // Parametreleri gönder
-                success: function(data) {
-                    var projects = data.data;
+                  // Milisaniyeyi gün olarak çevirin (1 gün = 24 * 60 * 60 * 1000 milisaniye)
+                  var gunFarki = Math.floor(milisaniyeFarki / (1000 * 60 * 60 * 24));
+                  var params = {
+                      type: '1',
+                  };
 
-                    var tbody = document.getElementById("bulk-select-body");
-                    projects.forEach(function(project) {
-                        var row = document.createElement("tr");
+                  $.ajax({
+                      url: '{{route("institutional.project.pricing.list")}}?housing_status_id='+$('#housing_status_id').val(), // AJAX isteği gönderilecek URL
+                      type: 'GET', // GET veya POST olarak isteği ayarlayabilirsiniz
+                      dataType: 'json', // Yanıt veri türü (json, xml, text, vb.)
+                      data: params, // Parametreleri gönder
+                      success: function(data) {
+                          var projects = data.data;
 
-                        var checkboxCell = document.createElement("td");
-                        var checkboxDiv = document.createElement("div");
-                        checkboxDiv.className = "form-check mb-0 fs-0";
-                        var checkboxInput = document.createElement("input");
-                        checkboxInput.className = "form-check-input";
-                        checkboxInput.type = "checkbox";
-                        checkboxInput.setAttribute("data-bulk-select-row", JSON.stringify(project));
-                        checkboxDiv.appendChild(checkboxInput);
-                        checkboxCell.appendChild(checkboxDiv);
+                          var tbody = document.getElementById("bulk-select-body");
+                          projects.forEach(function(project) {
+                              var row = document.createElement("tr");
 
-                        var titleCell = document.createElement("td");
-                        titleCell.className = "align-middle ps-3 title";
-                        titleCell.textContent = "{{$project->project_title}}";
+                              var checkboxCell = document.createElement("td");
+                              var checkboxDiv = document.createElement("div");
+                              checkboxDiv.className = "form-check mb-0 fs-0";
+                              var checkboxInput = document.createElement("input");
+                              checkboxInput.className = "form-check-input";
+                              checkboxInput.type = "checkbox";
+                              checkboxInput.setAttribute("data-bulk-select-row", JSON.stringify(project));
+                              checkboxDiv.appendChild(checkboxInput);
+                              checkboxCell.appendChild(checkboxDiv);
 
-                        var orderCell = document.createElement("td");
-                        orderCell.className = "align-middle ps-3 title";
-                        orderCell.textContent = project.order;
+                              var titleCell = document.createElement("td");
+                              titleCell.className = "align-middle ps-3 title";
+                              titleCell.textContent = "{{$project->project_title}}";
 
-                        var slugCell = document.createElement("td");
-                        slugCell.className = "align-middle logo";
-                        slugCell.textContent = (project.price*gunFarki)+' ₺';
+                              var orderCell = document.createElement("td");
+                              orderCell.className = "align-middle ps-3 title";
+                              orderCell.textContent = project.order;
 
-                        var activeCell = document.createElement("td");
-                        activeCell.className = "align-middle status";
-                        activeCell.innerHTML = project.status == 0 ? "<span class='btn btn-info'>Boşta</span>" : "<span class='btn btn-secondary'>Dolu</span>";
+                              var slugCell = document.createElement("td");
+                              slugCell.className = "align-middle logo";
+                              slugCell.textContent = (project.price*gunFarki)+' ₺';
 
-                        var actionsCell = document.createElement("td");
-                        actionsCell.className = "align-middle status";
-                        actionsCell.innerHTML = project.status == 0 ? "<button class='btn btn-success buy-order' order='"+project.id+"'>Satın Al</button>" : "<button class='btn btn-secondary'>Dolu</button>";
+                              var activeCell = document.createElement("td");
+                              activeCell.className = "align-middle status";
+                              activeCell.innerHTML = project.status == 0 ? "<span class='btn btn-info'>Boşta</span>" : "<span class='btn btn-secondary'>Dolu</span>";
 
-                        row.appendChild(checkboxCell);
-                        row.appendChild(titleCell);
-                        row.appendChild(orderCell);
-                        row.appendChild(slugCell);
-                        row.appendChild(activeCell);
-                        row.appendChild(actionsCell);
+                              var actionsCell = document.createElement("td");
+                              actionsCell.className = "align-middle status";
+                              actionsCell.innerHTML = project.status == 0 ? "<button class='btn btn-success buy-order' order='"+project.id+"'>Satın Al</button>" : "<button class='btn btn-secondary'>Dolu</button>";
 
-                        tbody.appendChild(row);
-                    });
+                              row.appendChild(checkboxCell);
+                              row.appendChild(titleCell);
+                              row.appendChild(orderCell);
+                              row.appendChild(slugCell);
+                              row.appendChild(activeCell);
+                              row.appendChild(actionsCell);
 
-                    $('.buy-order').click(function(){
-                      var csrfToken = $('meta[name="csrf-token"]').attr('content'); 
-                      $.ajax({
-                        url: '{{URL::to("/")}}/institutional/buy_order', // API URL
-                        method: 'POST', // GET isteği
-                        data:{
-                          project_id : {{$project->id}},
-                          order : $(this).attr('order'),
-                          start_date : $('.start_date').val(),
-                          end_date : $('.end_date').val(),
-                        },
-                        headers: {
-                          'X-CSRF-TOKEN': csrfToken // CSRF token'ını başlık olarak ekleyin
-                        },
-                        dataType: 'json', // Yanıtın JSON formatında olacağını belirtin
-                        success: function (data) {
-                          if(data.status){
-                            $.toast({
-                              heading: 'Hata',
-                              text: data.message,
-                              position: 'top-right',
-                              stack: false
-                            })
-                          }else{
-                            $.toast({
-                              heading: 'Hata',
-                              text: data.message,
-                              position: 'top-right',
-                              stack: false
-                            })
-                          }
-                        },
-                        error: function () {
-                            // İstek başarısız olduğunda burası çalışır
-                            $('#sonuc').html('İstek başarısız oldu.');
-                        }
-                      });
-                        console.log($(this).attr('order'))
-                    })
-                },
-                error: function(xhr, status, error) {
-                    // İstek başarısız olduğunda bu fonksiyon çalışır
-                    console.error(xhr.responseText);
+                              tbody.appendChild(row);
+                          });
+
+                          $('.buy-order').click(function(){
+                            var csrfToken = $('meta[name="csrf-token"]').attr('content'); 
+                            $.ajax({
+                              url: '{{URL::to("/")}}/institutional/buy_order', // API URL
+                              method: 'POST', // GET isteği
+                              data:{
+                                project_id : {{$project->id}},
+                                order : $(this).attr('order'),
+                                start_date : $('.start_date').val(),
+                                end_date : $('.end_date').val(),
+                              },
+                              headers: {
+                                'X-CSRF-TOKEN': csrfToken // CSRF token'ını başlık olarak ekleyin
+                              },
+                              dataType: 'json', // Yanıtın JSON formatında olacağını belirtin
+                              success: function (data) {
+                                if(data.status){
+                                  $.toast({
+                                    heading: 'Hata',
+                                    text: data.message,
+                                    position: 'top-right',
+                                    stack: false
+                                  })
+                                }else{
+                                  $.toast({
+                                    heading: 'Hata',
+                                    text: data.message,
+                                    position: 'top-right',
+                                    stack: false
+                                  })
+                                }
+                              },
+                              error: function () {
+                                  // İstek başarısız olduğunda burası çalışır
+                                  $('#sonuc').html('İstek başarısız oldu.');
+                              }
+                            });
+                              console.log($(this).attr('order'))
+                          })
+                      },
+                      error: function(xhr, status, error) {
+                          // İstek başarısız olduğunda bu fonksiyon çalışır
+                          console.error(xhr.responseText);
+                      }
+                  });
                 }
-            });
+              }
+            }
+            
         })
     </script>
   @endsection

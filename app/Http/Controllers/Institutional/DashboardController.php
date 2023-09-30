@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function index(){
-        return view('institutional.home.index');
+    public function index()
+    {
+        $user = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan")->first();
+        return view('institutional.home.index', compact("user"));
     }
 }

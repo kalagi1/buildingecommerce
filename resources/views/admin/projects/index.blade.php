@@ -31,21 +31,34 @@
                                             <table class="table table-sm border-top border-200 fs--1 mb-0">
                                                 <thead>
                                                     <tr>
-                                                        <th class="white-space-nowrap fs--1 align-middle ps-0"
-                                                            style="max-width:20px; width:18px;">
-                                                            <div class="form-check mb-0 fs-0"><input
-                                                                    class="form-check-input" id="bulk-select-example"
-                                                                    type="checkbox"
-                                                                    data-bulk-select='{"body":"bulk-select-body","actions":"bulk-select-actions","replacedElement":"bulk-select-replace-element"}' />
-                                                            </div>
-                                                        </th>
-                                                        <th>Title</th>
-                                                        <th>Room Count</th>
-                                                        <th>Square Meter</th>
-                                                        <th>Housing Type</th>
-                                                        <th>Created At</th>
+                                                        <th>Başlık</th>
+                                                        <th>Statü</th>
+                                                        <th>Eklenen Marka</th>
+                                                        <th>Emlak Sayısı</th>
+                                                        <th>Emlak Tipi</th>
+                                                        <th>Şehir</th>
+                                                        <th>İlçe</th>
+                                                        <th>İşlemler</th>
                                                     </tr>
                                                 </thead>
+                                                <tbody>
+                                                    @foreach($projects as $project)
+                                                    <tr>
+                                                        <td>{{$project->project_title}}</td>
+                                                        <td>@if($project->status) <span class="alert alert-success">Aktif</span> @else <span class="alert alert-danger">Pasif</span> @endif</td>
+                                                        <td>{{$project->brand->title}}</td>
+                                                        <td>{{$project->room_count}}</td>
+                                                        <td>{{$project->housingType->title}}</td>
+                                                        <td>{{$project->city->title}}</td>
+                                                        <td>{{$project->county->title}}</td>
+                                                        <td>
+                                                            <a href="" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
+                                                            <a href="" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                                                            <a href="" class="btn btn-info btn-sm">Log</a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
                                                 <tbody class="list" id="bulk-select-body"></tbody>
                                             </table>
                                         </div>
@@ -109,53 +122,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        var housingTypes = @json($housing);
-
-        var tbody = document.getElementById("bulk-select-body");
-        housingTypes.forEach(function(housingType) {
-            var row = document.createElement("tr");
-
-            var checkboxCell = document.createElement("td");
-            var checkboxDiv = document.createElement("div");
-            checkboxDiv.className = "form-check mb-0 fs-0";
-            var checkboxInput = document.createElement("input");
-            checkboxInput.className = "form-check-input";
-            checkboxInput.type = "checkbox";
-            checkboxInput.setAttribute("data-bulk-select-row", JSON.stringify(housingType));
-            checkboxDiv.appendChild(checkboxInput);
-            checkboxCell.appendChild(checkboxDiv);
-
-            var housingTitleCell = document.createElement("td");
-            housingTitleCell.className = "align-middle ps-3 housing_title";
-            housingTitleCell.textContent = housingType.housing_title;
-
-            var roomCountCell = document.createElement("td");
-            roomCountCell.className = "align-middle room_count";
-            roomCountCell.textContent = housingType.room_count;
-
-            var squareMeterCell = document.createElement("td");
-            squareMeterCell.className = "align-middle square_meter";
-            squareMeterCell.textContent = housingType.square_meter;
-
-            var housingTypeCell = document.createElement("td");
-            housingTypeCell.className = "align-middle housing_type";
-            housingTypeCell.textContent = housingType.housing_type;
-
-            var createdAtCell = document.createElement("td");
-            createdAtCell.className = "align-middle created_at";
-            createdAtCell.textContent = new Date(housingType.created_at).toLocaleDateString();
-
-
-            row.appendChild(checkboxCell);
-            row.appendChild(housingTitleCell);
-            row.appendChild(roomCountCell);
-            row.appendChild(squareMeterCell);
-            row.appendChild(housingTypeCell);
-            row.appendChild(createdAtCell);
-
-
-            tbody.appendChild(row);
-        });
-    </script>
+    
 @endsection
