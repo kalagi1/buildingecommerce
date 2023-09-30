@@ -16,6 +16,11 @@ class Brand extends Model
     {
         return $this->hasMany(Project::class, "brand_id", "id")->orderBy('order');
     }
+
+    public function housings()
+    {
+        return $this->hasMany(Housing::class, "brand_id", "id")->orderBy('order');
+    }
     public function user()
     {
         return $this->hasOne(User::class, "id", "user_id");

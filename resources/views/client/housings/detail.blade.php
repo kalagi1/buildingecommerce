@@ -99,11 +99,14 @@
                         <!-- Start: Schedule a Tour -->
                         <div class="schedule widget-boxed mt-33 mt-0">
                             <div class="widget-boxed-header">
-                                <h4>
-                                    <img src="{{ URL::to('/') . '/storage/brand_images/' . $housing->brand->logo }}"
-                                        alt="" style="height: 40px">
-                                    <strong style="margin-left: 10px">{!! $housing->brand->title !!}</strong>
-                                </h4>
+                                <a href="{{ route('brand.projects', $housing->brand->id) }}" class="homes-img" style="text-decoration: none">
+
+                                    <h4>
+                                        <img src="{{ URL::to('/') . '/storage/brand_images/' . $housing->brand->logo }}"
+                                            alt="" style="height: 40px">
+                                        <strong style="margin-left: 10px">{!! $housing->brand->title !!}</strong>
+                                    </h4>
+                                </a>
                             </div>
 
                             <div class="widget-boxed-body">

@@ -64,7 +64,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/admin', [AdminHomeController::class, "index"]);
-Route::get('/housing/{id}', [ClientHousingController::class, "show"])->name('housing.show');
+Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
@@ -437,7 +437,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::middleware(['checkPermission:CreateSlider'])->group(function () {
         Route::get('/sliders/create', [SliderController::class, 'create'])->name('sliders.create');
         Route::post('/sliders', [SliderController::class, 'store'])->name('sliders.store');
-        
+
         Route::get('/footer-sliders/create', [SliderController::class, 'footerCreate'])->name('footer-sliders.create');
         Route::post('/footer-sliders', [SliderController::class, 'footerStore'])->name('footer-sliders.store');
     });

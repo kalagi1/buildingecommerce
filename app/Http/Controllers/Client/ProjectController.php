@@ -33,7 +33,7 @@ class ProjectController extends Controller
     public function brandProjects($id)
     {
         $menu = Menu::getMenuItems();
-        $brand = Brand::where('id', $id)->with("user", "projects")->first();
+        $brand = Brand::where('id', $id)->with("user", "projects", "housings")->first();
         return view('client.projects.brand_projects', compact('menu', 'brand'));
     }
 

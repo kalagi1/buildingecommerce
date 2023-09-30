@@ -1,6 +1,59 @@
 @extends('client.layouts.master')
 
 @section('content')
+    @php
+        function convertMonthToTurkishCharacter($date)
+        {
+            $aylar = [
+                'January' => 'Ocak',
+                'February' => 'Şubat',
+                'March' => 'Mart',
+                'April' => 'Nisan',
+                'May' => 'Mayıs',
+                'June' => 'Haziran',
+                'July' => 'Temmuz',
+                'August' => 'Ağustos',
+                'September' => 'Eylül',
+                'October' => 'Ekim',
+                'November' => 'Kasım',
+                'December' => 'Aralık',
+                'Monday' => 'Pazartesi',
+                'Tuesday' => 'Salı',
+                'Wednesday' => 'Çarşamba',
+                'Thursday' => 'Perşembe',
+                'Friday' => 'Cuma',
+                'Saturday' => 'Cumartesi',
+                'Sunday' => 'Pazar',
+                'Jan' => 'Oca',
+                'Feb' => 'Şub',
+                'Mar' => 'Mar',
+                'Apr' => 'Nis',
+                'May' => 'May',
+                'Jun' => 'Haz',
+                'Jul' => 'Tem',
+                'Aug' => 'Ağu',
+                'Sep' => 'Eyl',
+                'Oct' => 'Eki',
+                'Nov' => 'Kas',
+                'Dec' => 'Ara',
+            ];
+            return strtr($date, $aylar);
+        }
+
+        function getData($housing, $key)
+        {
+            $housing_type_data = json_decode($housing->housing_type_data);
+            $a = $housing_type_data->$key;
+            return $a[0];
+        }
+
+        function getImage($housing, $key)
+        {
+            $housing_type_data = json_decode($housing->housing_type_data);
+            $a = $housing_type_data->$key;
+            return $a;
+        }
+    @endphp
     <div class="brand-head" style="margin-top: 20px;">
         <div class="container">
 
@@ -56,8 +109,6 @@
     <section class="popular-places home18" style="margin-top: 30px;">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                </div>
                 @foreach ($brand->projects as $project)
                     <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
                         <!-- Image Box -->
@@ -68,8 +119,11 @@
                     </div>
                 @endforeach
             </div>
+
         </div>
     </section>
+
+
 @endsection
 
 @section('scripts')
