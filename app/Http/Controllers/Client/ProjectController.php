@@ -113,7 +113,7 @@ class ProjectController extends Controller
     public function projectHousingDetail($projectSlug, $housingOrder)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $projectSlug)->firstOrFail();
+        $project = Project::where('slug', $projectSlug)->with("brand","user")->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
         return view('client.projects.project_housing', compact('menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));

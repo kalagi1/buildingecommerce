@@ -110,8 +110,8 @@
                     },
                     success: function(response) {
                         console.log(response);
-                        toastr.success("Ürün favorilerden kaldırıldı");
-                        console.log("Ürün favorilerden kaldırıldı: " + response);
+                        toastr.success("Konut favorilerden kaldırıldı");
+                        console.log("Konut favorilerden kaldırıldı: " + response);
                         location.reload();
 
                     },

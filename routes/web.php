@@ -47,7 +47,9 @@ use App\Http\Controllers\Institutional\DashboardController;
 use App\Http\Controllers\Institutional\LoginController;
 use App\Http\Controllers\Institutional\ProfileController as InstitutionalProfileController;
 use App\Http\Controllers\Institutional\ProjectController as InstitutionalProjectController;
+use App\Http\Controllers\Institutional\RoleController as InstitutionalRoleController;
 use App\Http\Controllers\Institutional\StoreBannerController;
+use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -94,6 +96,10 @@ Route::get('sepetim', [CartController::class, 'index'])->name('cart');
 Route::get('favoriler', [FavoriteController::class, 'showFavorites'])->name('favorites');
 
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('client.remove.from.cart');
+
+Route::post('/add-project-housing-to-favorites/{id}', [FavoriteController::class, "addProjectHousingToFavorites"])->name('add.project.housing.to.favorites');
+Route::get('/get-project-housing-favorite-status/{id}/{projectId}', [FavoriteController::class, "getProjectHousingFavoriteStatus"])->name('get.project.housing.favorite.status');
+
 Route::post('/add-housing-to-favorites/{id}', [FavoriteController::class, "addHousingToFavorites"])->name('add.housing.to.favorites');
 Route::get('/get-housing-favorite-status/{id}', [FavoriteController::class, "getHousingFavoriteStatus"])->name('get.housing.favorite.status');
 
@@ -510,6 +516,54 @@ Route::get('/institutional/login', [LoginController::class, 'index'])->name('ins
 Route::post('/institutional/login', [LoginController::class, 'login'])->name('institutional.login.post');
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional']], function () {
+
+    
+    // User Controller İzin Kontrolleri
+    Route::middleware(['checkPermission:CreateUser'])->group(function () {
+        Route::get('/users/create', [InstitutionalUserController::class, 'create'])->name('users.create');
+        Route::post('/users', [InstitutionalUserController::class, 'store'])->name('users.store');
+    });
+
+    Route::middleware(['checkPermission:GetUserById'])->group(function () {
+        Route::get('/users/{user}/edit', [InstitutionalUserController::class, 'edit'])->name('users.edit');
+    });
+
+    Route::middleware(['checkPermission:UpdateUser'])->group(function () {
+        Route::put('/users/{user}', [InstitutionalUserController::class, 'update'])->name('users.update');
+    });
+
+    Route::middleware(['checkPermission:GetUsers'])->group(function () {
+        Route::get('/users', [InstitutionalUserController::class, 'index'])->name('users.index');
+    });
+
+    Route::middleware(['checkPermission:DeleteUser'])->group(function () {
+        Route::delete('/users/{user}', [InstitutionalUserController::class, 'destroy'])->name('users.destroy');
+    });
+
+
+    Route::middleware(['checkPermission:CreateRole'])->group(function () {
+        Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');
+        Route::post('/roles', [InstitutionalRoleController::class, 'store'])->name('roles.store');
+    });
+
+    Route::middleware(['checkPermission:GetRoleById'])->group(function () {
+        Route::get('/roles/{role}/edit', [InstitutionalRoleController::class, 'edit'])->name('roles.edit');
+    });
+
+    // Rol Düzenleme Sayfasına Erişim Kontrolü (UpdateRole izni gerekli)
+    Route::middleware(['checkPermission:UpdateRole'])->group(function () {
+        Route::put('/roles/{role}', [InstitutionalRoleController::class, 'update'])->name('roles.update');
+    });
+
+    // Rol Listeleme Sayfasına Erişim Kontrolü (GetRoles izni gerekli)
+    Route::middleware(['checkPermission:GetRoles'])->group(function () {
+        Route::get('/roles', [InstitutionalRoleController::class, 'index'])->name('roles.index');
+    });
+
+    // Rol Silme İşlemi için Erişim Kontrolü (DeleteRole izni gerekli)
+    Route::middleware(['checkPermission:DeleteRole'])->group(function () {
+        Route::delete('/roles/{role}', [InstitutionalRoleController::class, 'destroy'])->name('roles.destroy');
+    });
 
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {

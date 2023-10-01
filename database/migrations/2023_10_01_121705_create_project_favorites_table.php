@@ -14,13 +14,8 @@ return new class extends Migration
         Schema::create('project_favorites', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('housing_id');
             $table->timestamps();
-
-            $table->unique(['user_id', 'project_id']);
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
 

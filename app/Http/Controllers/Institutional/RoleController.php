@@ -1,34 +1,36 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
-use App\Models\Permission;
 use App\Models\Role;
 use App\Models\RolePermission;
+use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
+
     public function index()
     {
-        $roles = Role::where("parent_id", "4")->get();
-        return view('admin.roles.index', compact('roles'));
+        $roles = Role::where("parent_id", Auth::user()->id)->get();
+        return view('institutional.roles.index', compact('roles'));
     }
 
     public function create()
     {
-        $permissions = Permission::where("is_active", "1")->get(); // İzinleri veritabanından alın
-
-        return view('admin.roles.create', compact('permissions'));
+        $role = Role::where("id", "2")->with("rolePermissions.permissions")->first();
+        $permissions = $role->rolePermissions->pluck('permissions')->flatten();
+        return view('institutional.roles.create', compact('permissions'));
     }
 
     public function edit(Role $role)
     {
         $role = Role::where("id", $role->id)->with("rolePermissions.permissions")->first();
-        $permissions = Permission::where("is_active", "1")->get(); // İzinleri veritabanından alın
-        return view('admin.roles.edit', compact('role', 'permissions'));
+        $mainRole = Role::where("id", "2")->with("rolePermissions.permissions")->first();
+        $permissions = $mainRole->rolePermissions->pluck('permissions')->flatten();
+        return view('institutional.roles.edit', compact('role', 'permissions'));
     }
 
     public function store(CreateRoleRequest $request)
@@ -37,18 +39,18 @@ class RoleController extends Controller
 
         $role = Role::create([
             'name' => $request->input('name'),
+            "parent_id" => Auth::user()->id,
         ]);
 
         if (!empty($permissions)) {
             foreach ($permissions as $permissionId) {
                 RolePermission::create([
                     "role_id" => $role->id,
-                    "permission_id" => $permissionId,
-                ]);
+                    "permission_id" => $permissionId]);
             }
         }
 
-        return redirect()->route('admin.roles.index')->with('success', 'Rol Başarıyla Oluşturuldu');
+        return redirect()->route('institutional.roles.index')->with('success', 'Role created successfully');
     }
 
     public function update(UpdateRoleRequest $request, Role $role)
@@ -70,12 +72,11 @@ class RoleController extends Controller
             }
         }
 
-        return redirect()->route('admin.roles.index')->with('success', 'Rol Başarıyla Güncellendi');
+        return redirect()->route('institutional.roles.index')->with('success', 'Role updated successfully');
     }
     public function destroy(Role $role)
     {
         $role->delete();
-        return redirect()->route('admin.roles.index')->with('success', 'Rol Başarıyla Silindi');
+        return redirect()->route('institutional.roles.index')->with('success', 'Role deleted successfully');
     }
-
 }

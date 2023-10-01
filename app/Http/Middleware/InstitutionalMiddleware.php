@@ -16,7 +16,7 @@ class InstitutionalMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && Auth::user()->role->id == "2") {
+        if (Auth::check() && Auth::user()->role->id != "1" && Auth::user()->role->id != "3") {
             return $next($request);
         }
 

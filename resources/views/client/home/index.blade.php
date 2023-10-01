@@ -39,14 +39,14 @@
             ];
             return strtr($date, $aylar);
         }
-
+        
         function getData($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
             $a = $housing_type_data->$key;
             return $a[0];
         }
-
+        
         function getImage($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
@@ -82,19 +82,19 @@
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <a href="{{ route('brand.projects', $brand->id) }}" class="homes-img">
 
-                            <div class="landscapes">
-                                <div class="project-single">
-                                    <div class="project-inner project-head">
-                                        <div class="homes">
-                                            <!-- homes img -->
-                                            <img src="{{ asset('storage/brand_images/' . $brand->logo) }}" alt="home-1"
-                                                class="img-responsive">
-                                            <span>{{ $brand->title }}</span>
+                                <div class="landscapes">
+                                    <div class="project-single">
+                                        <div class="project-inner project-head">
+                                            <div class="homes">
+                                                <!-- homes img -->
+                                                <img src="{{ asset('storage/brand_images/' . $brand->logo) }}"
+                                                    alt="home-1" class="img-responsive">
+                                                <span>{{ $brand->title }}</span>
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             </a>
                         </div>
                     @endforeach
@@ -195,7 +195,8 @@
                                                     </div>
                                                     <div class="button-effect">
                                                         <a href="#" class="btn toggle-project-favorite"
-                                                            data-project-housing-id="{{ $project->id }}">
+                                                            data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                            data-project-id={{ $project->id }}>
                                                             <i class="fa fa-heart"></i>
                                                         </a>
                                                     </div>
@@ -234,10 +235,11 @@
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0"
                                                         style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                        <li style="font-size: large; font-weight: 700;width:100%">
+                                                        <li
+                                                            style="font-size: large; font-weight: 700;width:100%;white-space:nowrap">
                                                             {{ getHouse($project, 'price[]', $i + 1)->value }} TL
                                                         </li>
-                                                        <li style="display: flex; justify-content: center;">
+                                                        <li style="display: flex; justify-content: right;width:100%">
                                                             {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
                                                         </li>
                                                     </ul>
@@ -298,7 +300,8 @@
                                                     </div>
                                                     <div class="button-effect">
                                                         <a href="#" class="btn toggle-project-favorite"
-                                                            data-project-housing-id="{{ $project->id }}">
+                                                            data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                            data-project-id={{ $project->id }}>
                                                             <i class="fa fa-heart"></i>
                                                         </a>
                                                     </div>
@@ -337,10 +340,11 @@
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0"
                                                         style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                        <li style="font-size: large; font-weight: 700;width:100%">
+                                                        <li
+                                                            style="font-size: large; font-weight: 700;width:100%; white-space:nowrap">
                                                             {{ getHouse($project, 'price[]', $i + 1)->value }} TL
                                                         </li>
-                                                        <li style="display: flex; justify-content: center;">
+                                                        <li style="display: flex; justify-content: right;width:100%">
                                                             {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
                                                         </li>
                                                     </ul>
@@ -367,106 +371,6 @@
     </section>
     <!-- END SECTION RECENTLY PROPERTIES -->
 
-
-    <!-- START SECTION RECENTLY PROPERTIES -->
-    <section class="featured portfolio rec-pro disc bg-white">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center;" class="mbb">
-                <div class="section-title">
-                    <h2>İkinci El Konutlar</h2>
-                </div>
-            </div>
-            <div class="portfolio col-xl-12">
-                <div class="slick-agents">
-                    @if (count($secondhandHousings))
-                        @foreach ($secondhandHousings as $housing)
-                            <div class="agents-grid col-md-6" data-aos="fade-up" data-aos-delay="150">
-                                <div class="landscapes">
-                                    <div class="project-single">
-                                        <div class="project-inner project-head">
-                                            <div class="homes">
-                                                <!-- homes img -->
-                                                <a href="single-property-1.html" class="homes-img">
-                                                    <div class="homes-tag button sale rent"
-                                                        style="background-color:#ff5a5f !important">Öne Çıkan</div>
-                                                    <img src="{{ asset('housing_images/' . getImage($housing, 'image')) }}"
-                                                        alt="{{ $housing->housing_type_title }}" class="img-responsive">
-                                                </a>
-                                            </div>
-                                            <div class="button-effect">
-                                                <!-- Örneğin Kalp İkonu -->
-                                                <a href="#" class="btn toggle-favorite"
-                                                    data-housing-id="{{ $housing->id }}">
-                                                    <i class="fa fa-heart"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <!-- homes content -->
-                                        <div class="homes-content p-3" style="padding:20px !important">
-                                            <!-- homes address -->
-                                            <h3><a
-                                                    href="{{ route('housing.show', $housing->id) }}">{{ $housing->housing_title }}</a>
-                                            </h3>
-                                            <p class="homes-address mb-3">
-                                                <a href="{{ route('housing.show', $housing->id) }}">
-                                                    <i class="fa fa-map-marker"></i><span>{{ $housing->address }}</span>
-                                                </a>
-                                            </p>
-                                            <!-- homes List -->
-                                            <ul class="homes-list clearfix pb-0"
-                                                style="display: flex;justify-content:space-between">
-                                                <li class="sude-the-icons" style="width:auto !important">
-                                                    <i class="flaticon-bed mr-2" aria-hidden="true"></i>
-                                                    <span>{{ $housing->housing_type_title }}</span>
-                                                </li>
-                                                <li class="sude-the-icons" style="width:auto !important">
-                                                    <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
-                                                    <span>{{ getData($housing, 'room_count') }}</span>
-                                                </li>
-                                                <li class="sude-the-icons" style="width:auto !important">
-                                                    <i class="flaticon-square mr-2" aria-hidden="true"></i>
-                                                    <span>{{ getData($housing, 'squaremeters') }} m2</span>
-                                                </li>
-                                            </ul>
-                                            <ul class="homes-list clearfix pb-0"
-                                                style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                <li style="font-size: large; font-weight: 700;">
-                                                    {{ getData($housing, 'price') }}TL
-                                                </li>
-
-                                                <li style="display: flex; justify-content: center;">
-                                                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
-                                                </li>
-                                            </ul>
-                                            <ul class="homes-list clearfix pb-0"
-                                                style="display: flex; justify-content: center;margin-top:20px !important;">
-                                                <button id="addToCart"
-                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                    data-type='housing' data-id='{{ $housing->id }}'>Sepete
-                                                    Ekle</button>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
-                        <p>Veri Yok</p>
-                    @endif
-
-
-
-
-
-
-
-
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- END SECTION RECENTLY PROPERTIES -->
 
 
 
@@ -592,12 +496,13 @@
             <div class="portfolio right-slider">
                 <div class="owl-carousel home5-right-slider">
                     @foreach ($footerSlider as $slider)
-                    <div class="inner-box">
-                        <a href="#" class="recent-16" data-aos="fade-up" data-aos-delay="150">
-                            <div class="recent-img16 img-fluid img-center"
-                                style="background-image: url({{asset('storage/footer-sliders/'.$slider->image)}});"></div>
-                        </a>
-                    </div>
+                        <div class="inner-box">
+                            <a href="#" class="recent-16" data-aos="fade-up" data-aos-delay="150">
+                                <div class="recent-img16 img-fluid img-center"
+                                    style="background-image: url({{ asset('storage/footer-sliders/' . $slider->image) }});">
+                                </div>
+                            </a>
+                        </div>
                     @endforeach
                 </div>
             </div>
@@ -608,192 +513,5 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            checkFavorites();
-            var cart = @json(session('cart', []));
-            console.log(cart);
-            // Sayfa yüklendiğinde düğme metnini güncellemek için bir işlev çağırın
-            updateCartButton();
-
-            // Tüm "Sepete Ekle" düğmelerini seçin
-            var addToCartButtons = document.querySelectorAll(".addToCart");
-
-            // Her düğmeye tıklanma olayını dinleyin
-            addToCartButtons.forEach(function(button) {
-                button.addEventListener("click", function() {
-                    var productId = button.getAttribute("data-id");
-
-                    // Sepete ekleme işlemi burada yapılmalıdır
-
-                    // Ajax isteği gönderme
-                    var cart = {
-                        id: productId,
-                        type: button.getAttribute("data-type"),
-                        _token: "{{ csrf_token() }}",
-                        clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
-                    };
-
-                    // Eğer kullanıcı zaten ürün eklediyse ve yeni bir ürün eklenmek isteniyorsa sepeti temizlemeyi sorgula
-                    if (!isProductInCart(productId)) {
-                        var confirmClearCart = confirm("Mevcut sepeti temizlemek istiyor musunuz?");
-                        if (confirmClearCart) {
-                            cart.clear_cart = "yes"; // Kullanıcı sepeti temizlemeyi onayladı
-                        }
-                    }
-
-                    $.ajax({
-                        url: "{{ route('add.to.cart') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                        type: "POST", // Veriyi göndermek için POST kullanabilirsiniz
-                        data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
-                        success: function(response) {
-                            toastr.success("Ürün Sepete Eklendi");
-                            button.classList.add("bg-success");
-
-                            // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
-                            button.textContent = "Sepete Eklendi";
-                            button.disabled = true;
-
-                            // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
-                            if (cart.clear_cart === "yes") {
-                                location.reload();
-                            }
-                        },
-                        error: function(error) {
-                            toastr.error("Hata oluştu: " + error.responseText, "Hata");
-                            console.error("Hata oluştu: " + error);
-                        }
-                    });
-                });
-            });
-
-            function updateCartButton() {
-                // Tüm "Sepete Ekle" düğmelerini seçin
-                var addToCartButtons = document.querySelectorAll(".addToCart");
-                addToCartButtons.forEach(function(button) {
-                    var productId = button.getAttribute("data-id");
-
-                    if (isProductInCart(productId)) {
-                        button.textContent = "Sepete Eklendi";
-                        button.classList.add("bg-success");
-                        button.disabled = true;
-                    } else {
-                        button.textContent = "Sepete Ekle";
-                        button.classList.remove("bg-success");
-                        button.disabled = false;
-                    }
-                });
-            }
-
-            function isProductInCart(productId) {
-                // Sepet içeriğini session'dan alın
-                var cart = @json(session('cart', []));
-                if (cart.length != 0) {
-                    if (cart.item.id == productId) {
-                        return true; // Ürün sepette bulundu
-
-                    }
-                }
-                return false; // Ürün sepette bulunamadı
-            }
-
-
-            function checkFavorites() {
-                // Favorileri sorgula ve uygun renk ve ikonları ayarla
-                var favoriteButtons = document.querySelectorAll(".toggle-favorite");
-
-                favoriteButtons.forEach(function(button) {
-                    var housingId = button.getAttribute("data-housing-id");
-
-                    // AJAX isteği gönderme
-                    $.ajax({
-                        url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
-                            .replace(':id', housingId),
-                        type: "GET",
-                        success: function(response) {
-                            console.log(response);
-                            if (response.is_favorite) {
-                                button.querySelector("i.fa-heart").classList.add("text-danger");
-                                button.classList.add("bg-white");
-                            } else {
-                                button.querySelector("i.fa-heart").classList.remove(
-                                    "text-danger");
-                                button.classList.remove("bg-white");
-                            }
-                        },
-                        error: function(error) {
-                            console.error(error);
-                        }
-                    });
-                });
-            }
-
-
-            // Favoriye Ekle/Kaldır İşlemi
-            document.querySelectorAll(".toggle-favorite").forEach(function(button) {
-                button.addEventListener("click", function(event) {
-                    event.preventDefault();
-                    var housingId = this.getAttribute("data-housing-id");
-
-                    // AJAX isteği gönderme
-                    $.ajax({
-                        url: "{{ route('add.housing.to.favorites', ['id' => ':id']) }}"
-                            .replace(':id',
-                                housingId),
-                        type: "POST",
-                        data: {
-                            _token: "{{ csrf_token() }}"
-                        },
-                        success: function(response) {
-                            if (response.status === 'added') {
-                                toastr.success("Ürün Favorilere Eklendi");
-                                // Favorilere eklenmişse rengi kırmızı yap
-                                button.querySelector("i.fa-heart").classList.add(
-                                    "text-danger");
-                                button.classList.add(
-                                    "bg-white");
-                            } else if (response.status === 'removed') {
-                                toastr.warning("Ürün Favorilerden Kaldırıldı");
-                                button.querySelector("i.fa-heart").classList.remove(
-                                    "text-danger");
-                                button.classList.remove(
-                                    "bg-white");
-                            }
-                        },
-                        error: function(error) {
-                            toastr.error("Lütfen Giriş Yapınız");
-                            console.error(error);
-                        }
-                    });
-                });
-            });
-
-            $("#addToCart").click(function() {
-                // Sepete eklenecek verileri burada hazırlayabilirsiniz
-                var cart = {
-                    id: $(this).data('id'),
-                    type: $(this).data('type'),
-
-                    _token: "{{ csrf_token() }}"
-                };
-
-                // Ajax isteği gönderme
-                $.ajax({
-                    url: "{{ route('add.to.cart') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                    type: "POST", // Veriyi göndermek için POST kullanabilirsiniz
-                    data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
-                    success: function(response) {
-                        // İşlem başarılı olduğunda buraya gelir
-                        toast.success(response)
-                        console.log("Ürün sepete eklendi: " + response);
-                    },
-                    error: function(error) {
-                        // Hata durumunda buraya gelir
-                        toast.error(error)
-                        console.error("Hata oluştu: " + error);
-                    }
-                });
-            });
-        });
-    </script>
+  
 @endsection
