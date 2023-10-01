@@ -303,7 +303,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             checkFavorites();
             var cart = @json(session('cart', []));
@@ -317,8 +317,6 @@
             addToCartButtons.forEach(function(button) {
                 button.addEventListener("click", function() {
                     var productId = button.getAttribute("data-id");
-
-                    // Sepete ekleme işlemi burada yapılmalıdır
 
                     // Ajax isteği gönderme
                     var cart = {
@@ -464,7 +462,7 @@
             });
 
         });
-    </script>
+    </script> --}}
 @endsection
 
 @section('styles')

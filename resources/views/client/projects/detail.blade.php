@@ -233,9 +233,9 @@
                                                         <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
                                                     </li>
                                                     <!-- <li class="the-icons">
-                                                                                                                                                                                                                        <i class="flaticon-car mr-2" aria-hidden="true"></i>
-                                                                                                                                                                                                                        <span>2 Garages</span>
-                                                                                                                                                                                                                    </li> -->
+                                                                                                                                                                                                                                            <i class="flaticon-car mr-2" aria-hidden="true"></i>
+                                                                                                                                                                                                                                            <span>2 Garages</span>
+                                                                                                                                                                                                                                        </li> -->
                                                 </ul>
                                             </div>
                                         </div>
@@ -255,8 +255,9 @@
                                                         </div>
 
                                                     </div>
-                                                    <button id="addToCart" data-type="project"
-                                                        data-id="{{ $project->id }}">
+                                                    <button class="addToCart"style="width: 100%; border: none; background-color: #446BB6; padding: 5px 0px; color: white;" data-type='project'
+                                                        data-project='{{ $project->id }}'
+                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
                                                         <h6
                                                             style="color: black;font-weight:600;top:3px;position: relative;">
                                                             Sepete Ekle
@@ -407,7 +408,6 @@ out center;`;
             var cart = {
                 id: $(this).data('id'),
                 type: $(this).data('type'),
-
                 _token: "{{ csrf_token() }}"
             };
 

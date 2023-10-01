@@ -17,7 +17,7 @@
 
     <section class="single-proper blog details bg-white">
         <div class="container">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-8">
                     <div class="container">
                         <section class="headings-2 pt-0">
@@ -44,27 +44,21 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="button-effect toggle-project-favorite"
-                        data-project-housing-id="{{ getData($project, 'squaremeters[]', $housingOrder)->room_order }}"
-                        data-project-id={{ $project->id }}>
-                        <i class="fa fa-heart"></i>
-                    </div>
                     <div class="row">
-                        {{-- <div class="col-md-6">
-                        @if (!session('cart')['item']['id'] == $project->id)
-                            <button class="addToCart" style="background-color: #2bf327; padding: 8px 0;text-align:center;  "
-                            data-type="project"
-                            data-id="{{$project->id}}"
-                            >
-                                <h6 style="color: black;margin:0;">Sepete Ekle</h6>
-                    </button>
-                        @else
-                            <div style="background-color: #2bf327; padding: 8px 0;text-align:center;  ">
-                                <h6 style="color: black;margin:0;">Sepette</h6>
+                        <div class="col-md-2">
+                            <div class="button-effect toggle-project-favorite"
+                                data-project-housing-id="{{ getData($project, 'squaremeters[]', $housingOrder)->room_order }}"
+                                data-project-id={{ $project->id }}>
+                                <i class="fa fa-heart"></i>
                             </div>
-                        @endif
-                    </div> --}}
-
+                        </div>
+                        <div class="col-md-10">
+                            <button
+                                style="border: none;width:100%; background-color: #446BB6; border-radius: 10px; padding: 10px 50px; color: white;"
+                                class="addToCart" data-type='project' data-project='{{ $project->id }}'
+                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
+                                Ekle</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -331,63 +325,6 @@ out center;`;
             })
             .catch(error => console.error('Hata:', error));
     </script>
-    <script>
-        $("#addToCart").click(function() {
-            // Sepete eklenecek verileri burada hazırlayabilirsiniz
-            var cart = {
-                id: $(this).data('id'),
-                type: $(this).data('type'),
-
-                _token: "{{ csrf_token() }}"
-            };
-
-            // Ajax isteği gönderme
-            $.ajax({
-                url: "{{ route('add.to.cart') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                type: "POST", // Veriyi göndermek için POST kullanabilirsiniz
-                data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
-                success: function(response) {
-                    // İşlem başarılı olduğunda buraya gelir
-                    toast.success(response)
-                    console.log("Ürün sepete eklendi: " + response);
-                },
-                error: function(error) {
-                    // Hata durumunda buraya gelir
-                    toast.error(error)
-                    console.error("Hata oluştu: " + error);
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $("#addToCart").click(function() {
-            // Sepete eklenecek verileri burada hazırlayabilirsiniz
-            var cart = {
-                id: $(this).data('id'),
-                type: $(this).data('type'),
-
-                _token: "{{ csrf_token() }}"
-            };
-
-            // Ajax isteği gönderme
-            $.ajax({
-                url: "{{ route('add.to.cart') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                type: "POST", // Veriyi göndermek için POST kullanabilirsiniz
-                data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
-                success: function(response) {
-                    // İşlem başarılı olduğunda buraya gelir
-                    toast.success(response)
-                    console.log("Ürün sepete eklendi: " + response);
-                },
-                error: function(error) {
-                    // Hata durumunda buraya gelir
-                    toast.error(error)
-                    console.error("Hata oluştu: " + error);
-                }
-            });
-        });
-    </script>
 @endsection
 
 @section('styles')
@@ -402,6 +339,12 @@ out center;`;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+        }
+
+        .housing-detail-box {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap
         }
     </style>
 @endsection

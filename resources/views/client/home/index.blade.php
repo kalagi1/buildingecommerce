@@ -245,9 +245,10 @@
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0"
                                                         style="display: flex; justify-content: center;margin-top:20px !important;">
-                                                        <button id="addToCart"
+                                                        <button class="addToCart"
                                                             style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                            data-type='project' data-id='{{ $project->id }}'>Sepete
+                                                            data-type='project' data-project='{{ $project->id }}'
+                                                            data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
                                                             Ekle</button>
                                                     </ul>
                                                 </div>
@@ -350,9 +351,10 @@
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0"
                                                         style="display: flex; justify-content: center;margin-top:20px !important;">
-                                                        <button id="addToCart"
+                                                        <button class="addToCart"
                                                             style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                            data-type='project' data-id='{{ $project->id }}'>Sepete
+                                                            data-type='project' data-project='{{ $project->id }}'
+                                                            data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
                                                             Ekle</button>
                                                     </ul>
                                                 </div>
@@ -512,6 +514,4 @@
 @section('scripts')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-  
 @endsection

@@ -437,7 +437,6 @@ out center;`;
             var cart = {
                 id: $(this).data('id'),
                 type: $(this).data('type'),
-
                 _token: "{{ csrf_token() }}"
             };
 

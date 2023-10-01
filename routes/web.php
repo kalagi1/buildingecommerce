@@ -92,6 +92,8 @@ Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::c
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
+Route::post('add_to_project_cart/', [CartController::class, 'addProject'])->name('add.to.project.cart');
+
 Route::get('sepetim', [CartController::class, 'index'])->name('cart');
 Route::get('favoriler', [FavoriteController::class, 'showFavorites'])->name('favorites');
 

@@ -47,14 +47,14 @@
             ];
             return strtr($date, $aylar);
         }
-
+        
         function getData($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
             $a = $housing_type_data->$key;
             return $a[0];
         }
-
+        
         function getImage($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
@@ -334,7 +334,8 @@
                                                         style="display: flex; justify-content: center;margin-top:20px !important;">
                                                         <button id="addToCart"
                                                             style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                            data-type='project' data-id='{{ $project->id }}'>Sepete
+                                                            data-type='project' data-project='{{ $project->id }}'
+                                                            data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
                                                             Ekle</button>
                                                     </ul>
                                                 </div>
@@ -436,7 +437,8 @@
                                                         style="display: flex; justify-content: center;margin-top:20px !important;">
                                                         <button id="addToCart"
                                                             style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                            data-type='project' data-id='{{ $project->id }}'>Sepete
+                                                            data-type='project' data-project='{{ $project->id }}'
+                                                            data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
                                                             Ekle</button>
                                                     </ul>
                                                 </div>
