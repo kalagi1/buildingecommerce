@@ -49,24 +49,6 @@
                         <tbody class="list" id="bulk-select-body"></tbody>
                       </table>
                     </div>
-                    <div class="d-flex flex-between-center pt-3 mb-3">
-                      <div class="pagination d-none"></div>
-                      <p class="mb-0 fs--1">
-                        <span class="d-none d-sm-inline-block" data-list-info="data-list-info"></span>
-                        <span class="d-none d-sm-inline-block"> &mdash; </span>
-                        <a class="fw-semi-bold" href="#!" data-list-view="*">
-                          View all
-                          <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
-                        </a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">
-                          View Less
-                          <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
-                        </a>
-                      </p>
-                      <div class="d-flex">
-                        <button class="btn btn-sm btn-primary" type="button" data-list-pagination="prev"><span>Previous</span></button>
-                        <button class="btn btn-sm btn-primary px-4 ms-2" type="button" data-list-pagination="next"><span>Next</span></button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -75,23 +57,6 @@
         </div>
       </div>
     </div>
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
-      <div class="toast align-items-center text-white bg-dark border-0 light" id="icon-copied-toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-          <div class="toast-body p-3"></div><button class="btn-close btn-close-white me-2 m-auto" type="button" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-      </div>
-    </div>
-    <footer class="footer position-absolute">
-      <div class="row g-0 justify-content-between align-items-center h-100">
-        <div class="col-12 col-sm-auto text-center">
-          <p class="mb-0 mt-2 mt-sm-0 text-900">Thank you for creating with Phoenix<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 &copy;<a class="mx-1" href="https://themewagon.com/">Themewagon</a></p>
-        </div>
-        <div class="col-12 col-sm-auto text-center">
-          <p class="mb-0 text-600">v1.13.0</p>
-        </div>
-      </div>
-    </footer>
   </div>
 
   @endsection
@@ -134,7 +99,7 @@
 
             var activeCell = document.createElement("td");
             activeCell.className = "align-middle status";
-            activeCell.innerHTML = project.status == 1 ? "<span class='btn btn-success'>Aktif</span>" : "<span class='btn btn-danger'>Pasif</span>";
+            activeCell.innerHTML = project.status == 1 ? '<span class="btn btn-success">Aktif</span>' : project.status == 2 ? '<span class="btn btn-warning">Admin Onayı Bekliyor</span>' : project.status == 3 ? '<span class="btn btn-danger">Admin Tarafından Reddedildi</span>' : '<span class="btn btn-danger">Pasif</span>';
 
             var actionsCell = document.createElement("td");
             actionsCell.className = "align-middle white-space-nowrap     pe-0";
@@ -156,8 +121,8 @@
             dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
             var viewLink = document.createElement("a");
             viewLink.className = "dropdown-item";
-            viewLink.href = "#!";
-            viewLink.textContent = "View";
+            viewLink.href = "{{URL::to('/')}}/institutional/projects/"+project.id+'/logs';
+            viewLink.textContent = "Loglar";
             var exportLink = document.createElement("a");
             exportLink.className = "dropdown-item";
             exportLink.href = "{{URL::to('/')}}/institutional/projects/"+project.id+'/edit';

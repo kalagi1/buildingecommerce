@@ -44,6 +44,7 @@ use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\BuyController;
 use App\Http\Controllers\Institutional\ChangePasswordController as InstitutionalChangePasswordController;
 use App\Http\Controllers\Institutional\DashboardController;
+use App\Http\Controllers\Institutional\HousingController as InstitutionalHousingController;
 use App\Http\Controllers\Institutional\LoginController;
 use App\Http\Controllers\Institutional\ProfileController as InstitutionalProfileController;
 use App\Http\Controllers\Institutional\ProjectController as InstitutionalProjectController;
@@ -185,7 +186,11 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     });
 
     Route::middleware(['checkPermission:GetHousingById'])->group(function () {
+        Route::post('/housings/{housing}/set_status', [HousingController::class, 'setStatus'])->name('housings.set.status');
+        Route::get('/housings/{housing}/set_status', [HousingController::class, 'setStatusGet'])->name('housings.set.status.get');
         Route::get('/housings/{housing}/edit', [HousingController::class, 'edit'])->name('housings.edit');
+        Route::get('/housings/{housing}/detail', [HousingController::class, 'detail'])->name('housings.detail');
+        Route::get('/housings/{housingId}/logs', [HousingController::class, 'logs'])->name('housing.logs');
     });
 
     Route::middleware(['checkPermission:UpdateHousing'])->group(function () {
@@ -588,6 +593,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
+    Route::get('/projects/{project_id}/logs', [InstitutionalProjectController::class, 'logs'])->name('projects.logs');
+    Route::get('/housings/{housing_id}/logs', [InstitutionalHousingController::class, 'logs'])->name('housing.logs');
     Route::get('/project_stand_out/{project_id}', [InstitutionalProjectController::class,"standOut"])->name('project.stand.out');
     Route::get('/get_stand_out_prices', [InstitutionalProjectController::class,"pricingList"])->name('project.pricing.list');
     Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
@@ -597,6 +604,11 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/delete_project_image/{project_id}/{filename}', [InstitutionalProjectController::class, "deleteProjectImage"])->name('delete.project.image');
         Route::post('/remove_project_housing_file', [InstitutionalProjectController::class, "removeProjectHousingFile"])->name('remove.project.housing.image');
         Route::post('/add_project_housing_file', [InstitutionalProjectController::class, "addProjectHousingFile"])->name('add.project.housing.image');
+    });
+
+    Route::middleware(['checkPermission:NewHousingImage'])->group(function () {
+        Route::post('/new_housing_file', [InstitutionalHousingController::class, "newHousingImage"])->name('new.housing.image');
+        Route::post('/delete_housing_image', [InstitutionalHousingController::class, "deleteHousingImage"])->name('remove.housing.image');
     });
 
 
@@ -619,6 +631,21 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::middleware(['checkPermission:DeleteStoreBanner'])->group(function () {
         Route::delete('/store-banners/{storeBanner}', [StoreBannerController::class, 'destroy'])->name('storeBanners.destroy');
+    });
+
+    Route::middleware(['checkPermission:createHousing'])->group(function () {
+        Route::get('/create_housing', [InstitutionalHousingController::class, 'create'])->name('housing.create');
+        Route::post('/create_housing', [InstitutionalHousingController::class, 'store'])->name('housing.store');
+    });
+
+    Route::middleware(['checkPermission:editHousing'])->group(function () {
+        Route::get('/edit_housing/{id}', [InstitutionalHousingController::class, 'edit'])->name('housing.edit');
+        Route::post('/edit_housing/{id}', [InstitutionalHousingController::class, 'update'])->name('housing.update');
+    });
+
+
+    Route::middleware(['checkPermission:ListHousingInstitutional'])->group(function () {
+        Route::get('/housings', [InstitutionalHousingController::class, 'index'])->name('housing.list');
     });
 
 });

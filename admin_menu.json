@@ -280,12 +280,6 @@
         "activePath": "admin/projects*",
         "subMenu": [
             {
-                "text": "Yeni Ekle",
-                "key": "CreateProject",
-                "url": "admin.projects.create",
-                "activePath": "admin/projects/create"
-            },
-            {
                 "text": "Listele",
                 "key": "GetProjects",
                 "url": "admin.projects.index",

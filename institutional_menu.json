@@ -96,6 +96,29 @@
         ]
     },
     {
+        "id": "housings",
+        "label": "Uygulama",
+        "icon": "plus-square",
+        "text": "Emlaklar",
+        "key": "Housings",
+        "url": "#nv-projects",
+        "activePath": "institutional/housings*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateProject",
+                "url": "institutional.housing.create",
+                "activePath": "institutional/create_housing"
+            },
+            {
+                "text": "Listele",
+                "key": "GetProjects",
+                "url": "institutional.housing.list",
+                "activePath": "institutional/housings"
+            }
+        ]
+    },
+    {
         "id": "brands",
         "label": "Uygulama",
         "icon": "target",

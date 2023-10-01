@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('institutional.layouts.master')
 
 @section('content')
     <div class="content">
@@ -11,7 +11,7 @@
                             <div class="card-body p-0">
                                 <div class="p-4 code-to-copy">
                                     <div class="d-flex align-items-center justify-content-end my-3">
-                                        <div id="bulk-select-replace-element"><a href="{{ route('admin.housings.create') }}"
+                                        <div id="bulk-select-replace-element"><a href="{{ route('institutional.housing.create') }}"
                                                 class="btn btn-phoenix-success btn-sm" type="button"><span
                                                     class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span
                                                     class="ms-1">Yeni</span></a></div>
@@ -25,9 +25,11 @@
                                                     <tr>
                                                         <th>ID</th>
                                                         <th>Başlık</th>
+                                                        <th>Marka</th>
                                                         <th>Daire Türü</th>
                                                         <th>Statü</th>
                                                         <th>Oluşturulma Tarihi</th>
+                                                        <th>İşlemler</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="list" id="bulk-select-body"></tbody>
@@ -63,7 +65,6 @@
 @section('scripts')
     <script>
         var housingTypes = @json($housing);
-
         var tbody = document.getElementById("bulk-select-body");
         housingTypes.forEach(function(housingType) {
             var row = document.createElement("tr");
@@ -76,10 +77,14 @@
             housingTitleCell.className = "align-middle ps-3 housing_title";
             housingTitleCell.textContent = housingType.housing_title;
 
+            var brandCell = document.createElement("td");
+            brandCell.className = "align-middle ps-3 housing_title";
+            brandCell.textContent = housingType.brand.title;
+
             var housingTypeCell = document.createElement("td");
             housingTypeCell.className = "align-middle housing_type";
             housingTypeCell.textContent = housingType.housing_type;
-
+            
             var statusCell = document.createElement("td");
             statusCell.className = "align-middle status";
             statusCell.innerHTML = housingType.status == 1 ? '<span class="btn btn-success">Aktif</span>' : housingType.status == 2 ? '<span class="btn btn-warning">Admin Onayı Bekliyor</span>' : housingType.status == 3 ? '<span class="btn btn-danger">Admin Tarafından Reddedildi</span>' : '<span class="btn btn-danger">Pasif</span>';
@@ -106,21 +111,31 @@
             actionsDiv.appendChild(actionsButton);
             var dropdownMenu = document.createElement("div");
             dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
-            var exportLink = document.createElement("a");
-            exportLink.className = "dropdown-item";
-            exportLink.href = "{{URL::to('/')}}/admin/housings/"+housingType.id+'/detail';
-            exportLink.textContent = "Görüntüle";
             var viewLink = document.createElement("a");
             viewLink.className = "dropdown-item";
-            viewLink.href = "{{URL::to('/')}}/admin/housings/"+housingType.id+'/logs';
+            viewLink.href = "{{URL::to('/')}}/institutional/housings/"+housingType.id+'/logs';
             viewLink.textContent = "Loglar";
-            dropdownMenu.appendChild(exportLink);
+            var exportLink = document.createElement("a");
+            exportLink.className = "dropdown-item";
+            exportLink.href = "{{URL::to('/')}}/institutional/edit_housing/"+housingType.id;
+            exportLink.textContent = "Düzenle";
+            var divider = document.createElement("div");
+            divider.className = "dropdown-divider";
+            var removeLink = document.createElement("a");
+            removeLink.className = "dropdown-item text-danger";
+            removeLink.href = "#!";
+            removeLink.textContent = "Sil";
+            removeLink.setAttribute("data-project-id", housingType.id);
             dropdownMenu.appendChild(viewLink);
+            dropdownMenu.appendChild(exportLink);
+            dropdownMenu.appendChild(divider);
+            dropdownMenu.appendChild(removeLink);
             actionsDiv.appendChild(dropdownMenu);
             actionsCell.appendChild(actionsDiv);
 
             row.appendChild(idCell);
             row.appendChild(housingTitleCell);
+            row.appendChild(brandCell);
             row.appendChild(housingTypeCell);
             row.appendChild(statusCell);
             row.appendChild(createdAtCell);
