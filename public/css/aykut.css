@@ -1,0 +1,433 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.aykut p {
+    margin: 0;
+    padding: 0;
+}
+
+.aykut .header {}
+
+.aykut .header-content {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center !important;
+}
+
+.aykut .header-content .search {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 480px;
+    background-color: #EFEFEF;
+    border-radius: 50px;
+    align-items: center !important;
+}
+
+.aykut .header-content .search i {
+    margin-right: 30px;
+    color: #858484;
+}
+
+.aykut .header-content .search input {
+    width: 100%;
+    border: none;
+    background-color: transparent !important;
+    padding: 10px 50px;
+    outline: 0;
+}
+
+.aykut .header-content .search input::placeholder {
+    color: #858484;
+    font-size: 15px;
+}
+
+.aykut .header-content .header-info {
+    display: flex;
+    align-items: center;
+}
+
+.aykut .header-content .header-info .login i {
+    margin-right: 10px;
+    font-size: 25px;
+    color: #446BB6;
+}
+
+.aykut .header-content .header-info .favorite i {
+    margin-right: 10px;
+    font-size: 25px;
+    color: #446BB6;
+}
+
+.aykut .header-content .header-info .sepet i {
+    margin-right: 10px;
+    font-size: 25px;
+    color: #446BB6;
+}
+
+.aykut .header-content .header-info .favorite {
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    color: #363636;
+}
+
+.aykut .header-content .header-info .login {
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    color: #363636;
+}
+
+.aykut .header-content .header-info .sepet {
+    align-items: center;
+    display: flex;
+    color: #363636;
+}
+
+.aykut .navbar-info {
+    background-color: #FAFAFA;
+    border-top: 1px solid #E4E4E4;
+    border-bottom: 1px solid #E4E4E4;
+}
+
+.aykut .navbar-info ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    padding: 20px 20px;
+    justify-content: space-between;
+    padding: 20px 0px;
+}
+
+.aykut .navbar-info ul li {
+    text-decoration: none;
+    position: relative;
+}
+
+.aykut .navbar-info ul li ul {
+    visibility: hidden !important;
+    display: flex;
+    flex-direction: column;
+    position: absolute !important;
+    z-index: 2;
+}
+
+.aykut .navbar-info ul li:hover>ul {
+    visibility: visible !important;
+}
+
+.aykut .navbar-info ul li ul li {
+    background-color: white !important;
+    padding: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-bottom: 1px solid #E4E4E4 !important;
+    width: 200px;
+}
+
+.aykut .navbar-info ul li ul li:hover {
+    background-color: whitesmoke !important;
+}
+
+.aykut .navbar-info ul li {
+    font-weight: 600;
+}
+
+.aykut .content-slider {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.carouusel-inner {}
+
+.aykut .carousel-inner img {
+    max-width: 100%;
+    max-height: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.aykut .brand-slider ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.aykut .brand-slider ul li a {
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.aykut .brand-slider ul li a img {
+    width: 68px;
+    height: 68px;
+}
+
+.aykut .brand-slider ul li a span {
+    list-style: none;
+    color: #000000;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.aykut .brand-slider ul li {
+    width: 115px !important;
+    height: 120px !important;
+    list-style: none;
+    width: 100%;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.aykut .brand-slider ul li img {
+    max-width: 100%;
+}
+
+.aykut .project-info .item {
+    background-color: #D9D9D9;
+    padding: 20px 20px;
+    text-align: center;
+    border-radius: 50px;
+    font-size: 20px;
+}
+
+.aykut .project-card-slider {
+    margin-top: 50px;
+}
+
+.aykut .dashboard-prods .card .card-body i {
+    margin-right: 5px;
+}
+
+.aykut .prev {
+    color: black;
+    position: absolute;
+    right: 220px;
+    background: white;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    display: flex !important;
+    justify-content: center;
+    border-radius: 100%;
+    font-size: 25px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.aykut .next {
+    color: black;
+    position: absolute;
+    right: -60px;
+    background: white;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    display: flex !important;
+    justify-content: center;
+    border-radius: 100%;
+    font-size: 25px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+
+/* .owl-prev span{
+    color: black;
+    position: absolute;
+    right: 220px;
+    background: white;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    display: flex !important;
+    justify-content: center;
+    border-radius: 100%;
+    font-size: 25px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    font-size: 40px;
+} */
+
+.aykut .estate-item {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.aykut .estate-item p {
+    color: #727272;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+.aykut .real-estate .real-estate-head h1 {
+    font-size: 30px;
+    color: #363636;
+    border-bottom: 1px solid #C0C0C0;
+    padding-bottom: 30px;
+}
+
+.aykut .real-estate {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.aykut .why-we {
+    background-color: #EEEEEE;
+}
+
+.aykut .why-we-card {
+    background-color: white !important;
+    border-radius: 10px;
+    padding: 70px 70px;
+    text-align: center;
+}
+
+.aykut .why-we-body .why-we-card h1 {
+    font-size: 25px;
+    font-weight: 700;
+    color: #484848;
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+.aykut .footer {
+    background-color: #EEEEEE;
+    padding: 50px 0px;
+}
+
+.aykut .footer h1 {
+    font-size: 20px;
+    color: #484848;
+}
+
+.aykut .footer p {
+    font-size: 14px;
+    color: #484848;
+}
+
+.aykut .header a {
+    display: flex;
+    align-items: center;
+}
+
+.aykut .navbar-info ul li {
+    padding: 10px 20px;
+}
+
+.aykut .navbar-info ul li.active {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: 1px solid gainsboro;
+    border-radius: 50px;
+}
+
+.aykut .mobile-nav {
+    display: none;
+    cursor: pointer;
+}
+
+.aykut .mobile-nav-design {
+    display: none;
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    height: 100%;
+    width: 250px;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    padding: 20px 30px;
+    position: fixed;
+}
+
+.aykut .mobile-nav-design .header-info span {
+    color: #484848;
+}
+
+.aykut .mobile-nav-design .header-info {}
+
+.aykut .mobile-nav-design .header-info i {
+    color: #446BB6;
+}
+
+.aykut .mobile-nav-design .login {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.aykut .mobile-nav-design .favorite {
+    margin-bottom: 10px;
+}
+
+.aykut .mobile-nav-design .login span {
+    font-size: 25px;
+    margin-left: 10px;
+}
+
+.aykut .mobile-nav-design .login i {
+    font-size: 25px;
+}
+
+.aykut .mobile-nav-design .favorite span {
+    font-size: 25px;
+    margin-left: 10px;
+}
+
+.aykut .mobile-nav-design .favorite i {
+    font-size: 25px;
+}
+
+.aykut .mobile-nav-design .sepet span {
+    font-size: 25px;
+    margin-left: 10px;
+}
+
+.aykut .mobile-nav-design .sepet i {
+    font-size: 25px;
+}
+
+.aykut .close {
+    position: absolute;
+    top: 40px;
+    right: 20px;
+}
+
+@media only screen and (max-width: 991px) {
+    .aykut .why-we .why-we-body .why-we-card {
+        margin-bottom: 20px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .aykut .navbar-info {
+        display: none;
+    }
+    .aykut .header .header-info {
+        display: none !important;
+    }
+    .aykut .mobile-nav {
+        display: block !important;
+        font-size: 30px;
+    }
+    .aykut .search {
+        display: none !important;
+    }
+    .aykut .project-info .item {
+        margin-bottom: 20px;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .aykut .navbar-info {
+        display: none;
+    }
+    .aykut .header .header-info {
+        display: none !important;
+    }
+    .aykut .header {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+}
