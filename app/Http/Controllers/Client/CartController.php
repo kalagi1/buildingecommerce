@@ -12,17 +12,84 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    // public function add(Request $request)
+    // {
+    //     $type = $request->input('type');
+    //     $id = $request->input('id');
+    //     $project = $request->input('project');
+
+    //     $cartItem = [];
+    //     if ($type == 'project') {
+    //         $project = Project::find($project);
+    //         $price = ProjectHousing::select('value')->where('project_id', $project)->where('room_order', $id)->where('key', 'Fiyat')->first()['value'];
+    //         $image = ProjectHousing::select('value')->where('project_id', $project)->where('room_order', $id)->where('key', 'Kapak Resmi')->first()['value'];
+    //         $cartItem = [
+    //             'id' => $id,
+    //             'project' => $project->id,
+    //             'city' => $project->city->title,
+    //             'address' => $project->address,
+    //             'title' => $project->project_title,
+    //             'price' => $price,
+    //             'image' => asset('project_housing_images/' . $image),
+    //         ];
+    //     } else if ($type == 'housing') {
+    //         $housing = Housing::find($id);
+    //         $housingData = json_decode($housing->housing_type_data);
+
+    //         $cartItem = [
+    //             'id' => $housing->id,
+    //             'city' => $housing->city['title'],
+    //             'address' => $housing->address,
+    //             'title' => $housing->title,
+    //             'price' => $housingData->price[0],
+    //             'image' => asset('housing_images/' . json_decode($housingData->images)[0]),
+    //         ];
+
+    //     }
+    //     // Find the product in the database
+
+    //     if (!$cartItem) {
+    //         return response(['message' => 'fail']);
+    //     }
+
+    //     $cart = $request->session()->get('cart', []); // Get cart data from session
+
+    //     // Eğer sepeti temizlemeyi onaylamışsa, mevcut sepeti temizleyin
+    //     if ($request->input('clear_cart') === 'yes') {
+    //         $request->session()->forget('cart');
+    //     }
+
+    //     // Add a new product to the cart
+    //     $cart = [
+    //         'item' => $cartItem,
+    //         'type' => $type,
+    //     ];
+
+    //     $request->session()->put('cart', $cart); // Save cart data to session
+
+    //     return response(['message' => 'success']);
+    // }
+
     public function add(Request $request)
     {
         $type = $request->input('type');
         $id = $request->input('id');
+        $project = $request->input('project');
+
         $cartItem = [];
         if ($type == 'project') {
-            $project = Project::find($id);
-            $price = ProjectHousing::select('value')->where('project_id', $id)->where('key', 'Fiyat')->first()['value'];
-            $image = ProjectHousing::select('value')->where('project_id', $id)->where('key', 'Kapak Resmi')->first()['value'];
+            $project = Project::find($project);
+            $projectHousing = ProjectHousing::where('project_id', $project->id)
+                ->where('room_order', $id)
+                ->whereIn('key', ['Fiyat', 'Kapak Resmi'])
+                ->get()
+                ->keyBy('key');
+
+            $price = $projectHousing['Fiyat']->value;
+            $image = $projectHousing['Kapak Resmi']->value;
             $cartItem = [
                 'id' => $project->id,
+                'housing' => $id,
                 'city' => $project->city->title,
                 'address' => $project->address,
                 'title' => $project->project_title,

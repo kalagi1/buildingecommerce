@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, "type");
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(User::class, "parent_id");
+    }
+
     public function hasPermission($permission)
     {
         foreach ($this->role->rolePermissions as $rolePermission) {

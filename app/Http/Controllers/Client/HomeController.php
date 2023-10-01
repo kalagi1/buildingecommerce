@@ -9,6 +9,7 @@ use App\Models\HousingStatus;
 use App\Models\Menu;
 use App\Models\Project;
 use App\Models\Slider;
+use App\Models\FooterSlider;
 use App\Models\StandOutUser;
 
 class HomeController extends Controller
@@ -33,6 +34,7 @@ class HomeController extends Controller
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = Brand::where('status', 1)->get();
         $sliders = Slider::all();
+        $footerSlider = FooterSlider::all();
 
         $finishProjects = Project::whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '2');
@@ -42,6 +44,7 @@ class HomeController extends Controller
             $query->where('housing_type_id', '3');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status',1)->orderBy("created_at", "desc")->get();
 
-        return view('client.home.index', compact('menu', 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses'));
+
+        return view('client.home.index', compact('menu', 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'projects', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 }

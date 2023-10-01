@@ -101,7 +101,7 @@
                                     <ul class="the-agents-details">
                                         <?php
                                         $totalHousingCount = 0;
-
+                                        
                                         foreach ($project->user->projects as $userProject) {
                                             $totalHousingCount += count($userProject->housings);
                                         }
@@ -175,30 +175,39 @@
                     <div class="col-md-12 col-12">
                         <div class="project-card mb-3">
                             <div class="row">
-                                <a href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}"
-                                    class="col-md-3">
-                                    <div class=" d-flex" style="height: 100%;">
-                                        <div class=""
-                                            style="background-color: #446BB6; border-radius: 0px 8px 0px 8px;">
-                                            <p
-                                                style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
-                                                {{ $i + 1 }}</p>
-                                        </div>
-                                        <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
-                                            <div class="project-inner project-head">
+                                <div class="col-md-3">
+                                    <a href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}"
+                                        style="height: 100%">
+                                        <div class="d-flex" style="height: 100%;">
+                                            <div
+                                                style="background-color: #446BB6; border-radius: 0px 8px 0px 8px;height:100%">
+                                                <p
+                                                    style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
+                                                    {{ $i + 1 }}</p>
+                                            </div>
+                                            <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
+                                                <div class="project-inner project-head">
 
+                                                    <div class="button-effect">
+                                                        <div href="javascript:void()" class="btn toggle-project-favorite"
+                                                            data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                            data-project-id={{ $project->id }}>
+                                                            <i class="fa fa-heart"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="homes">
+                                                        <!-- homes img -->
+                                                        <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
+                                                            alt="home-1" class="img-responsive"
+                                                            style="height: 120px;object-fit:cover">
+                                                    </div>
 
-                                                <div class="homes">
-                                                    <!-- homes img -->
-                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
-                                                        alt="home-1" class="img-responsive"
-                                                        style="height: 120px;object-fit:cover">
                                                 </div>
-
                                             </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
+
                                 <div class="col-lg-9 col-md-12 homes-content pb-0 mb-44 aos-init aos-animate"
                                     data-aos="fade-up">
                                     <div class="row align-items-center justify-content-between">
@@ -224,9 +233,9 @@
                                                         <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
                                                     </li>
                                                     <!-- <li class="the-icons">
-                                                                                                                                                                                    <i class="flaticon-car mr-2" aria-hidden="true"></i>
-                                                                                                                                                                                    <span>2 Garages</span>
-                                                                                                                                                                                </li> -->
+                                                                                                                                                                                                                                            <i class="flaticon-car mr-2" aria-hidden="true"></i>
+                                                                                                                                                                                                                                            <span>2 Garages</span>
+                                                                                                                                                                                                                                        </li> -->
                                                 </ul>
                                             </div>
                                         </div>
@@ -246,8 +255,9 @@
                                                         </div>
 
                                                     </div>
-                                                    <button id="addToCart" data-type="project"
-                                                        data-id="{{ $project->id }}">
+                                                    <button class="addToCart"style="width: 100%; border: none; background-color: #446BB6; padding: 5px 0px; color: white;" data-type='project'
+                                                        data-project='{{ $project->id }}'
+                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
                                                         <h6
                                                             style="color: black;font-weight:600;top:3px;position: relative;">
                                                             Sepete Ekle
@@ -286,7 +296,7 @@
             $location = explode(',', $project->location);
             $location['latitude'] = $location[0];
             $location['longitude'] = $location[1];
-
+            
             $location = json_encode($location);
             $location = json_decode($location);
         @endphp
@@ -398,7 +408,6 @@ out center;`;
             var cart = {
                 id: $(this).data('id'),
                 type: $(this).data('type'),
-
                 _token: "{{ csrf_token() }}"
             };
 
