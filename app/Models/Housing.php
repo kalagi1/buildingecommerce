@@ -19,6 +19,10 @@ class Housing extends Model
         return $this->hasMany(HousingImages::class);
     }
 
+    public function housingStatus(){
+        return $this->hasMany(HousingStatusConnection::class,"housing_id","id");
+    }
+
     public function brand()
     {
         return $this->hasOne(Brand::class, "id", "brand_id");
@@ -38,4 +42,7 @@ class Housing extends Model
         return $this->hasOne(County::class, "id", "county_id");
     }
 
+    public function rejectedLog(){
+        return $this->hasOne(Log::class,'item_id','id')->where('item_type',2)->where('is_rejected',1)->orderByDesc('created_at');
+    }
 }

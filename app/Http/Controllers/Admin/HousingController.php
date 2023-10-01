@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\City;
+use App\Models\DefaultMessage;
 use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
+use App\Models\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -22,13 +24,15 @@ class HousingController extends Controller
         $housing = Housing::select(
             'housings.id',
             'housings.title AS housing_title',
+            'housings.status AS status',
             'housings.address',
             'housings.created_at',
             'housing_types.title as housing_type',
             'housing_types.slug',
             'housing_types.form_json'
         )->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->get();
+        ->orderByDesc('housings.created_at')
+        ->get();
         return view('admin.housings.index', ['housing' => $housing]);
         //
     }
@@ -44,6 +48,75 @@ class HousingController extends Controller
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
         return view('admin.housings.create', ['housing_types' => $housing_types, 'housing_status' => $housing_status, 'cities' => $cities, 'brands' => $brands]);
+    }
+
+    public function detail($housingId){
+        $defaultMessages = DefaultMessage::get();
+        $housing = Housing::where('id',$housingId)->first();
+        $housingData = json_decode($housing->housing_type_data);
+        $housingTypeData = HousingType::where('id',$housing->housing_type_id)->first();
+        $housingTypeData = json_decode($housingTypeData->form_json);
+        return vieW('admin.housings.detail',compact('housing','defaultMessages','housingData','housingTypeData'));
+    }
+
+    public function setStatus($housingId,Request $request){
+        $reason = "";
+        $isRejected = 0;
+        if($request->input('status') == 3){
+            $isRejected = 1;
+            $reason = $request->input('reason');
+        }else if($request->input('status') == 1){
+            $reason = "Başarıyla emlağınız aktife alındı";
+        }else{
+            $reason = "Emlağınız pasife alındı";
+        }
+        $housing = Housing::where('id',$housingId)->firstOrFail();
+        Housing::where('id',$housingId)->update([
+            "status" => $request->input('status')
+        ]);
+
+        Log::create([
+            "item_type" => 2,
+            "item_id" => $housingId,
+            "reason" => $reason,
+            "is_rejected" => $isRejected
+        ]);
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
+
+    public function setStatusGet($housingId){
+        $housing = Housing::where('id',$housingId)->firstOrFail();
+        if($housing->status == 0 || $housing->status == 2){
+            Housing::where('id',$housingId)->update([
+                "status" => 1
+            ]);
+        }else{
+            Housing::where('id',$housingId)->update([
+                "status" => 0
+            ]);
+        }
+        
+
+        if($housing->status == 1){
+            Log::create([
+                "item_type" => 2,
+                "item_id" => $housingId,
+                "reason" => "Admin tarafından pasife alındı",
+                "is_rejected" => 0
+            ]);
+        }else{
+            Log::create([
+                "item_type" => 2,
+                "item_id" => $housingId,
+                "reason" => "Admin tarafından aktife alındı",
+                "is_rejected" => 0
+            ]);
+        }
+
+        return redirect()->route('admin.housings.detail',$housingId);
     }
 
     /**
@@ -155,5 +228,10 @@ class HousingController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function logs($housingId){
+        $logs = Log::where('item_type',2)->where('item_id',$housingId)->orderByDesc('created_at')->get();
+        return view('admin.housings.logs',compact('logs'));
     }
 }

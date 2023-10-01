@@ -68,6 +68,14 @@
                     <div class="col-12 col-sm-6 col-xl-12">
                       <div class="mb-4">
                         <div class="d-flex flex-wrap mb-2">
+                          <h5 class="mb-0 text-1000 me-2">Projenin size ait olduğuna dair belge</h5>
+                          <input name="document" class="form-control mt-2"  type="file" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-12">
+                      <div class="mb-4">
+                        <div class="d-flex flex-wrap mb-2">
                           <h5 class="mb-0 text-1000 me-2">Hangi Marka Adına Eklensin</h5>
                         </div>
                         <select class="form-select mb-3" name="brand_id" aria-label="category">
