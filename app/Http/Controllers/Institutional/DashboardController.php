@@ -11,30 +11,35 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $user = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan")->first();
+        $user = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan", "parent")->first();
+        if (isset($user->parent)) {
+            $user = User::where("id", $user->parent_id)->with("plan.subscriptionPlan", "parent")->first();
+        }
         $stats1_data = [];
-        
+
         DB::beginTransaction();
-        for ($i = 1; $i <= date('m'); ++$i)
-        {
-            $n = $i+1;
-            if ($i == date('m'))
-                $stats1_data[] = DB::table('housings')->where('user_id', auth()->user()->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
-            else
-                $stats1_data[] = DB::table('housings')->where('user_id', auth()->user()->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
+        for ($i = 1; $i <= date('m'); ++$i) {
+            $n = $i + 1;
+            if ($i == date('m')) {
+                $stats1_data[] = DB::table('housings')->where('user_id', $user->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
+            } else {
+                $stats1_data[] = DB::table('housings')->where('user_id', $user->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
+            }
+
         }
         DB::commit();
 
         $stats2_data = [];
-        
+
         DB::beginTransaction();
-        for ($i = 1; $i <= date('m'); ++$i)
-        {
-            $n = $i+1;
-            if ($i == date('m'))
-                $stats2_data[] = DB::table('projects')->where('user_id', auth()->user()->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
-            else
-                $stats2_data[] = DB::table('projects')->where('user_id', auth()->user()->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
+        for ($i = 1; $i <= date('m'); ++$i) {
+            $n = $i + 1;
+            if ($i == date('m')) {
+                $stats2_data[] = DB::table('projects')->where('user_id', $user->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
+            } else {
+                $stats2_data[] = DB::table('projects')->where('user_id', $user->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
+            }
+
         }
         DB::commit();
 

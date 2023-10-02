@@ -4,19 +4,25 @@
 
 <div class="content">
 
-    <form class="mb-9" method="post" action="{{route('institutional.projects.store')}}" enctype="multipart/form-data">
-        @csrf
       <div class="row g-3 flex-between-end mb-5">
         <div class="col-auto">
           <h2 class="mb-2">{{$project->project_title}}</h2>
         </div>
         <div class="col-auto">
-            @if($project->status)
+            @if($project->status == 1)
                 <a href="{{route('admin.project.set.status',$project->id)}}" project_id="{{$project->id}}" class="btn btn-danger set_status">Pasife Al</a>
-            @else 
+                <a href="{{route('admin.project.set.status',$project->id)}}" class="btn btn-danger reject">Reddet</a>
+            @elseif($project->status == 2)
+              <a href="{{route('admin.project.set.status',$project->id)}}" class="btn btn-success set_status">Onayla</a>
+              <a href="{{route('admin.project.set.status',$project->id)}}" class="btn btn-danger reject">Reddet</a>
+              @elseif($project->status == 3)
+                <span class="btn btn-info show-reason">Sebebini Gör</span>
+                <a href="#" class="btn btn-success confirm_rejected_after">Önceden Reddedilmiş Bir Proje Onaya Al</a>
+                <a href="#" class="btn btn-danger reject">Tekrar Reddet</a>
+            @else
                 <a href="{{route('admin.project.set.status',$project->id)}}" class="btn btn-success set_status">Aktife Al</a>
             @endif
-            <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Proje Belgesini İndir</button></div>
+            <a class="btn btn-primary mb-2 mb-sm-0 download_document" href="{{URL::to('/')}}/housing_documents/{{$project->document}}" download>Proje Belgesini İndir</a></div>
       </div>
       <div class="row g-5">
         <div class="col-12 col-xl-8">
@@ -162,7 +168,7 @@
           </div>
         </div>
       </div>
-    </form>
+    
     <footer class="footer position-absolute">
       <div class="row g-0 justify-content-between align-items-center h-100">
         <div class="col-12 col-sm-auto text-center">
@@ -213,10 +219,120 @@
                 }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    window.location.href="{{route('admin.project.set.status',$project->id)}}"
+                    window.location.href="{{route('admin.project.set.status.get',$project->id)}}"
                 }
             })
         })
+        var defaultMessagesItems = @json($defaultMessages);
+        console.log(defaultMessagesItems[0].title);
+        function defaultMessages(){
+          var messages = "<div class='mb-2'><label style='text-align:left;width:100%;'>Örnek Mesajlardan Seç</label><select class='form-control change-default-text'><option value=''>Seç</option>";
+            for(var i = 0 ; i < defaultMessagesItems.length; i++){
+              messages += '<option value="'+defaultMessagesItems[i].content+'">'+defaultMessagesItems[i].title+'-'+defaultMessagesItems[i].content+'</option>'
+            }
+          messages += "</select></div>";
+
+          return messages;
+        }
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        $('.reject').click(function(e){
+            e.preventDefault();
+            Swal.fire({
+              title : 'Projeyi reddetmek istediğine emin misin ?',
+              showCancelButton: true,
+              confirmButtonText: 'Evet',
+              denyButtonText: `İptal`,
+              html : defaultMessages()+"<div><input class='form-control reason' placeholder='Neden reddediyorsun'></div>",
+              }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                var data = {
+                    _token: csrfToken, // CSRF tokeni ekle
+                    reason: $('.reason').val(),
+                    status: 3
+                };
+
+                // Ajax isteği oluştur
+                $.ajax({
+                    type: 'POST', // Veri gönderme yöntemi (POST)
+                    url: '{{ route('admin.project.set.status', $project->id) }}', // Hedef URL
+                    data: data, // Gönderilecek veriler
+                    success: function(response) {
+                      response = JSON.parse(response);
+                      if(response.status){
+                        $.toast({
+                          heading: 'Başarılı',
+                          text: 'Başarıyla projeyi reddetiniz',
+                          position: 'top-right',
+                          stack: false
+                        })
+                      }
+                    },
+                    error: function(xhr, status, error) {
+                        // Hata durumunda burada işlemleri gerçekleştirin
+                        console.error('İstek sırasında bir hata oluştu.');
+                        console.error('Hata detayı:', error);
+                    }
+                });
+              }
+            })
+
+          $('.change-default-text').change(function(){
+            $('.reason').val($(this).val());
+          })
+        })
+
+        $('.confirm_rejected_after').click(function(e){
+            e.preventDefault();
+            Swal.fire({
+            title : 'Projeyi onaylamak istediğine emin misin ?',
+            showCancelButton: true,
+            confirmButtonText: 'Evet',
+            denyButtonText: `İptal`,
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              var data = {
+                  _token: csrfToken, // CSRF tokeni ekle
+                  reason: "",
+                  status: 1
+              };
+
+              // Ajax isteği oluştur
+              $.ajax({
+                  type: 'POST', // Veri gönderme yöntemi (POST)
+                  url: '{{ route('admin.project.set.status', $project->id) }}', // Hedef URL
+                  data: data, // Gönderilecek veriler
+                  success: function(response) {
+                    response = JSON.parse(response);
+                    if(response.status){
+                      $.toast({
+                        heading: 'Başarılı',
+                        text: 'Başarıyla projeyi aktife aldınız',
+                        position: 'top-right',
+                        stack: false
+                      })
+                    }
+                  },
+                  error: function(xhr, status, error) {
+                      // Hata durumunda burada işlemleri gerçekleştirin
+                      console.error('İstek sırasında bir hata oluştu.');
+                      console.error('Hata detayı:', error);
+                  }
+              });
+            }
+          })
+        })
+        @if($project->status == 3)
+          $('.show-reason').click(function(){
+            Swal.fire({
+              title : 'Reddilme sebebi',
+              showCancelButton: false,
+              confirmButtonText: 'Tamam',
+              html : '{{$project->rejectedLog->reason}}',
+            })
+          })
+        @endif
     </script>
     
     

@@ -12,11 +12,12 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Phoenix</title>
+    <title>Yönetim Paneli</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" sizes="180x180"
         href="{{ URL::to('/') }}/adminassets/assets/img/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32"

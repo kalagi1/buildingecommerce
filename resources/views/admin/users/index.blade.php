@@ -56,8 +56,11 @@
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>
-                                                <span class="badge bg-warning"> {{ $user->role->name }}</span>
-
+                                                <span class="badge bg-warning"> {{ $user->role->name }}</span><br>
+                                                @if (isset($user->parent))
+                                                    <span class="badge bg-info "> Kurumsal Hesap:
+                                                        {{ $user->parent->name }}</span>
+                                                @endif
                                             </td>
                                             <td>
                                                 @if ($user->status == 1)

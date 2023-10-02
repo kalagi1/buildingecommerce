@@ -4,14 +4,15 @@
     <div class="brand-head">
         <div class="container">
             <div class="card mb-3">
-                <img src="https://genetikonvet.com/wp-content/uploads/revslider/slider-hardware/black-electronics-s-3-bg.jpg"
-                    class="card-img-top" alt="...">
-                <div class="brands-square">
-                    <img src="/images/4.png" alt="" class="brand-logo">
-                    <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
-                            style="color:White">{{ $project->user->name }}</a></p>
-                    <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                    <p class="brand-name">{{ $project->project_title }}</p>
+                <div class="card-img-top" style="background-color: {{ $project->user->banner_hex_code }}">
+                    <div class="brands-square">
+                        <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}" alt=""
+                            class="brand-logo">
+                        <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
+                                style="color:White">{{ $project->user->name }}</a></p>
+                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                        <p class="brand-name">{{ $project->project_title }}</p>
+                    </div>
                 </div>
                 <div class="card-body">
                     <nav class="navbar" style="padding: 0 !important">
@@ -436,7 +437,6 @@ out center;`;
             var cart = {
                 id: $(this).data('id'),
                 type: $(this).data('type'),
-
                 _token: "{{ csrf_token() }}"
             };
 

@@ -344,8 +344,8 @@
 <script>
     $(document).ready(function() {
         checkFavorites();
+        checkProjectFavorites();
         var cart = @json(session('cart', []));
-        console.log(cart);
         // Sayfa yüklendiğinde düğme metnini güncellemek için bir işlev çağırın
         updateCartButton();
 
@@ -356,13 +356,16 @@
         addToCartButtons.forEach(function(button) {
             button.addEventListener("click", function() {
                 var productId = button.getAttribute("data-id");
-
-                // Sepete ekleme işlemi burada yapılmalıdır
+                var project = null;
+                if (button.getAttribute("data-type") == "project") {
+                    project = button.getAttribute("data-project");
+                }
 
                 // Ajax isteği gönderme
                 var cart = {
                     id: productId,
                     type: button.getAttribute("data-type"),
+                    project: project,
                     _token: "{{ csrf_token() }}",
                     clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
                 };
@@ -380,6 +383,7 @@
                     type: "POST", // Veriyi göndermek için POST kullanabilirsiniz
                     data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
                     success: function(response) {
+                        console.log(response);
                         toastr.success("Ürün Sepete Eklendi");
                         button.classList.add("bg-success");
 
@@ -405,8 +409,13 @@
             var addToCartButtons = document.querySelectorAll(".addToCart");
             addToCartButtons.forEach(function(button) {
                 var productId = button.getAttribute("data-id");
+                var productType = button.getAttribute("data-type");
+                var product = null;
+                if (productType == "project") {
+                    product = button.getAttribute("data-project");
+                }
 
-                if (isProductInCart(productId)) {
+                if (isProductInCart(productId, product)) {
                     button.textContent = "Sepete Eklendi";
                     button.classList.add("bg-success");
                     button.disabled = true;
@@ -418,16 +427,58 @@
             });
         }
 
-        function isProductInCart(productId) {
+        function isProductInCart(productId, product) {
             // Sepet içeriğini session'dan alın
+            console.log(product);
+            console.log(productId);
             var cart = @json(session('cart', []));
+            console.log(cart);
             if (cart.length != 0) {
-                if (cart.item.id == productId) {
-                    return true; // Ürün sepette bulundu
+                if (product != null) {
+                    if (cart.item.id == product && cart.item.housing == productId) {
+                        return true
+                    }
+                } else {
+                    if (cart.item.id == productId) {
+                        return true; // Ürün sepette bulundu
 
+                    }
                 }
+
             }
             return false; // Ürün sepette bulunamadı
+        }
+
+        function checkProjectFavorites() {
+            // Favorileri sorgula ve uygun renk ve ikonları ayarla
+            var favoriteButtons = document.querySelectorAll(".toggle-project-favorite");
+
+            favoriteButtons.forEach(function(button) {
+                var housingId = button.getAttribute("data-project-housing-id");
+                var projectId = button.getAttribute("data-project-id");
+
+                // AJAX isteği gönderme
+                $.ajax({
+                    url: "{{ route('get.project.housing.favorite.status', ['id' => ':id', 'projectId' => ':projectId']) }}"
+                        .replace(':id', housingId)
+                        .replace(':projectId', projectId), // Proje ID'sini de iletiyoruz
+                    type: "GET",
+                    success: function(response) {
+                        console.log(response);
+                        if (response.is_favorite) {
+                            button.querySelector("i.fa-heart").classList.add("text-danger");
+                            button.classList.add("bg-white");
+                        } else {
+                            button.querySelector("i.fa-heart").classList.remove(
+                                "text-danger");
+                            button.classList.remove("bg-white");
+                        }
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
         }
 
 
@@ -461,6 +512,49 @@
             });
         }
 
+        // Favoriye Ekle/Kaldır İşlemi
+        document.querySelectorAll(".toggle-project-favorite").forEach(function(button) {
+            button.addEventListener("click", function(event) {
+                event.preventDefault();
+                var housingId = this.getAttribute("data-project-housing-id");
+                var projectId = this.getAttribute("data-project-id");
+
+
+                // AJAX isteği gönderme
+                $.ajax({
+                    url: "{{ route('add.project.housing.to.favorites', ['id' => ':id']) }}"
+                        .replace(':id',
+                            housingId),
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        project_id: projectId // project_id'yi AJAX isteği ile gönder
+                    },
+                    success: function(response) {
+                        if (response.status === 'added') {
+                            toastr.success("Konut Favorilere Eklendi");
+                            // Favorilere eklenmişse rengi kırmızı yap
+                            button.querySelector("i.fa-heart").classList.add(
+                                "text-danger");
+                            button.classList.add(
+                                "bg-white");
+                        } else if (response.status === 'removed') {
+                            toastr.warning("Konut Favorilerden Kaldırıldı");
+                            button.querySelector("i.fa-heart").classList.remove(
+                                "text-danger");
+                            button.classList.remove(
+                                "bg-white");
+                        }
+                    },
+                    error: function(error) {
+                        toastr.error("Lütfen Giriş Yapınız");
+                        console.error(error);
+                    }
+                });
+            });
+        });
+
+
 
         // Favoriye Ekle/Kaldır İşlemi
         document.querySelectorAll(".toggle-favorite").forEach(function(button) {
@@ -479,14 +573,14 @@
                     },
                     success: function(response) {
                         if (response.status === 'added') {
-                            toastr.success("Ürün Favorilere Eklendi");
+                            toastr.success("Konut Favorilere Eklendi");
                             // Favorilere eklenmişse rengi kırmızı yap
                             button.querySelector("i.fa-heart").classList.add(
                                 "text-danger");
                             button.classList.add(
                                 "bg-white");
                         } else if (response.status === 'removed') {
-                            toastr.warning("Ürün Favorilerden Kaldırıldı");
+                            toastr.warning("Konut Favorilerden Kaldırıldı");
                             button.querySelector("i.fa-heart").classList.remove(
                                 "text-danger");
                             button.classList.remove(
@@ -501,32 +595,6 @@
             });
         });
 
-        $("#addToCart").click(function() {
-            // Sepete eklenecek verileri burada hazırlayabilirsiniz
-            var cart = {
-                id: $(this).data('id'),
-                type: $(this).data('type'),
-
-                _token: "{{ csrf_token() }}"
-            };
-
-            // Ajax isteği gönderme
-            $.ajax({
-                url: "{{ route('add.to.cart') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                type: "POST", // Veriyi göndermek için POST kullanabilirsiniz
-                data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
-                success: function(response) {
-                    // İşlem başarılı olduğunda buraya gelir
-                    toast.success(response)
-                    console.log("Ürün sepete eklendi: " + response);
-                },
-                error: function(error) {
-                    // Hata durumunda buraya gelir
-                    toast.error(error)
-                    console.error("Hata oluştu: " + error);
-                }
-            });
-        });
     });
 </script>
 @yield('scripts')

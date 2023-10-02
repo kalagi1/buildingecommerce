@@ -18,6 +18,29 @@
         "activePath": "institutional/profile/edit"
     },
     {
+        "id": "role",
+        "label": "Yetkilendirme",
+        "icon": "user",
+        "text": "Roller",
+        "key": "Roles",
+        "url": "#nv-role",
+        "activePath": "institutional/roles*",
+        "subMenu": [
+            {
+                "text": "Yeni Ekle",
+                "key": "CreateRole",
+                "url": "institutional.roles.create",
+                "activePath": "institutional/roles/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetRoles",
+                "url": "institutional.roles.index",
+                "activePath": "institutional/roles"
+            }
+        ]
+    },
+    {
         "id": "ChangePassword",
         "label": "Hesabım & Yardım",
         "icon": "lock",
@@ -25,6 +48,29 @@
         "key": "ChangePassword",
         "url": "institutional.password.edit",
         "activePath": "institutional/password/edit"
+    },
+    {
+        "id": "user",
+        "label": "Yönetim",
+        "icon": "user",
+        "text": "Kullanıcılar",
+        "key": "Users",
+        "url": "#nv-users",
+        "activePath": "institutional/users*",
+        "subMenu": [
+            {
+                "text": "Yeni Ekle",
+                "key": "CreateUser",
+                "url": "institutional.users.create",
+                "activePath": "institutional/users/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetUsers",
+                "url": "institutional.users.index",
+                "activePath": "institutional/users"
+            }
+        ]
     },
     {
         "id": "projects",
@@ -46,6 +92,29 @@
                 "key": "GetProjects",
                 "url": "institutional.projects.index",
                 "activePath": "institutional/projects"
+            }
+        ]
+    },
+    {
+        "id": "housings",
+        "label": "Uygulama",
+        "icon": "plus-square",
+        "text": "Emlaklar",
+        "key": "Housings",
+        "url": "#nv-projects",
+        "activePath": "institutional/housings*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateProject",
+                "url": "institutional.housing.create",
+                "activePath": "institutional/create_housing"
+            },
+            {
+                "text": "Listele",
+                "key": "GetProjects",
+                "url": "institutional.housing.list",
+                "activePath": "institutional/housings"
             }
         ]
     },

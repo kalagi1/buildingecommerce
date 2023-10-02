@@ -47,14 +47,14 @@
             ];
             return strtr($date, $aylar);
         }
-
+        
         function getData($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
             $a = $housing_type_data->$key;
             return $a[0];
         }
-
+        
         function getImage($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
@@ -65,25 +65,27 @@
     <div class="brand-head">
         <div class="container">
             <div class="card mb-3">
-                <img src="https://genetikonvet.com/wp-content/uploads/revslider/slider-hardware/black-electronics-s-3-bg.jpg"
-                    class="card-img-top" alt="...">
-                <div class="brands-square">
-                    <img src="/images/4.png" alt="" class="brand-logo">
-                    <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($institutional->name)) }}"
-                            style="color:White">{{ $institutional->name }}</a></p>
-                    <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                    <p class="brand-name">Profil</p>
+                <div class="card-img-top" style="background-color: {{ $store->banner_hex_code }}">
+                    <div class="brands-square">
+                        <img src="{{ url('storage/profile_images/' . $store->profile_image) }}" alt=""
+                            class="brand-logo">
+                        <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($store->name)) }}"
+                                style="color:White">{{ $store->name }}</a></p>
+                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                        <p class="brand-name">Profil</p>
+                    </div>
                 </div>
+
                 <div class="card-body">
                     <nav class="navbar" style="padding: 0 !important">
                         <div class="navbar-items">
                             <a class="navbar-item active"
-                                href="{{ route('instituional.dashboard', Str::slug($institutional->name)) }}">Anasayfa</a>
+                                href="{{ route('instituional.dashboard', Str::slug($store->name)) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Tüm
+                                href="{{ route('instituional.projects.detail', Str::slug($store->name)) }}">Tüm
                                 Projeler</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.profile', Str::slug($institutional->name)) }}">Satıcı
+                                href="{{ route('instituional.profile', Str::slug($store->name)) }}">Satıcı
                                 Profili</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
@@ -94,7 +96,7 @@
                                 <div class="header-search__suggestions__section">
                                     <h5>Markalar</h5>
                                     <div class="header-search__suggestions__section__items">
-                                        @foreach ($institutional->brands as $item)
+                                        @foreach ($store->brands as $item)
                                             <a href="#"><span>{{ $item->title }}</span></a>
                                         @endforeach
                                     </div>
@@ -112,7 +114,7 @@
         <div class="container">
             <div class="portfolio  col-xl-12">
                 <div class="banner-agents">
-                    @foreach ($user->banners as $banner)
+                    @foreach ($store->banners as $banner)
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <div class="landscapes">
                                 <div class="project-single">
@@ -332,7 +334,8 @@
                                                         style="display: flex; justify-content: center;margin-top:20px !important;">
                                                         <button id="addToCart"
                                                             style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                            data-type='project' data-id='{{ $project->id }}'>Sepete
+                                                            data-type='project' data-project='{{ $project->id }}'
+                                                            data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
                                                             Ekle</button>
                                                     </ul>
                                                 </div>
@@ -434,7 +437,8 @@
                                                         style="display: flex; justify-content: center;margin-top:20px !important;">
                                                         <button id="addToCart"
                                                             style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                            data-type='project' data-id='{{ $project->id }}'>Sepete
+                                                            data-type='project' data-project='{{ $project->id }}'
+                                                            data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
                                                             Ekle</button>
                                                     </ul>
                                                 </div>

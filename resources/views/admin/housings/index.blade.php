@@ -26,6 +26,7 @@
                                                         <th>ID</th>
                                                         <th>Başlık</th>
                                                         <th>Daire Türü</th>
+                                                        <th>Statü</th>
                                                         <th>Oluşturulma Tarihi</th>
                                                     </tr>
                                                 </thead>
@@ -79,15 +80,51 @@
             housingTypeCell.className = "align-middle housing_type";
             housingTypeCell.textContent = housingType.housing_type;
 
+            var statusCell = document.createElement("td");
+            statusCell.className = "align-middle status";
+            statusCell.innerHTML = housingType.status == 1 ? '<span class="btn btn-success">Aktif</span>' : housingType.status == 2 ? '<span class="btn btn-warning">Admin Onayı Bekliyor</span>' : housingType.status == 3 ? '<span class="btn btn-danger">Admin Tarafından Reddedildi</span>' : '<span class="btn btn-danger">Pasif</span>';
+
             var createdAtCell = document.createElement("td");
             createdAtCell.className = "align-middle created_at";
             createdAtCell.textContent = new Date(housingType.created_at).toLocaleDateString();
 
+            var actionsCell = document.createElement("td");
+            actionsCell.className = "align-middle white-space-nowrap     pe-0";
+            var actionsDiv = document.createElement("div");
+            actionsDiv.className = "font-sans-serif btn-reveal-trigger position-static";
+            var actionsButton = document.createElement("button");
+            actionsButton.className = "btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2";
+            actionsButton.type = "button";
+            actionsButton.setAttribute("data-bs-toggle", "dropdown");
+            actionsButton.setAttribute("data-bs-boundary", "window");
+            actionsButton.setAttribute("aria-haspopup", "true");
+            actionsButton.setAttribute("aria-expanded", "false");
+            actionsButton.setAttribute("data-bs-reference", "parent");
+            var actionsIcon = document.createElement("span");
+            actionsIcon.className = "fas fa-ellipsis-h fs--2";
+            actionsButton.appendChild(actionsIcon);
+            actionsDiv.appendChild(actionsButton);
+            var dropdownMenu = document.createElement("div");
+            dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
+            var exportLink = document.createElement("a");
+            exportLink.className = "dropdown-item";
+            exportLink.href = "{{URL::to('/')}}/admin/housings/"+housingType.id+'/detail';
+            exportLink.textContent = "Görüntüle";
+            var viewLink = document.createElement("a");
+            viewLink.className = "dropdown-item";
+            viewLink.href = "{{URL::to('/')}}/admin/housings/"+housingType.id+'/logs';
+            viewLink.textContent = "Loglar";
+            dropdownMenu.appendChild(exportLink);
+            dropdownMenu.appendChild(viewLink);
+            actionsDiv.appendChild(dropdownMenu);
+            actionsCell.appendChild(actionsDiv);
 
             row.appendChild(idCell);
             row.appendChild(housingTitleCell);
             row.appendChild(housingTypeCell);
+            row.appendChild(statusCell);
             row.appendChild(createdAtCell);
+            row.appendChild(actionsCell);
 
 
             tbody.appendChild(row);

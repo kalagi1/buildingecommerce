@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with("role")->get();
+        $users = User::with("role","parent")->get();
         return view('admin.users.index', compact('users'));
     }
 
@@ -26,7 +26,7 @@ class UserController extends Controller
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
+            'password' => 'required|min:3',
             'type' => 'required|in:1,2',
         ];
 

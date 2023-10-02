@@ -44,10 +44,13 @@ use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\BuyController;
 use App\Http\Controllers\Institutional\ChangePasswordController as InstitutionalChangePasswordController;
 use App\Http\Controllers\Institutional\DashboardController;
+use App\Http\Controllers\Institutional\HousingController as InstitutionalHousingController;
 use App\Http\Controllers\Institutional\LoginController;
 use App\Http\Controllers\Institutional\ProfileController as InstitutionalProfileController;
 use App\Http\Controllers\Institutional\ProjectController as InstitutionalProjectController;
+use App\Http\Controllers\Institutional\RoleController as InstitutionalRoleController;
 use App\Http\Controllers\Institutional\StoreBannerController;
+use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -64,9 +67,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/admin', [AdminHomeController::class, "index"]);
-Route::get('/housing/{id}', [ClientHousingController::class, "show"])->name('housing.show');
+Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
+Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 
 Route::middleware('auth')->group(function()
 {
@@ -80,7 +84,6 @@ Route::get('/magaza/{slug}', [InstitutionalController::class, "dashboard"])->nam
 Route::get('/magaza/{slug}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
 Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectDetails"])->name('instituional.projects.detail');
 
-Route::get('/marka_projeleri/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
 Route::get('/get-counties/{city}', [CountyController::class,"getCounties"])->name("getCounties");
@@ -90,10 +93,16 @@ Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::c
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
+Route::post('add_to_project_cart/', [CartController::class, 'addProject'])->name('add.to.project.cart');
+
 Route::get('sepetim', [CartController::class, 'index'])->name('cart');
 Route::get('favoriler', [FavoriteController::class, 'showFavorites'])->name('favorites');
 
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('client.remove.from.cart');
+
+Route::post('/add-project-housing-to-favorites/{id}', [FavoriteController::class, "addProjectHousingToFavorites"])->name('add.project.housing.to.favorites');
+Route::get('/get-project-housing-favorite-status/{id}/{projectId}', [FavoriteController::class, "getProjectHousingFavoriteStatus"])->name('get.project.housing.favorite.status');
+
 Route::post('/add-housing-to-favorites/{id}', [FavoriteController::class, "addHousingToFavorites"])->name('add.housing.to.favorites');
 Route::get('/get-housing-favorite-status/{id}', [FavoriteController::class, "getHousingFavoriteStatus"])->name('get.housing.favorite.status');
 
@@ -177,7 +186,11 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     });
 
     Route::middleware(['checkPermission:GetHousingById'])->group(function () {
+        Route::post('/housings/{housing}/set_status', [HousingController::class, 'setStatus'])->name('housings.set.status');
+        Route::get('/housings/{housing}/set_status', [HousingController::class, 'setStatusGet'])->name('housings.set.status.get');
         Route::get('/housings/{housing}/edit', [HousingController::class, 'edit'])->name('housings.edit');
+        Route::get('/housings/{housing}/detail', [HousingController::class, 'detail'])->name('housings.detail');
+        Route::get('/housings/{housingId}/logs', [HousingController::class, 'logs'])->name('housing.logs');
     });
 
     Route::middleware(['checkPermission:UpdateHousing'])->group(function () {
@@ -186,6 +199,8 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::middleware(['checkPermission:GetHousings'])->group(function () {
         Route::get('/housings', [HousingController::class, 'index'])->name('housings.index');
+    });
+    Route::middleware(['checkPermission:GetHousingComments'])->group(function () {
         Route::get('/housing/comments', [HousingController::class, 'comments'])->name('housings.comments');
         Route::get('/housing/comment/approve/{id}', [HousingController::class, 'approveComment'])->name('housings.approve');
         Route::get('/housing/comment/unapprove/{id}', [HousingController::class, 'unapproveComment'])->name('housings.unapprove');
@@ -199,8 +214,10 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::middleware(['checkPermission:CreateProject'])->group(function () {
         Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
         Route::post('/projects', [ProjectController::class, 'store'])->name('projects.index');
+        Route::get('/{project_id}/logs', [ProjectController::class, 'logs'])->name('projects.logs');
         Route::get('/project/{projectId}', [ProjectController::class, 'detail'])->name('projects.detail');
-        Route::get('/project/status_change/{projectId}', [ProjectController::class, 'setStatus'])->name('project.set.status');
+        Route::post('/project/status_change/{projectId}', [ProjectController::class, 'setStatus'])->name('project.set.status');
+        Route::get('/project/status_change/{projectId}', [ProjectController::class, 'setStatusGet'])->name('project.set.status.get');
     });
 
     Route::middleware(['checkPermission:GetProjectById'])->group(function () {
@@ -435,7 +452,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::middleware(['checkPermission:CreateSlider'])->group(function () {
         Route::get('/sliders/create', [SliderController::class, 'create'])->name('sliders.create');
         Route::post('/sliders', [SliderController::class, 'store'])->name('sliders.store');
-        
+
         Route::get('/footer-sliders/create', [SliderController::class, 'footerCreate'])->name('footer-sliders.create');
         Route::post('/footer-sliders', [SliderController::class, 'footerStore'])->name('footer-sliders.store');
     });
@@ -507,6 +524,54 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional']], function () {
 
+    
+    // User Controller İzin Kontrolleri
+    Route::middleware(['checkPermission:CreateUser'])->group(function () {
+        Route::get('/users/create', [InstitutionalUserController::class, 'create'])->name('users.create');
+        Route::post('/users', [InstitutionalUserController::class, 'store'])->name('users.store');
+    });
+
+    Route::middleware(['checkPermission:GetUserById'])->group(function () {
+        Route::get('/users/{user}/edit', [InstitutionalUserController::class, 'edit'])->name('users.edit');
+    });
+
+    Route::middleware(['checkPermission:UpdateUser'])->group(function () {
+        Route::put('/users/{user}', [InstitutionalUserController::class, 'update'])->name('users.update');
+    });
+
+    Route::middleware(['checkPermission:GetUsers'])->group(function () {
+        Route::get('/users', [InstitutionalUserController::class, 'index'])->name('users.index');
+    });
+
+    Route::middleware(['checkPermission:DeleteUser'])->group(function () {
+        Route::delete('/users/{user}', [InstitutionalUserController::class, 'destroy'])->name('users.destroy');
+    });
+
+
+    Route::middleware(['checkPermission:CreateRole'])->group(function () {
+        Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');
+        Route::post('/roles', [InstitutionalRoleController::class, 'store'])->name('roles.store');
+    });
+
+    Route::middleware(['checkPermission:GetRoleById'])->group(function () {
+        Route::get('/roles/{role}/edit', [InstitutionalRoleController::class, 'edit'])->name('roles.edit');
+    });
+
+    // Rol Düzenleme Sayfasına Erişim Kontrolü (UpdateRole izni gerekli)
+    Route::middleware(['checkPermission:UpdateRole'])->group(function () {
+        Route::put('/roles/{role}', [InstitutionalRoleController::class, 'update'])->name('roles.update');
+    });
+
+    // Rol Listeleme Sayfasına Erişim Kontrolü (GetRoles izni gerekli)
+    Route::middleware(['checkPermission:GetRoles'])->group(function () {
+        Route::get('/roles', [InstitutionalRoleController::class, 'index'])->name('roles.index');
+    });
+
+    // Rol Silme İşlemi için Erişim Kontrolü (DeleteRole izni gerekli)
+    Route::middleware(['checkPermission:DeleteRole'])->group(function () {
+        Route::delete('/roles/{role}', [InstitutionalRoleController::class, 'destroy'])->name('roles.destroy');
+    });
+
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
         Route::get('/profile/edit', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
@@ -528,6 +593,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
+    Route::get('/projects/{project_id}/logs', [InstitutionalProjectController::class, 'logs'])->name('projects.logs');
+    Route::get('/housings/{housing_id}/logs', [InstitutionalHousingController::class, 'logs'])->name('housing.logs');
     Route::get('/project_stand_out/{project_id}', [InstitutionalProjectController::class,"standOut"])->name('project.stand.out');
     Route::get('/get_stand_out_prices', [InstitutionalProjectController::class,"pricingList"])->name('project.pricing.list');
     Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
@@ -537,6 +604,11 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/delete_project_image/{project_id}/{filename}', [InstitutionalProjectController::class, "deleteProjectImage"])->name('delete.project.image');
         Route::post('/remove_project_housing_file', [InstitutionalProjectController::class, "removeProjectHousingFile"])->name('remove.project.housing.image');
         Route::post('/add_project_housing_file', [InstitutionalProjectController::class, "addProjectHousingFile"])->name('add.project.housing.image');
+    });
+
+    Route::middleware(['checkPermission:NewHousingImage'])->group(function () {
+        Route::post('/new_housing_file', [InstitutionalHousingController::class, "newHousingImage"])->name('new.housing.image');
+        Route::post('/delete_housing_image', [InstitutionalHousingController::class, "deleteHousingImage"])->name('remove.housing.image');
     });
 
 
@@ -559,6 +631,21 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::middleware(['checkPermission:DeleteStoreBanner'])->group(function () {
         Route::delete('/store-banners/{storeBanner}', [StoreBannerController::class, 'destroy'])->name('storeBanners.destroy');
+    });
+
+    Route::middleware(['checkPermission:createHousing'])->group(function () {
+        Route::get('/create_housing', [InstitutionalHousingController::class, 'create'])->name('housing.create');
+        Route::post('/create_housing', [InstitutionalHousingController::class, 'store'])->name('housing.store');
+    });
+
+    Route::middleware(['checkPermission:editHousing'])->group(function () {
+        Route::get('/edit_housing/{id}', [InstitutionalHousingController::class, 'edit'])->name('housing.edit');
+        Route::post('/edit_housing/{id}', [InstitutionalHousingController::class, 'update'])->name('housing.update');
+    });
+
+
+    Route::middleware(['checkPermission:ListHousingInstitutional'])->group(function () {
+        Route::get('/housings', [InstitutionalHousingController::class, 'index'])->name('housing.list');
     });
 
 });
@@ -593,6 +680,7 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
 });
 
 
-
-Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
+Route::get('kategori/{id}', [ClientProjectController::class, "allProjects"])
     ->name('all.project.list');
+
+

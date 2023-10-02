@@ -50,6 +50,7 @@
 
 .slick-track
 {
+    width: 100% !important;
     position: relative;
     top: 0;
     left: 0;

@@ -6,21 +6,25 @@
         <div class="row gy-3 mb-6 justify-content-between">
             <div class="col-md-12 col-auto">
                 <h2 class="mb-2 text-1100">{{ $user->name }} Hoş Geldiniz.</h2>
-                <h5 class="text-700 fw-semi-bold">Hesabınızı bu panelden yönetebilirsiniz.</h5>
+                @if (isset($user->parent))
+                    <span class="badge bg-info "> Kurumsal Hesap:
+                        {{ $user->parent->name }}</span>
+                @endif
             </div>
         </div>
         <div class="row align-items-center mb-4">
             <div class="col-md-3 col-12 mb-3">
                 <div class="d-flex align-items-center bg-white border rounded-sm p-2">
-                    <svg viewBox="0 0 24 24" width="30" height="30" stroke="red" stroke-width="2"
-                        fill="red" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                    <svg viewBox="0 0 24 24" width="30" height="30" stroke="red" stroke-width="2" fill="red"
+                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                         <polygon
                             points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
                         </polygon>
                     </svg>
                     <div class="ms-2">
                         <div class="d-flex align-items-end">
-                            <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">{{ $user->plan->subscriptionPlan->name }} Paketi</span>
+                            <span class="fs-1 fw-semi-bold text-900"
+                                style="font-size: 16px !important;">{{ $user->plan->subscriptionPlan->name }} Paketi</span>
                         </div>
                     </div>
                 </div>
@@ -49,7 +53,8 @@
                     <div class="ms-2">
                         <div class="d-flex align-items-end">
                             <h2 class="mb-0 me-2">{{ $user->plan->user_limit }}</h2>
-                            <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Kullanıcı Limiti</span>
+                            <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Kullanıcı
+                                Limiti</span>
                         </div>
                     </div>
                 </div>
@@ -73,18 +78,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="bg-white p-3 border rounded-md">
-                    <div class="mb-3 border-b" style="font-size: 24px;">
-                        Hangi Ayda Kaç Konutunuz Oldu?
-                    </div>
-                    <div id="stat-1" style="height: 480px;"></div>
+                    <strong>Firmanızın Konut İstatistiği</strong>
+                    <div id="stat-1" style="height: 350px;"></div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="bg-white p-3 border rounded-md">
-                    <div class="mb-3 border-b" style="font-size: 24px;">
-                        Hangi Ayda Kaç Projeniz Oldu?
-                    </div>
-                    <div id="stat-2" style="height: 480px;"></div>
+                    <strong>Firmanızın Proje İstatistiği</strong>
+                    <div id="stat-2" style="height: 350px;"></div>
                 </div>
             </div>
         </div>
@@ -92,96 +93,90 @@
 @endsection
 
 @section('scripts')
-<script>
-    var dom = document.getElementById('stat-1');
-    var myChart = echarts.init(dom, null, {
-      renderer: 'canvas',
-      useDirtyRect: false
-    });
-    var app = {};
-    
-    var option;
+    <script>
+        var dom = document.getElementById('stat-1');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
 
-    option = {
-  xAxis: {
-    type: 'category',
-    data: @json((function()
-    {
-        $array = [];
-        for ($i = 1; $i <= date('m'); ++$i)
-        {
-            $array[] = strftime('%B', strtotime(date("Y-{$i}-01 00:00:00")));
+        var option;
+
+        option = {
+            xAxis: {
+                type: 'category',
+                data: @json(
+                    (function () {
+                        $array = [];
+                        for ($i = 1; $i <= date('m'); ++$i) {
+                            $array[] = strftime('%B', strtotime(date("Y-{$i}-01 00:00:00")));
+                        }
+                
+                        return $array;
+                    })()),
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: @json($stats1_data),
+                type: 'bar',
+                showBackground: true,
+                backgroundStyle: {
+                    color: 'rgba(180, 180, 180, 0.2)'
+                }
+            }]
+        };
+
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
         }
 
-        return $array;
-    })()),
-  },
-  yAxis: {
-    type: 'value'
-  },
-  series: [
-    {
-      data: @json($stats1_data),
-      type: 'bar',
-      showBackground: true,
-      backgroundStyle: {
-        color: 'rgba(180, 180, 180, 0.2)'
-      }
-    }
-  ]
-};
+        window.addEventListener('resize', myChart.resize);
+    </script>
+    <script>
+        var dom = document.getElementById('stat-2');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+
+        var option;
+
+        option = {
+            xAxis: {
+                type: 'category',
+                data: @json(
+                    (function () {
+                        $array = [];
+                        for ($i = 1; $i <= date('m'); ++$i) {
+                            $array[] = strftime('%B', strtotime(date("Y-{$i}-01 00:00:00")));
+                        }
+                
+                        return $array;
+                    })()),
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: @json($stats2_data),
+                type: 'bar',
+                showBackground: true,
+                backgroundStyle: {
+                    color: 'rgba(180, 180, 180, 0.2)'
+                }
+            }]
+        };
 
 
-    if (option && typeof option === 'object') {
-      myChart.setOption(option);
-    }
-
-    window.addEventListener('resize', myChart.resize);
-</script>
-<script>
-    var dom = document.getElementById('stat-2');
-    var myChart = echarts.init(dom, null, {
-      renderer: 'canvas',
-      useDirtyRect: false
-    });
-    var app = {};
-    
-    var option;
-
-    option = {
-  xAxis: {
-    type: 'category',
-    data: @json((function()
-    {
-        $array = [];
-        for ($i = 1; $i <= date('m'); ++$i)
-        {
-            $array[] = strftime('%B', strtotime(date("Y-{$i}-01 00:00:00")));
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
         }
 
-        return $array;
-    })()),
-  },
-  yAxis: {
-    type: 'value'
-  },
-  series: [
-    {
-      data: @json($stats2_data),
-      type: 'bar',
-      showBackground: true,
-      backgroundStyle: {
-        color: 'rgba(180, 180, 180, 0.2)'
-      }
-    }
-  ]
-};
-
-
-    if (option && typeof option === 'object') {
-      myChart.setOption(option);
-    }
-
-    window.addEventListener('resize', myChart.resize);
-</script>
+        window.addEventListener('resize', myChart.resize);
+    </script>
 @endsection

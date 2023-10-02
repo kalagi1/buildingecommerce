@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\County;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
+use App\Models\Log;
 use App\Models\PricingStandOut;
 use App\Models\Project;
 use App\Models\ProjectHousing;
@@ -46,7 +47,16 @@ class ProjectController extends Controller
             "description" => "required",
             "house_count" => "required",
             "cover_photo" => "required",
+            "document" => "required|file|max:2048"
         ]);
+
+        if ($request->hasFile('document')) {
+            $document = $request->file('document');
+            $documentName = $request->project_title. ' proje belgesi.' . $document->getClientOriginalExtension();
+            
+            // Dosyayı public/housing_documents klasörüne taşı
+            $document->move(public_path('/housing_documents'), $documentName);
+        }
 
         $housingTypeInputs = HousingType::where('id', $request->input('housing_type'))->first();
         $housingTypeInputs = json_decode($housingTypeInputs->form_json);
@@ -81,6 +91,8 @@ class ProjectController extends Controller
                 "user_id" => Auth::user()->id,
                 "status_id" => 1,
                 "image" => $filePath,
+                'document' => $documentName,
+                "status" => 2
             ]);
 
             foreach ($request->file('project_images') as $image) {
@@ -246,6 +258,16 @@ class ProjectController extends Controller
             $filePath = $project->image;
         }
 
+        if ($request->hasFile('document')) {
+            $document = $request->file('document');
+            $documentName = $request->project_title. ' proje belgesi.' . $document->getClientOriginalExtension();
+            
+            // Dosyayı public/housing_documents klasörüne taşı
+            $document->move(public_path('/housing_documents'), $documentName);
+        }else{
+            $documentName = $project->document;
+        }
+
         if (count($errors) == 0) {
             $projectNew = Project::where('id', $id)->update([
                 "housing_type_id" => $request->input('housing_type'),
@@ -260,6 +282,7 @@ class ProjectController extends Controller
                 "county_id" => $request->input('county_id') ?? $project->id,
                 "status_id" => 1,
                 "image" => $filePath,
+                'document' => $documentName,
             ]);
 
             ProjectHousingType::where('project_id',$id)->delete();
@@ -409,5 +432,10 @@ class ProjectController extends Controller
             "status" => true,
             "imageName" => $imageName
         ]);
+    }
+
+    public function logs($projectId){
+        $logs = Log::where('item_type',1)->where('item_id',$projectId)->orderByDesc('created_at')->get();
+        return view('institutional.projects.logs',compact('logs'));
     }
 }
