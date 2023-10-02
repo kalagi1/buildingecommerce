@@ -15,6 +15,7 @@ class SubscriptionPlan extends Model
         'project_limit',
         'user_limit',
         'housing_limit',
+        'plan_type',
     ];
 
     public function users()

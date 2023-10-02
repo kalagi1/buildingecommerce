@@ -45,6 +45,6 @@ class HomeController extends Controller
         })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status',1)->orderBy("created_at", "desc")->get();
 
 
-        return view('client.home.index', compact('menu', 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'projects', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
+        return view('client.home.index', compact('menu', 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 }

@@ -44,6 +44,15 @@
                                 <label class="form-label" for="housing_limit">Konut Limiti</label>
                                 <input class="form-control" id="housing_limit" name="housing_limit" type="number" placeholder="Konut Limiti" required>
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="plan_type">Plan Türü</label>
+                                <select name="plan_type" id="plan_type" class="form-control">
+                                    <option value="Bireysel">Bireysel</option>
+                                    <option value="Emlakçı">Emlakçı</option>
+                                    <option value="Banka">Banka</option>
+                                    <option value="İnşaat">İnşaat</option>
+                                </select>
+                            </div>
                             <button type="submit" class="btn btn-primary">Oluştur</button>
                         </form>
                     </div>

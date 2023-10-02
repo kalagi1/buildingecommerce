@@ -155,9 +155,112 @@
                                         <div class="corporate-form" id="corporateForm">
                                             <!-- E-Posta -->
                                             <div class="mt-3">
+                                                <label for="corporate-account-type" class="q-label">Kurumsal Hesap Türü</label>
+                                                <select name="corporate-account-type" id="corporate-account-type" class="form-control">
+                                                    <option value="" disabled selected>Seçiniz</option>
+                                                    <option value="Emlakçı">Emlakçı</option>
+                                                    <option value="Banka">Banka</option>
+                                                    <option value="İnşaat">İnşaat</option>
+                                                </select>
+                                            </div>
+                                            <div class="mt-3 sub-plan-tab tab-emlakci d-none">
                                                 <label for="" class="q-label">Abonelik Planı</label>
                                                 <div class="owl-carousel">
-                                                    @foreach ($subscriptionPlans as $plan)
+                                                    @foreach ($subscriptionPlans_emlakci as $plan)
+                                                        <div class="item">
+                                                            <div class="card mb-4">
+                                                                <div class="card-body">
+                                                                    <label for=""
+                                                                        class="q-label">{{ $plan->name }}</label>
+
+                                                                    <label for="" class="q-label">Fiyat:
+                                                                        <span style="color:#446BB6">{{ $plan->price }}
+                                                                            TL</span></label>
+
+                                                                    <label for="" class="q-label">Proje Ekleme
+                                                                        Limiti:
+                                                                        <span
+                                                                            style="color:#446BB6">{{ $plan->project_limit }}
+                                                                        </span></label>
+
+                                                                    <label for="" class="q-label">Kullanıcı
+                                                                        Limiti:
+                                                                        <span
+                                                                            style="color:#446BB6">{{ $plan->user_limit }}</span></label>
+
+                                                                    <label for="" class="q-label">Konut Ekleme
+                                                                        Limiti:
+                                                                        <span
+                                                                            style="color:#446BB6">{{ $plan->housing_limit }}
+                                                                        </span></label>
+
+                                                                </div>
+                                                                <div class="card-footer">
+                                                                    <button type="button"
+                                                                        class="btn btn-primary btn-block plan-button"
+                                                                        data-plan-id="{{ $plan->id }}"
+                                                                        data-plan-name="{{ $plan->name }}"
+                                                                        data-plan-price="{{ $plan->price }}"
+                                                                        onclick="selectPlan(this)">
+                                                                        Seç
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="mt-3 sub-plan-tab tab-banka d-none">
+                                                <label for="" class="q-label">Abonelik Planı</label>
+                                                <div class="owl-carousel">
+                                                    @foreach ($subscriptionPlans_banka as $plan)
+                                                        <div class="item">
+                                                            <div class="card mb-4">
+                                                                <div class="card-body">
+                                                                    <label for=""
+                                                                        class="q-label">{{ $plan->name }}</label>
+
+                                                                    <label for="" class="q-label">Fiyat:
+                                                                        <span style="color:#446BB6">{{ $plan->price }}
+                                                                            TL</span></label>
+
+                                                                    <label for="" class="q-label">Proje Ekleme
+                                                                        Limiti:
+                                                                        <span
+                                                                            style="color:#446BB6">{{ $plan->project_limit }}
+                                                                        </span></label>
+
+                                                                    <label for="" class="q-label">Kullanıcı
+                                                                        Limiti:
+                                                                        <span
+                                                                            style="color:#446BB6">{{ $plan->user_limit }}</span></label>
+
+                                                                    <label for="" class="q-label">Konut Ekleme
+                                                                        Limiti:
+                                                                        <span
+                                                                            style="color:#446BB6">{{ $plan->housing_limit }}
+                                                                        </span></label>
+
+                                                                </div>
+                                                                <div class="card-footer">
+                                                                    <button type="button"
+                                                                        class="btn btn-primary btn-block plan-button"
+                                                                        data-plan-id="{{ $plan->id }}"
+                                                                        data-plan-name="{{ $plan->name }}"
+                                                                        data-plan-price="{{ $plan->price }}"
+                                                                        onclick="selectPlan(this)">
+                                                                        Seç
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="mt-3 sub-plan-tab tab-insaat d-none">
+                                                <label for="" class="q-label">Abonelik Planı</label>
+                                                <div class="owl-carousel">
+                                                    @foreach ($subscriptionPlans_insaat as $plan)
                                                         <div class="item">
                                                             <div class="card mb-4">
                                                                 <div class="card-body">
@@ -467,7 +570,7 @@
         $(document).ready(function() {
             $('.owl-carousel').owlCarousel({
                 items: 2, // Varsayılan olarak 2 öğe göster
-                loop: true,
+                loop: false,
                 margin: 10,
                 dots: true,
                 autoplay: true,
@@ -512,5 +615,21 @@
             button.classList.add("btn-success", "selected-plan-btn");
             document.getElementById('selected-plan-id').value = planId;
         }
+    </script>
+    <script>
+        'use strict';
+        $('#corporate-account-type').on('change', function()
+        {
+            let value = $(this).val();
+            let data =
+            {
+                "Emlakçı": "tab-emlakci",
+                "Banka": "tab-banka",
+                "İnşaat": "tab-insaat",
+            };
+
+            $('.sub-plan-tab').addClass('d-none');
+            $(`.sub-plan-tab.${data[value]}`).removeClass('d-none');
+        });
     </script>
 @endsection

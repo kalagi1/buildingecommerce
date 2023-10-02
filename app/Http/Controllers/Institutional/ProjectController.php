@@ -14,10 +14,12 @@ use App\Models\Project;
 use App\Models\ProjectHousing;
 use App\Models\ProjectHousingType;
 use App\Models\ProjectImage;
+use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Rules\EnoughProject;
 
 class ProjectController extends Controller
 {
@@ -47,8 +49,11 @@ class ProjectController extends Controller
             "description" => "required",
             "house_count" => "required",
             "cover_photo" => "required",
-            "document" => "required|file|max:2048"
+            "document" => "required|file|max:2048",
         ]);
+
+        if (UserPlan::where('user_id', auth()->user()->id)->sum('project_limit') <= 0)
+            return redirect()->back()->withErrors(['not_enough_limit' => 'Proje oluşturma hakkınız doldu.']);
 
         if ($request->hasFile('document')) {
             $document = $request->file('document');

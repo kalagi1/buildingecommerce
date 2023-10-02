@@ -11,6 +11,7 @@ use App\Models\HousingStatus;
 use App\Models\HousingStatusConnection;
 use App\Models\HousingType;
 use App\Models\Log;
+use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -38,6 +39,9 @@ class HousingController extends Controller
             "county_id" => "required",
             "document" => "required|file|max:2048"
         ]);
+
+        if (UserPlan::where('user_id', auth()->user()->id)->sum('housing_limit') <= 0)
+            return redirect()->back()->withErrors(['not_enough_limit' => 'Konut oluşturma hakkınız doldu.']);
 
         if ($request->hasFile('document')) {
             $document = $request->file('document');
