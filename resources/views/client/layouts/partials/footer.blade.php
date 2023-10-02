@@ -236,6 +236,39 @@
             }
         }]
     });
+    $('.slick-agentsc').slick({
+        infinite: false,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        dots: false,
+        arrows: true,
+        adaptiveHeight: true,
+        responsive: [{
+            breakpoint: 1292,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                dots: false,
+                arrows: false
+            }
+        }, {
+            breakpoint: 993,
+            settings: {
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                dots: false,
+                arrows: false
+            }
+        }, {
+            breakpoint: 769,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: false,
+                arrows: false
+            }
+        }]
+    });
 </script>
 
 

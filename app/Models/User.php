@@ -50,6 +50,17 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(HousingComment::class, 'user_id');
+    }
+    
+    public function owners()
+    {
+        return $this->hasMany(HousingComment::class, 'owner_id');
+    }
+    
+
     public function role()
     {
         return $this->belongsTo(Role::class, "type");

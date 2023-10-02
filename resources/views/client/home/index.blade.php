@@ -184,7 +184,7 @@
                                                     <div class="homes">
                                                         <!-- homes img -->
 
-                                                        <a href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}"
+                                                        <a href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}"
                                                             class="homes-img">
                                                             <div class="homes-tag button sale rent"
                                                                 style="background-color:#ff5a5f !important">Öne Çıkan</div>
@@ -211,7 +211,7 @@
                                                     <p class="homes-address mb-3">
 
                                                         <a
-                                                            href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}">
+                                                            href="{{ route('project.housings.detail', [$project->slug,  getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                                             <i
                                                                 class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
                                                         </a>
@@ -290,7 +290,7 @@
                                                     <div class="homes">
                                                         <!-- homes img -->
 
-                                                        <a href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}"
+                                                        <a href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}"
                                                             class="homes-img">
                                                             <div class="homes-tag button sale rent"
                                                                 style="background-color:#ff5a5f !important">Öne Çıkan</div>
@@ -317,7 +317,7 @@
                                                     <p class="homes-address mb-3">
 
                                                         <a
-                                                            href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}">
+                                                            href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                                             <i
                                                                 class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
                                                         </a>
