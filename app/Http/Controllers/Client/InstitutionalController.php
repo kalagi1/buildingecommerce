@@ -53,7 +53,7 @@ class InstitutionalController extends Controller
         foreach ($users as $institutional) {
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {
-                $institutional = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'brands')->first();
+                $institutional = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'brands',"owners.housing")->first();
                 return view("client.institutional.detail", compact("institutional"));
             }
         }

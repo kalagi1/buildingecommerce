@@ -16,7 +16,7 @@ class HousingController extends Controller
 {
     public function sendComment(Request $request, $id)
     {
-
+        $housing = Housing::where("id", $id)->with("user")->first();
         $validator = Validator::make($request->all(),
             [
                 'rate' => 'required|string|in:1,2,3,4,5',
@@ -45,6 +45,7 @@ class HousingController extends Controller
                 'comment' => $comment,
                 'rate' => $rate,
                 'images' => json_encode($images),
+                "owner_id" => $housing->user_id
             ]
         );
 

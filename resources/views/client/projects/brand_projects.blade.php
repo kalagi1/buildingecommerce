@@ -133,7 +133,7 @@
 
 
     <!-- START SECTION RECENTLY PROPERTIES -->
-    <section class="featured portfolio rec-pro disc bg-white">
+    <section class="featured portfolio rec-pro disc bg-white mb-5">
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center;" class="mbb">
                 <div class="section-title">
@@ -255,5 +255,10 @@
         .portfolio{
             padding: 0 !important
         }
+        .slick-track {
+            width: 100% !important
+        }
     </style>
+
+
 @endsection
