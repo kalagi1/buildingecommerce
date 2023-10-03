@@ -7,12 +7,85 @@ use App\Http\Requests\UpdateProfileRequest;
 use App\Models\City;
 use App\Models\County;
 use App\Models\SubscriptionPlan;
+use App\Models\UserPlan;
 use App\Models\TaxOffice;
 use App\Models\User;
+use App\Models\UpgradeLog;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Rules\SubscriptionPlanToUpgrade;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
+    function upgrade()
+    {
+        $plans = SubscriptionPlan::where('plan_type', auth()->user()->corporate_type)->get();
+        $current = UserPlan::where('user_id', auth()->user()->id)->first() ?? false;
+        return view('institutional.profile.upgrade', compact('plans', 'current'));
+    }
+
+    function upgradeProfile(Request $request, $id)
+    {
+        $request->validate(['id' => $id],
+            [
+                'id' =>
+                [
+                    'required',
+                    new SubscriptionPlanToUpgrade(),
+                ]
+            ]
+        );
+
+        $plan = SubscriptionPlan::find($id);
+        $before = UserPlan::where('user_id', auth()->user()->id)->first();
+
+        if (!$before)
+        {
+            $before = new \stdClass();
+            $before->user_limit = 0;
+            $before->housing_limit = 0;
+            $before->project_limit = 0;
+        }
+
+        switch (auth()->user()->corporate_type)
+        {
+            case 'Emlakçı':
+                $data =
+                [
+                    'user_limit' => $before->user_limit + $plan->user_limit,
+                    'housing_limit' => $before->housing_limit + $plan->housing_limit,
+                ];
+                break;
+
+            case 'Banka':
+            case 'İnşaat':
+                $data =
+                [
+                    'user_limit' => $before->user_limit + $plan->user_limit,
+                    'project_limit' => $before->project_limit + $plan->project_limit,
+                    'housing_limit' => $before->housing_limit + $plan->housing_limit,
+                ];
+                break;
+
+            default:
+                return redirect()->back();
+                break;
+        }
+
+        DB::beginTransaction();
+            UpgradeLog::create(
+                [
+                    'user_id' => auth()->user()->id,
+                    'plan_id' => $plan->id,
+                ]
+            );
+            UserPlan::where('user_id', auth()->user()->id)->update($data);
+        DB::commit();
+
+        return redirect()->back()->with('success', 'Plan başarıyla eklendi.');
+    }
+
     public function edit()
     {
         $cities = City::all();

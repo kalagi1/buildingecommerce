@@ -114,6 +114,8 @@ class HousingController extends Controller
             ]
         )->id;
 
+        UserPlan::where('user_id', auth()->user()->id)->decrement('housing_limit');
+
         return redirect()->route('institutional.housing.list',["status" => "new_housing"]);
     }
 

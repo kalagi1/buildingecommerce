@@ -18,10 +18,12 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         $cities = City::all();
+
+        $subscriptionPlans_bireysel = SubscriptionPlan::where('plan_type', 'Bireysel')->get();
         $subscriptionPlans_emlakci = SubscriptionPlan::where('plan_type', 'Emlakçı')->get();
         $subscriptionPlans_banka = SubscriptionPlan::where('plan_type', 'Banka')->get();
         $subscriptionPlans_insaat = SubscriptionPlan::where('plan_type', 'İnşaat')->get();
-        return view('client.auth.login', compact("cities", 'subscriptionPlans_emlakci', 'subscriptionPlans_banka', 'subscriptionPlans_insaat'));
+        return view('client.auth.login', compact("cities", 'subscriptionPlans_bireysel', 'subscriptionPlans_emlakci', 'subscriptionPlans_banka', 'subscriptionPlans_insaat'));
     }
 
     public function login(Request $request)

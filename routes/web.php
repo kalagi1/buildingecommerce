@@ -524,7 +524,6 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional']], function () {
 
-    
     // User Controller İzin Kontrolleri
     Route::middleware(['checkPermission:CreateUser'])->group(function () {
         Route::get('/users/create', [InstitutionalUserController::class, 'create'])->name('users.create');
@@ -576,6 +575,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
         Route::get('/profile/edit', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
         Route::put('/profile/update', [InstitutionalProfileController::class, "update"])->name('profile.update');
+        Route::get('/profile/upgrade', [InstitutionalProfileController::class, 'upgrade'])->name('profile.upgrade');
+        Route::post('/profile/upgrade/{id}', [InstitutionalProfileController::class, 'upgradeProfile'])->name('profile.upgrade.action');
     });
 
     Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
@@ -655,6 +656,8 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
         Route::get('/profili-guncelle', [ClientPanelProfileController::class, "edit"])->name('profile.edit');
+        Route::get('/profili-yukselt', [ClientPanelProfileController::class, "upgrade"])->name('profile.upgrade');
+        Route::post('/profili-yukselt/{id}', [ClientPanelProfileController::class, "upgradeProfile"])->name('profile.upgrade.action');
         Route::put('/profile/update', [ClientPanelProfileController::class, "update"])->name('profile.update');
     });
 

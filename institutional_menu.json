@@ -18,6 +18,15 @@
         "activePath": "institutional/profile/edit"
     },
     {
+        "id": "upgrade",
+        "label": "Hesabım & Yardım",
+        "icon": "edit",
+        "text": "Aboneliği Yükselt",
+        "key": "Upgrade",
+        "url": "institutional.profile.upgrade",
+        "activePath": "institutional/profile/upgrade"
+    },
+    {
         "id": "role",
         "label": "Yetkilendirme",
         "icon": "user",

@@ -100,6 +100,8 @@ class ProjectController extends Controller
                 "status" => 2
             ]);
 
+            UserPlan::where('user_id', auth()->user()->id)->decrement('project_limit');
+
             foreach ($request->file('project_images') as $image) {
                 // Dosyayı uygun bir konuma kaydedin, örneğin "public/project_images" klasörüne
                 $path = $image->store('public/project_images');
