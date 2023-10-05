@@ -93,17 +93,27 @@
                                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                             </svg>
-                                            <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
+                                            <span class="d-xl-block d-none d-lg-block rightNavText">Admin</span> </a>
                                     @elseif (Auth::user()->type != 1 && Auth::user()->type != 3)
-                                        <a href="{{ route('institutional.index') }}" target="_blank"
-                                            class="userIcon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24"
-                                                stroke="currentColor" stroke-width="2" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                            </svg>
-                                            <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
+                                   
+                                        <div class="dropdown hover">
+                                            <a href="{{ route('institutional.index') }}" target="_blank"
+                                                class="userIcon">
+                                                <svg viewBox="0 0 24 24" width="24" height="24"
+                                                    stroke="currentColor" stroke-width="2" fill="none"
+                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                    class="css-i6dzq1">
+                                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                                </svg>
+                                                <span class="d-xl-block d-none d-lg-block rightNavText">Mağazam</span>
+                                                <ul>
+                                                    <li><a href="#">İlanlarım</a></li>
+                                                    <li><a href="#">İlan Ekle</a></li>
+                                                    <li><a href="#">Çıkış Yap</a></li>
+                                                </ul>
+                                            </a>
+                                        </div>
                                     @elseif (Auth::user()->type == 3)
                                         <a href="{{ route('admin.index') }}" target="_blank" class="userIcon">
                                             <svg viewBox="0 0 24 24" width="24" height="24"
@@ -123,27 +133,45 @@
                                             <circle cx="12" cy="7" r="4"></circle>
                                         </svg>
                                         <span class="d-xl-block d-none d-lg-block rightNavText">Giriş Yap</span></a>
+                                    <a href="{{ route('cart') }}">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                            stroke-width="2" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round" class="css-i6dzq1">
+                                            <circle cx="9" cy="21" r="1"></circle>
+                                            <circle cx="20" cy="21" r="1"></circle>
+                                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6">
+                                            </path>
+                                        </svg>
+                                        <span class="d-xl-block d-none d-lg-block rightNavText">Sepetim</span></a>
+                                    <a href="{{ route('client.login') }}"
+                                        style="text-decoration: none;margin-left:15px"><button
+                                            class="btn btn-primary q-button" type="submit"> Sepete İlan
+                                            Ekle</button></a>
+
                                 @endif
 
-                                <a href="{{ route('favorites') }}" class="heartIcon">
-                                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                        stroke-width="2" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round" class="css-i6dzq1">
-                                        <path
-                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                                        </path>
-                                    </svg>
-                                    <span class="d-xl-block d-none d-lg-block rightNavText">Favoriler</span></a>
-                                <a href="{{ route('cart') }}">
-                                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                        stroke-width="2" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round" class="css-i6dzq1">
-                                        <circle cx="9" cy="21" r="1"></circle>
-                                        <circle cx="20" cy="21" r="1"></circle>
-                                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6">
-                                        </path>
-                                    </svg>
-                                    <span class="d-xl-block d-none d-lg-block rightNavText">Sepetim</span></a>
+                                @if (Auth::check())
+                                    <a href="{{ route('favorites') }}" class="heartIcon">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                            stroke-width="2" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round" class="css-i6dzq1">
+                                            <path
+                                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                            </path>
+                                        </svg>
+                                        <span class="d-xl-block d-none d-lg-block rightNavText">Favoriler</span></a>
+                                    <a href="{{ route('cart') }}">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                            stroke-width="2" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round" class="css-i6dzq1">
+                                            <circle cx="9" cy="21" r="1"></circle>
+                                            <circle cx="20" cy="21" r="1"></circle>
+                                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6">
+                                            </path>
+                                        </svg>
+                                        <span class="d-xl-block d-none d-lg-block rightNavText">Sepetim</span></a>
+                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -194,3 +222,106 @@
 
         </header>
         <div class="clearfix"></div>
+
+
+
+        
+        <style>
+
+            .dropdown ul {
+                width:200px !important;
+                text-align: left;
+                list-style-type: none;
+                display: block;
+                z-index: 999;
+                margin: 0;
+                margin-top: 10px;
+                padding: 0;
+                position: absolute;
+                width: 100%;
+                box-shadow: 0 6px 5px -5px rgba(0, 0, 0, 0.3);
+                overflow: hidden;
+            }
+
+            .dropdown li a,
+            .dropdown.toggle>label {
+                display: block;
+                padding: 0 0 0 10px;
+                background: white;
+                text-decoration: none;
+                line-height: 40px;
+                font-size: 13px;
+                font-weight: 600;
+                font-weight: bold;
+                color: black
+                background-color: #FFF;
+            }
+
+            .dropdown li {
+                height: 0;
+                overflow: hidden;
+                transition: all 500ms;
+            }
+
+            .dropdown.hover li {
+                transition-delay: 300ms;
+            }
+
+            .dropdown li:first-child a {
+                border-radius: 2px 2px 0 0;
+            }
+
+            .dropdown li:last-child a {
+                border-radius: 0 0 2px 2px;
+            }
+
+            .dropdown li:first-child a::before {
+                content: "";
+                display: block;
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 10px solid #FFF;
+                margin: -10px 0 0 30px;
+            }
+
+            .dropdown li a:hover,
+            .dropdown.toggle>label:hover,
+            .dropdown.toggle>input:checked~label {
+                background-color: #EEE;
+            }
+
+            .dropdown>li>a:hover::after,
+            .dropdown.toggle>label:hover::after,
+            .dropdown.toggle>input:checked~label::after {
+                border-top-color: #AAA;
+            }
+
+            .dropdown li:first-child a:hover::before {
+                border-bottom-color: #EEE;
+            }
+
+            .dropdown.hover:hover li,
+            .dropdown.toggle>input:checked~ul li {
+                height: 40px;
+            }
+
+            .dropdown.hover:hover li:first-child,
+            .dropdown.toggle>input:checked~ul li:first-child {
+                padding-top: 15px;
+            }
+        </style>
+        <script>
+            // close the toggle menu if user clicks outside of the menu
+
+            $(document).click(function(event) {
+                if (
+                    $('.toggle > input').is(':checked') &&
+                    !$(event.target).parents('.toggle').is('.toggle')
+                ) {
+                    $('.toggle > input').prop('checked', false);
+                }
+            })
+        </script>

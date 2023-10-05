@@ -1172,7 +1172,7 @@ Version      : 1.2
         }
 
         section.portfolio {
-            padding: 0 !important;
+            padding-top: 0 !important;
 
         }
     }
@@ -3262,8 +3262,11 @@ Version      : 1.2
     }
 
     .portfolio .project-head img {
-        width: 100%;
+        width: 52px;
         z-index: 2;
+        height: 52px;
+        object-fit: cover;
+        border-radius: 50%;
     }
 
     .portfolio .project-bottom {
@@ -8499,7 +8502,7 @@ Version      : 1.2
 
     .userIcon,
     .heartIcon {
-        margin-right: 30px;
+        padding-right: 30px;
     }
 
     @media screen and (max-width: 991px) {
