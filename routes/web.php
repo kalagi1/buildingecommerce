@@ -529,12 +529,16 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     // Offers - Kampanyalar
     Route::middleware(['checkPermission:CreateOffer'])->group(function () {
         Route::get('/offers/create', [InstitutionalOfferController::class, 'create'])->name('offers.create');
-        Route::put('/offers', [InstitutionalOfferController::class, 'store'])->name('offers.store');
+        Route::post('/offers', [InstitutionalOfferController::class, 'store'])->name('offers.store');
+        Route::get('/offers/get-project-housings', [InstitutionalOfferController::class, 'getProjectHousingList'])->name('offers.get-project-housings');
+    });
+
+    Route::middleware(['checkPermission:GetOfferById'])->group(function() {
+        Route::get('/offers/{offer}/edit', [InstitutionalOfferController::class, 'edit'])->name('offers.edit');
     });
 
     Route::middleware(['checkPermission:UpdateOffer'])->group(function () {
-        Route::get('/offers/edit', [InstitutionalOfferController::class, 'edit'])->name('offers.edit');
-        Route::post('/offers/{offer}', [InstitutionalOfferController::class, 'update'])->name('offers.update');
+        Route::put('/offers/{offer}', [InstitutionalOfferController::class, 'update'])->name('offers.update');
     });
 
     Route::middleware(['checkPermission:DeleteOffer'])->group(function () {
