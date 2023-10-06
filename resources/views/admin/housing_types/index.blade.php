@@ -13,8 +13,8 @@
                                     <div class="d-flex align-items-center justify-content-end my-3">
                                         <div id="bulk-select-replace-element"><button class="btn btn-phoenix-success btn-sm"
                                                 type="button"><span class="fas fa-plus"
-                                                    data-fa-transform="shrink-3 down-2"></span><span
-                                                    class="ms-1">New</span></button></div>
+                                                    data-fa-transform="shrink-3 down-2"></span><span class="ms-1">Yeni
+                                                    Ekle</span></button></div>
                                     </div>
                                     <div id="tableExample"
                                         data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
@@ -22,14 +22,6 @@
                                             <table class="table table-sm border-top border-200 fs--1 mb-0">
                                                 <thead>
                                                     <tr>
-                                                        <th class="white-space-nowrap fs--1 align-middle ps-0"
-                                                            style="max-width:20px; width:18px;">
-                                                            <div class="form-check mb-0 fs-0"><input
-                                                                    class="form-check-input" id="bulk-select-example"
-                                                                    type="checkbox"
-                                                                    data-bulk-select='{"body":"bulk-select-body","actions":"bulk-select-actions","replacedElement":"bulk-select-replace-element"}' />
-                                                            </div>
-                                                        </th>
                                                         <th>Title</th>
                                                         <th>Slug</th>
                                                         <th>Active</th>

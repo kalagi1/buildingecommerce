@@ -37,8 +37,8 @@
                                 <input class="form-control" id="project_limit" name="project_limit" type="number" placeholder="Proje Limiti" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="user_limit">Kullanıcı Limiti</label>
-                                <input class="form-control" id="user_limit" name="user_limit" type="number" placeholder="Kullanıcı Limiti" required>
+                                <label class="form-label" for="user_limit">Alt Kullanıcı Limiti</label>
+                                <input class="form-control" id="user_limit" name="user_limit" type="number" placeholder="Alt Kullanıcı Limiti" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="housing_limit">Konut Limiti</label>
