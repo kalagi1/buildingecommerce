@@ -22,6 +22,10 @@
                                             <table class="table table-sm border-top border-200 fs--1 mb-0">
                                                 <thead>
                                                     <tr>
+                                                        <th class="white-space-nowrap fs--1 align-middle ps-0"
+                                                            style="max-width:20px; width:18px;">
+                                                            #
+                                                        </th>
                                                         <th>Title</th>
                                                         <th>Slug</th>
                                                         <th>Active</th>
@@ -63,7 +67,7 @@
         var housingTypes = @json($housingTypes);
 
         var tbody = document.getElementById("bulk-select-body");
-        housingTypes.forEach(function(housingType) {
+        housingTypes.forEach(function(housingType, key) {
             var row = document.createElement("tr");
 
             var checkboxCell = document.createElement("td");
