@@ -30,16 +30,16 @@
                             @csrf
                             <input class="search-input" type="search" placeholder="Mağazada Ara" aria-label="Search"
                                 name="q">
-                                <div class="header-search__suggestions">
-                                    <div class="header-search__suggestions__section">
-                                        <h5>Projeler</h5>
-                                        <div class="header-search__suggestions__section__items">
-                                            {{-- @foreach ($store->projects as $item)
-                                                <a href="#"><span>{{ $item->project_title }}</span></a>
-                                            @endforeach --}}
-                                        </div>
+                            <div class="header-search__suggestions">
+                                <div class="header-search__suggestions__section">
+                                    <h5>Projeler</h5>
+                                    <div class="header-search__suggestions__section__items">
+                                        @foreach ($project->user->projects as $item)
+                                            <a href="#"><span>{{ $item->project_title }}</span></a>
+                                        @endforeach
                                     </div>
                                 </div>
+                            </div>
                             <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
                         </form>
                     </nav>
@@ -72,7 +72,7 @@
                             <ul class="the-agents-details">
                                 <?php
                                 $totalHousingCount = 0;
-
+                                
                                 foreach ($project->user->projects as $userProject) {
                                     $totalHousingCount += count($userProject->housings);
                                 }
@@ -325,7 +325,7 @@
             $location = explode(',', $project->location);
             $location['latitude'] = $location[0];
             $location['longitude'] = $location[1];
-
+            
             $location = json_encode($location);
             $location = json_decode($location);
         @endphp
