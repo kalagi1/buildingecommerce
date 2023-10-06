@@ -37,7 +37,7 @@
                       </div>
                       <p class="text-500 fs--1 mb-0 text-nowrap timeline-time"><span class="fa-regular fa-clock me-1"></span>{{date('H:i',strtotime($log->created_at))}}</p>
                     </div>
-                    <h6 class="fs--2 fw-normal mb-3"><a class="fw-semi-bold" href="#!">Admin</a> tarafından</h6>
+                    <h6 class="fs--2 fw-normal mb-3"><a class="fw-semi-bold" href="#!">{{$log->user->name}}</a> tarafından</h6>
                     <p class="fs--1 text-800 w-sm-60 mb-5">{{$log->reason}}</p>
                   </div>
                 </div>

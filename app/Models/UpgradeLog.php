@@ -5,14 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Log extends Model
+class UpgradeLog extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-
-    function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+    protected $fillable = ['user_id', 'plan_id'];
 }

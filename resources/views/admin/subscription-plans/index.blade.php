@@ -46,6 +46,8 @@
                                             data-sort="planUserLimit">Alt Kullanıcı Limiti</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="planHousingLimit">Konut Limiti</th>
+                                        <th class="sort white-space-nowrap align-middle ps-0" scope="col"
+                                            data-sort="planHousingLimit">Plan Tipi</th>
                                         <th>İşlemler</th>
                                     </tr>
                                 </thead>
@@ -58,6 +60,7 @@
                                             <td>{{ $plan->project_limit }}</td>
                                             <td>{{ $plan->user_limit }}</td>
                                             <td>{{ $plan->housing_limit }}</td>
+                                            <td>{{ $plan->plan_type }}</td>
                                             <td>
                                                 <a href="{{ route('admin.subscriptionPlans.edit', $plan->id) }}"
                                                     class="btn btn-sm btn-primary">Düzenle</a>

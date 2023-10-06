@@ -5,14 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Log extends Model
+class Offer extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-
-    function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+    protected $fillable = ['user_id', 'project_id', 'discount_amount', 'start_date', 'end_date'];
 }
