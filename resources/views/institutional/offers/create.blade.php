@@ -30,7 +30,7 @@
                                         action="{{ route('institutional.offers.store') }}" enctype="multipart/form-data">
                                         @csrf
                                         <div class="col-md-6">
-                                            <label class="form-label" for="validationCustom01">İndirim Tutarı</label>
+                                            <label class="form-label" for="validationCustom01">İndirim Tutarı (TL)</label>
                                             <input name="discount_amount" class="form-control" id="validationCustom01"
                                                 type="number" min="0" value="" required="">
                                             <div class="valid-feedback">Looks good!</div>
@@ -46,6 +46,7 @@
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label" for="validationCustom01">Projeye Ait Konutlar</label>
+                                            <a href="#" class="small float-right" id="select-all-ph">Projenin Tüm Konutları</a>
                                             <select name="project_housings[]" class="form-control" id="project_housings" multiple required>
                                             </select>
                                         </div>
@@ -76,6 +77,11 @@
 @endsection
 @section('scripts')
     <script>
+        $('#select-all-ph').on('click', function()
+        {
+            $('#project_housings option').prop('selected', true);
+        });
+
         $('#project_id').change(function(){
           var selectedProject = $(this).val(); // Seçilen şehir değerini al
 
