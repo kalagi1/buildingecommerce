@@ -51,6 +51,7 @@ use App\Http\Controllers\Institutional\ProjectController as InstitutionalProject
 use App\Http\Controllers\Institutional\RoleController as InstitutionalRoleController;
 use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
+use App\Http\Controllers\Institutional\OfferController as InstitutionalOfferController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -523,6 +524,25 @@ Route::get('/institutional/login', [LoginController::class, 'index'])->name('ins
 Route::post('/institutional/login', [LoginController::class, 'login'])->name('institutional.login.post');
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional']], function () {
+
+    // Offers - Kampanyalar
+    Route::middleware(['checkPermission:CreateOffer'])->group(function () {
+        Route::get('/offers/create', [InstitutionalOfferController::class, 'create'])->name('offers.create');
+        Route::put('/offers', [InstitutionalOfferController::class, 'store'])->name('offers.store');
+    });
+
+    Route::middleware(['checkPermission:UpdateOffer'])->group(function () {
+        Route::get('/offers/edit', [InstitutionalOfferController::class, 'edit'])->name('offers.edit');
+        Route::post('/offers/{offer}', [InstitutionalOfferController::class, 'update'])->name('offers.update');
+    });
+
+    Route::middleware(['checkPermission:DeleteOffer'])->group(function () {
+        Route::delete('/offers/{offer}', [InstitutionalOfferController::class, 'destroy'])->name('offers.delete');
+    });
+
+    Route::middleware(['checkPermission:GetOffers'])->group(function () {
+        Route::get('/offers', [InstitutionalOfferController::class, 'index'])->name('offers.index');
+    });
 
     // User Controller İzin Kontrolleri
     Route::middleware(['checkPermission:CreateUser'])->group(function () {
