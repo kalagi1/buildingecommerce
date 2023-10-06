@@ -92,11 +92,11 @@
                             <div class="header-search__suggestions">
                                 <div class="header-search__suggestions__section">
                                     <h5>Projeler</h5>
-                                    <div class="header-search__suggestions__section__items">
-                                        @foreach ($store->projects as $item)
+                                    {{-- <div class="header-search__suggestions__section__items">
+                                        @foreach ($brand->user->projects as $item)
                                             <a href="#"><span>{{ $item->project_title }}</span></a>
                                         @endforeach
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <button class="search-button" type="submit"><i class="fas fa-search"></i></button>

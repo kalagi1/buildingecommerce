@@ -95,14 +95,14 @@
 
             var standOutCell = document.createElement("td");
             standOutCell.className = "align-middle status";
-            standOutCell.innerHTML =  "<a href='{{URL::to('/')}}/institutional/project_stand_out/"+project.id+"' class='btn btn-info'>Öne Çıkar</a>";
+            standOutCell.innerHTML =  "<a href='{{URL::to('/')}}/institutional/project_stand_out/"+project.id+"' class='badge badge-info'>Öne Çıkar</a>";
 
             var activeCell = document.createElement("td");
             activeCell.className = "align-middle status";
-            activeCell.innerHTML = project.status == 1 ? '<span class="btn btn-success">Aktif</span>' : project.status == 2 ? '<span class="btn btn-warning">Admin Onayı Bekliyor</span>' : project.status == 3 ? '<span class="btn btn-danger">Admin Tarafından Reddedildi</span>' : '<span class="btn btn-danger">Pasif</span>';
+            activeCell.innerHTML = project.status == 1 ? '<span class="badge badge-success">Aktif</span>' : project.status == 2 ? '<span class="badge badge-warning">Admin Onayı Bekliyor</span>' : project.status == 3 ? '<span class="badge badge-danger">Admin Tarafından Reddedildi</span>' : '<span class="badge badge-danger">Pasif</span>';
 
             var actionsCell = document.createElement("td");
-            actionsCell.className = "align-middle white-space-nowrap     pe-0";
+            actionsCell.className = "align-middle white-space-nowrap pe-0";
             var actionsDiv = document.createElement("div");
             actionsDiv.className = "font-sans-serif btn-reveal-trigger position-static";
             var actionsButton = document.createElement("button");
@@ -113,32 +113,28 @@
             actionsButton.setAttribute("aria-haspopup", "true");
             actionsButton.setAttribute("aria-expanded", "false");
             actionsButton.setAttribute("data-bs-reference", "parent");
-            var actionsIcon = document.createElement("span");
-            actionsIcon.className = "fas fa-ellipsis-h fs--2";
-            actionsButton.appendChild(actionsIcon);
-            actionsDiv.appendChild(actionsButton);
+         
             var dropdownMenu = document.createElement("div");
             dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
             var viewLink = document.createElement("a");
-            viewLink.className = "dropdown-item";
+            viewLink.className = "btn btn-warning";
             viewLink.href = "{{URL::to('/')}}/institutional/projects/"+project.id+'/logs';
             viewLink.textContent = "Loglar";
             var exportLink = document.createElement("a");
-            exportLink.className = "dropdown-item";
+            exportLink.className = "btn btn-success ml-3";
             exportLink.href = "{{URL::to('/')}}/institutional/projects/"+project.id+'/edit';
             exportLink.textContent = "Düzenle";
             var divider = document.createElement("div");
             divider.className = "dropdown-divider";
             var removeLink = document.createElement("a");
-            removeLink.className = "dropdown-item text-danger";
+            removeLink.className = "btn btn-danger ml-3";
             removeLink.href = "#!";
             removeLink.textContent = "Sil";
             removeLink.setAttribute("data-project-id", project.id);
-            dropdownMenu.appendChild(viewLink);
-            dropdownMenu.appendChild(exportLink);
-            dropdownMenu.appendChild(divider);
-            dropdownMenu.appendChild(removeLink);
-            actionsDiv.appendChild(dropdownMenu);
+          
+            actionsDiv.appendChild(viewLink);
+            actionsDiv.appendChild(exportLink);
+            actionsDiv.appendChild(removeLink);
             actionsCell.appendChild(actionsDiv);
 
             row.appendChild(checkboxCell);
@@ -193,4 +189,23 @@
             });
         });
     </script>
+
+    <style>
+      .ml-3
+      {
+        margin-left: 20px
+      }
+
+      .badge-success{
+        background-color: green
+      }
+
+      .badge-danger{
+        background-color: red
+      }
+
+      .badge-info {
+        background-color: #0097eb
+      }
+    </style>
   @endsection

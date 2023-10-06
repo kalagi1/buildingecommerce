@@ -34,7 +34,7 @@
                                     <div class="header-search__suggestions__section">
                                         <h5>Projeler</h5>
                                         <div class="header-search__suggestions__section__items">
-                                            @foreach ($store->projects as $item)
+                                            @foreach ($institutional->projects as $item)
                                                 <a href="#"><span>{{ $item->project_title }}</span></a>
                                             @endforeach
                                         </div>

@@ -659,11 +659,10 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::delete('/store-banners/{storeBanner}', [StoreBannerController::class, 'destroy'])->name('storeBanners.destroy');
     });
 
-    Route::middleware(['checkPermission:createHousing'])->group(function () {
+    Route::middleware(['checkPermission:CreateHousing'])->group(function () {
         Route::get('/create_housing', [InstitutionalHousingController::class, 'create'])->name('housing.create');
         Route::post('/create_housing', [InstitutionalHousingController::class, 'store'])->name('housing.store');
     });
-
     Route::middleware(['checkPermission:editHousing'])->group(function () {
         Route::get('/edit_housing/{id}', [InstitutionalHousingController::class, 'edit'])->name('housing.edit');
         Route::post('/edit_housing/{id}', [InstitutionalHousingController::class, 'update'])->name('housing.update');
