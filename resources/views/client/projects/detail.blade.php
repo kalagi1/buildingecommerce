@@ -254,7 +254,7 @@
                                                 <div class="second-btn">
                                                     <div class="" style="">
                                                         <div class="second-price-btn{{ $offer ? ' border-0' : null }}">
-                                                            @if ($offer)
+                                                        @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                             <h6
                                                                 style="color: orange;position: relative;top:4px;font-weight:600;font-size:14px;">
                                                                 {{ getData($project, 'price[]', $i + 1)->value - (getData($project, 'price[]', $i + 1)->value * (round($offer->discount_amount / getData($project, 'price[]', $i + 1)->value * 100)) ) / 100 }} TL</h6>
