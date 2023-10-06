@@ -7,7 +7,7 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Create Page</h4>
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Sayfa Oluştur</h4>
                         </div>
                     </div>
                 </div>
@@ -25,35 +25,35 @@
                         <form action="{{ route('admin.pages.store') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label" for="title">Page Title</label>
+                                <label class="form-label" for="title">Sayfa Başlığı</label>
                                 <input class="form-control" id="title" name="title" type="text"
-                                    placeholder="Page Title">
+                                    placeholder="Sayfa Başlığı">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="content">Page Content</label>
+                                <label class="form-label" for="content">Sayfa İçeriği</label>
                                 <textarea id="editor" name="content"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="meta_title">Meta Title</label>
+                                <label class="form-label" for="meta_title">Meta Başlık</label>
                                 <input class="form-control" id="meta_title" name="meta_title" type="text"
-                                    placeholder="Meta Title">
+                                    placeholder="Meta Başlık">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="meta_description">Meta Description</label>
+                                <label class="form-label" for="meta_description">Meta Açıklama</label>
                                 <textarea class="form-control" id="meta_description" name="meta_description" rows="3"
-                                    placeholder="Meta Description"></textarea>
+                                    placeholder="Meta Açıklama"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="meta_keywords">Meta Keywords</label>
+                                <label class="form-label" for="meta_keywords">Meta Anahtar Kelimeler</label>
                                 <input class="form-control" id="meta_keywords" name="meta_keywords" type="text"
-                                    placeholder="Meta Keywords">
+                                    placeholder="Meta Anahtar Kelimeler">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="meta_author">Meta Author</label>
+                                <label class="form-label" for="meta_author">Meta Yazarı</label>
                                 <input class="form-control" id="meta_author" name="meta_author" type="text"
-                                    placeholder="Meta Author">
+                                    placeholder="Meta Yazarı">
                             </div>
-                            <button type="submit" class="btn btn-primary">Create Page</button>
+                            <button type="submit" class="btn btn-primary">Sayfa Oluştur</button>
                         </form>
                     </div>
                 </div>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
 use App\Models\FooterSlider;
 use App\Models\Housing;
 use App\Models\HousingStatus;
@@ -11,6 +10,7 @@ use App\Models\Menu;
 use App\Models\Project;
 use App\Models\Slider;
 use App\Models\StandOutUser;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -32,7 +32,7 @@ class HomeController extends Controller
 
         $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))->where('end_date', ">=", date("Y-m-d"))->orderBy("item_order")->get();
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
-        $brands = Brand::where('status', 1)->get();
+        $brands = User::where("type", "2")->where("status", "1")->get();
         $sliders = Slider::all();
         $footerSlider = FooterSlider::all();
 

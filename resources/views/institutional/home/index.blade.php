@@ -53,7 +53,7 @@
                     <div class="ms-2">
                         <div class="d-flex align-items-end">
                             <h2 class="mb-0 me-2">{{ $user->plan->user_limit }}</h2>
-                            <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Kullanıcı
+                            <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Alt Kullanıcı
                                 Limiti</span>
                         </div>
                     </div>

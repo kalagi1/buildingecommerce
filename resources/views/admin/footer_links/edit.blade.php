@@ -7,7 +7,7 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Edit Footer Link</h4>
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Footer Bağlantısı Güncelle</h4>
                         </div>
                     </div>
                 </div>
@@ -27,16 +27,16 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
-                                <label class="form-label" for="title">Title</label>
+                                <label class="form-label" for="title">Başlık</label>
                                 <textarea class="form-control" id="title" name="title" type="text">{{ $footerLink->title }}</textarea>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="url">URL</label>
+                                <label class="form-label" for="url">Bağlantı URL</label>
                                 <input class="form-control" id="url" name="url" type="text"
                                     value="{{ $footerLink->url }}">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="widget">Widget</label>
+                                <label class="form-label" for="widget">Grup Adı</label>
                                 <input class="form-control" id="widget" name="widget" type="text"
                                     value="{{ $footerLink->widget }}">
                             </div>

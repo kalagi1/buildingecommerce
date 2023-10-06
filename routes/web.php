@@ -88,6 +88,7 @@ Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectD
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
 Route::get('/get-counties/{city}', [CountyController::class,"getCounties"])->name("getCounties");
+Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class,"getNeighborhoods"])->name("getNeighborhoods");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');

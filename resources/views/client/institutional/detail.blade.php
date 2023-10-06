@@ -48,10 +48,10 @@
                                 name="q">
                             <div class="header-search__suggestions">
                                 <div class="header-search__suggestions__section">
-                                    <h5>Markalar</h5>
+                                    <h5>Projeler</h5>
                                     <div class="header-search__suggestions__section__items">
-                                        @foreach ($institutional->brands as $item)
-                                            <a href="#"><span>{{ $item->title }}</span></a>
+                                        @foreach ($store->projects as $item)
+                                            <a href="#"><span>{{ $item->project_title }}</span></a>
                                         @endforeach
                                     </div>
                                 </div>
@@ -91,7 +91,9 @@
                         <div class="seller-info-container__wrapper__text-container"><span
                                 class="seller-info-container__wrapper__text-container__title">Konum</span><span
                                 class="seller-info-container__wrapper__text-container__value">
-                                {{ $institutional->city->title }}</span></div>
+                                {{ $institutional->town->sehir_title }} <i class="fa fa-angle-right"></i>
+                                {{ $institutional->district->ilce_title }} <i class="fa fa-angle-right"></i>
+                                {{ $institutional->neighborhood->mahalle_title }} </span></div>
                     </div>
                     <div class="seller-info-container__wrapper"><img
                             src="https://cdn.dsmcdn.com/seller-store/resources/corporate-invoice-web-icon.svg"

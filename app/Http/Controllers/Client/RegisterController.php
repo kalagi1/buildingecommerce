@@ -56,6 +56,8 @@ class RegisterController extends Controller
         $user->type = $validatedData['type'];
         $user->activity = $request->input("activity");
         $user->county_id = $request->input("county_id");
+        $user->city_id = $request->input("city_id");
+        $user->neighborhood_id = $request->input("neighborhood_id");
         $user->account_type = $accountType;
         $user->taxOfficeCity = $city->id;
         $user->taxOffice = $request->input("taxOffice");

@@ -94,10 +94,10 @@
                                 name="q">
                             <div class="header-search__suggestions">
                                 <div class="header-search__suggestions__section">
-                                    <h5>Markalar</h5>
+                                    <h5>Projeler</h5>
                                     <div class="header-search__suggestions__section__items">
-                                        @foreach ($store->brands as $item)
-                                            <a href="#"><span>{{ $item->title }}</span></a>
+                                        @foreach ($store->projects as $item)
+                                            <a href="#"><span>{{ $item->project_title }}</span></a>
                                         @endforeach
                                     </div>
                                 </div>

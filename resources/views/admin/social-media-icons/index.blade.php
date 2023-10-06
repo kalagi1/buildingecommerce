@@ -43,7 +43,7 @@
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="iconURL">URL</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="iconClass">Class</th>
+                                            data-sort="iconClass">Simge</th>
                                         <th>İŞLEMLER</th>
                                     </tr>
                                 </thead>

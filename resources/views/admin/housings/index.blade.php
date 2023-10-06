@@ -18,7 +18,7 @@
 
                                     </div>
                                     <div id="tableExample"
-                                        data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
+                                        data-list='{"valueNames":["name","email","age"],"page":10,"pagination":true}'>
                                         <div class="table-responsive mx-n1 px-1">
                                             <table class="table table-sm border-top border-200 fs--1 mb-0">
                                                 <thead>
@@ -28,6 +28,7 @@
                                                         <th>Daire Türü</th>
                                                         <th>Statü</th>
                                                         <th>Oluşturulma Tarihi</th>
+                                                        <th style="width: 50px">İşlemler</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="list" id="bulk-select-body"></tbody>
@@ -90,34 +91,17 @@
 
             var actionsCell = document.createElement("td");
             actionsCell.className = "align-middle white-space-nowrap     pe-0";
-            var actionsDiv = document.createElement("div");
-            actionsDiv.className = "font-sans-serif btn-reveal-trigger position-static";
-            var actionsButton = document.createElement("button");
-            actionsButton.className = "btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2";
-            actionsButton.type = "button";
-            actionsButton.setAttribute("data-bs-toggle", "dropdown");
-            actionsButton.setAttribute("data-bs-boundary", "window");
-            actionsButton.setAttribute("aria-haspopup", "true");
-            actionsButton.setAttribute("aria-expanded", "false");
-            actionsButton.setAttribute("data-bs-reference", "parent");
-            var actionsIcon = document.createElement("span");
-            actionsIcon.className = "fas fa-ellipsis-h fs--2";
-            actionsButton.appendChild(actionsIcon);
-            actionsDiv.appendChild(actionsButton);
-            var dropdownMenu = document.createElement("div");
-            dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
             var exportLink = document.createElement("a");
-            exportLink.className = "dropdown-item";
+            exportLink.className = "btn btn-info";
             exportLink.href = "{{URL::to('/')}}/admin/housings/"+housingType.id+'/detail';
             exportLink.textContent = "Görüntüle";
             var viewLink = document.createElement("a");
-            viewLink.className = "dropdown-item";
+            viewLink.className = "btn btn-warning ml-2 mr-2";
             viewLink.href = "{{URL::to('/')}}/admin/housings/"+housingType.id+'/logs';
             viewLink.textContent = "Loglar";
-            dropdownMenu.appendChild(exportLink);
-            dropdownMenu.appendChild(viewLink);
-            actionsDiv.appendChild(dropdownMenu);
-            actionsCell.appendChild(actionsDiv);
+            actionsCell.appendChild(exportLink);
+            actionsCell.appendChild(viewLink);
+
 
             row.appendChild(idCell);
             row.appendChild(housingTitleCell);
@@ -130,4 +114,13 @@
             tbody.appendChild(row);
         });
     </script>
+
+    <style>
+        .ml-2 {
+            margin-left: 20px;
+        }
+        .mr-2 {
+            margin-right: 20px;
+        }
+    </style>
 @endsection

@@ -400,12 +400,13 @@
 
                                             <div class="mt-3">
                                                 <label for="" class="q-label">İl</label>
-                                                <select class="form-control" id="citySelect">
+                                                <select class="form-control" id="citySelect" name="city_id">
                                                     <option value="">Seçiniz</option>
-                                                    @foreach ($cities as $item)
-                                                        <option for="{{ $item->title }}" value="{{ $item->id }}"
-                                                            data-title="{{ $item->title }}">
-                                                            {{ $item->title }}</option>
+                                                    @foreach ($towns as $item)
+                                                        <option for="{{ $item->sehir_title }}"
+                                                            value="{{ $item->sehir_key }}"
+                                                            data-title="{{ $item->sehir_title }}">
+                                                            {{ $item->sehir_title }}</option>
                                                     @endforeach
 
                                                 </select>
@@ -413,6 +414,13 @@
                                             <div class="mt-3">
                                                 <label for="" class="q-label">İlçe</label>
                                                 <select class="form-control" name="county_id" id="countySelect">
+                                                    <option value="">Seçiniz</option>
+                                                </select>
+                                            </div>
+                                            <div class="mt-3">
+                                                <label for="" class="q-label">Mahalle</label>
+                                                <select class="form-control" name="neighborhood_id"
+                                                    id="neighborhoodSelect">
                                                     <option value="">Seçiniz</option>
                                                 </select>
                                             </div>
@@ -580,8 +588,28 @@
                     var countySelect = $('#countySelect');
                     countySelect.empty();
                     $.each(data, function(index, county) {
-                        countySelect.append('<option value="' + county.id + '">' + county
-                            .title +
+                        countySelect.append('<option value="' + county.ilce_key + '">' + county
+                            .ilce_title +
+                            '</option>');
+                    });
+                }
+            });
+        });
+
+        $('#countySelect').change(function() {
+            var selectedCounty = $(this).val();
+
+            $.ajax({
+                type: 'GET',
+                url: '/get-neighborhoods/' + selectedCounty,
+                success: function(data) {
+                    var neighborhoodSelect = $('#neighborhoodSelect');
+                    neighborhoodSelect.empty();
+                    $.each(data, function(index, county) {
+                        neighborhoodSelect.append('<option value="' + county.mahalle_key +
+                            '">' +
+                            county
+                            .mahalle_title +
                             '</option>');
                     });
                 }
