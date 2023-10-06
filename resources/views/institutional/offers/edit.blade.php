@@ -9,7 +9,7 @@
                     <div class="mb-9">
                         <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
                             @if (session()->has('success'))
-                                <div class="alert alert-success">
+                                <div class="alert alert-success text-white">
                                     {{ session()->get('success') }}
                                 </div>
                             @endif

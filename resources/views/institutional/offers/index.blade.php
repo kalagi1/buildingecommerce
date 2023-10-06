@@ -21,7 +21,7 @@
                   </div>
                   <div id="tableExample" data-list='{"valueNames":["name","email","age"],"page":10,"pagination":true}'>
                     @if (session()->has('success'))
-                        <div class="alert alert-success">
+                        <div class="alert alert-success text-white">
                             {{ session()->get('success') }}
                         </div>
                     @endif
