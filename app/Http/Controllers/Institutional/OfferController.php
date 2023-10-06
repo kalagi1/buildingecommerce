@@ -3,45 +3,44 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Offer;
-use App\Models\Project;
-use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CreateOfferRequest;
 use App\Http\Requests\UpdateOfferRequest;
+use App\Models\Offer;
+use App\Models\Project;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OfferController extends Controller
 {
-    
-    function index()
+
+    public function index()
     {
-        $offers = Offer::where("user_id", auth()->user()->id)->with(['project' => function($query)
-        {
-            $query->select('id', 'project_title');   
+        $offers = Offer::where("user_id", auth()->user()->id)->with(['project' => function ($query) {
+            $query->select('id', 'project_title');
         }])->get();
         return view('institutional.offers.index', compact('offers'));
     }
 
-    function create()
+    public function create()
     {
         $projects = Project::where('user_id', auth()->user()->id)->get();
         return view('institutional.offers.create', compact('projects'));
     }
 
-    function edit(Request $request, $id)
+    public function edit(Request $request, $id)
     {
         $projects = Project::where('user_id', auth()->user()->id)->get();
         $offer = Offer::find($id);
         return view('institutional.offers.edit', compact('projects', 'id', 'offer'));
     }
 
-    function store(CreateOfferRequest $request)
+    public function store(CreateOfferRequest $request)
     {
         Offer::create(array_merge($request->all(), ['user_id' => auth()->user()->id, 'project_housings' => json_encode($request->input('project_housings'))]));
-        return redirect()->route('institutional.offers.index')->with('success', 'Offer updated successfully');
+        return redirect()->route('institutional.offers.index')->with('success', 'Kampanya Başarıyla Oluşturuldu');
     }
 
-    function update(UpdateOfferRequest $request, Offer $offer)
+    public function update(UpdateOfferRequest $request, Offer $offer)
     {
         $offer->update(
             [
@@ -52,24 +51,24 @@ class OfferController extends Controller
                 'end_date' => $request->input('end_date'),
             ]
         );
-        return redirect()->route('institutional.offers.index')->with('success', 'Offer updated successfully');
+        return redirect()->route('institutional.offers.index')->with('success', 'Kampanya Başarıyla Güncellendi');
     }
 
-    function destroy(Offer $offer)
+    public function destroy(Offer $offer)
     {
         $offer->delete();
-        return redirect()->route('institutional.offers.index')->with('success', 'Offer deleted successfully');
+        return redirect()->route('institutional.offers.index')->with('success', 'Kampanya Başarıyla Silindi');
     }
 
-    function getProjectHousingList(Request $request)
+    public function getProjectHousingList(Request $request)
     {
-        
+
         $data = DB::select('SELECT
             DISTINCT(project_id) AS pid,
             room_order AS _ROOM_ORDER,
             CONCAT(
                 room_order,
-                ". ", 
+                ". ",
                 (SELECT value FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `key` = "Oda Sayısı"),
                 " Odalı ",
                 (SELECT value FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `key` = "Metrekare"),
