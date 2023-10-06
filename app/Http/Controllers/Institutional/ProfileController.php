@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\City;
 use App\Models\County;
+use App\Models\District;
+use App\Models\Neighborhood;
 use App\Models\SubscriptionPlan;
 use App\Models\TaxOffice;
+use App\Models\Town;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,11 +19,14 @@ class ProfileController extends Controller
     public function edit()
     {
         $cities = City::all();
+        $towns = Town::all();
         $counties = County::all();
+        $districts = District::all();
+        $neighborhoods = Neighborhood::all();
         $subscriptionPlans = SubscriptionPlan::all();
         $user = User::where("id", Auth::user()->id)->first();
         $taxOffices = TaxOffice::all();
-        return view('institutional.profile.edit', compact('user', 'taxOffices', 'cities', 'subscriptionPlans', 'counties'));
+        return view('institutional.profile.edit', compact('user', "towns", "neighborhoods", "districts", 'taxOffices', 'cities', 'subscriptionPlans', 'counties'));
     }
 
     public function update(UpdateProfileRequest $request)

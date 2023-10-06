@@ -54,12 +54,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(HousingComment::class, 'user_id');
     }
-    
+
     public function owners()
     {
         return $this->hasMany(HousingComment::class, 'owner_id');
     }
-    
 
     public function role()
     {
@@ -97,6 +96,21 @@ class User extends Authenticatable
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function town()
+    {
+        return $this->belongsTo(Town::class, 'city_id', 'sehir_key');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class, "county_id", 'ilce_key');
+    }
+
+    public function neighborhood()
+    {
+        return $this->belongsTo(Neighborhood::class, "neighborhood_id", 'mahalle_key');
     }
 
     public function housings()

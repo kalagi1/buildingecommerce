@@ -7,6 +7,7 @@ use App\Mail\CustomMail;
 use App\Models\City;
 use App\Models\EmailTemplate;
 use App\Models\SubscriptionPlan;
+use App\Models\Town;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +19,9 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         $cities = City::all();
+        $towns = Town::all();
         $subscriptionPlans = SubscriptionPlan::all();
-        return view('client.auth.login', compact("cities", 'subscriptionPlans'));
+        return view('client.auth.login', compact("cities", "towns", 'subscriptionPlans'));
     }
 
     public function login(Request $request)

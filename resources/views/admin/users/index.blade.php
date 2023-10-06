@@ -5,16 +5,16 @@
         <div class="row">
             <div class="mb-9">
                 <div id="userList"
-                    data-list='{"valueNames":["userName","userEmail","userType","userStatus","userActions"],"page":12,"pagination":true}'>
+                    data-list='{"valueNames":["userName","userEmail","userType","userStatus","userActions"],"page":20,"pagination":true}'>
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
-                            <h2 class="mb-0">Kullanıcılar<span class="fw-normal text-700 ms-3">({{ count($users) }})</span>
+                            <h2 class="mb-0">Üyeler <span class="fw-normal text-700 ms-3">({{ count($users) }})</span>
                             </h2>
                         </div>
                         <div class="col-auto">
                             <div class="col-auto">
                                 <a class="btn btn-primary px-5" href="{{ route('admin.users.create') }}">
-                                    <i class="fa-solid fa-plus me-2"></i>Yeni Kullanıcı Ekle
+                                    <i class="fa-solid fa-plus me-2"></i>Yeni Üye Ekle
                                 </a>
                             </div>
                         </div>

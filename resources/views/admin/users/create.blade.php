@@ -7,7 +7,7 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Kullanıcı Oluştur
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Üye Oluştur
                             </h4>
                         </div>
                     </div>

@@ -95,10 +95,8 @@
                                             </svg>
                                             <span class="d-xl-block d-none d-lg-block rightNavText">Admin</span> </a>
                                     @elseif (Auth::user()->type != 1 && Auth::user()->type != 3)
-                                   
                                         <div class="dropdown hover">
-                                            <a href="{{ route('institutional.index') }}" target="_blank"
-                                                class="userIcon">
+                                            <a href="javascript:void()"  class="userIcon">
                                                 <svg viewBox="0 0 24 24" width="24" height="24"
                                                     stroke="currentColor" stroke-width="2" fill="none"
                                                     stroke-linecap="round" stroke-linejoin="round"
@@ -108,9 +106,17 @@
                                                 </svg>
                                                 <span class="d-xl-block d-none d-lg-block rightNavText">Mağazam</span>
                                                 <ul>
-                                                    <li><a href="#">İlanlarım</a></li>
-                                                    <li><a href="#">İlan Ekle</a></li>
-                                                    <li><a href="#">Çıkış Yap</a></li>
+                                                    <li><a href="{{ route('institutional.index') }}"><i
+                                                                class="fa fa-user"></i> Hesabım</a>
+                                                    </li>
+                                                    <li><a href="{{ route('institutional.projects.index') }}"><i
+                                                                class="fa fa-home"></i> İlanlarım</a>
+                                                    </li>
+                                                    <li><a href="{{ route('institutional.projects.create') }}"> <i
+                                                                class="fa fa-plus"></i> İlan
+                                                            Ekle</a></li>
+                                                    <li><a href="{{ route('client.logout') }}"> <i
+                                                                class="fa fa-sign-out"></i> Çıkış Yap</a></li>
                                                 </ul>
                                             </a>
                                         </div>
@@ -225,11 +231,10 @@
 
 
 
-        
-        <style>
 
+        <style>
             .dropdown ul {
-                width:200px !important;
+                width: 200px !important;
                 text-align: left;
                 list-style-type: none;
                 display: block;
@@ -253,8 +258,7 @@
                 font-size: 13px;
                 font-weight: 600;
                 font-weight: bold;
-                color: black
-                background-color: #FFF;
+                color: black background-color: #FFF;
             }
 
             .dropdown li {

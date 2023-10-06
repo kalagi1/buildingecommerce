@@ -91,10 +91,10 @@
                                 name="q">
                             <div class="header-search__suggestions">
                                 <div class="header-search__suggestions__section">
-                                    <h5>Markalar</h5>
+                                    <h5>Projeler</h5>
                                     <div class="header-search__suggestions__section__items">
-                                        @foreach ($brand->user->brands as $item)
-                                            <a href="#"><span>{{ $item->title }}</span></a>
+                                        @foreach ($store->projects as $item)
+                                            <a href="#"><span>{{ $item->project_title }}</span></a>
                                         @endforeach
                                     </div>
                                 </div>
@@ -251,14 +251,13 @@
         .section-title:before {
             background-color: black !important
         }
-        
-        .portfolio{
+
+        .portfolio {
             padding: 0 !important
         }
+
         .slick-track {
             width: 100% !important
         }
     </style>
-
-
 @endsection

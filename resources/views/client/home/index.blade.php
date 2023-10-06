@@ -87,7 +87,7 @@
                                             <div class="homes">
                                                 <!-- homes img -->
                                                 <img src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
-                                                    alt="home-1" class="img-responsive">
+                                                    alt="home-1" class="img-responsive brand-image-pp">
                                                 <span>{{ $brand->name }}</span>
                                             </div>
                                         </div>

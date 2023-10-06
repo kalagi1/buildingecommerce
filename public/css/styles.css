@@ -3262,6 +3262,11 @@ Version      : 1.2
     }
 
     .portfolio .project-head img {
+        width: 100%;
+        z-index: 2;
+    }
+
+    .brand-image-pp {
         width: 52px;
         z-index: 2;
         height: 52px;
@@ -26553,7 +26558,7 @@ Version      : 1.2
         text-decoration: none;
         color: #1b1b1b;
         border: solid 1px #e6e6e6;
-        padding: 7px 10px;
+        padding: 7px;
         margin-right: 4px;
         background: white;
         margin-top: 10px;
