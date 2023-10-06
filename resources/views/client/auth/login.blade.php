@@ -125,17 +125,6 @@
 
                                         <div class="individual-form" id="individualForm">
 
-                                            <!-- E-Posta -->
-                                            <div class="mt-3 ">
-                                                <label class="q-label">İsim</label>
-                                                <input type="text" name="name" class="form-control">
-                                            </div>
-
-                                            <!-- E-Posta -->
-                                            <div class="mt-3">
-                                                <label class="q-label">E-Posta</label>
-                                                <input type="email" name="email" class="form-control">
-                                            </div>
 
                                             <div class="mt-3">
                                                 <label for="" class="q-label">Abonelik Planı</label>
@@ -173,6 +162,18 @@
                                                     @endforeach
                                                 </div>
                                             </div>
+                                            <!-- E-Posta -->
+                                            <div class="mt-3 ">
+                                                <label class="q-label">İsim</label>
+                                                <input type="text" name="name" class="form-control">
+                                            </div>
+
+                                            <!-- E-Posta -->
+                                            <div class="mt-3">
+                                                <label class="q-label">E-Posta</label>
+                                                <input type="email" name="email" class="form-control">
+                                            </div>
+
 
                                             <!-- Şifre -->
                                             <div class="mt-3">
@@ -193,8 +194,10 @@
                                         <div class="corporate-form" id="corporateForm">
                                             <!-- E-Posta -->
                                             <div class="mt-3">
-                                                <label for="corporate-account-type" class="q-label">Kurumsal Hesap Türü</label>
-                                                <select name="corporate-account-type" id="corporate-account-type" class="form-control">
+                                                <label for="corporate-account-type" class="q-label">Kurumsal Hesap
+                                                    Türü</label>
+                                                <select name="corporate-account-type" id="corporate-account-type"
+                                                    class="form-control">
                                                     <option value="" disabled selected>Seçiniz</option>
                                                     <option value="Emlakçı">Emlakçı</option>
                                                     <option value="Banka">Banka</option>
@@ -636,9 +639,9 @@
         $(document).ready(function() {
             $('.owl-carousel').owlCarousel({
                 items: 2, // Varsayılan olarak 2 öğe göster
-                loop: false,
+                loop: true,
                 margin: 10,
-                dots: true,
+                dots: false,
                 autoplay: true,
                 autoplayTimeout: 5000,
                 autoplayHoverPause: true,
@@ -684,11 +687,9 @@
     </script>
     <script>
         'use strict';
-        $('#corporate-account-type').on('change', function()
-        {
+        $('#corporate-account-type').on('change', function() {
             let value = $(this).val();
-            let data =
-            {
+            let data = {
                 "Emlakçı": "tab-emlakci",
                 "Banka": "tab-banka",
                 "İnşaat": "tab-insaat",
