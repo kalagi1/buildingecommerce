@@ -13,7 +13,7 @@
                 <div class="p-4 code-to-copy">
                   <div class="d-flex align-items-center justify-content-end my-3">
                     <div id="bulk-select-replace-element">
-                        <a class="btn btn-phoenix-success btn-sm" href="{{route('institutional.projects.create')}}">
+                        <a class="btn btn-phoenix-success btn-sm" href="{{route('institutional.offers.create')}}">
                             <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
                             <span class="ms-1">Yeni Kampanya Ekle</span>
                         </a>
@@ -79,7 +79,7 @@
 
             var titleCell = document.createElement("td");
             titleCell.className = "align-middle ps-3 title";
-            titleCell.textContent = project.project_id;
+            titleCell.textContent = project.project.project_title;
 
             var aCell = document.createElement("td");
             aCell.className = "align-middle ps-3 title";
@@ -158,7 +158,7 @@
                 if (willDelete.isConfirmed) {
                     // Silme işlemi için Ajax isteği gönder
                     $.ajax({
-                        url: '{{ route("institutional.projects.destroy", ":projectId") }}'.replace(':projectId', projectId),
+                        url: '{{ route("institutional.offers.delete", ":projectId") }}'.replace(':projectId', projectId),
                         type: 'post',
                         data: {
                             _method:"DELETE",

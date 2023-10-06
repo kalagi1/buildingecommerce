@@ -9,5 +9,10 @@ class Offer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'project_id', 'discount_amount', 'start_date', 'end_date'];
+    protected $fillable = ['user_id', 'project_id', 'discount_amount', 'start_date', 'end_date', 'project_housings'];
+
+    function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
+    }
 }
