@@ -6,6 +6,7 @@ use App\Models\FooterLink;
 use App\Models\Menu;
 use App\Models\SocialMediaIcon;
 use App\Models\User;
+use App\Models\Page;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
@@ -33,9 +34,13 @@ class AppServiceProvider extends ServiceProvider
             $widgetGroups = FooterLink::select('widget')
                 ->distinct()
                 ->get();
-            $view->with('footerLinks', $footerLinks);
+            $headerLinks = Page::where('location', 'header')->get();
+            $fl = Page::where('location', 'footer')->get();
+            $view->with('fl', $fl);
             $view->with('widgetGroups', $widgetGroups);
             $view->with("socialMediaIcons", $socialMediaIcons);
+            $view->with("headerLinks", $headerLinks);
+            $view->with("footerLinks", $footerLinks);
             $view->with("menu", $menu);
         });
 

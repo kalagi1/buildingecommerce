@@ -36,7 +36,7 @@
                             <th>İndirim Tutarı</th>
                             <th>Başlangıç Tarihi</th>
                             <th>Bitiş Tarihi</th>
-                            <th>İşlemler</th>
+                            <th colspan="2">İşlemler</th>
                           </tr>
                         </thead>
                         <tbody class="list" id="bulk-select-body"></tbody>
@@ -108,24 +108,21 @@
             var actionsIcon = document.createElement("span");
             actionsIcon.className = "fas fa-ellipsis-h fs--2";
             actionsButton.appendChild(actionsIcon);
-            actionsDiv.appendChild(actionsButton);
             var dropdownMenu = document.createElement("div");
             dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
             var exportLink = document.createElement("a");
-            exportLink.className = "dropdown-item";
+            exportLink.className = "btn btn-primary";
             exportLink.href = "{{URL::to('/')}}/institutional/offers/"+project.id+'/edit';
             exportLink.textContent = "Düzenle";
             var divider = document.createElement("div");
             divider.className = "dropdown-divider";
             var removeLink = document.createElement("a");
-            removeLink.className = "dropdown-item text-danger";
+            removeLink.className = "btn btn-dangerous text-danger";
             removeLink.href = "#!";
             removeLink.textContent = "Sil";
             removeLink.setAttribute("data-project-id", project.id);
-            dropdownMenu.appendChild(exportLink);
-            dropdownMenu.appendChild(divider);
-            dropdownMenu.appendChild(removeLink);
-            actionsDiv.appendChild(dropdownMenu);
+            actionsDiv.appendChild(exportLink);
+            actionsDiv.appendChild(removeLink);
             actionsCell.appendChild(actionsDiv);
 
             row.appendChild(checkboxCell);

@@ -16,7 +16,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (count($favorites) == 0)
+                        @if (count($favorites) && count($projectFavorites) == 0)
                             <tr>
                                 <td colspan="5">Favorileriniz Bulunmuyor</td>
                             </tr>
@@ -46,7 +46,29 @@
                                     </td>
                                 </tr>
                             @endforeach
-
+                            @foreach ($projectFavorites as $key => $item)
+                                @php($data = $item->projectHousing->pluck('value', 'key')->toArray())
+                                <tr>
+                                    <td class="image myelist">
+                                        <a href="{{ route('project.detail', $item->project_id ) }}"><img alt="my-properties-3"
+                                                src="{{ asset('housing_images/') . '/' . $data['Kapak Resmi'] }}"
+                                                class="img-fluid"></a>
+                                    </td>
+                                    <td>
+                                        <div class="inner">
+                                            <a href="{{ route('project.detail', $item->project_id ) }}">
+                                                <h2 style="font-weight: 600">{{ $data['Metrekare'] . ' metrekare ' . $data['Oda Sayısı'] }}</h2>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td> {{ $item->project->address }}</td>
+                                    <td> {{ $data['Fiyat'] }}₺</td>
+                                    <td class="actions">
+                                        <a href="#" class="toggle-project-favorite" data-project-housing-id="{{$item->room_order}}" data-project-id="{{$item->project_id}}" style="float: left"><i
+                                                class="far fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
                         @endif
 
                     </tbody>

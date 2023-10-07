@@ -220,6 +220,13 @@
                                     @endif
                                 </li>
                             @endforeach
+                            @foreach ($headerLinks as $link)
+                            <li>
+                                <a href="{{ url('sayfa/'.$link->slug) }}">
+                                    {{$link->meta_title}}
+                                </a>
+                            </li>
+                            @endforeach
                         </ul>
                     </nav>
                 </div>
