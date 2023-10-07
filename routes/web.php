@@ -680,9 +680,13 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
         Route::get('/profili-guncelle', [ClientPanelProfileController::class, "edit"])->name('profile.edit');
+        Route::put('/profile/update', [ClientPanelProfileController::class, "update"])->name('profile.update');
+    });
+
+    Route::middleware(['checkPermission:UpgradeProfile'])->group(function()
+    {
         Route::get('/profili-yukselt', [ClientPanelProfileController::class, "upgrade"])->name('profile.upgrade');
         Route::post('/profili-yukselt/{id}', [ClientPanelProfileController::class, "upgradeProfile"])->name('profile.upgrade.action');
-        Route::put('/profile/update', [ClientPanelProfileController::class, "update"])->name('profile.update');
     });
 
     // ChangePassword Controller Rotasının İzinleri

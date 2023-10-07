@@ -32,7 +32,12 @@
     </div>
     <div class="second-footer bg-white-3">
         <div class="container">
-            <p>2023 © Copyright - All Rights Reserved. @innovaticacode</p>
+            <p class="d-flex align-items-center" style="gap: 16px;">
+                <span>2023 © Copyright - All Rights Reserved. @innovaticacode</span>
+                @foreach ($fl as $link)
+                <a href="{{url('sayfa/'.$link->slug)}}" style="color: white;">{{$link->meta_title}}</a>
+                @endforeach
+            </p>
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
                     <li><a href="{{ $icon->url }}"><i class="{{ $icon->icon_class }}" aria-hidden="true"></i></a>
