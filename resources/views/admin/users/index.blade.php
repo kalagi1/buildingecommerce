@@ -4,8 +4,7 @@
     <div class="content">
         <div class="row">
             <div class="mb-9">
-                <div id="userList"
-                    data-list='{"valueNames":["userName","userEmail","userType","userStatus","userActions"],"page":20,"pagination":true}'>
+                <div id="userList">
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
                             <h2 class="mb-0">Üyeler <span class="fw-normal text-700 ms-3">({{ count($users) }})</span>
@@ -34,7 +33,7 @@
 
                     <div class="card shadow-none border border-300 my-4 p-5">
                         <div class="table-responsive scrollbar">
-                            <table class="table fs--1 mb-0 border-top border-200">
+                            <table id="table" class="fs--1 mb-0 border-top border-200">
                                 <thead>
                                     <tr>
                                         <th style="width:10%;">ID</th>
@@ -47,6 +46,7 @@
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="userStatus">Durum</th>
                                         <th>İşlemler</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="user-list-table-body">
@@ -78,7 +78,10 @@
                                                     <a href="{{ route('admin.users.edit', $user->id) }}"
                                                         class="btn btn-sm btn-primary">Önizle</a>
                                                 @endif
-                                                @if (in_array('DeleteUser', $userPermissions))
+                                            </td>
+
+                                            <td>
+                                            @if (in_array('DeleteUser', $userPermissions))
                                                     <!-- Silme işlemi için modal -->
                                                     <button type="button" class="btn btn-sm btn-danger"
                                                         data-bs-toggle="modal"
@@ -139,7 +142,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div
+                        <!--<div
                             class="d-flex flex-wrap align-items-center justify-content-between py-3 pe-0 fs--1 border-bottom border-200">
                             <div class="d-flex">
                                 <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
@@ -151,7 +154,7 @@
                                 <ul class="mb-0 pagination"></ul><button class="page-link pe-0"
                                     data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -159,5 +162,14 @@
     </div>
 @endsection
 
-@push('scripts')
-@endpush
+@section('scripts')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script>
+        let table = new DataTable('#table', {
+            language: { 
+                url: '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json' ,
+            },
+});
+    </script>
+@endsection

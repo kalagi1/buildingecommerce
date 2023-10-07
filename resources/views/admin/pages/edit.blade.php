@@ -45,6 +45,13 @@
                                 <input class="form-control" id="meta_author" name="meta_author" type="text"
                                     placeholder="Meta Yazarı" value="{{ $page->meta_author }}">
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="loc">Konum</label>
+                                <select name="location" id="loc" class="form-control">
+                                    <option value="header"{{$page->location == 'header' ? ' selected' : null}}>Header</option>
+                                    <option value="footer"{{$page->location == 'footer' ? ' selected' : null}}>Footer</option>
+                                </select>
+                            </div>
                             <button type="submit" class="btn btn-primary">Sayfayı Güncelle</button>
                         </form>
                     </div>

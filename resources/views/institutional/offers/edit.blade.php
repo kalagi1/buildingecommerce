@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="content">
-        <h2 class="mb-2 lh-sm">Kampanya Ekle</h2>
+        <h2 class="mb-2 lh-sm">Kampanya Düzenle</h2>
         <div class="mt-4">
             <div class="row g-4">
                 <div class="col-12 col-xl-12 order-1 order-xl-0">
@@ -32,7 +32,7 @@
                                         @method('put')
                                         <input type="hidden" name="id" value="<?=$offer->id?>"/>
                                         <div class="col-md-6">
-                                            <label class="form-label" for="validationCustom01">İndirim Tutarı</label>
+                                            <label class="form-label" for="validationCustom01">İndirim Tutarı (TL)</label>
                                             <input name="discount_amount" class="form-control" id="validationCustom01"
                                                 type="number" min="0" value="{{$offer->discount_amount}}" required="">
                                             <div class="valid-feedback">Looks good!</div>
@@ -47,6 +47,7 @@
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label" for="validationCustom01">Projeye Ait Konutlar</label>
+                                            <a href="#" class="small float-right" id="select-all-ph">Projenin Tüm Konutları</a>
                                             <select name="project_housings[]" class="form-control" id="project_housings" multiple required>
                                             </select>
                                         </div>
@@ -77,6 +78,11 @@
 @endsection
 @section('scripts')
     <script>
+        $('#select-all-ph').on('click', function()
+        {
+            $('#project_housings option').prop('selected', true);
+        });
+
         $('#project_id').change(function(){
           var selectedProject = $(this).val(); // Seçilen şehir değerini al
           let t = false;

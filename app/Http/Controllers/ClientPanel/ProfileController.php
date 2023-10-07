@@ -45,6 +45,10 @@ class ProfileController extends Controller
         $data =
         [
             'housing_limit' => $before->housing_limit + $plan->housing_limit,
+            'user_id' => auth()->user()->id,
+            'subscription_plan_id' => $id,
+            'project_limit' => 0,
+            'user_limit' => 0,
         ];
 
         DB::beginTransaction();
@@ -54,7 +58,7 @@ class ProfileController extends Controller
                     'plan_id' => $plan->id,
                 ]
             );
-            UserPlan::where('user_id', auth()->user()->id)->update($data);
+            UserPlan::updateOrCreate(['user_id' => auth()->user()->id], $data);
         DB::commit();
 
         return redirect()->back()->with('success', 'Plan başarıyla eklendi.');
