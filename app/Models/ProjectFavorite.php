@@ -14,4 +14,9 @@ class ProjectFavorite extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function projectHousing()
+    {
+        return $this->hasMany(ProjectHousing::class, 'project_id', 'project_id');
+    }
 }
