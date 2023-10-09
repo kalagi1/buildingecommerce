@@ -9,6 +9,29 @@
         "activePath": "admin/menus*"
     },
     {
+        "id": "housing",
+        "label": "Uygulama",
+        "icon": "home",
+        "text": "Konutlar",
+        "key": "Housings",
+        "url": "#nv-housing",
+        "activePath": "admin/housing/*",
+        "subMenu": [
+            {
+                "text": "Yeni Ekle",
+                "key": "CreateHousing",
+                "url": "admin.housings.create",
+                "activePath": "admin/housing/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetHousings",
+                "url": "admin.housings.index",
+                "activePath": "admin/housing"
+            }
+        ]
+    },
+    {
         "id": "comment",
         "label": "Yorumlar",
         "icon": "message-circle",
@@ -111,7 +134,7 @@
     },
     {
         "id": "subscriptionPlans",
-        "label": "Abonelik Planları",
+        "label": "Uygulama",
         "icon": "credit-card",
         "text": "Abonelik Planları",
         "key": "SubscriptionPlans",
@@ -182,7 +205,7 @@
         "id": "user",
         "label": "Yönetim",
         "icon": "user",
-        "text": "Kullanıcılar",
+        "text": "Üyeler",
         "key": "Users",
         "url": "#nv-users",
         "activePath": "admin/users*",
@@ -201,29 +224,7 @@
             }
         ]
     },
-    {
-        "id": "housing",
-        "label": "Uygulama",
-        "icon": "home",
-        "text": "Konutlar",
-        "key": "Housings",
-        "url": "#nv-housing",
-        "activePath": "admin/housing/*",
-        "subMenu": [
-            {
-                "text": "Yeni Ekle",
-                "key": "CreateHousing",
-                "url": "admin.housings.create",
-                "activePath": "admin/housing/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetHousings",
-                "url": "admin.housings.index",
-                "activePath": "admin/housing"
-            }
-        ]
-    },
+
     {
         "id": "housing_types",
         "label": "Uygulama",

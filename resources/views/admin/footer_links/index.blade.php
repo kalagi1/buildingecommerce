@@ -43,7 +43,7 @@
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="footerLinkUrl">URL</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="footerLinkWidget">WIDGET</th>
+                                            data-sort="footerLinkWidget">GRUP</th>
                                         <th>İŞLEMLER</th>
                                     </tr>
                                 </thead>

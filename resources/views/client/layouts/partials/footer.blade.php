@@ -32,7 +32,12 @@
     </div>
     <div class="second-footer bg-white-3">
         <div class="container">
-            <p>2023 © Copyright - All Rights Reserved. @innovaticacode</p>
+            <p class="d-flex align-items-center" style="gap: 16px;">
+                <span>2023 © Copyright - All Rights Reserved. @innovaticacode</span>
+                @foreach ($fl as $link)
+                <a href="{{url('sayfa/'.$link->slug)}}" style="color: white;">{{$link->meta_title}}</a>
+                @endforeach
+            </p>
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
                     <li><a href="{{ $icon->url }}"><i class="{{ $icon->icon_class }}" aria-hidden="true"></i></a>
@@ -223,6 +228,39 @@
             settings: {
                 slidesToShow: 3,
                 slidesToScroll: 2,
+                dots: false,
+                arrows: false
+            }
+        }, {
+            breakpoint: 769,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: false,
+                arrows: false
+            }
+        }]
+    });
+    $('.slick-agentsc').slick({
+        infinite: false,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        dots: false,
+        arrows: true,
+        adaptiveHeight: true,
+        responsive: [{
+            breakpoint: 1292,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                dots: false,
+                arrows: false
+            }
+        }, {
+            breakpoint: 993,
+            settings: {
+                slidesToShow: 5,
+                slidesToScroll: 1,
                 dots: false,
                 arrows: false
             }

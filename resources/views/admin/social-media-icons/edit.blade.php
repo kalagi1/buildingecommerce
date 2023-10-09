@@ -7,7 +7,7 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Edit Social Media Icon</h4>
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Düzenle</h4>
                         </div>
                     </div>
                 </div>
@@ -17,21 +17,21 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
-                                <label class="form-label" for="name">Icon Name</label>
+                                <label class="form-label" for="name">Simge Adı</label>
                                 <input class="form-control" id="name" name="name" type="text"
                                     placeholder="Icon Name" value="{{ $socialMediaIcon->name }}">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="url">Icon URL</label>
+                                <label class="form-label" for="url"> URL</label>
                                 <input class="form-control" id="url" name="url" type="text" placeholder="Icon URL"
                                     value="{{ $socialMediaIcon->url }}">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="icon_class">Icon Class</label>
+                                <label class="form-label" for="icon_class">Sİmge</label>
                                 <input class="form-control" id="icon_class" name="icon_class" type="text"
                                     placeholder="Icon Class" value="{{ $socialMediaIcon->icon_class }}">
                             </div>
-                            <button type="submit" class="btn btn-primary">Update Icon</button>
+                            <button type="submit" class="btn btn-primary">Güncelle</button>
                         </form>
                     </div>
                 </div>

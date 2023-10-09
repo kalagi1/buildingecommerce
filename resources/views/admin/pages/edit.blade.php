@@ -3,11 +3,11 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="card shadow-none border border-300  p-0" data-component-card="data-component-card">
+            <div class="card shadow-none border border-300 p-0" data-component-card="data-component-card">
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Edit Page</h4>
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Sayfayı Düzenle</h4>
                         </div>
                     </div>
                 </div>
@@ -17,35 +17,42 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
-                                <label class="form-label" for="title">Page Title</label>
+                                <label class="form-label" for="title">Sayfa Başlığı</label>
                                 <input class="form-control" id="title" name="title" type="text"
-                                    placeholder="Page Title" value="{{ $page->title }}">
+                                    placeholder="Sayfa Başlığı" value="{{ $page->title }}">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="content">Page Content</label>
+                                <label class="form-label" for="content">Sayfa İçeriği</label>
                                 <textarea id="editor" name="content">{{ $page->content }}</textarea>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="meta_title">Meta Title</label>
+                                <label class="form-label" for="meta_title">Meta Başlık</label>
                                 <input class="form-control" id="meta_title" name="meta_title" type="text"
-                                    placeholder="Meta Title" value="{{ $page->meta_title }}">
+                                    placeholder="Meta Başlık" value="{{ $page->meta_title }}">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="meta_description">Meta Description</label>
+                                <label class="form-label" for="meta_description">Meta Açıklama</label>
                                 <textarea class="form-control" id="meta_description" name="meta_description"
-                                    rows="3" placeholder="Meta Description">{{ $page->meta_description }}</textarea>
+                                    rows="3" placeholder="Meta Açıklama">{{ $page->meta_description }}</textarea>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="meta_keywords">Meta Keywords</label>
+                                <label class="form-label" for="meta_keywords">Meta Anahtar Kelimeler</label>
                                 <input class="form-control" id="meta_keywords" name="meta_keywords" type="text"
-                                    placeholder="Meta Keywords" value="{{ $page->meta_keywords }}">
+                                    placeholder="Meta Anahtar Kelimeler" value="{{ $page->meta_keywords }}">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="meta_author">Meta Author</label>
+                                <label class="form-label" for="meta_author">Meta Yazarı</label>
                                 <input class="form-control" id="meta_author" name="meta_author" type="text"
-                                    placeholder="Meta Author" value="{{ $page->meta_author }}">
+                                    placeholder="Meta Yazarı" value="{{ $page->meta_author }}">
                             </div>
-                            <button type="submit" class="btn btn-primary">Update Page</button>
+                            <div class="mb-3">
+                                <label class="form-label" for="loc">Konum</label>
+                                <select name="location" id="loc" class="form-control">
+                                    <option value="header"{{$page->location == 'header' ? ' selected' : null}}>Header</option>
+                                    <option value="footer"{{$page->location == 'footer' ? ' selected' : null}}>Footer</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Sayfayı Güncelle</button>
                         </form>
                     </div>
                 </div>

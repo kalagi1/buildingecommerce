@@ -80,17 +80,15 @@
                 <div class="slick-lancers">
                     @foreach ($brands as $brand)
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                            <a href="{{ route('brand.projects', $brand->id) }}" class="homes-img">
-
+                            <a href="{{ route('instituional.dashboard', Str::slug($brand->name)) }}" class="homes-img">
                                 <div class="landscapes">
                                     <div class="project-single">
                                         <div class="project-inner project-head">
                                             <div class="homes">
                                                 <!-- homes img -->
-                                                <img src="{{ asset('storage/brand_images/' . $brand->logo) }}"
-                                                    alt="home-1" class="img-responsive">
-                                                <span>{{ $brand->title }}</span>
-
+                                                <img src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
+                                                    alt="home-1" class="img-responsive brand-image-pp">
+                                                <span>{{ $brand->name }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -184,7 +182,7 @@
                                                     <div class="homes">
                                                         <!-- homes img -->
 
-                                                        <a href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}"
+                                                        <a href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}"
                                                             class="homes-img">
                                                             <div class="homes-tag button sale rent"
                                                                 style="background-color:#ff5a5f !important">Öne Çıkan</div>
@@ -211,7 +209,7 @@
                                                     <p class="homes-address mb-3">
 
                                                         <a
-                                                            href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}">
+                                                            href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                                             <i
                                                                 class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
                                                         </a>
@@ -290,7 +288,7 @@
                                                     <div class="homes">
                                                         <!-- homes img -->
 
-                                                        <a href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}"
+                                                        <a href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}"
                                                             class="homes-img">
                                                             <div class="homes-tag button sale rent"
                                                                 style="background-color:#ff5a5f !important">Öne Çıkan</div>
@@ -317,7 +315,7 @@
                                                     <p class="homes-address mb-3">
 
                                                         <a
-                                                            href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}">
+                                                            href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                                             <i
                                                                 class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
                                                         </a>

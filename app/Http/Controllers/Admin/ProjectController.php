@@ -89,7 +89,8 @@ class ProjectController extends Controller
             "item_type" => 1,
             "item_id" => $projectId,
             "reason" => $reason,
-            "is_rejected" => $isRejected
+            "is_rejected" => $isRejected,
+            "user_id" => auth()->user()->id,
         ]);
 
         return json_encode([
@@ -115,14 +116,16 @@ class ProjectController extends Controller
                 "item_type" => 1,
                 "item_id" => $projectId,
                 "reason" => "Admin tarafından pasife alındı",
-                "is_rejected" => 0
+                "is_rejected" => 0,
+                "user_id" => auth()->user()->id,
             ]);
         }else{
             Log::create([
                 "item_type" => 1,
                 "item_id" => $projectId,
                 "reason" => "Admin tarafından aktife alındı",
-                "is_rejected" => 0
+                "is_rejected" => 0,
+                "user_id" => auth()->user()->id,
             ]);
         }
 
@@ -130,7 +133,7 @@ class ProjectController extends Controller
     }
 
     public function logs($projectId){
-        $logs = Log::where('item_type',1)->where('item_id',$projectId)->orderByDesc('created_at')->get();
+        $logs = Log::where('item_type',1)->where('item_id',$projectId)->orderByDesc('created_at')->with('user')->get();
         return view('admin.projects.logs',compact('logs'));
     }
 }
