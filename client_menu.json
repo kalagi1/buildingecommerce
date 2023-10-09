@@ -20,8 +20,8 @@
     {
         "id": "UpgradeProfile",
         "label": "Hesabım & Yardım",
-        "icon": "user",
-        "text": "Profili Yükselt",
+        "icon": "arrow-up",
+        "text": "Aboneliği Yükselt",
         "key": "UpgradeProfile",
         "url": "client.profile.upgrade",
         "activePath": "client/profile/upgrade"

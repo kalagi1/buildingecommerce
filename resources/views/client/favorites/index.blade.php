@@ -1,6 +1,16 @@
 @extends('client.layouts.master')
 
 @section('content')
+@php
+function getHouse($project, $key, $roomOrder)
+{
+    foreach ($project->roomInfo as $room) {
+        if ($room->room_order == $roomOrder && $room->name == $key) {
+            return $room;
+        }
+    }
+}
+@endphp
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
 
@@ -51,7 +61,7 @@
                                 <tr>
                                     <td class="image myelist">
                                         <a href="{{ route('project.detail', $item->project_id ) }}"><img alt="my-properties-3"
-                                                src="{{ asset('housing_images/') . '/' . $data['Kapak Resmi'] }}"
+                                                src="{{ asset('project_housing_images/') . '/' . $data['Kapak Resmi'] }}"
                                                 class="img-fluid"></a>
                                     </td>
                                     <td>
@@ -59,6 +69,7 @@
                                             <a href="{{ route('project.detail', $item->project_id ) }}">
                                                 <h2 style="font-weight: 600">{{ $data['Metrekare'] . ' metrekare ' . $data['Oda Sayısı'] }}</h2>
                                             </a>
+                                            {{$item->project->project_title}}
                                         </div>
                                     </td>
                                     <td> {{ $item->project->address }}</td>

@@ -20,7 +20,7 @@
     {
         "id": "upgrade",
         "label": "Hesabım & Yardım",
-        "icon": "edit",
+        "icon": "arrow-up",
         "text": "Aboneliği Yükselt",
         "key": "Upgrade",
         "url": "institutional.profile.upgrade",

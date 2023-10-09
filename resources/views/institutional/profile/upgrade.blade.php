@@ -3,73 +3,110 @@
 @section('content')
     <div class="content">
         <div class="row">
+            <div class="col-lg-12">
+                <h2 class="mb-4">Premium Paketler</h2>
+            </div>
             @foreach ($plans as $plan)
-            <div class="col-lg-4">
-                <div class="card shadow-sm border-300 border-bottom mb-4">
-                    <div class="card-header">
-                        {{$plan->name}}
-                    </div>
-                    <div class="card-body p-0">
-                        @if (auth()->user()->corporate_type == 'Emlakçı')
-                            <div class="py-2 px-3 border-bottom d-flex">
-                                <b>Konut Limiti:</b>
-                                <span style="margin-left: auto;">
-                                    {{$plan->housing_limit}}
-                                </span>
-                            </div>
-                            <div class="py-2 px-3 border-bottom d-flex">
-                                <b>Kullanıcı Limiti:</b>
-                                <span style="margin-left: auto;">
-                                    {{$plan->user_limit}}
-                                </span>
-                            </div>
-                            <div class="py-2 px-3 border-bottom d-flex w-100">
-                                <b>Fiyat:</b>
-                                <span class="text-primary" style="margin-left: auto; font-weight: bold; font-size: 20px;">
-                                    {{$plan->price}}TL
-                                </span>
-                            </div>
-                            <div class="py-2 px-3">
-                                <form method="POST" action="{{route('institutional.profile.upgrade.action', [$plan->id])}}">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block w-100">{{$current && $current->price <= $plan->price ? 'SATIN AL' : 'YÜKSELT'}}</button>
-                                </form>
-                            </div>
-                        @else
-                            <div class="py-2 px-3 border-bottom d-flex">
-                                <b>Proje Limiti:</b>
-                                <span style="margin-left: auto;">
-                                    {{$plan->project_limit}}
-                                </span>
-                            </div>
-                            <div class="py-2 px-3 border-bottom d-flex">
-                                <b>Konut Limiti:</b>
-                                <span style="margin-left: auto;">
-                                    {{$plan->housing_limit}}
-                                </span>
-                            </div>
-                            <div class="py-2 px-3 border-bottom d-flex">
-                                <b>Kullanıcı Limiti:</b>
-                                <span style="margin-left: auto;">
-                                    {{$plan->user_limit}}
-                                </span>
-                            </div>
-                            <div class="py-2 px-3 border-bottom d-flex w-100">
-                                <b>Fiyat:</b>
-                                <span class="text-primary" style="margin-left: auto; font-weight: bold; font-size: 20px;">
-                                    {{$plan->price}}TL
-                                </span>
-                            </div>
-                            <div class="py-2 px-3">
-                                <form method="POST" action="{{route('institutional.profile.upgrade.action', [$plan->id])}}">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block w-100">{{$current && $current->price <= $plan->price ? 'SATIN AL' : 'YÜKSELT'}}</button>
-                                </form>
-                            </div>
-                        @endif
+                <div class="col-lg-4">
+                    <div class="card shadow-sm border-300 border-bottom mb-4">
+                        <div class="card-header">
+                            {{ $plan->name }}
+                        </div>
+                        <div class="card-body p-0">
+                            @if (auth()->user()->corporate_type == 'Emlakçı')
+                                <div class="py-2 px-3 border-bottom d-flex">
+                                    <b>Konut Limiti:</b>
+                                    <span style="margin-left: auto;">
+                                        {{ $plan->housing_limit }}
+                                    </span>
+                                </div>
+                                <div class="py-2 px-3 border-bottom d-flex">
+                                    <b>Kullanıcı Limiti:</b>
+                                    <span style="margin-left: auto;">
+                                        {{ $plan->user_limit }}
+                                    </span>
+                                </div>
+                                <div class="py-2 px-3 border-bottom d-flex w-100">
+                                    <b>Fiyat:</b>
+                                    <span class="text-primary"
+                                        style="margin-left: auto; font-weight: bold; font-size: 20px;">
+                                        {{ $plan->price }}TL
+                                    </span>
+                                </div>
+                                <div class="py-2 px-3">
+                                    <form method="POST"
+                                        action="{{ route('institutional.profile.upgrade.action', [$plan->id]) }}">
+                                        @csrf
+                                        <button type="submit"
+                                            class="btn btn-primary btn-lg btn-block w-100">{{ $current && $current->price <= $plan->price ? 'SATIN AL' : 'YÜKSELT' }}</button>
+                                    </form>
+                                </div>
+                            @else
+                                <div class="py-2 px-3 border-bottom d-flex">
+                                    <b>Proje Limiti:</b>
+                                    <span style="margin-left: auto;">
+                                        {{ $plan->project_limit }}
+                                    </span>
+                                </div>
+                                <div class="py-2 px-3 border-bottom d-flex">
+                                    <b>Konut Limiti:</b>
+                                    <span style="margin-left: auto;">
+                                        {{ $plan->housing_limit }}
+                                    </span>
+                                </div>
+                                <div class="py-2 px-3 border-bottom d-flex">
+                                    <b>Alt Kullanıcı Limiti:</b>
+                                    <span style="margin-left: auto;">
+                                        {{ $plan->user_limit }}
+                                    </span>
+                                </div>
+                                <div class="py-2 px-3 border-bottom d-flex w-100">
+                                    <b>Fiyat:</b>
+                                    <span class="text-primary"
+                                        style="margin-left: auto; font-weight: bold; font-size: 20px;">
+                                        {{ $plan->price }}TL 
+                                    </span>
+                                </div>
+                                <div class="py-2 px-3">
+
+                                    <button type="button" class="btn btn-primary btn-lg btn-block w-100"
+                                        data-toggle="modal" data-target="#paymentModal{{$plan->id}}"
+                                        {{ $current->subscriptionPlan->id == $plan->id ? 'disabled' : '' }}>
+                                        {{ $current->subscriptionPlan->id == $plan->id ? 'AKTİF' : ($current->subscriptionPlan->price >= $plan->price ? 'SATIN AL' : 'YÜKSELT') }}
+                                        @if ($current->subscriptionPlan->price < $plan->price)
+                                            <i class="fas fa-angle-double-up ml-3"></i>
+                                        @endif
+                                    </button>
+
+                                    <!-- Ödeme Modalı -->
+                                    <div class="modal fade" id="paymentModal{{$plan->id}}" tabindex="-1" role="dialog"
+                                        aria-labelledby="paymentModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="paymentModalLabel">Ödeme Formu</h5>
+
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Ödeme Formu Alanları Buraya Gelecek -->
+                                                    <form method="POST"
+                                                        action="{{ route('institutional.profile.upgrade.action', [$plan->id]) }}">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-primary">Ödeme
+                                                            Yap</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
-            </div>
             @endforeach
         </div>
     </div>
@@ -77,6 +114,13 @@
 
 
 @section('scripts')
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">

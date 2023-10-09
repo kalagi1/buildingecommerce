@@ -5,23 +5,23 @@ namespace App\Http\Controllers\ClientPanel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\SubscriptionPlan;
-use App\Models\UserPlan;
-use App\Models\User;
 use App\Models\UpgradeLog;
+use App\Models\User;
+use App\Models\UserPlan;
 use App\Rules\SubscriptionPlanToUpgradeBireysel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
-    function upgrade()
+    public function upgrade()
     {
         $plans = SubscriptionPlan::where('plan_type', 'Bireysel')->get();
-        $current = UserPlan::where('user_id', auth()->user()->id)->first() ?? false;
+        $current = UserPlan::with("subscriptionPlan")->where('user_id', auth()->user()->id)->first() ?? false;
         return view('client.client-panel.profile.upgrade', compact('plans', 'current'));
     }
 
-    function upgradeProfile(Request $request, $id)
+    public function upgradeProfile(Request $request, $id)
     {
         $request->validate(['id' => $id],
             [
@@ -29,21 +29,24 @@ class ProfileController extends Controller
                 [
                     'required',
                     new SubscriptionPlanToUpgradeBireysel(),
-                ]
+                ],
             ]
         );
 
         $plan = SubscriptionPlan::find($id);
         $before = UserPlan::where('user_id', auth()->user()->id)->first();
+        $user = User::where('id', auth()->user()->id)->first();
+        $user->update([
+            'subscription_plan_id' => $plan->id,
+        ]);
 
-        if (!$before)
-        {
+        if (!$before) {
             $before = new \stdClass();
             $before->housing_limit = 0;
         }
 
         $data =
-        [
+            ['subscription_plan_id' => $plan->id,
             'housing_limit' => $before->housing_limit + $plan->housing_limit,
             'user_id' => auth()->user()->id,
             'subscription_plan_id' => $id,
@@ -52,16 +55,16 @@ class ProfileController extends Controller
         ];
 
         DB::beginTransaction();
-            UpgradeLog::create(
-                [
-                    'user_id' => auth()->user()->id,
-                    'plan_id' => $plan->id,
-                ]
-            );
-            UserPlan::updateOrCreate(['user_id' => auth()->user()->id], $data);
+        UpgradeLog::create(
+            [
+                'user_id' => auth()->user()->id,
+                'plan_id' => $plan->id,
+            ]
+        );
+        UserPlan::updateOrCreate(['user_id' => auth()->user()->id], $data);
         DB::commit();
 
-        return redirect()->back()->with('success', 'Plan başarıyla eklendi.');
+        return redirect()->back()->with('success', 'Abonelik Planı Güncellendi.');
     }
 
     public function edit()
