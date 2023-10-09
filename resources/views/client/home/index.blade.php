@@ -315,6 +315,9 @@
                                                 </div>
                                                 <!-- homes content -->
                                                 <div class="homes-content p-3" style="padding:20px !important">
+                                                    <a
+                                                    style="text-decoration: none"
+                                                    href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                                     <h3>{{ $project->project_title }} Projesinde
                                                         {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
                                                         {{ getHouse($project, 'room_count[]', $i + 1)->value }}
@@ -322,12 +325,12 @@
 
                                                     <p class="homes-address mb-3">
 
-                                                        <a
-                                                            href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+
                                                             <i
                                                                 class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
-                                                        </a>
+                                                       
                                                     </p>
+                                                    </a>
                                                     <!-- homes List -->
                                                     <ul class="homes-list clearfix pb-0"
                                                         style="display: flex;justify-content:space-between">

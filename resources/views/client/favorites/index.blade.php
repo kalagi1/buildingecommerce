@@ -1,16 +1,16 @@
 @extends('client.layouts.master')
 
 @section('content')
-@php
-function getHouse($project, $key, $roomOrder)
-{
-    foreach ($project->roomInfo as $room) {
-        if ($room->room_order == $roomOrder && $room->name == $key) {
-            return $room;
+    @php
+        function getHouse($project, $key, $roomOrder)
+        {
+            foreach ($project->roomInfo as $room) {
+                if ($room->room_order == $roomOrder && $room->name == $key) {
+                    return $room;
+                }
+            }
         }
-    }
-}
-@endphp
+    @endphp
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
 
@@ -34,13 +34,14 @@ function getHouse($project, $key, $roomOrder)
                             @foreach ($favorites as $key => $item)
                                 <tr>
                                     <td class="image myelist">
-                                        <a href="{{ route('housing.show', $item->housing->id ) }}"><img alt="my-properties-3"
+                                        <a href="{{ route('housing.show', $item->housing->id) }}"><img
+                                                alt="my-properties-3"
                                                 src="{{ asset('housing_images/') . '/' . json_decode($item->housing->housing_type_data)->image }}"
                                                 class="img-fluid"></a>
                                     </td>
                                     <td>
                                         <div class="inner">
-                                            <a href="{{ route('housing.show', $item->housing->id ) }}">
+                                            <a href="{{ route('housing.show', $item->housing->id) }}">
                                                 <h2 style="font-weight: 600">{{ $item->housing->title }}</h2>
                                                 <figure><i class="lni-map-marker"></i> {{ $item->housing->address }}
                                                 </figure>
@@ -60,22 +61,27 @@ function getHouse($project, $key, $roomOrder)
                                 @php($data = $item->projectHousing->pluck('value', 'key')->toArray())
                                 <tr>
                                     <td class="image myelist">
-                                        <a href="{{ route('project.detail', $item->project_id ) }}"><img alt="my-properties-3"
+                                        <a href="{{ route('project.detail', $item->project_id) }}"><img
+                                                alt="my-properties-3"
                                                 src="{{ asset('project_housing_images/') . '/' . $data['Kapak Resmi'] }}"
                                                 class="img-fluid"></a>
                                     </td>
                                     <td>
                                         <div class="inner">
-                                            <a href="{{ route('project.detail', $item->project_id ) }}">
-                                                <h2 style="font-weight: 600">{{ $data['Metrekare'] . ' metrekare ' . $data['Oda Sayısı'] }}</h2>
+                                            <a href="{{ route('project.detail', $item->project_id) }}">
+                                                <h2 style="font-weight: 600">
+                                                    {{ $data['Metrekare'] . ' metrekare ' . $data['Oda Sayısı'] }}</h2>
+                                                <h2> {{ $item->project->project_title }}</h2>
                                             </a>
-                                            {{$item->project->project_title}}
+
                                         </div>
                                     </td>
                                     <td> {{ $item->project->address }}</td>
                                     <td> {{ $data['Fiyat'] }}₺</td>
                                     <td class="actions">
-                                        <a href="#" class="toggle-project-favorite" data-project-housing-id="{{$item->room_order}}" data-project-id="{{$item->project_id}}" style="float: left"><i
+                                        <a href="#" class="remove-from-project-cart"
+                                            data-project-housing-id="{{ $item->room_order }}"
+                                            data-project-id="{{ $item->project_id }}" style="float: left"><i
                                                 class="far fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
@@ -99,7 +105,6 @@ function getHouse($project, $key, $roomOrder)
     <script>
         $("#createOrder").click(function() {
             // Sepete eklenecek verileri burada hazırlayabilirsiniz
-
 
             // Ajax isteği gönderme
             $.ajax({
@@ -140,6 +145,44 @@ function getHouse($project, $key, $roomOrder)
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        toastr.success("Konut favorilerden kaldırıldı");
+                        console.log("Konut favorilerden kaldırıldı: " + response);
+                        location.reload();
+
+                    },
+                    error: function(error) {
+                        // Hata durumunda buraya gelir
+                        toastr.error("Hata oluştu: " + error.responseText, "Hata");
+                        console.error("Hata oluştu: " + error);
+                    }
+                });
+            }
+        });
+
+        // "Sil" düğmesine tıklanıldığında
+        $(".remove-from-project-cart").click(function() {
+            var productId = $(this).data('id');
+            var confirmation = confirm("Ürünü favorilerden kaldırmak istiyor musunuz?");
+
+            if (confirmation) {
+                // Ürünü sepetten kaldırmak için Ajax isteği gönderme
+                var housingId = this.getAttribute("data-project-housing-id");
+                console.log(housingId)
+                var projectId = this.getAttribute("data-project-id");
+
+
+                // AJAX isteği gönderme
+                $.ajax({
+                    url: "{{ route('add.project.housing.to.favorites', ['id' => ':id']) }}"
+                        .replace(':id',
+                            housingId),
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        project_id: projectId // project_id'yi AJAX isteği ile gönder
                     },
                     success: function(response) {
                         console.log(response);
