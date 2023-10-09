@@ -62,106 +62,120 @@
                     <div class="widget">
                         <!-- Search Fields -->
                         <div class="widget-boxed main-search-field">
-                            <div class="widget-boxed-header">
-                                <h4>Filtrele</h4>
-                            </div>
-                            <!-- Search Form -->
                             <div class="trip-search">
-                                <form class="form filter-form" method="get">
-                                    <!-- Form Lookin for -->
-                                    <div class="form-group looking">
-                                        <div class="first-select wide">
-                                            <div class="main-search-input-item">
-                                                <input type="text" value="{{ request('search') }}" name="search"
-                                                    placeholder="Ara..." value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group location" style="margin-top:40px;">
-                                        <select name="city" class="form-control" id="">
-                                            <option value="">İl Seç</option>
-                                            @foreach ($cities as $city)
-                                                <option @if (request('city') && request('city') == $city->id) selected @endif
-                                                    value="{{ $city->id }}">{{ $city->title }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group location">
-                                        <select name="housing_type" class="form-control" id="">
-                                            <option value="">Konut Tipi Seç</option>
-                                            @foreach ($housingTypes as $housingType)
-                                                <option @if (request('housing_type') && request('housing_type') == $housingType->id) selected @endif
-                                                    value="{{ $housingType->id }}">{{ $housingType->title }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group location">
-                                        <select name="room_count" class="form-control" id="">
-                                            <option disabled="null" selected="null">Oda Sayısı</option>
-                                            <option>Hepsi</option>
-                                            <option @if (request('room_count') && request('room_count') == '1+0') selected @endif value="1+0">1+0
-                                            </option>
-                                            <option @if (request('room_count') && request('room_count') == '1+1') selected @endif value="1+1">1+1
-                                            </option>
-                                            <option @if (request('room_count') && request('room_count') == '2+1') selected @endif value="2+1">2+1
-                                            </option>
-                                            <option @if (request('room_count') && request('room_count') == '2+2') selected @endif value="2+2">2+2
-                                            </option>
-                                            <option @if (request('room_count') && request('room_count') == '3+1') selected @endif value="3+1">3+1
-                                            </option>
-                                            <option @if (request('room_count') && request('room_count') == '3+2') selected @endif value="3+2">3+2
-                                            </option>
-                                            <option @if (request('room_count') && request('room_count') == '4+0') selected @endif value="4+0">4+0
-                                            </option>
-                                            <option @if (request('room_count') && request('room_count') == '4+1') selected @endif value="4+1">4+1
-                                            </option>
-                                            <option @if (request('room_count') && request('room_count') == '4+2') selected @endif value="4+2">4+2
-                                            </option>
-                                            <option @if (request('room_count') && request('room_count') == '5+0') selected @endif value="5+0">5+0
-                                            </option>
-                                            <option @if (request('room_count') && request('room_count') == '5+1') selected @endif value="5+1">5+1
-                                            </option>
-                                            <option @if (request('room_count') && request('room_count') == '5+2') selected @endif value="5+2">5+2
-                                            </option>
-                                        </select>
-                                    </div>
-
-
-                                    <div class="main-search-field-2">
-                                        <!-- Area Range -->
-                                        <div class="range-slider">
-                                            <label>Net Metrekare</label>
-                                            <div id="area-range" min-val="{{ request('min-square-meters', '0') }}"
-                                                max-val="{{ request('max-square-meters', '1300') }}" data-min="0"
-                                                data-max="1300"></div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                        <br>
-                                        <!-- Price Range -->
-                                        <div class="range-slider">
-                                            <label>Fiyat Aralığı</label>
-                                            <div id="price-range" min-val="{{ request('min-price', '0') }}"
-                                                max-val="{{ request('max-price', '2600000') }}" data-min="0"
-                                                data-max="2600000" data-unit="$"></div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </div>
-
-                                    <!-- More Search Options / End -->
-                                    <div class="col-lg-12 no-pds">
-                                        <div class="at-col-default-mar">
-                                            <button class="btn btn-default hvr-bounce-to-right"
-                                                type="submit"><strong>Filtrele</strong></button>
-                                        </div>
-                                    </div>
-                                    <!--/ End Form Bathrooms -->
-                                </form>
+                                <b>Adres:</b>
+                                <div class="mt-4">
+                                    <select id="city" class="form-control bg-white">
+                                        <option value="#" selected disabled>İl</option>
+                                        @foreach ($cities as $city)
+                                        <option value="{{$city->id}}">{{$city->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mt-4">
+                                    <select id="city" class="form-control bg-white">
+                                        <option value="#" selected disabled>İlçe</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="widget-boxed main-search-field mt-4">
+                            <div class="trip-search">
+                                <b>m<sup>2</sup> (Brüt):</b>
+                                <div class="mt-4 row">
+                                    <div class="col-6">
+                                        <input type="number" id="msq-min" min="0" placeholder="Min" class="form-control">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" id="msq-max" min="0" placeholder="Max" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-boxed mt-4">
+                            <b>Oda Sayısı:</b>
+                            <div class="mt-4">
+                                <div class="mb-2 d-flex align-items-center w-100">
+                                    <input type="checkbox" class="form-check-input" id="1_1"/>
+                                    <label for="1_1" class="form-check-label w-100 ml-4">1+1</label>
+                                </div>
+                                <div class="mb-2 d-flex align-items-center w-100">
+                                    <input type="checkbox" class="form-check-input" id="2_1"/>
+                                    <label for="2_1" class="form-check-label w-100 ml-4">2+1</label>
+                                </div>
+                                <div class="mb-2 d-flex align-items-center w-100">
+                                    <input type="checkbox" class="form-check-input" id="3_1"/>
+                                    <label for="3_1" class="form-check-label w-100 ml-4">3+1</label>
+                                </div>
+                                <div class="mb-2 d-flex align-items-center w-100">
+                                    <input type="checkbox" class="form-check-input" id="3_2"/>
+                                    <label for="3_2" class="form-check-label w-100 ml-4">3+2</label>
+                                </div>
+                                <div class="mb-2 d-flex align-items-center w-100">
+                                    <input type="checkbox" class="form-check-input" id="4_1"/>
+                                    <label for="4_1" class="form-check-label w-100 ml-4">4+1</label>
+                                </div>
+                                <div class="mb-2 d-flex align-items-center w-100">
+                                    <input type="checkbox" class="form-check-input" id="4_2"/>
+                                    <label for="4_2" class="form-check-label w-100 ml-4">4+2</label>
+                                </div>
+                                <div class="mb-2 d-flex align-items-center w-100">
+                                    <input type="checkbox" class="form-check-input" id="5_1"/>
+                                    <label for="5_1" class="form-check-label w-100 ml-4">5+1</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-boxed mt-4">
+                            <b>İlan Tarihi:</b>
+                            <div class="mb-2 d-flex align-items-center w-100">
+                                <input type="radio" name="post_date" id="recent_day"/>
+                                <label for="recent_day" class="form-check-label w-100 small">Son 1 Gün İçinde</label>
+                            </div>
+                            <div class="mb-2 d-flex align-items-center w-100">
+                                <input type="radio" name="post_date" id="last_3_day"/>
+                                <label for="last_3_day" class="form-check-label w-100 small">Son 3 Gün İçinde</label>
+                            </div>
+                            <div class="mb-2 d-flex align-items-center w-100">
+                                <input type="radio" name="post_date" id="last_7_day"/>
+                                <label for="last_7_day" class="form-check-label w-100 small">Son 7 Gün İçinde</label>
+                            </div>
+                            <div class="mb-2 d-flex align-items-center w-100">
+                                <input type="radio" name="post_date" id="last_15_day"/>
+                                <label for="last_15_day" class="form-check-label w-100 small">Son 15 Gün İçinde</label>
+                            </div>
+                            <div class="mb-2 d-flex align-items-center w-100">
+                                <input type="radio" name="post_date" id="last_30_day"/>
+                                <label for="last_30_day" class="form-check-label w-100 small">Son 30 Gün İçinde</label>
+                            </div>
+                        </div>
+
+                        <div class="widget-boxed mt-4">
+                            <b>Kimden:</b>
+                            <div class="mb-2 d-flex align-items-center w-100">
+                                <input type="radio" name="whose" id="from_owner"/>
+                                <label for="from_owner" class="form-check-label w-100 small">Sahibinden</label>
+                            </div>
+                            <div class="mb-2 d-flex align-items-center w-100">
+                                <input type="radio" name="whose" id="from_office"/>
+                                <label for="from_office" class="form-check-label w-100 small">Emlak Ofisinden</label>
+                            </div>
+                            <div class="mb-2 d-flex align-items-center w-100">
+                                <input type="radio" name="whose" id="from_company"/>
+                                <label for="from_company" class="form-check-label w-100 small">İnşaat Firmasından</label>
+                            </div>
+                            <div class="mb-2 d-flex align-items-center w-100">
+                                <input type="radio" name="whose" id="from_bank"/>
+                                <label for="from_bank" class="form-check-label w-100 small">Bankadan</label>
+                            </div>
+                        </div>
+
+                        <div class="widget-boxed mt-4">
+                            <button type="button" class="btn btn-lg btn-block btn-primary">FİLTRELE</button>
+                        </div>
+
                     </div>
                 </aside>
                 <div class="col-lg-9 col-md-12 blog-pots">

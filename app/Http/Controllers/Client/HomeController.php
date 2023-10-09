@@ -11,6 +11,7 @@ use App\Models\Project;
 use App\Models\Slider;
 use App\Models\StandOutUser;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -46,5 +47,24 @@ class HomeController extends Controller
 
 
         return view('client.home.index', compact('menu', 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
+    }
+
+    public function getSearchList(Request $request)
+    {
+        $request->validate(
+            [
+                'searchTerm' => 'required|string',
+            ]
+        );
+
+        $term = $request->input('searchTerm');
+
+        return response()->json(
+            [
+                'housings' => Housing::where('title', 'LIKE', "%{$term}%")->get()->map(fn($item) => ['photo' => json_decode($item->housing_type_data)->image, 'name' => $item->title]),
+                'projects' => Project::where('project_title', 'LIKE', "%{$term}%")->get()->map(fn($item) => ['photo' => $item->image, 'name' => $item->project_title]),
+                'merchants' => User::where('type', '2')->where('name', 'LIKE', "%{$term}%")->get()->map(fn($item) => ['photo' => $item->profile_image, 'name' => $item->name]),
+            ]
+        );
     }
 }

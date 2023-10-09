@@ -73,6 +73,8 @@ Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 
+Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
+
 Route::middleware('auth')->group(function()
 {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
