@@ -12,9 +12,9 @@
         <meta name="author" content="{{ $pageInfo->meta_author }}">
         <title>{{ $pageInfo->meta_title }}</title>
     @else
-        <meta name="description" content="Maliyetine Ev">
+        <meta name="description" content="Emlak Sepeti">
         <meta name="author" content="">
-        <title>Maliyetine Ev</title>
+        <title>Emlak Sepeti</title>
     @endif
 
 
@@ -86,7 +86,7 @@
                             <div class="header-widget d-flex">
                                 @if (Auth::user())
                                     @if (Auth::user()->type == 1)
-                                        <a href="{{ route('client.index') }}"  class="userIcon">
+                                        <a href="{{ route('client.index') }}" class="userIcon">
                                             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
                                                 stroke-width="2" fill="none" stroke-linecap="round"
                                                 stroke-linejoin="round" class="css-i6dzq1">
@@ -94,8 +94,9 @@
                                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                             </svg>
                                             <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
-                                    @elseif (Auth::user()->type == 2)
-                                        <a href="{{ route('institutional.index') }}" target="_blank" class="userIcon">
+                                    @elseif (Auth::user()->type != 1 && Auth::user()->type != 3)
+                                        <a href="{{ route('institutional.index') }}" target="_blank"
+                                            class="userIcon">
                                             <svg viewBox="0 0 24 24" width="24" height="24"
                                                 stroke="currentColor" stroke-width="2" fill="none"
                                                 stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">

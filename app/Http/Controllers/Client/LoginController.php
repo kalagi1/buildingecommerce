@@ -37,7 +37,7 @@ class LoginController extends Controller
                 if ($user->type == 3) {
                     // Giriş başarılı
                     return redirect()->intended('/admin'); // Admin paneline yönlendir
-                } elseif ($user->type == 2) {
+                } elseif ($user->type != 1 && $user->type != "3") {
                     // Giriş başarılı
                     return redirect()->intended('/institutional'); // Admin paneline yönlendir
                 } else {

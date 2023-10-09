@@ -303,7 +303,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             checkFavorites();
             var cart = @json(session('cart', []));
@@ -317,8 +317,6 @@
             addToCartButtons.forEach(function(button) {
                 button.addEventListener("click", function() {
                     var productId = button.getAttribute("data-id");
-
-                    // Sepete ekleme işlemi burada yapılmalıdır
 
                     // Ajax isteği gönderme
                     var cart = {
@@ -441,14 +439,14 @@
                         },
                         success: function(response) {
                             if (response.status === 'added') {
-                                toastr.success("Ürün Favorilere Eklendi");
+                                toastr.success("Konut Favorilere Eklendi");
                                 // Favorilere eklenmişse rengi kırmızı yap
                                 button.querySelector("i.fa-heart").classList.add(
                                     "text-danger");
                                 button.classList.add(
                                     "bg-white");
                             } else if (response.status === 'removed') {
-                                toastr.warning("Ürün Favorilerden Kaldırıldı");
+                                toastr.warning("Konut Favorilerden Kaldırıldı");
                                 button.querySelector("i.fa-heart").classList.remove(
                                     "text-danger");
                                 button.classList.remove(
@@ -464,7 +462,7 @@
             });
 
         });
-    </script>
+    </script> --}}
 @endsection
 
 @section('styles')

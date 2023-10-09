@@ -9,6 +9,15 @@
         "activePath": "admin/menus*"
     },
     {
+        "id": "comment",
+        "label": "Yorumlar",
+        "icon": "message-circle",
+        "text": "Yorumlar",
+        "key": "GetHousingComments",
+        "url": "admin.housings.comments",
+        "activePath": "admin/housing/comments"
+    },
+    {
         "id": "role",
         "label": "Yetkilendirme",
         "icon": "user",
@@ -143,6 +152,29 @@
                 "key": "GetSliders",
                 "url": "admin.sliders.index",
                 "activePath": "admin/sliders"
+            }
+        ]
+    },
+    {
+        "id": "footerSlider",
+        "label": "Slider",
+        "icon": "image",
+        "text": "Footer Slider",
+        "key": "FooterSliders",
+        "url": "#nv-footer-slider",
+        "activePath": "admin/footer-sliders",
+        "subMenu": [
+            {
+                "text": "Yeni Ekle",
+                "key": "CreateFooterSlider",
+                "url": "admin.footer-sliders.create",
+                "activePath": "admin/footer-sliders/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetFooterSliders",
+                "url": "admin.footer-sliders.index",
+                "activePath": "admin/footer-sliders"
             }
         ]
     },

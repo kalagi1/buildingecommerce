@@ -1,20 +1,20 @@
-@extends('admin.layouts.master')
+@extends('institutional.layouts.master')
 
 @section('content')
     <div class="content">
         <div class="row">
             <div class="mb-9">
-                <div id="userList"
-                    data-list='{"valueNames":["userName","userEmail","userType","userStatus","userActions"],"page":12,"pagination":true}'>
+                <div id="projectSummary"
+                    data-list='{"valueNames":["projectName","assigness","start","deadline","task","projectprogress","status","action"],"page":12,"pagination":true}'>
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
-                            <h2 class="mb-0">Kullanıcılar<span class="fw-normal text-700 ms-3">({{ count($users) }})</span>
+                            <h2 class="mb-0">Roller<span class="fw-normal text-700 ms-3">({{ count($roles) }})</span>
                             </h2>
                         </div>
                         <div class="col-auto">
                             <div class="col-auto">
-                                <a class="btn btn-primary px-5" href="{{ route('admin.users.create') }}">
-                                    <i class="fa-solid fa-plus me-2"></i>Yeni Kullanıcı Ekle
+                                <a class="btn btn-primary px-5" href="{{ route('institutional.roles.create') }}">
+                                    <i class="fa-solid fa-plus me-2"></i>Yeni Ekle
                                 </a>
                             </div>
                         </div>
@@ -37,74 +37,42 @@
                             <table class="table fs--1 mb-0 border-top border-200">
                                 <thead>
                                     <tr>
-                                        <th style="width:10%;">ID</th>
+                                        <th style="width:15%;">ID</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="userName">Kullanıcı Adı</th>
-                                        <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="userEmail">E-posta</th>
-                                        <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="userType">Kullanıcı Tipi</th>
-                                        <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="userStatus">Durum</th>
-                                        <th>İşlemler</th>
+                                            data-sort="projectName" style="width:60%;">ROL</th>
+                                        <th>İŞLEMLER</th>
                                     </tr>
                                 </thead>
-                                <tbody class="list" id="user-list-table-body">
-                                    @foreach ($users as $key => $user)
+                                <tbody class="list" id="project-list-table-body">
+                                    @foreach ($roles as $key => $role)
                                         <tr class="position-static">
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $role->name }}</td>
                                             <td>
-                                                <span class="badge bg-warning"> {{ $user->role->name }}</span><br>
-                                                @if (isset($user->parent))
-                                                    <span class="badge bg-info "> Kurumsal Hesap:
-                                                        {{ $user->parent->name }}</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($user->status == 1)
-                                                    <span class="badge bg-success">Aktif</span>
-                                                @else
-                                                    <span class="badge bg-danger">Pasif</span>
-                                                @endif
-                                            </td>
-
-                                            <td>
-                                                @if (in_array('GetUserById', $userPermissions) && in_array('UpdateUser', $userPermissions))
-                                                    <a href="{{ route('admin.users.edit', $user->id) }}"
-                                                        class="btn btn-sm btn-primary">Düzenle</a>
-                                                @elseif (in_array('GetUserById', $userPermissions))
-                                                    <a href="{{ route('admin.users.edit', $user->id) }}"
-                                                        class="btn btn-sm btn-primary">Önizle</a>
-                                                @endif
-                                                @if (in_array('DeleteUser', $userPermissions))
-                                                    <!-- Silme işlemi için modal -->
-                                                    <button type="button" class="btn btn-sm btn-danger"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#deleteModal{{ $user->id }}">
-                                                        Sil
-                                                    </button>
-                                                @endif
-
-
-
+                                                <a href="{{ route('institutional.roles.edit', $role->id) }}"
+                                                    class="btn btn-sm btn-primary">Güncelle</a>
 
                                                 <!-- Silme işlemi için modal -->
-                                                <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1"
-                                                    aria-labelledby="deleteModalLabel{{ $user->id }}"
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $role->id }}">
+                                                    Sil
+                                                </button>
+
+                                                <!-- Silme işlemi için modal -->
+                                                <div class="modal fade" id="deleteModal{{ $role->id }}" tabindex="-1"
+                                                    aria-labelledby="deleteModalLabel{{ $role->id }}"
                                                     aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title"
-                                                                    id="deleteModalLabel{{ $user->id }}">Kullanıcıyı
-                                                                    Sil</h5>
+                                                                    id="deleteModalLabel{{ $role->id }}">Sil
+                                                                </h5>
                                                                 <button type="button" class="btn p-1"
                                                                     data-bs-dismiss="modal" aria-label="Close">
                                                                     <svg class="svg-inline--fa fa-xmark fs--1"
                                                                         aria-hidden="true" focusable="false"
-                                                                        data-prefix="fas" data-icon="xmark"
+                                                                        data-prefix="fas" data-icon="xmark" role="img"
                                                                         xmlns="http://www.w3.org/2000/svg"
                                                                         viewBox="0 0 320 512" data-fa-i2svg="">
                                                                         <path fill="currentColor"
@@ -114,12 +82,12 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <p class="text-700 lh-lg mb-0">Bu kullanıcıyı silmek
-                                                                    istediğinizden emin misiniz?</p>
+                                                                <p class="text-700 lh-lg mb-0">Silmek istediğinize emin
+                                                                    misiniz ?</p>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <form
-                                                                    action="{{ route('admin.users.destroy', $user->id) }}"
+                                                                    action="{{ route('institutional.roles.destroy', $role->id) }}"
                                                                     method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -156,8 +124,7 @@
                 </div>
             </div>
         </div>
-    </div>
-@endsection
+    @endsection
 
-@push('scripts')
-@endpush
+    @push('scripts')
+    @endpush

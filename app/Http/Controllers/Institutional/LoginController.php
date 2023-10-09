@@ -21,7 +21,7 @@ class LoginController extends Controller
             $user = Auth::user();
    
 
-            if ($user->type == "2") {
+            if ($user->type != "1" && $user->type != "3") {
                 // Giriş başarılı
                 return redirect()->intended(route('institutional.index'));
             } else {

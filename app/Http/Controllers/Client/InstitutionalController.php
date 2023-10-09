@@ -18,17 +18,16 @@ class InstitutionalController extends Controller
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {
 
-                $institutional = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'brands', "banners")->first();
-
-                $projects = Project::where("user_id", $institutional->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->orderBy("id", "desc")->limit(3)->get();
+                $store = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'brands', "banners")->first();
+                $projects = Project::where("user_id", $store->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->orderBy("id", "desc")->limit(3)->get();
 
                 $finishProjects = Project::whereHas('housingStatus', function ($query) {
                     $query->where('housing_type_id', '2');
-                })->with("housings", 'brand', 'roomInfo', 'housingType')->orderBy("created_at", "desc")->where("user_id", $institutional->id)->get();
+                })->with("housings", 'brand', 'roomInfo', 'housingType')->orderBy("created_at", "desc")->where("user_id", $store->id)->get();
 
                 $continueProjects = Project::whereHas('housingStatus', function ($query) {
                     $query->where('housing_type_id', '3');
-                })->with("housings", 'brand', 'roomInfo', 'housingType')->orderBy("created_at", "desc")->where("user_id", $institutional->id)->get();
+                })->with("housings", 'brand', 'roomInfo', 'housingType')->orderBy("created_at", "desc")->where("user_id", $store->id)->get();
 
                 $secondhandHousings = Housing::with('images')->select(
                     'housings.id',
@@ -40,10 +39,10 @@ class InstitutionalController extends Controller
                 )->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
                     ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
                     ->where('housings.status_id', 1)
-                    ->where("user_id", $institutional->id)
+                    ->where("user_id", $store->id)
                     ->get();
 
-                return view("client.institutional.dashboard", compact("institutional", 'projects', 'finishProjects', 'continueProjects', 'secondhandHousings'));
+                return view("client.institutional.dashboard", compact("store", 'projects', 'finishProjects', 'continueProjects', 'secondhandHousings'));
             }
         }
     }

@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('institutional.layouts.master')
 
 @section('content')
     <div class="content">
@@ -13,7 +13,7 @@
                         </div>
                         <div class="col-auto">
                             <div class="col-auto">
-                                <a class="btn btn-primary px-5" href="{{ route('admin.users.create') }}">
+                                <a class="btn btn-primary px-5" href="{{ route('institutional.users.create') }}">
                                     <i class="fa-solid fa-plus me-2"></i>Yeni Kullanıcı Ekle
                                 </a>
                             </div>
@@ -56,11 +56,8 @@
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>
-                                                <span class="badge bg-warning"> {{ $user->role->name }}</span><br>
-                                                @if (isset($user->parent))
-                                                    <span class="badge bg-info "> Kurumsal Hesap:
-                                                        {{ $user->parent->name }}</span>
-                                                @endif
+                                                <span class="badge bg-warning"> {{ $user->role->name }}</span>
+
                                             </td>
                                             <td>
                                                 @if ($user->status == 1)
@@ -72,10 +69,10 @@
 
                                             <td>
                                                 @if (in_array('GetUserById', $userPermissions) && in_array('UpdateUser', $userPermissions))
-                                                    <a href="{{ route('admin.users.edit', $user->id) }}"
+                                                    <a href="{{ route('institutional.users.edit', $user->id) }}"
                                                         class="btn btn-sm btn-primary">Düzenle</a>
                                                 @elseif (in_array('GetUserById', $userPermissions))
-                                                    <a href="{{ route('admin.users.edit', $user->id) }}"
+                                                    <a href="{{ route('institutional.users.edit', $user->id) }}"
                                                         class="btn btn-sm btn-primary">Önizle</a>
                                                 @endif
                                                 @if (in_array('DeleteUser', $userPermissions))
@@ -119,7 +116,7 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <form
-                                                                    action="{{ route('admin.users.destroy', $user->id) }}"
+                                                                    action="{{ route('institutional.users.destroy', $user->id) }}"
                                                                     method="POST" class="d-inline">
                                                                     @csrf
                                                                     @method('DELETE')
