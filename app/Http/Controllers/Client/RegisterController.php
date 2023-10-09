@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use App\Rules\SubscriptionPlanToRegister;
 
 class RegisterController extends Controller
 {
@@ -24,6 +25,12 @@ class RegisterController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:3',
             'type' => 'required|in:1,2',
+            'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka',
+            'subscription_plan_id' =>
+            [
+                'nullable',
+                new SubscriptionPlanToRegister,
+            ],
         ];
 
         $city = City::where("title", $request->input("taxOfficeCity"))->first();
@@ -49,6 +56,8 @@ class RegisterController extends Controller
         $user->type = $validatedData['type'];
         $user->activity = $request->input("activity");
         $user->county_id = $request->input("county_id");
+        $user->city_id = $request->input("city_id");
+        $user->neighborhood_id = $request->input("neighborhood_id");
         $user->account_type = $accountType;
         $user->taxOfficeCity = $city->id;
         $user->taxOffice = $request->input("taxOffice");
@@ -56,6 +65,7 @@ class RegisterController extends Controller
         $user->idNumber = $request->input("idNumber");
         $user->status = 0;
         $user->email_verification_token = Str::random(40);
+        $user->corporate_type = $request->input("corporate-account-type");
         $user->save();
 
         UserPlan::create([

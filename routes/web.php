@@ -51,6 +51,7 @@ use App\Http\Controllers\Institutional\ProjectController as InstitutionalProject
 use App\Http\Controllers\Institutional\RoleController as InstitutionalRoleController;
 use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
+use App\Http\Controllers\Institutional\OfferController as InstitutionalOfferController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -87,6 +88,7 @@ Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectD
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
 Route::get('/get-counties/{city}', [CountyController::class,"getCounties"])->name("getCounties");
+Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class,"getNeighborhoods"])->name("getNeighborhoods");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
@@ -524,7 +526,29 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional']], function () {
 
-    
+    // Offers - Kampanyalar
+    Route::middleware(['checkPermission:CreateOffer'])->group(function () {
+        Route::get('/offers/create', [InstitutionalOfferController::class, 'create'])->name('offers.create');
+        Route::post('/offers', [InstitutionalOfferController::class, 'store'])->name('offers.store');
+        Route::get('/offers/get-project-housings', [InstitutionalOfferController::class, 'getProjectHousingList'])->name('offers.get-project-housings');
+    });
+
+    Route::middleware(['checkPermission:GetOfferById'])->group(function() {
+        Route::get('/offers/{offer}/edit', [InstitutionalOfferController::class, 'edit'])->name('offers.edit');
+    });
+
+    Route::middleware(['checkPermission:UpdateOffer'])->group(function () {
+        Route::put('/offers/{offer}', [InstitutionalOfferController::class, 'update'])->name('offers.update');
+    });
+
+    Route::middleware(['checkPermission:DeleteOffer'])->group(function () {
+        Route::delete('/offers/{offer}', [InstitutionalOfferController::class, 'destroy'])->name('offers.delete');
+    });
+
+    Route::middleware(['checkPermission:GetOffers'])->group(function () {
+        Route::get('/offers', [InstitutionalOfferController::class, 'index'])->name('offers.index');
+    });
+
     // User Controller İzin Kontrolleri
     Route::middleware(['checkPermission:CreateUser'])->group(function () {
         Route::get('/users/create', [InstitutionalUserController::class, 'create'])->name('users.create');
@@ -576,6 +600,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
         Route::get('/profile/edit', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
         Route::put('/profile/update', [InstitutionalProfileController::class, "update"])->name('profile.update');
+        Route::get('/profile/upgrade', [InstitutionalProfileController::class, 'upgrade'])->name('profile.upgrade');
+        Route::post('/profile/upgrade/{id}', [InstitutionalProfileController::class, 'upgradeProfile'])->name('profile.upgrade.action');
     });
 
     Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
@@ -636,11 +662,10 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::delete('/store-banners/{storeBanner}', [StoreBannerController::class, 'destroy'])->name('storeBanners.destroy');
     });
 
-    Route::middleware(['checkPermission:createHousing'])->group(function () {
+    Route::middleware(['checkPermission:CreateHousing'])->group(function () {
         Route::get('/create_housing', [InstitutionalHousingController::class, 'create'])->name('housing.create');
         Route::post('/create_housing', [InstitutionalHousingController::class, 'store'])->name('housing.store');
     });
-
     Route::middleware(['checkPermission:editHousing'])->group(function () {
         Route::get('/edit_housing/{id}', [InstitutionalHousingController::class, 'edit'])->name('housing.edit');
         Route::post('/edit_housing/{id}', [InstitutionalHousingController::class, 'update'])->name('housing.update');
@@ -659,6 +684,12 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
         Route::get('/profili-guncelle', [ClientPanelProfileController::class, "edit"])->name('profile.edit');
         Route::put('/profile/update', [ClientPanelProfileController::class, "update"])->name('profile.update');
+    });
+
+    Route::middleware(['checkPermission:UpgradeProfile'])->group(function()
+    {
+        Route::get('/profili-yukselt', [ClientPanelProfileController::class, "upgrade"])->name('profile.upgrade');
+        Route::post('/profili-yukselt/{id}', [ClientPanelProfileController::class, "upgradeProfile"])->name('profile.upgrade.action');
     });
 
     // ChangePassword Controller Rotasının İzinleri

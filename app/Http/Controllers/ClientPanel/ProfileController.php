@@ -4,10 +4,66 @@ namespace App\Http\Controllers\ClientPanel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\SubscriptionPlan;
+use App\Models\UserPlan;
 use App\Models\User;
+use App\Models\UpgradeLog;
+use App\Rules\SubscriptionPlanToUpgradeBireysel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
+    function upgrade()
+    {
+        $plans = SubscriptionPlan::where('plan_type', 'Bireysel')->get();
+        $current = UserPlan::where('user_id', auth()->user()->id)->first() ?? false;
+        return view('client.client-panel.profile.upgrade', compact('plans', 'current'));
+    }
+
+    function upgradeProfile(Request $request, $id)
+    {
+        $request->validate(['id' => $id],
+            [
+                'id' =>
+                [
+                    'required',
+                    new SubscriptionPlanToUpgradeBireysel(),
+                ]
+            ]
+        );
+
+        $plan = SubscriptionPlan::find($id);
+        $before = UserPlan::where('user_id', auth()->user()->id)->first();
+
+        if (!$before)
+        {
+            $before = new \stdClass();
+            $before->housing_limit = 0;
+        }
+
+        $data =
+        [
+            'housing_limit' => $before->housing_limit + $plan->housing_limit,
+            'user_id' => auth()->user()->id,
+            'subscription_plan_id' => $id,
+            'project_limit' => 0,
+            'user_limit' => 0,
+        ];
+
+        DB::beginTransaction();
+            UpgradeLog::create(
+                [
+                    'user_id' => auth()->user()->id,
+                    'plan_id' => $plan->id,
+                ]
+            );
+            UserPlan::updateOrCreate(['user_id' => auth()->user()->id], $data);
+        DB::commit();
+
+        return redirect()->back()->with('success', 'Plan başarıyla eklendi.');
+    }
+
     public function edit()
     {
         $user = auth()->user();

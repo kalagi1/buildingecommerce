@@ -215,7 +215,7 @@
                                             <div class="project-inner project-head">
                                                 <div class="homes">
                                                     <!-- homes img -->
-                                                    <a href="single-property-1.html" class="homes-img">
+                                                    <a href="{{ route('housing.show', $housing->id) }}" class="homes-img">
                                                         <img src="{{ asset('housing_images/' . getImage($housing, 'image')) }}"
                                                             alt="{{ $housing->housing_type_title }}"
                                                             class="img-responsive">

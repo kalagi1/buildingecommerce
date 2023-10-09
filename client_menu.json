@@ -18,6 +18,15 @@
         "activePath": "client/profile/edit"
     },
     {
+        "id": "UpgradeProfile",
+        "label": "Hesabım & Yardım",
+        "icon": "user",
+        "text": "Profili Yükselt",
+        "key": "UpgradeProfile",
+        "url": "client.profile.upgrade",
+        "activePath": "client/profile/upgrade"
+    },
+    {
         "id": "ChangePassword",
         "label": "Hesabım & Yardım",
         "icon": "lock",

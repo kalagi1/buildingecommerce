@@ -56,8 +56,8 @@
                             <button
                                 style="border: none;width:100%; background-color: #446BB6; border-radius: 10px; padding: 10px 50px; color: white;"
                                 class="addToCart" data-type='project' data-project='{{ $project->id }}'
-                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
-                                Ekle</button>
+                                data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>Sepete
+                                Ekle</button>   
                         </div>
                     </div>
                 </div>

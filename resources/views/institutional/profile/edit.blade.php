@@ -96,11 +96,13 @@
                                     <label class="q-label">İl</label>
                                     <select class="form-control" id="citySelect" name="city_id">
                                         <option value="">Seçiniz</option>
-                                        @foreach ($cities as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ old('city_id', $user->city_id) == $item->id ? 'selected' : '' }}>
-                                                {{ $item->title }}</option>
+                                        @foreach ($towns as $item)
+                                            <option for="{{ $item->sehir_title }}" value="{{ $item->sehir_key }}"
+                                                data-title="{{ $item->sehir_title }}"
+                                                {{ old('city_id', $user->city_id) == $item->sehir_key ? 'selected' : '' }}>
+                                                {{ $item->sehir_title }}</option>
                                         @endforeach
+
                                     </select>
                                 </div>
 
@@ -109,10 +111,24 @@
                                     <label class="q-label">İlçe</label>
                                     <select class="form-control" name="county_id" id="countySelect">
                                         <option value="">Seçiniz</option>
-                                        @foreach ($counties as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ old('county_id', $user->county_id) == $item->id ? 'selected' : '' }}>
-                                                {{ $item->title }}</option>
+                                        @foreach ($districts as $item)
+                                            <option for="{{ $item->ilce_title }}" value="{{ $item->ilce_key }}"
+                                                data-title="{{ $item->ilce_title }}"
+                                                {{ old('county_id', $user->county_id) == $item->ilce_key ? 'selected' : '' }}>
+                                                {{ $item->ilce_title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label class="q-label">Mahalle</label>
+                                    <select class="form-control" name="neighborhood_id" id="neighborhoodSelect">
+                                        <option value="">Seçiniz</option>
+                                        @foreach ($neighborhoods as $item)
+                                            <option for="{{ $item->mahalle_title }}" value="{{ $item->mahalle_key }}"
+                                                data-title="{{ $item->mahalle_title }}"
+                                                {{ old('neighborhood_id', $user->neighborhood_id) == $item->mahalle_key ? 'selected' : '' }}>
+                                                {{ $item->mahalle_title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -267,8 +283,29 @@
                     var countySelect = $('#countySelect');
                     countySelect.empty();
                     $.each(data, function(index, county) {
-                        countySelect.append('<option value="' + county.id + '">' + county
-                            .title +
+                        countySelect.append('<option value="' + county.ilce_key + '">' + county
+                            .ilce_title +
+                            '</option>');
+                    });
+                }
+            });
+        });
+
+
+        $('#countySelect').change(function() {
+            var selectedCounty = $(this).val();
+
+            $.ajax({
+                type: 'GET',
+                url: '/get-neighborhoods/' + selectedCounty,
+                success: function(data) {
+                    var neighborhoodSelect = $('#neighborhoodSelect');
+                    neighborhoodSelect.empty();
+                    $.each(data, function(index, county) {
+                        neighborhoodSelect.append('<option value="' + county.mahalle_key +
+                            '">' +
+                            county
+                            .mahalle_title +
                             '</option>');
                     });
                 }

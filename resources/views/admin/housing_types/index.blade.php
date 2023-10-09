@@ -13,8 +13,8 @@
                                     <div class="d-flex align-items-center justify-content-end my-3">
                                         <div id="bulk-select-replace-element"><button class="btn btn-phoenix-success btn-sm"
                                                 type="button"><span class="fas fa-plus"
-                                                    data-fa-transform="shrink-3 down-2"></span><span
-                                                    class="ms-1">New</span></button></div>
+                                                    data-fa-transform="shrink-3 down-2"></span><span class="ms-1">Yeni
+                                                    Ekle</span></button></div>
                                     </div>
                                     <div id="tableExample"
                                         data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
@@ -24,11 +24,7 @@
                                                     <tr>
                                                         <th class="white-space-nowrap fs--1 align-middle ps-0"
                                                             style="max-width:20px; width:18px;">
-                                                            <div class="form-check mb-0 fs-0"><input
-                                                                    class="form-check-input" id="bulk-select-example"
-                                                                    type="checkbox"
-                                                                    data-bulk-select='{"body":"bulk-select-body","actions":"bulk-select-actions","replacedElement":"bulk-select-replace-element"}' />
-                                                            </div>
+                                                            #
                                                         </th>
                                                         <th>Title</th>
                                                         <th>Slug</th>
@@ -71,7 +67,7 @@
         var housingTypes = @json($housingTypes);
 
         var tbody = document.getElementById("bulk-select-body");
-        housingTypes.forEach(function(housingType) {
+        housingTypes.forEach(function(housingType, key) {
             var row = document.createElement("tr");
 
             var checkboxCell = document.createElement("td");
@@ -112,28 +108,25 @@
             var actionsIcon = document.createElement("span");
             actionsIcon.className = "fas fa-ellipsis-h fs--2";
             actionsButton.appendChild(actionsIcon);
-            actionsDiv.appendChild(actionsButton);
             var dropdownMenu = document.createElement("div");
             dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
             var viewLink = document.createElement("a");
-            viewLink.className = "dropdown-item";
+            viewLink.className = "btn btn-primary";
             viewLink.href = "#!";
             viewLink.textContent = "View";
             var exportLink = document.createElement("a");
-            exportLink.className = "dropdown-item";
+            exportLink.className = "btn btn-secondary";
             exportLink.href = "#!";
             exportLink.textContent = "Export";
             var divider = document.createElement("div");
             divider.className = "dropdown-divider";
             var removeLink = document.createElement("a");
-            removeLink.className = "dropdown-item text-danger";
+            removeLink.className = "btn btn-danger";
             removeLink.href = "#!";
             removeLink.textContent = "Remove";
-            dropdownMenu.appendChild(viewLink);
-            dropdownMenu.appendChild(exportLink);
-            dropdownMenu.appendChild(divider);
-            dropdownMenu.appendChild(removeLink);
-            actionsDiv.appendChild(dropdownMenu);
+            actionsDiv.appendChild(viewLink);
+            actionsDiv.appendChild(exportLink);
+            actionsDiv.appendChild(removeLink);
             actionsCell.appendChild(actionsDiv);
 
             row.appendChild(checkboxCell);

@@ -18,6 +18,15 @@
         "activePath": "institutional/profile/edit"
     },
     {
+        "id": "upgrade",
+        "label": "Hesabım & Yardım",
+        "icon": "edit",
+        "text": "Aboneliği Yükselt",
+        "key": "Upgrade",
+        "url": "institutional.profile.upgrade",
+        "activePath": "institutional/profile/upgrade"
+    },
+    {
         "id": "role",
         "label": "Yetkilendirme",
         "icon": "user",
@@ -51,9 +60,9 @@
     },
     {
         "id": "user",
-        "label": "Yönetim",
+        "label": "Yetkilendirme",
         "icon": "user",
-        "text": "Kullanıcılar",
+        "text": "Alt Kullanıcılar",
         "key": "Users",
         "url": "#nv-users",
         "activePath": "institutional/users*",
@@ -106,15 +115,38 @@
         "subMenu": [
             {
                 "text": "Oluştur",
-                "key": "CreateProject",
+                "key": "CreateHousing",
                 "url": "institutional.housing.create",
                 "activePath": "institutional/create_housing"
             },
             {
                 "text": "Listele",
-                "key": "GetProjects",
+                "key": "ListHousingInstitutional",
                 "url": "institutional.housing.list",
                 "activePath": "institutional/housings"
+            }
+        ]
+    },
+    {
+        "id": "offers",
+        "label": "Uygulama",
+        "icon": "plus-square",
+        "text": "Kampanyalar",
+        "key": "Offers",
+        "url": "#nv-offers",
+        "activePath": "institutional/offers*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateOffer",
+                "url": "institutional.offers.create",
+                "activePath": "institutional/offers/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetOffers",
+                "url": "institutional.offers.index",
+                "activePath": "institutional/offers"
             }
         ]
     },
@@ -143,7 +175,7 @@
     },
     {
         "id": "store-banners",
-        "label": "Mağaza Bannerları",
+        "label": "Uygulama",
         "icon": "image",
         "text": "Mağaza Bannerları",
         "key": "StoreBanners",

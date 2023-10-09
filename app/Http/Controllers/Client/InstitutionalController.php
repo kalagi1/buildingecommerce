@@ -18,7 +18,7 @@ class InstitutionalController extends Controller
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {
 
-                $store = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'brands', "banners")->first();
+                $store = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'town', 'district', "neighborhood", 'brands', "banners")->first();
                 $projects = Project::where("user_id", $store->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->orderBy("id", "desc")->limit(3)->get();
 
                 $finishProjects = Project::whereHas('housingStatus', function ($query) {
@@ -53,7 +53,7 @@ class InstitutionalController extends Controller
         foreach ($users as $institutional) {
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {
-                $institutional = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'brands')->first();
+                $institutional = User::where("id", $institutional->id)->with('projects.housings','town', 'district', "neighborhood", 'housings', 'city', 'brands', "owners.housing")->first();
                 return view("client.institutional.detail", compact("institutional"));
             }
         }

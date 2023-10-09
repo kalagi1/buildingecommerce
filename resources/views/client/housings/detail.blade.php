@@ -204,8 +204,10 @@
                                     <div class="row mt-3">
                                         @foreach (json_decode($comment->images, true) as $img)
                                             <div class="col-md-2">
-                                                <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                    style="object-fit: cover" />
+                                                <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>" data-lightbox="gallery">
+                                                    <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                        style="object-fit: cover;width:100%" />
+                                                </a>
                                             </div>
                                         @endforeach
                                     </div>
@@ -291,6 +293,14 @@
 @endsection
 
 @section('scripts')
+<!-- lightbox2 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- lightbox2 JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         var map = L.map('map').setView([{{ $housing->latitude }}, {{ $housing->longitude }}], 13);
