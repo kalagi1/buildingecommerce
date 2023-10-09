@@ -73,9 +73,24 @@
                                     </select>
                                 </div>
                                 <div class="mt-4">
-                                    <select id="city" class="form-control bg-white">
-                                        <option value="#" selected disabled>İlçe</option>
+                                    <select id="county" class="form-control bg-white">
+                                        <option value="#" disabled>İlçe</option>
                                     </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if ($secondhandHousings)
+                        <div class="widget-boxed main-search-field mt-4">
+                            <div class="trip-search">
+                                <b>Fiyat Aralığı:</b>
+                                <div class="mt-4 row">
+                                    <div class="col-6">
+                                        <input type="number" id="price-min" min="0" placeholder="Min Fiyat" class="form-control">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" id="price-max" min="0" placeholder="Max Fiyat" class="form-control">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +109,7 @@
                             </div>
                         </div>
 
-                        <div class="widget-boxed mt-4">
+                        <div class="widget-boxed mt-4" id="room_count_field">
                             <b>Oda Sayısı:</b>
                             <div class="mt-4">
                                 <div class="mb-2 d-flex align-items-center w-100">
@@ -128,7 +143,7 @@
                             </div>
                         </div>
 
-                        <div class="widget-boxed mt-4">
+                        <div class="widget-boxed mt-4" id="post_date_field">
                             <b>İlan Tarihi:</b>
                             <div class="mb-2 d-flex align-items-center w-100">
                                 <input type="radio" name="post_date" id="recent_day"/>
@@ -152,7 +167,7 @@
                             </div>
                         </div>
 
-                        <div class="widget-boxed mt-4">
+                        <div class="widget-boxed mt-4" id="from_owner_field">
                             <b>Kimden:</b>
                             <div class="mb-2 d-flex align-items-center w-100">
                                 <input type="radio" name="whose" id="from_owner"/>
@@ -171,9 +186,10 @@
                                 <label for="from_bank" class="form-check-label w-100 small">Bankadan</label>
                             </div>
                         </div>
+                        @endif
 
                         <div class="widget-boxed mt-4">
-                            <button type="button" class="btn btn-lg btn-block btn-primary">FİLTRELE</button>
+                            <button type="button" id="set-filter" class="btn btn-lg btn-block btn-primary">FİLTRELE</button>
                         </div>
 
                     </div>
@@ -197,7 +213,8 @@
                     <section class="popular-places home18" style="padding-top:0 !important">
                         <div class="container">
 
-                            <div class="row">
+                            <div class="row pp-row">
+                                {{--
                                 @if (count($secondhandHousings) == 0)
                                     @forelse($projects as $project)
                                         <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
@@ -299,8 +316,7 @@
 
                                     </div>
                                 @endif
-
-
+                                --}}
                             </div>
                         </div>
                     </section>
@@ -316,6 +332,199 @@
 @section('scripts')
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script></script>
+    <script>
+        'use strict';
+        $('#city').on('change', function()
+        {
+            $.ajax(
+                {
+                    method: "GET",
+                    url: "{{url('get-counties-for-client')}}/"+$(this).val(),
+                    success: function(res)
+                    {
+                        $('#county').empty();
+                        $('#county').append('<option value="#" disabled>İlçe</option>');
+                        res.forEach((e) =>
+                        {
+                            $('#county').append(
+                                `<option value="${e.id}">${e.title}</option>`
+                            );
+                        });
+                    }
+                }
+            );
+        });
+
+        function drawList(filters = {})
+        {
+            $.ajax(
+                {
+                    method: "POST",
+                    url: "{{ route($secondhandHousings ? 'get-rendered-secondhandhousings' : 'get-rendered-projects') }}",
+                    data: Object.assign({}, filters, { _token: "{{csrf_token()}}" }),
+                    success: function(response)
+                    {
+                        $('.pp-row').empty();
+
+                        response.forEach((res) =>
+                        {
+                            @if (!$secondhandHousings)
+                            $('.pp-row').append(
+                                `
+                                <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
+                                    <!-- Image Box -->
+                                    <a href="${res.url}"
+                                        class="img-box hover-effect">
+                                        <img src="${res.image}"
+                                            class="img-fluid w100" alt="">
+                                    </a>
+                                </div>
+                                `
+                            );
+                            @else
+                            $('.pp-row').append(
+                                `
+                                <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
+                                    <div class="landscapes">
+                                        <div class="project-single">
+                                            <div class="project-inner project-head">
+                                                <div class="homes">
+                                                    <!-- homes img -->
+                                                    <a href="single-property-1.html" class="homes-img">
+                                                        <img src="${res.image}"
+                                                            alt="${res.housing_type_title}"
+                                                            class="img-responsive">
+                                                    </a>
+                                                </div>
+                                                <div class="button-effect">
+                                                    <!-- Örneğin Kalp İkonu -->
+                                                    <a href="#" class="btn toggle-favorite"
+                                                        data-housing-id="${res.housing_id}">
+                                                        <i class="fa fa-heart"></i>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                            <!-- homes content -->
+                                            <div class="homes-content p-3" style="padding:20px !important">
+                                                <!-- homes address -->
+                                                <h3><a
+                                                        href="${res.housing_url}">${res.title}</a>
+                                                </h3>
+                                                <p class="homes-address mb-3">
+                                                    <a href="${res.housing_url}">
+                                                        <i
+                                                            class="fa fa-map-marker"></i><span>${res.housing_address}</span>
+                                                    </a>
+                                                </p>
+                                                <!-- homes List -->
+                                                <ul class="homes-list clearfix pb-0"
+                                                    style="display: flex;justify-content:space-between">
+                                                    <li class="sude-the-icons" style="width:auto !important">
+                                                        <i class="flaticon-bed mr-2" aria-hidden="true"></i>
+                                                        <span>${res.housing_type.title} </span>
+                                                    </li>
+                                                    <li class="sude-the-icons" style="width:auto !important">
+                                                        <i class="flaticon-bathtub mr-2"
+                                                            aria-hidden="true"></i>
+                                                        <span>${res.housing_type.room_count}</span>
+                                                    </li>
+                                                    <li class="sude-the-icons" style="width:auto !important">
+                                                        <i class="flaticon-square mr-2"
+                                                            aria-hidden="true"></i>
+                                                        <span>${res.housing_type.squaremeters} m2</span>
+                                                    </li>
+                                                </ul>
+                                                <ul class="homes-list clearfix pb-0"
+                                                    style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                    <li style="font-size: large; font-weight: 700;">
+                                                        ${res.housing_type.price}TL</li>
+
+                                                    <li style="display: flex; justify-content: center;">
+                                                        ${res.housing_date}
+                                                    </li>
+                                                </ul>
+                                                <ul class="homes-list clearfix pb-0"
+                                                    style="display: flex; justify-content: center;margin-top:20px !important;">
+                                                    <button class="addToCart"
+                                                        style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
+                                                        data-type='housing'
+                                                        data-id='${res.housing_id}'>Sepete
+                                                        Ekle</button>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                `
+                            );
+                            @endif
+                        });
+                    }
+                }
+            );
+        }
+
+        $(function()
+        {
+            drawList();
+
+            $('#set-filter').on('click', function()
+            {
+                let room_count = [];
+                $('#room_count_field .mt-4 .mb-2').each(function()
+                {
+                    let i = $(this).find('.form-check-input');
+
+                    if (i.is(':checked'))
+                    {
+                        room_count.push(i.id().replace('_','+')); 
+                    }
+                });
+
+                let post_date;
+                $('#post_date_field .mb-2').each(function()
+                {
+                    let i = $(this).find('input[type=radio]');
+
+                    if (i.is(':checked'))
+                    {
+                        post_date = i.id();
+                        return false;
+                    }
+                });
+
+                let from_owner;
+                $('#from_owner_field .mb-2').each(function()
+                {
+                    let i = $(this).find('input[type=radio]');
+
+                    if (i.is(':checked'))
+                    {
+                        from_owner = i.id();
+                        return false;
+                    }
+                });
+
+                drawList(
+                    {
+                        city: $('#city').val(),
+                        county: $('#county').val(),
+                        @if ($secondhandHousings)
+                        price_min: $('#price-min').val(),
+                        price_max: $('#price-max').val(),
+                        msq_min: $('#msq-min').val(),
+                        msq_max: $('#msq-max').val(),
+                        room_count,
+                        post_date,
+                        from_owner,
+                        @endif
+                    }
+                );
+            });
+        });
+    </script>
 @endsection
 
 @section('styles')
