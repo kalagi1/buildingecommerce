@@ -635,6 +635,124 @@
 
     });
 </script>
+<script>
+    'use strict';
+        $(function()
+        {
+            function drawHeaderSearchbox(searchTerm)
+            {
+                $('.header-search-box').empty();
+                $.ajax(
+                    {
+                        url: "{{route('get-search-list')}}",
+                        method: "GET",
+                        data: { searchTerm },
+                        success: function(data)
+                        {
+                            // Housing search
+                            $('.header-search-box').append(`
+                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
+                            `);
+
+                            if (data.housings.length > 0)
+                                data.housings.forEach((e) =>
+                                {
+                                    $('.header-search-box').append(`<a href="#" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                        <img src="{{asset('/housing_images')}}/${e.photo}" width="48" height="48" class="rounded-sm"/>
+                                        <span>${e.name}</span>
+                                    </a>`);
+                                });
+                            else
+                                $('.header-search-box').append(`
+                                    <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç yok</div>
+                                `);
+
+                            // Project search
+                            $('.header-search-box').append(`
+                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">PROJELER</div>
+                            `);
+
+                            if (data.projects.length > 0)
+                                data.projects.forEach((e) =>
+                                {
+                                    $('.header-search-box').append(`<a href="#" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                        <img src="/${e.photo}" width="48" height="48" class="rounded-sm"/>
+                                        <span>${e.name}</span>
+                                    </a>`);
+                                });
+                            else
+                                $('.header-search-box').append(`
+                                    <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç yok</div>
+                                `);
+
+                            // Merchant search
+                            $('.header-search-box').append(`
+                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">MAĞAZALAR</div>
+                            `);
+
+                            if (data.merchants.length > 0)
+                                data.merchants.forEach((e) =>
+                                {
+                                    $('.header-search-box').append(`<a href="#" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                        <img src="{{asset('/profile_images')}}/${e.photo}" width="48" height="48" class="rounded-sm"/>
+                                        <span>${e.name}</span>
+                                    </a>`);
+                                });
+                            else
+                                $('.header-search-box').append(`
+                                    <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç yok</div>
+                                `);
+                        }
+                    }
+                );
+            }
+
+            let lastSSBoxTime = Date.now() / 1000;
+            let old;
+            let oldTimestamp = 0;
+            let interval = false;
+            $('#ss-box').on('input', function()
+                {
+                    let now = Date.now() / 1000;
+                    let term = $(this).val();
+                    
+                    if (term != '')
+                    {
+                        if (now - lastSSBoxTime > 1 && $(this).val().length > 3)
+                        {
+                            $('.header-search-box').addClass('d-flex').removeClass('d-none');
+                            drawHeaderSearchbox(term);
+                        }
+                        else
+                        {
+                            $('.header-search-box').removeClass('d-flex').addClass('d-none');
+                            oldTimestamp = lastSSBoxTime;
+                            let lastTerm = term;
+                            interval = true;
+                            setInterval(() => 
+                            {
+                                if (lastTerm === $('#ss-box').val() && interval)
+                                {
+                                    interval = false;
+                                    $('.header-search-box').addClass('d-flex').removeClass('d-none');
+                                    drawHeaderSearchbox(lastTerm);
+                                    oldTimestamp = null;
+                                }
+                            }, 1000);
+                        }
+                    }
+                    else
+                    {
+                            $('.header-search-box').removeClass('d-flex').addClass('d-none');
+                    }
+
+                    old = lastSSBoxTime;
+                    lastSSBoxTime = Date.now() / 1000;
+                }
+            );
+        });
+    </script>
+
 @yield('scripts')
 </div>
 <!-- Wrapper / End -->

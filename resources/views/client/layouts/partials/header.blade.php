@@ -76,10 +76,12 @@
                                         alt=""></a>
                             </div>
                         </div>
-                        <div class="center">
+                        <div class="center position-relative">
                             <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
-                                <input type="text" placeholder="Ara ..">
+                                <input type="text" id="ss-box" placeholder="Ara ..">
                                 <i class="fa fa-search"></i>
+                            </div>
+                            <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right" style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px; overflow-y: scroll;">
                             </div>
                         </div>
                         <div class="rightSide">
@@ -231,8 +233,6 @@
                     </nav>
                 </div>
             </div>
-
-
         </header>
         <div class="clearfix"></div>
 
