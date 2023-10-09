@@ -49,6 +49,114 @@ class HomeController extends Controller
         return view('client.home.index', compact('menu', 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 
+    public function getRenderedProjects(Request $request)
+    {
+        $obj = new Project;
+
+        if ($request->input('city'))
+            $obj = $obj->where('city_id', $request->input('city'));
+
+        if ($request->input('county'))
+            $obj = $obj->where('county_id', $request->input('county'));
+
+        $obj = $obj->get();
+
+        return response()->json($obj->map(fn($item) =>
+        [
+            'image' => url(str_replace('public/', 'storage/', $item->image)),
+            'url' => route('project.detail', $item->slug),
+        ]));
+    }
+
+    public function getRenderedSecondhandHousings(Request $request)
+    {
+        function convertMonthToTurkishCharacter($date)
+        {
+            $aylar = [
+                'January' => 'Ocak',
+                'February' => 'Şubat',
+                'March' => 'Mart',
+                'April' => 'Nisan',
+                'May' => 'Mayıs',
+                'June' => 'Haziran',
+                'July' => 'Temmuz',
+                'August' => 'Ağustos',
+                'September' => 'Eylül',
+                'October' => 'Ekim',
+                'November' => 'Kasım',
+                'December' => 'Aralık',
+                'Monday' => 'Pazartesi',
+                'Tuesday' => 'Salı',
+                'Wednesday' => 'Çarşamba',
+                'Thursday' => 'Perşembe',
+                'Friday' => 'Cuma',
+                'Saturday' => 'Cumartesi',
+                'Sunday' => 'Pazar',
+                'Jan' => 'Oca',
+                'Feb' => 'Şub',
+                'Mar' => 'Mar',
+                'Apr' => 'Nis',
+                'May' => 'May',
+                'Jun' => 'Haz',
+                'Jul' => 'Tem',
+                'Aug' => 'Ağu',
+                'Sep' => 'Eyl',
+                'Oct' => 'Eki',
+                'Nov' => 'Kas',
+                'Dec' => 'Ara',
+            ];
+            return strtr($date, $aylar);
+        }
+
+        function getData($housing, $key)
+        {
+            $housing_type_data = json_decode($housing->housing_type_data);
+            $a = $housing_type_data->$key;
+            return $a[0];
+        }
+
+        function getImage($housing, $key)
+        {
+            $housing_type_data = json_decode($housing->housing_type_data);
+            $a = $housing_type_data->$key;
+            return $a;
+        }
+
+        $obj = Housing::with('images');
+
+        if ($request->input('city'))
+            $obj = $obj->where('city_id', $request->input('city'));
+
+        if ($request->input('county'))
+            $obj = $obj->where('county_id', $request->input('county'));
+
+        if ($request->input('price_min'))
+            $obj = $obj->whereRaw('JSON_EXTRACT(housing_type_data, "$.price[0]") >= ?', [$request->input('price_min')]);
+
+        if ($request->input('price_max'))
+            $obj = $obj->whereRaw('JSON_EXTRACT(housing_type_data, "$.price[0]") <= ?', [$request->input('price_max')]);
+
+        $obj = $obj->get();
+
+        return response()->json($obj->map(fn($item) =>
+        [
+            'image' => asset('housing_images/' . getImage($item, 'image')),
+            'housing_type_title' => $item->housing_type_title,
+            'id' => $item->id,
+            'housing_url' => route('housing.show', $item->id),
+            'title' => $item->title,
+            'housing_address' => $item->address,
+            'housing_type' =>
+            [
+                'title' => $item->housing_type->title,
+                'room_count' => getData($item, 'room_count'),
+                'squaremeters' => getData($item, 'squaremeters'),
+                'price' => getData($item, 'price'),
+                'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
+            ]
+        ]));
+    }
+
     public function getSearchList(Request $request)
     {
         $request->validate(
