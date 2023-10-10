@@ -16176,7 +16176,7 @@ Version      : 1.2
 
     .inner-pages .blog .main-search-field {
         background: #fff;
-        padding-bottom: 30px;
+        padding: 20px;
     }
 
     .inner-pages .blog .main-search-field select {
@@ -24078,6 +24078,11 @@ Version      : 1.2
         margin-right: 5px;
     }
 
+    input[type="radio"] {
+        width: 20px;
+        height: 20px;
+    }
+
     textarea {
         height: 130px;
     }
@@ -26387,10 +26392,10 @@ Version      : 1.2
 
     input[type="checkbox"] {
         appearance: none;
-        background-color: #446BB6;
+        background-color: white;
         margin: 0;
         font: inherit;
-        color: white;
+        color: #446BB6;
         width: 1.15em;
         height: 1.15em;
         border: 0.15em solid none;
@@ -26434,7 +26439,7 @@ Version      : 1.2
         /* ...existing styles */
 
         /* Windows High Contrast Mode */
-        background-color: white;
+        background-color: #446BB6;
     }
 
     input[type="checkbox"]::before {

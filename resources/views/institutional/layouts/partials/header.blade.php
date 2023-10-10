@@ -432,7 +432,7 @@
 
                                         @if (in_array('CreateUser', $userPermissions))
                                             <li class="nav-item"><a class="nav-link px-3"
-                                                    href="{{ route('client.users.create') }}"> <span
+                                                    href="{{ route('institutional.users.create') }}"> <span
                                                         class="me-2 text-900" data-feather="user-plus"></span>Başka
                                                     bir hesap ekle</a></li>
                                         @endif

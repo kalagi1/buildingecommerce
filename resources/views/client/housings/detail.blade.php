@@ -79,7 +79,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-7 blog-pots">
+                <div class="col-md-8 blog-pots">
                     <div class="row">
                         <div class="col-md-12">
                             <!-- main slider carousel items -->
@@ -123,7 +123,7 @@
 
 
                 </div>
-                <aside class="col-md-5  car">
+                <aside class="col-md-4  car">
                     <div class="single widget">
                         <!-- Start: Schedule a Tour -->
                         <div class="schedule widget-boxed mt-33 mt-0">
