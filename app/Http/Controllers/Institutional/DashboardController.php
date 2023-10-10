@@ -6,9 +6,37 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    public function corporateAccountVerification()
+    {
+        return view('institutional.home.verification');
+    }
+
+    public function verifyAccount(Request $request)
+    {
+        $request->validate(
+            [
+                'vergi_levhasi' => 'file|mimes:jpg,jpeg,png',
+                'sicil_belgesi' => 'file|mimes:jpg,jpeg,png',
+            ]
+        );
+
+        $file1 = $request->vergi_levhasi->store('tax_documents');
+        $file2 = $request->sicil_belgesi->store('record_documents');
+
+        auth()->user()->update(
+            [
+                'tax_document' => $file1,
+                'record_document' => $file2,
+            ]
+        );
+
+        return redirect()->back();
+    }
+
     public function index()
     {
         $user = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan", "parent")->first();

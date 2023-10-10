@@ -31,21 +31,55 @@
                         @endif
                         <div class="card-body p-0">
                             <div class="p-4">
+                                <form action="{{route('admin.update-corporate-status', ['user' => $user_e->id])}}" method="POST" class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            @csrf
+                                            <label>Belge Onay Durumu:</label>
+                                            <img src="{{ route('admin.get.tax-document', ['user' => $user_e->id]) }}" width="100%" height="480px" class="rounded-3" style="object-fit: contain;"/>
+                                            <select name="tax_document_approve" class="form-control">
+                                                <option value="0"{{$user_e->tax_document_approve == 0 ? ' selected' : null}}>Vergi Levhasını Onaylamıyorum</option>
+                                                <option value="1"{{$user_e->tax_document_approve == 1 ? ' selected' : null}}>Vergi Levhasını Onaylıyorum</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <img src="{{ route('admin.get.record-document', ['user' => $user_e->id]) }}" width="100%" height="480px" class="rounded-3" style="object-fit: contain;"/>
+                                            <select name="record_document_approve" class="form-control">
+                                                <option value="0"{{$user_e->record_document_approve == 0 ? ' selected' : null}}>Sicil Belgesini Onaylamıyorum</option>
+                                                <option value="1"{{$user_e->record_document_approve == 1 ? ' selected' : null}}>Sicil Belgesini Onaylıyorum</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="note">Not:</label>
+                                            <textarea name="note" id="note" rows="5" class="form-control">{{$user_e->corporate_account_note}}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="status">Durum:</label>
+                                            <select name="status" id="status" class="form-control">
+                                                <option value="0"{{$user_e->corporate_account_status == 0 ? ' selected' : null}}>Onaylanmadı</option>
+                                                <option value="1"{{$user_e->corporate_account_status == 1 ? ' selected' : null}}>Onaylandı</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary btn-lg">Firma Onayını Güncelle</button>
+                                        </div>
+                                    </div>
+                                </form>
                                 <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                    action="{{ route('admin.users.update', $user->id) }}">
+                                    action="{{ route('admin.users.update', $user_e->id) }}">
                                     @csrf
                                     @method('PUT') <!-- HTTP PUT kullanarak güncelleme işlemi yapılacak -->
 
                                     <div class="col-md-12">
                                         <label class="form-label" for="name">İsim Soyisim</label>
                                         <input name="name" class="form-control" id="name" type="text"
-                                            value="{{ old('name', $user->name) }}" required="">
+                                            value="{{ old('name', $user_e->name) }}" required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="email">Email</label>
                                         <input name="email" class="form-control" id="email" type="email"
-                                            value="{{ old('email', $user->email) }}" required="">
+                                            value="{{ old('email', $user_e->email) }}" required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
@@ -60,7 +94,7 @@
                                         <select name="type" class="form-select" id="validationCustom04" required="">
                                             @foreach ($roles as $item)
                                                 <option value={{ $item->id }}
-                                                    {{ old('type', $user->type) == $item->id ? 'selected' : '' }}>
+                                                    {{ old('type', $user_e->type) == $item->id ? 'selected' : '' }}>
                                                     {{ $item->name }}</option>
                                             @endforeach
                                         </select>
@@ -69,7 +103,7 @@
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" name="is_active"
                                                 id="flexSwitchCheckCheckedDisabled" type="checkbox"
-                                                {{ old('is_active', $user->status) ? 'checked' : '' }} />
+                                                {{ old('is_active', $user_e->status) ? 'checked' : '' }} />
                                             <label class="form-check-label"
                                                 for="flexSwitchCheckCheckedDisabled">Aktif</label>
                                         </div>

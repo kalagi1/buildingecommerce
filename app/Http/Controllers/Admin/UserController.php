@@ -51,11 +51,58 @@ class UserController extends Controller
         return redirect()->route('admin.users.index'); // index route'unu kullanarak kullanıcıları listeleme sayfasına yönlendirme
     }
 
+    public function getTaxDocument(User $user)
+    {
+        $tax_document = $user->tax_document;
+
+        $file = file_get_contents(storage_path("/app/{$tax_document}"));
+        preg_match('@\.(\w+)$@', $tax_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/'.$extension);
+        echo $file;
+    }
+
+    public function getRecordDocument(User $user)
+    {
+        $record_document = $user->record_document;
+
+        $file = file_get_contents(storage_path("/app/{$record_document}"));
+        preg_match('@\.(\w+)$@', $record_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/'.$extension);
+        echo $file;
+    }
+
+    public function updateCorporateStatus(Request $request, User $user)
+    {
+        $request->validate(
+            [
+                'tax_document_approve' => 'required|in:0,1',
+                'record_document_approve' => 'required|in:0,1',
+                'note' => 'required|string',
+                'status' => 'required|in:0,1',
+            ]
+        );
+
+        $user->update(
+            [
+                'tax_document_approve' => $request->input('tax_document_approve'),
+                'record_document_approve' => $request->input('record_document_approve'),
+                'corporate_account_note' => $request->input('note'),
+                'corporate_account_status' => $request->input('status'),
+            ]
+        );
+
+        return redirect()->back();
+    }
+
     public function edit($id)
     {
         $roles = Role::all();
-        $user = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
-        return view('admin.users.edit', compact('user', 'roles'));
+        $user_e = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
+        return view('admin.users.edit', compact('user_e', 'roles'));
     }
 
     public function update(Request $request, $id)
