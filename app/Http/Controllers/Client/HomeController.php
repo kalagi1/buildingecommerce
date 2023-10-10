@@ -12,6 +12,7 @@ use App\Models\Slider;
 use App\Models\StandOutUser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -246,15 +247,38 @@ class HomeController extends Controller
                 'searchTerm' => 'required|string',
             ]
         );
-
+    
         $term = $request->input('searchTerm');
-
+    
         return response()->json(
             [
-                'housings' => Housing::where('title', 'LIKE', "%{$term}%")->get()->map(fn($item) => ['photo' => json_decode($item->housing_type_data)->image, 'name' => $item->title]),
-                'projects' => Project::where('project_title', 'LIKE', "%{$term}%")->get()->map(fn($item) => ['photo' => $item->image, 'name' => $item->project_title]),
-                'merchants' => User::where('type', '2')->where('name', 'LIKE', "%{$term}%")->get()->map(fn($item) => ['photo' => $item->profile_image, 'name' => $item->name]),
+                'housings' => Housing::where('title', 'LIKE', "%{$term}%")->get()->map(function ($item) {
+                    $housingData = json_decode($item->housing_type_data);
+                    return [
+                        'id' => $item->id,
+                        'photo' => $housingData->image,
+                        'name' => $item->title,
+                    ];
+                }),
+                'projects' => Project::where('project_title', 'LIKE', "%{$term}%")->get()->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'photo' => $item->image,
+                        'name' => $item->project_title,
+                        'slug' => $item->slug,
+
+                    ];
+                }),
+                'merchants' => User::where('type', '2')->where('name', 'LIKE', "%{$term}%")->get()->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'photo' => $item->profile_image,
+                        'name' => $item->name,
+                        'slug' => Str::slug($item->name)
+                    ];
+                }),
             ]
         );
     }
+    
 }

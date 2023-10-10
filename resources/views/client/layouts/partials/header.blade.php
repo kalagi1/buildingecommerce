@@ -81,7 +81,7 @@
                                 <input type="text" id="ss-box" placeholder="Ara ..">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right" style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px; overflow-y: scroll;">
+                            <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right" style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px;">
                             </div>
                         </div>
                         <div class="rightSide">
@@ -95,7 +95,7 @@
                                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                             </svg>
-                                            <span class="d-xl-block d-none d-lg-block rightNavText">Admin</span> </a>
+                                            <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
                                     @elseif (Auth::user()->type != 1 && Auth::user()->type != 3)
                                         <div class="dropdown hover">
                                             <a href="javascript:void()"  class="userIcon">
@@ -122,7 +122,7 @@
                                                 </ul>
                                             </a>
                                         </div>
-                                    @elseif (Auth::user()->type == 3)
+                                    @elseif (Auth::user()->type == 3    )
                                         <a href="{{ route('admin.index') }}" target="_blank" class="userIcon">
                                             <svg viewBox="0 0 24 24" width="24" height="24"
                                                 stroke="currentColor" stroke-width="2" fill="none"
@@ -130,7 +130,7 @@
                                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                             </svg>
-                                            <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
+                                            <span class="d-xl-block d-none d-lg-block rightNavText">Admin</span> </a>
                                     @endif
                                 @else
                                     <a href="{{ route('client.login') }}" class="userIcon"><svg viewBox="0 0 24 24"
