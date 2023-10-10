@@ -46,6 +46,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap" rel="stylesheet">
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 
     @yield('styles')
 </head>
@@ -81,7 +83,8 @@
                                 <input type="text" id="ss-box" placeholder="Ara ..">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right" style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px;">
+                            <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
+                                style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px;">
                             </div>
                         </div>
                         <div class="rightSide">
@@ -89,16 +92,16 @@
                                 @if (Auth::user())
                                     @if (Auth::user()->type == 1)
                                         <a href="{{ route('client.index') }}" class="userIcon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                                stroke-width="2" fill="none" stroke-linecap="round"
-                                                stroke-linejoin="round" class="css-i6dzq1">
+                                            <svg viewBox="0 0 24 24" width="24" height="24"
+                                                stroke="currentColor" stroke-width="2" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                             </svg>
                                             <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
                                     @elseif (Auth::user()->type != 1 && Auth::user()->type != 3)
                                         <div class="dropdown hover">
-                                            <a href="javascript:void()"  class="userIcon">
+                                            <a href="javascript:void()" class="userIcon">
                                                 <svg viewBox="0 0 24 24" width="24" height="24"
                                                     stroke="currentColor" stroke-width="2" fill="none"
                                                     stroke-linecap="round" stroke-linejoin="round"
@@ -122,7 +125,7 @@
                                                 </ul>
                                             </a>
                                         </div>
-                                    @elseif (Auth::user()->type == 3    )
+                                    @elseif (Auth::user()->type == 3)
                                         <a href="{{ route('admin.index') }}" target="_blank" class="userIcon">
                                             <svg viewBox="0 0 24 24" width="24" height="24"
                                                 stroke="currentColor" stroke-width="2" fill="none"
@@ -223,11 +226,11 @@
                                 </li>
                             @endforeach
                             @foreach ($headerLinks as $link)
-                            <li>
-                                <a href="{{ url('sayfa/'.$link->slug) }}">
-                                    {{$link->meta_title}}
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="{{ url('sayfa/' . $link->slug) }}">
+                                        {{ $link->meta_title }}
+                                    </a>
+                                </li>
                             @endforeach
                         </ul>
                     </nav>
@@ -324,15 +327,3 @@
                 padding-top: 15px;
             }
         </style>
-        <script>
-            // close the toggle menu if user clicks outside of the menu
-
-            $(document).click(function(event) {
-                if (
-                    $('.toggle > input').is(':checked') &&
-                    !$(event.target).parents('.toggle').is('.toggle')
-                ) {
-                    $('.toggle > input').prop('checked', false);
-                }
-            })
-        </script>

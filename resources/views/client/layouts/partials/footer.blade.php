@@ -378,6 +378,11 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+
+<!-- SweetAlert2 JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -389,11 +394,12 @@
 
         // Tüm "Sepete Ekle" düğmelerini seçin
         var addToCartButtons = document.querySelectorAll(".addToCart");
-
-        // Her düğmeye tıklanma olayını dinleyin
-        addToCartButtons.forEach(function(button) {
-            button.addEventListener("click", function() {
+        // Tüm "Sepete Ekle" düğmelerini seçin (dinamik olarak oluşturulanlar dahil)
+        document.addEventListener('click', function(event) {
+            if (event.target && event.target.classList.contains('addToCart')) {
+                var button = event.target;
                 var productId = button.getAttribute("data-id");
+                console.log(productId);
                 var project = null;
                 if (button.getAttribute("data-type") == "project") {
                     project = button.getAttribute("data-project");
@@ -416,41 +422,55 @@
 
                 // Eğer kullanıcı zaten ürün eklediyse ve yeni bir ürün eklenmek isteniyorsa sepeti temizlemeyi sorgula
                 if (!isProductInCart(productId)) {
-                    var confirmClearCart = confirm("Mevcut sepeti temizlemek istiyor musunuz?");
-                    if (confirmClearCart) {
-                        cart.clear_cart = "yes"; // Kullanıcı sepeti temizlemeyi onayladı
-                    }
-                }
+                    // Kullanıcıya onay için bir onay kutusu göster
+                    Swal.fire({
+                        title: 'Mevcut sepeti temizlemek istiyor musunuz?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Evet, temizle',
+                        cancelButtonText: 'Hayır',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            cart.clear_cart = "yes"; // Kullanıcı sepeti temizlemeyi onayladı
+                            // Ajax isteğini gönder
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("POST", "{{ route('add.to.cart') }}", true);
+                            xhr.setRequestHeader("Content-Type",
+                                "application/json;charset=UTF-8");
+                            xhr.onload = function() {
+                                if (xhr.status === 200) {
+                                    console.log(xhr.responseText);
+                                    toastr.success("Ürün Sepete Eklendi");
+                                    button.classList.add("bg-success");
 
-                $.ajax({
-                    url: "{{ route('add.to.cart') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                    type: "POST", // Veriyi göndermek için POST kullanabilirsiniz
-                    data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
-                    success: function(response) {
-                        console.log(response);
-                        toastr.success("Ürün Sepete Eklendi");
-                        button.classList.add("bg-success");
+                                    // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
+                                    button.textContent = "Sepete Eklendi";
+                                    button.disabled = true;
 
-                        // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
-                        button.textContent = "Sepete Eklendi";
-                        button.disabled = true;
-
-                        // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
-                        if (cart.clear_cart === "yes") {
-                            location.reload();
+                                    // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
+                                    if (cart.clear_cart === "yes") {
+                                        location.reload();
+                                    }
+                                } else {
+                                    toastr.error("Hata oluştu: " + xhr.responseText,
+                                        "Hata");
+                                    console.error("Hata oluştu: " + xhr.responseText);
+                                }
+                            };
+                            xhr.onerror = function() {
+                                toastr.error("Hata oluştu: İstek gönderilemedi", "Hata");
+                                console.error("Hata oluştu: İstek gönderilemedi");
+                            };
+                            xhr.send(JSON.stringify(cart));
                         }
-                    },
-                    error: function(error) {
-                        toastr.error("Hata oluştu: " + error.responseText, "Hata");
-                        console.error("Hata oluştu: " + error);
-                    }
-                });
-            });
+                    });
+                }
+            }
         });
 
         function updateCartButton() {
-            // Tüm "Sepete Ekle" düğmelerini seçin
             var addToCartButtons = document.querySelectorAll(".addToCart");
+
             addToCartButtons.forEach(function(button) {
                 var productId = button.getAttribute("data-id");
                 var productType = button.getAttribute("data-type");
@@ -471,24 +491,19 @@
             });
         }
 
+
         function isProductInCart(productId, product) {
-            // Sepet içeriğini session'dan alın
-            console.log(product);
-            console.log(productId);
             var cart = @json(session('cart', []));
-            console.log(cart);
             if (cart.length != 0) {
                 if (product != null) {
                     if (cart.item.id == product && cart.item.housing == productId) {
-                        return true
+                        return true;
                     }
                 } else {
                     if (cart.item.id == productId) {
                         return true; // Ürün sepette bulundu
-
                     }
                 }
-
             }
             return false; // Ürün sepette bulunamadı
         }
@@ -508,9 +523,9 @@
                         .replace(':projectId', projectId), // Proje ID'sini de iletiyoruz
                     type: "GET",
                     success: function(response) {
-                        console.log(response);
                         if (response.is_favorite) {
-                            button.querySelector("i.fa-heart").classList.add("text-danger");
+                            button.querySelector("i.fa-heart").classList.add(
+                                "text-danger");
                             button.classList.add("bg-white");
                         } else {
                             button.querySelector("i.fa-heart").classList.remove(
@@ -525,34 +540,36 @@
             });
         }
 
-
         function checkFavorites() {
             // Favorileri sorgula ve uygun renk ve ikonları ayarla
             var favoriteButtons = document.querySelectorAll(".toggle-favorite");
 
-            favoriteButtons.forEach(function(button) {
-                var housingId = button.getAttribute("data-housing-id");
+            document.addEventListener('click', function(event) {
+                if (event.target && event.target.classList.contains('toggle-favorite')) {
+                    var button = event.target;
+                    var housingId = button.getAttribute("data-housing-id");
 
-                // AJAX isteği gönderme
-                $.ajax({
-                    url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
-                        .replace(':id', housingId),
-                    type: "GET",
-                    success: function(response) {
-                        console.log(response);
-                        if (response.is_favorite) {
-                            button.querySelector("i.fa-heart").classList.add("text-danger");
-                            button.classList.add("bg-white");
-                        } else {
-                            button.querySelector("i.fa-heart").classList.remove(
-                                "text-danger");
-                            button.classList.remove("bg-white");
+                    // AJAX isteği gönderme
+                    $.ajax({
+                        url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
+                            .replace(':id', housingId),
+                        type: "GET",
+                        success: function(response) {
+                            if (response.is_favorite) {
+                                button.querySelector("i.fa-heart").classList.add(
+                                    "text-danger");
+                                button.classList.add("bg-white");
+                            } else {
+                                button.querySelector("i.fa-heart").classList.remove(
+                                    "text-danger");
+                                button.classList.remove("bg-white");
+                            }
+                        },
+                        error: function(error) {
+                            console.error(error);
                         }
-                    },
-                    error: function(error) {
-                        console.error(error);
-                    }
-                });
+                    });
+                }
             });
         }
 
@@ -562,7 +579,6 @@
                 event.preventDefault();
                 var housingId = this.getAttribute("data-project-housing-id");
                 var projectId = this.getAttribute("data-project-id");
-
 
                 // AJAX isteği gönderme
                 $.ajax({
@@ -597,8 +613,6 @@
                 });
             });
         });
-
-
 
         // Favoriye Ekle/Kaldır İşlemi
         document.querySelectorAll(".toggle-favorite").forEach(function(button) {
@@ -641,6 +655,7 @@
 
     });
 </script>
+
 <script>
     'use strict';
     $(function() {
@@ -768,7 +783,19 @@
             }
         });
     });
+
+
+    $(document).click(function(event) {
+        if (
+            $('.toggle > input').is(':checked') &&
+            !$(event.target).parents('.toggle').is('.toggle')
+        ) {
+            $('.toggle > input').prop('checked', false);
+        }
+    })
 </script>
+
+
 
 
 @yield('scripts')
