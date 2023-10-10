@@ -151,6 +151,10 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
     Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
 
+    Route::get('get/tax-document/{user}', [UserController::class, 'getTaxDocument'])->name('get.tax-document');
+    Route::get('get/record-document/{user}', [UserController::class, 'getRecordDocument'])->name('get.record-document');
+    Route::post('update-corporate-status/{user}', [UserController::class, 'updateCorporateStatus'])->name('update-corporate-status');
+
     Route::middleware(['checkPermission:GetHousingTypeForm'])->group(function () {
         Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
     });
@@ -530,7 +534,10 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 Route::get('/institutional/login', [LoginController::class, 'index'])->name('institutional.login');
 Route::post('/institutional/login', [LoginController::class, 'login'])->name('institutional.login.post');
 
-Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional']], function () {
+Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional','checkCorporateAccount']], function () {
+
+    Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
+    Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');
 
     // Offers - Kampanyalar
     Route::middleware(['checkPermission:CreateOffer'])->group(function () {
