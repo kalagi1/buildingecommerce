@@ -75,24 +75,59 @@ class UserController extends Controller
         echo $file;
     }
 
+    public function getIdentityDocument(User $user)
+    {
+        $identity_document = $user->identity_document;
+
+        $file = file_get_contents(storage_path("/app/{$identity_document}"));
+        preg_match('@\.(\w+)$@', $identity_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/'.$extension);
+        echo $file;
+    }
+
+    public function getCompanyDocument(User $user)
+    {
+        $company_document = $user->company_document;
+
+        $file = file_get_contents(storage_path("/app/{$company_document}"));
+        preg_match('@\.(\w+)$@', $company_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/'.$extension);
+        echo $file;
+    }
+
     public function updateCorporateStatus(Request $request, User $user)
     {
         $request->validate(
             [
                 'tax_document_approve' => 'required|in:0,1',
                 'record_document_approve' => 'required|in:0,1',
+                'identity_document_approve' => 'required|in:0,1',
+                'company_document_approve' => 'nullable|in:0,1',
                 'note' => 'required|string',
                 'status' => 'required|in:0,1',
             ]
         );
 
+        $company = [];
+        if ($request->input('company_document_approve'))
+            $company =
+            [
+                'company_document_approve' => $request->input('company_document_approve'),
+            ];
+
         $user->update(
+            array_merge(
             [
                 'tax_document_approve' => $request->input('tax_document_approve'),
                 'record_document_approve' => $request->input('record_document_approve'),
+                'identity_document_approve' => $request->input('identity_document_approve'),
                 'corporate_account_note' => $request->input('note'),
                 'corporate_account_status' => $request->input('status'),
-            ]
+            ], $company)
         );
 
         return redirect()->back();
