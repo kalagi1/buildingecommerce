@@ -70,6 +70,7 @@ class DashboardController extends Controller
 
         }
         DB::commit();
+        
 
         return view('institutional.home.index', compact("user", "stats1_data", "stats2_data"));
     }

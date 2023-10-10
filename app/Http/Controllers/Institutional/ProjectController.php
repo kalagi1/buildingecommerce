@@ -8,7 +8,10 @@ use App\Models\City;
 use App\Models\County;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
+use App\Models\HousingTypeParent;
+use App\Models\HousingTypeParentConnection;
 use App\Models\Log;
+use App\Models\Neighbourhood;
 use App\Models\PricingStandOut;
 use App\Models\Project;
 use App\Models\ProjectHousing;
@@ -36,6 +39,30 @@ class ProjectController extends Controller
         $housing_status = HousingStatus::all();
         $cities = City::get();
         return view('institutional.projects.create', compact('housing_types', 'housing_status', 'brands', 'cities'));
+    }
+
+    public function createV2(){
+        $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
+        $cities = City::get();
+        return view('institutional.projects.createv2',compact('housingTypeParent','cities'));
+    }
+
+    public function getHousingTypeChildren($slug){
+        $housingTypeParent = HousingTypeParent::where('slug',$slug)->first();
+
+        if($housingTypeParent->is_end){
+            $housingTypes = HousingTypeParentConnection::where("parent_id",$housingTypeParent->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->get();
+            return [
+                "data" => $housingTypes,
+                "is_end" => 0
+            ];
+        }else{
+            $housingTypeChildren = HousingTypeParent::where('parent_id',$housingTypeParent->id)->get();
+            return [
+                "data" => $housingTypeChildren,
+                "is_end" => 1
+            ];
+        }
     }
 
     public function store(Request $request)
@@ -185,6 +212,13 @@ class ProjectController extends Controller
     public function getCounties(Request $request)
     {
         $counties = County::where('city_id', $request->input('city'))->get();
+
+        return $counties;
+    }
+
+    public function getNeighbourhood(Request $request)
+    {
+        $counties = Neighbourhood::where('ilce_key', $request->input('county_id'))->get();
 
         return $counties;
     }

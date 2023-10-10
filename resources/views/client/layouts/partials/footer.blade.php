@@ -35,7 +35,7 @@
             <p class="d-flex align-items-center" style="gap: 16px;">
                 <span>2023 © Copyright - All Rights Reserved. @innovaticacode</span>
                 @foreach ($fl as $link)
-                <a href="{{url('sayfa/'.$link->slug)}}" style="color: white;">{{$link->meta_title}}</a>
+                    <a href="{{ url('sayfa/' . $link->slug) }}" style="color: white;">{{ $link->meta_title }}</a>
                 @endforeach
             </p>
             <ul class="netsocials">
@@ -378,6 +378,11 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+
+<!-- SweetAlert2 JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -389,11 +394,12 @@
 
         // Tüm "Sepete Ekle" düğmelerini seçin
         var addToCartButtons = document.querySelectorAll(".addToCart");
-
-        // Her düğmeye tıklanma olayını dinleyin
-        addToCartButtons.forEach(function(button) {
-            button.addEventListener("click", function() {
+        // Tüm "Sepete Ekle" düğmelerini seçin (dinamik olarak oluşturulanlar dahil)
+        document.addEventListener('click', function(event) {
+            if (event.target && event.target.classList.contains('addToCart')) {
+                var button = event.target;
                 var productId = button.getAttribute("data-id");
+                console.log(productId);
                 var project = null;
                 if (button.getAttribute("data-type") == "project") {
                     project = button.getAttribute("data-project");
@@ -405,9 +411,7 @@
                         _token: "{{ csrf_token() }}",
                         clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
                     };
-                }
-                else
-                {
+                } else {
                     var cart = {
                         id: productId,
                         type: button.getAttribute("data-type"),
@@ -418,41 +422,55 @@
 
                 // Eğer kullanıcı zaten ürün eklediyse ve yeni bir ürün eklenmek isteniyorsa sepeti temizlemeyi sorgula
                 if (!isProductInCart(productId)) {
-                    var confirmClearCart = confirm("Mevcut sepeti temizlemek istiyor musunuz?");
-                    if (confirmClearCart) {
-                        cart.clear_cart = "yes"; // Kullanıcı sepeti temizlemeyi onayladı
-                    }
-                }
+                    // Kullanıcıya onay için bir onay kutusu göster
+                    Swal.fire({
+                        title: 'Mevcut sepeti temizlemek istiyor musunuz?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Evet, temizle',
+                        cancelButtonText: 'Hayır',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            cart.clear_cart = "yes"; // Kullanıcı sepeti temizlemeyi onayladı
+                            // Ajax isteğini gönder
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("POST", "{{ route('add.to.cart') }}", true);
+                            xhr.setRequestHeader("Content-Type",
+                                "application/json;charset=UTF-8");
+                            xhr.onload = function() {
+                                if (xhr.status === 200) {
+                                    console.log(xhr.responseText);
+                                    toastr.success("Ürün Sepete Eklendi");
+                                    button.classList.add("bg-success");
 
-                $.ajax({
-                    url: "{{ route('add.to.cart') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                    type: "POST", // Veriyi göndermek için POST kullanabilirsiniz
-                    data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
-                    success: function(response) {
-                        console.log(response);
-                        toastr.success("Ürün Sepete Eklendi");
-                        button.classList.add("bg-success");
+                                    // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
+                                    button.textContent = "Sepete Eklendi";
+                                    button.disabled = true;
 
-                        // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
-                        button.textContent = "Sepete Eklendi";
-                        button.disabled = true;
-
-                        // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
-                        if (cart.clear_cart === "yes") {
-                            location.reload();
+                                    // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
+                                    if (cart.clear_cart === "yes") {
+                                        location.reload();
+                                    }
+                                } else {
+                                    toastr.error("Hata oluştu: " + xhr.responseText,
+                                        "Hata");
+                                    console.error("Hata oluştu: " + xhr.responseText);
+                                }
+                            };
+                            xhr.onerror = function() {
+                                toastr.error("Hata oluştu: İstek gönderilemedi", "Hata");
+                                console.error("Hata oluştu: İstek gönderilemedi");
+                            };
+                            xhr.send(JSON.stringify(cart));
                         }
-                    },
-                    error: function(error) {
-                        toastr.error("Hata oluştu: " + error.responseText, "Hata");
-                        console.error("Hata oluştu: " + error);
-                    }
-                });
-            });
+                    });
+                }
+            }
         });
 
         function updateCartButton() {
-            // Tüm "Sepete Ekle" düğmelerini seçin
             var addToCartButtons = document.querySelectorAll(".addToCart");
+
             addToCartButtons.forEach(function(button) {
                 var productId = button.getAttribute("data-id");
                 var productType = button.getAttribute("data-type");
@@ -473,24 +491,19 @@
             });
         }
 
+
         function isProductInCart(productId, product) {
-            // Sepet içeriğini session'dan alın
-            console.log(product);
-            console.log(productId);
             var cart = @json(session('cart', []));
-            console.log(cart);
             if (cart.length != 0) {
                 if (product != null) {
                     if (cart.item.id == product && cart.item.housing == productId) {
-                        return true
+                        return true;
                     }
                 } else {
                     if (cart.item.id == productId) {
                         return true; // Ürün sepette bulundu
-
                     }
                 }
-
             }
             return false; // Ürün sepette bulunamadı
         }
@@ -510,9 +523,9 @@
                         .replace(':projectId', projectId), // Proje ID'sini de iletiyoruz
                     type: "GET",
                     success: function(response) {
-                        console.log(response);
                         if (response.is_favorite) {
-                            button.querySelector("i.fa-heart").classList.add("text-danger");
+                            button.querySelector("i.fa-heart").classList.add(
+                                "text-danger");
                             button.classList.add("bg-white");
                         } else {
                             button.querySelector("i.fa-heart").classList.remove(
@@ -527,34 +540,36 @@
             });
         }
 
-
         function checkFavorites() {
             // Favorileri sorgula ve uygun renk ve ikonları ayarla
             var favoriteButtons = document.querySelectorAll(".toggle-favorite");
 
-            favoriteButtons.forEach(function(button) {
-                var housingId = button.getAttribute("data-housing-id");
+            document.addEventListener('click', function(event) {
+                if (event.target && event.target.classList.contains('toggle-favorite')) {
+                    var button = event.target;
+                    var housingId = button.getAttribute("data-housing-id");
 
-                // AJAX isteği gönderme
-                $.ajax({
-                    url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
-                        .replace(':id', housingId),
-                    type: "GET",
-                    success: function(response) {
-                        console.log(response);
-                        if (response.is_favorite) {
-                            button.querySelector("i.fa-heart").classList.add("text-danger");
-                            button.classList.add("bg-white");
-                        } else {
-                            button.querySelector("i.fa-heart").classList.remove(
-                                "text-danger");
-                            button.classList.remove("bg-white");
+                    // AJAX isteği gönderme
+                    $.ajax({
+                        url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
+                            .replace(':id', housingId),
+                        type: "GET",
+                        success: function(response) {
+                            if (response.is_favorite) {
+                                button.querySelector("i.fa-heart").classList.add(
+                                    "text-danger");
+                                button.classList.add("bg-white");
+                            } else {
+                                button.querySelector("i.fa-heart").classList.remove(
+                                    "text-danger");
+                                button.classList.remove("bg-white");
+                            }
+                        },
+                        error: function(error) {
+                            console.error(error);
                         }
-                    },
-                    error: function(error) {
-                        console.error(error);
-                    }
-                });
+                    });
+                }
             });
         }
 
@@ -564,7 +579,6 @@
                 event.preventDefault();
                 var housingId = this.getAttribute("data-project-housing-id");
                 var projectId = this.getAttribute("data-project-id");
-
 
                 // AJAX isteği gönderme
                 $.ajax({
@@ -599,8 +613,6 @@
                 });
             });
         });
-
-
 
         // Favoriye Ekle/Kaldır İşlemi
         document.querySelectorAll(".toggle-favorite").forEach(function(button) {
@@ -643,123 +655,148 @@
 
     });
 </script>
+
 <script>
     'use strict';
-        $(function()
-        {
-            function drawHeaderSearchbox(searchTerm)
-            {
-                $('.header-search-box').empty();
-                $.ajax(
-                    {
-                        url: "{{route('get-search-list')}}",
-                        method: "GET",
-                        data: { searchTerm },
-                        success: function(data)
-                        {
-                            // Housing search
+    $(function() {
+        const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+        let timeout; // AJAX isteği için zamanlayıcı değişkeni
+
+        function showSearchingMessage() {
+            $('.header-search-box').empty().append(
+                '<div class="font-weight-bold p-2 small" style="background-color: #EEE;">Aranıyor...</div>');
+        }
+
+        function hideSearchingMessage() {
+            $('.header-search-box div:contains("Aranıyor...")').remove();
+        }
+
+        function drawHeaderSearchbox(searchTerm) {
+            showSearchingMessage();
+
+            if (timeout) {
+                clearTimeout(timeout); // Önceki AJAX isteğini iptal et
+            }
+
+            timeout = setTimeout(function() {
+                $.ajax({
+                    url: "{{ route('get-search-list') }}",
+                    method: "GET",
+                    data: {
+                        searchTerm
+                    },
+                    success: function(data) {
+                        let hasResults = false;
+
+                        // Housing search
+                        if (data.housings.length > 0) {
+                            hasResults = true;
                             $('.header-search-box').append(`
                                 <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
                             `);
+                            console.log(data.housings);
+                            data.housings.forEach((e) => {
+                                const imageUrl =
+                                    `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
 
-                            if (data.housings.length > 0)
-                                data.housings.forEach((e) =>
-                                {
-                                    $('.header-search-box').append(`<a href="#" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <img src="{{asset('/housing_images')}}/${e.photo}" width="48" height="48" class="rounded-sm"/>
-                                        <span>${e.name}</span>
-                                    </a>`);
-                                });
-                            else
                                 $('.header-search-box').append(`
-                                    <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç yok</div>
-                                `);
+    <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+        <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
+        <span>${e.name}</span>
+    </a>
+`);
 
-                            // Project search
+                            });
+                        }
+
+                        // Project search
+                        if (data.projects.length > 0) {
+                            hasResults = true;
                             $('.header-search-box').append(`
                                 <div class="font-weight-bold p-2 small" style="background-color: #EEE;">PROJELER</div>
                             `);
+                            console.log(data.projects);
+                            data.projects.forEach((e) => {
+                                const imageUrl =
+                                    `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
 
-                            if (data.projects.length > 0)
-                                data.projects.forEach((e) =>
-                                {
-                                    $('.header-search-box').append(`<a href="#" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <img src="/${e.photo}" width="48" height="48" class="rounded-sm"/>
-                                        <span>${e.name}</span>
-                                    </a>`);
-                                });
-                            else
                                 $('.header-search-box').append(`
-                                    <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç yok</div>
+                                    <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                        <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
+                                        <span>${e.name}</span>
+                                    </a>
                                 `);
+                            });
+                        }
 
-                            // Merchant search
+                        // Merchant search
+                        if (data.merchants.length > 0) {
+                            hasResults = true;
                             $('.header-search-box').append(`
                                 <div class="font-weight-bold p-2 small" style="background-color: #EEE;">MAĞAZALAR</div>
                             `);
+                            data.merchants.forEach((e) => {
+                                const imageUrl =
+                                    `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
 
-                            if (data.merchants.length > 0)
-                                data.merchants.forEach((e) =>
-                                {
-                                    $('.header-search-box').append(`<a href="#" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <img src="{{asset('/profile_images')}}/${e.photo}" width="48" height="48" class="rounded-sm"/>
-                                        <span>${e.name}</span>
-                                    </a>`);
-                                });
-                            else
                                 $('.header-search-box').append(`
-                                    <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç yok</div>
+                                    <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                        <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
+                                        <span>${e.name}</span>
+                                    </a>
                                 `);
+                            });
+                        }
+
+                        // Veri yoksa veya herhangi bir sonuç yoksa "Sonuç Bulunamadı" mesajını görüntüle
+                        if (!hasResults) {
+                            $('.header-search-box').append(`
+                                <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç bulunamadı</div>
+                            `);
+                        } else {
+                            hideSearchingMessage
+                                (); // AJAX başarılı olduğunda "Aranıyor..." yazısını kaldır
+                        }
+
+                        if ($('.header-search-box').children().length > 3) {
+                            $('.header-search-box').css('overflow-y',
+                                'scroll'
+                            ); // 7'den fazla sonuç varsa kaydırma çubuğunu etkinleştir
+                        } else {
+                            $('.header-search-box').css('overflow-y',
+                                'unset'
+                            ); // 7 veya daha az sonuç varsa kaydırma çubuğunu devre dışı bırak
                         }
                     }
-                );
+                });
+            }, 1000); // 1 saniye gecikmeli AJAX isteği başlat
+        }
+
+        $('#ss-box').on('input', function() {
+            let term = $(this).val();
+
+            if (term != '') {
+                $('.header-search-box').addClass('d-flex').removeClass('d-none');
+                drawHeaderSearchbox(term);
+            } else {
+                $('.header-search-box').removeClass('d-flex').addClass('d-none');
             }
-
-            let lastSSBoxTime = Date.now() / 1000;
-            let old;
-            let oldTimestamp = 0;
-            let interval = false;
-            $('#ss-box').on('input', function()
-                {
-                    let now = Date.now() / 1000;
-                    let term = $(this).val();
-                    
-                    if (term != '')
-                    {
-                        if (now - lastSSBoxTime > 1 && $(this).val().length > 3)
-                        {
-                            $('.header-search-box').addClass('d-flex').removeClass('d-none');
-                            drawHeaderSearchbox(term);
-                        }
-                        else
-                        {
-                            $('.header-search-box').removeClass('d-flex').addClass('d-none');
-                            oldTimestamp = lastSSBoxTime;
-                            let lastTerm = term;
-                            interval = true;
-                            setInterval(() => 
-                            {
-                                if (lastTerm === $('#ss-box').val() && interval)
-                                {
-                                    interval = false;
-                                    $('.header-search-box').addClass('d-flex').removeClass('d-none');
-                                    drawHeaderSearchbox(lastTerm);
-                                    oldTimestamp = null;
-                                }
-                            }, 1000);
-                        }
-                    }
-                    else
-                    {
-                            $('.header-search-box').removeClass('d-flex').addClass('d-none');
-                    }
-
-                    old = lastSSBoxTime;
-                    lastSSBoxTime = Date.now() / 1000;
-                }
-            );
         });
-    </script>
+    });
+
+
+    $(document).click(function(event) {
+        if (
+            $('.toggle > input').is(':checked') &&
+            !$(event.target).parents('.toggle').is('.toggle')
+        ) {
+            $('.toggle > input').prop('checked', false);
+        }
+    })
+</script>
+
+
+
 
 @yield('scripts')
 </div>

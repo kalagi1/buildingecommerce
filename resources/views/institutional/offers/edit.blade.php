@@ -41,7 +41,7 @@
                                             <label class="form-label" for="validationCustom01">Proje</label>
                                             <select name="project_id" class="form-control" id="project_id" required>
                                                 @foreach($projects as $project)
-                                                    <option value="{{$project->id}}"{{$project->id == $offer->project_id ? ' selected' : null}}>{{$project->project_title}}</option>
+                                                    <option  ption value="{{$project->id}}"{{$project->id == $offer->project_id ? ' selected' : null}}>{{$project->project_title}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

@@ -398,8 +398,8 @@
                                                 </div>
                                                 <div class="button-effect">
                                                     <!-- Örneğin Kalp İkonu -->
-                                                    <a href="#" class="btn toggle-favorite"
-                                                        data-housing-id="${res.housing_id}">
+                                                    <a href="" class="btn toggle-favorite"
+                                                        data-housing-id="${res.id}">
                                                         <i class="fa fa-heart"></i>
                                                     </a>
 
@@ -441,7 +441,7 @@
                                                         ${res.housing_type.price}TL</li>
 
                                                     <li style="display: flex; justify-content: center;">
-                                                        ${res.housing_date}
+                                                        ${res.created_at}
                                                     </li>
                                                 </ul>
                                                 <ul class="homes-list clearfix pb-0"
@@ -449,7 +449,7 @@
                                                     <button class="addToCart"
                                                         style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
                                                         data-type='housing'
-                                                        data-id='${res.housing_id}'>Sepete
+                                                        data-id='${res.id}'>Sepete
                                                         Ekle</button>
 
                                                 </ul>

@@ -140,7 +140,7 @@ class User extends Authenticatable
 
     public function plan()
     {
-        return $this->belongsTo(UserPlan::class, "subscription_plan_id");
+        return $this->belongsTo(UserPlan::class, "subscription_plan_id","subscription_plan_id");
     }
 
 }
