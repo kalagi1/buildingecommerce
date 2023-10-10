@@ -50,6 +50,20 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
+                                            <img src="{{ route('admin.get.identity-document', ['user' => $user_e->id]) }}" width="100%" height="480px" class="rounded-3" style="object-fit: contain;"/>
+                                            <select name="identity_document_approve" class="form-control">
+                                                <option value="0"{{$user_e->identity_document_approve == 0 ? ' selected' : null}}>Kimlik Belgesini Onaylamıyorum</option>
+                                                <option value="1"{{$user_e->identity_document_approve == 1 ? ' selected' : null}}>Kimlik Belgesini Onaylıyorum</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <img src="{{ route('admin.get.company-document', ['user' => $user_e->id]) }}" width="100%" height="480px" class="rounded-3" style="object-fit: contain;"/>
+                                            <select name="company_document_approve" class="form-control">
+                                                <option value="0"{{$user_e->company_document_approve == 0 ? ' selected' : null}}>İnşaat Belgesini Onaylamıyorum</option>
+                                                <option value="1"{{$user_e->company_document_approve == 1 ? ' selected' : null}}>İnşaat Belgesini Onaylıyorum</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="note">Not:</label>
                                             <textarea name="note" id="note" rows="5" class="form-control">{{$user_e->corporate_account_note}}</textarea>
                                         </div>

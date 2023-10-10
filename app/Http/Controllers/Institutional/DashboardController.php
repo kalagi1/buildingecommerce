@@ -19,20 +19,40 @@ class DashboardController extends Controller
     {
         $request->validate(
             [
-                'vergi_levhasi' => 'file|mimes:jpg,jpeg,png',
-                'sicil_belgesi' => 'file|mimes:jpg,jpeg,png',
+                'vergi_levhasi' => 'nullable|image|mimes:jpg,jpeg,png',
+                'sicil_belgesi' => 'nullable|image|mimes:jpg,jpeg,png',
+                'kimlik_belgesi' => 'nullable|image|mimes:jpg,jpeg,png',
+                'insaat_belgesi' => 'nullable|image|mimes:jpg,jpeg,png',
             ]
         );
 
-        $file1 = $request->vergi_levhasi->store('tax_documents');
-        $file2 = $request->sicil_belgesi->store('record_documents');
+        $array = [];
 
-        auth()->user()->update(
-            [
-                'tax_document' => $file1,
-                'record_document' => $file2,
-            ]
-        );
+        if ($request->hasFile('vergi_levhasi'))
+        {
+            $file1 = $request->vergi_levhasi->store('tax_documents');
+            $array = array_merge($array, ['tax_document' => $file1]);
+        }
+
+        if ($request->hasFile('sicil_belgesi'))
+        {
+            $file2 = $request->sicil_belgesi->store('record_documents');
+            $array = array_merge($array, ['record_document' => $file2]);
+        }
+
+        if ($request->hasFile('kimlik_belgesi'))
+        {
+            $file3 = $request->kimlik_belgesi->store('identity_documents');
+            $array = array_merge($array, ['identity_document' => $file3]);
+        }
+
+        if ($request->hasFile('insaat_belgesi'))
+        {
+            $file4 = $request->insaat_belgesi->store('company_documents');
+            $array = array_merge($array, ['company_document' => $file4]);
+        }
+
+        auth()->user()->update($array);
 
         return redirect()->back();
     }

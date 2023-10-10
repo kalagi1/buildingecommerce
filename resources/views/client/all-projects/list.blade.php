@@ -1,6 +1,18 @@
 @extends('client.layouts.master')
 
 @section('content')
+    <style>
+        .filter-now
+        {
+            display: block;
+            width: 100%;
+        }
+
+        .widget-boxed
+        {
+            padding: 8px;
+        }
+    </style>
     @php
         function convertMonthToTurkishCharacter($date)
         {
@@ -63,9 +75,14 @@
                         <!-- Search Fields -->
                         <div class="widget-boxed main-search-field">
                             <div class="trip-search">
-                                <b>Adres:</b>
+                                <div class="head d-flex">
+                                    <b>Adres</b>
+                                    <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
+                                        <svg width="16px" height="16px" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
+                                    </span>
+                                </div>
                                 <div class="mt-4">
-                                    <select id="city" class="form-control bg-white">
+                                    <select id="city" class="bg-white filter-now" style="height: 32px;">
                                         <option value="#" selected disabled>İl</option>
                                         @foreach ($cities as $city)
                                         <option value="{{$city->id}}">{{$city->title}}</option>
@@ -73,7 +90,7 @@
                                     </select>
                                 </div>
                                 <div class="mt-4">
-                                    <select id="county" class="form-control bg-white">
+                                    <select id="county" class="bg-white filter-now" style="height: 32px;">
                                         <option value="#" disabled>İlçe</option>
                                     </select>
                                 </div>
@@ -83,13 +100,18 @@
                         @if ($secondhandHousings)
                         <div class="widget-boxed main-search-field mt-4">
                             <div class="trip-search">
-                                <b>Fiyat Aralığı:</b>
+                                <div class="head d-flex">
+                                    <b>Fiyat Aralığı</b>
+                                    <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
+                                        <svg width="16px" height="16px" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
+                                    </span>
+                                </div>
                                 <div class="mt-4 row">
                                     <div class="col-6">
-                                        <input type="number" id="price-min" min="0" placeholder="Min Fiyat" class="form-control">
+                                        <input type="number" id="price-min" min="0" placeholder="Min Fiyat" class="filter-now">
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" id="price-max" min="0" placeholder="Max Fiyat" class="form-control">
+                                        <input type="number" id="price-max" min="0" placeholder="Max Fiyat" class="filter-now">
                                     </div>
                                 </div>
                             </div>
@@ -97,101 +119,120 @@
 
                         <div class="widget-boxed main-search-field mt-4">
                             <div class="trip-search">
-                                <b>m<sup>2</sup> (Brüt):</b>
+                                <div class="head d-flex">
+                                    <b>m<sup>2</sup> (brüt)</b>
+                                    <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
+                                        <svg width="16px" height="16px" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
+                                    </span>
+                                </div>
                                 <div class="mt-4 row">
                                     <div class="col-6">
-                                        <input type="number" id="msq-min" min="0" placeholder="Min" class="form-control">
+                                        <input type="number" id="msq-min" min="0" placeholder="Min" class="filter-now">
                                     </div>
                                     <div class="col-6">
-                                        <input type="number" id="msq-max" min="0" placeholder="Max" class="form-control">
+                                        <input type="number" id="msq-max" min="0" placeholder="Max" class="filter-now">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="widget-boxed mt-4" id="room_count_field">
-                            <b>Oda Sayısı:</b>
+                            <div class="head d-flex">
+                                    <b>Oda Sayısı</b>
+                                    <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
+                                        <svg width="16px" height="16px" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
+                                    </span>
+                                </div>
                             <div class="mt-4">
                                 <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input" id="1_1"/>
+                                    <input type="checkbox" class="form-check-input filter-now" id="1_1"/>
                                     <label for="1_1" class="form-check-label w-100 ml-4">1+1</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input" id="2_1"/>
+                                    <input type="checkbox" class="form-check-input filter-now" id="2_1"/>
                                     <label for="2_1" class="form-check-label w-100 ml-4">2+1</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input" id="3_1"/>
+                                    <input type="checkbox" class="form-check-input filter-now" id="3_1"/>
                                     <label for="3_1" class="form-check-label w-100 ml-4">3+1</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input" id="3_2"/>
+                                    <input type="checkbox" class="form-check-input filter-now" id="3_2"/>
                                     <label for="3_2" class="form-check-label w-100 ml-4">3+2</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input" id="4_1"/>
+                                    <input type="checkbox" class="form-check-input filter-now" id="4_1"/>
                                     <label for="4_1" class="form-check-label w-100 ml-4">4+1</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input" id="4_2"/>
+                                    <input type="checkbox" class="form-check-input filter-now" id="4_2"/>
                                     <label for="4_2" class="form-check-label w-100 ml-4">4+2</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input" id="5_1"/>
+                                    <input type="checkbox" class="form-check-input filter-now" id="5_1"/>
                                     <label for="5_1" class="form-check-label w-100 ml-4">5+1</label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="widget-boxed mt-4" id="post_date_field">
-                            <b>İlan Tarihi:</b>
+                            <div class="head d-flex">
+                                <b>İlan Tarihi</b>
+                                <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
+                                    <svg width="16px" height="16px" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
+                                </span>
+                            </div>
+                            <div class="mt-4">
                             <div class="mb-2 d-flex align-items-center w-100">
-                                <input type="radio" name="post_date" id="recent_day"/>
+                                <input type="radio" name="post_date" id="recent_day" class="filter-now"/>
                                 <label for="recent_day" class="form-check-label w-100 small">Son 1 Gün İçinde</label>
                             </div>
                             <div class="mb-2 d-flex align-items-center w-100">
-                                <input type="radio" name="post_date" id="last_3_day"/>
+                                <input type="radio" name="post_date" id="last_3_day" class="filter-now"/>
                                 <label for="last_3_day" class="form-check-label w-100 small">Son 3 Gün İçinde</label>
                             </div>
                             <div class="mb-2 d-flex align-items-center w-100">
-                                <input type="radio" name="post_date" id="last_7_day"/>
+                                <input type="radio" name="post_date" id="last_7_day" class="filter-now"/>
                                 <label for="last_7_day" class="form-check-label w-100 small">Son 7 Gün İçinde</label>
                             </div>
                             <div class="mb-2 d-flex align-items-center w-100">
-                                <input type="radio" name="post_date" id="last_15_day"/>
+                                <input type="radio" name="post_date" id="last_15_day" class="filter-now"/>
                                 <label for="last_15_day" class="form-check-label w-100 small">Son 15 Gün İçinde</label>
                             </div>
                             <div class="mb-2 d-flex align-items-center w-100">
-                                <input type="radio" name="post_date" id="last_30_day"/>
+                                <input type="radio" name="post_date" id="last_30_day" class="filter-now"/>
                                 <label for="last_30_day" class="form-check-label w-100 small">Son 30 Gün İçinde</label>
+                            </div>
                             </div>
                         </div>
 
                         <div class="widget-boxed mt-4" id="from_owner_field">
-                            <b>Kimden:</b>
+                            <div class="head d-flex">
+                                <b>Kimden</b>
+                                <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
+                                    <svg width="16px" height="16px" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
+                                </span>
+                            </div>
+                            <div class="mt-4">
                             <div class="mb-2 d-flex align-items-center w-100">
-                                <input type="radio" name="whose" id="from_owner"/>
+                                <input type="radio" name="whose" id="from_owner" class="filter-now"/>
                                 <label for="from_owner" class="form-check-label w-100 small">Sahibinden</label>
                             </div>
                             <div class="mb-2 d-flex align-items-center w-100">
-                                <input type="radio" name="whose" id="from_office"/>
+                                <input type="radio" name="whose" id="from_office" class="filter-now"/>
                                 <label for="from_office" class="form-check-label w-100 small">Emlak Ofisinden</label>
                             </div>
                             <div class="mb-2 d-flex align-items-center w-100">
-                                <input type="radio" name="whose" id="from_company"/>
+                                <input type="radio" name="whose" id="from_company" class="filter-now"/>
                                 <label for="from_company" class="form-check-label w-100 small">İnşaat Firmasından</label>
                             </div>
                             <div class="mb-2 d-flex align-items-center w-100">
-                                <input type="radio" name="whose" id="from_bank"/>
+                                <input type="radio" name="whose" id="from_bank" class="filter-now"/>
                                 <label for="from_bank" class="form-check-label w-100 small">Bankadan</label>
+                            </div>
                             </div>
                         </div>
                         @endif
-
-                        <div class="widget-boxed mt-4">
-                            <button type="button" id="set-filter" class="btn btn-lg btn-block btn-primary">FİLTRELE</button>
-                        </div>
-
                     </div>
                 </aside>
                 <div class="col-lg-9 col-md-12 blog-pots">
@@ -349,6 +390,7 @@
                             $('#county').append(
                                 `<option value="${e.id}">${e.title}</option>`
                             );
+                            $('#county').val('#');
                         });
                     }
                 }
@@ -470,7 +512,7 @@
         {
             drawList();
 
-            $('#set-filter').on('click', function()
+            $('.filter-now').on('change', function()
             {
                 let room_count = [];
                 $('#room_count_field .mt-4 .mb-2').each(function()
