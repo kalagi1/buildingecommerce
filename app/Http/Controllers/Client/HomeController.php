@@ -124,6 +124,41 @@ class HomeController extends Controller
 
         $obj = Housing::with('images');
 
+        if ($request->input('from_owner'))
+        {
+            switch ($request->input('from_owner'))
+            {
+                case 'from_owner':
+                    $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
+                               ->where('users.type', '1');
+                    break;
+
+                case 'from_office':
+                    $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
+                               ->join('user_plans', 'user_plans.user_id', '=', 'users.id')
+                               ->join('subscription_plans', 'subscription_plans.id', '=', 'user_plans.subscription_plan_id')
+                               ->where('users.type', '2')
+                               ->where('subscription_plans.plan_type', 'Emlakçı');
+                    break;
+
+                case 'from_bank':
+                    $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
+                                ->join('user_plans', 'user_plans.user_id', '=', 'users.id')
+                                ->join('subscription_plans', 'subscription_plans.id', '=', 'user_plans.subscription_plan_id')
+                                ->where('users.type', '2')
+                                ->where('subscription_plans.plan_type', 'Banka');
+                    break;
+
+                case 'from_company':
+                    $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
+                                ->join('user_plans', 'user_plans.user_id', '=', 'users.id')
+                                ->join('subscription_plans', 'subscription_plans.id', '=', 'user_plans.subscription_plan_id')
+                                ->where('users.type', '2')
+                                ->where('subscription_plans.plan_type', 'İnşaat');
+                    break;
+            }
+        }
+
         if ($request->input('city'))
             $obj = $obj->where('city_id', $request->input('city'));
 
@@ -131,10 +166,57 @@ class HomeController extends Controller
             $obj = $obj->where('county_id', $request->input('county'));
 
         if ($request->input('price_min'))
-            $obj = $obj->whereRaw('JSON_EXTRACT(housing_type_data, "$.price[0]") >= ?', [$request->input('price_min')]);
+            $obj = $obj->whereRaw('CAST(JSON_EXTRACT(housing_type_data, "$.price[0]") AS FLOAT) >= ?', [$request->input('price_min')]);
 
         if ($request->input('price_max'))
-            $obj = $obj->whereRaw('JSON_EXTRACT(housing_type_data, "$.price[0]") <= ?', [$request->input('price_max')]);
+            $obj = $obj->whereRaw('CAST(JSON_EXTRACT(housing_type_data, "$.price[0]") AS FLOAT) <= ?', [$request->input('price_max')]);
+
+        if ($request->input('msq_min'))
+            $obj = $obj->whereRaw('CAST(JSON_EXTRACT(housing_type_data, "$.squaremeters[0]") AS FLOAT) >= ?', [$request->input('msq_min')]);
+
+        if ($request->input('msq_max'))
+            $obj = $obj->whereRaw('CAST(JSON_EXTRACT(housing_type_data, "$.squaremeters[0]") AS FLOAT) <= ?', [$request->input('msq_max')]);
+
+        if ($request->input('room_count'))
+        {
+            $obj = $obj->whereJsonContains('housing_type_data->room_count', [$request->input('room_count')[0]]);
+            $e = 0;
+            foreach ($request->input('room_count') as $room_count)
+            {
+                if ($e == 0)
+                {
+                    $e = 1;
+                    continue;
+                }
+                $obj = $obj->orWhereJsonContains('housing_type_data->room_count', [$room_count]);
+            }
+        }
+
+        if ($request->input('post_date'))
+        {
+            switch ($request->input('post_date'))
+            {
+                case 'recent_day':
+                    $obj = $obj->where('created_at', '>=', date('Y-m-d 00:00:00', strtotime('-1 Days')));
+                    break;
+
+                case 'last_3_day':
+                    $obj = $obj->where('created_at', '>=', date('Y-m-d 00:00:00', strtotime('-3 Days')));
+                    break;
+
+                case 'last_7_day':
+                    $obj = $obj->where('created_at', '>=', date('Y-m-d 00:00:00', strtotime('-7 Days')));
+                    break;
+
+                case 'last_15_day':
+                    $obj = $obj->where('created_at', '>=', date('Y-m-d 00:00:00', strtotime('-15 Days')));
+                    break;
+
+                case 'last_30_day':
+                    $obj = $obj->where('created_at', '>=', date('Y-m-d 00:00:00', strtotime('-30 Days')));
+                    break;
+            }
+        }
 
         $obj = $obj->get();
 
