@@ -29,7 +29,7 @@ class CheckCorporateAccount
         {
             return redirect()->route('institutional.corporate-account-verification');
         }
-        else if (request()->route()->getName() == 'institutional.corporate-account-verification')
+        else if (auth()->user()->parent_id != NULL && request()->route()->getName() == 'institutional.corporate-account-verification')
         {
             return redirect()->route('institutional.index');
         }
