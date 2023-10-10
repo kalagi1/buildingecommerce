@@ -36,6 +36,8 @@ class UserController extends Controller
         // Yeni kullanıcıyı oluşturun
         $user = new User();
         $user->name = $validatedData['name'];
+        $user->profile_image = "indir.png";
+        $user->banner_hex_code = "black";
         $user->email = $validatedData['email'];
         $user->password = bcrypt($validatedData['password']); // Şifreyi şifreleyin
         $user->type = $validatedData['type'];

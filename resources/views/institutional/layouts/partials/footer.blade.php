@@ -61,10 +61,7 @@
                         class="fa-solid fa-paper-plane fs--1"></span></button>
             </div>
         </div>
-    </div><button class="btn p-0 border border-200 btn-support-chat"><span
-            class="fs-0 btn-text text-primary text-nowrap">Chat demo</span><span
-            class="fa-solid fa-circle text-success fs--1 ms-2"></span><span
-            class="fa-solid fa-chevron-down text-primary fs-1"></span></button>
+    </div>
 </div>
 </main><!-- ===============================================-->
 <!--    End of Main Content-->
