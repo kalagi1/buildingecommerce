@@ -397,16 +397,24 @@
                 var project = null;
                 if (button.getAttribute("data-type") == "project") {
                     project = button.getAttribute("data-project");
+                    // Ajax isteği gönderme
+                    var cart = {
+                        id: productId,
+                        type: button.getAttribute("data-type"),
+                        project: project,
+                        _token: "{{ csrf_token() }}",
+                        clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
+                    };
                 }
-
-                // Ajax isteği gönderme
-                var cart = {
-                    id: productId,
-                    type: button.getAttribute("data-type"),
-                    project: project,
-                    _token: "{{ csrf_token() }}",
-                    clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
-                };
+                else
+                {
+                    var cart = {
+                        id: productId,
+                        type: button.getAttribute("data-type"),
+                        _token: "{{ csrf_token() }}",
+                        clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
+                    };
+                }
 
                 // Eğer kullanıcı zaten ürün eklediyse ve yeni bir ürün eklenmek isteniyorsa sepeti temizlemeyi sorgula
                 if (!isProductInCart(productId)) {

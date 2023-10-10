@@ -479,7 +479,7 @@
 
                     if (i.is(':checked'))
                     {
-                        room_count.push(i.id().replace('_','+')); 
+                        room_count.push(i.attr('id').replace('_','+')); 
                     }
                 });
 
@@ -490,7 +490,7 @@
 
                     if (i.is(':checked'))
                     {
-                        post_date = i.id();
+                        post_date = i.attr('id');
                         return false;
                     }
                 });
@@ -502,7 +502,7 @@
 
                     if (i.is(':checked'))
                     {
-                        from_owner = i.id();
+                        from_owner = i.attr('id');
                         return false;
                     }
                 });
