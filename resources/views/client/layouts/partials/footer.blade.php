@@ -394,7 +394,7 @@
         // Tüm "Sepete Ekle" düğmelerini seçin
         var addToCartButtons = document.querySelectorAll(".addToCart");
         // Tüm "Sepete Ekle" düğmelerini seçin (dinamik olarak oluşturulanlar dahil)
-        document.addEventListener('click', function(event) {
+        $('body').on('click', '.addToCart', function(event) {
             if (event.target && event.target.classList.contains('addToCart')) {
                 var button = event.target;
                 var productId = button.getAttribute("data-id");
@@ -617,41 +617,39 @@
         });
 
         // Favoriye Ekle/Kaldır İşlemi
-        document.querySelectorAll(".toggle-favorite").forEach(function(button) {
-            button.addEventListener("click", function(event) {
-                event.preventDefault();
-                var housingId = this.getAttribute("data-housing-id");
-
-                // AJAX isteği gönderme
-                $.ajax({
-                    url: "{{ route('add.housing.to.favorites', ['id' => ':id']) }}"
-                        .replace(':id',
-                            housingId),
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        if (response.status === 'added') {
-                            toastr.success("Konut Favorilere Eklendi");
-                            // Favorilere eklenmişse rengi kırmızı yap
-                            button.querySelector("i.fa-heart").classList.add(
-                                "text-danger");
-                            button.classList.add(
-                                "bg-white");
-                        } else if (response.status === 'removed') {
-                            toastr.warning("Konut Favorilerden Kaldırıldı");
-                            button.querySelector("i.fa-heart").classList.remove(
-                                "text-danger");
-                            button.classList.remove(
-                                "bg-white");
-                        }
-                    },
-                    error: function(error) {
-                        toastr.error("Lütfen Giriş Yapınız");
-                        console.error(error);
+        $('body').on("click", ".toggle-favorite", function(event) {
+            event.preventDefault();
+            var housingId = this.getAttribute("data-housing-id");
+            var button = this;
+            // AJAX isteği gönderme
+            $.ajax({
+                url: "{{ route('add.housing.to.favorites', ['id' => ':id']) }}"
+                    .replace(':id',
+                        housingId),
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.status === 'added') {
+                        toastr.success("Konut Favorilere Eklendi");
+                        // Favorilere eklenmişse rengi kırmızı yap
+                        button.querySelector("i.fa-heart").classList.add(
+                            "text-danger");
+                        button.classList.add(
+                            "bg-white");
+                    } else if (response.status === 'removed') {
+                        toastr.warning("Konut Favorilerden Kaldırıldı");
+                        button.querySelector("i.fa-heart").classList.remove(
+                            "text-danger");
+                        button.classList.remove(
+                            "bg-white");
                     }
-                });
+                },
+                error: function(error) {
+                    toastr.error("Lütfen Giriş Yapınız");
+                    console.error(error);
+                }
             });
         });
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FooterSlider;
 use App\Models\Housing;
 use App\Models\HousingStatus;
+use App\Models\HousingFavorite;
 use App\Models\Menu;
 use App\Models\Project;
 use App\Models\Slider;
@@ -13,6 +14,7 @@ use App\Models\StandOutUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -226,6 +228,8 @@ class HomeController extends Controller
             'image' => asset('housing_images/' . getImage($item, 'image')),
             'housing_type_title' => $item->housing_type_title,
             'id' => $item->id,
+            'in_cart' => $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
+            'in_favorites' => HousingFavorite::select(DB::raw('1 AS status'))->where('user_id', auth()->user()->id)->where('housing_id', $item->id)->first()->status ?? 0,
             'housing_url' => route('housing.show', $item->id),
             'title' => $item->title,
             'housing_address' => $item->address,
