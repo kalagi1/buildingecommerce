@@ -40529,3 +40529,460 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .rendered-form label{
     font-weight: bold !important;
 }
+
+.pricing-item{
+    padding-top: 24px;
+    padding-bottom: 24px;
+    height: auto;
+    width: 296px;
+    position: relative;
+    background: #fff;
+    margin: 5px 5px 0 5px;
+    padding: 40px 0 40px 0;
+    border: 1px solid #d8d8d8;
+    cursor: pointer;
+}
+
+.pricing-item-first{
+    padding-top: 24px;
+    padding-bottom: 24px;
+    height: auto;
+    width: 296px;
+    position: relative;
+    background: #fff;
+    margin: 5px 5px 0 5px;
+    padding: 40px 0 40px 0;
+    border: 1px solid #d8d8d8;
+    cursor: pointer;
+}
+
+.pricing-item-inner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pricing-item{
+    position: relative;
+}
+
+.c-pointer{
+    cursor: pointer;
+}
+
+.remaining_projects{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.old_price:before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 50%;
+    right: 0;
+    border-top: 1px solid #f00;
+    -webkit-transform: rotate(-10deg);
+    -moz-transform: rotate(-10deg);
+    -o-transform: rotate(-10deg);
+    -ms-transform: rotate(-10deg);
+    transform: rotate(-10deg);
+}
+
+.old_price{
+    font-size: 17px;
+    position: relative;
+    padding-right: 5px;
+    padding-left: 10px;
+    vertical-align: middle;
+    line-height: 23px;
+    color: #9b9b9b;
+}
+
+.new_price{
+    font-size: 20px;
+    line-height: 23px;
+    color: #9b9b9b;
+    margin-left: 5px;
+}
+
+.price{
+    margin-top: 20px;
+}
+
+.price-radio{
+    box-shadow: 1px 2px 2px 0 rgba(0,0,0,0.1) inset;
+    border-radius: 100%;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #c0c0c0;
+    position: relative;
+    display: inline-block;
+    left: 0;
+    top: 0;
+}
+
+.price-radio.select .inside{
+    margin: 3px;
+    background-color: #da8016;
+    width: 13px;
+    height: 13px;
+    border-radius: 100%;
+}
+
+.finish-tick{
+    display: inline-block;
+    float: right;
+    line-height: 31px;
+    padding: 7px 20px 7px 15px;
+    background-color: #fff;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 0 2px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 0 2px 0 rgba(0,0,0,0.1);
+    margin-right: 30px;
+}
+
+.rulesOpen{
+    color: #438ed8;
+    cursor: pointer;
+    font-weight: normal;
+    padding-right: 3px;
+}
+
+.second-area-finish{
+    display: flex;
+    margin-top: 30px;
+    justify-content: flex-end;
+}
+
+.finish-tick{
+    cursor: pointer;
+}
+
+.photo-area{
+    margin: 0 19px 0 0;
+    width: 225px;
+    height: 75px;
+    border-radius: 2px;
+    background-color: #f8f8f8;
+    border: dashed 2px #ccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-area svg{
+    width: 40px;
+    height: 34px;
+    fill: #438ed8;
+    color : #438ed8;
+}
+
+.photo-area label {
+    color: #438ed8;
+    width: 50%;
+    margin-left: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.photo-area label span{
+    font-size: 12px;
+    color: #999;
+    display: block;
+    cursor: pointer;
+}
+
+.cover-photo-area{
+    margin: 0 19px 0 0;
+    width: 225px;
+    height: 75px;
+    border-radius: 2px;
+    background-color: #f8f8f8;
+    border: dashed 2px #ccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover-photo-area svg{
+    width: 40px;
+    height: 34px;
+    fill: #438ed8;
+    color : #438ed8;
+}
+
+.cover-photo-area label {
+    color: #438ed8;
+    width: 50%;
+    margin-left: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cover-photo-area label span{
+    font-size: 12px;
+    color: #999;
+    display: block;
+    cursor: pointer;
+}
+
+.cover-document-area{
+    margin: 0 19px 0 0;
+    width: 225px;
+    height: 75px;
+    border-radius: 2px;
+    background-color: #f8f8f8;
+    border: dashed 2px #ccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover-document-area svg{
+    width: 40px;
+    height: 34px;
+    fill: #438ed8;
+    color : #438ed8;
+}
+
+.cover-document-area label {
+    color: #438ed8;
+    width: 50%;
+    margin-left: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cover-document-area label span{
+    font-size: 12px;
+    color: #999;
+    display: block;
+    cursor: pointer;
+}
+
+.cover-photo{
+    margin-top: 20px;
+}
+
+.project_imagex{
+    text-align: center;
+    float: left;
+    border: 1px dashed #c8c8c8;
+    border-radius: 2px;
+    width: 129px;
+    height: 97px;
+    padding: 0 1px 1px 0;
+    margin: 0 10px 10px 0;
+    position: relative;
+}
+
+.project_imagex img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.photos{
+    margin-top:20px;
+}
+
+.error-border{
+    border: solid 1px #f00;
+    background-color: #ffeaea;
+}
+
+.housing_buttons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.progress-line ol{
+    list-style: none;
+    height: 60px;
+}
+
+.progress-line ol li.done a.step-counter {
+    width: 40px;
+    height: 40px;
+    margin-left: -20px;
+    margin-top: -20px;
+    background-color: #289479;
+    color: #fff;
+    line-height: 40px;
+    font-size: 16px;
+    border-radius: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+}
+
+.progress-line ol:before {
+    width: 100%;
+    height: 4px;
+    content: '';
+    background-color: #dfdfdf;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -2px;
+}
+
+.progress-line {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.progress-line ol li a{
+    font-weight: normal;
+    color: #999;
+    margin-top: 63px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.progress-line ol li {
+    float: left;
+    width: 25%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    height: 100%;
+}
+
+.clear-both{
+    clear: both;
+}
+
+.progress-line.step1 ol:before {
+    width: 13.5%;
+}
+
+
+.progress-line.step2 ol:before {
+    width: 37.5%;
+}
+
+.progress-line.step3 ol:before {
+    width: 62.5%;
+}
+
+.progress-line.step4 ol:before {
+    width: 100%;
+}
+
+.progress-line ol:before {
+    -webkit-transition: width 0.7s linear;
+    -moz-transition: width 0.7s linear;
+    -o-transition: width 0.7s linear;
+    -ms-transition: width 0.7s linear;
+    transition: width 0.7s linear;
+    height: 4px;
+    content: '';
+    background-color: #209579;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -2px;
+}
+
+.progress-line ol li.current .step-counter {
+    width: 46px;
+    height: 46px;
+    margin-left: -24px;
+    border: 4px solid #209579;
+    margin-top: -23px;
+    background-color: #fafafa;
+    color: #289479;
+    line-height: 40px;
+    font-size: 16px;
+}
+
+.progress-line ol li .step-counter {
+    width: 36px;
+    height: 36px;
+    content: '';
+    background-color: #dfdfdf;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -18px;
+    margin-top: -18px;
+    border-radius: 36px;
+    color: #999;
+    line-height: 36px;
+    font-size: 16px;
+    font-weight: bold;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.progress-line:before {
+    width: 100%;
+    height: 4px;
+    content: '';
+    background-color: #dfdfdf;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -2px;
+}
+
+.progress-area{
+    margin-bottom: 70px;
+    position: sticky;
+}
+
+.has_file{
+    margin:15px 0;
+    border:1px solid #eee;
+    padding: 10px;
+    display: inline-block;
+}
+
+.breadcrumb-v2 .icon{
+    width: 24px;
+    height: 24px;
+    background-color: #fcae1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 100%;
+    margin-right: 10px;
+}
+
+.error-text{
+    color: #fb0317;
+    margin: 10px 15px;
+    font-size: 13px;
+}
+
+.finish-area{
+    margin: 15px 0;
+    border: 1px solid #eee;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.finish-area .icon svg{
+    font-size: 150px;
+}
+
+.finish-area .text{
+    margin: 20px 0;
+}
