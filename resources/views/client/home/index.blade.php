@@ -170,7 +170,7 @@
                 }
             @endphp
             @if (count($finishProjects))
-                <section class="properties-right list featured portfolio blog pt-5 pb-5 bg-white">
+                <section class="properties-right list featured portfolio blog pb-5 bg-white">
                     <div class="container">
                         <div class="row project-filter-reverse blog-pots">
                             @foreach ($finishProjects as $project)
@@ -278,13 +278,13 @@
     <!-- START SECTION RECENTLY PROPERTIES -->
     <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center;" class="mbb">
+            <div style="display: flex; justify-content: space-between; align-items: center;" >
                 <div class="section-title">
                     <h2>Yapım Aşamasındaki Projeler</h2>
                 </div>
             </div>
             @if (count($continueProjects))
-                <section class="properties-right list featured portfolio blog pt-5 pb-5 bg-white">
+                <section class="properties-right list featured portfolio blog  pb-5 bg-white">
                     <div class="container">
                         <div class="row project-filter-reverse blog-pots">
                             @foreach ($continueProjects as $project)

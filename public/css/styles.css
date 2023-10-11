@@ -3498,7 +3498,7 @@ Version      : 1.2
     /*------------------------------------*/
 
     section.popular-places {
-        padding: 2.6rem 0 !important;
+        padding: 2.6rem 0 ;
         background: #fff;
     }
 

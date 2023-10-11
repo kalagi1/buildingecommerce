@@ -116,7 +116,7 @@
     @if (count($brand->projects))
         <section class="popular-places home18" style="margin-top: 30px;">
             <div class="container">
-                <div style="display: flex; justify-content: space-between; align-items: center;" class="mbb">
+                <div style="display: flex; justify-content: space-between; align-items: center;" >
                     <div class="section-title">
                         <h2>Projeler</h2>
                     </div>
@@ -141,7 +141,7 @@
     <!-- START SECTION RECENTLY PROPERTIES -->
     <section class="featured portfolio rec-pro disc bg-white mb-5">
         <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center;" class="mbb">
+            <div style="display: flex; justify-content: space-between; align-items: center;" >
                 <div class="section-title">
                     <h2>İkinci El Konutlar</h2>
                 </div>
@@ -157,8 +157,6 @@
                                             <div class="homes">
                                                 <!-- homes img -->
                                                 <a href="single-property-1.html" class="homes-img">
-                                                    <div class="homes-tag button sale rent"
-                                                        style="background-color:#ff5a5f !important">Öne Çıkan</div>
                                                     <img src="{{ asset('housing_images/' . getImage($housing, 'image')) }}"
                                                         alt="{{ $housing->housing_type_title }}" class="img-responsive">
                                                 </a>
