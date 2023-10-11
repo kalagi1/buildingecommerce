@@ -14,6 +14,45 @@ use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
+    function verify()
+    {
+        return view('clientPanel.home.verification');
+    }
+
+    function verifyAccount(Request $request)
+    {
+        $request->validate(
+            [
+                'kimlik_belgesi' => 'required|image|mimes:jpg,jpeg,png',
+            ]
+        );
+
+        $array = [];
+ 
+        $file = $request->kimlik_belgesi->store('individual_identity_documents');
+        $array = array_merge($array, ['identity_document' => $file]);
+
+        auth()->user()->update($array);
+
+        return redirect()->back();
+    }
+
+    public function getIdentityDocument()
+    {
+        $user = auth()->user();
+        $identity_document = $user->identity_document;
+
+        if (is_null($identity_document))
+            die('Belge yok.');
+
+        $file = file_get_contents(storage_path("/app/{$identity_document}"));
+        preg_match('@\.(\w+)$@', $identity_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/'.$extension);
+        echo $file;
+    }
+
     public function upgrade()
     {
         $plans = SubscriptionPlan::where('plan_type', 'Bireysel')->get();
