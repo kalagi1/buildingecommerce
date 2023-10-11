@@ -34,28 +34,28 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             @csrf
-                                            <a href="{{ route('admin.get.tax-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Vergi Levhasını Gör</a>
+                                            <a  target="_blank"  href="{{ route('admin.get.tax-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Vergi Levhasını Gör</a>
                                             <select name="tax_document_approve" class="form-control">
                                                 <option value="0"{{$user_e->tax_document_approve == 0 ? ' selected' : null}}>Vergi Levhasını Onaylamıyorum</option>
                                                 <option value="1"{{$user_e->tax_document_approve == 1 ? ' selected' : null}}>Vergi Levhasını Onaylıyorum</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <a href="{{ route('admin.get.record-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Sicil Belgesini Gör</a>
+                                            <a  target="_blank"  href="{{ route('admin.get.record-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Sicil Belgesini Gör</a>
                                             <select name="record_document_approve" class="form-control">
                                                 <option value="0"{{$user_e->record_document_approve == 0 ? ' selected' : null}}>Sicil Belgesini Onaylamıyorum</option>
                                                 <option value="1"{{$user_e->record_document_approve == 1 ? ' selected' : null}}>Sicil Belgesini Onaylıyorum</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <a href="{{ route('admin.get.identity-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Kimlik Belgesini Gör</a>
+                                            <a  target="_blank"  href="{{ route('admin.get.identity-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Kimlik Belgesini Gör</a>
                                             <select name="identity_document_approve" class="form-control">
                                                 <option value="0"{{$user_e->identity_document_approve == 0 ? ' selected' : null}}>Kimlik Belgesini Onaylamıyorum</option>
                                                 <option value="1"{{$user_e->identity_document_approve == 1 ? ' selected' : null}}>Kimlik Belgesini Onaylıyorum</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <a href="{{ route('admin.get.company-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">İnşaat Belgesini Gör</a>
+                                            <a  target="_blank"  href="{{ route('admin.get.company-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">İnşaat Belgesini Gör</a>
                                             <select name="company_document_approve" class="form-control">
                                                 <option value="0"{{$user_e->company_document_approve == 0 ? ' selected' : null}}>İnşaat Belgesini Onaylamıyorum</option>
                                                 <option value="1"{{$user_e->company_document_approve == 1 ? ' selected' : null}}>İnşaat Belgesini Onaylıyorum</option>

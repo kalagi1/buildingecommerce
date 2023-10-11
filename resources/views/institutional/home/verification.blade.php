@@ -35,7 +35,7 @@
 
                         @if (!is_null(auth()->user()->tax_document))
                         <div>
-                        <a href="{{ route('institutional.get.tax-document') }}" class="btn btn-primary">Vergi Levhasını Gör</a>
+                        <a target="_blank" href="{{ route('institutional.get.tax-document') }}" class="btn btn-primary">Vergi Levhasını Gör</a>
                         </div>
                         @endif
                     </label>
@@ -55,7 +55,7 @@
 
                         @if (!is_null(auth()->user()->record_document))
                         <div>
-                        <a href="{{ route('institutional.get.record-document') }}" class="btn btn-primary">Sicil Belgesini Gör</a>
+                        <a   target="_blank"  href="{{ route('institutional.get.record-document') }}" class="btn btn-primary">Sicil Belgesini Gör</a>
                         </div>
                         @endif
                     </label>
@@ -73,7 +73,7 @@
 
                         @if (!is_null(auth()->user()->identity_document))
                         <div>
-                        <a href="{{ route('institutional.get.identity-document') }}" class="btn btn-primary">Kimlik Belgesini Gör</a>
+                        <a  target="_blank"  href="{{ route('institutional.get.identity-document') }}" class="btn btn-primary">Kimlik Belgesini Gör</a>
                         </div>
                         @endif
                     </label>
@@ -94,7 +94,7 @@
                         </label>
                         @if (!is_null(auth()->user()->company_document))
                         <div>
-                        <a href="{{ route('institutional.get.company-document') }}" class="btn btn-primary mb-2">İnşaat Belgesini Gör</a>
+                        <a  target="_blank"  href="{{ route('institutional.get.company-document') }}" class="btn btn-primary mb-2">İnşaat Belgesini Gör</a>
                         </div>
                         @endif
                         <input type="file" name="insaat_belgesi" id="insaat_belgesi"
