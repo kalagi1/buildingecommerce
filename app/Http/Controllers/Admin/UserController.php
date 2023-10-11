@@ -117,12 +117,15 @@ class UserController extends Controller
     {
         $request->validate(
             [
-                'tax_document_approve' => 'required|in:0,1',
-                'record_document_approve' => 'required|in:0,1',
+                'tax_document_approve' => 'nullable|in:0,1',
+                'record_document_approve' => 'nullable|in:0,1',
                 'identity_document_approve' => 'required|in:0,1',
                 'company_document_approve' => 'nullable|in:0,1',
                 'note' => 'required|string',
                 'status' => 'required|in:0,1',
+            ],
+            [
+                'note.required' => 'Not alanı gereklidir.',
             ]
         );
 
@@ -136,8 +139,8 @@ class UserController extends Controller
         $user->update(
             array_merge(
             [
-                'tax_document_approve' => $request->input('tax_document_approve'),
-                'record_document_approve' => $request->input('record_document_approve'),
+                'tax_document_approve' => $request->input('tax_document_approve') ?? '0',
+                'record_document_approve' => $request->input('record_document_approve') ?? '0',
                 'identity_document_approve' => $request->input('identity_document_approve'),
                 'corporate_account_note' => $request->input('note'),
                 'corporate_account_status' => $request->input('status'),

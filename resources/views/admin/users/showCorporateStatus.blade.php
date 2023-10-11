@@ -9,7 +9,7 @@
                         <div class="card-header border-bottom border-300 bg-soft">
                             <div class="row g-3 justify-content-between align-items-center">
                                 <div class="col-12 col-md">
-                                    <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Belge Doğrulama - Kullanıcı : {{ $user->name . ' - ' . $user->id }}</h4>
+                                    <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Belge Doğrulama - Kullanıcı : {{ $user_e->name . ' - ' . $user_e->id }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -32,8 +32,8 @@
                             <div class="p-4">
                                 <form action="{{route('admin.update-corporate-status', ['user' => $user_e->id])}}" method="POST" class="row">
                                     <div class="col-12">
+                                        @if ($user_e->type == 2)
                                         <div class="form-group">
-                                            @csrf
                                             <a  target="_blank"  href="{{ route('admin.get.tax-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Vergi Levhasını Gör</a>
                                             <select name="tax_document_approve" class="form-control">
                                                 <option value="0"{{$user_e->tax_document_approve == 0 ? ' selected' : null}}>Vergi Levhasını Onaylamıyorum</option>
@@ -47,13 +47,16 @@
                                                 <option value="1"{{$user_e->record_document_approve == 1 ? ' selected' : null}}>Sicil Belgesini Onaylıyorum</option>
                                             </select>
                                         </div>
+                                        @endif 
                                         <div class="form-group">
                                             <a  target="_blank"  href="{{ route('admin.get.identity-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Kimlik Belgesini Gör</a>
+                                            @csrf
                                             <select name="identity_document_approve" class="form-control">
                                                 <option value="0"{{$user_e->identity_document_approve == 0 ? ' selected' : null}}>Kimlik Belgesini Onaylamıyorum</option>
                                                 <option value="1"{{$user_e->identity_document_approve == 1 ? ' selected' : null}}>Kimlik Belgesini Onaylıyorum</option>
                                             </select>
                                         </div>
+                                        @if ($user_e->type == 2)
                                         <div class="form-group">
                                             <a  target="_blank"  href="{{ route('admin.get.company-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">İnşaat Belgesini Gör</a>
                                             <select name="company_document_approve" class="form-control">
@@ -61,6 +64,7 @@
                                                 <option value="1"{{$user_e->company_document_approve == 1 ? ' selected' : null}}>İnşaat Belgesini Onaylıyorum</option>
                                             </select>
                                         </div>
+                                        @endif
                                         <div class="form-group">
                                             <label for="note">Not:</label>
                                             <textarea name="note" id="note" rows="5" class="form-control">{{$user_e->corporate_account_note}}</textarea>
