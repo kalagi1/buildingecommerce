@@ -1,5 +1,14 @@
 [
     {
+        "id": "home",
+        "label": "Yönetim",
+        "icon": "home",
+        "text": "Anasayfa",
+        "key": "ViewDashboard",
+        "url": "admin.index",
+        "activePath": "admin/*"
+    },
+    {
         "id": "menu",
         "label": "Yönetim",
         "icon": "menu",
@@ -224,7 +233,6 @@
             }
         ]
     },
-
     {
         "id": "housing_types",
         "label": "Uygulama",

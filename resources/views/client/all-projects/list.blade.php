@@ -270,16 +270,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <button type="button" class="btn btn-primary btn-lg btn-block mt-4 mb-4" id="clear-filters">Temizle</button>
 
-                            <div class="widget-boxed main-search-field mt-4">
-                                <div class="trip-search">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <button type="button" class="btn btn-primary btn-lg btn-block" id="clear-filters">Temizle</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                          
                         @endif
                     </div>
                 </aside>
