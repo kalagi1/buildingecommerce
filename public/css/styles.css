@@ -263,6 +263,7 @@ Version      : 1.2
     }
 
     .section-title {
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
         padding-left: 35px;
@@ -3497,7 +3498,7 @@ Version      : 1.2
     /*------------------------------------*/
 
     section.popular-places {
-        padding: 2.6rem 0 !important;
+        padding: 2.6rem 0 ;
         background: #fff;
     }
 
@@ -8505,11 +8506,6 @@ Version      : 1.2
         color: #446BB6;
     }
 
-    .userIcon,
-    .heartIcon {
-        padding-right: 30px;
-    }
-
     @media screen and (max-width: 991px) {
         .homepage-12 .rld-single-input input {
             width: 200px;
@@ -8558,7 +8554,11 @@ Version      : 1.2
         border-bottom: none !important;
         margin-top: 20px;
     }
-
+    
+    .userIcon,
+    .heartIcon {
+        margin-right: 15px;
+    }
     @media screen and (max-width: 768px) {
         #header-container .container {
             margin-bottom: 1rem !important;
@@ -8574,10 +8574,7 @@ Version      : 1.2
             width: 100%;
         }
 
-        .userIcon,
-        .heartIcon {
-            margin-right: 15px;
-        }
+      
 
         .header-widget a svg {
             color: black;
@@ -16176,7 +16173,7 @@ Version      : 1.2
 
     .inner-pages .blog .main-search-field {
         background: #fff;
-        padding-bottom: 30px;
+        padding: 20px;
     }
 
     .inner-pages .blog .main-search-field select {
@@ -24078,6 +24075,11 @@ Version      : 1.2
         margin-right: 5px;
     }
 
+    input[type="radio"] {
+        width: 20px;
+        height: 20px;
+    }
+
     textarea {
         height: 130px;
     }
@@ -26387,10 +26389,10 @@ Version      : 1.2
 
     input[type="checkbox"] {
         appearance: none;
-        background-color: #446BB6;
+        background-color: white;
         margin: 0;
         font: inherit;
-        color: white;
+        color: #446BB6;
         width: 1.15em;
         height: 1.15em;
         border: 0.15em solid none;
@@ -26434,7 +26436,7 @@ Version      : 1.2
         /* ...existing styles */
 
         /* Windows High Contrast Mode */
-        background-color: white;
+        background-color: #446BB6;
     }
 
     input[type="checkbox"]::before {

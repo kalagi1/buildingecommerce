@@ -170,7 +170,7 @@
                 }
             @endphp
             @if (count($finishProjects))
-                <section class="properties-right list featured portfolio blog pt-5 pb-5 bg-white">
+                <section class="properties-right list featured portfolio blog pb-5 bg-white">
                     <div class="container">
                         <div class="row project-filter-reverse blog-pots">
                             @foreach ($finishProjects as $project)
@@ -179,18 +179,22 @@
                                         <div class="landscapes">
                                             <div class="project-single">
                                                 <div class="project-inner project-head">
-                                                    <div class="homes">
-                                                        <!-- homes img -->
+                                                    <a
+                                                        href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+                                                        <div class="homes">
+                                                            <!-- homes img -->
 
-                                                        <a href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}"
-                                                            class="homes-img">
-                                                            <div class="homes-tag button sale rent"
-                                                                style="background-color:#ff5a5f !important">Öne Çıkan</div>
-                                                            <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
-                                                                alt="{{ $project->housingType->title }}"
-                                                                class="img-responsive">
-                                                        </a>
-                                                    </div>
+                                                            <div class="homes-img">
+                                                                <div class="homes-tag button sale rent"
+                                                                    style="background-color:#ff5a5f !important">Öne Çıkan
+                                                                </div>
+
+                                                                <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
+                                                                    alt="{{ $project->housingType->title }}"
+                                                                    class="img-responsive">
+                                                            </div>
+                                                        </div>
+                                                    </a>
                                                     <div class="button-effect">
                                                         <a href="#" class="btn toggle-project-favorite"
                                                             data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
@@ -201,19 +205,23 @@
                                                 </div>
                                                 <!-- homes content -->
                                                 <div class="homes-content p-3" style="padding:20px !important">
-                                                    <h3>{{ $project->project_title }} Projesinde
-                                                        {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                        {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                                    </h3>
 
-                                                    <p class="homes-address mb-3">
+                                                    <a style="text-decoration: none"
+                                                        href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+                                                        <h3>{{ $project->project_title }} Projesinde
+                                                            {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
+                                                            {{ getHouse($project, 'room_count[]', $i + 1)->value }}
+                                                        </h3>
 
-                                                        <a
-                                                            href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+                                                        <p class="homes-address mb-3">
+
+
                                                             <i
                                                                 class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
-                                                        </a>
-                                                    </p>
+
+                                                        </p>
+
+                                                    </a>
                                                     <!-- homes List -->
                                                     <ul class="homes-list clearfix pb-0"
                                                         style="display: flex;justify-content:space-between">
@@ -270,13 +278,13 @@
     <!-- START SECTION RECENTLY PROPERTIES -->
     <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center;" class="mbb">
+            <div style="display: flex; justify-content: space-between; align-items: center;" >
                 <div class="section-title">
                     <h2>Yapım Aşamasındaki Projeler</h2>
                 </div>
             </div>
             @if (count($continueProjects))
-                <section class="properties-right list featured portfolio blog pt-5 pb-5 bg-white">
+                <section class="properties-right list featured portfolio blog  pb-5 bg-white">
                     <div class="container">
                         <div class="row project-filter-reverse blog-pots">
                             @foreach ($continueProjects as $project)
@@ -307,6 +315,9 @@
                                                 </div>
                                                 <!-- homes content -->
                                                 <div class="homes-content p-3" style="padding:20px !important">
+                                                    <a
+                                                    style="text-decoration: none"
+                                                    href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                                     <h3>{{ $project->project_title }} Projesinde
                                                         {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
                                                         {{ getHouse($project, 'room_count[]', $i + 1)->value }}
@@ -314,12 +325,12 @@
 
                                                     <p class="homes-address mb-3">
 
-                                                        <a
-                                                            href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+
                                                             <i
                                                                 class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
-                                                        </a>
+                                                       
                                                     </p>
+                                                    </a>
                                                     <!-- homes List -->
                                                     <ul class="homes-list clearfix pb-0"
                                                         style="display: flex;justify-content:space-between">

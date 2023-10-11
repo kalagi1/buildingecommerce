@@ -50,8 +50,9 @@ class RegisterController extends Controller
 
         $subscriptionPlan = SubscriptionPlan::where("id", $request->input("subscription_plan_id"))->first();
 
-
         $user->name = $validatedData['name'];
+        $user->profile_image = "indir.png";
+        $user->banner_hex_code = "black";
         $user->password = bcrypt($validatedData['password']);
         $user->type = $validatedData['type'];
         $user->activity = $request->input("activity");

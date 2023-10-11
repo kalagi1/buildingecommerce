@@ -2,10 +2,11 @@
 
 @section('content')
     <div class="content">
-        <h2 class="mb-2 lh-sm">Projeler</h2>
         <div class="mt-4">
             <div class="row g-4">
                 <div class="col-12 col-xl-12  order-1 order-xl-0">
+                    <h2 class=" lh-sm">Projeler</h2>
+
                     <div class="mb-9">
                         <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
                             <div class="card-body p-0">
@@ -16,6 +17,8 @@
                                             <table class="table table-sm border-top border-200 fs--1 mb-0">
                                                 <thead>
                                                     <tr>
+                                                        <th>No.</th>
+                                                        <th>Resim</th>
                                                         <th>Başlık</th>
                                                         <th>Statü</th>
                                                         <th>Eklenen Marka</th>
@@ -27,26 +30,50 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($projects as $project)
-                                                    <tr>
-                                                        <td>{{$project->project_title}}</td>
-                                                        <td>@if($project->status == 1) <span class="btn btn-success">Aktif</span> @elseif($project->status == 2) <span class="btn btn-warning">Admin Onayı Bekliyor</span> @elseif($project->status == 3) <span class="btn btn-danger">Admin Tarafından Reddedildi</span> @else <span class="btn btn-danger">Pasif</span> @endif</td>
-                                                        <td>{{$project->brand->title}}</td>
-                                                        <td>{{$project->room_count}}</td>
-                                                        <td>{{$project->housingType->title}}</td>
-                                                        <td>{{$project->city->title}}</td>
-                                                        <td>{{$project->county->title}}</td>
-                                                        <td>
-                                                            <a href="{{route('admin.projects.detail',$project->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
-                                                            <a href="{{route('admin.projects.logs',$project->id)}}" class="btn btn-info btn-sm">Log</a>
-                                                        </td>
-                                                    </tr>
+                                                    @foreach ($projects as $key => $project)
+                                                        <tr>
+                                                            <td>{{ $key + 1 }}</td>
+                                                            <td>
+                                                                @php
+                                                                    $imagePath = str_replace('public/', 'storage/', $project->image);
+                                                                @endphp
+                                                                <img src="{{ asset($imagePath) }}" alt="Resim"
+                                                                    style="width:100px">
+                                                            </td>
+                                                            <td>{{ $project->project_title }}</td>
+
+                                                            <td>
+                                                                @if ($project->status == 1)
+                                                                    <span class="btn btn-success">Aktif</span>
+                                                                @elseif($project->status == 2)
+                                                                    <span class="btn btn-warning"> Onay
+                                                                        Bekliyor</span>
+                                                                @elseif($project->status == 3)
+                                                                    <span class="btn btn-danger">
+                                                                        Reddedildi</span>
+                                                                @else
+                                                                    <span class="btn btn-danger">Pasif</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>{{ $project->brand->title }}</td>
+                                                            <td>{{ $project->room_count }}</td>
+                                                            <td>{{ $project->housingType->title }}</td>
+                                                            <td>{{ $project->city->title }}</td>
+                                                            <td>{{ $project->county->title }}</td>
+                                                            <td>
+                                                                <a href="{{ route('admin.projects.detail', $project->id) }}"
+                                                                    class="btn btn-primary btn-sm"><i
+                                                                        class="fa fa-eye"></i></a>
+                                                                <a href="{{ route('admin.projects.logs', $project->id) }}"
+                                                                    class="btn btn-info btn-sm">Log</a>
+                                                            </td>
+                                                        </tr>
                                                     @endforeach
                                                 </tbody>
                                                 <tbody class="list" id="bulk-select-body"></tbody>
                                             </table>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -65,22 +92,9 @@
                 </div>
             </div>
         </div>
-        <footer class="footer position-absolute">
-            <div class="row g-0 justify-content-between align-items-center h-100">
-                <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 mt-2 mt-sm-0 text-900">Thank you for creating with Phoenix<span
-                            class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br
-                            class="d-sm-none" />2023 &copy;<a class="mx-1" href="https://themewagon.com/">Themewagon</a>
-                    </p>
-                </div>
-                <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 text-600">v1.13.0</p>
-                </div>
-            </div>
-        </footer>
+
     </div>
 @endsection
 
 @section('scripts')
-    
 @endsection

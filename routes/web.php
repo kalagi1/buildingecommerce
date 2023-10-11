@@ -67,12 +67,17 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
+
+Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
+Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");
+Route::post('get-rendered-projects', [HomeController::class, "getRenderedProjects"])->name("get-rendered-projects");
 
 Route::middleware('auth')->group(function()
 {
@@ -89,7 +94,9 @@ Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectD
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
 Route::get('/get-counties/{city}', [CountyController::class,"getCounties"])->name("getCounties");
+Route::get('/get-counties-for-client/{city}', [CountyController::class,"getCountiesForClient"])->name("getCountiesForClient");
 Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class,"getNeighborhoods"])->name("getNeighborhoods");
+Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
@@ -115,10 +122,17 @@ Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name
 Route::post('/admin/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
 Route::get('/admin/logout', [AdminLoginController::class, "logout"])->name('admin.logout');
 
-Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
-Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
-Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
-Route::get('/cikis-yap', [ClientLoginController::class, "logout"])->name('client.logout');
+Route::middleware('guest')->group(function()
+{
+    Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
+    Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
+    Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');    
+});
+
+Route::middleware('auth')->group(function()
+{
+    Route::get('/cikis-yap', [ClientLoginController::class, "logout"])->name('client.logout');
+});
 
 Route::get('/auth/google', [AuthLoginController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [AuthLoginController::class, 'handleGoogleCallback'])->name('auth.google.callback');
@@ -140,11 +154,24 @@ Route::get('password/reset/{token}', 'App\Http\Controllers\Auth\ResetPasswordCon
 // Yeni şifreyi kaydetme işlemi
 Route::post('password/reset', 'App\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.update');
 
+Route::get('/institutional/login', [LoginController::class, 'index'])->name('institutional.login');
+Route::post('/institutional/login', [LoginController::class, 'login'])->name('institutional.login.post');
+
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
 
     Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
     Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
+
+    Route::middleware(['checkPermission:showCorporateStatus'])->group(function()
+    {
+        Route::get('get/tax-document/{user}', [UserController::class, 'getTaxDocument'])->name('get.tax-document');
+        Route::get('get/record-document/{user}', [UserController::class, 'getRecordDocument'])->name('get.record-document');
+        Route::get('get/identity-document/{user}', [UserController::class, 'getIdentityDocument'])->name('get.identity-document');
+        Route::get('get/company-document/{user}', [UserController::class, 'getCompanyDocument'])->name('get.company-document');
+        Route::post('update-corporate-status/{user}', [UserController::class, 'updateCorporateStatus'])->name('update-corporate-status');
+        Route::get('show-corporate-account/{user}', [UserController::class, 'showCorporateAccount'])->name('user.show-corporate-account');
+    });
 
     Route::middleware(['checkPermission:GetHousingTypeForm'])->group(function () {
         Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
@@ -522,10 +549,15 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 });
 
 
-Route::get('/institutional/login', [LoginController::class, 'index'])->name('institutional.login');
-Route::post('/institutional/login', [LoginController::class, 'login'])->name('institutional.login.post');
+Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional','checkCorporateAccount']], function () {
 
-Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional']], function () {
+    Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
+    Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');
+
+    Route::get('get/tax-document', [InstitutionalUserController::class, 'getTaxDocument'])->name('get.tax-document');
+    Route::get('get/record-document', [InstitutionalUserController::class, 'getRecordDocument'])->name('get.record-document');
+    Route::get('get/identity-document', [InstitutionalUserController::class, 'getIdentityDocument'])->name('get.identity-document');
+    Route::get('get/company-document', [InstitutionalUserController::class, 'getCompanyDocument'])->name('get.company-document');
 
     // Offers - Kampanyalar
     Route::middleware(['checkPermission:CreateOffer'])->group(function () {
@@ -693,7 +725,11 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
 });
 
-Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client']], function () {
+Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client', 'checkAccountStatus']], function () {
+
+    Route::get('/verify', [ClientPanelProfileController::class, 'verify'])->name('account-verification');
+    Route::post('/verify', [ClientPanelProfileController::class, 'verifyAccount'])->name('verify-account');
+    Route::get('/get-document', [ClientPanelProfileController::class, 'getIdentityDocument'])->name('get.identity-document');
 
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
@@ -729,7 +765,7 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
 });
 
 
-Route::get('kategori/{id}', [ClientProjectController::class, "allProjects"])
+Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
     ->name('all.project.list');
 
 

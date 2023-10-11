@@ -46,8 +46,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap" rel="stylesheet">
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 
     @yield('styles')
+    <style>
+        .swal2-container.swal2-center {
+            z-index: 9999999;
+        }
+
+        .swal2-popup {
+            z-index: 9999999;
+        }
+
+        @media (max-width:768px) {
+            .brand-head .navbar-item {
+                padding: 13px !important
+            }
+        }
+    </style>
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
@@ -76,10 +93,13 @@
                                         alt=""></a>
                             </div>
                         </div>
-                        <div class="center">
+                        <div class="center position-relative">
                             <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
-                                <input type="text" placeholder="Ara ..">
+                                <input type="text" id="ss-box" placeholder="Ara ..">
                                 <i class="fa fa-search"></i>
+                            </div>
+                            <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
+                                style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px;">
                             </div>
                         </div>
                         <div class="rightSide">
@@ -87,16 +107,16 @@
                                 @if (Auth::user())
                                     @if (Auth::user()->type == 1)
                                         <a href="{{ route('client.index') }}" class="userIcon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                                stroke-width="2" fill="none" stroke-linecap="round"
-                                                stroke-linejoin="round" class="css-i6dzq1">
+                                            <svg viewBox="0 0 24 24" width="24" height="24"
+                                                stroke="currentColor" stroke-width="2" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                             </svg>
-                                            <span class="d-xl-block d-none d-lg-block rightNavText">Admin</span> </a>
+                                            <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
                                     @elseif (Auth::user()->type != 1 && Auth::user()->type != 3)
                                         <div class="dropdown hover">
-                                            <a href="javascript:void()"  class="userIcon">
+                                            <a href="javascript:void()" class="userIcon">
                                                 <svg viewBox="0 0 24 24" width="24" height="24"
                                                     stroke="currentColor" stroke-width="2" fill="none"
                                                     stroke-linecap="round" stroke-linejoin="round"
@@ -128,7 +148,7 @@
                                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                             </svg>
-                                            <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
+                                            <span class="d-xl-block d-none d-lg-block rightNavText">Admin</span> </a>
                                     @endif
                                 @else
                                     <a href="{{ route('client.login') }}" class="userIcon"><svg viewBox="0 0 24 24"
@@ -149,10 +169,7 @@
                                             </path>
                                         </svg>
                                         <span class="d-xl-block d-none d-lg-block rightNavText">Sepetim</span></a>
-                                    <a href="{{ route('client.login') }}"
-                                        style="text-decoration: none;margin-left:15px"><button
-                                            class="btn btn-primary q-button" type="submit"> Sepete İlan
-                                            Ekle</button></a>
+
 
                                 @endif
 
@@ -181,10 +198,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="input-group search d-xl-none d-lg-none d-flex">
-                        <input type="text" placeholder="Ara ..">
-                        <i class="fa fa-search"></i>
-                    </div>
+
                 </div>
                 <div class="header-bottom d-xl-block d-none d-lg-block">
                     <nav id="navigation" class="style-1">
@@ -221,18 +235,16 @@
                                 </li>
                             @endforeach
                             @foreach ($headerLinks as $link)
-                            <li>
-                                <a href="{{ url('sayfa/'.$link->slug) }}">
-                                    {{$link->meta_title}}
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="{{ url('sayfa/' . $link->slug) }}">
+                                        {{ $link->meta_title }}
+                                    </a>
+                                </li>
                             @endforeach
                         </ul>
                     </nav>
                 </div>
             </div>
-
-
         </header>
         <div class="clearfix"></div>
 
@@ -324,15 +336,3 @@
                 padding-top: 15px;
             }
         </style>
-        <script>
-            // close the toggle menu if user clicks outside of the menu
-
-            $(document).click(function(event) {
-                if (
-                    $('.toggle > input').is(':checked') &&
-                    !$(event.target).parents('.toggle').is('.toggle')
-                ) {
-                    $('.toggle > input').prop('checked', false);
-                }
-            })
-        </script>

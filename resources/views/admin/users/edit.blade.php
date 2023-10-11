@@ -32,20 +32,20 @@
                         <div class="card-body p-0">
                             <div class="p-4">
                                 <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                    action="{{ route('admin.users.update', $user->id) }}">
+                                    action="{{ route('admin.users.update', $user_e->id) }}">
                                     @csrf
                                     @method('PUT') <!-- HTTP PUT kullanarak güncelleme işlemi yapılacak -->
 
                                     <div class="col-md-12">
                                         <label class="form-label" for="name">İsim Soyisim</label>
                                         <input name="name" class="form-control" id="name" type="text"
-                                            value="{{ old('name', $user->name) }}" required="">
+                                            value="{{ old('name', $user_e->name) }}" required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="email">Email</label>
                                         <input name="email" class="form-control" id="email" type="email"
-                                            value="{{ old('email', $user->email) }}" required="">
+                                            value="{{ old('email', $user_e->email) }}" required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
@@ -60,7 +60,7 @@
                                         <select name="type" class="form-select" id="validationCustom04" required="">
                                             @foreach ($roles as $item)
                                                 <option value={{ $item->id }}
-                                                    {{ old('type', $user->type) == $item->id ? 'selected' : '' }}>
+                                                    {{ old('type', $user_e->type) == $item->id ? 'selected' : '' }}>
                                                     {{ $item->name }}</option>
                                             @endforeach
                                         </select>
@@ -69,7 +69,7 @@
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" name="is_active"
                                                 id="flexSwitchCheckCheckedDisabled" type="checkbox"
-                                                {{ old('is_active', $user->status) ? 'checked' : '' }} />
+                                                {{ old('is_active', $user_e->status) ? 'checked' : '' }} />
                                             <label class="form-check-label"
                                                 for="flexSwitchCheckCheckedDisabled">Aktif</label>
                                         </div>
@@ -97,18 +97,6 @@
                 </div>
             </div>
         </div>
-        <footer class="footer position-absolute">
-            <div class="row g-0 justify-content-between align-items-center h-100">
-                <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 mt-2 mt-sm-0 text-900">Thank you for creating with Phoenix<span
-                            class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br
-                            class="d-sm-none" />2023 &copy;<a class="mx-1" href="https://themewagon.com/">Themewagon</a>
-                    </p>
-                </div>
-                <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 text-600">v1.13.0</p>
-                </div>
-            </div>
-        </footer>
+
     </div>
 @endsection
