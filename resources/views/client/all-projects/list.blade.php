@@ -1,16 +1,6 @@
 @extends('client.layouts.master')
 
 @section('content')
-    <style>
-        .filter-now {
-            display: block;
-            width: 100%;
-        }
-
-        .widget-boxed {
-            padding: 20px;
-        }
-    </style>
     @php
         function convertMonthToTurkishCharacter($date)
         {
@@ -49,14 +39,14 @@
             ];
             return strtr($date, $aylar);
         }
-        
+
         function getData($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
             $a = $housing_type_data->$key;
             return $a[0];
         }
-        
+
         function getImage($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
@@ -166,31 +156,38 @@
                                 </div>
                                 <div class="mt-4" style="display: none;">
                                     <div class="mb-2 d-flex align-items-center w-100">
-                                        <input type="checkbox" class="form-check-input filter-now form-control" id="1_1" />
+                                        <input type="checkbox" class="form-check-input filter-now form-control"
+                                            id="1_1" />
                                         <label for="1_1" class="form-check-label w-100 ml-4">1+1</label>
                                     </div>
                                     <div class="mb-2 d-flex align-items-center w-100">
-                                        <input type="checkbox" class="form-check-input filter-now  form-control" id="2_1" />
+                                        <input type="checkbox" class="form-check-input filter-now  form-control"
+                                            id="2_1" />
                                         <label for="2_1" class="form-check-label w-100 ml-4">2+1</label>
                                     </div>
                                     <div class="mb-2 d-flex align-items-center w-100">
-                                        <input type="checkbox" class="form-check-input filter-now  form-control" id="3_1" />
+                                        <input type="checkbox" class="form-check-input filter-now  form-control"
+                                            id="3_1" />
                                         <label for="3_1" class="form-check-label w-100 ml-4">3+1</label>
                                     </div>
                                     <div class="mb-2 d-flex align-items-center w-100">
-                                        <input type="checkbox" class="form-check-input filter-now  form-control" id="3_2" />
+                                        <input type="checkbox" class="form-check-input filter-now  form-control"
+                                            id="3_2" />
                                         <label for="3_2" class="form-check-label w-100 ml-4">3+2</label>
                                     </div>
                                     <div class="mb-2 d-flex align-items-center w-100">
-                                        <input type="checkbox" class="form-check-input filter-now  form-control" id="4_1" />
+                                        <input type="checkbox" class="form-check-input filter-now  form-control"
+                                            id="4_1" />
                                         <label for="4_1" class="form-check-label w-100 ml-4">4+1</label>
                                     </div>
                                     <div class="mb-2 d-flex align-items-center w-100">
-                                        <input type="checkbox" class="form-check-input filter-now  form-control" id="4_2" />
+                                        <input type="checkbox" class="form-check-input filter-now  form-control"
+                                            id="4_2" />
                                         <label for="4_2" class="form-check-label w-100 ml-4">4+2</label>
                                     </div>
                                     <div class="mb-2 d-flex align-items-center w-100">
-                                        <input type="checkbox" class="form-check-input filter-now  form-control" id="5_1" />
+                                        <input type="checkbox" class="form-check-input filter-now  form-control"
+                                            id="5_1" />
                                         <label for="5_1" class="form-check-label w-100 ml-4">5+1</label>
                                     </div>
                                 </div>
@@ -270,16 +267,15 @@
                                     </div>
                                 </div>
                             </div>
-
-                          
                         @endif
 
-                        <button type="button" class="btn btn-primary btn-lg btn-block mt-4 mb-4" id="clear-filters">Temizle</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-block mt-4 mb-4"
+                            id="clear-filters">Temizle</button>
 
                     </div>
                 </aside>
                 <div class="col-lg-9 col-md-12 blog-pots">
-                    <section class="headings-2 pt-0">
+                    <section class="headings-2 pt-0 d-flex justify-content-between align-items-center">
                         <div class="brand-head" style="padding-top:0">
                             <div class="brands-square" style="position: relative;top:0;left:0">
                                 <p class="brand-name"><a href="{{ url('/') }}" style="color:black">Anasayfa</a></p>
@@ -293,114 +289,21 @@
                                 </p>
                             </div>
                         </div>
+                        <div id="sorting-options">
+                            <select id="sort-select" class="form-control">
+                                <option value="sort">Sırala</option>
+                                <option value="price-asc">Fiyata göre (Önce en düşük)</option>
+                                <option value="price-desc">Fiyata göre (Önce en yüksek)</option>
+                                <option value="date-asc">Tarihe göre (Önce en eski ilan)</option>
+                                <option value="date-desc">Tarihe göre (Önce en yeni ilan)</option>
+                            </select>
+                        </div>
+
+
                     </section>
                     <section class="popular-places home18 mt-3" style="padding-top:0 !important">
                         <div class="container">
-
                             <div class="row pp-row">
-                                {{--
-                                @if (count($secondhandHousings) == 0)
-                                    @forelse($projects as $project)
-                                        <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
-                                            <!-- Image Box -->
-                                            <a href="{{ route('project.detail', $project->slug) }}"
-                                                class="img-box hover-effect">
-                                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                                    class="img-fluid w100" alt="">
-                                            </a>
-                                        </div>
-                                    @empty
-                                        <div class="col-sm-12">
-                                            <strong>Bu kategoriye ait proje bulunamadı.</strong>
-                                        </div>
-                                    @endforelse
-                                @else
-                                    <div class="slick-agentsx row mt-3">
-                                        @foreach ($secondhandHousings as $housing)
-                                            <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
-                                                <div class="landscapes">
-                                                    <div class="project-single">
-                                                        <div class="project-inner project-head">
-                                                            <div class="homes">
-                                                                <!-- homes img -->
-                                                                <a href="single-property-1.html" class="homes-img">
-                                                                    <img src="{{ asset('housing_images/' . getImage($housing, 'image')) }}"
-                                                                        alt="{{ $housing->housing_type_title }}"
-                                                                        class="img-responsive">
-                                                                </a>
-                                                            </div>
-                                                            <div class="button-effect">
-                                                                <!-- Örneğin Kalp İkonu -->
-                                                                <a href="#" class="btn toggle-favorite"
-                                                                    data-housing-id="{{ $housing->id }}">
-                                                                    <i class="fa fa-heart"></i>
-                                                                </a>
-
-                                                            </div>
-                                                        </div>
-                                                        <!-- homes content -->
-                                                        <div class="homes-content p-3" style="padding:20px !important">
-                                                            <!-- homes address -->
-                                                            <h3><a
-                                                                    href="{{ route('housing.show', $housing->id) }}">{{ $housing->title }}</a>
-                                                            </h3>
-                                                            <p class="homes-address mb-3">
-                                                                <a href="{{ route('housing.show', $housing->id) }}">
-                                                                    <i
-                                                                        class="fa fa-map-marker"></i><span>{{ $housing->address }}</span>
-                                                                </a>
-                                                            </p>
-                                                            <!-- homes List -->
-                                                            <ul class="homes-list clearfix pb-0"
-                                                                style="display: flex;justify-content:space-between">
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="flaticon-bed mr-2" aria-hidden="true"></i>
-                                                                    <span>{{ $housing->housing_type->title }} </span>
-                                                                </li>
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="flaticon-bathtub mr-2"
-                                                                        aria-hidden="true"></i>
-                                                                    <span>{{ getData($housing, 'room_count') }}</span>
-                                                                </li>
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="flaticon-square mr-2"
-                                                                        aria-hidden="true"></i>
-                                                                    <span>{{ getData($housing, 'squaremeters') }} m2</span>
-                                                                </li>
-                                                            </ul>
-                                                            <ul class="homes-list clearfix pb-0"
-                                                                style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                                <li style="font-size: large; font-weight: 700;">
-                                                                    {{ getData($housing, 'price') }}TL</li>
-
-                                                                <li style="display: flex; justify-content: center;">
-                                                                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
-                                                                </li>
-                                                            </ul>
-                                                            <ul class="homes-list clearfix pb-0"
-                                                                style="display: flex; justify-content: center;margin-top:20px !important;">
-                                                                <button class="addToCart"
-                                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                                    data-type='housing'
-                                                                    data-id='{{ $housing->id }}'>Sepete
-                                                                    Ekle</button>
-
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-
-
-
-
-
-
-
-                                    </div>
-                                @endif
-                                --}}
                             </div>
                         </div>
                     </section>
@@ -415,7 +318,6 @@
 
 @section('scripts')
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script></script>
     <script>
         'use strict';
         $('#city').on('change', function() {
@@ -435,7 +337,19 @@
             });
         });
 
+
+
         function drawList(filters = {}) {
+            function formatDate(rawDate) {
+                const options = {
+                    month: 'long',
+                    day: 'numeric'
+                };
+                const date = new Date(rawDate);
+                return new Intl.DateTimeFormat('tr-TR', options).format(date);
+            }
+
+
             $.ajax({
                 method: "POST",
                 url: "{{ route($secondhandHousings ? 'get-rendered-secondhandhousings' : 'get-rendered-projects') }}",
@@ -445,18 +359,15 @@
                 success: function(response) {
                     $('.pp-row').empty();
 
-                    if (response.length > 0)
-                    {
+                    if (response.length > 0) {
                         response.forEach((res) => {
                             @if (!$secondhandHousings)
                                 $('.pp-row').append(
                                     `
                                     <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
                                         <!-- Image Box -->
-                                        <a href="${res.url}"
-                                            class="img-box hover-effect">
-                                            <img src="${res.image}"
-                                                class="img-fluid w100" alt="">
+                                        <a href="${res.url}" class="img-box hover-effect">
+                                            <img src="${res.image}" class="img-fluid w100" alt="">
                                         </a>
                                     </div>
                                     `
@@ -471,67 +382,57 @@
                                                     <div class="homes">
                                                         <!-- homes img -->
                                                         <a href="single-property-1.html" class="homes-img">
-                                                            <img src="${res.image}"
-                                                                alt="${res.housing_type_title}"
-                                                                class="img-responsive">
+                                                            <img src="${res.image}" alt="${res.housing_type_title}"
+                                                                 class="img-responsive">
                                                         </a>
                                                     </div>
                                                     <div class="button-effect">
                                                         <!-- Örneğin Kalp İkonu -->
                                                         <a href="" class="btn toggle-favorite ${res.in_favorites ? 'bg-white' : ''}"
-                                                            data-housing-id="${res.id}">
+                                                           data-housing-id="${res.id}">
                                                             <i class="fa fa-heart ${res.in_favorites ? 'text-danger' : ''}"></i>
                                                         </a>
-
                                                     </div>
                                                 </div>
                                                 <!-- homes content -->
                                                 <div class="homes-content p-3" style="padding:20px !important">
                                                     <!-- homes address -->
-                                                    <h3><a
-                                                            href="${res.housing_url}">${res.title}</a>
-                                                    </h3>
+                                                    <h3><a href="${res.housing_url}">${res.title}</a></h3>
                                                     <p class="homes-address mb-3">
                                                         <a href="${res.housing_url}">
-                                                            <i
-                                                                class="fa fa-map-marker"></i><span>${res.housing_address}</span>
+                                                            <i class="fa fa-map-marker"></i><span>${res.housing_address}</span>
                                                         </a>
                                                     </p>
                                                     <!-- homes List -->
-                                                    <ul class="homes-list clearfix pb-0"
-                                                        style="display: flex;justify-content:space-between">
+                                                    <ul class="homes-list clearfix pb-0" style="display: flex;justify-content:space-between">
                                                         <li class="sude-the-icons" style="width:auto !important">
                                                             <i class="flaticon-bed mr-2" aria-hidden="true"></i>
                                                             <span>${res.housing_type.title} </span>
                                                         </li>
                                                         <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="flaticon-bathtub mr-2"
-                                                                aria-hidden="true"></i>
+                                                            <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
                                                             <span>${res.housing_type.room_count}</span>
                                                         </li>
                                                         <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="flaticon-square mr-2"
-                                                                aria-hidden="true"></i>
+                                                            <i class="flaticon-square mr-2" aria-hidden="true"></i>
                                                             <span>${res.housing_type.squaremeters} m2</span>
                                                         </li>
                                                     </ul>
-                                                    <ul class="homes-list clearfix pb-0"
-                                                        style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
                                                         <li style="font-size: large; font-weight: 700;">
-                                                            ${res.housing_type.price}TL</li>
-
+                                                            ${res.housing_type.price}TL
+                                                        </li>
                                                         <li style="display: flex; justify-content: center;">
-                                                            ${res.created_at}
+                                                            ${formatDate(res.created_at)}
+
                                                         </li>
                                                     </ul>
-                                                    <ul class="homes-list clearfix pb-0"
-                                                        style="display: flex; justify-content: center;margin-top:20px !important;">
+                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;margin-top:20px !important;">
                                                         <button class="addToCart ${res.in_cart ? 'bg-success' : ''}"
-                                                            style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                            data-type='housing'
-                                                            data-id='${res.id}'>Sepete
-                                                            Ekle</button>
-
+                                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
+                                                                data-type='housing'
+                                                                data-id='${res.id}'>Sepete Ekle
+                                                        </button>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -541,9 +442,7 @@
                                 );
                             @endif
                         });
-                    }
-                    else
-                    {
+                    } else {
                         $('.pp-row').html(`
                         <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
                         `);
@@ -552,15 +451,41 @@
             });
         }
 
+        // Sıralama seçenekleri için
+        $('#sort-select').on('change', function() {
+            var selectedValue = $(this).val();
+            var filters = {};
+
+            switch (selectedValue) {
+                case 'price-asc':
+                    filters.sort = 'price-asc';
+                    break;
+                case 'price-desc':
+                    filters.sort = 'price-desc';
+                    break;
+                case 'date-asc':
+                    filters.sort = 'date-asc';
+                    break;
+                case 'date-desc':
+                    filters.sort = 'date-desc';
+                    break;
+                default:
+                    // Varsayılan sıralama seçeneği burada belirtilebilir.
+                    break;
+            }
+
+            drawList(filters);
+        });
+
+
+
         $(function() {
             drawList();
 
-            $('.filter-now').on('change', function()
-             {
+            $('.filter-now').on('change', function() {
                 let room_count = [];
                 $('#room_count_field .mt-4 .mb-2').each(function() {
                     let i = $(this).find('.form-check-input');
-
                     if (i.is(':checked')) {
                         room_count.push(i.attr('id').replace('_', '+'));
                     }
@@ -569,7 +494,6 @@
                 let post_date;
                 $('#post_date_field .mb-2').each(function() {
                     let i = $(this).find('input[type=radio]');
-
                     if (i.is(':checked')) {
                         post_date = i.attr('id');
                         return false;
@@ -579,7 +503,6 @@
                 let from_owner;
                 $('#from_owner_field .mb-2').each(function() {
                     let i = $(this).find('input[type=radio]');
-
                     if (i.is(':checked')) {
                         from_owner = i.attr('id');
                         return false;
@@ -601,30 +524,29 @@
                 });
             });
 
-            $('#clear-filters').on('click', function()
-            {
+            $('#clear-filters').on('click', function() {
                 $('#city').val('#');
                 $('#county').val('#');
                 @if ($secondhandHousings)
-                $('#price-min').val('');
-                $('#price-max').val('');
-                $('#msq-min').val('');
-                $('#msq-max').val('');
+                    $('#price-min').val('');
+                    $('#price-max').val('');
+                    $('#msq-min').val('');
+                    $('#msq-max').val('');
 
-                $('#room_count_field .mt-4 .mb-2').each(function() {
-                    let i = $(this).find('.form-check-input');
-                    i.prop('checked', false);
-                });
+                    $('#room_count_field .mt-4 .mb-2').each(function() {
+                        let i = $(this).find('.form-check-input');
+                        i.prop('checked', false);
+                    });
 
-                $('#post_date_field .mb-2').each(function() {
-                    let i = $(this).find('input[type=radio]');
-                    i.prop('checked', false);
-                });
+                    $('#post_date_field .mb-2').each(function() {
+                        let i = $(this).find('input[type=radio]');
+                        i.prop('checked', false);
+                    });
 
-                $('#from_owner_field .mb-2').each(function() {
-                    let i = $(this).find('input[type=radio]');
-                    i.prop('checked', false);
-                });
+                    $('#from_owner_field .mb-2').each(function() {
+                        let i = $(this).find('input[type=radio]');
+                        i.prop('checked', false);
+                    });
                 @endif
 
                 drawList();
@@ -633,6 +555,17 @@
     </script>
 @endsection
 
+
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        .filter-now {
+            display: block;
+            width: 100%;
+        }
+
+        .widget-boxed {
+            padding: 20px;
+        }
+    </style>
 @endsection
