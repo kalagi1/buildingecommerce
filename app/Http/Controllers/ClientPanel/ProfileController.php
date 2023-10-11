@@ -16,7 +16,7 @@ class ProfileController extends Controller
 {
     function verify()
     {
-        return view('clientPanel.home.verification');
+        return view('client.client-panel.home.verification');
     }
 
     function verifyAccount(Request $request)

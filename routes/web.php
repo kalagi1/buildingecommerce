@@ -121,10 +121,17 @@ Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name
 Route::post('/admin/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
 Route::get('/admin/logout', [AdminLoginController::class, "logout"])->name('admin.logout');
 
-Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
-Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
-Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
-Route::get('/cikis-yap', [ClientLoginController::class, "logout"])->name('client.logout');
+Route::middleware('guest')->group(function()
+{
+    Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
+    Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
+    Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');    
+});
+
+Route::middleware('auth')->group(function()
+{
+    Route::get('/cikis-yap', [ClientLoginController::class, "logout"])->name('client.logout');
+});
 
 Route::get('/auth/google', [AuthLoginController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [AuthLoginController::class, 'handleGoogleCallback'])->name('auth.google.callback');
