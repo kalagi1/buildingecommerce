@@ -483,9 +483,9 @@
                                                     </div>
                                                     <div class="button-effect">
                                                         <!-- Örneğin Kalp İkonu -->
-                                                        <a href="" class="btn toggle-favorite"
+                                                        <a href="" class="btn toggle-favorite ${res.in_favorites ? 'bg-white' : ''}"
                                                             data-housing-id="${res.id}">
-                                                            <i class="fa fa-heart"></i>
+                                                            <i class="fa fa-heart ${res.in_favorites ? 'text-danger' : ''}"></i>
                                                         </a>
 
                                                     </div>
@@ -531,7 +531,7 @@
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0"
                                                         style="display: flex; justify-content: center;margin-top:20px !important;">
-                                                        <button class="addToCart"
+                                                        <button class="addToCart ${res.in_cart ? 'bg-success' : ''}"
                                                             style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
                                                             data-type='housing'
                                                             data-id='${res.id}'>Sepete
