@@ -66,6 +66,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
@@ -703,7 +704,11 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
 });
 
-Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client']], function () {
+Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client', 'checkAccountStatus']], function () {
+
+    Route::get('/verify', [ClientPanelProfileController::class, 'verify'])->name('account-verification');
+    Route::post('/verify', [ClientPanelProfileController::class, 'verifyAccount'])->name('verify-account');
+    Route::get('/get-document', [ClientPanelProfileController::class, 'getIdentityDocument'])->name('get.identity-document');
 
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
