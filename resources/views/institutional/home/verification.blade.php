@@ -32,6 +32,12 @@
                         @else
                             <span class="crossmark"></span> <span style="color:red">Reddedildi</span>
                         @endif
+
+                        @if (!is_null(auth()->user()->tax_document))
+                        <div>
+                        <a href="{{ route('institutional.get.tax-document') }}" class="btn btn-primary">Vergi Levhasını Gör</a>
+                        </div>
+                        @endif
                     </label>
                     <input type="file" name="vergi_levhasi" id="vergi_levhasi"
                         class="form-control {{ auth()->user()->tax_document_approve ? ' green-border' : 'red-border' }}"
@@ -46,6 +52,12 @@
                         @else
                             <span class="crossmark"></span> <span style="color:red">Reddedildi</span>
                         @endif
+
+                        @if (!is_null(auth()->user()->record_document))
+                        <div>
+                        <a href="{{ route('institutional.get.record-document') }}" class="btn btn-primary">Sicil Belgesini Gör</a>
+                        </div>
+                        @endif
                     </label>
                     <input type="file" name="sicil_belgesi" id="sicil_belgesi"
                         class="form-control {{ auth()->user()->record_document_approve ? ' green-border' : 'red-border' }}"
@@ -57,6 +69,12 @@
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
                         @else
                             <span class="crossmark"></span> <span style="color:red">Reddedildi</span>
+                        @endif
+
+                        @if (!is_null(auth()->user()->identity_document))
+                        <div>
+                        <a href="{{ route('institutional.get.identity-document') }}" class="btn btn-primary">Kimlik Belgesini Gör</a>
+                        </div>
                         @endif
                     </label>
                     <input type="file" name="kimlik_belgesi" id="kimlik_belgesi"
@@ -74,6 +92,11 @@
                                 <span class="crossmark"></span> <span style="color:red">Reddedildi</span>
                             @endif
                         </label>
+                        @if (!is_null(auth()->user()->company_document))
+                        <div>
+                        <a href="{{ route('institutional.get.company-document') }}" class="btn btn-primary mb-2">İnşaat Belgesini Gör</a>
+                        </div>
+                        @endif
                         <input type="file" name="insaat_belgesi" id="insaat_belgesi"
                             class="form-control {{ auth()->user()->company_document_approve ? ' green-border' : 'red-border' }}"
                             accept=".png,.jpeg,.jpg"{{ auth()->user()->company_document_approve == 0 ? ' required' : null }} />

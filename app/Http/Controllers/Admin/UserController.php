@@ -57,6 +57,9 @@ class UserController extends Controller
     {
         $tax_document = $user->tax_document;
 
+        if (is_null($tax_document))
+            die('Belge yok.');
+
         $file = file_get_contents(storage_path("/app/{$tax_document}"));
         preg_match('@\.(\w+)$@', $tax_document, $match);
         $extension = $match[1] ?? 'png';
@@ -68,6 +71,9 @@ class UserController extends Controller
     public function getRecordDocument(User $user)
     {
         $record_document = $user->record_document;
+
+        if (is_null($record_document))
+            die('Belge yok.');
 
         $file = file_get_contents(storage_path("/app/{$record_document}"));
         preg_match('@\.(\w+)$@', $record_document, $match);
@@ -81,6 +87,9 @@ class UserController extends Controller
     {
         $identity_document = $user->identity_document;
 
+        if (is_null($identity_document))
+            die('Belge yok.');
+
         $file = file_get_contents(storage_path("/app/{$identity_document}"));
         preg_match('@\.(\w+)$@', $identity_document, $match);
         $extension = $match[1] ?? 'png';
@@ -92,6 +101,9 @@ class UserController extends Controller
     public function getCompanyDocument(User $user)
     {
         $company_document = $user->company_document;
+
+        if (is_null($company_document))
+            die('Belge yok.');
 
         $file = file_get_contents(storage_path("/app/{$company_document}"));
         preg_match('@\.(\w+)$@', $company_document, $match);
@@ -115,7 +127,7 @@ class UserController extends Controller
         );
 
         $company = [];
-        if ($request->input('company_document_approve'))
+        if (!is_null($request->input('company_document_approve')))
             $company =
             [
                 'company_document_approve' => $request->input('company_document_approve'),
@@ -133,6 +145,12 @@ class UserController extends Controller
         );
 
         return redirect()->back();
+    }
+
+    function showCorporateAccount($id)
+    {
+        $user_e = User::findOrFail($id);
+        return view('admin.users.showCorporateStatus', compact('user_e'));
     }
 
     public function edit($id)

@@ -31,54 +31,6 @@
                         @endif
                         <div class="card-body p-0">
                             <div class="p-4">
-                                <form action="{{route('admin.update-corporate-status', ['user' => $user_e->id])}}" method="POST" class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            @csrf
-                                            <label>Belge Onay Durumu:</label>
-                                            <img src="{{ route('admin.get.tax-document', ['user' => $user_e->id]) }}" width="100%" height="480px" class="rounded-3" style="object-fit: contain;"/>
-                                            <select name="tax_document_approve" class="form-control">
-                                                <option value="0"{{$user_e->tax_document_approve == 0 ? ' selected' : null}}>Vergi Levhasını Onaylamıyorum</option>
-                                                <option value="1"{{$user_e->tax_document_approve == 1 ? ' selected' : null}}>Vergi Levhasını Onaylıyorum</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <img src="{{ route('admin.get.record-document', ['user' => $user_e->id]) }}" width="100%" height="480px" class="rounded-3" style="object-fit: contain;"/>
-                                            <select name="record_document_approve" class="form-control">
-                                                <option value="0"{{$user_e->record_document_approve == 0 ? ' selected' : null}}>Sicil Belgesini Onaylamıyorum</option>
-                                                <option value="1"{{$user_e->record_document_approve == 1 ? ' selected' : null}}>Sicil Belgesini Onaylıyorum</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <img src="{{ route('admin.get.identity-document', ['user' => $user_e->id]) }}" width="100%" height="480px" class="rounded-3" style="object-fit: contain;"/>
-                                            <select name="identity_document_approve" class="form-control">
-                                                <option value="0"{{$user_e->identity_document_approve == 0 ? ' selected' : null}}>Kimlik Belgesini Onaylamıyorum</option>
-                                                <option value="1"{{$user_e->identity_document_approve == 1 ? ' selected' : null}}>Kimlik Belgesini Onaylıyorum</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <img src="{{ route('admin.get.company-document', ['user' => $user_e->id]) }}" width="100%" height="480px" class="rounded-3" style="object-fit: contain;"/>
-                                            <select name="company_document_approve" class="form-control">
-                                                <option value="0"{{$user_e->company_document_approve == 0 ? ' selected' : null}}>İnşaat Belgesini Onaylamıyorum</option>
-                                                <option value="1"{{$user_e->company_document_approve == 1 ? ' selected' : null}}>İnşaat Belgesini Onaylıyorum</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="note">Not:</label>
-                                            <textarea name="note" id="note" rows="5" class="form-control">{{$user_e->corporate_account_note}}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="status">Durum:</label>
-                                            <select name="status" id="status" class="form-control">
-                                                <option value="0"{{$user_e->corporate_account_status == 0 ? ' selected' : null}}>Onaylanmadı</option>
-                                                <option value="1"{{$user_e->corporate_account_status == 1 ? ' selected' : null}}>Onaylandı</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary btn-lg">Firma Onayını Güncelle</button>
-                                        </div>
-                                    </div>
-                                </form>
                                 <form class="row g-3 needs-validation" novalidate="" method="POST"
                                     action="{{ route('admin.users.update', $user_e->id) }}">
                                     @csrf
