@@ -378,9 +378,16 @@
         .product-review-section-wrapper__wrapper__product-rating-filters {
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;
             margin-left: 20px;
             margin-top: 10px;
             align-items: center margin-right: 20px;
+        }
+
+        @media (max-width:768px) {
+            .product-rating-count-container {
+                width: 45% !important;
+            }
         }
 
         .product-rating-count-container {

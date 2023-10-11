@@ -263,6 +263,7 @@ Version      : 1.2
     }
 
     .section-title {
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
         padding-left: 35px;
@@ -8505,11 +8506,6 @@ Version      : 1.2
         color: #446BB6;
     }
 
-    .userIcon,
-    .heartIcon {
-        padding-right: 30px;
-    }
-
     @media screen and (max-width: 991px) {
         .homepage-12 .rld-single-input input {
             width: 200px;
@@ -8558,7 +8554,11 @@ Version      : 1.2
         border-bottom: none !important;
         margin-top: 20px;
     }
-
+    
+    .userIcon,
+    .heartIcon {
+        margin-right: 15px;
+    }
     @media screen and (max-width: 768px) {
         #header-container .container {
             margin-bottom: 1rem !important;
@@ -8574,10 +8574,7 @@ Version      : 1.2
             width: 100%;
         }
 
-        .userIcon,
-        .heartIcon {
-            margin-right: 15px;
-        }
+      
 
         .header-widget a svg {
             color: black;

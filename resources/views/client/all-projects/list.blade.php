@@ -270,10 +270,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary btn-lg btn-block mt-4 mb-4" id="clear-filters">Temizle</button>
 
                           
                         @endif
+
+                        <button type="button" class="btn btn-primary btn-lg btn-block mt-4 mb-4" id="clear-filters">Temizle</button>
+
                     </div>
                 </aside>
                 <div class="col-lg-9 col-md-12 blog-pots">

@@ -186,10 +186,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="input-group search d-xl-none d-lg-none d-flex">
-                        <input type="text" placeholder="Ara ..">
-                        <i class="fa fa-search"></i>
-                    </div>
+                   
                 </div>
                 <div class="header-bottom d-xl-block d-none d-lg-block">
                     <nav id="navigation" class="style-1">
