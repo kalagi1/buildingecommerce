@@ -151,11 +151,16 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
     Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
 
-    Route::get('get/tax-document/{user}', [UserController::class, 'getTaxDocument'])->name('get.tax-document');
-    Route::get('get/record-document/{user}', [UserController::class, 'getRecordDocument'])->name('get.record-document');
-    Route::get('get/identity-document/{user}', [UserController::class, 'getIdentityDocument'])->name('get.identity-document');
-    Route::get('get/company-document/{user}', [UserController::class, 'getCompanyDocument'])->name('get.company-document');
-    Route::post('update-corporate-status/{user}', [UserController::class, 'updateCorporateStatus'])->name('update-corporate-status');
+    Route::middleware(['checkPermission:showCorporateStatus'])->group(function()
+    {
+        Route::get('get/tax-document/{user}', [UserController::class, 'getTaxDocument'])->name('get.tax-document');
+        Route::get('get/record-document/{user}', [UserController::class, 'getRecordDocument'])->name('get.record-document');
+        Route::get('get/identity-document/{user}', [UserController::class, 'getIdentityDocument'])->name('get.identity-document');
+        Route::get('get/company-document/{user}', [UserController::class, 'getCompanyDocument'])->name('get.company-document');
+        Route::post('update-corporate-status/{user}', [UserController::class, 'updateCorporateStatus'])->name('update-corporate-status');
+        
+        Route::get('show-corporate-account/{user}', [UserController::class, 'showCorporateAccount'])->name('user.show-corporate-account');
+    });
 
     Route::middleware(['checkPermission:GetHousingTypeForm'])->group(function () {
         Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
@@ -540,6 +545,11 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
     Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');
+
+    Route::get('get/tax-document', [InstitutionalUserController::class, 'getTaxDocument'])->name('get.tax-document');
+    Route::get('get/record-document', [InstitutionalUserController::class, 'getRecordDocument'])->name('get.record-document');
+    Route::get('get/identity-document', [InstitutionalUserController::class, 'getIdentityDocument'])->name('get.identity-document');
+    Route::get('get/company-document', [InstitutionalUserController::class, 'getCompanyDocument'])->name('get.company-document');
 
     // Offers - Kampanyalar
     Route::middleware(['checkPermission:CreateOffer'])->group(function () {

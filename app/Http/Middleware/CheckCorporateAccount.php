@@ -15,7 +15,11 @@ class CheckCorporateAccount
     private $whitelist = 
     [
         'institutional.corporate-account-verification', 
-        'institutional.verify-account'
+        'institutional.verify-account',
+        'institutional.get.tax-document',
+        'institutional.get.record-document',
+        'institutional.get.identity-document',
+        'institutional.get.company-document',
     ];
 
     /**
