@@ -211,7 +211,7 @@
                                 <div class="mt-4">
                                     <div class="mb-2 d-flex align-items-center w-100">
                                         <input type="radio" name="post_date" id="recent_day" class="filter-now" />
-                                        <label for="recent_day" class="form-check-label w-100 small form-control">Son 1 Gün
+                                        <label for="recent_day" class="form-check-label w-100 small ">Son 1 Gün
                                             İçinde</label>
                                     </div>
                                     <div class="mb-2 d-flex align-items-center w-100">

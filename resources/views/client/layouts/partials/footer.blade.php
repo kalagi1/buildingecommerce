@@ -390,7 +390,6 @@
         checkProjectFavorites();
         var cart = @json(session('cart', []));
         // Sayfa yüklendiğinde düğme metnini güncellemek için bir işlev çağırın
-        updateCartButton();
 
         // Tüm "Sepete Ekle" düğmelerini seçin
         var addToCartButtons = document.querySelectorAll(".addToCart");
@@ -399,7 +398,7 @@
             if (event.target && event.target.classList.contains('addToCart')) {
                 var button = event.target;
                 var productId = button.getAttribute("data-id");
-                console.log(productId);
+
                 var project = null;
                 if (button.getAttribute("data-type") == "project") {
                     project = button.getAttribute("data-project");
@@ -467,6 +466,9 @@
                 }
             }
         });
+
+
+        updateCartButton();
 
         function updateCartButton() {
             var addToCartButtons = document.querySelectorAll(".addToCart");
