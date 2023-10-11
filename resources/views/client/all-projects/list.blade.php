@@ -113,7 +113,7 @@
                                             </svg>
                                         </span>
                                     </div>
-                                    <div class="mt-4 row price-inputs">
+                                    <div class="mt-4 row price-inputs" style="display: none;">
                                         <div class="col-6">
                                             <input type="number" id="price-min" min="0" placeholder="Min"
                                                 class="filter-now form-control">
@@ -140,7 +140,7 @@
                                             </svg>
                                         </span>
                                     </div>
-                                    <div class="mt-4 row">
+                                    <div class="mt-4 row" style="display: none;">
                                         <div class="col-6">
                                             <input type="number" id="msq-min" min="0" placeholder="Min"
                                                 class="filter-now form-control">
@@ -164,7 +164,7 @@
                                         </svg>
                                     </span>
                                 </div>
-                                <div class="mt-4">
+                                <div class="mt-4" style="display: none;">
                                     <div class="mb-2 d-flex align-items-center w-100">
                                         <input type="checkbox" class="form-check-input filter-now form-control" id="1_1" />
                                         <label for="1_1" class="form-check-label w-100 ml-4">1+1</label>
@@ -208,7 +208,7 @@
                                         </svg>
                                     </span>
                                 </div>
-                                <div class="mt-4">
+                                <div class="mt-4" style="display: none;">
                                     <div class="mb-2 d-flex align-items-center w-100">
                                         <input type="radio" name="post_date" id="recent_day" class="filter-now" />
                                         <label for="recent_day" class="form-check-label w-100 small ">Son 1 Gün
@@ -249,7 +249,7 @@
                                         </svg>
                                     </span>
                                 </div>
-                                <div class="mt-4">
+                                <div class="mt-4" style="display: none;">
                                     <div class="mb-2 d-flex align-items-center w-100">
                                         <input type="radio" name="whose" id="from_owner" class="filter-now" />
                                         <label for="from_owner" class="form-check-label w-100 small">Sahibinden</label>
@@ -267,6 +267,16 @@
                                     <div class="mb-2 d-flex align-items-center w-100">
                                         <input type="radio" name="whose" id="from_bank" class="filter-now" />
                                         <label for="from_bank" class="form-check-label w-100 small">Bankadan</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget-boxed main-search-field mt-4">
+                                <div class="trip-search">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button type="button" class="btn btn-primary btn-lg btn-block" id="clear-filters">Temizle</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -440,100 +450,109 @@
                 success: function(response) {
                     $('.pp-row').empty();
 
-                    response.forEach((res) => {
-                        @if (!$secondhandHousings)
-                            $('.pp-row').append(
-                                `
-                                <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
-                                    <!-- Image Box -->
-                                    <a href="${res.url}"
-                                        class="img-box hover-effect">
-                                        <img src="${res.image}"
-                                            class="img-fluid w100" alt="">
-                                    </a>
-                                </div>
-                                `
-                            );
-                        @else
-                            $('.pp-row').append(
-                                `
-                                <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
-                                    <div class="landscapes">
-                                        <div class="project-single">
-                                            <div class="project-inner project-head">
-                                                <div class="homes">
-                                                    <!-- homes img -->
-                                                    <a href="single-property-1.html" class="homes-img">
-                                                        <img src="${res.image}"
-                                                            alt="${res.housing_type_title}"
-                                                            class="img-responsive">
-                                                    </a>
+                    if (response.length > 0)
+                    {
+                        response.forEach((res) => {
+                            @if (!$secondhandHousings)
+                                $('.pp-row').append(
+                                    `
+                                    <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
+                                        <!-- Image Box -->
+                                        <a href="${res.url}"
+                                            class="img-box hover-effect">
+                                            <img src="${res.image}"
+                                                class="img-fluid w100" alt="">
+                                        </a>
+                                    </div>
+                                    `
+                                );
+                            @else
+                                $('.pp-row').append(
+                                    `
+                                    <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
+                                        <div class="landscapes">
+                                            <div class="project-single">
+                                                <div class="project-inner project-head">
+                                                    <div class="homes">
+                                                        <!-- homes img -->
+                                                        <a href="single-property-1.html" class="homes-img">
+                                                            <img src="${res.image}"
+                                                                alt="${res.housing_type_title}"
+                                                                class="img-responsive">
+                                                        </a>
+                                                    </div>
+                                                    <div class="button-effect">
+                                                        <!-- Örneğin Kalp İkonu -->
+                                                        <a href="" class="btn toggle-favorite"
+                                                            data-housing-id="${res.id}">
+                                                            <i class="fa fa-heart"></i>
+                                                        </a>
+
+                                                    </div>
                                                 </div>
-                                                <div class="button-effect">
-                                                    <!-- Örneğin Kalp İkonu -->
-                                                    <a href="" class="btn toggle-favorite"
-                                                        data-housing-id="${res.id}">
-                                                        <i class="fa fa-heart"></i>
-                                                    </a>
+                                                <!-- homes content -->
+                                                <div class="homes-content p-3" style="padding:20px !important">
+                                                    <!-- homes address -->
+                                                    <h3><a
+                                                            href="${res.housing_url}">${res.title}</a>
+                                                    </h3>
+                                                    <p class="homes-address mb-3">
+                                                        <a href="${res.housing_url}">
+                                                            <i
+                                                                class="fa fa-map-marker"></i><span>${res.housing_address}</span>
+                                                        </a>
+                                                    </p>
+                                                    <!-- homes List -->
+                                                    <ul class="homes-list clearfix pb-0"
+                                                        style="display: flex;justify-content:space-between">
+                                                        <li class="sude-the-icons" style="width:auto !important">
+                                                            <i class="flaticon-bed mr-2" aria-hidden="true"></i>
+                                                            <span>${res.housing_type.title} </span>
+                                                        </li>
+                                                        <li class="sude-the-icons" style="width:auto !important">
+                                                            <i class="flaticon-bathtub mr-2"
+                                                                aria-hidden="true"></i>
+                                                            <span>${res.housing_type.room_count}</span>
+                                                        </li>
+                                                        <li class="sude-the-icons" style="width:auto !important">
+                                                            <i class="flaticon-square mr-2"
+                                                                aria-hidden="true"></i>
+                                                            <span>${res.housing_type.squaremeters} m2</span>
+                                                        </li>
+                                                    </ul>
+                                                    <ul class="homes-list clearfix pb-0"
+                                                        style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                        <li style="font-size: large; font-weight: 700;">
+                                                            ${res.housing_type.price}TL</li>
 
+                                                        <li style="display: flex; justify-content: center;">
+                                                            ${res.created_at}
+                                                        </li>
+                                                    </ul>
+                                                    <ul class="homes-list clearfix pb-0"
+                                                        style="display: flex; justify-content: center;margin-top:20px !important;">
+                                                        <button class="addToCart"
+                                                            style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
+                                                            data-type='housing'
+                                                            data-id='${res.id}'>Sepete
+                                                            Ekle</button>
+
+                                                    </ul>
                                                 </div>
-                                            </div>
-                                            <!-- homes content -->
-                                            <div class="homes-content p-3" style="padding:20px !important">
-                                                <!-- homes address -->
-                                                <h3><a
-                                                        href="${res.housing_url}">${res.title}</a>
-                                                </h3>
-                                                <p class="homes-address mb-3">
-                                                    <a href="${res.housing_url}">
-                                                        <i
-                                                            class="fa fa-map-marker"></i><span>${res.housing_address}</span>
-                                                    </a>
-                                                </p>
-                                                <!-- homes List -->
-                                                <ul class="homes-list clearfix pb-0"
-                                                    style="display: flex;justify-content:space-between">
-                                                    <li class="sude-the-icons" style="width:auto !important">
-                                                        <i class="flaticon-bed mr-2" aria-hidden="true"></i>
-                                                        <span>${res.housing_type.title} </span>
-                                                    </li>
-                                                    <li class="sude-the-icons" style="width:auto !important">
-                                                        <i class="flaticon-bathtub mr-2"
-                                                            aria-hidden="true"></i>
-                                                        <span>${res.housing_type.room_count}</span>
-                                                    </li>
-                                                    <li class="sude-the-icons" style="width:auto !important">
-                                                        <i class="flaticon-square mr-2"
-                                                            aria-hidden="true"></i>
-                                                        <span>${res.housing_type.squaremeters} m2</span>
-                                                    </li>
-                                                </ul>
-                                                <ul class="homes-list clearfix pb-0"
-                                                    style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                    <li style="font-size: large; font-weight: 700;">
-                                                        ${res.housing_type.price}TL</li>
-
-                                                    <li style="display: flex; justify-content: center;">
-                                                        ${res.created_at}
-                                                    </li>
-                                                </ul>
-                                                <ul class="homes-list clearfix pb-0"
-                                                    style="display: flex; justify-content: center;margin-top:20px !important;">
-                                                    <button class="addToCart"
-                                                        style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                        data-type='housing'
-                                                        data-id='${res.id}'>Sepete
-                                                        Ekle</button>
-
-                                                </ul>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                `
-                            );
-                        @endif
-                    });
+                                    `
+                                );
+                            @endif
+                        });
+                    }
+                    else
+                    {
+                        $('.pp-row').html(`
+                        <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
+                        `);
+                    }
                 }
             });
         }
@@ -541,7 +560,8 @@
         $(function() {
             drawList();
 
-            $('.filter-now').on('change', function() {
+            $('.filter-now').on('change', function()
+             {
                 let room_count = [];
                 $('#room_count_field .mt-4 .mb-2').each(function() {
                     let i = $(this).find('.form-check-input');
@@ -584,6 +604,35 @@
                         from_owner,
                     @endif
                 });
+            });
+
+            $('#clear-filters').on('click', function()
+            {
+                $('#city').val('#');
+                $('#county').val('#');
+                @if ($secondhandHousings)
+                $('#price-min').val('');
+                $('#price-max').val('');
+                $('#msq-min').val('');
+                $('#msq-max').val('');
+
+                $('#room_count_field .mt-4 .mb-2').each(function() {
+                    let i = $(this).find('.form-check-input');
+                    i.prop('checked', false);
+                });
+
+                $('#post_date_field .mb-2').each(function() {
+                    let i = $(this).find('input[type=radio]');
+                    i.prop('checked', false);
+                });
+
+                $('#from_owner_field .mb-2').each(function() {
+                    let i = $(this).find('input[type=radio]');
+                    i.prop('checked', false);
+                });
+                @endif
+
+                drawList();
             });
         });
     </script>
