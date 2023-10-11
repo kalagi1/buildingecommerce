@@ -236,7 +236,7 @@
                     </div>
 
                     <span class="product-review-section-wrapper__wrapper__filter_title"> Değerlendirmeler</span>
-                    <div class="flex flex-col gap-6 mt-3" style="padding: 0 50px">
+                    <div class="flex flex-col gap-6 mt-3" style="padding: 0 20px">
                         @foreach ($institutional->owners as $comment)
                             <div class="bg-white border rounded-md pb-3 mb-3"
                                 @if (!$loop->last) style="border-bottom: 1px solid #E6E6E6 !important; " @endif>
@@ -284,13 +284,12 @@
                                 </div>
                                 <div class="row mt-3">
                                     @foreach (json_decode($comment->images, true) as $img)
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 col-6">
                                             <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
                                                 data-lightbox="gallery">
                                                 <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
                                                     style="object-fit: cover;width:100%" />
                                             </a>
-
                                         </div>
                                     @endforeach
                                 </div>
@@ -387,6 +386,7 @@
         @media (max-width:768px) {
             .product-rating-count-container {
                 width: 45% !important;
+                margin-top: 20px !important;
             }
         }
 

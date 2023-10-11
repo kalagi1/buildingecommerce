@@ -50,6 +50,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 
     @yield('styles')
+    <style>
+        .swal2-container.swal2-center{
+            z-index: 9999999;
+        }
+
+        .swal2-popup{
+            z-index: 9999999;
+        }
+    </style>
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
