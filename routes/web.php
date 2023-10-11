@@ -52,6 +52,7 @@ use App\Http\Controllers\Institutional\RoleController as InstitutionalRoleContro
 use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\Institutional\OfferController as InstitutionalOfferController;
+use App\Http\Controllers\Institutional\TempOrderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -541,6 +542,18 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::put('/offers/{offer}', [InstitutionalOfferController::class, 'update'])->name('offers.update');
     });
 
+    Route::middleware(['checkPermission:TempOrder'])->group(function () {
+        Route::get('/get_busy_housing_statuses/{id}', [InstitutionalProjectController::class, 'getBusyDatesByStatusType'])->name('get.busy.housing.statuses');
+        Route::post('/change_step_order', [TempOrderController::class, 'changeStepOrder'])->name('change.step.order');
+        Route::get('/get_housing_type_id/{slug}', [TempOrderController::class, 'getHousingTypeId'])->name('get.housing.type.id');
+        Route::post('/temp_order_image_add', [TempOrderController::class, 'addTempImage'])->name('temp.order.image.add');
+        Route::post('/temp_order_single_file_add', [TempOrderController::class, 'singleFile'])->name('temp.order.single.file.add');
+        Route::post('/temp_order_document_add', [TempOrderController::class, 'documentFile'])->name('temp.order.document.add');
+        Route::post('/temp_order_change_data', [TempOrderController::class, 'dataChange'])->name('temp.order.data.change');
+        Route::post('/temp_order_project_housing_data_change', [TempOrderController::class, 'projectHousingDataChange'])->name('temp.order.project.housing.change');
+    });
+
+
     Route::middleware(['checkPermission:DeleteOffer'])->group(function () {
         Route::delete('/offers/{offer}', [InstitutionalOfferController::class, 'destroy'])->name('offers.delete');
     });
@@ -619,6 +632,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
+    
+    Route::post('/end_project_temp_order', [InstitutionalProjectController::class,"createProjectEnd"])->name('project.end.temp.order');
     Route::get('/create_project_v2', [InstitutionalProjectController::class,"createV2"])->name('project.create.v2');
     Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class,"getHousingTypeChildren"])->name('get.housing.type.childrens');
     Route::get('/projects/{project_id}/logs', [InstitutionalProjectController::class, 'logs'])->name('projects.logs');
