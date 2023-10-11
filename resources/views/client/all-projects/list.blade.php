@@ -275,7 +275,7 @@
                     </div>
                 </aside>
                 <div class="col-lg-9 col-md-12 blog-pots">
-                    <section class="headings-2 pt-0 d-flex justify-content-between align-items-center">
+                    <section class="headings-2 pt-0 d-flex flex-wrap justify-content-between align-items-center">
                         <div class="brand-head" style="padding-top:0">
                             <div class="brands-square" style="position: relative;top:0;left:0">
                                 <p class="brand-name"><a href="{{ url('/') }}" style="color:black">Anasayfa</a></p>
@@ -566,6 +566,18 @@
 
         .widget-boxed {
             padding: 20px;
+        }
+
+        @media (max-width:768px) {
+            #sort-select {
+                margin: 15px 0;
+                width: 200px;
+            }
+
+            section.headings-2 {
+
+                padding: 0 15px
+            }
         }
     </style>
 @endsection
