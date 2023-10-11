@@ -145,6 +145,9 @@ Route::get('password/reset/{token}', 'App\Http\Controllers\Auth\ResetPasswordCon
 // Yeni şifreyi kaydetme işlemi
 Route::post('password/reset', 'App\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.update');
 
+Route::get('/institutional/login', [LoginController::class, 'index'])->name('institutional.login');
+Route::post('/institutional/login', [LoginController::class, 'login'])->name('institutional.login.post');
+
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
 
@@ -536,9 +539,6 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
 });
 
-
-Route::get('/institutional/login', [LoginController::class, 'index'])->name('institutional.login');
-Route::post('/institutional/login', [LoginController::class, 'login'])->name('institutional.login.post');
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional','checkCorporateAccount']], function () {
 

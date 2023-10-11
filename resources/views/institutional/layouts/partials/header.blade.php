@@ -206,7 +206,7 @@
                             <div class="d-flex align-items-center">
                                 <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
                                         class="logo" alt=""></a>
-                                <p class="logo-text ms-2 d-none d-sm-block">Master Realtor</p>
+                                <p class="logo-text ms-2 d-none d-sm-block">Emlak Sepeti</p>
                             </div>
                         </div>
                 </div>
