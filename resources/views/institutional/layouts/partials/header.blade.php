@@ -206,7 +206,7 @@
                             <div class="d-flex align-items-center">
                                 <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
                                         class="logo" alt=""></a>
-                                <p class="logo-text ms-2 d-none d-sm-block">Master Realtor</p>
+                                <p class="logo-text ms-2 d-none d-sm-block">Emlak Sepeti</p>
                             </div>
                         </div>
                 </div>
@@ -389,8 +389,8 @@
                             aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
                                 <img class="rounded-circle "
-                                    src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
-                                    alt="" />
+                                src="{{ asset('storage/profile_images/' .Auth::user()->profile_image) }}"
+                                alt="" />
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300"
@@ -400,7 +400,7 @@
                                     <div class="text-center pt-4 pb-3">
                                         <div class="avatar avatar-xl ">
                                             <img class="rounded-circle "
-                                                src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                                src="{{ asset('storage/profile_images/' .Auth::user()->profile_image) }}"
                                                 alt="" />
                                         </div>
                                         <h6 class="mt-2 text-black">{{ Auth::user()->name }}</h6>
@@ -432,7 +432,7 @@
 
                                         @if (in_array('CreateUser', $userPermissions))
                                             <li class="nav-item"><a class="nav-link px-3"
-                                                    href="{{ route('client.users.create') }}"> <span
+                                                    href="{{ route('institutional.users.create') }}"> <span
                                                         class="me-2 text-900" data-feather="user-plus"></span>Başka
                                                     bir hesap ekle</a></li>
                                         @endif

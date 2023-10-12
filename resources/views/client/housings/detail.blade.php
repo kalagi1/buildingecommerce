@@ -28,7 +28,7 @@
     <section class="single-proper blog details bg-white">
         <div class="container">
             <div class="row mb-3">
-                <div class="col-md-7">
+                <div class="col-md-8">
                     <div class="container">
                         <div class="headings-2 pt-0">
                             <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
@@ -48,9 +48,38 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                <div class="row">
+                        <div class="col-md-2">
+                            <style>
+                                .button-effect
+                                {
+                                    border: solid 1px #e6e6e6;
+                                    width: 48px;
+                                    height: 48px;
+                                    border-radius: 50%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    cursor: pointer;
+                                }
+                            </style>
+                            <div class="button-effect toggle-favorite"
+                                data-housing-id={{ $housing->id }}>
+                                <i class="fa fa-heart"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <button
+                                style="border: none;width:100%; background-color: #446BB6; border-radius: 10px; padding: 10px 50px; color: white;"
+                                class="addToCart" data-type='housing' data-id='{{ $housing->id }}'>Sepete
+                                Ekle</button>   
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row">
-                <div class="col-md-7 blog-pots">
+                <div class="col-md-8 blog-pots">
                     <div class="row">
                         <div class="col-md-12">
                             <!-- main slider carousel items -->
@@ -94,7 +123,7 @@
 
 
                 </div>
-                <aside class="col-md-5  car">
+                <aside class="col-md-4  car">
                     <div class="single widget">
                         <!-- Start: Schedule a Tour -->
                         <div class="schedule widget-boxed mt-33 mt-0">

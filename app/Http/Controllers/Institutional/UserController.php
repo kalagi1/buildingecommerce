@@ -16,6 +16,70 @@ class UserController extends Controller
         return view('institutional.users.index', compact('users'));
     }
 
+    public function getTaxDocument()
+    {
+        $user = auth()->user();
+        $tax_document = $user->tax_document;
+
+        if (is_null($tax_document))
+            die('Belge yok.');
+
+        $file = file_get_contents(storage_path("/app/{$tax_document}"));
+        preg_match('@\.(\w+)$@', $tax_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/'.$extension);
+        echo $file;
+    }
+
+    public function getRecordDocument()
+    {
+        $user = auth()->user();
+        $record_document = $user->record_document;
+
+        if (is_null($record_document))
+            die('Belge yok.');
+
+        $file = file_get_contents(storage_path("/app/{$record_document}"));
+        preg_match('@\.(\w+)$@', $record_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/'.$extension);
+        echo $file;
+    }
+
+    public function getIdentityDocument()
+    {
+        $user = auth()->user();
+        $identity_document = $user->identity_document;
+
+        if (is_null($identity_document))
+            die('Belge yok.');
+
+        $file = file_get_contents(storage_path("/app/{$identity_document}"));
+        preg_match('@\.(\w+)$@', $identity_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/'.$extension);
+        echo $file;
+    }
+
+    public function getCompanyDocument()
+    {
+        $user = auth()->user();
+        $company_document = $user->company_document;
+
+        if (is_null($company_document))
+            die('Belge yok.');
+
+        $file = file_get_contents(storage_path("/app/{$company_document}"));
+        preg_match('@\.(\w+)$@', $company_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/'.$extension);
+        echo $file;
+    }
+
     public function create()
     {
         $roles = Role::where("parent_id", Auth::user()->id)->get();

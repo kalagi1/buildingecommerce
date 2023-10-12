@@ -9,11 +9,32 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index()
+
+    public function index(Request $request)
     {
-        $users = User::with("role","parent")->get();
+        $query = User::with("role");
+    
+        if ($request->input('name') !== null) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        if ($request->input('role') !== null) {
+            $query->where('type', 'like', '%' . $request->input('role') . '%');
+        }
+        
+        if ($request->input('email') !== null) {
+            $query->where('email', 'like', '%' . $request->input('email') . '%');
+        }
+    
+        $users = $query->get();
+    
+        if ($request->ajax()) {
+            return view('admin.users.table', compact('users'));
+        }
+    
         return view('admin.users.index', compact('users'));
     }
+    
 
     public function create()
     {
@@ -36,6 +57,8 @@ class UserController extends Controller
         // Yeni kullanıcıyı oluşturun
         $user = new User();
         $user->name = $validatedData['name'];
+        $user->profile_image = "indir.png";
+        $user->banner_hex_code = "black";
         $user->email = $validatedData['email'];
         $user->password = bcrypt($validatedData['password']); // Şifreyi şifreleyin
         $user->type = $validatedData['type'];
@@ -51,11 +74,119 @@ class UserController extends Controller
         return redirect()->route('admin.users.index'); // index route'unu kullanarak kullanıcıları listeleme sayfasına yönlendirme
     }
 
+    public function getTaxDocument(User $user)
+    {
+        $tax_document = $user->tax_document;
+
+        if (is_null($tax_document)) {
+            die('Belge yok.');
+        }
+
+        $file = file_get_contents(storage_path("/app/{$tax_document}"));
+        preg_match('@\.(\w+)$@', $tax_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/' . $extension);
+        echo $file;
+    }
+
+    public function getRecordDocument(User $user)
+    {
+        $record_document = $user->record_document;
+
+        if (is_null($record_document)) {
+            die('Belge yok.');
+        }
+
+        $file = file_get_contents(storage_path("/app/{$record_document}"));
+        preg_match('@\.(\w+)$@', $record_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/' . $extension);
+        echo $file;
+    }
+
+    public function getIdentityDocument(User $user)
+    {
+        $identity_document = $user->identity_document;
+
+        if (is_null($identity_document)) {
+            die('Belge yok.');
+        }
+
+        $file = file_get_contents(storage_path("/app/{$identity_document}"));
+        preg_match('@\.(\w+)$@', $identity_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/' . $extension);
+        echo $file;
+    }
+
+    public function getCompanyDocument(User $user)
+    {
+        $company_document = $user->company_document;
+
+        if (is_null($company_document)) {
+            die('Belge yok.');
+        }
+
+        $file = file_get_contents(storage_path("/app/{$company_document}"));
+        preg_match('@\.(\w+)$@', $company_document, $match);
+        $extension = $match[1] ?? 'png';
+
+        header('Content-Type: image/' . $extension);
+        echo $file;
+    }
+
+    public function updateCorporateStatus(Request $request, User $user)
+    {
+        $request->validate(
+            [
+                'tax_document_approve' => 'nullable|in:0,1',
+                'record_document_approve' => 'nullable|in:0,1',
+                'identity_document_approve' => 'required|in:0,1',
+                'company_document_approve' => 'nullable|in:0,1',
+                'note' => 'required|string',
+                'status' => 'required|in:0,1',
+            ],
+            [
+                'note.required' => 'Not alanı gereklidir.',
+            ]
+        );
+
+        $company = [];
+        if (!is_null($request->input('company_document_approve'))) {
+            $company =
+                [
+                'company_document_approve' => $request->input('company_document_approve'),
+            ];
+        }
+
+        $user->update(
+            array_merge(
+                [
+                    'tax_document_approve' => $request->input('tax_document_approve') ?? '0',
+                    'record_document_approve' => $request->input('record_document_approve') ?? '0',
+                    'identity_document_approve' => $request->input('identity_document_approve'),
+                    'corporate_account_note' => $request->input('note'),
+                    'corporate_account_status' => $request->input('status'),
+                ], $company)
+        );
+
+        return redirect()->back();
+    }
+
+    public function showCorporateAccount($id)
+    {
+        $user_e = User::findOrFail($id);
+        return view('admin.users.showCorporateStatus', compact('user_e'));
+    }
+
     public function edit($id)
     {
         $roles = Role::all();
-        $user = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
-        return view('admin.users.edit', compact('user', 'roles'));
+        $user_e = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
+        return view('admin.users.edit', compact('user_e', 'roles'));
     }
 
     public function update(Request $request, $id)

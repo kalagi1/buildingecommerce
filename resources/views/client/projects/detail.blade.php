@@ -38,14 +38,14 @@
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
                             @csrf
-                            <input class="search-input" type="search" placeholder="Mağazada Ara" aria-label="Search"
+                            <input class="search-input" type="search" placeholder="Mağazada Ara" id="search-project" aria-label="Search"
                                 name="q">
                                 <div class="header-search__suggestions">
                                     <div class="header-search__suggestions__section">
                                         <h5>Projeler</h5>
                                         <div class="header-search__suggestions__section__items">
                                             @foreach ($project->user->projects as $item)
-                                                <a href="#"><span>{{ $item->project_title }}</span></a>
+                                                <a href="{{route('project.detail', ['slug' => $item->slug])}}" class="project-item" data-title="{{$item->project_title}}"><span>{{ $item->project_title }}</span></a>
                                             @endforeach
                                         </div>
                                     </div>
@@ -173,7 +173,7 @@
     @endphp
 
 
-    <section class="properties-right list featured portfolio blog pt-5 pb-5 bg-white">
+    <section class="properties-right list featured portfolio blog pb-5 bg-white">
         <div class="container">
 
             <div class="row project-filter-reverse blog-pots">
@@ -447,6 +447,20 @@ out center;`;
                     toast.error(error)
                     console.error("Hata oluştu: " + error);
                 }
+            });
+        });
+    </script>
+    <script>
+        'use strict';
+        $('#search-project').on('input', function()
+        {
+            let val = $(this).val();
+            $('.project-item').each(function()
+            {
+                if ($(this).data('title').toLowerCase().search(val) == -1)
+                    $(this).addClass('d-none');
+                else
+                    $(this).removeClass('d-none');
             });
         });
     </script>

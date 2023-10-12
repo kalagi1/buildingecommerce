@@ -93,14 +93,14 @@
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
                             @csrf
-                            <input class="search-input" type="search" placeholder="Mağazada Ara" aria-label="Search"
+                            <input class="search-input" type="search" placeholder="Mağazada Ara" id="search-project" aria-label="Search"
                                 name="q">
                             <div class="header-search__suggestions">
                                 <div class="header-search__suggestions__section">
                                     <h5>Projeler</h5>
                                     {{-- <div class="header-search__suggestions__section__items">
                                         @foreach ($brand->user->projects as $item)
-                                            <a href="#"><span>{{ $item->project_title }}</span></a>
+                                        <a href="{{route('project.detail', ['slug' => $item->slug])}}" class="project-item" data-title="{{$item->project_title}}"><span>{{ $item->project_title }}</span></a>
                                         @endforeach
                                     </div> --}}
                                 </div>
@@ -116,7 +116,7 @@
     @if (count($brand->projects))
         <section class="popular-places home18" style="margin-top: 30px;">
             <div class="container">
-                <div style="display: flex; justify-content: space-between; align-items: center;" class="mbb">
+                <div style="display: flex; justify-content: space-between; align-items: center;" >
                     <div class="section-title">
                         <h2>Projeler</h2>
                     </div>
@@ -141,7 +141,7 @@
     <!-- START SECTION RECENTLY PROPERTIES -->
     <section class="featured portfolio rec-pro disc bg-white mb-5">
         <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center;" class="mbb">
+            <div style="display: flex; justify-content: space-between; align-items: center;" >
                 <div class="section-title">
                     <h2>İkinci El Konutlar</h2>
                 </div>
@@ -157,8 +157,6 @@
                                             <div class="homes">
                                                 <!-- homes img -->
                                                 <a href="single-property-1.html" class="homes-img">
-                                                    <div class="homes-tag button sale rent"
-                                                        style="background-color:#ff5a5f !important">Öne Çıkan</div>
                                                     <img src="{{ asset('housing_images/' . getImage($housing, 'image')) }}"
                                                         alt="{{ $housing->housing_type_title }}" class="img-responsive">
                                                 </a>
@@ -245,6 +243,21 @@
 @section('scripts')
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script></script>
+
+    <script>
+        'use strict';
+        $('#search-project').on('input', function()
+        {
+            let val = $(this).val();
+            $('.project-item').each(function()
+            {
+                if ($(this).data('title').toLowerCase().search(val) == -1)
+                    $(this).addClass('d-none');
+                else
+                    $(this).removeClass('d-none');
+            });
+        });
+    </script>
 @endsection
 
 @section('styles')

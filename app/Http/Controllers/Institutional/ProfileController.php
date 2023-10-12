@@ -9,26 +9,26 @@ use App\Models\County;
 use App\Models\District;
 use App\Models\Neighborhood;
 use App\Models\SubscriptionPlan;
-use App\Models\UserPlan;
 use App\Models\TaxOffice;
 use App\Models\Town;
-use App\Models\User;
 use App\Models\UpgradeLog;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\UserPlan;
 use App\Rules\SubscriptionPlanToUpgrade;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
-    function upgrade()
+    public function upgrade()
     {
         $plans = SubscriptionPlan::where('plan_type', auth()->user()->corporate_type)->get();
-        $current = UserPlan::where('user_id', auth()->user()->id)->first() ?? false;
+        $current = UserPlan::with("subscriptionPlan")->where('user_id', auth()->user()->id)->first() ?? false;
         return view('institutional.profile.upgrade', compact('plans', 'current'));
     }
 
-    function upgradeProfile(Request $request, $id)
+    public function upgradeProfile(Request $request, $id)
     {
         $request->validate(['id' => $id],
             [
@@ -36,26 +36,29 @@ class ProfileController extends Controller
                 [
                     'required',
                     new SubscriptionPlanToUpgrade(),
-                ]
+                ],
             ]
         );
 
         $plan = SubscriptionPlan::find($id);
         $before = UserPlan::where('user_id', auth()->user()->id)->first();
+        $user = User::where('id', auth()->user()->id)->first();
+        $user->update([
+            'subscription_plan_id' => $plan->id,
+        ]);
 
-        if (!$before)
-        {
+        if (!$before) {
             $before = new \stdClass();
             $before->user_limit = 0;
             $before->housing_limit = 0;
             $before->project_limit = 0;
         }
 
-        switch (auth()->user()->corporate_type)
-        {
+        switch (auth()->user()->corporate_type) {
             case 'Emlakçı':
                 $data =
-                [
+                    [
+                    'subscription_plan_id' => $plan->id,
                     'user_limit' => $before->user_limit + $plan->user_limit,
                     'housing_limit' => $before->housing_limit + $plan->housing_limit,
                 ];
@@ -64,7 +67,8 @@ class ProfileController extends Controller
             case 'Banka':
             case 'İnşaat':
                 $data =
-                [
+                    [
+                    'subscription_plan_id' => $plan->id,
                     'user_limit' => $before->user_limit + $plan->user_limit,
                     'project_limit' => $before->project_limit + $plan->project_limit,
                     'housing_limit' => $before->housing_limit + $plan->housing_limit,
@@ -77,13 +81,13 @@ class ProfileController extends Controller
         }
 
         DB::beginTransaction();
-            UpgradeLog::create(
-                [
-                    'user_id' => auth()->user()->id,
-                    'plan_id' => $plan->id,
-                ]
-            );
-            UserPlan::where('user_id', auth()->user()->id)->update($data);
+        UpgradeLog::create(
+            [
+                'user_id' => auth()->user()->id,
+                'plan_id' => $plan->id,
+            ]
+        );
+        UserPlan::where('user_id', auth()->user()->id)->update($data);
         DB::commit();
 
         return redirect()->back()->with('success', 'Plan başarıyla eklendi.');

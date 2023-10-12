@@ -62,17 +62,18 @@ class ProjectController extends Controller
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
     }
 
-    public function allProjects($id)
+    public function allProjects($slug)
     {
 
+        
         // HousingStatus modelini kullanarak slug'a göre durumu bulun
-        $status = HousingStatus::where('slug', $id)->first();
+        $status = HousingStatus::where('slug', $slug)->first();
         $secondhandHousings = [];
         $projects = [];
 
         // HousingStatus bulunamazsa hata sayfasına yönlendirin
         if (!$status) {
-            $type = HousingType::where('slug', $id)->first();
+            $type = HousingType::where('slug', $slug)->first();
             if (!$type) {
                 abort(404); // Eğer HousingType bulunamazsa 404 hatası döndürün veya başka bir işlem yapabilirsiniz.
             }
