@@ -1678,10 +1678,10 @@
                     // Dönen yanıttaki ilçeleri döngüyle ekleyin
                     for (var i = 0; i < response.length; i++) {
                         countiesSelect.append($('<option>', {
-                            value: response[i].id, // İlçe ID'si
-                            text: response[i].title, // İlçe adı
+                            value: response[i].ilce_key, // İlçe ID'si
+                            text: response[i].ilce_title, // İlçe adı
                             key_x: response[i].key_x,
-                            selected : (response[i].id == countyId ? true : false) 
+                            selected : (response[i].ilce_key == countyId ? true : false) 
                         }));
                     }
 
@@ -1693,7 +1693,7 @@
                         $.ajax({
                             url: '{{route("institutional.get.neighbourhood")}}', // Endpoint URL'si (get.counties olarak varsayalım)
                             method: 'GET',
-                            data: { county_id: selectedCountyKey }, // Şehir verisini isteğe ekle
+                            data: { county_id: selectedCounty }, // Şehir verisini isteğe ekle
                             dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
                             success: function(response) {
                                 // Yanıt başarılı olduğunda çalışacak kod
@@ -1703,9 +1703,9 @@
 
                                 for (var i = 0; i < response.length; i++) {
                                     countiesSelect.append($('<option>', {
-                                        value: response[i].id, // İlçe ID'si
-                                        text: response[i].title, // İlçe adı
-                                        selected : (response[i].id == countyId ? true : false) 
+                                        value: response[i].mahalle_id, // İlçe ID'si
+                                        text: response[i].mahalle_title, // İlçe adı
+                                        selected : (response[i].mahalle_id == countyId ? true : false) 
                                     }));
                                 }
                             },
@@ -1740,8 +1740,8 @@
                     // Dönen yanıttaki ilçeleri döngüyle ekleyin
                     for (var i = 0; i < response.length; i++) {
                         countiesSelect.append($('<option>', {
-                            value: response[i].id, // İlçe ID'si
-                            text: response[i].title, // İlçe adı
+                            value: response[i].ilce_key, // İlçe ID'si
+                            text: response[i].ilce_title, // İlçe adı
                             key_x: response[i].key_x,
                         }));
                     }
@@ -1757,13 +1757,14 @@
         
         $('#counties').change(function(){
             var selectedCounty = $(this).val(); // Seçilen şehir değerini al
+            console.log(selectedCounty);
             var selectedCountyKey = $('#counties option[value="'+selectedCounty+'"]').attr("key_x");
             console.log($('#counties option[value="'+selectedCounty+'"]'));
             // AJAX isteği yap
             $.ajax({
                 url: '{{route("institutional.get.neighbourhood")}}', // Endpoint URL'si (get.counties olarak varsayalım)
                 method: 'GET',
-                data: { county_id: selectedCountyKey }, // Şehir verisini isteğe ekle
+                data: { county_id: selectedCounty }, // Şehir verisini isteğe ekle
                 dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
                 success: function(response) {
                     // Yanıt başarılı olduğunda çalışacak kod
@@ -1773,8 +1774,8 @@
                     // Dönen yanıttaki ilçeleri döngüyle ekleyin
                     for (var i = 0; i < response.length; i++) {
                         countiesSelect.append($('<option>', {
-                            value: response[i].id, // İlçe ID'si
-                            text: response[i].title // İlçe adı
+                            value: response[i].mahalle_id, // İlçe ID'si
+                            text: response[i].mahalle_title // İlçe adı
                         }));
                     }
                 },
