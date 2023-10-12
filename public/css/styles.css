@@ -1439,19 +1439,7 @@ Version      : 1.2
         transition: transform 0.6s ease-in, -webkit-transform 0.6s ease-in;
     }
 
-    .project-filter-reverse .homes,
-    .project-filter-reverse .homes-img {
-        position: relative;
-        overflow: hidden;
-        height: 180px;
-    }
-
-    .project-filter-reverse .homes-img img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
-
+   
     .homes-tag.featured {
         width: 84px !important;
         background: #18ba60 !important;
