@@ -87,8 +87,8 @@
                                             <div class="col-12 col-md-auto d-flex">
                                                 <div class="timeline-item-date order-1 order-md-0 me-md-4">
                                                     <p class="fs--2 fw-semi-bold text-600 text-end">
-                                                        {{ $project->city->title }} / {{ $project->county->title }}<br
-                                                            class="d-none d-md-block"> {{ $key + 1 }}</p>
+                                                        <strong> {{ $key + 1 }}</strong>
+                                                    </p>
                                                 </div>
                                                 <div class="timeline-item-bar position-md-relative me-3 me-md-0 border-400">
                                                     <div
@@ -129,7 +129,7 @@
                 </div>
             </div>
             <div class="row">
-                
+
             </div>
         </div>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white pt-7 border-y border-300">
@@ -297,6 +297,7 @@
         // Housing ve Project verilerini aldık
         var housingData = @json($secondhandHousings);
         var projectData = @json($projects);
+
 
 
         // Verileri aylara göre grupladık

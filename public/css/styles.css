@@ -16207,6 +16207,7 @@ Version      : 1.2
         background: #fff;
         border: 2px solid #e2dfdf;
         color: #333;
+        cursor: pointer;
     }
 
     .inner-pages .blog .main-search-field .at-col-default-mar {

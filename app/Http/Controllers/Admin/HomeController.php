@@ -16,7 +16,7 @@ class HomeController extends Controller
         $clients = User::where("type", "1")->get();
         $institutionals = User::where("type", "2")->get();
         $projects = Project::all();
-        $descProjects = Project::orderBy("id", "desc")->with("user")->limit(4)->get();
+        $descProjects = Project::orderBy("id", "desc")->with("user","city","county")->limit(4)->get();
         $secondhandHousings = Housing::all();
         return view('admin.home.index', compact("comments", "clients", "institutionals", "projects", "secondhandHousings", 'descProjects'));
     }
