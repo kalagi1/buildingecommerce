@@ -73,9 +73,10 @@ class HomeController extends Controller
             }
         }
 
-        $projects = $query->get();
+        $itemPerPage = 12;
+        $projects = $query->paginate($itemPerPage);
 
-        $renderedProjects = $projects->map(function ($item) {
+        $renderedProjects = $projects->through(function ($item) {
             return [
                 'image' => url(str_replace('public/', 'storage/', $item->image)),
                 'url' => route('project.detail', $item->slug),
@@ -252,10 +253,12 @@ class HomeController extends Controller
         }
         
 
-        $obj = $obj->get();
+        $itemPerPage = 12;
+        $obj = $obj->paginate($itemPerPage);
 
-        return response()->json($obj->map(fn($item) =>
-            [
+        return response()->json($obj->through(function($item) use($request)
+        {
+            return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
                 'housing_type_title' => $item->housing_type_title,
                 'id' => $item->id,
@@ -272,7 +275,8 @@ class HomeController extends Controller
                     'price' => getData($item, 'price'),
                     'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
                 ],
-            ]));
+            ];
+        }));
     }
 
     public function getSearchList(Request $request)

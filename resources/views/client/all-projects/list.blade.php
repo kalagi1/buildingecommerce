@@ -9,6 +9,23 @@
                 display: block !important;
             }
         }
+
+        @media (max-width: 767px)
+        {
+            .filters-input-area
+            {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 90%;
+                height: 100%;
+                z-index: 1000;
+                background-color: white;
+                padding: 16px;
+                box-shadow: 0 0 48px rgba(0,0,0,.3);
+                overflow-y: scroll;
+            }
+        }
     </style>
     @php
         function convertMonthToTurkishCharacter($date)
@@ -281,6 +298,9 @@
                         <button type="button" class="btn btn-primary btn-lg btn-block mt-4 mb-4"
                             id="clear-filters">Temizle</button>
 
+                        <button type="button" onclick="$('.filters-input-area').slideToggle();" style="background: var(--gray);" class="btn btn-secondary btn-lg btn-block mt-4 d-md-none mb-4"
+                            id="close-filters">Kapat</button>
+
                     </div>
                     <button type="button" onclick="(() => { $('.filters-input-area').slideToggle(() => $(this).text($('.filters-input-area').css('display') == 'none' ? 'Filtrele' : 'Filtreyi Kapat')); })()" class="btn btn-primary btn-lg btn-block mt-4 mb-4 d-block d-md-none" id="filter-set">Filtrele</button>
                 </aside>
@@ -319,6 +339,8 @@
                             <div class="row pp-row">
                             </div>
                         </div>
+                    </section>
+                    <section id="pages" class="d-flex justify-content-center" style="gap: 12px;">
                     </section>
 
                 </div>
@@ -597,6 +619,8 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         'use strict';
+        let last_page;
+        let current_page = 1;
         $('#city').on('change', function() {
             $.ajax({
                 method: "GET",
@@ -635,9 +659,37 @@
                 }),
                 success: function(response) {
                     $('.pp-row').empty();
+                    $('#pages').empty();
 
-                    if (response.length > 0) {
-                        response.forEach((res) => {
+                    last_page = response.last_page;
+
+                    $('#pages').append(`
+                        <a class="btn btn-primary prev-page">Önceki</a>
+                    `);
+
+                    for (var i = 1; i <= response.last_page; ++i)
+                    {
+                        $('#pages').append(`
+                            <a class="btn btn-outline-primary filter-page" data-page="${i}" ${response.current_page == i ? 'style="color: white;"' : 'style="background: transparent;"'}>${i}</a>
+                        `);
+                    }
+
+                    $('#pages').append(`
+                        <a class="btn btn-primary next-page">Sonraki</a>
+                    `);
+
+                    if (current_page == '1')
+                        $('.prev-page').addClass('d-none');
+                    else 
+                        $('.prev-page').removeClass('d-none');
+
+                    if (current_page == last_page)
+                        $('.next-page').addClass('d-none');
+                    else 
+                        $('.next-page').removeClass('d-none');
+
+                    if (response.data.length > 0) {
+                        response.data.forEach((res) => {
                             @if (!$secondhandHousings)
                                 $('.pp-row').append(
                                     `
@@ -759,7 +811,8 @@
         $(function() {
             drawList();
 
-            $('.filter-now').on('change', function() {
+            function filterNow()
+            {
                 let room_count = [];
                 $('#room_count_field .mt-4 .mb-2').each(function() {
                     let i = $(this).find('.form-check-input');
@@ -787,6 +840,7 @@
                 });
 
                 drawList({
+                    page: current_page,
                     city: $('#city').val(),
                     county: $('#county').val(),
                     @if ($secondhandHousings)
@@ -799,7 +853,7 @@
                         from_owner,
                     @endif
                 });
-            });
+            }
 
             $('#clear-filters').on('click', function() {
                 $('#city').val('#');
@@ -828,6 +882,26 @@
 
                 drawList();
             });
+
+            $('body').on('click', '.filter-page', function() {
+                current_page = $(this).data('page');
+
+                filterNow();
+            });
+
+            $('body').on('click', '.next-page', function() {
+                ++current_page;
+
+                filterNow();
+            });
+
+            $('body').on('click', '.prev-page', function() {
+                --current_page;
+
+                filterNow();
+            });
+
+            $('.filter-now').on('change', filterNow);
         });
     </script>
 @endsection
