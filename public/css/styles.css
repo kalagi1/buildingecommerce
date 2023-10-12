@@ -549,7 +549,7 @@ Version      : 1.2
     }
 
     .brand-head .brand-name {
-        margin-left: 10px !important;
+        margin-right: 10px !important;
         font-weight: 600;
         margin: 0;
         padding: 0;

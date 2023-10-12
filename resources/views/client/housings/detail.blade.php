@@ -49,11 +49,10 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                <div class="row">
+                    <div class="row">
                         <div class="col-md-2">
                             <style>
-                                .button-effect
-                                {
+                                .button-effect {
                                     border: solid 1px #e6e6e6;
                                     width: 48px;
                                     height: 48px;
@@ -64,8 +63,7 @@
                                     cursor: pointer;
                                 }
                             </style>
-                            <div class="button-effect toggle-favorite"
-                                data-housing-id={{ $housing->id }}>
+                            <div class="button-effect toggle-favorite" data-housing-id={{ $housing->id }}>
                                 <i class="fa fa-heart"></i>
                             </div>
                         </div>
@@ -73,7 +71,7 @@
                             <button
                                 style="border: none;width:100%; background-color: #446BB6; border-radius: 10px; padding: 10px 50px; color: white;"
                                 class="addToCart" data-type='housing' data-id='{{ $housing->id }}'>Sepete
-                                Ekle</button>   
+                                Ekle</button>
                         </div>
                     </div>
                 </div>
@@ -127,26 +125,84 @@
                     <div class="single widget">
                         <!-- Start: Schedule a Tour -->
                         <div class="schedule widget-boxed mt-33 mt-0">
-                            
+                            <div class="widget-boxed-header">
+                                <a href="{{ route('instituional.profile', Str::slug($housing->user->name)) }}"
+                                    class="homes-img" style="text-decoration: none">
+
+                                    <h4>
+                                        <img src="{{ URL::to('/') . '/storage/profile_images/' . $housing->user->profile_image }}"
+                                            alt="" style="height: 40px">
+                                        <strong style="margin-left: 10px">{!! $housing->user->name !!}</strong>
+                                    </h4>
+                                </a>
+                            </div>
 
                             <div class="widget-boxed-body">
+                                <div class="the-agents">
+                                    <ul class="the-agents-details">
+                                        @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
+                                            @php
+                                                $turkceKarsilik = [
+                                                    'price' => 'Fiyat',
+                                                    'numberoffloors' => 'Bulunduğu Kat',
+                                                    'squaremeters' => 'Metrekare',
+                                                    'room_count' => 'Oda Sayısı',
+                                                    'front1' => 'Cephe',
+                                                    'internal_features1' => 'Özellikler',
+                                                ];
 
+                                                // Anahtarları Türkçe karşılıklarına dönüştür
+                                                $key = $turkceKarsilik[$key] ?? $key;
+                                            @endphp
+
+                                            @if ($key != 'image' && $key != 'images')
+                                                <li style="border: none !important;">
+                                                    @if ($key == 'Fiyat')
+                                                        {{-- Fiyatı sadece değer olarak görüntüle ve mavi renkte yap --}}
+                                                        <span class="det"
+                                                            style="color: #446BB6; font-weight: bold;">{{ number_format($val[0], 2, ',', '.') }}
+                                                            TL</span>
+                                                    @else
+                                                        <span class="font-weight-bold mr-1">{{ $key }}:</span>
+                                                        @if ($key == 'Metrekare')
+                                                            {{-- Metrekare değerinin sonuna "m2" ekleyerek görüntüle --}}
+                                                            <span class="det">{{ $val[0] }} m2</span>
+                                                        @elseif ($key == 'Özellikler')
+                                                            {{-- Özellikler anahtarının içeriğini döngü ile görüntüle --}}
+                                                            <ul>
+                                                                @foreach ($val as $ozellik)
+                                                                    <li>{{ $ozellik }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @else
+                                                            {{-- Diğer anahtarların değerlerini düzgünce görüntüle --}}
+                                                            <span class="det">{{ $val[0] }}</span>
+                                                        @endif
+                                                    @endif
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+
+                                    <hr>
+                                </div>
                                 <div class="the-agents">
                                     <ul class="the-agents-details">
                                         <li><a href="#"><strong>Adres:</strong> {!! $housing->address !!} </a></li>
-                                        <li><a href="#"><strong>Telefon:</strong> {!! $housing->user->phone !!} </a></li>
-                                        <li><a href="#"><strong>E-Mail:</strong> {!! $housing->user->email !!} </a></li>
-
-
-
+                                        <li><a href="tel:{!! $housing->user->phone !!}"><strong>Telefon:</strong>
+                                                {!! $housing->user->phone !!} </a></li>
+                                        <li><a href="mailto:{!! $housing->user->email !!}"><strong>E-Mail:</strong>
+                                                {!! $housing->user->email !!} </a></li>
                                     </ul>
+                                    <hr>
+
                                 </div>
 
                             </div>
                         </div>
                         <!-- End: Schedule a Tour -->
                         <!-- end author-verified-badge -->
-                        <div class="sidebar">
+                        {{-- <div class="sidebar">
                             <div class="widget-boxed mt-33 mt-5">
                                 <div class="divider-fade"></div>
                                 <div id="map" class="contactmap">
@@ -158,7 +214,7 @@
 
                             </div>
 
-                        </div>
+                        </div> --}}
                     </div>
                 </aside>
             </div>
@@ -166,7 +222,7 @@
             <section class="similar-property featured portfolio p-0 bg-white">
                 <div class="blog-info details mb-30">
                     <h5 class="mb-4">Açıklama</h5>
-                    <p class="mb-3">{{ $housing->description }}</p>
+                    <p class="mb-3">{!! $housing->description !!}</p>
                 </div>
                 <div class="single homes-content details mb-30">
                     <!-- title -->
@@ -196,8 +252,8 @@
                                         <div class="ml-auto order-2">
                                             @for ($i = 0; $i < $comment->rate; ++$i)
                                                 <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1"
-                                                    version="1.1" viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink">
                                                     <rect fill="none" height="50" width="50" />
                                                     <polygon fill="gold"
@@ -224,7 +280,8 @@
                                     <div class="row mt-3">
                                         @foreach (json_decode($comment->images, true) as $img)
                                             <div class="col-md-2">
-                                                <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>" data-lightbox="gallery">
+                                                <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                    data-lightbox="gallery">
                                                     <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
                                                         style="object-fit: cover;width:100%" />
                                                 </a>
@@ -313,13 +370,13 @@
 @endsection
 
 @section('scripts')
-<!-- lightbox2 CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- lightbox2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- lightbox2 JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <!-- lightbox2 JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
