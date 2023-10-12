@@ -68,8 +68,8 @@
         <div class="container">
 
             <div class="row project-filter-reverse">
-                <aside class="col-lg-3 col-md-12 car">
-                    <div class="widget">
+                <aside class="col-lg-3 col-md-12 car order-2 order-md-1">
+                    <div class="widget filters-input-area" style="display: none;">
                         <!-- Search Fields -->
                         <div class="widget-boxed main-search-field">
                             <div class="trip-search">
@@ -275,8 +275,9 @@
                           
                         @endif
                     </div>
+                    <button type="button" onclick="(() => { $('.filters-input-area').slideToggle(() => $(this).text($('.filters-input-area').css('display') == 'none' ? 'Filtrele' : 'Filtreyi Kapat')); })()" class="btn btn-primary btn-lg btn-block mt-4 mb-4" id="clear-filters">Filtrele</button>
                 </aside>
-                <div class="col-lg-9 col-md-12 blog-pots">
+                <div class="col-lg-9 col-md-12 blog-pots order-1">
                     <section class="headings-2 pt-0">
                         <div class="brand-head" style="padding-top:0">
                             <div class="brands-square" style="position: relative;top:0;left:0">
