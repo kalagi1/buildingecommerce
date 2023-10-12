@@ -12,7 +12,7 @@
                                 style="color:White">{{ $project->user->name }}
                                 <style type="text/css">
                                     .st0 {
-                                        fill: rgb(44, 191, 247);
+                                        fill: #446BB6;
                                     }
 
                                     .st1 {
@@ -162,9 +162,9 @@
                                         class="news-link">Proje
                                         Detayı</a>
                                     <div class="admin">
-                                        <p>{!! $project->brand->title !!}</p>
-                                        <img src="{{ URL::to('/') . '/storage/brand_images/' . $project->brand->logo }}"
-                                            alt="">
+                                        <p>{!! $project->user->name !!}</p>
+                                        <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
+                                        alt="">
                                     </div>
                                 </div>
                                 <div class="divider-fade mt-5"></div>

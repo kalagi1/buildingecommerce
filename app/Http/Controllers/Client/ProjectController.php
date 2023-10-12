@@ -8,8 +8,8 @@ use App\Models\City;
 use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
-use App\Models\Offer;
 use App\Models\Menu;
+use App\Models\Offer;
 use App\Models\Project;
 use App\Models\ProjectHouseSetting;
 use App\Models\StandOutUser;
@@ -65,7 +65,6 @@ class ProjectController extends Controller
     public function allProjects($slug)
     {
 
-        
         // HousingStatus modelini kullanarak slug'a göre durumu bulun
         $status = HousingStatus::where('slug', $slug)->first();
         $secondhandHousings = [];
@@ -116,7 +115,7 @@ class ProjectController extends Controller
     public function projectHousingDetail($projectSlug, $housingOrder)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $projectSlug)->with("brand","user")->firstOrFail();
+        $project = Project::where('slug', $projectSlug)->with("brand", "user.projects", "user.banners")->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
         return view('client.projects.project_housing', compact('menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));

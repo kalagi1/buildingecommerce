@@ -73,7 +73,7 @@
                                 style="color:White">
                                 {{ $store->name }}
                                 <style type="text/css">
-                                    .st0{fill:rgb(44,191,247);}
+                                    .st0{fill:#446BB6;}
                                     .st1{opacity:0.15;}
                                     .st2{fill:#FFFFFF;}
                                 </style>

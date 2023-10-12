@@ -48,7 +48,7 @@
 
                     <style type="text/css">
                         .st0 {
-                            fill: rgb(44, 191, 247);
+                            fill: #446BB6;
                         }
 
                         .st1 {

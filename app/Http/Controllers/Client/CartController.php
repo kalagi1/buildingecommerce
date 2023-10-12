@@ -106,7 +106,7 @@ class CartController extends Controller
                 'address' => $housing->address,
                 'title' => $housing->title,
                 'price' => $housingData->price[0],
-                'image' => asset('housing_images/' . json_decode($housingData->images)[0]),
+                'image' => asset('housing_images/' . $housingData->images[0]),
             ];
 
         }
