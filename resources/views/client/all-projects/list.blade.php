@@ -86,8 +86,9 @@
             <div class="row project-filter-reverse">
                 <aside class="col-lg-3 col-md-12 order-2 order-md-1">
                     <div class="widget filters-input-area" style="display: none;">
+                        <svg height="24px" id="Layer_1" onclick="$(this).parent().slideToggle();" class="d-md-none" style="float: left; margin-top: -24px; margin-bottom: 24px;enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M437.5,386.6L306.9,256l130.6-130.6c14.1-14.1,14.1-36.8,0-50.9c-14.1-14.1-36.8-14.1-50.9,0L256,205.1L125.4,74.5  c-14.1-14.1-36.8-14.1-50.9,0c-14.1,14.1-14.1,36.8,0,50.9L205.1,256L74.5,386.6c-14.1,14.1-14.1,36.8,0,50.9  c14.1,14.1,36.8,14.1,50.9,0L256,306.9l130.6,130.6c14.1,14.1,36.8,14.1,50.9,0C451.5,423.4,451.5,400.6,437.5,386.6z"/></svg>
                         <!-- Search Fields -->
-                        <div class="widget-boxed main-search-field">
+                        <div class="widget-boxed main-search-field mt-4">
                             <div class="trip-search">
                                 <div class="head d-flex">
                                     <b>Adres</b>
@@ -302,11 +303,10 @@
                             id="close-filters">Kapat</button>
 
                     </div>
-                    <button type="button" onclick="(() => { $('.filters-input-area').slideToggle(() => $(this).text($('.filters-input-area').css('display') == 'none' ? 'Filtrele' : 'Filtreyi Kapat')); })()" class="btn btn-primary btn-lg btn-block mt-4 mb-4 d-block d-md-none" id="filter-set">Filtrele</button>
                 </aside>
 
                 <div class="col-lg-9 col-md-12 blog-pots order-1">
-                    <section class="headings-2 pt-0 d-md-flex justify-content-center justify-content-md-start" style="display: grid;">
+                    <section class="headings-2 pt-0 d-md-flex" style="display: grid;">
                         <div class="brand-head" style="padding-top:0">
                             <div class="brands-square" style="position: relative;top:0;left:0">
                                 <p class="brand-name"><a href="{{ url('/') }}" style="color:black">Anasayfa</a></p>
@@ -321,7 +321,11 @@
                             </div>
                         </div>
                      
-                        <div id="sorting-options" class="d-flex align-items-center ml-auto">
+                        <div id="sorting-options" class="d-flex align-items-center ml-0 ml-md-auto mr-md-0" style="gap: 16px;">
+
+                        <div onclick="$('.filters-input-area').slideToggle();" style="background: var(--blue); padding: 6px; border-radius: 5px;" class="d-md-none">
+                            <svg class="rounded-sm" enable-background="new 0 0 32 32" width="24px" height="24px" id="Editable-line" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="  M3.241,7.646L13,19v9l6-4v-5l9.759-11.354C29.315,6.996,28.848,6,27.986,6H4.014C3.152,6,2.685,6.996,3.241,7.646z" fill="none" id="XMLID_6_" stroke="#FFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+                        </div>
 
                             <select id="sort-select" class="form-control">
                                 <option value="sort">Sırala</option>
