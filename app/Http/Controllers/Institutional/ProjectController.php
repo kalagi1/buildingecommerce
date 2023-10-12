@@ -137,6 +137,13 @@ class ProjectController extends Controller
                     'document' => $newDocument,
                     "status" => 2
                 ]);
+
+                foreach($tempOrder->statuses as $status){
+                    ProjectHousingType::create([
+                        "project_id" => $project->id,
+                        "housing_type_id" => $status
+                    ]);
+                }
     
                 foreach($tempOrder->images as $key => $image){
                     $eskiDosyaAdi = public_path('project_images/'.$image); // Mevcut dosyanın yolu
