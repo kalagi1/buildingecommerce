@@ -1031,11 +1031,6 @@
                                 processData: false,
                                 contentType: false,
                                 success: function(response) {
-                                    response = JSON.parse(response);
-
-                                    if(response.status){
-
-                                    }
                                 },
                                 error: function() {
                                     // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
@@ -1737,17 +1732,29 @@
                                     processData: false,
                                     contentType: false,
                                     success: function(response) {
-                                        response = JSON.parse(response);
-
-                                        if(response.status){
-
-                                        }
                                     },
                                     error: function() {
                                         // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
                                         alert("Dosya yüklenemedi.");
                                     }
                                 });
+
+                                reader.onload = function(e) {
+                                    // Resmi görüntülemek için bir div oluşturun
+                                    var imageDiv = $('<div class="project_imaget"></div>');
+
+                                    // Resmi oluşturun ve div içine ekleyin
+                                    var image = $('<img>').attr('src', e.target.result);
+                                    imageDiv.append(image);
+                                    // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
+                                    $('.cover-photo').html(imageDiv);
+
+                                    $('.tab-pane.active .cover-image-by-housing-type img').remove()
+                                    $('.tab-pane.active .cover-image-by-housing-type').closest('.formbuilder-file').append(imageDiv)
+                                };
+
+                                // Resmi okuyun
+                                reader.readAsDataURL(input.files[0]);
                                 
                             }
                         })
@@ -1840,8 +1847,8 @@
                     // Dönen yanıttaki ilçeleri döngüyle ekleyin
                     for (var i = 0; i < response.length; i++) {
                         countiesSelect.append($('<option>', {
-                            value: response[i].id, // İlçe ID'si
-                            text: response[i].title, // İlçe adı
+                            value: response[i].ilce_key, // İlçe ID'si
+                            text: response[i].ilce_title, // İlçe adı
                             key_x: response[i].key_x,
                         }));
                     }
