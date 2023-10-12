@@ -8,12 +8,19 @@ use App\Models\SubscriptionPlan;
 use App\Models\UpgradeLog;
 use App\Models\User;
 use App\Models\UserPlan;
+use App\Models\CartOrder;
 use App\Rules\SubscriptionPlanToUpgradeBireysel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
+    function cartOrders()
+    {
+        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->get();
+        return view('client.client-panel.profile.orders', compact('cartOrders'));
+    }
+
     function verify()
     {
         return view('client.client-panel.home.verification');

@@ -733,6 +733,9 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     Route::post('/verify', [ClientPanelProfileController::class, 'verifyAccount'])->name('verify-account');
     Route::get('/get-document', [ClientPanelProfileController::class, 'getIdentityDocument'])->name('get.identity-document');
 
+    Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
+    Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
+
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
         Route::get('/profili-guncelle', [ClientPanelProfileController::class, "edit"])->name('profile.edit');
@@ -743,6 +746,11 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     {
         Route::get('/profili-yukselt', [ClientPanelProfileController::class, "upgrade"])->name('profile.upgrade');
         Route::post('/profili-yukselt/{id}', [ClientPanelProfileController::class, "upgradeProfile"])->name('profile.upgrade.action');
+    });
+
+    Route::middleware(['checkPermission:ShowCartOrders'])->group(function()
+    {
+        Route::get('/siparisler', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
     });
 
     // ChangePassword Controller Rotasının İzinleri
