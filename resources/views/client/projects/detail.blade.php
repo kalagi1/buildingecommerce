@@ -243,10 +243,14 @@
                                                         @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                             <div
                                                                 style="z-index: 2;right: 0;top: 0;background: orange; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
-                                                                <div
-                                                                    style="color: #FFF;transform: rotate(45deg); margin-left: 25px; margin-top: 30px;font-weight: bold;">
+                                                                <div style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
                                                                     {{ '%' . round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100) }}
+                                                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1" style="transform: rotate(45deg);">
+                                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                                    </svg>
                                                                 </div>
+                                                                
                                                             </div>
                                                         @endif
                                                     </div>
@@ -307,7 +311,8 @@
                                                                     TL</h6>
                                                                 <h6
                                                                     style="color: black;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
-                                                                    {{ getData($project, 'price[]', $i + 1)->value }} TL
+                                                                    {{ getData($project, 'price[]', $i + 1)->value }} TL 
+                                                                    
                                                                 </h6>
                                                             @else
                                                                 <h6
