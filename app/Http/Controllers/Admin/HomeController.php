@@ -17,17 +17,7 @@ class HomeController extends Controller
         $institutionals = User::where("type", "2")->get();
         $projects = Project::all();
         $descProjects = Project::orderBy("id", "desc")->with("user")->limit(4)->get();
-        $secondhandHousings = Housing::with('images')->select(
-            'housings.id',
-            'housings.title AS housing_title',
-            'housings.created_at',
-            'housing_types.title as housing_type_title',
-            'housings.housing_type_data',
-            'housings.address',
-        )->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
-            ->where('housings.status', 1)
-            ->get();
+        $secondhandHousings = Housing::all();
         return view('admin.home.index', compact("comments", "clients", "institutionals", "projects", "secondhandHousings", 'descProjects'));
     }
 

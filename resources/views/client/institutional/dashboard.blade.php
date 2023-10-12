@@ -173,11 +173,11 @@
                     </div>
                 </div>
                 <div class="portfolio col-xl-12">
-                    <div class="slick-agents">
+                    <div class="row project-filter-reverse blog-pots">
 
                         @foreach ($secondhandHousings as $housing)
-                            <div class="agents-grid col-md-6" data-aos="fade-up" data-aos-delay="150">
-                                <div class="landscapes">
+                        <div class="col-md-3" data-aos="fade-up" data-aos-delay="150">
+                            <div class="landscapes">
                                     <div class="project-single">
                                         <div class="project-inner project-head">
                                             <div class="homes">

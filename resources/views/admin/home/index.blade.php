@@ -298,6 +298,7 @@
         var housingData = @json($secondhandHousings);
         var projectData = @json($projects);
 
+
         // Verileri aylara göre grupladık
         var housingMonthlyData = groupDataByMonth(housingData);
         var projectMonthlyData = groupDataByMonth(projectData);
