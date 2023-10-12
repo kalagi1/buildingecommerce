@@ -679,7 +679,9 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::middleware(['checkPermission:CreateHousing'])->group(function () {
         Route::get('/create_housing', [InstitutionalHousingController::class, 'create'])->name('housing.create');
+        Route::get('/create_housing_v2', [InstitutionalHousingController::class, 'createV2'])->name('housing.create.v2');
         Route::post('/create_housing', [InstitutionalHousingController::class, 'store'])->name('housing.store');
+        Route::post('/create_housing_v2', [InstitutionalHousingController::class, 'finishByTemp'])->name('housing.store.v2');
     });
     Route::middleware(['checkPermission:editHousing'])->group(function () {
         Route::get('/edit_housing/{id}', [InstitutionalHousingController::class, 'edit'])->name('housing.edit');
