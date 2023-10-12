@@ -233,16 +233,7 @@ class TempOrderController extends Controller
 
     public function addProjectImage(Request $request){
         $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
-        if(!$tempOrder){
-            $tempData = [
-                "cover_image" => ""
-            ];
-
-            $tempData = json_encode($tempData);
-            $tempData = json_decode($tempData);
-        }else{
-            $tempData = json_decode($tempOrder->data);
-        }
+        $tempData = json_decode($tempOrder->data);
 
         if($request->hasFile('file')){
             $imageCount = 0;
@@ -257,9 +248,14 @@ class TempOrderController extends Controller
         }
 
         $data = $tempData;
-        if(isset($data->roomInfoKeys) && isset($data->roomInfoKeys->image)){
-            array_push($data->roomInfoKeys->image,$imageName);
+        if(isset($data->roomInfoKeys) ){
+            if(isset($data->roomInfoKeys->image)){
+                array_push($data->roomInfoKeys->image,$imageName);
+            }else{
+                $data->roomInfoKeys->image = [$imageName];
+            }
         }else{
+            $data->roomInfoKeys = json_decode("{}");
             $data->roomInfoKeys->image = [$imageName];
         }
 
