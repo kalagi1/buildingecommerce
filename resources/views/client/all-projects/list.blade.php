@@ -10,6 +10,14 @@
         .widget-boxed {
             padding: 20px;
         }
+
+        @media (min-width: 768px)
+        {
+            .filters-input-area
+            {
+                display: block !important;
+            }
+        }
     </style>
     @php
         function convertMonthToTurkishCharacter($date)
@@ -275,7 +283,7 @@
                           
                         @endif
                     </div>
-                    <button type="button" onclick="(() => { $('.filters-input-area').slideToggle(() => $(this).text($('.filters-input-area').css('display') == 'none' ? 'Filtrele' : 'Filtreyi Kapat')); })()" class="btn btn-primary btn-lg btn-block mt-4 mb-4" id="clear-filters">Filtrele</button>
+                    <button type="button" onclick="(() => { $('.filters-input-area').slideToggle(() => $(this).text($('.filters-input-area').css('display') == 'none' ? 'Filtrele' : 'Filtreyi Kapat')); })()" class="btn btn-primary btn-lg btn-block mt-4 mb-4 d-block d-md-none" id="filter-set">Filtrele</button>
                 </aside>
                 <div class="col-lg-9 col-md-12 blog-pots order-1">
                     <section class="headings-2 pt-0">
