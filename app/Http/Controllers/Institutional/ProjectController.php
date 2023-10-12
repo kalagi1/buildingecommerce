@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\City;
 use App\Models\County;
+use App\Models\District;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\HousingTypeParentConnection;
 use App\Models\Log;
+use App\Models\Neighborhood;
 use App\Models\Neighbourhood;
 use App\Models\PricingStandOut;
 use App\Models\Project;
@@ -357,14 +359,14 @@ class ProjectController extends Controller
 
     public function getCounties(Request $request)
     {
-        $counties = County::where('city_id', $request->input('city'))->get();
+        $counties = District::where('ilce_sehirkey', $request->input('city'))->get();
 
         return $counties;
     }
 
     public function getNeighbourhood(Request $request)
     {
-        $counties = Neighbourhood::where('ilce_key', $request->input('county_id'))->get();
+        $counties = Neighborhood::where('mahalle_ilcekey', $request->input('county_id'))->get();
 
         return $counties;
     }
