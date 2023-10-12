@@ -104,34 +104,12 @@
                                 <a href="{{ route('project.housing.detail', $project->slug) }}">
                                     <h3>{{ $project->project_title }}</h3>
                                 </a>
-                                <div class="the-agents">
-                                    <ul class="the-agents-details">
-                                        <?php
-                                        $totalHousingCount = 0;
-                                        
-                                        foreach ($project->user->projects as $userProject) {
-                                            $totalHousingCount += count($userProject->housings);
-                                        }
-                                        ?>
-
-                                        <li><a href="#"><strong>Adres:</strong> {!! $project->address !!} </a></li>
-                                        <li><a href="#"><strong>Proje Sayısı:</strong>
-                                                {{ count($project->user->projects) }}</a></li>
-                                        <li><a href="#"><strong>Konut Sayısı:</strong> {{ $totalHousingCount }}</a>
-                                        </li>
-                                        <li><a href="#"><strong>Konut Tipi:</strong>
-                                                {{ $project->housingtype->title }} </a></li>
-
-
-                                    </ul>
-                                </div>
+                                
                                 <div class="news-item-bottom">
                                     <a href="{{ route('project.housing.detail', $project->slug) }}" class="news-link">Proje
                                         Detayı</a>
                                     <div class="admin">
-                                        <p>{!! $project->brand->title !!}</p>
-                                        <img src="{{ URL::to('/') . '/storage/brand_images/' . $project->brand->logo }}"
-                                            alt="">
+                                        <p>{!! $project->user->name !!}</p>
                                     </div>
                                 </div>
                                 <div class="divider-fade mt-5"></div>

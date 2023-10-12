@@ -129,11 +129,6 @@
                         <div class="news-item-bottom">
                             <a href="{{ route('project.housing.detail', $project->slug) }}" class="news-link">Proje
                                 Detayı</a>
-                            <div class="admin">
-                                <p>{!! $project->brand->title !!}</p>
-                                <img src="{{ URL::to('/') . '/storage/brand_images/' . $project->brand->logo }}"
-                                    alt="">
-                            </div>
                         </div>
                     </div>
                 </div>

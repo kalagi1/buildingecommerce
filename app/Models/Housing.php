@@ -45,7 +45,7 @@ class Housing extends Model
 
     public function county()
     {
-        return $this->hasOne(County::class, "id", "county_id");
+        return $this->hasOne(District::class, "ilce_key", "county_id");
     }
 
     public function rejectedLog(){

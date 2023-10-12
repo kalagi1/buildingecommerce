@@ -11,8 +11,6 @@
             }
         }
         
-        $housingImages = getData($project, 'images[]', $housingOrder);
-        $housingImages = json_decode($housingImages->value);
     @endphp
 
     <section class="single-proper blog details bg-white">
@@ -71,10 +69,10 @@
                                 <!-- <h5 class="mb-4">Gallery</h5> -->
                                 <div class="carousel-inner">
 
-                                    @foreach ($housingImages as $key => $housingImage)
+                                    @foreach ($project->images as $key => $housingImage)
                                         <div class="@if ($key == 0) active @endif item carousel-item"
                                             data-slide-number="0">
-                                            <img src="{{ URL::to('/') . '/project_housing_images/' . $housingImage }}"
+                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid" alt="slider-listing">
                                         </div>
                                     @endforeach
@@ -88,11 +86,11 @@
                                 </div>
                                 <!-- main slider carousel nav controls -->
                                 <ul class="carousel-indicators smail-listing list-inline">
-                                    @foreach ($housingImages as $key => $housingImage)
+                                    @foreach ($project->images as $key => $housingImage)
                                         <li class="list-inline-item active">
                                             <a id="carousel-selector-0" class="selected" data-slide-to="0"
                                                 data-target="#listingDetailsSlider">
-                                                <img src="{{ URL::to('/') . '/project_housing_images/' . $housingImage }}"
+                                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                     class="img-fluid" alt="listing-small">
                                             </a>
                                         </li>
@@ -112,13 +110,11 @@
                         <!-- Start: Schedule a Tour -->
                         <div class="schedule widget-boxed mt-33 mt-0">
                             <div class="widget-boxed-header">
-                                <a href="{{ route('brand.projects', $project->brand->id) }}" class="homes-img"
+                                <a href="{{ route('brand.projects', $project->user->id) }}" class="homes-img"
                                     style="text-decoration: none">
 
                                     <h4>
-                                        <img src="{{ URL::to('/') . '/storage/brand_images/' . $project->brand->logo }}"
-                                            alt="" style="height: 40px">
-                                        <strong style="margin-left: 10px">{!! $project->brand->title !!}</strong>
+                                        <strong style="margin-left: 10px">{!! $project->user->name !!}</strong>
                                     </h4>
                                 </a>
                             </div>
@@ -167,9 +163,9 @@
                             
                                 for ($i = 0; $i < count($array); $i++) {
                                     if ($i == 0) {
-                                        $html .= ' ' . $array[$i][0];
+                                        $html .= ' ' . $array[$i];
                                     } else {
-                                        $html .= ',' . $array[$i][0];
+                                        $html .= ', ' . $array[$i];
                                     }
                                 }
                             

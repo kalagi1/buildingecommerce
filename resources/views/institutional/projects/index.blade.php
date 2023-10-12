@@ -99,7 +99,7 @@
 
             var activeCell = document.createElement("td");
             activeCell.className = "align-middle status";
-            activeCell.innerHTML = project.status == 1 ? '<span class="badge badge-success">Aktif</span>' : project.status == 2 ? '<span class="badge badge-warning">Admin Onayı Bekliyor</span>' : project.status == 3 ? '<span class="badge badge-danger">Admin Tarafından Reddedildi</span>' : '<span class="badge badge-danger">Pasif</span>';
+            activeCell.innerHTML = project.status == 1 ? '<span class="badge badge-success">Aktif</span>' : project.status == 2 ? '<span class="badge badge-danger">Admin Onayı Bekliyor</span>' : project.status == 3 ? '<span class="badge badge-danger">Admin Tarafından Reddedildi</span>' : '<span class="badge badge-danger">Pasif</span>';
 
             var actionsCell = document.createElement("td");
             actionsCell.className = "align-middle white-space-nowrap pe-0";
