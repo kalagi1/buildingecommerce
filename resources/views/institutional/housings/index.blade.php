@@ -25,7 +25,6 @@
                                                     <tr>
                                                         <th>ID</th>
                                                         <th>Başlık</th>
-                                                        <th>Marka</th>
                                                         <th>Daire Türü</th>
                                                         <th>Statü</th>
                                                         <th>Oluşturulma Tarihi</th>
@@ -76,10 +75,6 @@
             var housingTitleCell = document.createElement("td");
             housingTitleCell.className = "align-middle ps-3 housing_title";
             housingTitleCell.textContent = housingType.housing_title;
-
-            var brandCell = document.createElement("td");
-            brandCell.className = "align-middle ps-3 housing_title";
-            brandCell.textContent = housingType.brand.title;
 
             var housingTypeCell = document.createElement("td");
             housingTypeCell.className = "align-middle housing_type";
@@ -135,7 +130,6 @@
 
             row.appendChild(idCell);
             row.appendChild(housingTitleCell);
-            row.appendChild(brandCell);
             row.appendChild(housingTypeCell);
             row.appendChild(statusCell);
             row.appendChild(createdAtCell);

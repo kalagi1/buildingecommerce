@@ -514,6 +514,12 @@ Version      : 1.2
         padding-top: 2.4rem;
     }
 
+    @media (max-width:768px) {
+        .brand-head {
+            padding-top: 0;
+        }
+    }
+
     .brand-head .card {
         border: none;
         margin-bottom: 1rem;
@@ -543,7 +549,7 @@ Version      : 1.2
     }
 
     .brand-head .brand-name {
-        margin-left: 10px !important;
+        margin-right: 10px !important;
         font-weight: 600;
         margin: 0;
         padding: 0;
@@ -3498,7 +3504,7 @@ Version      : 1.2
     /*------------------------------------*/
 
     section.popular-places {
-        padding: 2.6rem 0 ;
+        padding: 2.6rem 0;
         background: #fff;
     }
 
@@ -5855,7 +5861,7 @@ Version      : 1.2
 
     .homepage-2 .portfolio .footer img {
         width: 40px;
-        height: 40px;
+        height: 40px !important;
         border-radius: 50%;
     }
 
@@ -5863,10 +5869,7 @@ Version      : 1.2
         border-top: 1px solid #eee;
     }
 
-    .homepage-2 .portfolio .footer span {
-        margin-top: 13px;
-    }
-
+  
     /*------ register form------------------------------------------------*/
 
     .login-and-register-form {
@@ -8554,11 +8557,12 @@ Version      : 1.2
         border-bottom: none !important;
         margin-top: 20px;
     }
-    
+
     .userIcon,
     .heartIcon {
         margin-right: 15px;
     }
+
     @media screen and (max-width: 768px) {
         #header-container .container {
             margin-bottom: 1rem !important;
@@ -8574,7 +8578,7 @@ Version      : 1.2
             width: 100%;
         }
 
-      
+
 
         .header-widget a svg {
             color: black;
@@ -15874,10 +15878,15 @@ Version      : 1.2
             width: 100% !important;
         }
 
-        .inner-pages .portfolio .homes-content .homes-list-div ul li {
-            width: 100% !important;
-            justify-content: center;
+        .inner-pages .portfolio .homes-content .homes-list-div ul li.custom-width {
+            width: 25% !important;
+            justify-content: start;
         }
+        
+        .inner-pages .portfolio .homes-content .homes-list-div ul li.special-width {
+            width: 50% !important;
+        }
+        
 
         .project-card p {
             display: none !important;
@@ -15890,19 +15899,29 @@ Version      : 1.2
 
 
     .homes-button .first-btn {
-        padding: 10px;
+        padding: 15px;
         color: white;
         background-color: #446BB6;
         border: none;
         right: 0;
         position: absolute;
         top: 0;
+        width: 90%;
     }
 
     .homes-button .second-btn {
         position: absolute;
         bottom: 0;
         right: 0;
+        padding: 15px;
+        color: white;
+        background-color: #446BB6;
+        border: none;
+        /* right: 0; */
+        width: 90%;
+        /* position: absolute; */
+        /* top: 0; */
+
     }
 
     @media (max-width: 768px) {
