@@ -7,6 +7,7 @@ use App\Models\Housing;
 use App\Models\Order;
 use App\Models\Project;
 use App\Models\ProjectHousing;
+use App\Models\CartOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -69,6 +70,26 @@ class CartController extends Controller
 
     //     return response(['message' => 'success']);
     // }
+
+    function payCart(Request $request)
+    {
+        if (!$request->session()->get('cart'))
+            return redirect()->back()->withErrors(['pay' => 'Sepet boş.']);
+
+        $order = new CartOrder;
+        $order->user_id = auth()->user()->id;
+        $order->amount = $request->session()->get('cart')['item']['price'];
+        $order->cart = json_encode($request->session()->get('cart'));
+        $order->status = '1';
+        $order->save();
+
+        return redirect()->route('client.pay.success', ['cartOrder' => $order->id]);
+    }
+
+    function paySuccess(Request $request, CartOrder $cart_order)
+    {
+        return view('client.cart.pay-success', compact('cart_order'));
+    }
 
     public function add(Request $request)
     {

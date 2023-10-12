@@ -4,7 +4,9 @@
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
 
-            <div class="my-properties">
+            <div class="row" style="justify-content: end">
+                <div class="col-md-8 mt-5">
+                <div class="my-properties">
                 <table class="table-responsive">
                     <thead>
                         <tr>
@@ -47,9 +49,9 @@
                     </tbody>
                 </table>
             </div>
-            <div class="row" style="justify-content: end">
+                </div>
                 <div class="col-md-4 mt-5">
-                    <div class="tr-single-box mb-0">
+                    <div class="tr-single-box mb-0" style="background: white !important;">
                         <div class="tr-single-body">
                             <div class="tr-single-header pb-3">
                                 <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
@@ -70,6 +72,14 @@
                                                 TL</strong></li>
                                     </ul>
                                 @endif
+                                <ul>
+                                    <li>
+                                        <form action="{{ route('client.pay.cart') }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block">ÖDEME YAP</button>
+                                        </form>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
