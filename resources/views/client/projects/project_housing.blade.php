@@ -10,9 +10,7 @@
                 }
             }
         }
-
-        $housingImages = getData($project, 'images[]', $housingOrder);
-        $housingImages = json_decode($housingImages->value);
+        
     @endphp
 
     <section class="single-proper blog details bg-white">
@@ -76,10 +74,10 @@
                                 <!-- <h5 class="mb-4">Gallery</h5> -->
                                 <div class="carousel-inner">
 
-                                    @foreach ($housingImages as $key => $housingImage)
+                                    @foreach ($project->images as $key => $housingImage)
                                         <div class="@if ($key == 0) active @endif item carousel-item"
                                             data-slide-number="0">
-                                            <img src="{{ URL::to('/') . '/project_housing_images/' . $housingImage }}"
+                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid" alt="slider-listing">
                                         </div>
                                     @endforeach
@@ -93,11 +91,11 @@
                                 </div>
                                 <!-- main slider carousel nav controls -->
                                 <ul class="carousel-indicators smail-listing list-inline">
-                                    @foreach ($housingImages as $key => $housingImage)
+                                    @foreach ($project->images as $key => $housingImage)
                                         <li class="list-inline-item active">
                                             <a id="carousel-selector-0" class="selected" data-slide-to="0"
                                                 data-target="#listingDetailsSlider">
-                                                <img src="{{ URL::to('/') . '/project_housing_images/' . $housingImage }}"
+                                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                     class="img-fluid" alt="listing-small">
                                             </a>
                                         </li>
@@ -171,6 +169,13 @@
                         <div class="widget-boxed">
                             <div class="widget-boxed-header">
                                 <h4>Satıcı Bilgileri</h4>
+                                <a href="{{ route('brand.projects', $project->user->id) }}" class="homes-img"
+                                    style="text-decoration: none">
+
+                                    <h4>
+                                        <strong style="margin-left: 10px">{!! $project->user->name !!}</strong>
+                                    </h4>
+                                </a>
                             </div>
                             <div class="widget-boxed-body">
                                 <div class="sidebar-widget author-widget2">
@@ -232,6 +237,56 @@
 
             </div>
 
+            <section class="similar-property featured portfolio p-0 bg-white">
+                <div class="blog-info details mb-30">
+                    <h5 class="mb-4">Açıklama</h5>
+                    <p class="mb-3">{!! $project->description !!}</p>
+                </div>
+                <div class="single homes-content details mb-30">
+                    <!-- title -->
+                    <h5 class="mb-4">Bina Özellikleri</h5>
+                    <ul class="homes-list clearfix">
+                        @php
+                            function implodeData($array)
+                            {
+                                $html = '';
+                            
+                                for ($i = 0; $i < count($array); $i++) {
+                                    if ($i == 0) {
+                                        $html .= ' ' . $array[$i];
+                                    } else {
+                                        $html .= ', ' . $array[$i];
+                                    }
+                                }
+                            
+                                return $html;
+                            }
+                        @endphp
+                        @foreach ($projectHousingSetting as $housingSetting)
+                            @php
+                                $isArrayCheck = $housingSetting->is_array;
+                                $onProject = false;
+                                if ($isArrayCheck) {
+                                    $onProject = false;
+                                    $value = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
+                                    $value = implodeData($value);
+                                } elseif ($housingSetting->is_parent_table) {
+                                    $value = $project[$housingSetting->column_name];
+                                    $onProject = true;
+                                }
+                            @endphp
+                            <li style="border: none !important;">
+                                @if ($onProject)
+                                    <span class="font-weight-bold mr-1">{{ $housingSetting->label }}:</span>
+                                @else
+                                    <span
+                                        class="font-weight-bold mr-1">{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:</span>
+                                @endif
+                                <span class="det">
+                                    {{ $value }}
+                                </span>
+                            </li>
+                        @endforeach
 
 
         </div>

@@ -40,7 +40,7 @@
           </div>
           <h4 class="mb-3">Emlak Görselleri</h4>
           <div class="images owl-carousel mb-4">
-            @foreach(json_decode($housingData->images) as $key=> $image)
+            @foreach($housingData->images as $key=> $image)
                     <img src="{{asset('housing_images/' . $housingData->image)}}"
                         class="img-fluid" alt="slider-listing">
             @endforeach
@@ -86,14 +86,6 @@
                   <h4 class="card-title mb-4">Genel Bilgiler</h4>
                   <div class="row gx-3">
                     <div class="col-12 col-sm-6 col-xl-12">
-                      <div class="mb-4">
-                        <div class=" mb-2">
-                          <h5 class="mb-0 text-1000 me-2">Marka</h5>
-                          <a style="display: block" href="">{{$housing->brand->title}}</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-xl-12">
                         <div class="mb-4">
                           <div class="d-flex flex-wrap mb-2">
                             <h5 class="mb-0 text-1000 me-2">Konut Tipi</h5>
@@ -127,7 +119,7 @@
                               <h5 class="mb-0 text-1000 me-2">İlçe</h5>
                           </div>
                           <div class="col-md-12">
-                            {{$housing->county->title}}
+                            {{$housing->county->ilce_title}}
                           </div>
                       </div>
                     </div>

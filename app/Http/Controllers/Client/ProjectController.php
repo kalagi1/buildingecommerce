@@ -12,6 +12,7 @@ use App\Models\Menu;
 use App\Models\Offer;
 use App\Models\Project;
 use App\Models\ProjectHouseSetting;
+use App\Models\ProjectImage;
 use App\Models\StandOutUser;
 use Illuminate\Http\Request;
 
@@ -117,6 +118,8 @@ class ProjectController extends Controller
         $menu = Menu::getMenuItems();
         $project = Project::where('slug', $projectSlug)->with("brand", "user.projects", "user.banners")->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
+        $projectImages = ProjectImage::where('project_id',$project->id)->get();
+
         $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
         return view('client.projects.project_housing', compact('menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }

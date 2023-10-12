@@ -230,4 +230,49 @@ class TempOrderController extends Controller
 
         return $housingType->id;
     }
+
+    public function addProjectImage(Request $request){
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        if(!$tempOrder){
+            $tempData = [
+                "cover_image" => ""
+            ];
+
+            $tempData = json_encode($tempData);
+            $tempData = json_decode($tempData);
+        }else{
+            $tempData = json_decode($tempOrder->data);
+        }
+
+        if($request->hasFile('file')){
+            $imageCount = 0;
+            if(isset($tempData->roomInfoKeys) && isset($tempData->roomInfoKeys->image)){
+                $imageCount = count($tempData->roomInfoKeys->image);
+            }
+            $image = $request->file('file');
+            $imageName = 'cover_temp_image'.auth()->guard()->user()->id. $imageCount . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('storage/project_images'), $imageName);
+        }else{
+            $imageName = "";
+        }
+
+        $data = $tempData;
+        if(isset($data->roomInfoKeys) && isset($data->roomInfoKeys->image)){
+            array_push($data->roomInfoKeys->image,$imageName);
+        }else{
+            $data->roomInfoKeys->image = [$imageName];
+        }
+
+        if(!$tempOrder){
+            TempOrder::create([
+                "user_id" => auth()->guard()->user()->id,
+                "data" => json_encode($data),
+                "item_type" => $request->input('item_type')
+            ]);
+        }else{
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                "data" => json_encode($data),
+            ]);
+        }
+    }
 }
