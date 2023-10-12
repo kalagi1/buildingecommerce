@@ -1,6 +1,15 @@
 @extends('client.layouts.master')
 
 @section('content')
+    <style>
+        @media (min-width: 768px)
+        {
+            .filters-input-area 
+            {
+                display: block !important;
+            }
+        }
+    </style>
     @php
         function convertMonthToTurkishCharacter($date)
         {
@@ -58,7 +67,7 @@
         <div class="container">
 
             <div class="row project-filter-reverse">
-                <aside class="col-lg-3 col-md-12 car order-2 order-md-1">
+                <aside class="col-lg-3 col-md-12 order-2 order-md-1">
                     <div class="widget filters-input-area" style="display: none;">
                         <!-- Search Fields -->
                         <div class="widget-boxed main-search-field">
@@ -277,7 +286,7 @@
                 </aside>
 
                 <div class="col-lg-9 col-md-12 blog-pots order-1">
-                    <section class="headings-2 pt-0">
+                    <section class="headings-2 pt-0 d-md-flex justify-content-center justify-content-md-start" style="display: grid;">
                         <div class="brand-head" style="padding-top:0">
                             <div class="brands-square" style="position: relative;top:0;left:0">
                                 <p class="brand-name"><a href="{{ url('/') }}" style="color:black">Anasayfa</a></p>
@@ -291,10 +300,8 @@
                                 </p>
                             </div>
                         </div>
-                   
-
                      
-                        <div id="sorting-options" class="d-flex align-items-center">
+                        <div id="sorting-options" class="d-flex align-items-center ml-auto">
 
                             <select id="sort-select" class="form-control">
                                 <option value="sort">Sırala</option>
@@ -306,8 +313,6 @@
                                  <!-- Button trigger modal -->
                      
                         </div>
-
-
                     </section>
                     <section class="popular-places home18 mt-3" style="padding-top:0 !important">
                         <div class="container">
