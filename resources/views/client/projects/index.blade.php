@@ -515,6 +515,9 @@ out center;`;
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        .mobile-hidden{
+            display: flex;
+        }
         @media (max-width: 768px) {
             .mobile-hidden{
                 display: none
