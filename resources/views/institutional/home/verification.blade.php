@@ -119,6 +119,14 @@
                     @else
                         <button type="submit" class="btn btn-primary btn-lg">ONAYA GÖNDER</button>
                     @endif
+                    <a href="{{ route('index') }}" class="backToHome">
+                        <button type="button" class="ps-btn">Anasayfa'ya Dön <svg viewBox="0 0 24 24" width="20"
+                                height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" class="css-i6dzq1">
+                                <polyline points="9 10 4 15 9 20"></polyline>
+                                <path d="M20 4v7a4 4 0 0 1-4 4H4"></path>
+                            </svg></button>
+                    </a>
                 </div>
             </div>
         </form>

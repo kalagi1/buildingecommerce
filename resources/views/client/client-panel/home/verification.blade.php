@@ -14,25 +14,25 @@
                                 </figure>
                             </div>
                             @php
-                            $groupedMenuData = [];
+                                $groupedMenuData = [];
 
-                            foreach ($menuData as $menuItem) {
-                                $label = $menuItem['label'];
+                                foreach ($menuData as $menuItem) {
+                                    $label = $menuItem['label'];
 
-                                // Gruplandırılmış menüyü oluştur
-                                if (!isset($groupedMenuData[$label])) {
-                                    $groupedMenuData[$label] = [];
+                                    // Gruplandırılmış menüyü oluştur
+                                    if (!isset($groupedMenuData[$label])) {
+                                        $groupedMenuData[$label] = [];
+                                    }
+
+                                    // Menü öğesini ilgili gruba ekle
+                                    $groupedMenuData[$label][] = $menuItem;
                                 }
-
-                                // Menü öğesini ilgili gruba ekle
-                                $groupedMenuData[$label][] = $menuItem;
-                            }
-                        @endphp
+                            @endphp
                             @foreach ($groupedMenuData as $label => $groupedMenu)
-                             <div class="ps-widget__content mt-3">
-                              
-                                <ul style="padding: 10px !important">
-                                   
+                                <div class="ps-widget__content mt-3">
+
+                                    <ul style="padding: 10px !important">
+
                                         @php
                                             $isActive = false;
                                         @endphp
@@ -52,28 +52,25 @@
                                                                 {{ $menuItem['text'] }}</a>
                                                         </li>
                                                     @endif
-                                                    
                                                 @endforeach
-                                                <li
-                                                style="border:none !important">
-                                                <a href="{{ route('client.logout') }}"><i
-                                                    class="fa fa-sign-out pl-3"></i>
-                                               Çıkış Yap</a>
-                                            </li>
+                                                <li style="border:none !important">
+                                                    <a href="{{ route('client.logout') }}"><i
+                                                            class="fa fa-sign-out pl-3"></i>
+                                                        Çıkış Yap</a>
+                                                </li>
                                             </ul>
                                         </li>
-                                </ul>
+                                    </ul>
+                            @endforeach
 
-                                @endforeach
-
-                            </div>
-                        </aside>
                     </div>
+                    </aside>
                 </div>
-                <div class="col-lg-9">
-                    <div class="ps-page__content">
-                        <div class="ps-page__dashboard">
-                            @if ($errors->any())
+            </div>
+            <div class="col-lg-9">
+                <div class="ps-page__content">
+                    <div class="ps-page__dashboard">
+                        @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul class="mb-0">
                                     @foreach ($errors->all() as $error)
@@ -116,29 +113,28 @@
 
                             <button type="submit" class="ps-btn">Kaydet</button>
                         </form>
-                        </div>
                     </div>
                 </div>
-                
             </div>
+
+        </div>
         </div>
     </section>
     <div class="content">
         <form action="{{ route('client.verify-account') }}" enctype="multipart/form-data" method="POST"
-            style="position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 100000; background: rgba(0,0,0,.2); padding: 96px; -webkit-backdrop-filter: blur(5px);">
+            class="verify-form">
             @csrf
-            <div class="p-5 bg-white border rounded-3 shadow-lg"
-                style="width: 75%; overflow-y: scroll; max-height: 520px; margin: 0 auto;">
+            <div class="p-5 bg-white border rounded-3 shadow-lg verify-modal">
                 <div class="form-group">
                     <div class="text-success">
                         @if (!is_null(auth()->user()->identity_document))
                             Belgeleriniz gönderildi ve şu anda incelemede. Dilerseniz gönderdiğiniz belgeleri
                             güncelleyebilirsiniz. <br>
                             @if ($user->corporate_account_note)
-                             <div style="color: red">
-                                <i class="fa fa-exclamation" aria-hidden="true"></i>
-                                Admin Notu: {{ $user->corporate_account_note }}
-                             </div>
+                                <div style="color: red">
+                                    <i class="fa fa-exclamation" aria-hidden="true"></i>
+                                    Admin Notu: {{ $user->corporate_account_note }}
+                                </div>
                             @endif
                         @else
                             Sistemi kullanmaya devam edebilmeniz için hesabınızı doğrulamamız gerekiyor.<br />
@@ -146,9 +142,11 @@
                         @endif
                     </div>
                     @if (auth()->user()->identity_document_approve == 1)
-                    <div class="text-warning mt-2">
-                        Hesabınıza hala erişemiyorsanız lütfen <a href="mailto:support@emlaksepeti.com">support@emlaksepeti.com</a> adresinden site yönetici ile iletişime geçin.
-                    </div>
+                        <div class="text-warning mt-2">
+                            Hesabınıza hala erişemiyorsanız lütfen <a
+                                href="mailto:support@emlaksepeti.com">support@emlaksepeti.com</a> adresinden site yönetici
+                            ile iletişime geçin.
+                        </div>
                     @endif
                 </div>
 
@@ -161,9 +159,10 @@
                         @endif
 
                         @if (!is_null(auth()->user()->identity_document))
-                        <div>
-                        <a href="{{ route('client.get.identity-document') }}" class="btn btn-primary">Kimlik Belgesini Gör</a>
-                        </div>
+                            <div>
+                                <a href="{{ route('client.get.identity-document') }}" class="btn btn-primary">Kimlik
+                                    Belgesini Gör</a>
+                            </div>
                         @endif
                     </label>
                     <input type="file" name="kimlik_belgesi" id="kimlik_belgesi"
@@ -174,15 +173,65 @@
 
                 <div class="form-group">
                     @if (!is_null(auth()->user()->identity_document))
-                        <button type="submit" class="btn btn-primary btn-lg">GÜNCELLE</button>
+                        <button type="submit" class="ps-btn">GÜNCELLE</button>
                     @else
-                        <button type="submit" class="btn btn-primary btn-lg">ONAYA GÖNDER</button>
+                        <button type="submit" class="ps-btn">ONAYA GÖNDER</button>
                     @endif
+                    <a href="{{ route('index') }}" class="backToHome">
+                        <button type="button" class="ps-btn">Anasayfa'ya Dön <svg viewBox="0 0 24 24" width="20"
+                                height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" class="css-i6dzq1">
+                                <polyline points="9 10 4 15 9 20"></polyline>
+                                <path d="M20 4v7a4 4 0 0 1-4 4H4"></path>
+                            </svg></button>
+                    </a>
+
                 </div>
             </div>
         </form>
     </div>
     <style>
+        .verify-form {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100000;
+            background: rgb(0 0 0 / 60%);
+            padding: 96px;
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .verify-modal {
+            width: 75%;
+            max-height: 520px;
+            margin: 0 auto;
+            margin-top: 100px
+        }
+
+        @media (max-width:768px) {
+            .verify-modal {
+                width: 100%;
+                max-height: 520px;
+                margin: 0 auto;
+                margin-top: 150px
+            }
+
+            .verify-form {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 100000;
+                background: rgb(0 0 0 / 60%);
+                padding: 36px;
+                -webkit-backdrop-filter: blur(5px);
+            }
+
+        }
+
         /* Add this to your CSS file */
         .green-border {
             border: 2px solid green !important;
@@ -211,8 +260,7 @@
             /* Adjust the spacing as needed */
         }
 
-        .form-control.important
-        {
+        .form-control.important {
             background-color: #fff !important;
             background-clip: padding-box !important;
             display: block !important;
@@ -222,8 +270,7 @@
             height: unset !important;
         }
 
-        .form-control.important::file-selector-button
-        {
+        .form-control.important::file-selector-button {
             align-items: flex-start;
             appearance: button;
             background-color: rgb(233, 236, 239);

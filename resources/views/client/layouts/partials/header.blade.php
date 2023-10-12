@@ -50,6 +50,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 
     @yield('styles')
+    <style>
+        .swal2-container.swal2-center {
+            z-index: 9999999;
+        }
+
+        .swal2-popup {
+            z-index: 9999999;
+        }
+
+        @media (max-width:768px) {
+            .brand-head .navbar-item {
+                padding: 13px !important
+            }
+        }
+    </style>
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
@@ -154,10 +169,7 @@
                                             </path>
                                         </svg>
                                         <span class="d-xl-block d-none d-lg-block rightNavText">Sepetim</span></a>
-                                    <a href="{{ route('client.login') }}"
-                                        style="text-decoration: none;margin-left:15px"><button
-                                            class="btn btn-primary q-button" type="submit"> Sepete İlan
-                                            Ekle</button></a>
+
 
                                 @endif
 
@@ -186,10 +198,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="input-group search d-xl-none d-lg-none d-flex">
-                        <input type="text" placeholder="Ara ..">
-                        <i class="fa fa-search"></i>
-                    </div>
+
                 </div>
                 <div class="header-bottom d-xl-block d-none d-lg-block">
                     <nav id="navigation" class="style-1">

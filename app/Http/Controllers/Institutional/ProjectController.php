@@ -17,12 +17,16 @@ use App\Models\Project;
 use App\Models\ProjectHousing;
 use App\Models\ProjectHousingType;
 use App\Models\ProjectImage;
+use App\Models\SinglePrice;
+use App\Models\StandOutUser;
+use App\Models\TempOrder;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use App\Rules\EnoughProject;
+use Throwable;
 
 class ProjectController extends Controller
 {
@@ -43,8 +47,36 @@ class ProjectController extends Controller
 
     public function createV2(){
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
+        $prices = SinglePrice::where('item_type',1)->get();
         $cities = City::get();
-        return view('institutional.projects.createv2',compact('housingTypeParent','cities'));
+        $housing_status = HousingStatus::all();
+        $tempDataFull = TempOrder::where('item_type',1)->where('user_id',auth()->guard()->user()->id)->first();
+        if($tempDataFull){
+            $tempData = json_decode($tempDataFull->data);
+        }else{
+            $tempData = json_decode("{}");
+        }
+
+        if($tempDataFull && isset($tempData->statuses)){
+            $selectedStatuses = HousingStatus::whereIn("id",$tempData->statuses)->get();
+        }else{
+            $selectedStatuses = [];
+        }
+        if($tempDataFull){
+            $tempDataFull = $tempDataFull;
+        }else{
+            $tempDataFull = json_decode('{"step_order" : 1}');
+        }
+
+        $userPlan = UserPlan::where('user_id',auth()->user()->id)->first();
+        return view('institutional.projects.createv2',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan'));
+    }
+
+    public function getBusyDatesByStatusType($statusId,Request $request){
+        return json_encode([
+            "busy_dates" => StandOutUser::where('housing_status_id',$statusId)->where('item_order',$request->input('order'))->get(),
+            "price" => PricingStandOut::where('housing_status_id',$statusId)->where('order',$request->input('order'))->first()
+        ]);
     }
 
     public function getHousingTypeChildren($slug){
@@ -62,6 +94,120 @@ class ProjectController extends Controller
                 "data" => $housingTypeChildren,
                 "is_end" => 1
             ];
+        }
+    }
+
+    public function createProjectEnd(Request $request){
+        try{
+            DB::beginTransaction();
+            $tempOrderFull = TempOrder::where('user_id',auth()->user()->id)->first();
+            $tempOrder = json_decode($tempOrderFull->data);
+            $housingType = HousingType::where('slug',$tempOrder->step3_slug)->firstOrFail();
+            $housingTypeInputs = json_decode($housingType->form_json);
+            
+            // Dosya adını değiştirme işlemi
+            
+            if($tempOrderFull->step_order == 3){
+                $oldCoverImage = public_path('project_images/'.$tempOrder->cover_image); // Mevcut dosyanın yolu
+            $extension = explode('.',$tempOrder->cover_image);
+            $newCoverImage = Str::slug($tempOrder->name).(Auth::user()->id).'.'.end($extension);
+            $newCoverImageName = public_path('project_images/'.$newCoverImage); // Yeni dosya adı ve yolu
+            File::move($oldCoverImage, $newCoverImageName);
+
+            $oldDocument = public_path('housing_documents/'.$tempOrder->document); // Mevcut dosyanın yolu
+            $extension = explode('.',$tempOrder->document);
+            $newDocument = Str::slug($tempOrder->name).'_verification_'.(Auth::user()->id).'.'.end($extension);
+            $newDocumentFile = public_path('housing_documents/'.$newDocument); // Yeni dosya adı ve yolu
+            File::move($oldDocument, $newDocumentFile);
+                $project = Project::create([
+                    "housing_type_id" => $housingType->id,
+                    "project_title" => $tempOrder->name,
+                    "slug" => Str::slug($tempOrder->name),
+                    "address" => "asd",
+                    "location" => $tempOrder->location,
+                    "description" => $tempOrder->description,
+                    "room_count" => $tempOrder->house_count,
+                    "city_id" => $tempOrder->city_id,
+                    "county_id" => $tempOrder->county_id,
+                    "user_id" => Auth::user()->id,
+                    "status_id" => 1,
+                    "image" => $newCoverImage,
+                    'document' => $newDocument,
+                    "status" => 2
+                ]);
+    
+                foreach($tempOrder->images as $key => $image){
+                    $eskiDosyaAdi = public_path('project_images/'.$image); // Mevcut dosyanın yolu
+                    $extension = explode('.',$image);
+                    $newFileName = Str::slug($tempOrder->name).'-'.($key+1).'.'.end($extension);
+                    $yeniDosyaAdi = public_path('project_images/'.$newFileName); // Yeni dosya adı ve yolu
+
+                    // Dosya adını değiştirme işlemi
+                    if (File::move($eskiDosyaAdi, $yeniDosyaAdi)) {
+                        $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
+                        $projectImage->image = 'public/project_images/'.$newFileName;
+                        $projectImage->project_id = $project->id;
+                        $projectImage->save();
+                    }
+                }
+
+                for ($i = 0; $i < $tempOrder->house_count; $i++) {
+                    for ($j = 0; $j < count($housingTypeInputs); $j++) {
+                        if ($housingTypeInputs[$j]->type != "checkbox-group" && $housingTypeInputs[$j]->type != "file") {
+                            if (isset($housingTypeInputs[$j]->name) && $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i] != null) {
+                                ProjectHousing::create([
+                                    "key" => $housingTypeInputs[$j]->label,
+                                    "name" => $housingTypeInputs[$j]->name,
+                                    "value" => $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i],
+                                    "project_id" => $project->id,
+                                    "room_order" => $i + 1,
+                                ]);
+                            }
+                            
+                        } else if($housingTypeInputs[$j]->type != "file") {
+                            ProjectHousing::create([
+                                "key" => $housingTypeInputs[$j]->label,
+                                "name" => $housingTypeInputs[$j]->name,
+                                "value" => isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2).($i+1)}) ? json_encode($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2).($i+1)}) : json_encode([]),
+                                "project_id" => $project->id,
+                                "room_order" => $i + 1,
+                            ]);
+                        }
+                    }
+                }
+
+                if(!$request->without_doping){
+                    StandOutUser::create([
+                        "user_id" => auth()->user()->id,
+                        "project_id" => $project->id,
+                        "item_order" => $tempOrder->doping_order,
+                        "housing_status_id" => $tempOrder->doping_statuses,
+                        "start_date" => date('Y-m-d',strtotime($tempOrder->doping_start_date)),
+                        "end_date" => date('Y-m-d',strtotime($tempOrder->doping_end_date)),
+                    ]);
+                }
+
+                DB::commit();
+                
+                TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->delete();
+
+                return json_encode([
+                    "status" => true
+                ]);
+            }else{
+                return json_encode([
+                    "status" => false,
+                    "message" => "Son aşamada değilsiniz"
+                ]);
+            }
+        }catch(Throwable $e){
+            DB::rollback();
+
+            
+            return json_encode([
+                "status" => false,
+                "message" => $e->getMessage()
+            ]); 
         }
     }
 

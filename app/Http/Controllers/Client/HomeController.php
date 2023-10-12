@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\FooterSlider;
 use App\Models\Housing;
 use App\Models\HousingStatus;
-use App\Models\HousingFavorite;
 use App\Models\Menu;
 use App\Models\Project;
 use App\Models\Slider;
@@ -14,7 +13,6 @@ use App\Models\StandOutUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -48,29 +46,45 @@ class HomeController extends Controller
             $query->where('housing_type_id', '3');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
 
-
         return view('client.home.index', compact('menu', 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 
     public function getRenderedProjects(Request $request)
     {
-        $obj = new Project;
+        $query = Project::query();
 
-        if ($request->input('city'))
-            $obj = $obj->where('city_id', $request->input('city'));
+        if ($request->input('city')) {
+            $query->where('city_id', $request->input('city'));
+        }
 
-        if ($request->input('county'))
-            $obj = $obj->where('county_id', $request->input('county'));
+        if ($request->input('county')) {
+            $query->where('county_id', $request->input('county'));
+        }
 
-        $obj = $obj->get();
+        // Sıralama seçeneğini kontrol et
+        if ($request->input('sort')) {
+            switch ($request->input('sort')) {
+                case 'date-asc':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                case 'date-desc':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+            }
+        }
 
-        return response()->json($obj->map(fn($item) =>
-        [
-            'image' => url(str_replace('public/', 'storage/', $item->image)),
-            'url' => route('project.detail', $item->slug),
-        ]));
+        $projects = $query->get();
+
+        $renderedProjects = $projects->map(function ($item) {
+            return [
+                'image' => url(str_replace('public/', 'storage/', $item->image)),
+                'url' => route('project.detail', $item->slug),
+                // İlanın diğer özelliklerini burada ekleyebilirsiniz
+            ];
+        });
+
+        return response()->json($renderedProjects);
     }
-
     public function getRenderedSecondhandHousings(Request $request)
     {
         function convertMonthToTurkishCharacter($date)
@@ -127,67 +141,68 @@ class HomeController extends Controller
 
         $obj = Housing::with('images');
 
-        if ($request->input('from_owner'))
-        {
-            switch ($request->input('from_owner'))
-            {
+        if ($request->input('from_owner')) {
+            switch ($request->input('from_owner')) {
                 case 'from_owner':
                     $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
-                               ->where('users.type', '1');
+                        ->where('users.type', '1');
                     break;
 
                 case 'from_office':
                     $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
-                               ->join('user_plans', 'user_plans.user_id', '=', 'users.id')
-                               ->join('subscription_plans', 'subscription_plans.id', '=', 'user_plans.subscription_plan_id')
-                               ->where('users.type', '2')
-                               ->where('subscription_plans.plan_type', 'Emlakçı');
+                        ->join('user_plans', 'user_plans.user_id', '=', 'users.id')
+                        ->join('subscription_plans', 'subscription_plans.id', '=', 'user_plans.subscription_plan_id')
+                        ->where('users.type', '2')
+                        ->where('subscription_plans.plan_type', 'Emlakçı');
                     break;
 
                 case 'from_bank':
                     $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
-                                ->join('user_plans', 'user_plans.user_id', '=', 'users.id')
-                                ->join('subscription_plans', 'subscription_plans.id', '=', 'user_plans.subscription_plan_id')
-                                ->where('users.type', '2')
-                                ->where('subscription_plans.plan_type', 'Banka');
+                        ->join('user_plans', 'user_plans.user_id', '=', 'users.id')
+                        ->join('subscription_plans', 'subscription_plans.id', '=', 'user_plans.subscription_plan_id')
+                        ->where('users.type', '2')
+                        ->where('subscription_plans.plan_type', 'Banka');
                     break;
 
                 case 'from_company':
                     $obj = $obj->join('users', 'users.id', '=', 'housings.user_id')
-                                ->join('user_plans', 'user_plans.user_id', '=', 'users.id')
-                                ->join('subscription_plans', 'subscription_plans.id', '=', 'user_plans.subscription_plan_id')
-                                ->where('users.type', '2')
-                                ->where('subscription_plans.plan_type', 'İnşaat');
+                        ->join('user_plans', 'user_plans.user_id', '=', 'users.id')
+                        ->join('subscription_plans', 'subscription_plans.id', '=', 'user_plans.subscription_plan_id')
+                        ->where('users.type', '2')
+                        ->where('subscription_plans.plan_type', 'İnşaat');
                     break;
             }
         }
 
-        if ($request->input('city'))
+        if ($request->input('city')) {
             $obj = $obj->where('city_id', $request->input('city'));
+        }
 
-        if ($request->input('county'))
+        if ($request->input('county')) {
             $obj = $obj->where('county_id', $request->input('county'));
+        }
 
-        if ($request->input('price_min'))
-            $obj = $obj->whereRaw('CAST(JSON_EXTRACT(housing_type_data, "$.price[0]") AS FLOAT) >= ?', [$request->input('price_min')]);
+        if ($request->input('price_min')) {
+            $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.price[0]")) AS DECIMAL(10, 2)) >= ?', [$request->input('price_min')]);
+        }
 
-        if ($request->input('price_max'))
-            $obj = $obj->whereRaw('CAST(JSON_EXTRACT(housing_type_data, "$.price[0]") AS FLOAT) <= ?', [$request->input('price_max')]);
+        if ($request->input('price_max')) {
+            $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.price[0]")) AS DECIMAL(10, 2)) <= ?', [$request->input('price_max')]);
+        }
 
-        if ($request->input('msq_min'))
-            $obj = $obj->whereRaw('CAST(JSON_EXTRACT(housing_type_data, "$.squaremeters[0]") AS FLOAT) >= ?', [$request->input('msq_min')]);
+        if ($request->input('msq_min')) {
+            $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.squaremeters[0]")) AS DECIMAL(10, 2)) >= ?', [$request->input('msq_min')]);
+        }
 
-        if ($request->input('msq_max'))
-            $obj = $obj->whereRaw('CAST(JSON_EXTRACT(housing_type_data, "$.squaremeters[0]") AS FLOAT) <= ?', [$request->input('msq_max')]);
+        if ($request->input('msq_max')) {
+            $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.squaremeters[0]")) AS DECIMAL(10, 2)) <= ?', [$request->input('msq_max')]);
+        }
 
-        if ($request->input('room_count'))
-        {
+        if ($request->input('room_count')) {
             $obj = $obj->whereJsonContains('housing_type_data->room_count', [$request->input('room_count')[0]]);
             $e = 0;
-            foreach ($request->input('room_count') as $room_count)
-            {
-                if ($e == 0)
-                {
+            foreach ($request->input('room_count') as $room_count) {
+                if ($e == 0) {
                     $e = 1;
                     continue;
                 }
@@ -195,10 +210,8 @@ class HomeController extends Controller
             }
         }
 
-        if ($request->input('post_date'))
-        {
-            switch ($request->input('post_date'))
-            {
+        if ($request->input('post_date')) {
+            switch ($request->input('post_date')) {
                 case 'recent_day':
                     $obj = $obj->where('created_at', '>=', date('Y-m-d 00:00:00', strtotime('-1 Days')));
                     break;
@@ -221,27 +234,45 @@ class HomeController extends Controller
             }
         }
 
+        if ($request->input('sort')) {
+            switch ($request->input('sort')) {
+                case 'date-asc':
+                    $obj = $obj->orderBy('created_at', 'asc');
+                    break;
+                case 'date-desc':
+                    $obj = $obj->orderBy('created_at', 'desc');
+                    break;
+                case 'price-asc':
+                    $obj = $obj->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.price[0]")) AS DECIMAL(10, 2)) ASC');
+                    break;
+                case 'price-desc':
+                    $obj = $obj->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.price[0]")) AS DECIMAL(10, 2)) DESC');
+                    break;
+            }
+        }
+        
+
         $obj = $obj->get();
 
         return response()->json($obj->map(fn($item) =>
-        [
-            'image' => asset('housing_images/' . getImage($item, 'image')),
-            'housing_type_title' => $item->housing_type_title,
-            'id' => $item->id,
-            'in_cart' => $request->session()->get('cart') && $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
-            'in_favorites' => auth()->user() ? HousingFavorite::select(DB::raw('1 AS status'))->where('user_id', auth()->user()->id)->where('housing_id', $item->id)->first()->status ?? 0 : 0,
-            'housing_url' => route('housing.show', $item->id),
-            'title' => $item->title,
-            'housing_address' => $item->address,
-            'housing_type' =>
             [
-                'title' => $item->housing_type->title,
-                'room_count' => getData($item, 'room_count'),
-                'squaremeters' => getData($item, 'squaremeters'),
-                'price' => getData($item, 'price'),
-                'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
-            ]
-        ]));
+                'image' => asset('housing_images/' . getImage($item, 'image')),
+                'housing_type_title' => $item->housing_type_title,
+                'id' => $item->id,
+                'in_cart' => $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
+                'housing_url' => route('housing.show', $item->id),
+                'title' => $item->title,
+                'housing_address' => $item->address,
+                'created_at' => $item->created_at,
+                'housing_type' =>
+                [
+                    'title' => $item->housing_type->title,
+                    'room_count' => getData($item, 'room_count'),
+                    'squaremeters' => getData($item, 'squaremeters'),
+                    'price' => getData($item, 'price'),
+                    'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
+                ],
+            ]));
     }
 
     public function getSearchList(Request $request)
@@ -251,9 +282,9 @@ class HomeController extends Controller
                 'searchTerm' => 'required|string',
             ]
         );
-    
+
         $term = $request->input('searchTerm');
-    
+
         return response()->json(
             [
                 'housings' => Housing::where('title', 'LIKE', "%{$term}%")->get()->map(function ($item) {
@@ -278,11 +309,11 @@ class HomeController extends Controller
                         'id' => $item->id,
                         'photo' => $item->profile_image,
                         'name' => $item->name,
-                        'slug' => Str::slug($item->name)
+                        'slug' => Str::slug($item->name),
                     ];
                 }),
             ]
         );
     }
-    
+
 }
