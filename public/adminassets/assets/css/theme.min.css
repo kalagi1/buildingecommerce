@@ -40995,3 +40995,8 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     max-width: 129px;
     max-width: 97px;
 }
+.finish-button-first {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
