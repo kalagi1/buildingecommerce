@@ -175,6 +175,10 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::get('show-corporate-account/{user}', [UserController::class, 'showCorporateAccount'])->name('user.show-corporate-account');
     });
 
+    Route::middleware(['checkPermission:GetOrders'])->group(function () {
+        Route::get('/orders', [AdminHomeController::class, 'getOrders'])->name('orders');
+    });
+
     Route::middleware(['checkPermission:GetHousingTypeForm'])->group(function () {
         Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
     });

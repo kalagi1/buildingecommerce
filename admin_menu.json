@@ -50,6 +50,15 @@
         "activePath": "admin/housing/comments"
     },
     {
+        "id": "order",
+        "label": "Siparişler",
+        "icon": "list",
+        "text": "Siparişler",
+        "key": "GetOrders",
+        "url": "admin.orders",
+        "activePath": "admin/orders"
+    },
+    {
         "id": "role",
         "label": "Yetkilendirme",
         "icon": "user",
