@@ -83,7 +83,7 @@ class CartController extends Controller
         $order->status = '1';
         $order->save();
 
-        return redirect()->route('client.pay.success', ['cartOrder' => $order->id]);
+        return redirect()->route('client.pay.success', ['cart_order' => $order->id]);
     }
 
     function paySuccess(Request $request, CartOrder $cart_order)

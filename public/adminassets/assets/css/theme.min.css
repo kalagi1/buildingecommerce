@@ -40986,3 +40986,17 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .finish-area .text{
     margin: 20px 0;
 }
+
+.project_imaget{
+    margin:15px;
+}
+
+.project_imaget img{
+    max-width: 129px;
+    max-width: 97px;
+}
+.finish-button-first {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}

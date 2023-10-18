@@ -549,7 +549,7 @@ Version      : 1.2
     }
 
     .brand-head .brand-name {
-        margin-right: 10px !important;
+        margin-left: 10px !important;
         font-weight: 600;
         margin: 0;
         padding: 0;
@@ -1439,11 +1439,7 @@ Version      : 1.2
         transition: transform 0.6s ease-in, -webkit-transform 0.6s ease-in;
     }
 
-    .homes,
-    .homes-img {
-        position: relative;
-        overflow: hidden;
-    }
+
 
     .homes-tag.featured {
         width: 84px !important;
@@ -5817,8 +5813,11 @@ Version      : 1.2
     }
 
     .homepage-2 .portfolio .project-head {
-        border-radius: 8px 8px 0 0;
         border: none;
+    }
+
+    .button-effect-2 .btn {
+        background: white !important;
     }
 
     .homepage-2 .portfolio .homes-price {
@@ -5869,7 +5868,7 @@ Version      : 1.2
         border-top: 1px solid #eee;
     }
 
-  
+
     /*------ register form------------------------------------------------*/
 
     .login-and-register-form {
@@ -8563,7 +8562,25 @@ Version      : 1.2
         margin-right: 15px;
     }
 
+    .mobile-hidden {
+        display: block;
+    }
+
+    .mobile-show {
+        display: none;
+    }
+
+
+
     @media screen and (max-width: 768px) {
+        .mobile-show {
+            display: block;
+        }
+
+        .mobile-hidden {
+            display: none;
+        }
+
         #header-container .container {
             margin-bottom: 1rem !important;
             padding-bottom: 1rem !important;
@@ -15765,7 +15782,8 @@ Version      : 1.2
     }
 
     .inner-pages .properties-right.list .homes-img img {
-        height: 150px;
+        height: 100%;
+        object-fit: cover;
     }
 
     .inner-pages .properties-right.list .project-single {
@@ -15882,11 +15900,11 @@ Version      : 1.2
             width: 25% !important;
             justify-content: start;
         }
-        
+
         .inner-pages .portfolio .homes-content .homes-list-div ul li.special-width {
             width: 50% !important;
         }
-        
+
 
         .project-card p {
             display: none !important;
@@ -16199,6 +16217,7 @@ Version      : 1.2
         background: #fff;
         border: 2px solid #e2dfdf;
         color: #333;
+        cursor: pointer;
     }
 
     .inner-pages .blog .main-search-field .at-col-default-mar {
@@ -17268,6 +17287,7 @@ Version      : 1.2
     .sidebar-widget .author-box img {
         float: left;
         width: 85px;
+        object-fit: cover;
         height: 85px;
         border: 4px solid #fff;
         margin-right: 15px;
@@ -22437,6 +22457,7 @@ Version      : 1.2
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
+        flex-wrap: wrap;
     }
 
     .inner-pages .recent-post .tags a {
@@ -25823,8 +25844,13 @@ Version      : 1.2
             font-size: 16px;
         }
 
+        .section-title {
+            margin: 20px 0;
+            margin-bottom: 50px;
+        }
+
         .section-title h2 {
-            font-size: 26px;
+            font-size: 24px;
         }
 
         .who-we-are .who img {

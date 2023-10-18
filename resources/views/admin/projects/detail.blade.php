@@ -68,7 +68,7 @@
                                             <div class="view-form-json mt-4">
                                                 <label for="" style="font-weight: bold;">{{$housingType->label}}</label>
                                                 @foreach(json_decode($housingData[$housingType->name]->value) as $checkboxItem)
-                                                <p class="mb-1">{{$checkboxItem[0]}}</p>
+                                                <p class="mb-1">{{$checkboxItem}}</p>
                                                 @endforeach
                                             </div>
                                         @else 
@@ -79,13 +79,7 @@
                                         @endif
                                     @elseif($housingType->type == "file")
                                         @if($housingType->multiple)
-                                            <div class="owl-carousel mt-5">
-                                                @foreach(json_decode($housingData[$housingType->name]->value) as $image)
-                                                    <div class="carousel-itemx">
-                                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $image }}" alt="">
-                                                    </div>
-                                                @endforeach
-                                            </div>
+                                            
                                         @else 
                                             <div class="view-form-json mt-4">
                                                 <img style="width:150px;" src="{{ URL::to('/') . '/project_housing_images/' . $housingData[$housingType->name]->value }}" alt="">
@@ -111,7 +105,7 @@
                       <div class="mb-4">
                         <div class=" mb-2">
                           <h5 class="mb-0 text-1000 me-2">Marka</h5>
-                          <a style="display: block" href="">{{$project->brand->title}}</a>
+                          <a style="display: block" href="">{{$project->user->name}}</a>
                         </div>
                       </div>
                     </div>
@@ -149,7 +143,7 @@
                               <h5 class="mb-0 text-1000 me-2">İlçe</h5>
                           </div>
                           <div class="col-md-12">
-                            {{$project->county->title}}
+                            {{$project->county->ilce_title}}
                           </div>
                       </div>
                     </div>

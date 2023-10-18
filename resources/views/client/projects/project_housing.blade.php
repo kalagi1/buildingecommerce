@@ -10,9 +10,7 @@
                 }
             }
         }
-        
-        $housingImages = getData($project, 'images[]', $housingOrder);
-        $housingImages = json_decode($housingImages->value);
+
     @endphp
 
     <section class="single-proper blog details bg-white">
@@ -28,7 +26,12 @@
                                             {{ getData($project, 'squaremeters[]', $housingOrder)->value }}m2
                                             {{ getData($project, 'room_count[]', $housingOrder)->value }}
                                             {{ $project->housingType->title }} </h3>
-
+                                        <div class="mt-0">
+                                            <a href="#listing-location" class="listing-address">
+                                                <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
+                                                {!! $project->address !!}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="single detail-wrapper mr-2">
@@ -57,7 +60,7 @@
                                 style="border: none;width:100%; background-color: #446BB6; border-radius: 10px; padding: 10px 50px; color: white;"
                                 class="addToCart" data-type='project' data-project='{{ $project->id }}'
                                 data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>Sepete
-                                Ekle</button>   
+                                Ekle</button>
                         </div>
                     </div>
                 </div>
@@ -71,10 +74,10 @@
                                 <!-- <h5 class="mb-4">Gallery</h5> -->
                                 <div class="carousel-inner">
 
-                                    @foreach ($housingImages as $key => $housingImage)
+                                    @foreach ($project->images as $key => $housingImage)
                                         <div class="@if ($key == 0) active @endif item carousel-item"
                                             data-slide-number="0">
-                                            <img src="{{ URL::to('/') . '/project_housing_images/' . $housingImage }}"
+                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid" alt="slider-listing">
                                         </div>
                                     @endforeach
@@ -88,11 +91,11 @@
                                 </div>
                                 <!-- main slider carousel nav controls -->
                                 <ul class="carousel-indicators smail-listing list-inline">
-                                    @foreach ($housingImages as $key => $housingImage)
+                                    @foreach ($project->images as $key => $housingImage)
                                         <li class="list-inline-item active">
                                             <a id="carousel-selector-0" class="selected" data-slide-to="0"
                                                 data-target="#listingDetailsSlider">
-                                                <img src="{{ URL::to('/') . '/project_housing_images/' . $housingImage }}"
+                                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                     class="img-fluid" alt="listing-small">
                                             </a>
                                         </li>
@@ -104,110 +107,130 @@
 
                         </div>
                     </div>
+                    <div class="similar-property featured portfolio p-0 bg-white">
+                        <div class="blog-info details mb-30">
+                            <h5 class="mb-4">Açıklama</h5>
+                            <p class="mb-3">{!! $project->description !!}</p>
+                        </div>
+                        <div class="single homes-content details mb-30">
 
+                            <h5 class="mb-4">Bina Özellikleri</h5>
+                            <ul class="homes-list clearfix">
+                                @php
+                                    function implodeData($array)
+                                    {
+                                        $html = '';
+                                    
+                                        for ($i = 0; $i < count($array); $i++) {
+                                            if ($i == 0) {
+                                                $html .= ' ' . $array[$i];
+                                            } else {
+                                                $html .= ', ' . $array[$i];
+                                            }
+                                        }
+                                    
+                                        return $html;
+                                    }
+                                @endphp
+                                @foreach ($projectHousingSetting as $housingSetting)
+                                    @php
+                                        $isArrayCheck = $housingSetting->is_array;
+                                        $onProject = false;
+                                        if ($isArrayCheck) {
+                                            $onProject = false;
+                                            $value = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
+                                            $value = implodeData($value);
+                                        } elseif ($housingSetting->is_parent_table) {
+                                            $value = $project[$housingSetting->column_name];
+                                            $onProject = true;
+                                        }
+                                    @endphp
+                                    <li style="border: none !important;">
+                                        @if ($onProject)
+                                            <span class="font-weight-bold mr-1">{{ $housingSetting->label }}:</span>
+                                        @else
+                                            <span
+                                                class="font-weight-bold mr-1">{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:</span>
+                                        @endif
+                                        <span class="det">
+                                            {{ $value }}
+                                        </span>
+                                    </li>
+                                @endforeach
+        
+                            </ul>
+                        </div>
+
+                    </div>
 
                 </div>
-                <aside class="col-lg-4 col-md-12 car">
+                <aside class="col-md-4  car">
                     <div class="single widget">
-                        <!-- Start: Schedule a Tour -->
-                        <div class="schedule widget-boxed mt-33 mt-0">
+                        <div class="widget-boxed">
                             <div class="widget-boxed-header">
-                                <a href="{{ route('brand.projects', $project->brand->id) }}" class="homes-img"
-                                    style="text-decoration: none">
-
-                                    <h4>
-                                        <img src="{{ URL::to('/') . '/storage/brand_images/' . $project->brand->logo }}"
-                                            alt="" style="height: 40px">
-                                        <strong style="margin-left: 10px">{!! $project->brand->title !!}</strong>
-                                    </h4>
-                                </a>
+                                <h4>Satıcı Bilgileri</h4>
                             </div>
-
                             <div class="widget-boxed-body">
-
-                                <div class="the-agents">
-                                    <ul class="the-agents-details">
-                                        <li><a href="#"><strong>Adres:</strong> {!! $project->address !!} </a></li>
-                                        <li><a href="#"><strong>Telefon:</strong> {!! $project->user->phone !!} </a></li>
-                                        <li><a href="#"><strong>E-Mail:</strong> {!! $project->user->email !!} </a></li>
-
+                                <div class="sidebar-widget author-widget2">
+                                    <div class="author-box clearfix">
+                                        <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
+                                            alt="author-image" class="author__img">
+                                        <h4 class="author__title">{!! $project->user->name !!}</h4>
+                                        <p class="author__meta">{{ $project->user->corporate_type }}</p>
+                                    </div>
+                                    <ul class="author__contact">
+                                        <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>
+                                            {!! $project->address !!}</li>
+                                        <li><span class="la la-phone"><i class="fa fa-phone"
+                                                    aria-hidden="true"></i></span><a href="tel:{!! $project->user->phone !!}">
+                                                {!! $project->user->phone !!}</a>
+                                        </li>
+                                        <li><span class="la la-envelope-o"><i class="fa fa-envelope"
+                                                    aria-hidden="true"></i></span><a
+                                                href="mailto:{!! $project->user->email !!}">{!! $project->user->email !!}</a></li>
                                     </ul>
                                 </div>
-
                             </div>
                         </div>
-                        <!-- End: Schedule a Tour -->
-                        <!-- end author-verified-badge -->
-                        <div class="sidebar">
-                            <div class="widget-boxed mt-33 mt-5">
-                                <div class="divider-fade"></div>
-                                <div id="map" class="contactmap" style="height: 300px">
+                        <div class="widget-boxed popular mt-5">
+                            <div class="widget-boxed-header">
+                                <h4>Satıcının Diğer Projeleri</h4>
+                            </div>
+                            <div class="widget-boxed-body">
+                                <div class="recent-post">
+                                    <div class="tags">
+                                        @foreach ($project->user->projects as $item)
+                                            <span><a href="#"
+                                                    class="btn btn-outline-primary">{{ $item->project_title }}</a></span>
+                                        @endforeach
+
+                                    </div>
                                 </div>
-
                             </div>
-
                         </div>
+                        <div class="widget-boxed popular mt-5">
+                            <div class="widget-boxed-header">
+                                <h4>{!! $project->user->name !!}</h4>
+                            </div>
+                            <div class="widget-boxed-body">
+                                @if (count($project->user->banners) > 0)
+                                    @php
+                                        $randomBanner = $project->user->banners[0];
+                                        $imagePath = asset('storage/store_banners/' . $randomBanner['image']);
+                                    @endphp
+                                    <div class="banner"><img src="{{ $imagePath }}" alt=""></div>
+                                @else
+                                    <p>No banners available.</p>
+                                @endif
+                            </div>
+                        </div>
+
                     </div>
                 </aside>
+
             </div>
 
-            <section class="similar-property featured portfolio p-0 bg-white">
-                <div class="blog-info details mb-30">
-                    <h5 class="mb-4">Açıklama</h5>
-                    <p class="mb-3">{!! $project->description !!}</p>
-                </div>
-                <div class="single homes-content details mb-30">
-                    <!-- title -->
-                    <h5 class="mb-4">Bina Özellikleri</h5>
-                    <ul class="homes-list clearfix">
-                        @php
-                            function implodeData($array)
-                            {
-                                $html = '';
-                            
-                                for ($i = 0; $i < count($array); $i++) {
-                                    if ($i == 0) {
-                                        $html .= ' ' . $array[$i][0];
-                                    } else {
-                                        $html .= ',' . $array[$i][0];
-                                    }
-                                }
-                            
-                                return $html;
-                            }
-                        @endphp
-                        @foreach ($projectHousingSetting as $housingSetting)
-                            @php
-                                $isArrayCheck = $housingSetting->is_array;
-                                $onProject = false;
-                                if ($isArrayCheck) {
-                                    $onProject = false;
-                                    $value = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                    $value = implodeData($value);
-                                } elseif ($housingSetting->is_parent_table) {
-                                    $value = $project[$housingSetting->column_name];
-                                    $onProject = true;
-                                }
-                            @endphp
-                            <li style="border: none !important;">
-                                @if ($onProject)
-                                    <span class="font-weight-bold mr-1">{{ $housingSetting->label }}:</span>
-                                @else
-                                    <span
-                                        class="font-weight-bold mr-1">{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:</span>
-                                @endif
-                                <span class="det">
-                                    {{ $value }}
-                                </span>
-                            </li>
-                        @endforeach
-
-                    </ul>
-
-                </div>
-
-            </section>
-
+         
         </div>
     </section>
 @endsection
@@ -219,7 +242,7 @@
             $location = explode(',', $project->location);
             $location['latitude'] = $location[0];
             $location['longitude'] = $location[1];
-            
+
             $location = json_encode($location);
             $location = json_decode($location);
         @endphp

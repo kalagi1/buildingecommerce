@@ -55,11 +55,11 @@
                                                                     <span class="btn btn-danger">Pasif</span>
                                                                 @endif
                                                             </td>
-                                                            <td>{{ $project->brand->title }}</td>
+                                                            <td>{{ $project->user->name }}</td>
                                                             <td>{{ $project->room_count }}</td>
                                                             <td>{{ $project->housingType->title }}</td>
                                                             <td>{{ $project->city->title }}</td>
-                                                            <td>{{ $project->county->title }}</td>
+                                                            <td>{{ isset($project->county->ilce_title) ? $project->county->ilce_title  : '' }}</td>
                                                             <td>
                                                                 <a href="{{ route('admin.projects.detail', $project->id) }}"
                                                                     class="btn btn-primary btn-sm"><i

@@ -102,7 +102,7 @@ class ProjectController extends Controller
     public function createProjectEnd(Request $request){
         try{
             DB::beginTransaction();
-            $tempOrderFull = TempOrder::where('user_id',auth()->user()->id)->first();
+            $tempOrderFull = TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->first();
             $tempOrder = json_decode($tempOrderFull->data);
             $housingType = HousingType::where('slug',$tempOrder->step3_slug)->firstOrFail();
             $housingTypeInputs = json_decode($housingType->form_json);
@@ -113,7 +113,7 @@ class ProjectController extends Controller
                 $oldCoverImage = public_path('project_images/'.$tempOrder->cover_image); // Mevcut dosyanın yolu
             $extension = explode('.',$tempOrder->cover_image);
             $newCoverImage = Str::slug($tempOrder->name).(Auth::user()->id).'.'.end($extension);
-            $newCoverImageName = public_path('project_images/'.$newCoverImage); // Yeni dosya adı ve yolu
+            $newCoverImageName = public_path('storage/project_images/'.$newCoverImage); // Yeni dosya adı ve yolu
             File::move($oldCoverImage, $newCoverImageName);
 
             $oldDocument = public_path('housing_documents/'.$tempOrder->document); // Mevcut dosyanın yolu
@@ -133,16 +133,23 @@ class ProjectController extends Controller
                     "county_id" => $tempOrder->county_id,
                     "user_id" => Auth::user()->id,
                     "status_id" => 1,
-                    "image" => $newCoverImage,
+                    "image" => 'public/project_images/'.$newCoverImage,
                     'document' => $newDocument,
                     "status" => 2
                 ]);
+
+                foreach($tempOrder->statuses as $status){
+                    ProjectHousingType::create([
+                        "project_id" => $project->id,
+                        "housing_type_id" => $status
+                    ]);
+                }
     
                 foreach($tempOrder->images as $key => $image){
                     $eskiDosyaAdi = public_path('project_images/'.$image); // Mevcut dosyanın yolu
                     $extension = explode('.',$image);
                     $newFileName = Str::slug($tempOrder->name).'-'.($key+1).'.'.end($extension);
-                    $yeniDosyaAdi = public_path('project_images/'.$newFileName); // Yeni dosya adı ve yolu
+                    $yeniDosyaAdi = public_path('storage/project_images/'.$newFileName); // Yeni dosya adı ve yolu
 
                     // Dosya adını değiştirme işlemi
                     if (File::move($eskiDosyaAdi, $yeniDosyaAdi)) {
@@ -174,6 +181,21 @@ class ProjectController extends Controller
                                 "project_id" => $project->id,
                                 "room_order" => $i + 1,
                             ]);
+                        } else if($housingTypeInputs[$j]->type == "file"){
+                            if(!$housingTypeInputs[$j]->multiple){
+                                $eskiDosyaAdi = public_path('storage/project_images/'.$tempOrder->roomInfoKeys->image[$i]); // Mevcut dosyanın yolu
+                                $extension = explode('.',$tempOrder->roomInfoKeys->image[$i]);
+                                $newFileName = Str::slug($tempOrder->name).'-project_housing-image-'.($i).'.'.end($extension);
+                                $yeniDosyaAdi = public_path('project_housing_images/'.$newFileName); // Yeni dosya adı ve yolu
+                                File::move($eskiDosyaAdi, $yeniDosyaAdi);
+                                ProjectHousing::create([
+                                    "key" => $housingTypeInputs[$j]->label,
+                                    "name" => $housingTypeInputs[$j]->name,
+                                    "value" => $newFileName,
+                                    "project_id" => $project->id,
+                                    "room_order" => $i + 1,
+                                ]);
+                            }
                         }
                     }
                 }
