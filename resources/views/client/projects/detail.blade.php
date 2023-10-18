@@ -346,7 +346,7 @@
                                                 <button class="first-btn">
                                                     Ödeme Detaylarını Gör </button>
                                                 @if (DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order]) ?? false)
-                                                        <button class="btn second-btn" style="background: rgb(173, 15, 15) !important;"
+                                                        <button class="btn second-btn" style="background: red !important;"
                                                             <h6
                                                                 style="color: white;font-weight:600;top: calc(100% - 52px);position: relative;left: calc(100% - 192px);position: relative;">
                                                                 Satıldı
