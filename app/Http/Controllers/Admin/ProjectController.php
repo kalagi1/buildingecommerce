@@ -65,7 +65,7 @@ class ProjectController extends Controller
         $project = Project::where('id',$id)->first();
         $housingTypeData = HousingType::where('id',$project->housing_type_id)->first();
         $housingTypeData = json_decode($housingTypeData->form_json);
-        $housingData = $project->roomInfo->keyBy('name');
+        $housingData = $project->roomInfo;
         return view('admin.projects.detail',compact('project','housingTypeData','housingData','defaultMessages'));
     }
 

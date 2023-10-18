@@ -1,363 +1,375 @@
-@extends('institutional.layouts.master')
+@extends('client.layouts.master')
 
 @section('content')
-    <div class="content">
-        <h2 class="mb-2 lh-sm  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">Adım Adım Kategori Seç</h2>
-        <div class="breadcrumb  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
-            <span>Emlak</span>
-        </div>
-        <div class="mt-4">
-            <div class="progress-area">
-                <div class="progress-line step{{$tempDataFull->step_order}}">
-                    <ol>
-                        <li @if(isset($tempDataFull) && $tempDataFull->step_order == 1) class="current" @elseif($tempDataFull->step_order > 1) class="done" @endif >
-                            <a href="" class="step-counter"><i class="fa fa-star"></i> <span>1</span></a>
-                            <a href="">Kategori Seçimi</a>
-                        </li>
-                        <li @if(isset($tempDataFull) && $tempDataFull->step_order == 2) class="current" @elseif($tempDataFull->step_order > 2) class="done" @endif>
-                            <a href="" class="step-counter"><i class="fa fa-star"></i> <span>2</span></a>
-                            <a href="">İlan Detayları</a>
-                        </li>
-                        <li @if(isset($tempDataFull) && $tempDataFull->step_order == 3) class="current" @elseif($tempDataFull->step_order > 3) class="done" @endif>
-                            <a href="" class="step-counter"><i class="fa fa-star"></i> <span>3</span></a>
-                            <a href="">Doping</a>
-                        </li>
-                        <li @if(isset($tempDataFull) && $tempDataFull->step_order == 4) class="current" @endif>
-                            <a href="" class="step-counter"><i class="fa fa-star"></i> <span>4</span></a>
-                            <a href="">Tebrikler</a>
-                        </li>
-                    </ol>
+    <section class="ps-section--account">
+        <div class="container">
+            <div class="content">
+                <h2 class="mb-2 lh-sm  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">Adım Adım Kategori Seç</h2>
+                <div class="breadcrumb  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
+                    <span>Emlak</span>
                 </div>
-            </div>
-            <div class="clear-both"></div>
-            <div class="firt-area @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
-                <div class="row">
-                    <div class="area-lists">
-                        <div class="area-list active">
-                            <ul>
-                                @foreach($housingTypeParent as $parent)
-                                <li @if(isset($tempData->step1_slug) && $tempData->step1_slug == $parent->slug) class="selected" @endif slug="{{$parent->slug}}">{{$parent->title}}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="area-list ">
-                            <ul>
-                                <li slug="satilik">Satılık</li>
-                                <li slug="kiralik">Kiralık</li>
-                            </ul>
-                        </div>
-                        <div class="area-list ">
-                            <ul>
-                                <li slug="daire">Daire</li>
-                                <li slug="villa">Villa</li>
-                            </ul>
-                        </div>
-                        <div class="area-list ">
-                            <div class="finish-category-select">
-                                <div class="finish-icon-area">
-                                    <i class="fa fa-check"></i>
-                                </div>
-                                <div class="finish-text">
-                                    <p>Kategori Seçimi Tamanlanmıştır</p>
-                                </div>
-                                <div class="finish-button-first">
-                                    <button class="btn btn-info">
-                                        Devam
-                                    </button>
-                                </div>
-                            </div>
+                <div class="mt-4">
+                    <div class="progress-area">
+                        <div class="progress-line step{{$tempDataFull->step_order}}">
+                            <ol>
+                                <li @if(isset($tempDataFull) && $tempDataFull->step_order == 1) class="current" @elseif($tempDataFull->step_order > 1) class="done" @endif >
+                                    <a href="" class="step-counter"><i class="fa fa-star"></i> <span>1</span></a>
+                                    <a href="">Kategori Seçimi</a>
+                                </li>
+                                <li @if(isset($tempDataFull) && $tempDataFull->step_order == 2) class="current" @elseif($tempDataFull->step_order > 2) class="done" @endif>
+                                    <a href="" class="step-counter"><i class="fa fa-star"></i> <span>2</span></a>
+                                    <a href="">İlan Detayları</a>
+                                </li>
+                                <li @if(isset($tempDataFull) && $tempDataFull->step_order == 3) class="current" @elseif($tempDataFull->step_order > 3) class="done" @endif>
+                                    <a href="" class="step-counter"><i class="fa fa-star"></i> <span>3</span></a>
+                                    <a href="">Doping</a>
+                                </li>
+                                <li @if(isset($tempDataFull) && $tempDataFull->step_order == 4) class="current" @endif>
+                                    <a href="" class="step-counter"><i class="fa fa-star"></i> <span>4</span></a>
+                                    <a href="">Tebrikler</a>
+                                </li>
+                            </ol>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="second-area @if($tempDataFull->step_order != 2) d-none @endif">
-                <div class="row">
-                    <div class="thumbnail-second">
-                        <span class="section-title">Kategori</span>
-                        <div class="card px-5 py-2 breadcrumb breadcrumb-v2" style="display: flex;flex-direction:row;">
-                            <div class="icon"><i class="fa fa-house"></i></div> Emlak
-                        </div>
-                    </div>
-                    <div class="form-area mt-4">
-                        <span class="section-title">İlan Detayları</span>
-                        
-                        <div class="card py-2 px-5">
-                            <div class="form-group">
-                                <label for="">İlan Başlığı <span class="required">*</span></label>
-                                <input type="text" value="{{isset($tempData->name) ? $tempData->name : ''}}" onchange="changeData(this.value,'name')" name="name" class="form-control">
-                            </div>
-                            <div class="form-group description-field">
-                                <label for="">İlan Açıklaması <span class="required">*</span></label>
-                                <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')" class="form-control">{{isset($tempData->description) ? $tempData->description : ''}}</textarea>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="tab-content " id="pricingTabContent" role="tabpanel">
-                                        <div id="renderForm"></div>
+                    <div class="clear-both"></div>
+                    <div class="firt-area @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
+                        <div class="row">
+                            <div class="area-lists">
+                                <div class="area-list active">
+                                    <ul>
+                                        @foreach($housingTypeParent as $parent)
+                                        <li @if(isset($tempData->step1_slug) && $tempData->step1_slug == $parent->slug) class="selected" @endif slug="{{$parent->slug}}">{{$parent->title}}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div class="area-list ">
+                                    <ul>
+                                        <li slug="satilik">Satılık</li>
+                                        <li slug="kiralik">Kiralık</li>
+                                    </ul>
+                                </div>
+                                <div class="area-list ">
+                                    <ul>
+                                        <li slug="daire">Daire</li>
+                                        <li slug="villa">Villa</li>
+                                    </ul>
+                                </div>
+                                <div class="area-list ">
+                                    <div class="finish-category-select">
+                                        <div class="finish-icon-area">
+                                            <i class="fa fa-check"></i>
+                                        </div>
+                                        <div class="finish-text">
+                                            <p>Kategori Seçimi Tamanlanmıştır</p>
+                                        </div>
+                                        <div class="finish-button-first">
+                                            <button class="btn btn-info">
+                                                Devam
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="address">
-                            <span class="section-title">Adres Bilgileri</span>
-                            <div class="card">
-                                <div class="row px-5 py-4">
-                                    <div class="col-md-4">
-                                        <label for="">İl <span class="required">*</span></label>
-                                        <select onchange="changeData(this.value,'city_id')" name="city_id" id="cities" class="form-control">
-                                            <option value="">İl Seç</option>
-                                            @foreach($cities as $city)
-                                              <option {{isset($tempData->city_id) && $tempData->city_id == $city->id ? "selected" : ''}} value="{{$city->id}}">{{$city->title}}</option>
+                    </div>
+                    <div class="second-area @if($tempDataFull->step_order != 2) d-none @endif">
+                        <div class="row">
+                            <div class="thumbnail-second">
+                                <span class="section-title">Kategori</span>
+                                <div class="card px-5 py-2 breadcrumb breadcrumb-v2" style="display: flex;flex-direction:row;">
+                                    <div class="icon"><i class="fa fa-home"></i></div> Emlak
+                                </div>
+                            </div>
+                            <div class="form-area mt-4">
+                                <span class="section-title">İlan Detayları</span>
+                                
+                                <div class="card py-2 px-5">
+                                    <div class="form-group">
+                                        <label for="">İlan Başlığı <span class="required">*</span></label>
+                                        <input type="text" value="{{isset($tempData->name) ? $tempData->name : ''}}" onchange="changeData(this.value,'name')" name="name" class="form-control">
+                                    </div>
+                                    <div class="form-group description-field">
+                                        <label for="">İlan Açıklaması <span class="required">*</span></label>
+                                        <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')" class="form-control">{{isset($tempData->description) ? $tempData->description : ''}}</textarea>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="tab-content " id="pricingTabContent" role="tabpanel">
+                                                <div id="renderForm"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="address">
+                                    <span class="section-title">Adres Bilgileri</span>
+                                    <div class="card">
+                                        <div class="row px-5 py-4">
+                                            <div class="col-md-4">
+                                                <label for="">İl <span class="required">*</span></label>
+                                                <select onchange="changeData(this.value,'city_id')" name="city_id" id="cities" class="form-control">
+                                                    <option value="">İl Seç</option>
+                                                    @foreach($cities as $city)
+                                                      <option {{isset($tempData->city_id) && $tempData->city_id == $city->id ? "selected" : ''}} value="{{$city->id}}">{{$city->title}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="">İlçe <span class="required">*</span></label>
+                                                <select onchange="changeData(this.value,'county_id')" name="county_id" id="counties" class="form-control">
+                                                    <option  value="">İlçe Seç</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="">Mahalle <span class="required">*</span></label>
+                                                <select onchange="changeData(this.value,'neighbourhood_id')" name="neighbourhood_id" id="neighbourhood" class="form-control">
+                                                    <option value="">Mahalle Seç</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <input name="location" class="form-control" id="location" readonly type="hidden"
+                                                        value="@if(isset($tempData->location)){{$tempData->location}}@else 39.1667,35.6667 @endif" />
+                                            <div id="mapContainer"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="address mt-4">
+                                    <span class="section-title">Konut Statü Bilgileri</span>
+                                    <div class="card">
+                                        <div class="row px-5 py-4">
+                                            <div class="col-md-12 statue-text">
+                                                <label for="">Proje Konutlarının Statüsü Nedir? <span class="required">*</span></label>
+                                                <select multiple name="housing_status" id="housing_status" aria-label="category">
+                                                    <option value="" selected="">Tİp Seç:</option>
+                                                    @foreach ($housing_status as $status)
+                                                        <option @if(isset($tempData->statuses) && in_array($status->id,$tempData->statuses)) selected @endif value="{{ $status->id }}">{{ $status->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="section-title mt-4">Vekalet Belgesi</span>
+                                <div class="cover-photo-full card py-2 px-5">
+                                    <input type="file" name="cover-image" class="document d-none">
+                                    <div class="cover-document-area">
+                                        <div class="icon">
+                                            <i class="fa fa-file"></i>
+                                        </div>
+                                        <label for="">Bilgisayardan Dosya Ekle</label>
+                                    </div>
+                                    <div class="cover-document">
+                                        @if(isset($tempData->document) && $tempData->document)
+                                            <div class="has_file">
+                                                <span class="d-block">Dosya Eklediniz</span>
+                                                <a class="btn btn-info" href="{{URL::to('/')}}/housing_documents/{{$tempData->document}}" download="">Mevcut Dosyayı İndir</a>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <span class="section-title mt-4">Kapak Fotoğrafı</span>
+                                <div class="cover-photo-full card py-2 px-5">
+                                    <input type="file" name="cover-image" class="cover_image d-none">
+                                    <div class="cover-photo-area">
+                                        <div class="icon">
+                                            <i class="fa fa-camera"></i>
+                                        </div>
+                                        <label for="">Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></label>
+                                    </div>
+                                    <div class="cover-photo">
+                                        @if(isset($tempData->cover_image) && $tempData->cover_image)
+                                            <div class="project_imagex">
+                                                <img src="{{URL::to('/')}}/project_images/{{$tempData->cover_image}}" alt="">
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <span class="section-title mt-4">Fotoğraf</span>
+                                <div class="photo card py-2 px-5">
+                                    <input type="file" name="project-images" class="project_image d-none">
+                                    <div class="photo-area">
+                                        <div class="icon">
+                                            <i class="fa fa-camera"></i>
+                                        </div>
+                                        <label for="">Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></label>
+                                    </div>
+                                    <div class="photos">
+                                        @if(isset($tempData->images) && $tempData->images)
+                                            @foreach($tempData->images as $image)
+                                                <div class="project_imagex">
+                                                    <img src="{{URL::to('/')}}/project_images/{{$image}}" alt="">
+                                                </div>
                                             @endforeach
-                                        </select>
+                                        @endif
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="">İlçe <span class="required">*</span></label>
-                                        <select onchange="changeData(this.value,'county_id')" name="county_id" id="counties" class="form-control">
-                                            <option  value="">İlçe Seç</option>
-                                        </select>
+                                </div>
+                                <span class="section-title mt-4">İlan Süresi</span>
+                                <div class="pricing card py-2 px-5">
+                                    
+                                    <div class="row pricing-select-first @if(((isset($userPlan) && $userPlan->project_limit > 0)  && (isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1)) || (!isset($tempData->{"pricing-type"}))) @else d-none @endif">
+                                        <div class="col-md-6">
+                                            <div class="pricing-item-first" style="width: 100%;">
+                                                <div class="pricing-item-inner" onclick="changeData(1,'pricing-type')">
+                                                    <span class="btn btn-primary remaining_projects">Kalan Konut Ekleme Adedi : {{$userPlan->housing_limit}}</span>
+                                                    <div style="margin-right: 20px">
+                                                        <input type="radio" style="display: none;margin:0 auto;">
+                                                        <div class="price-radio @if(isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1) select @endif" >
+                                                            <div class="inside"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <h3>Paket Sayımdan Düş</h3>
+                                                        <span>Paketinizde ki ilanların yayın süresi 2 aydır</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="pricing-item-first"  style="width: 100%;">
+                                                <div class="pricing-item-inner" onclick="changeData(2,'pricing-type')">
+                                                    <div style="margin-right: 20px">
+                                                        <input type="radio" style="display: none;margin:0 auto;">
+                                                        <div class="price-radio @if(isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 2) select @endif" >
+                                                            <div class="inside"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <h3>Tekil Fiyat</h3>
+                                                        <span>Bir proje fiyatı üzerinden öde</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="">Mahalle <span class="required">*</span></label>
-                                        <select onchange="changeData(this.value,'neighbourhood_id')" name="neighbourhood_id" id="neighbourhood" class="form-control">
-                                            <option value="">Mahalle Seç</option>
-                                        </select>
+                                    
+                                    <div class="row single-price-project-area @if((isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1) || !isset($userPlan) || (isset($userPlan) && $userPlan->project_limit == 0) || !isset($tempData->{"pricing-type"})) d-none @endif">
+                                        <div>
+                                            <label for="" class="c-pointer redirect-back-pricing"><i class="fa fa-chevron-left"></i> Seçime geri dön</label>
+                                        </div>
+                                        @foreach($prices as $price)
+                                        <div class="col-md-4">
+                                            <div class="pricing-item" onclick="changeData({{$price->id}},'price_id')">
+                                                <div class="pricing-item-inner">
+                                                    <div style="margin-right: 20px">
+                                                        <input type="radio" style="display: none;margin:0 auto;">
+                                                        <div class="price-radio @if(isset($tempData->price_id) && $price->id == $tempData->price_id) select @endif" >
+                                                            <div class="inside"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <h3>{{$price->month}} Aylık İlan</h3>
+                                                        <span>({{$price->month * 30}} Gün Yayın Süresi)</span>
+                                                    </div>
+                                                </div>
+                                                <div class="price pricing-item-inner">
+                                                    @if($price->old_price)
+                                                        <span  class="old_price">{{$price->old_price}}₺</span>
+                                                    @endif
+        
+                                                    @if($price->price == 0)
+                                                        <span class="new_price">Ücretsiz</span>
+                                                    @else 
+                                                        <span class="new_price">{{$price->price}}₺</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
                                     </div>
+                                </div>
+                                <div class="second-area-finish">
+                                    <div class="finish-tick ">
+                                        <input type="checkbox" value="1" class="rules_confirm" >
+                                        <span class="rulesOpen">İlan verme kurallarını</span>
+                                        <span>okudum, kabul ediyorum</span>
+                                    </div>
+                                    <div class="finish-button" style="float:right;margin:0;">
+                                        <button class="btn btn-info">
+                                            Devam
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="third-area @if($tempDataFull->step_order != 3) d-none @endif">
+                        <div class="without-dopingxx mb-5">
+                            <button class="without-doping btn btn-info">Dopingsiz Bitir</button>
+                        </div>
+                        <div class="row" style="align-items: flex-end;">
+                            <div class="col-md-5">
+                                <label for="">Hangi statüde öne çıkarmak istiyorsun ?</label>
+                                <select name="" class="form-control doping_statuses" id="doping_status">
+                                    <option value="">Statü Seç</option>
+                                    @if(isset($selectedStatuses) && count($selectedStatuses) > 0)
+                                        @foreach($selectedStatuses as $statu)
+                                            <option @if(isset($tempData->doping_statuses) && $tempData->doping_statuses == $statu->id) selected @endif value="{{$statu->id}}">{{$statu->name}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="">Sıra Seç</label>
+                                <select name="" class="form-control doping_order" id="">
+                                    <option value="">Sıra Seç</option>
+                                    @for($i = 1; $i <= 10; $i++)
+                                        <option @if(isset($tempData->doping_order) && $tempData->doping_order == $i) selected @endif value="{{$i}}">{{$i}}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                            <div class="send-button col-md-2">
+                                <button class="btn btn-primary list-dates">Tarihleri göster</button>
+                            </div>
+                            <div class="col-md-12 mt-3 date-range d-none">
+                                <div>
+                                    <p class="m-0">Günlük Fiyat</p> <span class="daily-price btn btn-info" style="display: inline-block;"></span>
+                                </div>
+                                <div class="mt-2">
+                                    <label for="">Tarih aralığını seçin?</label>
+                                    <input id="date-range2" class="form-control" size="40">
                                 </div>
                                 <div>
-                                    <input name="location" class="form-control" id="location" readonly type="hidden"
-                                                value="@if(isset($tempData->location)){{$tempData->location}}@else 39.1667,35.6667 @endif" />
-                                    <div id="mapContainer"></div>
+                                    <p class="m-0">Toplam Fiyat</p> <span class="total-price btn btn-info" style="display: inline-block;"></span>
+                                </div>
+                                <div class="mt-5">
+                                    <button class="finish-step-3 btn btn-info">Dopingli Bitir</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="address mt-4">
-                            <span class="section-title">Konut Statü Bilgileri</span>
-                            <div class="card">
-                                <div class="row px-5 py-4">
-                                    <div class="col-md-12 statue-text">
-                                        <label for="">Proje Konutlarının Statüsü Nedir? <span class="required">*</span></label>
-                                        <select multiple name="housing_status" id="housing_status" aria-label="category">
-                                            <option value="" selected="">Tİp Seç:</option>
-                                            @foreach ($housing_status as $status)
-                                                <option @if(isset($tempData->statuses) && in_array($status->id,$tempData->statuses)) selected @endif value="{{ $status->id }}">{{ $status->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="section-title mt-4">Vekalet Belgesi</span>
-                        <div class="cover-photo-full card py-2 px-5">
-                            <input type="file" name="cover-image" class="document d-none">
-                            <div class="cover-document-area">
-                                <div class="icon">
-                                    <i class="fa fa-file"></i>
-                                </div>
-                                <label for="">Bilgisayardan Dosya Ekle</label>
-                            </div>
-                            <div class="cover-document">
-                                @if(isset($tempData->document) && $tempData->document)
-                                    <div class="has_file">
-                                        <span class="d-block">Dosya Eklediniz</span>
-                                        <a class="btn btn-info" href="{{URL::to('/')}}/housing_documents/{{$tempData->document}}" download="">Mevcut Dosyayı İndir</a>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        <span class="section-title mt-4">Kapak Fotoğrafı</span>
-                        <div class="cover-photo-full card py-2 px-5">
-                            <input type="file" name="cover-image" class="cover_image d-none">
-                            <div class="cover-photo-area">
-                                <div class="icon">
-                                    <i class="fa fa-camera"></i>
-                                </div>
-                                <label for="">Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></label>
-                            </div>
-                            <div class="cover-photo">
-                                @if(isset($tempData->cover_image) && $tempData->cover_image)
-                                    <div class="project_imagex">
-                                        <img src="{{URL::to('/')}}/project_images/{{$tempData->cover_image}}" alt="">
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        <span class="section-title mt-4">Fotoğraf</span>
-                        <div class="photo card py-2 px-5">
-                            <input type="file" name="project-images" class="project_image d-none">
-                            <div class="photo-area">
-                                <div class="icon">
-                                    <i class="fa fa-camera"></i>
-                                </div>
-                                <label for="">Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></label>
-                            </div>
-                            <div class="photos">
-                                @if(isset($tempData->images) && $tempData->images)
-                                    @foreach($tempData->images as $image)
-                                        <div class="project_imagex">
-                                            <img src="{{URL::to('/')}}/project_images/{{$image}}" alt="">
-                                        </div>
-                                    @endforeach
-                                @endif
-                            </div>
-                        </div>
-                        <span class="section-title mt-4">İlan Süresi</span>
-                        <div class="pricing card py-2 px-5">
-                            
-                            <div class="row pricing-select-first @if(((isset($userPlan) && $userPlan->project_limit > 0)  && (isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1)) || (!isset($tempData->{"pricing-type"}))) @else d-none @endif">
-                                <div class="col-md-6">
-                                    <div class="pricing-item-first" style="width: 100%;">
-                                        <div class="pricing-item-inner" onclick="changeData(1,'pricing-type')">
-                                            <span class="btn btn-primary remaining_projects">Kalan Konut Ekleme Adedi : {{$userPlan->housing_limit}}</span>
-                                            <div style="margin-right: 20px">
-                                                <input type="radio" style="display: none;margin:0 auto;">
-                                                <div class="price-radio @if(isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1) select @endif" >
-                                                    <div class="inside"></div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <h3>Paket Sayımdan Düş</h3>
-                                                <span>Paketinizde ki ilanların yayın süresi 2 aydır</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="pricing-item-first"  style="width: 100%;">
-                                        <div class="pricing-item-inner" onclick="changeData(2,'pricing-type')">
-                                            <div style="margin-right: 20px">
-                                                <input type="radio" style="display: none;margin:0 auto;">
-                                                <div class="price-radio @if(isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 2) select @endif" >
-                                                    <div class="inside"></div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <h3>Tekil Fiyat</h3>
-                                                <span>Bir proje fiyatı üzerinden öde</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row single-price-project-area @if((isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1) || !isset($userPlan) || (isset($userPlan) && $userPlan->project_limit == 0) || !isset($tempData->{"pricing-type"})) d-none @endif">
-                                <div>
-                                    <label for="" class="c-pointer redirect-back-pricing"><i class="fa fa-chevron-left"></i> Seçime geri dön</label>
-                                </div>
-                                @foreach($prices as $price)
-                                <div class="col-md-4">
-                                    <div class="pricing-item" onclick="changeData({{$price->id}},'price_id')">
-                                        <div class="pricing-item-inner">
-                                            <div style="margin-right: 20px">
-                                                <input type="radio" style="display: none;margin:0 auto;">
-                                                <div class="price-radio @if(isset($tempData->price_id) && $price->id == $tempData->price_id) select @endif" >
-                                                    <div class="inside"></div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <h3>{{$price->month}} Aylık İlan</h3>
-                                                <span>({{$price->month * 30}} Gün Yayın Süresi)</span>
-                                            </div>
-                                        </div>
-                                        <div class="price pricing-item-inner">
-                                            @if($price->old_price)
-                                                <span  class="old_price">{{$price->old_price}}₺</span>
-                                            @endif
-
-                                            @if($price->price == 0)
-                                                <span class="new_price">Ücretsiz</span>
-                                            @else 
-                                                <span class="new_price">{{$price->price}}₺</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="second-area-finish">
-                            <div class="finish-tick ">
-                                <input type="checkbox" value="1" class="rules_confirm" >
-                                <span class="rulesOpen">İlan verme kurallarını</span>
-                                <span>okudum, kabul ediyorum</span>
-                            </div>
-                            <div class="finish-button" style="float:right;margin:0;">
-                                <button class="btn btn-info">
-                                    Devam
-                                </button>
-                            </div>
+                        <div class="category-select">
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="third-area @if($tempDataFull->step_order != 3) d-none @endif">
-                <div class="without-dopingxx mb-5">
-                    <button class="without-doping btn btn-info">Dopingsiz Bitir</button>
-                </div>
-                <div class="row" style="align-items: flex-end;">
-                    <div class="col-md-5">
-                        <label for="">Hangi statüde öne çıkarmak istiyorsun ?</label>
-                        <select name="" class="form-control doping_statuses" id="doping_status">
-                            <option value="">Statü Seç</option>
-                            @if(isset($selectedStatuses) && count($selectedStatuses) > 0)
-                                @foreach($selectedStatuses as $statu)
-                                    <option @if(isset($tempData->doping_statuses) && $tempData->doping_statuses == $statu->id) selected @endif value="{{$statu->id}}">{{$statu->name}}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                    <div class="col-md-5">
-                        <label for="">Sıra Seç</label>
-                        <select name="" class="form-control doping_order" id="">
-                            <option value="">Sıra Seç</option>
-                            @for($i = 1; $i <= 10; $i++)
-                                <option @if(isset($tempData->doping_order) && $tempData->doping_order == $i) selected @endif value="{{$i}}">{{$i}}</option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="send-button col-md-2">
-                        <button class="btn btn-primary list-dates">Tarihleri göster</button>
-                    </div>
-                    <div class="col-md-12 mt-3 date-range d-none">
-                        <div>
-                            <p class="m-0">Günlük Fiyat</p> <span class="daily-price btn btn-info" style="display: inline-block;"></span>
-                        </div>
-                        <div class="mt-2">
-                            <label for="">Tarih aralığını seçin?</label>
-                            <input id="date-range2" class="form-control" size="40">
-                        </div>
-                        <div>
-                            <p class="m-0">Toplam Fiyat</p> <span class="total-price btn btn-info" style="display: inline-block;"></span>
-                        </div>
-                        <div class="mt-5">
-                            <button class="finish-step-3 btn btn-info">Dopingli Bitir</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-select">
-                </div>
-            </div>
-            <div class="fourth-area d-none">
-                <div class="row" style="justify-content:center;">
-                    <div class="col-md-5">
-                        <div class="finish-area">
-                            <div class="icon"><i class="fa fa-thumbs-up"></i></div>
-                            <div class="text">Başarıyla ilan eklediniz</div>
-                            <div class="text"><a href="{{route('institutional.housing.list')}}" class="btn btn-info">Konutlarıma yönlen</a></div>
+                    <div class="fourth-area d-none">
+                        <div class="row" style="justify-content:center;">
+                            <div class="col-md-5">
+                                <div class="finish-area">
+                                    <div class="icon"><i class="fa fa-thumbs-up"></i></div>
+                                    <div class="text">Başarıyla ilan eklediniz</div>
+                                    <div class="text"><a href="{{route('housing.list')}}" class="btn btn-info">Konutlarıma yönlen</a></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @endsection
+
 @section('scripts')
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/assets/js/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ URL::to('/') }}/adminassets/assets/js/jquery.daterangepicker.min.js"></script>
-    
+    <script src="{{ URL::to('/') }}/adminassets/vendors//leaflet/leaflet.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//leaflet.markercluster/leaflet.markercluster.js"></script>
+<script
+    src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js">
+</script>
+<script src="{{ URL::to('/') }}/js/jqueryscript.net_demo_leaflet-location-picker_src_leaflet-locationpicker.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.4.2/form-render.min.js">
+</script>
     <script>
         var nextTemp = false;
         var descriptionText = @if(isset($tempData) && isset($tempData->description)) "{!! $tempData->description !!}" @else "" @endif;
@@ -410,7 +422,7 @@
         function toSecondArea(){
             $.ajax({
                 method: "POST",
-                url: "{{route('institutional.change.step.order')}}",
+                url: "{{route('client.change.step.order')}}",
                 data : {
                     order : 2,
                     item_type : 2,
@@ -442,7 +454,7 @@
             if(nextTemp){
                 $.ajax({
                     method: "POST",
-                    url: "{{route('institutional.change.step.order')}}",
+                    url: "{{route('client.change.step.order')}}",
                     data : {
                         order : 3,
                         item_type : 2,
@@ -474,7 +486,7 @@
         function toFirstArea(){
             $.ajax({
                 method: "POST",
-                url: "{{route('institutional.change.step.order')}}",
+                url: "{{route('client.change.step.order')}}",
                 data : {
                     order : 1,
                     item_type : 2,
@@ -528,7 +540,7 @@
             changeData($('.doping_order').val(),"doping_order");
             $.ajax({
                 method: "GET",
-                url: "{{ URL::to('/') }}/institutional/get_busy_housing_statuses/"+$('.doping_statuses').val(),
+                url: "{{ URL::to('/') }}/hesabim/get_busy_housing_statuses/"+$('.doping_statuses').val(),
                 data : {
                     order : $('.doping_order').val()
                 },
@@ -579,7 +591,7 @@
         @if(isset($tempData->doping_statuses) && isset($tempData->doping_order))
         $.ajax({
                 method: "GET",
-                url: "{{ URL::to('/') }}/institutional/get_busy_housing_statuses/{{$tempData->doping_statuses}}",
+                url: "{{ URL::to('/') }}/hesabim/get_busy_housing_statuses/{{$tempData->doping_statuses}}",
                 data : {
                     order : {{$tempData->doping_order}}
                 },
@@ -633,7 +645,7 @@
         $('.finish-step-3').click(function(){
             $.ajax({
                 method: "POST",
-                url: "{{route('institutional.project.end.temp.order')}}",
+                url: "{{route('client.project.end.temp.order')}}",
                 data : {
                     _token : csrfToken,
                     without_doping : 0
@@ -653,7 +665,7 @@
                     console.log("asd");
             $.ajax({
                 method: "POST",
-                url: "{{route('institutional.housing.store.v2')}}",
+                url: "{{route('client.housing.store.v2')}}",
                 data : {
                     _token : csrfToken,
                     without_doping : 1
@@ -698,7 +710,7 @@
             $('.rendered-area').removeClass('d-none')
             $.ajax({
                 method: "GET",
-                url: "{{ route('institutional.ht.getform') }}",
+                url: "{{ route('client.ht.getform') }}",
                 data: {
                     id: houseType
                 },
@@ -930,7 +942,7 @@
                         }
                         $.ajax({
                             type: "POST",
-                            url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                            url: "{{route('client.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                             data: formData,
                             processData: false,
                             contentType: false,
@@ -951,7 +963,7 @@
                         formData.append('item_type',2);
                         $.ajax({
                             type: "POST",
-                            url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                            url: "{{route('client.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                             data: formData,
                             processData: false,
                             contentType: false,
@@ -1021,7 +1033,7 @@
             formData.append('array_data',isArray);
             $.ajax({
                 type: "POST",
-                url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                url: "{{route('client.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -1068,7 +1080,7 @@
                 formData.append('item_type',2);
                 $.ajax({
                     type: "POST",
-                    url: "{{route('institutional.temp.order.document.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    url: "{{route('client.temp.order.document.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -1107,7 +1119,7 @@
                 formData.append('item_type',2);
                 $.ajax({
                     type: "POST",
-                    url: "{{route('institutional.temp.order.single.file.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    url: "{{route('client.temp.order.single.file.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -1161,7 +1173,7 @@
                 formData.append('item_type',2);
                 $.ajax({
                     type: "POST",
-                    url: "{{route('institutional.temp.order.image.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    url: "{{route('client.temp.order.image.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -1260,7 +1272,7 @@
                 $('.rendered-area').removeClass('d-none')
                 $.ajax({
                     method: "GET",
-                    url: "{{ route('institutional.ht.getform') }}",
+                    url: "{{ route('client.ht.getform') }}",
                     data: {
                         id: houseType
                     },
@@ -1420,7 +1432,7 @@
 
                     $.ajax({
                         method: "GET",
-                        url: "{{ route('institutional.ht.getform') }}",
+                        url: "{{ route('client.ht.getform') }}",
                         data: {
                             id: selectedid
                         },
@@ -1576,7 +1588,7 @@
                                 }
                                 $.ajax({
                                     type: "POST",
-                                    url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                    url: "{{route('client.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                                     data: formData,
                                     processData: false,
                                     contentType: false,
@@ -1597,7 +1609,7 @@
                                 formData.append('item_type',2);
                                 $.ajax({
                                     type: "POST",
-                                    url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                    url: "{{route('client.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                                     data: formData,
                                     processData: false,
                                     contentType: false,
@@ -1666,7 +1678,7 @@
 
             // AJAX isteği yap
             $.ajax({
-                url: '{{route("institutional.get.counties")}}', // Endpoint URL'si (get.counties olarak varsayalım)
+                url: '{{route("client.get.counties")}}', // Endpoint URL'si (get.counties olarak varsayalım)
                 method: 'GET',
                 data: { city: selectedCity }, // Şehir verisini isteğe ekle
                 dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
@@ -1691,7 +1703,7 @@
                         // AJAX isteği yap
                         
                         $.ajax({
-                            url: '{{route("institutional.get.neighbourhood")}}', // Endpoint URL'si (get.counties olarak varsayalım)
+                            url: '{{route("client.get.neighbourhood")}}', // Endpoint URL'si (get.counties olarak varsayalım)
                             method: 'GET',
                             data: { county_id: selectedCounty }, // Şehir verisini isteğe ekle
                             dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
@@ -1728,7 +1740,7 @@
 
             // AJAX isteği yap
             $.ajax({
-                url: '{{route("institutional.get.counties")}}', // Endpoint URL'si (get.counties olarak varsayalım)
+                url: '{{route("client.get.counties")}}', // Endpoint URL'si (get.counties olarak varsayalım)
                 method: 'GET',
                 data: { city: selectedCity }, // Şehir verisini isteğe ekle
                 dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
@@ -1762,7 +1774,7 @@
             console.log($('#counties option[value="'+selectedCounty+'"]'));
             // AJAX isteği yap
             $.ajax({
-                url: '{{route("institutional.get.neighbourhood")}}', // Endpoint URL'si (get.counties olarak varsayalım)
+                url: '{{route("client.get.neighbourhood")}}', // Endpoint URL'si (get.counties olarak varsayalım)
                 method: 'GET',
                 data: { county_id: selectedCounty }, // Şehir verisini isteğe ekle
                 dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
@@ -1809,7 +1821,7 @@
                 formData.append('item_type',2);
                 $.ajax({
                     type: "POST",
-                    url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    url: "{{route('client.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                     data: formData,
                     processData: false,
                     contentType: false,
@@ -2014,7 +2026,7 @@
                 nextTemp = true;
                 $.ajax({
                     method: "POST",
-                    url: "{{route('institutional.change.step.order')}}",
+                    url: "{{route('client.change.step.order')}}",
                     data : {
                         order : 3,
                         item_type : 2,
@@ -2069,7 +2081,7 @@
 
         function listChangex(){
             $.ajax({
-                url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
+                url: "{{URL::to('/')}}/hesabim/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function (data) {
@@ -2109,7 +2121,7 @@
 
                                 $.ajax({
                                     method: "GET",
-                                    url: "{{ route('institutional.ht.getform') }}",
+                                    url: "{{ route('client.ht.getform') }}",
                                     data: {
                                         id: selectedid
                                     },
@@ -2265,7 +2277,7 @@
                                             }
                                             $.ajax({
                                                 type: "POST",
-                                                url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                                url: "{{route('client.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                                                 data: formData,
                                                 processData: false,
                                                 contentType: false,
@@ -2286,7 +2298,7 @@
                                             formData.append('item_type',2);
                                             $.ajax({
                                                 type: "POST",
-                                                url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                                url: "{{route('client.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                                                 data: formData,
                                                 processData: false,
                                                 contentType: false,
@@ -2401,7 +2413,7 @@
             
             changeData(itemSlug,'step'+(itemOrder+1)+'_slug')
             $.ajax({
-                url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
+                url: "{{URL::to('/')}}/hesabim/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function (data) {
@@ -2418,7 +2430,7 @@
                         itemSlug = $(this).attr('slug')
                         if(itemOrder == 2){
                             $.ajax({
-                                url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
+                                url: "{{URL::to('/')}}/hesabim/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
                                 type: "GET", // GET isteği
                                 dataType: "json", // Gelen veri tipi JSON
                                 success: function (data) {
@@ -2434,7 +2446,7 @@
                                 
                                 $.ajax({
                                     method: "GET",
-                                    url: "{{ route('institutional.ht.getform') }}",
+                                    url: "{{ route('client.ht.getform') }}",
                                     data: {
                                         id: selectedid
                                     },
@@ -2590,7 +2602,7 @@
                                             }
                                             $.ajax({
                                                 type: "POST",
-                                                url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                                url: "{{route('client.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                                                 data: formData,
                                                 processData: false,
                                                 contentType: false,
@@ -2611,7 +2623,7 @@
                                             formData.append('item_type',2);
                                             $.ajax({
                                                 type: "POST",
-                                                url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                                url: "{{route('client.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                                                 data: formData,
                                                 processData: false,
                                                 contentType: false,
@@ -2778,7 +2790,7 @@
             formData.append('array_data',isArray);
             $.ajax({
                 type: "POST",
-                url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                url: "{{route('client.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -2792,8 +2804,776 @@
     @stack('scripts')
 @endsection
 
-@section('css')
+
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/account.css') }}" />
+    
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.css"/>
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/daterangepicker.css">
-@endsection
+    <link href="{{ URL::to('/') }}/adminassets/assets/css/theme.min.css" type="text/css" rel="stylesheet"
+        id="style-default">
+    <link href="{{ URL::to('/') }}/adminassets/assets/css/user-rtl.min.css" type="text/css" rel="stylesheet"
+        id="user-style-rtl">
+    <link href="{{ URL::to('/') }}/adminassets/assets/css/client.min.css" type="text/css" rel="stylesheet"
+        id="user-style-default">
+        <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/leaflet-locationpicker.src.css" />
+        <link href="{{ URL::to('/') }}/adminassets/vendors/leaflet/leaflet.css" rel="stylesheet">
+    <link href="{{ URL::to('/') }}/adminassets/vendors/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
+    <link href="{{ URL::to('/') }}/adminassets/vendors/leaflet.markercluster/MarkerCluster.Default.css"
+        rel="stylesheet">
+    <style>
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem !important;
+            font-size: 1.5rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
 
+.dz-preview:hover .dz-remove{
+    background-color: #dc3545;
+    cursor: pointer;
+    border-radius: 100%;
+}
+
+.dz-preview:hover .dz-remove i{
+    cursor: pointer;
+}
+
+.edit_project_housing_image{
+    width: 100px;
+    height: 100px;
+}
+
+.dropzone2{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.project_images_area{
+    margin: 10px 0;
+    margin-right:10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.area-list{
+    width: 200px;
+    height: 243px;
+    margin-right: 10px;
+    border: solid 1px #dedede;
+    border-radius: 4px;
+    position: relative;
+    text-align: left;
+    vertical-align: top;
+    padding: 10px 4px;
+    display: none;
+}
+
+.area-list ul{
+    padding: 0 20px 0 5px;
+}
+
+.area-list li{
+    cursor: pointer;
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    padding-left: 5px;
+    border-radius: 2px;
+    outline: none;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 12px;
+    color: #333;
+    list-style: none;
+}
+
+.area-list li.selected{
+    background-color: #dedede;
+}
+
+.area-list ul li.selected:before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    right: -6px;
+    width: 14px;
+    height: 14px;
+    background-color: #dedede;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border-radius: 2px;
+}
+
+.finish-icon-area{
+    width: 60px;
+    height: 60px;
+    color: #fff;
+    background: #5272F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    border-radius: 100%;
+    font-size: 30px;
+}
+
+.area-list.active{
+    display: block;
+}
+
+.finish-text p{
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.finish-button{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.breadcrumb{
+    display: flex;
+}
+
+.breadcrumb span{
+    display: block;
+    margin-right: 10px;
+}
+
+.breadcrumb-after-item::before{
+    content: '>';
+    display: inline-block;
+    padding: 0 7px 0 0;
+}
+
+.thumbnail-second span{
+    font-size: 25px;
+    font-weight: bold;
+    margin: 5px 0;
+    display: block;
+}
+
+.form-area .section-title{
+    font-size: 25px;
+    font-weight: bold;
+    margin: 5px 0;
+    display: block;
+}
+
+.form-area label{
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.required{
+    color: red;
+}
+
+.area-lists{
+    display: flex;
+}
+
+.breadcrumb-v2{
+    align-items: center;
+}
+
+.checkbox-items{
+    flex-wrap: wrap;
+}
+
+.breadcrumb-v2 .breadcrumb-after-item{
+    font-size: 13px !important;
+    margin-left: 5px;
+}
+
+.checkbox-items .formbuilder-checkbox{
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    width: 23%;
+    margin-top: 15px;
+}
+
+.checkbox-items .formbuilder-checkbox label{
+    margin: 0 !important;
+}
+
+.rendered-form label{
+    font-weight: bold !important;
+}
+
+.pricing-item{
+    padding-top: 24px;
+    padding-bottom: 24px;
+    height: auto;
+    width: 296px;
+    position: relative;
+    background: #fff;
+    margin: 5px 5px 0 5px;
+    padding: 40px 0 40px 0;
+    border: 1px solid #d8d8d8;
+    cursor: pointer;
+}
+
+.pricing-item-first{
+    padding-top: 24px;
+    padding-bottom: 24px;
+    height: auto;
+    width: 296px;
+    position: relative;
+    background: #fff;
+    margin: 5px 5px 0 5px;
+    padding: 40px 0 40px 0;
+    border: 1px solid #d8d8d8;
+    cursor: pointer;
+}
+
+.pricing-item-inner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pricing-item{
+    position: relative;
+}
+
+.c-pointer{
+    cursor: pointer;
+}
+
+.remaining_projects{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.old_price:before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 50%;
+    right: 0;
+    border-top: 1px solid #f00;
+    -webkit-transform: rotate(-10deg);
+    -moz-transform: rotate(-10deg);
+    -o-transform: rotate(-10deg);
+    -ms-transform: rotate(-10deg);
+    transform: rotate(-10deg);
+}
+
+.old_price{
+    font-size: 17px;
+    position: relative;
+    padding-right: 5px;
+    padding-left: 10px;
+    vertical-align: middle;
+    line-height: 23px;
+    color: #9b9b9b;
+}
+
+.new_price{
+    font-size: 20px;
+    line-height: 23px;
+    color: #9b9b9b;
+    margin-left: 5px;
+}
+
+.price{
+    margin-top: 20px;
+}
+
+.price-radio{
+    box-shadow: 1px 2px 2px 0 rgba(0,0,0,0.1) inset;
+    border-radius: 100%;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #c0c0c0;
+    position: relative;
+    display: inline-block;
+    left: 0;
+    top: 0;
+}
+
+.price-radio.select .inside{
+    margin: 3px;
+    background-color: #da8016;
+    width: 13px;
+    height: 13px;
+    border-radius: 100%;
+}
+
+.finish-tick{
+    display: inline-block;
+    float: right;
+    line-height: 31px;
+    padding: 7px 20px 7px 15px;
+    background-color: #fff;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 0 2px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 0 2px 0 rgba(0,0,0,0.1);
+    margin-right: 30px;
+}
+
+.rulesOpen{
+    color: #438ed8;
+    cursor: pointer;
+    font-weight: normal;
+    padding-right: 3px;
+}
+
+.second-area-finish{
+    display: flex;
+    margin-top: 30px;
+    justify-content: flex-end;
+}
+
+.finish-tick{
+    cursor: pointer;
+}
+
+.photo-area{
+    margin: 0 19px 0 0;
+    width: 225px;
+    height: 75px;
+    border-radius: 2px;
+    background-color: #f8f8f8;
+    border: dashed 2px #ccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-area i{
+    font-size: 40px;
+    fill: #438ed8;
+    color : #438ed8;
+}
+
+.photo-area label {
+    color: #438ed8;
+    width: 50%;
+    margin-left: 10px;
+    line-height: 17px;
+    font-weight: bold !important;
+    cursor: pointer;
+}
+
+.photo-area label span{
+    font-size: 12px;
+    color: #999;
+    display: block;
+    cursor: pointer;
+}
+
+.cover-photo-area{
+    margin: 0 19px 0 0;
+    width: 225px;
+    height: 75px;
+    border-radius: 2px;
+    background-color: #f8f8f8;
+    border: dashed 2px #ccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover-photo-area i{
+    font-size: 40px;
+    fill: #438ed8;
+    color : #438ed8;
+}
+
+.cover-photo-area label {
+    color: #438ed8;
+    width: 50%;
+    margin-left: 10px;
+    font-weight: bold !important;
+    line-height: 17px;
+    cursor: pointer;
+}
+
+.cover-photo-area label span{
+    font-size: 12px;
+    color: #999;
+    display: block;
+    cursor: pointer;
+}
+
+.cover-document-area{
+    margin: 0 19px 0 0;
+    width: 225px;
+    height: 75px;
+    border-radius: 2px;
+    background-color: #f8f8f8;
+    border: dashed 2px #ccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover-document-area i{
+    font-size: 40px;
+    fill: #438ed8;
+    color : #438ed8;
+}
+
+.cover-document-area label {
+    color: #438ed8;
+    width: 50%;
+    margin-left: 10px;
+    font-weight: bold !important;
+    line-height: 17px;
+    cursor: pointer;
+}
+
+.pricing-item-first h3{
+    font-size: 2.5625rem;
+}
+
+.cover-document-area label span{
+    font-size: 12px;
+    color: #999;
+    display: block;
+    cursor: pointer;
+}
+
+.cover-photo{
+    margin-top: 20px;
+}
+
+.project_imagex{
+    text-align: center;
+    float: left;
+    border: 1px dashed #c8c8c8;
+    border-radius: 2px;
+    width: 129px;
+    height: 97px;
+    padding: 0 1px 1px 0;
+    margin: 0 10px 10px 0;
+    position: relative;
+}
+
+.project_imagex img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.photos{
+    margin-top:20px;
+}
+
+.error-border{
+    border: solid 1px #f00;
+    background-color: #ffeaea;
+}
+
+.housing_buttons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.progress-line ol{
+    list-style: none;
+    height: 60px;
+}
+
+.progress-line ol li.done a.step-counter i {
+    font-size: 40px;
+    height: 40px;
+    margin-left: 16px;
+    margin-top: -64px;
+    color: #5272F2;
+    line-height: 40px;
+    border-radius: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+}
+
+.progress-line ol li.done a.step-counter span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+    color: #fff;
+    margin-left: 29px;
+    margin-top: -56px;
+}
+
+.progress-line ol li a.step-counter span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+    color: #fff;
+    margin-left: 14px;
+    margin-top: -53px;
+    font-size: 16px
+}
+
+.progress-line ol:before {
+    width: 100%;
+    height: 4px;
+    content: '';
+    background-color: #5272F2;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -2px;
+}
+
+.progress-line {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.progress-line ol li a{
+    font-weight: normal;
+    color: #999;
+    margin-top: 63px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.progress-line ol li {
+    float: left;
+    width: 25%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    height: 100%;
+}
+
+.clear-both{
+    clear: both;
+}
+
+.progress-line.step1 ol:before {
+    width: 15%;
+}
+
+
+.progress-line.step2 ol:before {
+    width: 40%;
+}
+
+.progress-line.step3 ol:before {
+    width: 64.5%;
+}
+
+.progress-line.step4 ol:before {
+    width: 100%;
+}
+
+.progress-line ol:before {
+    -webkit-transition: width 0.7s linear;
+    -moz-transition: width 0.7s linear;
+    -o-transition: width 0.7s linear;
+    -ms-transition: width 0.7s linear;
+    transition: width 0.7s linear;
+    height: 4px;
+    content: '';
+    background-color: #5272F2;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -2px;
+}
+
+.progress-line ol li.current .step-counter i{
+    font-size: 40px;
+    margin-left: 17px;
+    color: #5272F2;
+    line-height: 40px;
+    position: absolute;
+}
+
+.progress-line ol li.current .step-counter span{
+    margin-left: 31px;
+}
+
+
+.progress-line ol li .step-counter i{
+    font-size: 40px;
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin-left: 0;
+    margin-top: -63px;
+    border-radius: 36px;
+    color: #999;
+    line-height: 36px;
+    font-weight: bold;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.progress-line:before {
+    width: 100%;
+    height: 4px;
+    content: '';
+    background-color: #dfdfdf;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -2px;
+}
+
+.progress-area{
+    margin-bottom: 70px;
+    position: sticky;
+}
+
+.has_file{
+    margin:15px 0;
+    border:1px solid #eee;
+    padding: 10px;
+    display: inline-block;
+}
+
+.breadcrumb-v2 .icon{
+    font-size: 16px;
+    background-color: #5272F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 100%;
+    margin-right: 10px;
+}
+
+.rendered-form h4{
+    font-size: 30px;
+    margin: 15px 0;
+}
+
+.finish-tick input[type="checkbox"]{
+    background: #005cbf !important;
+    margin-right: 10px;
+}
+
+.finish-tick input[type="checkbox"]::before{
+    background: white !important;
+
+}
+
+.rendered-form .formbuilder-checkbox-group input[type='checkbox']{
+    background: #005cbf !important;
+}
+
+.rendered-form .formbuilder-checkbox-group input[type='checkbox']::before{
+    background: white !important;
+}
+
+.rendered-form .formbuilder-checkbox label{
+    cursor: pointer;
+}
+
+
+.finish-button button{
+    width: 100px;
+    font-size: 13px;
+}
+
+.finish-tick{
+    display: flex;
+    align-items: center;
+}
+
+.formbuilder-checkbox{
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb {
+    font-weight: 700;
+    font-size: 13px
+}
+
+.error-text{
+    color: #fb0317;
+    margin: 10px 15px;
+    font-size: 13px;
+}
+
+.finish-area{
+    margin: 15px 0;
+    border: 1px solid #eee;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.finish-area .icon i{
+    font-size: 150px;
+}
+
+.finish-area .text{
+    margin: 20px 0;
+}
+
+.project_imaget{
+    margin:15px;
+}
+
+.form-area label{
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.project_imaget img{
+    max-width: 129px;
+    max-width: 97px;
+}
+
+.confirm span{
+    color: green;
+}
+
+.nav-linkx{
+    position: relative;
+    color: var(--phoenix-gray-800);
+    padding: 0.875rem 0.5rem;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+}
+
+.vertical-tab .nav-linkx.active{
+    font-weight: 700;
+    font-size: 12.8px;
+    color: var(--phoenix-gray-1100);
+}
+    </style>
+@endsection

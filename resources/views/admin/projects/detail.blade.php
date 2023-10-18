@@ -1,7 +1,15 @@
 @extends('admin.layouts.master')
 
 @section('content')
-
+@php 
+  function getData($itemOrder,$key,$housingData){
+    foreach($housingData as $data){
+      if($data->room_order == $itemOrder && $data->name == $key){
+        return $data->value;
+      }
+    }
+  }
+@endphp
 <div class="content">
 
       <div class="row g-3 flex-between-end mb-5">
@@ -41,7 +49,7 @@
           <h4 class="mb-3">Proje Görselleri</h4>
           <div class="images owl-carousel mb-4">
             @foreach($project->images as $key=> $image)
-                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $image->image) }}"
                         class="img-fluid" alt="slider-listing">
             @endforeach
           </div>
@@ -67,14 +75,14 @@
                                         @if($housingType->type == "checkbox-group")
                                             <div class="view-form-json mt-4">
                                                 <label for="" style="font-weight: bold;">{{$housingType->label}}</label>
-                                                @foreach(json_decode($housingData[$housingType->name]->value) as $checkboxItem)
+                                                @foreach(json_decode(getData($i + 1,$housingType->name,$housingData)) as $checkboxItem)
                                                 <p class="mb-1">{{$checkboxItem}}</p>
                                                 @endforeach
                                             </div>
                                         @else 
                                             <div class="view-form-json">
                                                 <label for="" style="font-weight: bold;">{{$housingType->label}}</label>
-                                                <p>{{$housingData[$housingType->name]->value}}</p>
+                                                <p>{{getData($i + 1,$housingType->name,$housingData)}}</p>
                                             </div>
                                         @endif
                                     @elseif($housingType->type == "file")
@@ -82,7 +90,7 @@
                                             
                                         @else 
                                             <div class="view-form-json mt-4">
-                                                <img style="width:150px;" src="{{ URL::to('/') . '/project_housing_images/' . $housingData[$housingType->name]->value }}" alt="">
+                                                <img style="width:150px;" src="{{ URL::to('/') . '/project_housing_images/' . getData($i + 1,$housingType->name,$housingData) }}" alt="">
                                             </div>
                                         @endif
                                     @endif
