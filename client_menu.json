@@ -27,6 +27,15 @@
         "activePath": "client/profile/upgrade"
     },
     {
+        "id": "UpgradeProfile",
+        "label": "Hesabım & Yardım",
+        "icon": "list",
+        "text": "Siparişler",
+        "key": "ShowCartOrders",
+        "url": "client.profile.cart-orders",
+        "activePath": "client/profile/cart-orders"
+    },
+    {
         "id": "ChangePassword",
         "label": "Hesabım & Yardım",
         "icon": "lock",

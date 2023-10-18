@@ -5,10 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AboutUs;
 use App\Models\ContactInfo;
+use App\Models\DocumentNotification;
 use Illuminate\Http\Request;
 
 class InfoController extends Controller
 {
+
+    function setReadedDn(Request $request, DocumentNotification $dn)
+    {
+        $dn->update(['readed' => 1]);
+        return redirect()->route('admin.user.show-corporate-account', ['user' => $dn->user_id]);
+    }
 
     public function contact()
     {

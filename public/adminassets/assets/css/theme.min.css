@@ -41012,6 +41012,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     max-width: 97px;
 }
 
+
 .confirm span{
     color: green;
 }
@@ -41028,4 +41029,10 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     font-weight: 700;
     font-size: 12.8px;
     color: var(--phoenix-gray-1100);
+}
+
+.finish-button-first {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
 }

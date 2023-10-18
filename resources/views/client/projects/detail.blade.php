@@ -11,16 +11,46 @@
                         <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
                                 style="color:White">{{ $project->user->name }}
                                 <style type="text/css">
-                                    .st0{fill:rgb(44,191,247);}
-                                    .st1{opacity:0.15;}
-                                    .st2{fill:#FFFFFF;}
+                                    .st0 {
+                                        fill: #446BB6;
+                                    }
+
+                                    .st1 {
+                                        opacity: 0.15;
+                                    }
+
+                                    .st2 {
+                                        fill: #FFFFFF;
+                                    }
                                 </style>
-                                <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1" width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path class="st0" d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   "/><g class="st1"><path d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z"/><path d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z"/><path d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z"/><path d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z"/></g><polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  "/><path class="st2" d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z"/></g></svg>
+                                <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1" width="24px"
+                                    height="24px" viewBox="0 0 120 120" xml:space="preserve"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <g>
+                                        <path class="st0"
+                                            d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
+                                        <g class="st1">
+                                            <path
+                                                d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
+                                            <path
+                                                d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
+                                            <path d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
+                                            <path
+                                                d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
+                                        </g>
+                                        <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
+                                        <path class="st2"
+                                            d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
+                                    </g>
+                                </svg>
                             </a></p>
-                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                        <p class="brand-name">Projeler</p>
-                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                        <p class="brand-name">{{ $project->project_title }}</p>
+                        <div class="mobile-hidden">
+                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                            <p class="brand-name">Projeler</p>
+                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                            <p class="brand-name">{{ $project->project_title }}</p>
+                        </div>
+
                     </div>
                 </div>
 
@@ -38,18 +68,20 @@
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
                             @csrf
-                            <input class="search-input" type="search" placeholder="Mağazada Ara" id="search-project" aria-label="Search"
-                                name="q">
-                                <div class="header-search__suggestions">
-                                    <div class="header-search__suggestions__section">
-                                        <h5>Projeler</h5>
-                                        <div class="header-search__suggestions__section__items">
-                                            @foreach ($project->user->projects as $item)
-                                                <a href="{{route('project.detail', ['slug' => $item->slug])}}" class="project-item" data-title="{{$item->project_title}}"><span>{{ $item->project_title }}</span></a>
-                                            @endforeach
-                                        </div>
+                            <input class="search-input" type="search" placeholder="Mağazada Ara" id="search-project"
+                                aria-label="Search" name="q">
+                            <div class="header-search__suggestions">
+                                <div class="header-search__suggestions__section">
+                                    <h5>Projeler</h5>
+                                    <div class="header-search__suggestions__section__items">
+                                        @foreach ($project->user->projects as $item)
+                                            <a href="{{ route('project.detail', ['slug' => $item->slug]) }}"
+                                                class="project-item"
+                                                data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
+                                        @endforeach
                                     </div>
                                 </div>
+                            </div>
                             <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
                         </form>
                     </nav>
@@ -106,18 +138,21 @@
                                 </a>
                                 
                                 <div class="news-item-bottom">
-                                    <a href="{{ route('project.housing.detail', $project->slug) }}" class="news-link">Proje
+                                    <a href="{{ route('project.housing.detail', $project->slug) }}"
+                                        class="news-link">Proje
                                         Detayı</a>
                                     <div class="admin">
                                         <p>{!! $project->user->name !!}</p>
+                                        <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
+                                        alt="">
                                     </div>
                                 </div>
                                 <div class="divider-fade mt-5"></div>
                                 <div id="map" class="contactmap">
                                     <iframe
                                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3015.3091375028957!2d29.17737287645882!3d40.908967225533395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac554b56486c5%3A0x19df79713477599e!2sMaliyetine%20Ev!5e0!3m2!1str!2str!4v1692189778851!5m2!1str!2str"
-                                        width="100%" height="215px" style="border:0;" allowfullscreen="" loading="lazy"
-                                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                        width="100%" height="215px" style="border:0;" allowfullscreen=""
+                                        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -185,11 +220,19 @@
                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
                                                             alt="home-1" class="img-responsive"
                                                             style="height: 120px;object-fit:cover">
-                                                            @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
-                                                            <div style="z-index: 2;right: 0;top: 0;background: orange; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
-                                                                <div style="color: #FFF;transform: rotate(45deg); margin-left: 25px; margin-top: 30px;font-weight: bold;">{{ '%'.round($offer->discount_amount / getData($project, 'price[]', $i + 1)->value * 100) }}</div>
+                                                        @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                            <div
+                                                                style="z-index: 2;right: 0;top: 0;background: orange; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
+                                                                <div style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
+                                                                    {{ '%' . round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100) }}
+                                                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1" style="transform: rotate(45deg);">
+                                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                                    </svg>
+                                                                </div>
+                                                                
                                                             </div>
-                                                            @endif
+                                                        @endif
                                                     </div>
 
                                                 </div>
@@ -198,73 +241,128 @@
                                     </a>
                                 </div>
 
-                                <div class="col-lg-9 col-md-12 homes-content pb-0 mb-44 aos-init aos-animate"
+                                <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
                                     data-aos="fade-up">
-                                    <div class="row align-items-center justify-content-between">
-                                        <div class="col-md-7">
+                                    <div class="row align-items-center justify-content-between mobile-position">
+                                        <div class="col-md-8">
+
                                             <div class="homes-list-div">
 
                                                 <ul class="homes-list clearfix pb-3 d-flex">
-                                                    <li class="the-icons">
+                                                    <li class="the-icons custom-width">
                                                         <i class="fas fa-home mr-2" style="color: #446BB6;"
                                                             aria-hidden="true"></i>
                                                         <span>{{ $project->housingType->title }}</span>
                                                     </li>
-                                                    <li class="the-icons">
+                                                    <li class="the-icons custom-width">
                                                         <i class="flaticon-bed mr-2" aria-hidden="true"></i>
                                                         <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
                                                     </li>
-                                                    <li class="the-icons">
+                                                    <li class="the-icons desktop-hidden homes-button special-width">
+                                                        <button class="first-btn">
+                                                            Ödeme Detaylarını Gör
+                                                        </button>
+                                                    </li>
+                                                    <li class="the-icons custom-width">
                                                         <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
                                                         <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}.Kat</span>
                                                     </li>
-                                                    <li class="the-icons">
+                                                    <li class="the-icons custom-width ">
                                                         <i class="flaticon-square mr-2" aria-hidden="true"></i>
                                                         <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
                                                     </li>
-                                                    <!-- <li class="the-icons">
-                                                                                                                                                                                                                                            <i class="flaticon-car mr-2" aria-hidden="true"></i>
-                                                                                                                                                                                                                                            <span>2 Garages</span>
-                                                                                                                                                                                                                                        </li> -->
+                                                    <li class="the-icons desktop-hidden homes-button special-width">
+                                                        @if (\Illuminate\Support\Facades\DB::raw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1) AS sold', [getData($project, 'price[]', $i + 1)->room_order])->sold ?? false)
+                                                        <button class="btn bg-warning"
+                                                            <h6
+                                                                style="color: black;font-weight:600;top:3px;position: relative;">
+                                                                Satıldı
+                                                            </h6>
+                                                        </button>
+                                                        @else
+                                                        <button class="addToCart second-btn" data-type='project'
+                                                            data-project='{{ $project->id }}'
+                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                            <h6
+                                                                style="color: black;font-weight:600;top:3px;position: relative;">
+                                                                Sepete Ekle
+                                                            </h6>
+
+                                                        </button>
+                                                        @endif
+                                                    </li>
+                                                    <li class="the-icons mobile-hidden">
+                                                        <span>
+                                                            @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                <h6
+                                                                    style="color: orange;position: relative;top:4px;font-weight:600;font-size:15px;">
+                                                                    {{ getData($project, 'price[]', $i + 1)->value - (getData($project, 'price[]', $i + 1)->value * round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100)) / 100 }}
+                                                                    TL</h6>
+                                                                <h6
+                                                                    style="color: black;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                    {{ getData($project, 'price[]', $i + 1)->value }} TL 
+                                                                    
+                                                                </h6>
+                                                            @else
+                                                                <h6
+                                                                    style="color: black;position: relative;top:4px;font-weight:600">
+                                                                    {{ getData($project, 'price[]', $i + 1)->value }} TL
+                                                                </h6>
+                                                            @endif
+                                                        </span>
+                                                    </li>
+
+
                                                 </ul>
+                                            </div>
+                                            <div class="footer">
+                                                <a
+                                                    href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">
+                                                    <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}"
+                                                        alt="" class="mr-2"> {{ $project->user->name }}
+                                                </a>
+                                                <span class="price-mobile">
+                                                    @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                        <h6
+                                                            style="color: black;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                            {{ getData($project, 'price[]', $i + 1)->value }} TL
+                                                        </h6>
+                                                        <h6
+                                                            style="color: orange;position: relative;top:4px;font-weight:600;font-size:14px;">
+                                                            {{ getData($project, 'price[]', $i + 1)->value - (getData($project, 'price[]', $i + 1)->value * round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100)) / 100 }}
+                                                            TL</h6>
+                                                    @else
+                                                        <h6
+                                                            style="color: black;position: relative;top:4px;font-weight:600">
+                                                            {{ getData($project, 'price[]', $i + 1)->value }} TL
+                                                        </h6>
+                                                    @endif
+                                                </span>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3" style="height: 120px">
-                                            <div class="homes-button">
-
+                                        <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
+                                            <div class="homes-button" style="width:100%;height:100%">
                                                 <button class="first-btn">
-                                                    <h6>Ödeme Detaylarını Gör</h6>
+                                                    Ödeme Detaylarını Gör </button>
+                                                @if (DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order]) ?? false)
+                                                        <button class="btn second-btn" style="background: rgb(173, 15, 15) !important;"
+                                                            <h6
+                                                                style="color: white;font-weight:600;top: calc(100% - 52px);position: relative;left: calc(100% - 192px);position: relative;">
+                                                                Satıldı
+                                                            </h6>
+                                                        </button>
+                                                @else
+                                                <button class="addToCart second-btn" data-type='project'
+                                                    data-project='{{ $project->id }}'
+                                                    data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                    <h6 style="color: black;font-weight:600;top:3px;position: relative;">
+                                                        Sepete Ekle
+                                                    </h6>
+
                                                 </button>
-                                                <div class="second-btn">
-                                                    <div class="" style="">
-                                                        <div class="second-price-btn{{ $offer ? ' border-0' : null }}">
-                                                        @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
-                                                            <h6
-                                                                style="color: orange;position: relative;top:4px;font-weight:600;font-size:14px;">
-                                                                {{ getData($project, 'price[]', $i + 1)->value - (getData($project, 'price[]', $i + 1)->value * (round($offer->discount_amount / getData($project, 'price[]', $i + 1)->value * 100)) ) / 100 }} TL</h6>
-                                                            <h6
-                                                                style="color: black;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
-                                                                {{ getData($project, 'price[]', $i + 1)->value }} TL</h6>
-                                                            @else
-                                                            <h6
-                                                                style="color: black;position: relative;top:4px;font-weight:600">
-                                                                {{ getData($project, 'price[]', $i + 1)->value }} TL</h6>
-                                                            @endif
-                                                        </div>
+                                                @endif
 
-                                                    </div>
-                                                    <button class="addToCart"style="width: 100%; border: none; background-color: #446BB6; padding: 5px 0px; color: white;" data-type='project'
-                                                        data-project='{{ $project->id }}'
-                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                        <h6
-                                                            style="color: black;font-weight:600;top:3px;position: relative;">
-                                                            Sepete Ekle
-                                                        </h6>
-
-                                                    </button>
-
-                                                </div>
                                             </div>
                                         </div>
 
@@ -295,7 +393,7 @@
             $location = explode(',', $project->location);
             $location['latitude'] = $location[0];
             $location['longitude'] = $location[1];
-            
+
             $location = json_encode($location);
             $location = json_decode($location);
         @endphp
@@ -430,11 +528,9 @@ out center;`;
     </script>
     <script>
         'use strict';
-        $('#search-project').on('input', function()
-        {
+        $('#search-project').on('input', function() {
             let val = $(this).val();
-            $('.project-item').each(function()
-            {
+            $('.project-item').each(function() {
                 if ($(this).data('title').toLowerCase().search(val) == -1)
                     $(this).addClass('d-none');
                 else
@@ -446,4 +542,52 @@ out center;`;
 
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        .mobile-hidden {
+            display: flex;
+        }
+
+        .desktop-hidden {
+            display: none;
+        }
+
+        .homes-content .footer {
+            display: none
+        }
+
+        .price-mobile {
+            display: flex;
+            align-items: self-end;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-hidden {
+                display: none
+            }
+
+            .desktop-hidden {
+                display: block;
+            }
+
+            .mobile-position {
+                width: 100%;
+                margin: 0 auto;
+                box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+            }
+
+            .inner-pages .portfolio .homes-content .homes-list-div ul {
+                flex-wrap: wrap
+            }
+
+            .homes-content .footer {
+                display: block;
+                background: none;
+                border-top: 1px solid #e8e8e8;
+                padding-top: 1rem;
+                font-size: 13px;
+                color: #666;
+            }
+
+        }
+    </style>
 @endsection

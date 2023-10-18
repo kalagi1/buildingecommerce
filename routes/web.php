@@ -53,6 +53,7 @@ use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\Institutional\OfferController as InstitutionalOfferController;
 use App\Http\Controllers\Institutional\TempOrderController;
+use App\Http\Controllers\SocialShareButtonsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -162,6 +163,8 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
     Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
+
+    Route::get('set-readed-dn/{dn}', [InfoController::class, 'setReadedDn'])->name('set-readed-dn');
 
     Route::middleware(['checkPermission:showCorporateStatus'])->group(function()
     {
@@ -734,6 +737,9 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     Route::post('/verify', [ClientPanelProfileController::class, 'verifyAccount'])->name('verify-account');
     Route::get('/get-document', [ClientPanelProfileController::class, 'getIdentityDocument'])->name('get.identity-document');
 
+    Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
+    Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
+
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
         Route::get('/profili-guncelle', [ClientPanelProfileController::class, "edit"])->name('profile.edit');
@@ -764,6 +770,11 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
     
     Route::get('/get_neighbourhood', [InstitutionalProjectController::class, "getNeighbourhood"])->name('get.neighbourhood');
+    Route::middleware(['checkPermission:ShowCartOrders'])->group(function()
+    {
+        Route::get('/siparisler', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
+    });
+
     // ChangePassword Controller Rotasının İzinleri
     Route::middleware(['checkPermission:ChangePassword'])->group(function () {
         Route::get('/sifreyi-degistir', [ClientPanelChangePasswordController::class, "edit"])->name('password.edit');
@@ -785,7 +796,6 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     });
 
 });
-
 
 Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
     ->name('all.project.list');

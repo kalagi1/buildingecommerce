@@ -29,7 +29,7 @@
                                 {{ $institutional->name }}
                                 <style type="text/css">
                                     .st0 {
-                                        fill: rgb(44, 191, 247);
+                                        fill: #446BB6;
                                     }
 
                                     .st1 {
@@ -64,6 +64,7 @@
                         </p>
                         <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
                         <p class="brand-name">Profil</p>
+                        
                     </div>
                 </div>
                 <div class="card-body">

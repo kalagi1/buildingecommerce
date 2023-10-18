@@ -13,6 +13,7 @@ class InstitutionalController extends Controller
 {
     public function dashboard($slug)
     {
+       
         $users = User::all();
         foreach ($users as $institutional) {
             $slugName = Str::slug($institutional->name);
@@ -53,7 +54,7 @@ class InstitutionalController extends Controller
         foreach ($users as $institutional) {
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {
-                $institutional = User::where("id", $institutional->id)->with('projects.housings','town', 'district', "neighborhood", 'housings', 'city', 'brands', "owners.housing")->first();
+                $institutional = User::where("id", $institutional->id)->with('projects.housings', 'town', 'district', "neighborhood", 'housings', 'city', 'brands', "owners.housing")->first();
                 return view("client.institutional.detail", compact("institutional"));
             }
         }

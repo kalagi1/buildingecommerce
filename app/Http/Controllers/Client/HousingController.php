@@ -45,7 +45,7 @@ class HousingController extends Controller
                 'comment' => $comment,
                 'rate' => $rate,
                 'images' => json_encode($images),
-                "owner_id" => $housing->user_id
+                "owner_id" => $housing->user_id,
             ]
         );
 
@@ -55,9 +55,8 @@ class HousingController extends Controller
     public function show($id)
     {
         $menu = Menu::getMenuItems();
-        $housing = Housing::with('images', "user", "brand", "city", "county")->where("id", $id)->first();
+        $housing = Housing::with('images', "user.housings", "user.banners", "brand", "city", "county")->where("id", $id)->first();
         $housingSetting = ProjectHouseSetting::where('house_type', $housing->housing_type_id)->get();
-
         $housingComments = HousingComment::where('housing_id', $id)->where('status', 1)->with('user')->get();
         return view('client.housings.detail', compact('housing', 'menu', 'housingSetting', 'id', 'housingComments'));
     }
