@@ -299,7 +299,7 @@ class HomeController extends Controller
                                      ->where('housings.title', 'LIKE', "%{$term}%")
                                      ->join('cities', 'cities.id', '=', 'housings.city_id')
                                      ->join('counties', 'counties.id', '=', 'housings.county_id')
-                                     ->orWhereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.room_count[0]")) AS DECIMAL(10, 2)) = ?', $term)
+                                     ->orWhereRaw('JSON_EXTRACT(housing_type_data, "$.room_count[0]") = ?', $term)
                                      ->orWhere('cities.title', $term)
                                      ->orWhere('counties.title', $term)
                                      ->get()
