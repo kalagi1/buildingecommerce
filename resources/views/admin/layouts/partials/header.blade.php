@@ -370,6 +370,30 @@
                     </div>
                 </div>
                 <ul class="navbar-nav navbar-nav-icons flex-row">
+                    <li class="nav-item dropdown">
+                        <div class="theme-control-toggle fa-icon-wait px-2" data-bs-toggle="dropdown">
+                            <label class="theme-control-toggle-label">
+                                <span class="icon" data-feather="bell"></span>
+                            </label>
+                        </div>
+                        <div class="dropdown-menu px-4 dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300" style="max-heigth: 320px; overflow-y: scroll;">
+                            <div class="card position-relative border-0">
+                            @php($notifications=App\Models\DocumentNotification::where('readed', '0')->get())
+                            @if (count($notifications) == 0)
+                                <div class="p-3 text-center">Bildirim Yok</div>
+                            @else
+                               @foreach ($notifications as $notification)
+                                <div class="mb-4 border-bottom p-3 d-flex">
+                                    <div>{{$notification->text}}</div>
+                                    <div>
+                                        <a href="{{ route('admin.set-readed-dn', ['dn' => $notification->id]) }}" class="btn btn-danger">Okundu</a>
+                                    </div>
+                                </div>
+                                @endforeach
+                            @endif
+                            </div>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <div class="theme-control-toggle fa-icon-wait px-2"><input
                                 class="form-check-input ms-0 theme-control-toggle-input" type="checkbox"

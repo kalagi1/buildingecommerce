@@ -26,7 +26,7 @@ class UserController extends Controller
             $query->where('email', 'like', '%' . $request->input('email') . '%');
         }
     
-        $users = $query->get();
+        $users = $query->orderBy('id', 'DESC')->get();
     
         if ($request->ajax()) {
             return view('admin.users.table', compact('users'));
