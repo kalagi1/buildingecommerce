@@ -77,8 +77,10 @@
                                 <thead>
                                     <tr>
                                         <th>Sipariş No.</th>
+                                        <th>Görsel</th>
+                                        <th>Proje</th>
                                         <th>Tutar</th>
-                                        <th>Tarih</th>
+                                        <th>Sipariş Tarihi</th>
                                         <th>Durum</th>
                                         <th>Sipariş</th>
                                     </tr>
@@ -86,14 +88,30 @@
                                 <tbody>
                                     @if ($cartOrders->count() > 0)
                                     @foreach ($cartOrders as $order)
+                                    @php($o = json_decode($order->cart))
+                                    @php($project = $o->type == 'project' ? App\Models\Project::find($o->item->id) : null)
                                         <tr>
                                             <td>{{$order->id}}</td>
+                                            <td>
+                                                @if ($o->type == 'housing')
+                                                <img src="{{asset('housing_images/'.json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null)}}" width="200px" height="120px" style="object-fit: contain;"/>
+                                                @else
+                                                <img src="{{asset($project->image)}}" width="200px" height="120px" style="object-fit: contain;"/>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($o->type == 'project')
+                                                {{ $project->project_title ?? '?' }}
+                                                @else
+                                                -
+                                                @endif
+                                            </td>
                                             <td>{{$order->amount}}</td>
                                             <td>{{$order->created_at}}</td>
                                             <td>{{['0' => 'Başarısız', '1' => 'Başarılı'][$order->status]}}</td>
                                             <td>
-                                                {{ json_decode($order->cart)->item->title }}<br/>
-                                                {{ json_decode($order->cart)->item->address }}
+                                                {{ $o->item->title }}<br/>
+                                                {{ $o->item->address }}
                                             </td>
                                         </tr>
                                     @endforeach

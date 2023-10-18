@@ -272,6 +272,14 @@
                                                         <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
                                                     </li>
                                                     <li class="the-icons desktop-hidden homes-button special-width">
+                                                        @if (\Illuminate\Support\Facades\DB::raw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1) AS sold', [getData($project, 'price[]', $i + 1)->room_order])->sold ?? false)
+                                                        <button class="btn bg-warning"
+                                                            <h6
+                                                                style="color: black;font-weight:600;top:3px;position: relative;">
+                                                                Satıldı
+                                                            </h6>
+                                                        </button>
+                                                        @else
                                                         <button class="addToCart second-btn" data-type='project'
                                                             data-project='{{ $project->id }}'
                                                             data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
@@ -281,6 +289,7 @@
                                                             </h6>
 
                                                         </button>
+                                                        @endif
                                                     </li>
                                                     <li class="the-icons mobile-hidden">
                                                         <span>
@@ -334,9 +343,16 @@
 
                                         <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
                                             <div class="homes-button" style="width:100%;height:100%">
-
                                                 <button class="first-btn">
                                                     Ödeme Detaylarını Gör </button>
+                                                @if (DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order]) ?? false)
+                                                        <button class="btn second-btn"
+                                                            <h6
+                                                                style="color: white;font-weight:600;top: calc(100% - 52px);position: relative;left: calc(100% - 192px);position: relative;">
+                                                                Satıldı
+                                                            </h6>
+                                                        </button>
+                                                @else
                                                 <button class="addToCart second-btn" data-type='project'
                                                     data-project='{{ $project->id }}'
                                                     data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
@@ -345,6 +361,7 @@
                                                     </h6>
 
                                                 </button>
+                                                @endif
 
                                             </div>
                                         </div>
