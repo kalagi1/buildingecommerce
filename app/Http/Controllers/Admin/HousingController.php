@@ -33,7 +33,7 @@ class HousingController extends Controller
             'housing_types.slug',
             'housing_types.form_json'
         )->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-        ->orderByDesc('housings.created_at')
+        ->orderByDesc('housings.id')
         ->get();
         return view('admin.housings.index', ['housing' => $housing]);
         //

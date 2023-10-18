@@ -70,7 +70,6 @@
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
-                                                <tbody class="list" id="bulk-select-body"></tbody>
                                             </table>
                                         </div>
 
