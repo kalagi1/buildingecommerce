@@ -76,8 +76,8 @@ class CartController extends Controller
         if (!$request->session()->get('cart'))
             return redirect()->back()->withErrors(['pay' => 'Sepet boş.']);
 
-        if ((CartOrder::whereRaw('JSON_EXTRACT(housing_type_data, "$.type") = ?', 'housing')->whereRaw('JSON_EXTRACT(housing_type_data, "$.item.id") = ?', $request->session()->get('cart')['item']['id'] && $request->session()->get('cart')['type'] == 'housing')->first()) ||
-            (CartOrder::whereRaw('JSON_EXTRACT(housing_type_data, "$.type") = ?', 'project')->whereRaw('JSON_EXTRACT(housing_type_data, "$.item.id") = ?', $request->session()->get('cart')['item']['id'] && $request->session()->get('cart')['type'] == 'project')->first()))
+        if ((CartOrder::whereRaw('JSON_EXTRACT(cart, "$.type") = ?', 'housing')->whereRaw('JSON_EXTRACT(cart, "$.item.id") = ?', $request->session()->get('cart')['item']['id'] && $request->session()->get('cart')['type'] == 'housing')->first()) ||
+            (CartOrder::whereRaw('JSON_EXTRACT(cart, "$.type") = ?', 'project')->whereRaw('JSON_EXTRACT(cart, "$.item.housing") = ?', $request->session()->get('cart')['item']['housing'] && $request->session()->get('cart')['type'] == 'project')->first()))
             return redirect()->back()->withErrors(['pay' => 'Bu ürün satılmış.']);
 
         $order = new CartOrder;
