@@ -7,6 +7,7 @@ use App\Models\Housing;
 use App\Models\HousingComment;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\CartOrder;
 
 class HomeController extends Controller
 {
@@ -19,6 +20,12 @@ class HomeController extends Controller
         $descProjects = Project::orderBy("id", "desc")->with("user","city","county")->limit(4)->get();
         $secondhandHousings = Housing::all();
         return view('admin.home.index', compact("comments", "clients", "institutionals", "projects", "secondhandHousings", 'descProjects'));
+    }
+
+    function getOrders()
+    {
+        $cartOrders = CartOrder::with('user')->get();
+        return view('admin.orders.index', compact('cartOrders'));  
     }
 
 }
