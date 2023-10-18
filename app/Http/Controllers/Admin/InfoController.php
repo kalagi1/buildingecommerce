@@ -14,7 +14,7 @@ class InfoController extends Controller
     function setReadedDn(Request $request, DocumentNotification $dn)
     {
         $dn->update(['readed' => 1]);
-        return redirect()->back();
+        return redirect()->route('admin.users.edit', ['user' => $dn->user_id]);
     }
 
     public function contact()

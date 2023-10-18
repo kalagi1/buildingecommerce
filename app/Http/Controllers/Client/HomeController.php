@@ -262,7 +262,7 @@ class HomeController extends Controller
                 'image' => asset('housing_images/' . getImage($item, 'image')),
                 'housing_type_title' => $item->housing_type_title,
                 'id' => $item->id,
-                'in_cart' => $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
+                'in_cart' => $request->session()->get('cart') && $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
                 'housing_url' => route('housing.show', $item->id),
                 'title' => $item->title,
                 'housing_address' => $item->address,
@@ -291,7 +291,15 @@ class HomeController extends Controller
 
         return response()->json(
             [
-                'housings' => Housing::where('title', 'LIKE', "%{$term}%")->get()->map(function ($item) {
+                'housings' => Housing::select('housings.*')
+                                     ->where('housings.title', 'LIKE', "%{$term}%")
+                                     ->join('cities', 'cities.id', '=', 'housings.city_id')
+                                     ->join('counties', 'counties.id', '=', 'housings.county_id')
+                                     ->orWhereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.room_count[0]")) AS DECIMAL(10, 2)) = ?', $term)
+                                     ->orWhere('cities.title', $term)
+                                     ->orWhere('counties.title', $term)
+                                     ->get()
+                                     ->map(function ($item) {
                     $housingData = json_decode($item->housing_type_data);
                     return [
                         'id' => $item->id,
