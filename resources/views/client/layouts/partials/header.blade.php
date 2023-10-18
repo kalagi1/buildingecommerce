@@ -200,9 +200,7 @@
                                     <a href="#" class="btn btn-primary text-white ml-3"> <i class="fa fa-plus"
                                             style="margin-right: 5px"></i> Ücretsiz İlan Ekle</a>
                                 @else
-                                    <a href="{{ route('client.submit.login') }}"
-                                        class="btn btn-primary text-white ml-3"> <i class="fa fa-plus "></i> Ücretsiz
-                                        İlan Ekle</a>
+                                <a href="{{route('client.login')}}" class="btn btn-primary text-white ml-3">Ücretsiz İlan Ekle</a>
                                 @endif
 
                             </div>

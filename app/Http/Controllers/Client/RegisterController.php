@@ -33,6 +33,16 @@ class RegisterController extends Controller
             ],
         ];
 
+        $msgs =
+        [
+            'name' => 'name',
+            'email' => 'email',
+            'password' => 'password',
+            'type' => 'type',
+            'corporate-account-type' => 'corporate-account-type',
+            'subscription_plan_id' => 'subscription_plan_id',
+        ];
+
         $city = City::where("title", $request->input("taxOfficeCity"))->first();
 
         if ($request->input("account_type") == "1") {
@@ -42,7 +52,7 @@ class RegisterController extends Controller
         }
 
         // Form doğrulama işlemini gerçekleştirin
-        $validatedData = $request->validate($rules);
+        $validatedData = $request->validate($rules, $msgs);
         // Yeni kullanıcıyı oluşturun
         $user = new User();
         $user->email = $validatedData['email'];
@@ -60,7 +70,7 @@ class RegisterController extends Controller
         $user->city_id = $request->input("city_id");
         $user->neighborhood_id = $request->input("neighborhood_id");
         $user->account_type = $accountType;
-        $user->taxOfficeCity = $city->id;
+        $user->taxOfficeCity = $city->id ?? 0;
         $user->taxOffice = $request->input("taxOffice");
         $user->taxNumber = $request->input("taxNumber");
         $user->idNumber = $request->input("idNumber");
@@ -100,16 +110,17 @@ class RegisterController extends Controller
             $content = str_replace("{{" . $key . "}}", $value, $content);
         }
 
-        try {
+        try
+        {
             Mail::to($request->input('email'))->send(new CustomMail($emailTemplate->subject, $content));
             session()->flash('success', 'Hesabınız oluşturuldu. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
-            return redirect()->route('client.login');
-
-        } catch (\Exception $e) {
-            session()->flash('error', 'Hata');
-            return redirect()->route('client.login');
-
         }
+        catch (\Exception $e)
+        {
+            return redirect()->back()->withErrors(['status' => 'Onay e-postası gönderilemedi.']);
+        }
+        
+        return redirect()->route('client.login');
 
     }
 }

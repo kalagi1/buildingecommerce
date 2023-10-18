@@ -371,24 +371,24 @@
                 </div>
                 <ul class="navbar-nav navbar-nav-icons flex-row">
                     <li class="nav-item dropdown">
-                        <div class="theme-control-toggle fa-icon-wait px-2" data-bs-toggle="dropdown">
+                    @php($notifications=App\Models\DocumentNotification::where('readed', '0')->get())
+                        <div class="theme-control-toggle fa-icon-wait px-2 position-relative" data-bs-toggle="dropdown">
                             <label class="theme-control-toggle-label">
                                 <span class="icon" data-feather="bell"></span>
                             </label>
+                            @if (count($notifications) > 0)
+                            <span class="badge bg-danger position-absolute" style="bottom: 0; right: 0;">{{count($notifications)}}</span>
+                            @endif
                         </div>
                         <div class="dropdown-menu px-4 dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300" style="max-heigth: 320px; overflow-y: scroll;">
                             <div class="card position-relative border-0">
-                            @php($notifications=App\Models\DocumentNotification::where('readed', '0')->get())
                             @if (count($notifications) == 0)
                                 <div class="p-3 text-center">Bildirim Yok</div>
                             @else
                                @foreach ($notifications as $notification)
-                                <div class="mb-4 border-bottom p-3 d-flex">
-                                    <div>{{$notification->text}}</div>
-                                    <div>
-                                        <a href="{{ route('admin.set-readed-dn', ['dn' => $notification->id]) }}" class="btn btn-danger">Okundu</a>
-                                    </div>
-                                </div>
+                                <a class="mb-4 border-bottom p-3" href="{{ route('admin.set-readed-dn', ['dn' => $notification->id]) }}">
+                                    {{$notification->text}}
+                                </a>
                                 @endforeach
                             @endif
                             </div>
