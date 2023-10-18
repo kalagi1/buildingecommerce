@@ -53,6 +53,7 @@ use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\Institutional\OfferController as InstitutionalOfferController;
 use App\Http\Controllers\Institutional\TempOrderController;
+use App\Http\Controllers\SocialShareButtonsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
