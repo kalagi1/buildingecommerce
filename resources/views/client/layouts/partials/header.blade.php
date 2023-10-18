@@ -199,7 +199,7 @@
                                 @if (auth()->user())
                                 <a href="#" class="btn btn-primary text-white ml-3">Ücretsiz İlan Ekle</a>
                                 @else
-                                <a href="{{route('client.submit.login')}}" class="btn btn-primary text-white ml-3">Ücretsiz İlan Ekle</a>
+                                <a href="{{route('client.login')}}" class="btn btn-primary text-white ml-3">Ücretsiz İlan Ekle</a>
                                 @endif
 
                             </div>
