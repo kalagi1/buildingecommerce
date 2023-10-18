@@ -192,6 +192,9 @@
             <div class="row project-filter-reverse blog-pots">
 
                 @for ($i = 0; $i < $project->room_count; $i++)
+                @php
+                $sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order]) ?? false;
+                @endphp
                     <div class="col-md-12 col-12">
                         <div class="project-card mb-3">
                             <div class="row">
@@ -242,7 +245,11 @@
                                 </div>
 
                                 <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
-                                    data-aos="fade-up">
+                                    data-aos="fade-up"
+                                    @if ($sold)
+                                    style="background: #EEE !important;"
+                                    @endif
+                                    >
                                     <div class="row align-items-center justify-content-between mobile-position">
                                         <div class="col-md-8">
 
@@ -345,7 +352,7 @@
                                             <div class="homes-button" style="width:100%;height:100%">
                                                 <button class="first-btn">
                                                     Ödeme Detaylarını Gör </button>
-                                                @if (DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order]) ?? false)
+                                                @if ($sold)
                                                         <button class="btn second-btn" style="background: red !important;"
                                                             <h6
                                                                 style="color: white;font-weight:600;top: calc(100% - 52px);position: relative;left: calc(100% - 192px);position: relative;">

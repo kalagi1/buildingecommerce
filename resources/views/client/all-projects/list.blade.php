@@ -728,7 +728,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- homes content -->
-                                                <div class="homes-content p-3" style="padding:20px !important">
+                                                <div class="homes-content p-3" style="padding:20px !important; ${res.sold ? 'background: #EEE !important;' : ''}">
                                                     <!-- homes address -->
                                                     <h3><a href="${res.housing_url}">${res.title}</a></h3>
                                                     <p class="homes-address mb-3">
