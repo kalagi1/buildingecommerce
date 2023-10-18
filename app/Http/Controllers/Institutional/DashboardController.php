@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\DocumentNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -53,6 +54,13 @@ class DashboardController extends Controller
         }
 
         auth()->user()->update($array);
+
+        DocumentNotification::create(
+            [
+                'user_id' => auth()->user()->id,
+                'text' => 'Yeni belge gönderildi. Kullanıcı : '.auth()->user()->email,
+            ]
+        );
 
         return redirect()->back();
     }

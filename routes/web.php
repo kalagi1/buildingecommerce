@@ -163,6 +163,8 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
     Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
 
+    Route::get('set-readed-dn/{dn}', [InfoController::class, 'setReadedDn'])->name('set-readed-dn');
+
     Route::middleware(['checkPermission:showCorporateStatus'])->group(function()
     {
         Route::get('get/tax-document/{user}', [UserController::class, 'getTaxDocument'])->name('get.tax-document');
