@@ -1,23 +1,5 @@
 [
     {
-        "id": "home",
-        "label": "Yönetim",
-        "icon": "home",
-        "text": "Anasayfa",
-        "key": "ViewDashboard",
-        "url": "admin.index",
-        "activePath": "admin/*"
-    },
-    {
-        "id": "menu",
-        "label": "Yönetim",
-        "icon": "menu",
-        "text": "Menü",
-        "key": "Menus",
-        "url": "admin.menu_management",
-        "activePath": "admin/menus*"
-    },
-    {
         "id": "housing",
         "label": "Uygulama",
         "icon": "home",
@@ -41,8 +23,26 @@
         ]
     },
     {
+        "id": "home",
+        "label": "Yönetim",
+        "icon": "home",
+        "text": "Anasayfa",
+        "key": "ViewDashboard",
+        "url": "admin.index",
+        "activePath": "admin/*"
+    },
+    {
+        "id": "menu",
+        "label": "Yönetim",
+        "icon": "menu",
+        "text": "Menü",
+        "key": "Menus",
+        "url": "admin.menu_management",
+        "activePath": "admin/menus*"
+    },
+    {
         "id": "comment",
-        "label": "Yorumlar",
+        "label": "Uygulama",
         "icon": "message-circle",
         "text": "Yorumlar",
         "key": "GetHousingComments",
@@ -51,7 +51,7 @@
     },
     {
         "id": "order",
-        "label": "Siparişler",
+        "label": "Uygulama",
         "icon": "list",
         "text": "Siparişler",
         "key": "GetOrders",
@@ -175,7 +175,7 @@
     },
     {
         "id": "sliders",
-        "label": "Slider",
+        "label": "Yönetim",
         "icon": "image",
         "text": "Slider",
         "key": "Sliders",
@@ -198,7 +198,7 @@
     },
     {
         "id": "footerSlider",
-        "label": "Slider",
+        "label": "Yönetim",
         "icon": "image",
         "text": "Footer Slider",
         "key": "FooterSliders",
@@ -307,7 +307,7 @@
     },
     {
         "id": "general_settings",
-        "label": "Ayarlar",
+        "label": "Yönetim",
         "icon": "lock",
         "text": "Genel Ayarlar",
         "key": "GetSiteSettings",
@@ -316,7 +316,7 @@
     },
     {
         "id": "smtp_settings",
-        "label": "Ayarlar",
+        "label": "Yönetim",
         "icon": "send",
         "text": "SMTP Ayarları",
         "key": "GetSmtpSettingById",
@@ -325,7 +325,7 @@
     },
     {
         "id": "contact_settings",
-        "label": "Ayarlar",
+        "label": "Yönetim",
         "icon": "phone",
         "text": "İletişim Ayarları",
         "key": "GetContactSettingById",

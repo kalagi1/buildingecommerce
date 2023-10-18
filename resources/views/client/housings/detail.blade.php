@@ -55,8 +55,8 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-2">
+                    <div class="row buttonDetail">
+                        <div class="col-md-2 col-2">
                             <style>
                                 .button-effect {
                                     border: solid 1px #e6e6e6;
@@ -73,7 +73,7 @@
                                 <i class="fa fa-heart"></i>
                             </div>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-10 col-10">
                             <button
                                 style="border: none;width:100%; background-color: #446BB6; border-radius: 10px; padding: 10px 50px; color: white;"
                                 class="addToCart" data-type='housing' data-id='{{ $housing->id }}'>Sepete
@@ -243,7 +243,7 @@
                                             </div>
                                             <div class="row mt-3">
                                                 @foreach (json_decode($comment->images, true) as $img)
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-2 col-3 mb-3">
                                                         <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
                                                             data-lightbox="gallery">
                                                             <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"

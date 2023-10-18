@@ -20488,7 +20488,19 @@ Version      : 1.2
         }
     }
 
+    .header-search-box a ,
+    .header-search-box-mobile a{
+        padding-bottom: 15px !important;
+
+    }
+
     @media screen and (max-width: 768px) {
+        .buttonDetail {
+            margin-top: 20px;
+        }
+        section.single-proper.details{
+            padding: 2rem 0 !important ;
+        }
         .dashboard-bd .left-side {
             width: 80% !important;
         }
@@ -25719,7 +25731,7 @@ Version      : 1.2
 
         .blog .blog-pots img {
             width: 100%;
-            height: 250px !important;
+            height: auto !important;
         }
 
         .agents .admin.company img {
@@ -26520,6 +26532,9 @@ Version      : 1.2
     @media screen and (max-width: 992px) {}
 
     @media screen and (max-width: 768px) {
+        .pro-wrapper{
+            flex-wrap: wrap;
+        }
         .sude .odeme-section .odeme-info .odeme-info-left {
             display: flex;
             flex-direction: column !important;

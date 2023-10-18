@@ -107,7 +107,7 @@
                                     </g>
                                 </svg>
                             </a></p>
-                        <div class="first-footer">
+                        {{-- <div class="first-footer">
                             <ul class="netsocials" style="margin-right:30px">
                                 @php
                                     $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
@@ -136,10 +136,10 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> --}}
                         @if (Auth::check())
                             @if ($store->id == Auth::user()->id)
-                                <a href="#" class="btn btn-primary ml-auto mr-5"> <i class="fa fa-plus"></i> İlan
+                                <a href="{{url('institutional/create_project_v2')}}" target="_blank" class="btn btn-primary ml-auto mr-5"> <i class="fa fa-plus"></i> İlan
                                     Ekle</a>
                             @endif
                         @endif

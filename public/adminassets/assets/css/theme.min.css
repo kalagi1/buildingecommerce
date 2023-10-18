@@ -41013,8 +41013,9 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 
-.confirm span{
-    color: green;
+.confirm p{
+    background-color: green;
+    color:white
 }
 
 .nav-linkx{

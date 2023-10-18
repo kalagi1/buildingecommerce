@@ -103,7 +103,7 @@
                         <span id="generate_tabs" class=" btn btn-primary mb-5">Daireleri Oluştur</span>
                         <div class="row">
                             <div class="col-sm-3">
-                                <div id="tablist" class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab h-100 justify-content-between" role="tablist" aria-orientation="vertical">
+                                <div id="tablist" class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab h-100" role="tablist" aria-orientation="vertical">
         
                                 </div>
                             </div>
@@ -399,7 +399,7 @@
                 }
 
                 if(confirm){
-                    $('#tablist>a').eq(i).addClass('confirm');
+                    $('#tablist>.item-left-area').eq(i).addClass('confirm');
                 }
             }
             

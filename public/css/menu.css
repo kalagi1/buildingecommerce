@@ -45,6 +45,7 @@ img {
     height: 100%;
     width: 100%;
     justify-content: end;
+    align-items: center;
 }
 
 .header-widget a {
