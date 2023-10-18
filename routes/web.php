@@ -777,7 +777,7 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
 
 });
 
-
+Route::get('/social-media-share', [SocialShareButtonsController::class,'ShareWidget']);
 Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
     ->name('all.project.list');
 
