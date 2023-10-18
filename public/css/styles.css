@@ -1439,7 +1439,7 @@ Version      : 1.2
         transition: transform 0.6s ease-in, -webkit-transform 0.6s ease-in;
     }
 
-   
+
 
     .homes-tag.featured {
         width: 84px !important;
@@ -5813,8 +5813,11 @@ Version      : 1.2
     }
 
     .homepage-2 .portfolio .project-head {
-        border-radius: 8px 8px 0 0;
         border: none;
+    }
+
+    .button-effect-2 .btn {
+        background: white !important;
     }
 
     .homepage-2 .portfolio .homes-price {
@@ -8559,7 +8562,25 @@ Version      : 1.2
         margin-right: 15px;
     }
 
+    .mobile-hidden {
+        display: block;
+    }
+
+    .mobile-show {
+        display: none;
+    }
+
+
+
     @media screen and (max-width: 768px) {
+        .mobile-show {
+            display: block;
+        }
+
+        .mobile-hidden {
+            display: none;
+        }
+
         #header-container .container {
             margin-bottom: 1rem !important;
             padding-bottom: 1rem !important;
@@ -25823,8 +25844,13 @@ Version      : 1.2
             font-size: 16px;
         }
 
+        .section-title {
+            margin: 20px 0;
+            margin-bottom: 50px;
+        }
+
         .section-title h2 {
-            font-size: 26px;
+            font-size: 24px;
         }
 
         .who-we-are .who img {

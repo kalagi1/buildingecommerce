@@ -172,7 +172,7 @@
 
 
                                 @endif
-                                
+
 
                                 @if (Auth::check())
                                     <a href="{{ route('favorites') }}" class="heartIcon">
@@ -197,9 +197,12 @@
                                 @endif
 
                                 @if (auth()->user())
-                                <a href="#" class="btn btn-primary text-white ml-3">Ücretsiz İlan Ekle</a>
+                                    <a href="#" class="btn btn-primary text-white ml-3"> <i class="fa fa-plus"
+                                            style="margin-right: 5px"></i> Ücretsiz İlan Ekle</a>
                                 @else
-                                <a href="{{route('client.submit.login')}}" class="btn btn-primary text-white ml-3">Ücretsiz İlan Ekle</a>
+                                    <a href="{{ route('client.submit.login') }}"
+                                        class="btn btn-primary text-white ml-3"> <i class="fa fa-plus "></i> Ücretsiz
+                                        İlan Ekle</a>
                                 @endif
 
                             </div>
@@ -250,21 +253,22 @@
                         </ul>
                     </nav>
                 </div>
+                <div class="p-0 position-relative d-lg-none">
+                    <div class="input-group search">
+                        <input type="text" id="ss-box-mobile" placeholder="Ara ..">
+                        <i class="fa fa-search"></i>
+                    </div>
+                    <div class="header-search-box-mobile d-none flex-column position-absolute bg-white border-bottom border-left border-right"
+                        style="top: 100%; z-index: 100; width: 100%; gap: 12px; max-height: 296px;">
+                    </div>
+                </div>
             </div>
 
+          
         </header>
         <div class="clearfix"></div>
 
 
-        <div class="container p-0 position-relative d-lg-none">
-            <div class="input-group search">
-                <input type="text" id="ss-box-mobile" placeholder="Ara ..">
-                <i class="fa fa-search"></i>
-            </div>
-            <div class="header-search-box-mobile d-none flex-column position-absolute bg-white border-bottom border-left border-right"
-                style="top: 100%; z-index: 100; width: 100%; gap: 12px; max-height: 296px;">
-            </div>
-        </div>
 
         <style>
             .dropdown ul {
