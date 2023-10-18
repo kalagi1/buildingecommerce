@@ -230,9 +230,10 @@ Version      : 1.2
     }
 
     .inner-pages .properties-right.list .homes-img img,
-    .portfolio .project-head img
+    .featured.portfolio .project-head img
     {
         height: 184px !important;
+        object-fit: cover !important;
     }
 
 
