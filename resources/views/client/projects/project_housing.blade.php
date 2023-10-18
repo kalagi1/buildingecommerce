@@ -120,7 +120,7 @@
                                     function implodeData($array)
                                     {
                                         $html = '';
-                                    
+
                                         for ($i = 0; $i < count($array); $i++) {
                                             if ($i == 0) {
                                                 $html .= ' ' . $array[$i];
@@ -128,7 +128,7 @@
                                                 $html .= ', ' . $array[$i];
                                             }
                                         }
-                                    
+
                                         return $html;
                                     }
                                 @endphp
@@ -157,7 +157,7 @@
                                         </span>
                                     </li>
                                 @endforeach
-        
+
                             </ul>
                         </div>
 
@@ -179,17 +179,51 @@
                                         <p class="author__meta">{{ $project->user->corporate_type }}</p>
                                     </div>
                                     <ul class="author__contact">
-                                        <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>
-                                            {!! $project->address !!}</li>
+                                        <li><span class="la la-map-marker"><i
+                                                    class="fa fa-map-marker"></i></span>{!! $project->address !!}</li>
                                         <li><span class="la la-phone"><i class="fa fa-phone"
-                                                    aria-hidden="true"></i></span><a href="tel:{!! $project->user->phone !!}">
-                                                {!! $project->user->phone !!}</a>
+                                                    aria-hidden="true"></i></span><a
+                                                style="text-decoration: none;color:inherit"
+                                                href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
                                         </li>
                                         <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                     aria-hidden="true"></i></span><a
+                                                style="text-decoration: none;color:inherit"
                                                 href="mailto:{!! $project->user->email !!}">{!! $project->user->email !!}</a></li>
                                     </ul>
                                 </div>
+                                <hr>
+                                <div class="first-footer">
+                                    <ul class="netsocials px-2">
+                                        @php
+                                            $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+                                            $host = $_SERVER['HTTP_HOST'];
+                                            $uri = $_SERVER['REQUEST_URI'];
+                                            $shareUrl = $protocol . '://' . $host . $uri;
+                                        @endphp
+                                        <li>
+                                            <a href="https://twitter.com/share?url={{ $shareUrl }}">
+                                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.instagram.com/">
+                                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="whatsapp://send?text={{ $shareUrl }}">
+                                                <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
+                                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
                             </div>
                         </div>
                         <div class="widget-boxed popular mt-5">
@@ -230,7 +264,7 @@
 
             </div>
 
-         
+
         </div>
     </section>
 @endsection

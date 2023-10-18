@@ -3272,7 +3272,7 @@ Version      : 1.2
     .brand-image-pp {
         width: 52px;
         z-index: 2;
-        height: 52px;
+        height: 100%;
         object-fit: cover;
         border-radius: 50%;
     }
@@ -4996,6 +4996,16 @@ Version      : 1.2
         color: #fff;
     }
 
+    .first-footer .netsocials a .fa-whatsapp {
+        background: transparent;
+        color: #fff;
+    }
+
+    .first-footer .netsocials a .fa-whatsapp:hover {
+        background: #379a37;
+        color: #fff;
+    }
+
     .first-footer .netsocials a .fa-youtube {
         background: transparent;
         color: #fff;
@@ -5006,6 +5016,7 @@ Version      : 1.2
         background: #cd201f;
         color: #fff;
     }
+  
 
     .homepage-2 .first-footer .netsocials a .fa-facebook,
     .homepage-5 .first-footer .netsocials a .fa-facebook,
@@ -5026,6 +5037,13 @@ Version      : 1.2
     .int_white_bg .first-footer .netsocials a .fa-instagram,
     .th-17 .first-footer .netsocials a .fa-instagram {
         background: #E1306C;
+    }
+
+    .homepage-2 .first-footer .netsocials a .fa-whatsapp,
+    .homepage-5 .first-footer .netsocials a .fa-whatsapp,
+    .int_white_bg .first-footer .netsocials a .fa-whatsapp,
+    .th-17 .first-footer .netsocials a .fa-whatsapp {
+        background: #379a37;
     }
 
     .homepage-2 .first-footer .netsocials a .fa-youtube,
