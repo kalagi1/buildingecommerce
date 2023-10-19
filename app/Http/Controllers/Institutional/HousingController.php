@@ -11,6 +11,7 @@ use App\Models\HousingStatus;
 use App\Models\HousingStatusConnection;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
+use App\Models\DocumentNotification;
 use App\Models\Log;
 use App\Models\SinglePrice;
 use App\Models\StandOutUser;
@@ -243,6 +244,13 @@ class HousingController extends Controller
         )->id;
 
         UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->decrement('housing_limit');
+
+        DocumentNotificaiton::create(
+            [
+                'user_id' => auth()->user()->id,
+                'text' => 'Yeni bir konut eklendi. <a href="'.route('housing.show', ['id' => $lastId]).'">Linke git</a>',
+            ]
+        );
 
         return redirect()->route('institutional.housing.list',["status" => "new_housing"]);
     }

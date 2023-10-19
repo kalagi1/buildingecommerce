@@ -376,6 +376,13 @@ class ProjectController extends Controller
             }
         }
 
+        DocumentNotificaiton::create(
+            [
+                'user_id' => auth()->user()->id,
+                'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
+            ]
+        );
+
         return redirect()->route('institutional.projects.index', ["status" => "new_project"]);
     }
 
