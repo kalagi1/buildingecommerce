@@ -13,7 +13,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $query = User::with("role");
-    
+
         if ($request->input('name') !== null) {
             $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
@@ -21,20 +21,19 @@ class UserController extends Controller
         if ($request->input('role') !== null) {
             $query->where('type', 'like', '%' . $request->input('role') . '%');
         }
-        
+
         if ($request->input('email') !== null) {
             $query->where('email', 'like', '%' . $request->input('email') . '%');
         }
-    
+
         $users = $query->orderByDesc('created_at')->get();
 
         if ($request->ajax()) {
             return view('admin.users.table', compact('users'));
         }
-    
+
         return view('admin.users.index', compact('users'));
     }
-    
 
     public function create()
     {
@@ -185,8 +184,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $roles = Role::all();
-        $user_e = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
-        return view('admin.users.edit', compact('user_e', 'roles'));
+        $userDetail = User::with("comments", "owners", "parent", "town", "child", "role", "projects", "city", "district", "neighborhood", "housings", "plan")->findOrFail($id);
+        return view('admin.users.edit', compact('userDetail', 'roles'));
     }
 
     public function update(Request $request, $id)

@@ -559,7 +559,7 @@ Version      : 1.2
     .brand-head .brands-square {
         position: absolute;
         top: 30px;
-        left: 30px;
+        padding-left: 30px;
         display: flex;
         align-items: center;
     }
