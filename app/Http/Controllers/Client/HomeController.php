@@ -52,7 +52,7 @@ class HomeController extends Controller
 
     public function getRenderedProjects(Request $request)
     {
-        $query = Project::query();
+        $query = Project::query()->where('status', 1);
 
         if ($request->input('city')) {
             $query->where('city_id', $request->input('city'));
@@ -143,7 +143,7 @@ class HomeController extends Controller
 
         $obj = Housing::select('housings.*',
             \Illuminate\Support\Facades\DB::raw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) AS sold'),
-        )->with('images');
+        )->with('images')->where('housings.status', 1);
 
         if ($request->input('from_owner')) {
             switch ($request->input('from_owner')) {
@@ -294,6 +294,7 @@ class HomeController extends Controller
         return response()->json(
             [
                 'housings' => Housing::select('housings.*')
+                    ->where('status', 1)
                     ->where('housings.title', 'LIKE', "%{$term}%")
                     ->join('cities', 'cities.id', '=', 'housings.city_id')
                     ->join('counties', 'counties.id', '=', 'housings.county_id')
@@ -309,7 +310,9 @@ class HomeController extends Controller
                             'name' => $item->title,
                         ];
                     }),
-                'projects' => Project::where('project_title', 'LIKE', "%{$term}%")->get()->map(function ($item) {
+                'projects' => Project::where('project_title', 'LIKE', "%{$term}%")
+                                     ->where('status', 1)
+                                     ->get()->map(function ($item) {
                     return [
                         'id' => $item->id,
                         'photo' => $item->image,

@@ -29,7 +29,7 @@ class ProjectController extends Controller
     {
         $menu = Menu::getMenuItems();
         $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
-        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->where('status', 1)->first();
         return view('client.projects.detail', compact('menu', 'project', 'offer'));
     }
 
@@ -42,7 +42,7 @@ class ProjectController extends Controller
 
     public function projectList(Request $request)
     {
-        $projects = Project::orderBy('view_count');
+        $projects = Project::where('status', 1)->orderBy('view_count');
         if ($request->input("search")) {
             $projects = $projects->where('project_title', 'LIKE', '%' . $request->input('search') . '%');
         }
@@ -116,7 +116,7 @@ class ProjectController extends Controller
     public function projectHousingDetail($projectSlug, $housingOrder)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $projectSlug)->with("brand", "user.projects", "user.banners")->firstOrFail();
+        $project = Project::where('slug', $projectSlug)->with("brand", "user.projects", "user.banners")->where('status', 1)->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id',$project->id)->get();
 
