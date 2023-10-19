@@ -234,7 +234,7 @@
                                 <div class="recent-post">
                                     <div class="tags">
                                         @foreach ($project->user->projects as $item)
-                                            <span><a href="#"
+                                            <span><a href="{{ route('project.detail', ['slug' => $item->slug]) }}"
                                                     class="btn btn-outline-primary">{{ $item->project_title }}</a></span>
                                         @endforeach
 
