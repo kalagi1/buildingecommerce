@@ -237,7 +237,24 @@ Version      : 1.2
     }
 
 
+    .social-square
+    {
+        float: right;
+        margin-left: auto;
+        display: flex;
+        gap: 12px;
+    }
 
+    @media (max-width: 768px)
+    {
+        .social-square
+        {
+            /*
+            float: unset;
+            margin: 0 auto;
+            */
+        }
+    }
 
 
 

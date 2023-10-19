@@ -290,7 +290,7 @@ class ProjectController extends Controller
                 "room_count" => $request->input('house_count'),
                 "city_id" => $request->input('city_id'),
                 "county_id" => $request->input('county_id'),
-                "user_id" => Auth::user()->id,
+                "user_id" => auth()->user()->parent_id ?? auth()->user()->id,
                 "status_id" => 1,
                 "image" => $filePath,
                 'document' => $documentName,

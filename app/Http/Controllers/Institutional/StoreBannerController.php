@@ -32,7 +32,7 @@ class StoreBannerController extends Controller
 
         $storeBanner = new StoreBanner();
         $storeBanner->image = $fileName;
-        $storeBanner->user_id = Auth::user()->id;
+        $storeBanner->user_id = auth()->user()->parent_id ?? auth()->user()->id;
         $storeBanner->save();
 
         return redirect()->route('institutional.storeBanners.index')->with('success', 'Mağaza bannerı başarıyla oluşturuldu.');

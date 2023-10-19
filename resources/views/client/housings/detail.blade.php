@@ -405,7 +405,7 @@
                                 <div class="recent-post">
                                     <div class="tags">
                                         @foreach ($housing->user->housings as $item)
-                                            <span><a href="#"
+                                            <span><a href="{{ route('housing.show', $item->id) }}"
                                                     class="btn btn-outline-primary">{{ $item->title }}</a></span>
                                         @endforeach
 
