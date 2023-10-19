@@ -12,6 +12,7 @@ use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\HousingTypeParentConnection;
 use App\Models\Log;
+use App\Models\DocumentNotification;
 use App\Models\Neighborhood;
 use App\Models\Neighbourhood;
 use App\Models\PricingStandOut;
