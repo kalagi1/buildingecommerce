@@ -68,59 +68,7 @@
                 </div>
             </div>
             <div class="col-lg-9">
-                <div class="ps-page__content">
-                    <div class="ps-page__dashboard">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul class="mb-0">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        @if (session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-
-                        <form action="{{ route('client.profile.update') }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <div class="mb-3">
-                                <label for="name" class="form-label">İsim</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    value="{{ $user->name }}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ $user->email }}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Telefon</label>
-                                <input type="number" class="form-control" id="phone" name="phone"
-                                    value="{{ $user->phone }}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="birthday" class="form-label">Doğum Tarihi</label>
-                                <input type="date" class="form-control" id="birthday" name="birthday"
-                                    value="{{ $user->birthday }}" required>
-                            </div>
-
-                            <button type="submit" class="ps-btn">Kaydet</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        </div>
-    </section>
-    <div class="content">
+            <div class="content">
         <form action="{{ route('client.verify-account') }}" enctype="multipart/form-data" method="POST"
             class="verify-form">
             @csrf
@@ -190,47 +138,12 @@
             </div>
         </form>
     </div>
+            </div>
+
+        </div>
+        </div>
+    </section>
     <style>
-        .verify-form {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 100000;
-            background: rgb(0 0 0 / 60%);
-            padding: 96px;
-            -webkit-backdrop-filter: blur(5px);
-        }
-
-        .verify-modal {
-            width: 75%;
-            max-height: 520px;
-            margin: 0 auto;
-            margin-top: 100px
-        }
-
-        @media (max-width:768px) {
-            .verify-modal {
-                width: 100%;
-                max-height: 520px;
-                margin: 0 auto;
-                margin-top: 150px
-            }
-
-            .verify-form {
-                position: fixed;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                z-index: 100000;
-                background: rgb(0 0 0 / 60%);
-                padding: 36px;
-                -webkit-backdrop-filter: blur(5px);
-            }
-
-        }
 
         /* Add this to your CSS file */
         .green-border {
