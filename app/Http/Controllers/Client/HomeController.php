@@ -142,8 +142,8 @@ class HomeController extends Controller
         }
 
         $obj = Housing::select('housings.*',
-                               \Illuminate\Support\Facades\DB::raw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) AS sold'),
-                              )->with('images');
+            \Illuminate\Support\Facades\DB::raw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) AS sold'),
+        )->with('images');
 
         if ($request->input('from_owner')) {
             switch ($request->input('from_owner')) {
@@ -254,13 +254,11 @@ class HomeController extends Controller
                     break;
             }
         }
-        
 
         $itemPerPage = 12;
         $obj = $obj->paginate($itemPerPage);
 
-        return response()->json($obj->through(function($item) use($request)
-        {
+        return response()->json($obj->through(function ($item) use ($request) {
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
                 'sold' => $item->sold,
@@ -296,21 +294,21 @@ class HomeController extends Controller
         return response()->json(
             [
                 'housings' => Housing::select('housings.*')
-                                     ->where('housings.title', 'LIKE', "%{$term}%")
-                                     ->join('cities', 'cities.id', '=', 'housings.city_id')
-                                     ->join('counties', 'counties.id', '=', 'housings.county_id')
-                                     ->orWhereRaw('JSON_EXTRACT(housing_type_data, "$.room_count[0]") = ?', $term)
-                                     ->orWhere('cities.title', $term)
-                                     ->orWhere('counties.title', $term)
-                                     ->get()
-                                     ->map(function ($item) {
-                    $housingData = json_decode($item->housing_type_data);
-                    return [
-                        'id' => $item->id,
-                        'photo' => $housingData->image,
-                        'name' => $item->title,
-                    ];
-                }),
+                    ->where('housings.title', 'LIKE', "%{$term}%")
+                    ->join('cities', 'cities.id', '=', 'housings.city_id')
+                    ->join('counties', 'counties.id', '=', 'housings.county_id')
+                    ->orWhereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.room_count[0]")) AS DECIMAL(10, 2)) = ?', $term)
+                    ->orWhere('cities.title', $term)
+                    ->orWhere('counties.title', $term)
+                    ->get()
+                    ->map(function ($item) {
+                        $housingData = json_decode($item->housing_type_data);
+                        return [
+                            'id' => $item->id,
+                            'photo' => $housingData->image,
+                            'name' => $item->title,
+                        ];
+                    }),
                 'projects' => Project::where('project_title', 'LIKE', "%{$term}%")->get()->map(function ($item) {
                     return [
                         'id' => $item->id,

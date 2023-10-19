@@ -131,7 +131,7 @@ class HousingController extends Controller
 
                 DB::commit();
                 
-                TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->delete();
+                TempOrder::where('user_id',auth()->user()->id)->where('item_type',2)->delete();
 
                 return json_encode([
                     "status" => true

@@ -197,10 +197,12 @@
                                 @endif
 
                                 @if (auth()->user())
-                                    <a href="#" class="btn btn-primary text-white ml-3"> <i class="fa fa-plus"
+                                    <a href="{{ url('institutional/create_project_v2') }}"
+                                        class="btn btn-primary text-white ml-3"> <i class="fa fa-plus"
                                             style="margin-right: 5px"></i> Ücretsiz İlan Ekle</a>
                                 @else
-                                <a href="{{route('client.login')}}" class="btn btn-primary text-white ml-3">Ücretsiz İlan Ekle</a>
+                                    <a href="{{ route('client.login') }}"
+                                        class="btn btn-primary text-white ml-3">Ücretsiz İlan Ekle</a>
                                 @endif
 
                             </div>
@@ -262,7 +264,7 @@
                 </div>
             </div>
 
-          
+
         </header>
         <div class="clearfix"></div>
 

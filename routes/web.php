@@ -53,6 +53,7 @@ use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\Institutional\OfferController as InstitutionalOfferController;
 use App\Http\Controllers\Institutional\TempOrderController;
+use App\Http\Controllers\SocialShareButtonsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -755,6 +756,24 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
         Route::post('/profili-yukselt/{id}', [ClientPanelProfileController::class, "upgradeProfile"])->name('profile.upgrade.action');
     });
 
+    
+    Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class,"getHousingTypeChildren"])->name('get.housing.type.childrens');
+
+    Route::post('/create_housing_v2', [InstitutionalHousingController::class, 'finishByTemp'])->name('housing.store.v2');
+    Route::get('/get_busy_housing_statuses/{id}', [InstitutionalProjectController::class, 'getBusyDatesByStatusType'])->name('get.busy.housing.statuses');
+    Route::post('/change_step_order', [TempOrderController::class, 'changeStepOrder'])->name('change.step.order');
+    Route::get('/get_housing_type_id/{slug}', [TempOrderController::class, 'getHousingTypeId'])->name('get.housing.type.id');
+    Route::post('/temp_order_image_add', [TempOrderController::class, 'addTempImage'])->name('temp.order.image.add');
+    Route::post('/temp_order_single_file_add', [TempOrderController::class, 'singleFile'])->name('temp.order.single.file.add');
+    Route::post('/temp_order_document_add', [TempOrderController::class, 'documentFile'])->name('temp.order.document.add');
+    Route::post('/temp_order_change_data', [TempOrderController::class, 'dataChange'])->name('temp.order.data.change');
+    Route::post('/temp_order_project_housing_data_change', [TempOrderController::class, 'projectHousingDataChange'])->name('temp.order.project.housing.change');
+    Route::post('/add_project_image', [TempOrderController::class, 'addProjectImage'])->name('temp.order.project.add.image');
+    Route::post('/end_project_temp_order', [InstitutionalProjectController::class,"createProjectEnd"])->name('project.end.temp.order');
+    Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
+    Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
+    
+    Route::get('/get_neighbourhood', [InstitutionalProjectController::class, "getNeighbourhood"])->name('get.neighbourhood');
     Route::middleware(['checkPermission:ShowCartOrders'])->group(function()
     {
         Route::get('/siparisler', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
@@ -769,6 +788,7 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     // AdminHomeController Rotalarının İzinleri
     Route::middleware(['checkPermission:ViewDashboard'])->group(function () {
         Route::get('/', [ClientPanelDashboardController::class, "index"])->name("index");
+        Route::get('/konut_olustur', [OrderController::class, "createHousing"])->name("create.housing");
         Route::post('/order',[OrderController::class,'createOrder'])->name('create.order');
         Route::get('/getOrders',[OrderController::class,'getOrders']);
     });
@@ -780,7 +800,6 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     });
 
 });
-
 
 Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
     ->name('all.project.list');

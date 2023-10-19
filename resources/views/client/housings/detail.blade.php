@@ -55,8 +55,8 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-2">
+                    <div class="row buttonDetail">
+                        <div class="col-md-2 col-2">
                             <style>
                                 .button-effect {
                                     border: solid 1px #e6e6e6;
@@ -73,7 +73,7 @@
                                 <i class="fa fa-heart"></i>
                             </div>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-10 col-10">
                             <button
                                 style="border: none;width:100%; background-color: #446BB6; border-radius: 10px; padding: 10px 50px; color: white;"
                                 class="addToCart" data-type='housing' data-id='{{ $housing->id }}'>Sepete
@@ -243,7 +243,7 @@
                                             </div>
                                             <div class="row mt-3">
                                                 @foreach (json_decode($comment->images, true) as $img)
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-2 col-3 mb-3">
                                                         <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
                                                             data-lightbox="gallery">
                                                             <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
@@ -351,17 +351,50 @@
                                         <p class="author__meta">{{ $housing->user->corporate_type }}</p>
                                     </div>
                                     <ul class="author__contact">
-                                        <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>
-                                            {!! $housing->address !!}</li>
+                                        <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>{!! $housing->address !!}</li>
                                         <li><span class="la la-phone"><i class="fa fa-phone"
-                                                    aria-hidden="true"></i></span><a href="tel:{!! $housing->user->phone !!}">
-                                                {!! $housing->user->phone !!}</a>
+                                                    aria-hidden="true"></i></span><a
+                                                style="text-decoration: none;color:inherit"
+                                                href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
                                         </li>
                                         <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                     aria-hidden="true"></i></span><a
+                                                style="text-decoration: none;color:inherit"
                                                 href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a></li>
                                     </ul>
                                 </div>
+                                <hr>
+                                <div class="first-footer">
+                                    <ul class="netsocials px-2">
+                                        @php
+                                            $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+                                            $host = $_SERVER['HTTP_HOST'];
+                                            $uri = $_SERVER['REQUEST_URI'];
+                                            $shareUrl = $protocol . '://' . $host . $uri;
+                                        @endphp
+                                        <li>
+                                            <a href="https://twitter.com/share?url={{ $shareUrl }}">
+                                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.instagram.com/">
+                                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="whatsapp://send?text={{ $shareUrl }}">
+                                                <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
+                                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
                             </div>
                         </div>
                         <div class="widget-boxed popular mt-5">
@@ -387,7 +420,7 @@
                             <div class="widget-boxed-body">
                                 @if (count($housing->user->banners) > 0)
                                     @php
-                                        $randomBanner = $housing->user->banners[0]  ;
+                                        $randomBanner = $housing->user->banners[0];
                                         $imagePath = asset('storage/store_banners/' . $randomBanner['image']);
                                     @endphp
                                     <div class="banner"><img src="{{ $imagePath }}" alt=""></div>
@@ -396,8 +429,8 @@
                                 @endif
                             </div>
                         </div>
-                        
-                        
+
+
                         <!-- End: Schedule a Tour -->
                         <!-- end author-verified-badge -->
                         {{-- <div class="sidebar">

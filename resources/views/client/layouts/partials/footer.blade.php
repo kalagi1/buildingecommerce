@@ -930,6 +930,7 @@
 
 
 @yield('scripts')
+
 </div>
 <!-- Wrapper / End -->
 

@@ -222,7 +222,7 @@
                                                         <!-- homes img -->
                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
                                                             alt="home-1" class="img-responsive"
-                                                            style="height: 120px;object-fit:cover">
+                                                            style="height: 120px !important;object-fit:cover">
                                                         @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                             <div
                                                                 style="z-index: 2;right: 0;top: 0;background: orange; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">

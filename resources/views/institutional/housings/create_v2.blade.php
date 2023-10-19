@@ -11,19 +11,19 @@
                 <div class="progress-line step{{$tempDataFull->step_order}}">
                     <ol>
                         <li @if(isset($tempDataFull) && $tempDataFull->step_order == 1) class="current" @elseif($tempDataFull->step_order > 1) class="done" @endif >
-                            <a href="" class="step-counter">1</a>
+                            <a href="" class="step-counter"><i class="fa fa-star"></i> <span>1</span></a>
                             <a href="">Kategori Seçimi</a>
                         </li>
                         <li @if(isset($tempDataFull) && $tempDataFull->step_order == 2) class="current" @elseif($tempDataFull->step_order > 2) class="done" @endif>
-                            <a href="" class="step-counter">2</a>
+                            <a href="" class="step-counter"><i class="fa fa-star"></i> <span>2</span></a>
                             <a href="">İlan Detayları</a>
                         </li>
                         <li @if(isset($tempDataFull) && $tempDataFull->step_order == 3) class="current" @elseif($tempDataFull->step_order > 3) class="done" @endif>
-                            <a href="" class="step-counter">3</a>
+                            <a href="" class="step-counter"><i class="fa fa-star"></i> <span>3</span></a>
                             <a href="">Doping</a>
                         </li>
                         <li @if(isset($tempDataFull) && $tempDataFull->step_order == 4) class="current" @endif>
-                            <a href="" class="step-counter">4</a>
+                            <a href="" class="step-counter"><i class="fa fa-star"></i> <span>4</span></a>
                             <a href="">Tebrikler</a>
                         </li>
                     </ol>

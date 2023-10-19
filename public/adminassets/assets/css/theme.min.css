@@ -40432,7 +40432,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     width: 60px;
     height: 60px;
     color: #fff;
-    background: #26a67c;
+    background: #5272F2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40805,13 +40805,12 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     height: 60px;
 }
 
-.progress-line ol li.done a.step-counter {
+.progress-line ol li.done a.step-counter svg {
     width: 40px;
     height: 40px;
     margin-left: -20px;
-    margin-top: -20px;
-    background-color: #289479;
-    color: #fff;
+    margin-top: -23px;
+    color: #5272F2;
     line-height: 40px;
     font-size: 16px;
     border-radius: 36px;
@@ -40823,11 +40822,31 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     position: absolute;
 }
 
+.progress-line ol li.done a.step-counter span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+    color: #fff;
+    margin-left: -5px;
+    margin-top: -13px;
+}
+
+.progress-line ol li a.step-counter span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+    color: #fff;
+    margin-left: -3px;
+    margin-top: -13px;
+}
+
 .progress-line ol:before {
     width: 100%;
     height: 4px;
     content: '';
-    background-color: #dfdfdf;
+    background-color: #5272F2;
     position: absolute;
     left: 0;
     top: 50%;
@@ -40864,16 +40883,16 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .progress-line.step1 ol:before {
-    width: 13.5%;
+    width: 15%;
 }
 
 
 .progress-line.step2 ol:before {
-    width: 37.5%;
+    width: 40%;
 }
 
 .progress-line.step3 ol:before {
-    width: 62.5%;
+    width: 64.5%;
 }
 
 .progress-line.step4 ol:before {
@@ -40888,32 +40907,29 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     transition: width 0.7s linear;
     height: 4px;
     content: '';
-    background-color: #209579;
+    background-color: #5272F2;
     position: absolute;
     left: 0;
     top: 50%;
     margin-top: -2px;
 }
 
-.progress-line ol li.current .step-counter {
-    width: 46px;
-    height: 46px;
-    margin-left: -24px;
-    border: 4px solid #209579;
-    margin-top: -23px;
-    background-color: #fafafa;
-    color: #289479;
+.progress-line ol li.current .step-counter svg{
+    width: 40px;
+    height: 40px;
+    color: #5272F2;
     line-height: 40px;
     font-size: 16px;
+    position: absolute;
 }
 
-.progress-line ol li .step-counter {
-    width: 36px;
-    height: 36px;
+
+.progress-line ol li .step-counter svg{
+    width: 40px;
+    height: 40px;
     content: '';
-    background-color: #dfdfdf;
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     margin-left: -18px;
     margin-top: -18px;
@@ -40953,7 +40969,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .breadcrumb-v2 .icon{
     width: 24px;
     height: 24px;
-    background-color: #fcae1a;
+    background-color: #5272F2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40995,6 +41011,27 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     max-width: 129px;
     max-width: 97px;
 }
+
+
+.confirm p{
+    background-color: green;
+    color:white
+}
+
+.nav-linkx{
+    position: relative;
+    color: var(--phoenix-gray-800);
+    padding: 0.875rem 0.5rem;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+}
+
+.vertical-tab .nav-linkx.active{
+    font-weight: 700;
+    font-size: 12.8px;
+    color: var(--phoenix-gray-1100);
+}
+
 .finish-button-first {
     display: flex;
     justify-content: center;
