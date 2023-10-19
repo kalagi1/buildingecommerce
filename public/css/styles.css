@@ -25986,7 +25986,6 @@ Version      : 1.2
 
     .home-top-banner {
         top: 0;
-        background: linear-gradient(to right, rgb(251, 238, 229) 30%, rgb(251, 238, 229) 70%) !important;
         text-align: center;
         z-index: 100;
     }

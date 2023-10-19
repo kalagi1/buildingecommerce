@@ -275,7 +275,26 @@
         }]
     });
 </script>
-
+<script>
+    $(document).ready(function() {
+        $('.slick-lancersl').slick({
+            loop: true,
+            margin: 30,
+            rtl: false,
+            autoplayHoverPause: false,
+            singleItem: true,
+            smartSpeed: 1200,
+            infinite: true,
+            autoplay: true,
+            loop: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: false,
+            arrows: true,
+            adaptiveHeight: true,
+        });
+    });
+</script>
 
 <script>
     $('.slick-lancers').slick({
@@ -923,7 +942,6 @@
             }
         });
     });
-
 </script>
 
 
