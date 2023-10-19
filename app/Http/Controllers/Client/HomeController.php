@@ -293,14 +293,18 @@ class HomeController extends Controller
 
         return response()->json(
             [
+                'project_housings' => [],
                 'housings' => Housing::select('housings.*')
-                    ->where('status', 1)
-                    ->where('housings.title', 'LIKE', "%{$term}%")
                     ->join('cities', 'cities.id', '=', 'housings.city_id')
                     ->join('counties', 'counties.id', '=', 'housings.county_id')
-                    ->orWhereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.room_count[0]")) AS DECIMAL(10, 2)) = ?', $term)
-                    ->orWhere('cities.title', $term)
-                    ->orWhere('counties.title', $term)
+                    ->where('status', 1)
+                    ->where(function ($query) use ($term)
+                    {
+                        $query->where('housings.title', 'LIKE', "%{$term}%");
+                        $query->orWhereRaw('JSON_EXTRACT(housings.housing_type_data, "$.room_count[0]") = ?', $term);
+                        $query->orWhere('cities.title', $term);
+                        $query->orWhere('counties.title', $term);
+                    })
                     ->get()
                     ->map(function ($item) {
                         $housingData = json_decode($item->housing_type_data);
