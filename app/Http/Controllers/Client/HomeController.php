@@ -141,9 +141,7 @@ class HomeController extends Controller
             return $a;
         }
 
-        $obj = Housing::select('housings.*',
-            \Illuminate\Support\Facades\DB::raw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) AS sold'),
-        )->with('images')->where('housings.status', 1);
+        $obj = Housing::select('housings.*')->with('images')->where('housings.status', 1)->whereRaw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) IS NULL');
 
         if ($request->input('from_owner')) {
             switch ($request->input('from_owner')) {
@@ -261,7 +259,6 @@ class HomeController extends Controller
         return response()->json($obj->through(function ($item) use ($request) {
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
-                'sold' => $item->sold,
                 'housing_type_title' => $item->housing_type_title,
                 'id' => $item->id,
                 'in_cart' => $request->session()->get('cart') && $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,

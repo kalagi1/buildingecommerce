@@ -302,7 +302,7 @@
                                                         <button class="btn bg-warning"
                                                             <h6
                                                                 style="color: black;font-weight:600;top:3px;position: relative;">
-                                                                Satıldı
+                                                                Rezerve Edildi
                                                             </h6>
                                                         </button>
                                                         @else
@@ -375,7 +375,7 @@
                                                         <button class="btn second-btn" style="background: red !important;"
                                                             <h6
                                                                 style="color: white;font-weight:600;top: calc(100% - 52px);position: relative;left: calc(100% - 192px);position: relative;">
-                                                                Satıldı
+                                                                Rezerve Edildi
                                                             </h6>
                                                         </button>
                                                 @else
