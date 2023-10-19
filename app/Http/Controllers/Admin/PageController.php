@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreatePageRequest;
 use App\Http\Requests\UpdatePageRequest;
 use App\Models\Page;
+use App\Models\FooterLink;
 use Illuminate\Support\Str;
 
 class PageController extends Controller
@@ -18,7 +19,8 @@ class PageController extends Controller
 
     public function create()
     {
-        return view('admin.pages.create');
+        $footerLinks = FooterLink::select('widget')->distinct()->get();
+        return view('admin.pages.create', compact('footerLinks'));
     }
 
     public function store(CreatePageRequest $request)
@@ -48,7 +50,8 @@ class PageController extends Controller
 
     public function edit(Page $page)
     {
-        return view('admin.pages.edit', compact('page'));
+        $footerLinks = FooterLink::select('widget')->distinct()->get();
+        return view('admin.pages.edit', compact('page', 'footerLinks'));
     }
 
     public function update(UpdatePageRequest $request, Page $page)

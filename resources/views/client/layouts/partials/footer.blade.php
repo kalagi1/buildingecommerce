@@ -21,6 +21,9 @@
                                             <li><a href="{{ $footerLink->url }}">{!! $footerLink->title !!}</a></li>
                                         @endif
                                     @endforeach
+                                    @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
+                                        <li><a href="page/{{ $p->slug }}">{{$p->title}}</a></li>
+                                    @endforeach
                                 </ul>
                             </div>
 
