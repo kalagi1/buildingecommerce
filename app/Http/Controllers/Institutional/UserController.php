@@ -106,7 +106,7 @@ class UserController extends Controller
         $user->password = bcrypt($validatedData['password']); // Şifreyi şifreleyin
         $user->type = $validatedData['type'];
         $user->status = $request->has('is_active');
-        $user->parent_id = Auth::user()->id != 3 ? Auth::user()->id : null;
+        $user->parent_id = (auth()->user()->parent_id ?? auth()->user()->id) != 3 ? (auth()->user()->parent_id ?? auth()->user()->id) : null;
         $user->subscription_plan_id = $mainUser->subscription_plan_id;
 
         // Kullanıcıyı veritabanına kaydedin

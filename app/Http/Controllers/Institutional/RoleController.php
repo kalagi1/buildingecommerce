@@ -39,7 +39,7 @@ class RoleController extends Controller
 
         $role = Role::create([
             'name' => $request->input('name'),
-            "parent_id" => Auth::user()->id,
+            "parent_id" => auth()->user()->parent_id ?? auth()->user()->id,
         ]);
 
         if (!empty($permissions)) {
