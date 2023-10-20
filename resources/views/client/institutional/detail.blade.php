@@ -64,28 +64,9 @@
                         </p>
                         <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
                         <p class="brand-name">Profil</p>
-                        
+
                     </div>
-                    <div class="social-square" style="gap: 16px; font-size: 26px !important; padding: 30px 35px;">
-                            @php
-                                $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-                                $host = $_SERVER['HTTP_HOST'];
-                                $uri = $_SERVER['REQUEST_URI'];
-                                $shareUrl = $protocol . '://' . $host . $uri;
-                            @endphp
-                            <a href="https://twitter.com/share?url={{ $shareUrl }}" class="text-white">
-                                <i class="fa fa-twitter" aria-hidden="true"></i>
-                            </a>
-                            <a href="https://www.instagram.com/" class="text-white">
-                                <i class="fa fa-instagram" aria-hidden="true"></i>
-                            </a>
-                            <a href="whatsapp://send?text={{ $shareUrl }}" class="text-white">
-                                <i class="fa fa-whatsapp" aria-hidden="true"></i>
-                            </a>
-                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" class="text-white">
-                                <i class="fa fa-facebook" aria-hidden="true"></i>
-                            </a>
-                        </div>
+                   
                 </div>
                 <div class="card-body">
                     <nav class="navbar" style="padding: 0 !important">
