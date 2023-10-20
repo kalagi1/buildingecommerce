@@ -210,7 +210,7 @@
                             </div>
                         </div>
                 </div>
-                <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
+                {{-- <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
                     style="width:25rem;">
                     <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
                             class="form-control search-input fuzzy-search rounded-pill form-control-sm" type="search"
@@ -371,7 +371,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <ul class="navbar-nav navbar-nav-icons flex-row">
                     <li class="nav-item">
                         <div class="theme-control-toggle fa-icon-wait px-2"><input

@@ -207,7 +207,7 @@
                                     <p class="logo-text ms-2 d-none d-sm-block">Emlak Sepeti</p>
                                 </div>
                 </div>
-                <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
+                {{-- <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
                     style="width:25rem;">
                     <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
                             class="form-control search-input fuzzy-search rounded-pill form-control-sm" type="search"
@@ -368,43 +368,92 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <ul class="navbar-nav navbar-nav-icons flex-row">
-                    <li class="nav-item dropdown">
-                    @php($notifications=App\Models\DocumentNotification::where('readed', '0')->get())
-                        <div class="theme-control-toggle fa-icon-wait px-2 position-relative" data-bs-toggle="dropdown">
-                            <label class="theme-control-toggle-label">
-                                <span class="icon" data-feather="bell"></span>
-                            </label>
-                            @if (count($notifications) > 0)
-                            <span class="badge bg-danger position-absolute" style="bottom: 0; right: 0;">{{count($notifications)}}</span>
-                            @endif
-                        </div>
-                        <div class="dropdown-menu px-4 dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300" style="max-heigth: 320px; overflow-y: scroll;">
-                            <div class="card position-relative border-0">
-                            @if (count($notifications) == 0)
-                                <div class="p-3 text-center">Bildirim Yok</div>
-                            @else
-                               @foreach ($notifications as $notification)
-                                <a class="mb-4 border-bottom p-3" href="{{ route('admin.set-readed-dn', ['dn' => $notification->id]) }}">
-                                    {{$notification->text}}
-                                </a>
-                                @endforeach
-                            @endif
-                            </div>
-                        </div>
-                    </li>
+        
+                    
                     <li class="nav-item">
                         <div class="theme-control-toggle fa-icon-wait px-2"><input
                                 class="form-check-input ms-0 theme-control-toggle-input" type="checkbox"
                                 data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label
                                 class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme"><span class="icon" data-feather="moon"></span></label><label
+                                title="Switch theme">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></label><label
                                 class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
+                                title="Switch theme">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun icon"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></label></div>
                     </li>
+                    <li class="nav-item dropdown">
+                        @php
+                        $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->get();
+                        @endphp
+
+                        <a class="nav-link" href="#" style="min-width: 2.5rem" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell" style="height:20px;width:20px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            @php
+                            $unreadNotifications = $notifications->where('readed', 0);
+                            $unreadCount = $unreadNotifications->count();
+                            @endphp
+                            
+                            @if ($unreadCount > 0)
+                                <span class="badge bg-danger position-absolute" style="bottom: 0; right: 0;">{{ $unreadCount }}</span>
+                            @endif
+                            </a>
+                        <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu py-0 shadow border border-300 navbar-dropdown-caret" id="navbarDropdownNotfication" aria-labelledby="navbarDropdownNotfication">
+                          <div class="card position-relative border-0">
+                            <div class="card-header p-2">
+                              <div class="d-flex justify-content-between">
+                                <h5 class="text-black mb-0">Bildirimler</h5>
+                              </div>
+                            </div>
+                            <div class="card-body p-0">
+                              <div class="scrollbar-overlay" style="height: 27rem;">
+                                <div class="border-300">
+                                    @if (count($notifications) == 0)
+                                    <div class="p-3 text-center">Bildirim Yok</div>
+                                @else
+                                   @foreach ($notifications as $notification)
+                                   <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{$notification->readed == 0 ? "unread":"read" }} border-bottom">
+                                    <div class="d-flex align-items-center justify-content-between position-relative">
+                                      <div class="d-flex">
+                                        <div class="avatar avatar-m status-online me-3">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                        </div>
+                                        <div class="flex-1 me-sm-3">
+                                          <h4 class="fs--1 text-black">{{$notification->user->name}}</h4>
+                                          <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">  {{$notification->text}}</p>
+                                          <?php
+                                          // Örnek bir tarih zamanı, notificcaiton->created_At'ı buraya ekleyin
+                                          $notificationCreatedAt = $notification->created_at;
+                                          
+                                          // Tarih formatını Türkiye biçimine dönüştürme
+                                          $notificationCreatedAtDate = date("d.m.Y", strtotime($notificationCreatedAt));
+                                          $notificationCreatedAtTime = date("h:i A", strtotime($notificationCreatedAt));
+                                          ?>
+                                          
+                                          <p class="text-800 fs--1 mb-0">
+                                              <span class="me-1 fas fa-clock"></span>
+                                              <span class="fw-bold"><?php echo $notificationCreatedAtTime; ?></span>
+                                              <?php echo $notificationCreatedAtDate; ?>
+                                          </p>
+                                                                                  </div>
+                                      </div>
+                                      <div class="font-sans-serif d-none d-sm-block"><button class="btn fs--2 btn-sm dropdown-toggle dropdown-caret-none transition-none notification-dropdown-toggle" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2 text-900"></span></button>
+                                        <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item" href="{{ route('admin.set-readed-dn', ['dn' => $notification->id]) }}">Görüntüle</a></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                    @endforeach
+                                @endif
+                               
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
                     <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser"
                             href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-haspopup="true" aria-expanded="false">
@@ -6134,7 +6183,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="search-box navbar-top-search-box d-none d-lg-block"
+                    {{-- <div class="search-box navbar-top-search-box d-none d-lg-block"
                         data-list='{"valueNames":["title"]}' style="width:25rem;">
                         <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
                                 class="form-control search-input fuzzy-search rounded-pill form-control-sm"
@@ -6303,7 +6352,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <ul class="navbar-nav navbar-nav-icons flex-row">
                         <li class="nav-item">
                             <div class="theme-control-toggle fa-icon-wait px-2"><input

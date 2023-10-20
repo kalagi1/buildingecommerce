@@ -22,7 +22,7 @@
                                         @endif
                                     @endforeach
                                     @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
-                                        <li><a href="page/{{ $p->slug }}">{{$p->title}}</a></li>
+                                        <li><a href="{{ $p->slug }}">{{$p->title}}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -278,8 +278,6 @@
         }]
     });
 </script>
-
-
 <script>
     $('.slick-lancers').slick({
         infinite: false,
@@ -926,7 +924,24 @@
             }
         });
     });
-
+    $(document).ready(function() {
+        $('.slick-lancersl').slick({
+            loop: true,
+            margin: 30,
+            rtl: false,
+            autoplayHoverPause: false,
+            singleItem: true,
+            smartSpeed: 1200,
+            infinite: true,
+            autoplay: true,
+            loop: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: false,
+            arrows: true,
+            adaptiveHeight: true,
+        });
+    });
 </script>
 
 

@@ -1,5 +1,28 @@
 [
     {
+        "id": "ad-banners",
+        "label": "Uygulama",
+        "icon": "ad",
+        "text": "Reklam Bannerları",
+        "key": "AdBanners",
+        "url": "#nv-ad-banners",
+        "activePath": "admin/ad-banners/*",
+        "subMenu": [
+            {
+                "text": "Yeni Ekle",
+                "key": "CreateAdBanner",
+                "url": "admin.adBanners.create",
+                "activePath": "admin/ad-banners/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetAdBanners",
+                "url": "admin.adBanners.index",
+                "activePath": "admin/ad-banners"
+            }
+        ]
+    },
+    {
         "id": "housing",
         "label": "Uygulama",
         "icon": "home",

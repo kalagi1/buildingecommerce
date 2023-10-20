@@ -64,6 +64,7 @@
         }
     }
     @endphp
+    
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container recently-slider">
 

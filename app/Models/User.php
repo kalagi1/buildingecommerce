@@ -70,6 +70,11 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, "parent_id");
     }
 
+    public function child()
+    {
+        return $this->hasMany(User::class,  "parent_id");
+    }
+
     public function hasPermission($permission)
     {
         foreach ($this->role->rolePermissions as $rolePermission) {
@@ -140,7 +145,7 @@ class User extends Authenticatable
 
     public function plan()
     {
-        return $this->belongsTo(UserPlan::class, "subscription_plan_id","subscription_plan_id");
+        return $this->belongsTo(UserPlan::class, "subscription_plan_id", "subscription_plan_id");
     }
 
 }

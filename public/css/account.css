@@ -1896,8 +1896,8 @@ button {
 
 label {
     font-weight: 600 !important;
-    color:black;
-    font-size:13px !important;
+    color: black;
+    font-size: 13px !important;
 }
 
 .ps-btn,
@@ -7894,7 +7894,7 @@ textarea.form-control {
 
 .ps-widget--account-dashboard .ps-widget__content ul li {
     border-bottom: 1px solid #d1d1d1;
-    
+
 }
 
 .navbar-vertical-label {
@@ -18088,4 +18088,15 @@ html .bg--parallax {
     list-style: none;
 }
 
-/*# sourceMappingURL=style.css.map */
+.ps-section--account .content,
+.ps-section--account .content form,
+.ps-section--account .content form .border {
+    height: 100%;
+}
+
+@media (max-width:768px) {
+    .ps-section--account .content {
+        margin-top: 20px;
+    }
+
+}

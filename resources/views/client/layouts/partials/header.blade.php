@@ -70,9 +70,15 @@
 <body class="m0a homepage-2 the-search hd-white inner-pages">
     <!-- Wrapper -->
     <div id="wrapper">
-        <div class="home-top-banner d-xl-block d-none d-lg-block">
-            <img src="https://cdn.dsmcdn.com/mrktng/crm/2023/top/jul/t1.jpg" alt="Home Top Banner Görseli">
+        <div class="slick-lancersl">
+            @foreach ($adBanners as $adBanner)
+            <div class="home-top-banner d-xl-block d-none d-lg-block" style="background-color: {{ $adBanner->background_color }}">
+                <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
+            </div>
+            @endforeach
         </div>
+        
+    
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
         ================================================== -->
@@ -355,3 +361,5 @@
                 padding-top: 15px;
             }
         </style>
+
+     
