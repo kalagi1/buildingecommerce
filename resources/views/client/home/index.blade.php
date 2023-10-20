@@ -2,8 +2,12 @@
 
 @section('content')
     <style>
-        .slick-slide {
+        section.portfolio .slick-slide {
             margin: 0 20px;
+        }
+
+        section.portfolio .slick-track {
+            float: left;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
