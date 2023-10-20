@@ -1,6 +1,11 @@
 @extends('client.layouts.master')
 
 @section('content')
+    <style>
+        .slick-slide {
+            margin: 0 20px;
+        }
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @php
     if (!function_exists('convertMonthToTurkishCharacter'))
@@ -186,35 +191,24 @@
             <div class="mobile-show">
                 @foreach ($finishProjects as $project)
                     @for ($i = 0; $i < $project->room_count; $i++)
-                        <div class="row mb-3" style="flex-wrap: nowrap">
-                            <div class="col-md-2" style="padding-right:0">
+                        <div class="d-flex" style="flex-wrap: nowrap">
+                            <div class="align-items-center d-flex border-bottom" style="padding-right:0; width: 156px;">
                                 <div class="project-inner project-head">
                                     <a
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <div class="homes">
                                             <!-- homes img -->
 
-                                            <div class="homes-img">
-                                                <div class="homes-tag button sale rent"
-                                                    style="background-color:#ff5a5f !important">Öne Çıkan
-                                                </div>
-
+                                            <div class="homes-img h-100 d-flex align-items-center" style="width: 156px; height: 128px;">
                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
-                                                    alt="{{ $project->housingType->title }}" class="img-responsive">
+                                                     alt="{{ $project->housingType->title }}" class="img-responsive" style="height: 100% !important;">
                                             </div>
                                         </div>
                                     </a>
-                                    <div class="button-effect">
-                                        <a href="#" class="btn toggle-project-favorite"
-                                            data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
-                                            data-project-id={{ $project->id }}>
-                                            <i class="fa fa-heart"></i>
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-10" style="padding-left:0">
-                                <div class="homes-content p-3" style="padding:20px !important">
+                            <div class="w-100" style="height: 128px; padding-left:0">
+                                <div class="border-bottom bg-white p-3 h-100 d-flex flex-column justify-content-center" style="padding:20px !important">
 
                                     <a style="text-decoration: none"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
@@ -222,25 +216,25 @@
                                             {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
                                             {{ getHouse($project, 'room_count[]', $i + 1)->value }}
                                         </h4>
-                                        <span> {{ getHouse($project, 'price[]', $i + 1)->value }} TL</span>
 
 
                                     </a>
-                                    <ul class="homes-list clearfix pb-0"
-                                        style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                        <div class="button-effect-2" style="margin-right:3px">
+                                    <div class="d-flex">
+                                        <div class="d-flex" style="gap: 8px;">
                                             <a href="#" class="btn toggle-project-favorite"
-                                                data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
-                                                data-project-id={{ $project->id }}>
+                                               data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                               data-project-id={{ $project->id }}>
                                                 <i class="fa fa-heart"></i>
                                             </a>
+                                            <button class="addToCart px-2"
+                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                    data-type='project' data-project='{{ $project->id }}'
+                                                    data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                Sepete Ekle
+                                            </button>
                                         </div>
-                                        <button class="addToCart"
-                                            style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                            data-type='project' data-project='{{ $project->id }}'
-                                            data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
-                                            Ekle</button>
-                                    </ul>
+                                        <span class="ml-auto text-primary"> {{ getHouse($project, 'price[]', $i + 1)->value }} TL</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -252,7 +246,7 @@
                 @if (count($finishProjects))
                     <div class="properties-right list featured portfolio blog pb-5 bg-white">
                         <div class="container">
-                            <div class="row project-filter-reverse blog-pots finish-projects-web owl-carousel">
+                            <div class="row project-filter-reverse blog-pots finish-projects-web">
                                 @foreach ($finishProjects as $project)
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         <div data-aos="fade-up" data-aos-delay="150">
@@ -369,61 +363,50 @@
             <div class="mobile-show">
                 @foreach ($continueProjects as $project)
                     @for ($i = 0; $i < $project->room_count; $i++)
-                        <div class="row mb-3" style="flex-wrap: nowrap">
-                            <div class="col-md-2" style="padding-right:0">
+                        <div class="d-flex" style="flex-wrap: nowrap">
+                            <div class="align-items-center d-flex border-bottom" style="padding-right:0; width: 156px;">
                                 <div class="project-inner project-head">
                                     <a
-                                        href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+                                            href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <div class="homes">
                                             <!-- homes img -->
 
-                                            <div class="homes-img">
-                                                <div class="homes-tag button sale rent"
-                                                    style="background-color:#ff5a5f !important">Öne Çıkan
-                                                </div>
-
+                                            <div class="homes-img h-100 d-flex align-items-center" style="width: 156px; height: 128px;">
                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
-                                                    alt="{{ $project->housingType->title }}" class="img-responsive">
+                                                     alt="{{ $project->housingType->title }}" class="img-responsive" style="height: 100% !important;">
                                             </div>
                                         </div>
                                     </a>
-                                    <div class="button-effect">
-                                        <a href="#" class="btn toggle-project-favorite"
-                                            data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
-                                            data-project-id={{ $project->id }}>
-                                            <i class="fa fa-heart"></i>
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-10" style="padding-left:0">
-                                <div class="homes-content p-3" style="padding:20px !important">
+                            <div class="w-100" style="height: 128px; padding-left:0">
+                                <div class="border-bottom bg-white p-3 h-100 d-flex flex-column justify-content-center" style="padding:20px !important">
 
                                     <a style="text-decoration: none"
-                                        href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+                                       href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h4>{{ $project->project_title }} Projesinde
                                             {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
                                             {{ getHouse($project, 'room_count[]', $i + 1)->value }}
                                         </h4>
-                                        <span> {{ getHouse($project, 'price[]', $i + 1)->value }} TL</span>
 
 
                                     </a>
-                                    <ul class="homes-list clearfix pb-0"
-                                        style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                        <div class="button-effect-2" style="margin-right:3px">
+                                    <div class="d-flex">
+                                        <div class="d-flex" style="gap: 8px;">
                                             <a href="#" class="btn toggle-project-favorite"
-                                                data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
-                                                data-project-id={{ $project->id }}>
+                                               data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                               data-project-id={{ $project->id }}>
                                                 <i class="fa fa-heart"></i>
                                             </a>
+                                            <button class="addToCart px-2"
+                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                    data-type='project' data-project='{{ $project->id }}'
+                                                    data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                Sepete Ekle
+                                            </button>
                                         </div>
-                                        <button class="addToCart"
-                                            style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                            data-type='project' data-project='{{ $project->id }}'
-                                            data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
-                                            Ekle</button>
-                                    </ul>
+                                        <span class="ml-auto text-primary"> {{ getHouse($project, 'price[]', $i + 1)->value }} TL</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -435,7 +418,7 @@
                 @if (count($continueProjects))
                     <section class="properties-right list featured portfolio blog  pb-5 bg-white">
                         <div class="container">
-                            <div class="row project-filter-reverse blog-pots continue-projects-web owl-carousel">
+                            <div class="row project-filter-reverse blog-pots continue-projects-web">
                                 @foreach ($continueProjects as $project)
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         <div data-aos="fade-up" data-aos-delay="150">
@@ -543,69 +526,60 @@
             </div>
             <div class="mobile-show">
                 @foreach ($secondhandHousings as $project)
-                        <div class="row mb-3" style="flex-wrap: nowrap">
-                            <div class="col-md-2" style="padding-right:0">
-                                <div class="project-inner project-head">
-                                    <a
-                                            href="{{ route('housing.show', [$project->id]) }}">
-                                        <div class="homes">
-                                            <!-- homes img -->
+                    <div class="d-flex" style="flex-wrap: nowrap">
+                        <div class="align-items-center d-flex border-bottom" style="padding-right:0; width: 156px;">
+                            <div class="project-inner project-head">
+                                <a
+                                        href="{{ route('housing.show', [$project->id]) }}">
+                                    <div class="homes">
+                                        <!-- homes img -->
 
-                                            <div class="homes-img">
-                                                <div class="homes-tag button sale rent"
-                                                     style="background-color:#ff5a5f !important">Öne Çıkan
-                                                </div>
-
-                                                <img src="{{ URL::to('/') . '/housing_images/' . $project->image }}"
-                                                     alt="{{ $project->title }}" class="img-responsive">
-                                            </div>
+                                        <div class="homes-img h-100 d-flex align-items-center" style="width: 156px; height: 128px;">
+                                            <img src="{{ URL::to('/') . '/housing_images/' . json_decode($project->housing_type_data)->image }}"
+                                                 alt="{{ $project->title }}" class="img-responsive" style="height: 100% !important;">
                                         </div>
-                                    </a>
-                                    <div class="button-effect">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="w-100" style="height: 128px; padding-left:0">
+                            <div class="border-bottom bg-white p-3 h-100 d-flex flex-column justify-content-center" style="padding:20px !important">
+
+                                <a style="text-decoration: none"
+                                   href="{{ route('housing.show', [$project->id]) }}">
+                                    <h4>{{ $project->title }}
+                                        {{ json_decode($project->housing_type_data)->squaremeters[0] ?? '?' }}m2
+                                        {{ json_decode($project->housing_type_data)->room_count[0] ?? '?' }}
+                                    </h4>
+
+
+                                </a>
+                                <div class="d-flex">
+                                    <div class="d-flex" style="gap: 8px;">
                                         <a href="#" class="btn toggle-favorite"
                                            data-housing-id="{{ $project->id }}">
                                             <i class="fa fa-heart"></i>
                                         </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-10" style="padding-left:0">
-                                <div class="homes-content p-3" style="padding:20px !important">
-
-                                    <a style="text-decoration: none"
-                                       href="{{ route('housing.show', [$project->id]) }}">
-                                        <h4>{{ $project->title }} Projesinde
-                                            {{ json_decode($project->housing_type_data)->squaremeters[0] ?? null }}m2
-                                            {{ json_decode($project->housing_type_data)->room_count[0] ?? null }}
-                                        </h4>
-                                        <span> {{ json_decode($project->housing_type_data)->price[0] ?? null }} TL</span>
-
-
-                                    </a>
-                                    <ul class="homes-list clearfix pb-0"
-                                        style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                        <div class="button-effect-2" style="margin-right:3px">
-                                            <a href="#" class="btn toggle-favorite"
-                                               data-housing-id={{ $project->id }}>
-                                                <i class="fa fa-heart"></i>
-                                            </a>
-                                        </div>
-                                        <button class="addToCart"
+                                        <button class="addToCart px-2"
                                                 style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
                                                 data-type='housing'
-                                                data-id='{{ $project->id }}'>Sepete
-                                            Ekle</button>
-                                    </ul>
+                                                data-id='{{ $project->id }}'>
+                                            Sepete Ekle
+                                        </button>
+                                    </div>
+                                    <span class="ml-auto text-primary"> {{ json_decode($project->housing_type_data)->price[0] ?? '?' }} TL</span>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
                 @endforeach
             </div>
             <div class="mobile-hidden">
                 @if (count($secondhandHousings))
                     <section class="properties-right list featured portfolio blog  pb-5 bg-white">
                         <div class="container">
-                            <div class="row project-filter-reverse blog-pots secondhand-housings-web owl-carousel">
+                            <div class="row project-filter-reverse blog-pots secondhand-housings-web">
                                 @foreach ($secondhandHousings as $project)
                                     <div data-aos="fade-up" data-aos-delay="150">
                                             <div class="landscapes">
@@ -619,7 +593,7 @@
                                                                 <div class="homes-tag button sale rent"
                                                                      style="background-color:#ff5a5f !important">Öne Çıkan
                                                                 </div>
-                                                                <img src="{{ URL::to('/') . '/housing_images/' . $project->image }}"
+                                                                <img src="{{ URL::to('/') . '/housing_images/' . json_decode($project->housing_type_data)->image }}"
                                                                      alt="Housing {{ $project->id }}"
                                                                      class="img-responsive">
                                                             </a>
@@ -636,11 +610,12 @@
                                                         <a style="text-decoration: none"
                                                            href="{{ route('housing.show', [$project->id]) }}">
 
+                                                            <h4>{{ $project->housing_title }}</h4>
+
                                                             <p class="homes-address mb-3">
 
 
-                                                                <i
-                                                                        class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
+                                                                <i class="fa fa-map-marker"></i> <span>{{ $project->address }}</span>
 
                                                             </p>
                                                         </a>
@@ -757,7 +732,7 @@
             </div>
         </div>
     </section>
-    <!-- END SECTION INFO-HELP -->
+    <!-- END SECTION INFO HELP -->
 
     <!-- START SECTION INFO -->
     <section class="featured-boxes-area bg-white-1 ">
@@ -830,27 +805,30 @@
     </section>
 @endsection
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
-        $('.finish-projects-web').owlCarousel({
+        $('.finish-projects-web').slick({
             loop:true,
             nav:false,
+            slidesToShow: 4,
             margin:10,
         })
 
-        $('.continue-projects-web').owlCarousel({
+        $('.continue-projects-web').slick({
             loop:true,
             nav:false,
+            slidesToShow: 4,
             margin:10,
         })
 
-        $('.secondhand-housings-web').owlCarousel(
+        $('.secondhand-housings-web').slick(
             {
-                loop: true,
-                nav: false,
-                margin: 10,
+                loop:true,
+                nav:false,
+                slidesToShow: 4,
+                margin:10,
             }
         );
     </script>
