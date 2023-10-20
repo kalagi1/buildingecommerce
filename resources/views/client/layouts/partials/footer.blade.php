@@ -396,6 +396,7 @@
         var addToCartButtons = document.querySelectorAll(".addToCart");
         // Tüm "Sepete Ekle" düğmelerini seçin (dinamik olarak oluşturulanlar dahil)
         $('body').on('click', '.addToCart', function(event) {
+            event.preventDefault();
             if (event.target && event.target.classList.contains('addToCart')) {
                 var button = event.target;
                 var productId = button.getAttribute("data-id");
