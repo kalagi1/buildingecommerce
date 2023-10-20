@@ -212,6 +212,13 @@ class ProjectController extends Controller
                     ]);
                 }
 
+                DocumentNotification::create(
+                    [
+                        'user_id' => auth()->user()->id,
+                        'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
+                    ]
+                );
+
                 DB::commit();
                 
                 TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->delete();
@@ -377,7 +384,7 @@ class ProjectController extends Controller
             }
         }
 
-        DocumentNotificaiton::create(
+        DocumentNotification::create(
             [
                 'user_id' => auth()->user()->id,
                 'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',

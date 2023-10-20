@@ -130,6 +130,14 @@ class HousingController extends Controller
                     ]);
                 }
 
+                UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->decrement('housing_limit');
+                DocumentNotification::create(
+                    [
+                        'user_id' => auth()->user()->id,
+                        'text' => 'Yeni bir konut eklendi. <a href="'.route('housing.show', ['id' => $project->id]).'">Linke git</a>',
+                    ]
+                );
+
                 DB::commit();
                 
                 TempOrder::where('user_id',auth()->user()->id)->where('item_type',2)->delete();
@@ -244,8 +252,7 @@ class HousingController extends Controller
         )->id;
 
         UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->decrement('housing_limit');
-
-        DocumentNotificaiton::create(
+        DocumentNotification::create(
             [
                 'user_id' => auth()->user()->id,
                 'text' => 'Yeni bir konut eklendi. <a href="'.route('housing.show', ['id' => $lastId]).'">Linke git</a>',

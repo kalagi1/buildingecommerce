@@ -62,6 +62,10 @@ class HomeController extends Controller
             $query->where('county_id', $request->input('county'));
         }
 
+        if ($request->input('neighborhood')) {
+            $query->where('neighborhood_id', $request->input('neighborhood'));
+        }
+
         // Sıralama seçeneğini kontrol et
         if ($request->input('sort')) {
             switch ($request->input('sort')) {
@@ -182,6 +186,10 @@ class HomeController extends Controller
 
         if ($request->input('county')) {
             $obj = $obj->where('county_id', $request->input('county'));
+        }
+
+        if ($request->input('neighborhood')) {
+            $obj->where('neighborhood_id', $request->input('neighborhood'));
         }
 
         if ($request->input('price_min')) {
