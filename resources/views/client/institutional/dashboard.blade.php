@@ -285,35 +285,34 @@
                     <div class="row project-filter-reverse blog-pots">
 
                         @foreach ($secondhandHousings as $housing)
-                            <div class="col-md-3" data-aos="fade-up" data-aos-delay="150">
+                            <a href="{{ route('housing.show', ['id' => $housing->id]) }}" class="col-md-3 text-decoration-none" data-aos="fade-up" data-aos-delay="150">
                                 <div class="landscapes">
                                     <div class="project-single">
                                         <div class="project-inner project-head">
                                             <div class="homes">
                                                 <!-- homes img -->
-                                                <a href="single-property-1.html" class="homes-img">
+                                                <div class="homes-img">
                                                     <img src="{{ asset('housing_images/' . getImage($housing, 'image')) }}"
                                                         alt="{{ $housing->housing_type_title }}" class="img-responsive">
-                                                </a>
+                                                </div >
                                             </div>
                                             <div class="button-effect">
                                                 <!-- Örneğin Kalp İkonu -->
-                                                <a href="#" class="btn toggle-favorite"
+                                                <span class="btn toggle-favorite"
                                                     data-housing-id="{{ $housing->id }}">
                                                     <i class="fa fa-heart"></i>
-                                                </a>
+                                                </span>
                                             </div>
                                         </div>
                                         <!-- homes content -->
                                         <div class="homes-content p-3" style="padding:20px !important">
                                             <!-- homes address -->
-                                            <h3><a
-                                                    href="{{ route('housing.show', $housing->id) }}">{{ $housing->housing_title }}</a>
+                                            <h3><span>{{ $housing->housing_title }}</span>
                                             </h3>
                                             <p class="homes-address mb-3">
-                                                <a href="{{ route('housing.show', $housing->id) }}">
+                                                <span>
                                                     <i class="fa fa-map-marker"></i><span>{{ $housing->address }}</span>
-                                                </a>
+                                                </span>
                                             </p>
                                             <!-- homes List -->
                                             <ul class="homes-list clearfix pb-0"
@@ -352,7 +351,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
 
                     </div>
@@ -379,25 +378,25 @@
                         <div class="row project-filter-reverse blog-pots">
                             @foreach ($finishProjects as $project)
                                 @for ($i = 0; $i < $project->room_count; $i++)
-                                    <div class="col-md-3" data-aos="fade-up" data-aos-delay="150">
+                                    <a href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}" class="col-md-3 text-decoration-none" data-aos="fade-up" data-aos-delay="150">
                                         <div class="landscapes">
                                             <div class="project-single">
                                                 <div class="project-inner project-head">
                                                     <div class="homes">
                                                         <!-- homes img -->
 
-                                                        <a href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}"
+                                                        <div
                                                             class="homes-img">
                                                             <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
                                                                 alt="{{ $project->housingType->title }}"
                                                                 class="img-responsive">
-                                                        </a>
+                                                        </div>
                                                     </div>
                                                     <div class="button-effect">
-                                                        <a href="#" class="btn toggle-project-favorite"
+                                                        <span class="btn toggle-project-favorite"
                                                             data-project-housing-id="{{ $project->id }}">
                                                             <i class="fa fa-heart"></i>
-                                                        </a>
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <!-- homes content -->
@@ -409,11 +408,10 @@
 
                                                     <p class="homes-address mb-3">
 
-                                                        <a
-                                                            href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}">
+                                                        <span>
                                                             <i
                                                                 class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
-                                                        </a>
+                                                        </span>
                                                     </p>
                                                     <!-- homes List -->
                                                     <ul class="homes-list clearfix pb-0"
@@ -452,7 +450,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 @endfor
                             @endforeach
                         </div>
@@ -480,26 +478,26 @@
                         <div class="row project-filter-reverse blog-pots">
                             @foreach ($continueProjects as $project)
                                 @for ($i = 0; $i < $project->room_count; $i++)
-                                    <div class="col-md-3" data-aos="fade-up" data-aos-delay="150">
+                                    <a href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}" class="col-md-3 text-decoration-none" data-aos="fade-up" data-aos-delay="150">
                                         <div class="landscapes">
                                             <div class="project-single">
                                                 <div class="project-inner project-head">
                                                     <div class="homes">
                                                         <!-- homes img -->
 
-                                                        <a href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}"
+                                                        <div
                                                             class="homes-img">
 
                                                             <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
                                                                 alt="{{ $project->housingType->title }}"
                                                                 class="img-responsive">
-                                                        </a>
+                                                        </div>
                                                     </div>
                                                     <div class="button-effect">
-                                                        <a href="#" class="btn toggle-project-favorite"
+                                                        <span class="btn toggle-project-favorite"
                                                             data-project-housing-id="{{ $project->id }}">
                                                             <i class="fa fa-heart"></i>
-                                                        </a>
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <!-- homes content -->
@@ -511,11 +509,10 @@
 
                                                     <p class="homes-address mb-3">
 
-                                                        <a
-                                                            href="{{ route('project.housings.detail', [$project->slug, $project->id]) }}">
+                                                        <span>
                                                             <i
                                                                 class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
-                                                        </a>
+                                                        </span>
                                                     </p>
                                                     <!-- homes List -->
                                                     <ul class="homes-list clearfix pb-0"
@@ -554,7 +551,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 @endfor
                             @endforeach
                         </div>

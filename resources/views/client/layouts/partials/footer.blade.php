@@ -425,7 +425,7 @@
                 if (!isProductInCart(productId)) {
                     // Kullanıcıya onay için bir onay kutusu göster
                     Swal.fire({
-                        title: 'Mevcut sepeti temizlemek istiyor musunuz?',
+                        title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' : 'Mevcut sepeti temizlemek istiyor musunuz?',
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'Evet, temizle',
@@ -495,6 +495,11 @@
             });
         }
 
+        function isCartEmpty()
+        {
+            var cart = @json(session('cart', []));
+            return cart.length <= 0;
+        }
 
         function isProductInCart(productId, product) {
             var cart = @json(session('cart', []));
