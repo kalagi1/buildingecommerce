@@ -120,7 +120,7 @@
                             @foreach ($project->images as $key => $item)
                                 <div class="@if ($key == 0) active @endif item carousel-item"
                                     data-slide-number="0">
-                                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $item->image) }}"
                                         class="img-fluid" alt="slider-listing">
                                 </div>
                             @endforeach
@@ -138,7 +138,7 @@
                                     <a id="carousel-selector-{{ $key }}"
                                         @if ($key == 0) class="selected" @endif
                                         data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
-                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $item->image) }}"
                                             class="img-fluid" alt="listing-small">
                                     </a>
                                 </li>

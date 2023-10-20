@@ -91,9 +91,11 @@ Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectD
 
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
-Route::get('/get-counties/{city}', [CountyController::class, "getCounties"])->name("getCounties");
-Route::get('/get-counties-for-client/{city}', [CountyController::class, "getCountiesForClient"])->name("getCountiesForClient");
-Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class, "getNeighborhoods"])->name("getNeighborhoods");
+Route::get('/get-counties/{city}', [CountyController::class,"getCounties"])->name("getCounties");
+Route::get('/get-counties-for-client/{city}', [CountyController::class,"getCountiesForClient"])->name("getCountiesForClient");
+Route::get('/get-neighborhoods-for-client/{county}', [CountyController::class,"getNeighborhoodsForClient"])->name("getNeighborhoodsForClient");
+Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class,"getNeighborhoods"])->name("getNeighborhoods");
+
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 

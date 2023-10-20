@@ -113,8 +113,30 @@
                                         <option value="#" selected disabled>İlçe</option>
                                     </select>
                                 </div>
+                                <div class="mt-4">
+                                    <select id="neighborhood" class="bg-white filter-now">
+                                        <option value="#" selected disabled>Mahalle</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
+
+                        @if ($projects)
+                        <div class="widget-boxed main-search-field mt-4">
+                            <div class="trip-search">
+                                <div class="head d-flex">
+                                    <b>Proje Tipi</b>
+                                </div>
+                                <div class="mt-4">
+                                    <select id="project_type" class="form-control bg-white filter-now">
+                                        <option value="#" selected disabled>Proje Tipi</option>
+                                        <option value="1">Tamamlandı</option>
+                                        <option value="2">Yapım Aşamasında</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
 
                         @if ($secondhandHousings)
                             <div class="widget-boxed main-search-field mt-4">
@@ -625,6 +647,7 @@
         'use strict';
         let last_page;
         let current_page = 1;
+
         $('#city').on('change', function() {
             $.ajax({
                 method: "GET",
@@ -637,6 +660,23 @@
                             `<option value="${e.id}">${e.title}</option>`
                         );
                         $('#county').val('#');
+                    });
+                }
+            });
+        });
+
+        $('#county').on('change', function() {
+            $.ajax({
+                method: "GET",
+                url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
+                success: function(res) {
+                    $('#neighborhood').empty();
+                    $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
+                    res.forEach((e) => {
+                        $('#neighborhood').append(
+                            `<option value="${e.id}">${e.title}</option>`
+                        );
+                        $('#neighborhood').val('#');
                     });
                 }
             });
@@ -853,6 +893,7 @@
                     page: current_page,
                     city: $('#city').val(),
                     county: $('#county').val(),
+                    neighborhood: $('#neighborhood').val(),
                     @if ($secondhandHousings)
                         price_min: $('#price-min').val(),
                         price_max: $('#price-max').val(),
