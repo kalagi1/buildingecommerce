@@ -92,6 +92,7 @@
                                                     </div><span>Durum</span>
                                                 </div>
                                             </th>
+
                                             <th class="sort align-middle ps-4 pe-5 text-uppercase border-end" scope="col"
                                                 data-sort="company" style="width:15%;">
                                                 <div class="d-inline-flex flex-center">
@@ -130,15 +131,46 @@
                                                         </a>
                                                         <div><a class="fs-0 fw-bold" href="#!">
                                                                 {{ $user->name }}
-                                                            
+
                                                                 @if ($user->corporate_account_status)
-                                                                <style type="text/css">
-                                                                    .st0{fill:rgb(44,191,247);}
-                                                                    .st1{opacity:0.15;}
-                                                                    .st2{fill:#FFFFFF;}
-                                                                </style>
-                                                                <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1" width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path class="st0" d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   "/><g class="st1"><path d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z"/><path d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z"/><path d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z"/><path d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z"/></g><polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  "/><path class="st2" d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z"/></g></svg>
-                                                             
+                                                                    <style type="text/css">
+                                                                        .st0 {
+                                                                            fill: rgb(44, 191, 247);
+                                                                        }
+
+                                                                        .st1 {
+                                                                            opacity: 0.15;
+                                                                        }
+
+                                                                        .st2 {
+                                                                            fill: #FFFFFF;
+                                                                        }
+                                                                    </style>
+                                                                    <svg id="Layer_1"
+                                                                        style="enable-background:new 0 0 120 120;"
+                                                                        version="1.1" width="24px" height="24px"
+                                                                        viewBox="0 0 120 120" xml:space="preserve"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                        <g>
+                                                                            <path class="st0"
+                                                                                d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
+                                                                            <g class="st1">
+                                                                                <path
+                                                                                    d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
+                                                                                <path
+                                                                                    d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
+                                                                                <path
+                                                                                    d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
+                                                                                <path
+                                                                                    d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
+                                                                            </g>
+                                                                            <polyline class="st0"
+                                                                                points="44,53.6 56.5,67.9 82.1,47.3  " />
+                                                                            <path class="st2"
+                                                                                d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
+                                                                        </g>
+                                                                    </svg>
                                                                 @endif
 
                                                             </a>
@@ -151,7 +183,7 @@
                                                                 @if (isset($user->parent))
                                                                     <span
                                                                         class="badge badge-phoenix badge-phoenix-primary ">
-                                                                
+
                                                                         {{ $user->parent->name }}</span>
                                                                 @endif
                                                             </div>
@@ -165,11 +197,16 @@
                                                 </td>
                                                 <td
                                                     class="contact align-middle white-space-nowrap ps-4 border-end fw-semi-bold text-1000">
-                                                    @if ($user->status == 1)
-                                                        <span class="badge bg-success">Aktif</span>
+                                                    @if ($user->is_blocked == '1')
+                                                        <span class="badge bg-danger">ENGELLENDİ</span>
                                                     @else
-                                                        <span class="badge bg-danger">Pasif</span>
+                                                        @if ($user->status == 1)
+                                                            <span class="badge bg-success">DOĞRULANDI</span>
+                                                        @else
+                                                            <span class="badge bg-danger">DOĞRULANMADI</span>
+                                                        @endif
                                                     @endif
+
                                                 </td>
                                                 <td
                                                     class="company align-middle white-space-nowrap text-600 ps-4 border-end fw-semi-bold text-1000">
@@ -282,7 +319,8 @@
                 <div class="modal-body">
                     <form id="filterForm">
                         <div class="mb-3">
-                            <input type="text" name="name" id="name" class="form-control" placeholder="Kullanıcı Adı">
+                            <input type="text" name="name" id="name" class="form-control"
+                                placeholder="Kullanıcı Adı">
                         </div>
                         <div class="mb-3">
                             <select name="role" id="role" class="form-control">
@@ -293,11 +331,12 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <input type="text" name="email" id="email" class="form-control" placeholder="E-Posta Adresi">
+                            <input type="text" name="email" id="email" class="form-control"
+                                placeholder="E-Posta Adresi">
                         </div>
                         <button type="submit" class="btn btn-primary">Filtrele</button>
                     </form>
-                    
+
                 </div>
             </div>
         </div>
@@ -318,33 +357,32 @@
         });
 
         $(document).ready(function() {
-    $('#filterForm').on('submit', function(e) {
-        e.preventDefault();
+            $('#filterForm').on('submit', function(e) {
+                e.preventDefault();
 
-        var formData = $(this).serialize();
-        console.log(formData);
+                var formData = $(this).serialize();
+                console.log(formData);
 
-        $.ajax({
-            type: 'GET',
-            url: "{{ route('admin.users.index') }}", // Filtreleme işlemi yapıldıktan sonra sonuçların nasıl getirileceği URL
-            data: formData,
-            success: function(data) {
-                // Filtrelenmiş verileri tabloya ekleme işlemi
-                $('.table-responsive').html(data);
-                console.log(data);
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ route('admin.users.index') }}", // Filtreleme işlemi yapıldıktan sonra sonuçların nasıl getirileceği URL
+                    data: formData,
+                    success: function(data) {
+                        // Filtrelenmiş verileri tabloya ekleme işlemi
+                        $('.table-responsive').html(data);
+                        console.log(data);
 
-                // DataTable yeniden yükleme (verileri güncellemek için)
-                table.ajax.reload();
+                        // DataTable yeniden yükleme (verileri güncellemek için)
+                        table.ajax.reload();
 
-                $('#filterModal').modal('hide');
-            },
-            error: function(error) {
-                console.log(error);
-            }
+                        $('#filterModal').modal('hide');
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
         });
-    });
-});
-
     </script>
 @endsection
 

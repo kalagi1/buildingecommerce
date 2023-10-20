@@ -10,6 +10,17 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
+    public function blockUser(User $user)
+    {
+        if ($user->is_blocked) {
+            $user->update(['is_blocked' => false]);
+            return redirect()->back()->with('success', 'Kullanıcı engellemesi kaldırıldı.');
+        } else {
+            $user->update(['is_blocked' => true]);
+            return redirect()->back()->with('success', 'Kullanıcı engellendi.');
+        }
+    }
+
     public function index(Request $request)
     {
         $query = User::with("role");
