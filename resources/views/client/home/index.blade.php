@@ -1,6 +1,7 @@
 @extends('client.layouts.master')
 
 @section('content')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @php
         function convertMonthToTurkishCharacter($date)
         {
@@ -238,10 +239,10 @@
                 @if (count($finishProjects))
                     <div class="properties-right list featured portfolio blog pb-5 bg-white">
                         <div class="container">
-                            <div class="row project-filter-reverse blog-pots">
+                            <div class="row project-filter-reverse blog-pots finish-projects-web owl-carousel">
                                 @foreach ($finishProjects as $project)
                                     @for ($i = 0; $i < $project->room_count; $i++)
-                                        <div class="col-md-3" data-aos="fade-up" data-aos-delay="150">
+                                        <div data-aos="fade-up" data-aos-delay="150">
                                             <div class="landscapes">
                                                 <div class="project-single">
                                                     <div class="project-inner project-head">
@@ -421,10 +422,10 @@
                 @if (count($continueProjects))
                     <section class="properties-right list featured portfolio blog  pb-5 bg-white">
                         <div class="container">
-                            <div class="row project-filter-reverse blog-pots">
+                            <div class="row project-filter-reverse blog-pots continue-projects-web owl-carousel">
                                 @foreach ($continueProjects as $project)
                                     @for ($i = 0; $i < $project->room_count; $i++)
-                                        <div class="col-md-3" data-aos="fade-up" data-aos-delay="150">
+                                        <div data-aos="fade-up" data-aos-delay="150">
                                             <div class="landscapes">
                                                 <div class="project-single">
                                                     <div class="project-inner project-head">
@@ -657,6 +658,20 @@
     </section>
 @endsection
 @section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $('.finish-projects-web').owlCarousel({
+            loop:true,
+            nav:false,
+            margin:10,
+        })
+
+        $('.continue-projects-web').owlCarousel({
+            loop:true,
+            nav:false,
+            margin:10,
+        })
+    </script>
 @endsection
