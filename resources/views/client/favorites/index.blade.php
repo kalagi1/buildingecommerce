@@ -15,6 +15,9 @@
         <div class="container">
 
             <div class="my-properties">
+
+                <a href="{{ url('/') }}" class="btn btn-primary float-right mb-4">Ana Sayfaya Git</a>
+
                 <table class="table-responsive">
                     <thead>
                         <tr>
@@ -22,6 +25,7 @@
                             <th class="p-0"></th>
                             <th class="pl-2">İl</th>
                             <th class="pl-2">Fiyat</th>
+                            <th></th>
                             <th>Kaldır</th>
                         </tr>
                     </thead>
@@ -50,6 +54,12 @@
                                     </td>
                                     <td> {{ $item->housing->city->title }}</td>
                                     <td> {{ json_decode($item->housing->housing_type_data)->price[0] }}₺</td>
+                                    <td>
+                                        <button class="addToCart"
+                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                data-type='housing' data-id='{{ $item->id }}'>Sepete
+                                            Ekle</button>
+                                    </td>
                                     <td class="actions">
                                         <a href="#" class="remove-from-cart"
                                             data-housing-id="{{ $item->housing->id }}" style="float: left"><i
@@ -78,6 +88,14 @@
                                     </td>
                                     <td> {{ $item->project->address }}</td>
                                     <td> {{ $data['Fiyat'] }}₺</td>
+                                    <td>
+                                        <button class="addToCart px-2"
+                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                data-type='project' data-project='{{ $item->project_id }}'
+                                                data-id={{ $item->housing_id  }}>
+                                            Sepete Ekle
+                                        </button>
+                                    </td>
                                     <td class="actions">
                                         <a href="#" class="remove-from-project-cart"
                                             data-project-housing-id="{{ $item->room_order }}"
