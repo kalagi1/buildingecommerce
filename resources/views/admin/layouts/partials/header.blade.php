@@ -424,14 +424,33 @@
                                         <div class="flex-1 me-sm-3">
                                           <h4 class="fs--1 text-black">{{$notification->user->name}}</h4>
                                           <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">  {{$notification->text}}</p>
-                                          <?php
+                                          @php
                                           // Örnek bir tarih zamanı, notificcaiton->created_At'ı buraya ekleyin
                                           $notificationCreatedAt = $notification->created_at;
                                           
                                           // Tarih formatını Türkiye biçimine dönüştürme
                                           $notificationCreatedAtDate = date("d.m.Y", strtotime($notificationCreatedAt));
                                           $notificationCreatedAtTime = date("h:i A", strtotime($notificationCreatedAt));
-                                          ?>
+
+                                          switch (true)
+                                          {
+                                              case preg_match('@konut@', $notification->text):
+                                                  $url = route('admin.housings.detail', ['housing' => $notification->item_id]);
+                                                  break;
+
+                                              case preg_match('@proje@', $notification->text):
+                                                  $url = route('admin.projects.detail', ['projectsId' => $notification->item_id]);
+                                                  break;
+
+                                              case preg_match('@belge@', $notification->text):
+                                                  $url = route('admin.user.show-corporate-account', ['user' => $notification->item_id]);
+                                                  break;
+
+                                              default:
+                                                  $url = '#';
+                                                  break;
+                                          }
+                                          @endphp
                                           
                                           <p class="text-800 fs--1 mb-0">
                                               <span class="me-1 fas fa-clock"></span>
@@ -441,7 +460,7 @@
                                                                                   </div>
                                       </div>
                                       <div class="font-sans-serif d-none d-sm-block"><button class="btn fs--2 btn-sm dropdown-toggle dropdown-caret-none transition-none notification-dropdown-toggle" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2 text-900"></span></button>
-                                        <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item" href="{{ route('admin.set-readed-dn', ['dn' => $notification->id]) }}">Görüntüle</a></div>
+                                        <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item" href="{{ $url }}">Görüntüle</a></div>
                                       </div>
                                     </div>
                                   </div>

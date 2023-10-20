@@ -89,12 +89,15 @@
                                     <td> {{ $item->project->address }}</td>
                                     <td> {{ $data['Fiyat'] }}₺</td>
                                     <td>
-                                        <button class="addToCart px-2"
+                                        <button class="addToCart d-none"
                                                 style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
                                                 data-type='project' data-project='{{ $item->project_id }}'
                                                 data-id={{ $item->housing_id  }}>
                                             Sepete Ekle
                                         </button>
+                                        <a href="#" style="color: black;" onclick="$(this).parent().find('.addToCart').trigger('click')">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </a>
                                     </td>
                                     <td class="actions">
                                         <a href="#" class="remove-from-project-cart"
