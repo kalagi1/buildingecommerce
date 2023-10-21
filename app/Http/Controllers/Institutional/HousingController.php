@@ -135,6 +135,7 @@ class HousingController extends Controller
                     [
                         'user_id' => auth()->user()->id,
                         'text' => 'Yeni bir konut eklendi. <a href="'.route('housing.show', ['id' => $project->id]).'">Linke git</a>',
+                        'item_id' => $project->id,
                     ]
                 );
 
@@ -256,6 +257,7 @@ class HousingController extends Controller
             [
                 'user_id' => auth()->user()->id,
                 'text' => 'Yeni bir konut eklendi. <a href="'.route('housing.show', ['id' => $lastId]).'">Linke git</a>',
+                'item_id' => $lastId,
             ]
         );
 

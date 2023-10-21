@@ -26816,3 +26816,9 @@ Version      : 1.2
         color: #fff !important;
         /* Yazı rengi */
     }
+
+    .slick-lancersl
+    {
+        position: relative;
+        overflow: hidden;
+    }

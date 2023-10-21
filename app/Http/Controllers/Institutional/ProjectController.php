@@ -216,6 +216,7 @@ class ProjectController extends Controller
                     [
                         'user_id' => auth()->user()->id,
                         'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
+                        'item_id' => $project->id,
                     ]
                 );
 
@@ -388,6 +389,7 @@ class ProjectController extends Controller
             [
                 'user_id' => auth()->user()->id,
                 'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
+                'item_id' => $project->id,
             ]
         );
 
