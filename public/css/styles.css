@@ -138,7 +138,7 @@ Version      : 1.2
 
     h4 {
         font-family: 'Quicksand', sans-serif;
-        font-size: 18px;
+        font-size: 16px;
         color: #333;
         font-weight: 600;
     }
@@ -25959,7 +25959,6 @@ Version      : 1.2
 
         .section-title {
             margin: 20px 0;
-            margin-bottom: 50px;
         }
 
         .section-title h2 {

@@ -204,20 +204,28 @@
                                 @endif
 
                                 @if (Auth::check() && Auth::user()->type == 2)
-                                    <a href="{{ url('institutional/create_project_v2') }}"
-                                        class="btn btn-primary text-white ml-3"> <i class="fa fa-plus"
-                                            style="margin-right: 5px"></i>İlan Ekle</a>
+                                    <a href="{{ url('institutional/create_project_v2') }}">
+                                        <button type="button" class="buyUserRequest ml-3">
+                                            <span class="buyUserRequest__text"> İlan Ekle</span>
+                                            <span class="buyUserRequest__icon">
+                                                <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                            </span>
+                                        </button></a>
                                 @elseif (Auth::check() && Auth::user()->type == 1)
-                                    <a href="{{ url('institutional/create_project_v2') }}"
-                                        class="btn text-white buyUserRequestBtn ml-3">
-                                        <span class="cartIconBtn"><i class="fa fa-plus"></i></span>
-
-                                        <span class="cartTextBtn">Mülkünü Sat Kirala</span>
-
-                                    </a>
+                                    <button type="button" class="buyUserRequest ml-3">
+                                        <span class="buyUserRequest__text"> Sat Kirala</span>
+                                        <span class="buyUserRequest__icon">
+                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                        </span>
+                                    </button>
                                 @else
-                                    <a href="{{ route('client.login') }}" class="btn btn-primary text-white ml-3"><i
-                                            class="fa fa-plus" style="margin-right: 5px"></i>İlan Ekle</a>
+                                    <a href="{{ route('client.login') }}">
+                                        <button type="button" class="buyUserRequest ml-3">
+                                            <span class="buyUserRequest__text"> İlan Ekle</span>
+                                            <span class="buyUserRequest__icon">
+                                                <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                            </span>
+                                        </button></a>
                                 @endif
 
                             </div>
@@ -253,36 +261,37 @@
                                                         {{ $childItem['text'] }}
                                                     </a>
                                                     @if ($childItem['children'] && count($childItem['children']) > 0)
-
-                                                    <ul>
-                                                        @foreach ($childItem['children'] as $subChildItem)
-                                                            <li>
-                                                                <a href="{{$subChildItem['href']}}">
-                                                                    @if (!empty($subChildItem['icon']))
-                                                                        <i class="{{ $subChildItem['icon'] }}"></i>
-                                                                        <!-- İkonu eklemek için -->
+                                                        <ul>
+                                                            @foreach ($childItem['children'] as $subChildItem)
+                                                                <li>
+                                                                    <a href="{{ $subChildItem['href'] }}">
+                                                                        @if (!empty($subChildItem['icon']))
+                                                                            <i
+                                                                                class="{{ $subChildItem['icon'] }}"></i>
+                                                                            <!-- İkonu eklemek için -->
+                                                                        @endif
+                                                                        {{ $subChildItem['text'] }}
+                                                                    </a>
+                                                                    @if ($subChildItem['children'] && count($subChildItem['children']) > 0)
+                                                                        <ul>
+                                                                            @foreach ($subChildItem['children'] as $subofsubChildItem)
+                                                                                <li>
+                                                                                    <a
+                                                                                        href="{{ $subofsubChildItem['href'] }}">
+                                                                                        @if (!empty($subofsubChildItem['icon']))
+                                                                                            <i
+                                                                                                class="{{ $subofsubChildItem['icon'] }}"></i>
+                                                                                            <!-- İkonu eklemek için -->
+                                                                                        @endif
+                                                                                        {{ $subofsubChildItem['text'] }}
+                                                                                    </a>
+                                                                                </li>
+                                                                            @endforeach
+                                                                        </ul>
                                                                     @endif
-                                                                    {{ $subChildItem['text'] }}
-                                                                </a>
-                                                                @if ($subChildItem['children'] && count($subChildItem['children']) > 0)
-                                                                    <ul>
-                                                                        @foreach ($subChildItem['children'] as $subofsubChildItem)
-                                                                            <li>
-                                                                                <a href="{{$subofsubChildItem['href']}}">
-                                                                                    @if (!empty($subofsubChildItem['icon']))
-                                                                                        <i class="{{ $subofsubChildItem['icon'] }}"></i>
-                                                                                        <!-- İkonu eklemek için -->
-                                                                                    @endif
-                                                                                    {{ $subofsubChildItem['text'] }}
-                                                                                </a>
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                @endif
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
                                                     @endif
                                                 </li>
                                             @endforeach
@@ -318,6 +327,71 @@
 
 
         <style>
+            a{
+                text-decoration: none !important;
+            }
+            .buyUserRequest {
+                position: relative;
+                width: 150px;
+                height: 35px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                border: 1px solid red;
+                background-color: red;
+            }
+
+            .buyUserRequest,
+            .buyUserRequest__icon,
+            .buyUserRequest__text {
+                transition: all 0.3s;
+            }
+
+            .buyUserRequest .buyUserRequest__text {
+                transform: translateX(10px);
+                color: #fff;
+                font-weight: 600;
+                line-height: 14px;
+            }
+
+            .buyUserRequest .buyUserRequest__icon {
+                position: absolute;
+                transform: translateX(109px);
+                height: 100%;
+                width: 39px;
+                background-color: black;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .buyUserRequest img {
+                width: 30px;
+                stroke: #fff;
+            }
+
+            .buyUserRequest:hover {
+                background: red;
+            }
+
+            .buyUserRequest:hover .buyUserRequest__text {
+                color: transparent;
+            }
+
+            .buyUserRequest:hover .buyUserRequest__icon {
+                width: 148px;
+                transform: translateX(0);
+            }
+
+            .buyUserRequest:active .buyUserRequest__icon {
+                background-color: red;
+            }
+
+            .buyUserRequest:active {
+                border: 1px solid red;
+            }
+
+
             .cartIconBtn {
                 padding: 5px 10px;
                 height: 100%;
