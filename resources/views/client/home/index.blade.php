@@ -226,15 +226,15 @@
                                     <div class="d-flex">
                                         <div class="d-flex" style="gap: 8px;">
                                             <a href="#" class="btn toggle-project-favorite"
-                                               data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
-                                               data-project-id={{ $project->id }}>
+                                               data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"  style="color: white;"
+                                               data-project-id="{{ $project->id }}">
                                                 <i class="fa fa-heart"></i>
                                             </a>
-                                            <button class="addToCart px-2"
+                                            <button class="addToCart mobile px-2"
                                                     style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
                                                     data-type='project' data-project='{{ $project->id }}'
                                                     data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
-                                                Sepete Ekle
+                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px" height="24px" style="width: 24px !important; height: 24px !important;"/>
                                             </button>
                                         </div>
                                         <span class="ml-auto text-primary"> {{ getHouse($project, 'price[]', $i + 1)->value }} TL</span>
@@ -397,14 +397,14 @@
                                         <div class="d-flex" style="gap: 8px;">
                                             <a href="#" class="btn toggle-project-favorite"
                                                data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
-                                               data-project-id={{ $project->id }}>
+                                               data-project-id="{{ $project->id }}" style="color: white;">
                                                 <i class="fa fa-heart"></i>
                                             </a>
-                                            <button class="addToCart px-2"
+                                            <button class="addToCart mobile px-2"
                                                     style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
                                                     data-type='project' data-project='{{ $project->id }}'
                                                     data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
-                                                Sepete Ekle
+                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px" height="24px" style="width: 24px !important; height: 24px !important;"/>
                                             </button>
                                         </div>
                                         <span class="ml-auto text-primary"> {{ getHouse($project, 'price[]', $i + 1)->value }} TL</span>
@@ -558,14 +558,14 @@
                                 <div class="d-flex">
                                     <div class="d-flex" style="gap: 8px;">
                                         <a href="#" class="btn toggle-favorite"
-                                           data-housing-id="{{ $project->id }}">
+                                           data-housing-id="{{ $project->id }}" style="color: white;">
                                             <i class="fa fa-heart"></i>
                                         </a>
-                                        <button class="addToCart px-2"
+                                        <button class="addToCart mobile px-2"
                                                 style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
                                                 data-type='housing'
                                                 data-id='{{ $project->id }}'>
-                                            Sepete Ekle
+                                            <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px" height="24px" style="width: 24px !important; height: 24px !important;"/>
                                         </button>
                                     </div>
                                     <span class="ml-auto text-primary"> {{ json_decode($project->housing_type_data)->price[0] ?? '?' }} TL</span>
