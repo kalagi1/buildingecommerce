@@ -809,7 +809,7 @@
                                                             `<button class="addToCart ${res.in_cart ? 'bg-success' : ''}"
                                                                 style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
                                                                 data-type='housing'
-                                                                data-id='${res.id}'>Sepete Ekle
+                                                                data-id='${res.id}'>${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}
                                                             </button>`
                                                             }
                                                     </ul>

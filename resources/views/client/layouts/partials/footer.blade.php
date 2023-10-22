@@ -422,7 +422,6 @@
                 }
 
                 // Eğer kullanıcı zaten ürün eklediyse ve yeni bir ürün eklenmek isteniyorsa sepeti temizlemeyi sorgula
-                if (!isProductInCart(productId)) {
                     // Kullanıcıya onay için bir onay kutusu göster
                     Swal.fire({
                         title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' : 'Mevcut sepeti temizlemek istiyor musunuz?',
@@ -448,8 +447,6 @@
                                     if (!button.classList.contains("mobile"))
                                         button.textContent = "Sepete Eklendi";
 
-                                    button.disabled = true;
-
                                     // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
                                     if (cart.clear_cart === "yes") {
                                         location.reload();
@@ -467,7 +464,6 @@
                             xhr.send(JSON.stringify(cart));
                         }
                     });
-                }
             }
         });
 
@@ -488,11 +484,9 @@
                 if (isProductInCart(productId, product)) {
                     button.textContent = "Sepete Eklendi";
                     button.classList.add("bg-success");
-                    button.disabled = true;
                 } else {
                     button.textContent = "Sepete Ekle";
                     button.classList.remove("bg-success");
-                    button.disabled = false;
                 }
             });
         }

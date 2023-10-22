@@ -26,12 +26,12 @@
                         @else
                             <tr>
                                 <td class="image myelist">
-                                    <a href="#"><img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
+                                    <a href="{{$cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? ''])}}"><img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
                                             class="img-fluid"></a>
                                 </td>
                                 <td>
                                     <div class="inner">
-                                        <a href="#">
+                                        <a href="{{$cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? ''])}}">
                                             <h2 style="font-weight: 600">{{ $cart['item']['title'] }}</h2>
                                             <figure><i class="lni-map-marker"></i> {{ $cart['item']['address'] }}</figure>
                                         </a>
