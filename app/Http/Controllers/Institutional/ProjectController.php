@@ -74,6 +74,55 @@ class ProjectController extends Controller
         return view('institutional.projects.createv2',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan'));
     }
 
+    public function editV2($slug){
+        $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
+        $prices = SinglePrice::where('item_type',1)->get();
+        $cities = City::get();
+        $tempUpdateHas = false;
+        $housing_status = HousingStatus::all();
+        $tempDataFull = TempOrder::where('item_type',1)->where('user_id',auth()->guard()->user()->id)->first();
+        $tempDataFull = Project::where('slug',$slug)->first();
+        $tempDataFull2 = Project::where('slug',$slug)->first();
+        $housingType = HousingType::where('id',$tempDataFull->housing_type_id)->first();
+        $tempUpdate = TempOrder::where('item_type',3)->where('user_id',auth()->user()->id)->first();
+        if($tempUpdate && json_decode($tempUpdate->data)->data_slug == $slug){
+            $tempUpdateHas = true;
+            $tempDataFull = $tempUpdate;
+            
+            $tempData = json_decode($tempDataFull->data);
+            $tempData->step3_slug = $housingType->slug;
+        }else{
+            if($tempDataFull){
+                $tempData = $tempDataFull;
+                $tempData->roomInfoKeys = $tempDataFull->roomInfo;
+                $tempData->step3_slug = $housingType->slug;
+            }else{
+                $tempData = json_decode("{}");
+            }
+            $tempDataFull->data_slug = $slug;
+            $selectedStatuses = HousingStatus::select("id")->whereIn("id",$tempDataFull2->housingStatusIds)->get()->keyBy('id')->toArray();
+            $tempDataFull->statuses = array_keys((array) $selectedStatuses);
+            $tempDataFull->images = $tempDataFull->images;
+            TempOrder::create([
+                "user_id" => auth()->user()->id,
+                "data" => json_encode($tempDataFull),
+                "item_type" => 3,
+                "step_order" => 1
+            ]);
+        }
+        
+        
+        $selectedStatuses = $tempDataFull->statuses;
+        if($tempDataFull){
+            $tempDataFull = $tempDataFull;
+        }else{
+            $tempDataFull = json_decode('{"step_order" : 1}');
+        }
+
+        $userPlan = UserPlan::where('user_id',auth()->user()->id)->first();
+        return view('institutional.projects.editv2',compact('tempUpdateHas','housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan'));
+    }
+
     public function getBusyDatesByStatusType($statusId,Request $request){
         return json_encode([
             "busy_dates" => StandOutUser::where('housing_status_id',$statusId)->where('item_order',$request->input('order'))->get(),
@@ -111,18 +160,20 @@ class ProjectController extends Controller
             
             if($tempOrderFull->step_order == 3){
                 $oldCoverImage = public_path('project_images/'.$tempOrder->cover_image); // Mevcut dosyanın yolu
-            $extension = explode('.',$tempOrder->cover_image);
-            $newCoverImage = Str::slug($tempOrder->name).(Auth::user()->id).'.'.end($extension);
-            $newCoverImageName = public_path('storage/project_images/'.$newCoverImage); // Yeni dosya adı ve yolu
-            File::move($oldCoverImage, $newCoverImageName);
+                $extension = explode('.',$tempOrder->cover_image);
+                $newCoverImage = Str::slug($tempOrder->name).(Auth::user()->id).'.'.end($extension);
+                $newCoverImageName = public_path('storage/project_images/'.$newCoverImage); // Yeni dosya adı ve yolu
+                File::move($oldCoverImage, $newCoverImageName);
 
-            $oldDocument = public_path('housing_documents/'.$tempOrder->document); // Mevcut dosyanın yolu
-            $extension = explode('.',$tempOrder->document);
-            $newDocument = Str::slug($tempOrder->name).'_verification_'.(Auth::user()->id).'.'.end($extension);
-            $newDocumentFile = public_path('housing_documents/'.$newDocument); // Yeni dosya adı ve yolu
-            File::move($oldDocument, $newDocumentFile);
+                $oldDocument = public_path('housing_documents/'.$tempOrder->document); // Mevcut dosyanın yolu
+                $extension = explode('.',$tempOrder->document);
+                $newDocument = Str::slug($tempOrder->name).'_verification_'.(Auth::user()->id).'.'.end($extension);
+                $newDocumentFile = public_path('housing_documents/'.$newDocument); // Yeni dosya adı ve yolu
+                File::move($oldDocument, $newDocumentFile);
                 $project = Project::create([
                     "housing_type_id" => $housingType->id,
+                    "step1_slug" => $tempOrder->step1_slug,
+                    "step2_slug" => $tempOrder->step2_slug,
                     "project_title" => $tempOrder->name,
                     "slug" => Str::slug($tempOrder->name),
                     "address" => "asd",
@@ -648,5 +699,49 @@ class ProjectController extends Controller
     public function logs($projectId){
         $logs = Log::where('item_type',1)->where('item_id',$projectId)->orderByDesc('created_at')->get();
         return view('institutional.projects.logs',compact('logs'));
+    }
+
+    public function updateProjectEnd(){
+        $tempOrder = TempOrder::where('item_type',3)->where('user_id',auth()->guard()->user()->id)->first();
+        $tempData = json_decode($tempOrder->data);
+
+        Project::where('id',$tempData->id)->update([
+            "project_title" => $tempData->project_title,
+            "slug" => Str::slug($tempData->project_title),
+            "description" => $tempData->description,
+            "location" => $tempData->location,
+            "image" => $tempData->image,
+            "city_id" => $tempData->city_id,
+            "county_id" => $tempData->county_id,
+            "status" => "2"
+        ]);
+
+        ProjectHousingType::where('project_id',$tempData->id)->delete();
+        foreach($tempData->statuses as $status){
+            ProjectHousingType::create([
+                "project_id" => $tempData->id,
+                "housing_type_id" => $status
+            ]);
+        }
+
+        ProjectImage::where('project_id',$tempData->id)->delete();
+        foreach($tempData->images as $key => $image){
+            $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
+            $projectImage->image = $image->image;
+            $projectImage->project_id = $tempData->id;
+            $projectImage->save();
+        }
+
+        foreach($tempData->roomInfoKeys as $roomInfo){
+            ProjectHousing::where('name',$roomInfo->name)->where('room_order',$roomInfo->room_order)->update([
+                "value" => $roomInfo->value
+            ]);
+        }
+
+        $tempOrder->delete();
+
+        return json_encode([
+            "status" => true
+        ]);
     }
 }

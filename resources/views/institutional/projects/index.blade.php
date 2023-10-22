@@ -63,13 +63,22 @@
 
   @section('css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css" integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   @endsection
 
   @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         var projects = @json($projects);
-
+        @if(request('update_item'))
+        $.toast({
+          heading: 'Başarılı',
+          text: 'Başarıyla projeyi güncellediniz',
+          position: 'top-right',
+          stack: false
+        })
+        @endif
         var tbody = document.getElementById("bulk-select-body");
         projects.forEach(function(project) {
             var row = document.createElement("tr");
@@ -122,7 +131,7 @@
             viewLink.textContent = "Loglar";
             var exportLink = document.createElement("a");
             exportLink.className = "btn btn-success ml-3";
-            exportLink.href = "{{URL::to('/')}}/institutional/projects/"+project.id+'/edit';
+            exportLink.href = "{{URL::to('/')}}/institutional/edit_project_v2/"+project.slug;
             exportLink.textContent = "Düzenle";
             var divider = document.createElement("div");
             divider.className = "dropdown-divider";
