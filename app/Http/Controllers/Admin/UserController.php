@@ -27,6 +27,7 @@ class UserController extends Controller
         }
     
         $users = $query->orderByDesc('created_at')->get();
+
         if ($request->ajax()) {
             return view('admin.users.table', compact('users'));
         }

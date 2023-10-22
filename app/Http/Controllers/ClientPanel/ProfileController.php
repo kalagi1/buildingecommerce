@@ -8,12 +8,20 @@ use App\Models\SubscriptionPlan;
 use App\Models\UpgradeLog;
 use App\Models\User;
 use App\Models\UserPlan;
+use App\Models\CartOrder;
+use App\Models\DocumentNotification;
 use App\Rules\SubscriptionPlanToUpgradeBireysel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
+    function cartOrders()
+    {
+        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->get();
+        return view('client.client-panel.profile.orders', compact('cartOrders'));
+    }
+
     function verify()
     {
         return view('client.client-panel.home.verification');
@@ -33,6 +41,13 @@ class ProfileController extends Controller
         $array = array_merge($array, ['identity_document' => $file]);
 
         auth()->user()->update($array);
+
+        DocumentNotification::create(
+            [
+                'user_id' => auth()->user()->id,
+                'text' => 'Yeni belge gönderildi. Kullanıcı : '.auth()->user()->email,
+            ]
+        );
 
         return redirect()->back();
     }

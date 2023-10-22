@@ -123,6 +123,25 @@
                                             <input type="hidden" name="type" id="user-type-input" value="1">
                                         </div>
 
+                                        <!-- E-Posta -->
+                                        <div class="mt-3 ">
+                                                <label class="q-label">İsim</label>
+                                                <input type="text" name="name" class="form-control">
+                                            </div>
+
+                                            <!-- E-Posta -->
+                                            <div class="mt-3">
+                                                <label class="q-label">E-Posta</label>
+                                                <input type="email" name="email" class="form-control">
+                                            </div>
+
+
+                                            <!-- Şifre -->
+                                            <div class="mt-3">
+                                                <label class="q-label">Şifre</label>
+                                                <input type="password" name="password" class="form-control">
+                                        </div>
+
                                         <div class="individual-form" id="individualForm">
 
 
@@ -161,24 +180,6 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                            </div>
-                                            <!-- E-Posta -->
-                                            <div class="mt-3 ">
-                                                <label class="q-label">İsim</label>
-                                                <input type="text" name="name" class="form-control">
-                                            </div>
-
-                                            <!-- E-Posta -->
-                                            <div class="mt-3">
-                                                <label class="q-label">E-Posta</label>
-                                                <input type="email" name="email" class="form-control">
-                                            </div>
-
-
-                                            <!-- Şifre -->
-                                            <div class="mt-3">
-                                                <label class="q-label">Şifre</label>
-                                                <input type="password" name="password" class="form-control">
                                             </div>
                                             {{--
                                             <div class="form-group custom-control custom-checkbox mt-3">
@@ -344,28 +345,6 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                            </div>
-                                            <div class="mt-3 ">
-                                                <label class="q-label">İsim</label>
-                                                <input type="text" name="name" class="form-control">
-                                            </div>
-
-                                            <!-- E-Posta -->
-                                            <div class="mt-3">
-                                                <label class="q-label">E-Posta</label>
-                                                <input type="email" name="email" class="form-control">
-                                            </div>
-
-                                            <!-- Şifre -->
-                                            <div class="mt-3">
-                                                <label class="q-label">Şifre</label>
-                                                <input type="password" name="password" class="form-control">
-                                            </div>
-
-                                            <!-- E-Posta -->
-                                            <div class="mt-3">
-                                                <label class="q-label">Sabit Telefon</label>
-                                                <input type="number" name="phone" class="form-control">
                                             </div>
 
                                             <div class="mt-3">

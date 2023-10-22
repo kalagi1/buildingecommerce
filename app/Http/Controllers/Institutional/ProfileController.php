@@ -23,7 +23,7 @@ class ProfileController extends Controller
 {
     public function upgrade()
     {
-        $plans = SubscriptionPlan::where('plan_type', auth()->user()->corporate_type)->get();
+        $plans = SubscriptionPlan::where('plan_type', auth()->user()->corporate_type)->orderBy("price","asc")->get();
         $current = UserPlan::with("subscriptionPlan")->where('user_id', auth()->user()->id)->first() ?? false;
         return view('institutional.profile.upgrade', compact('plans', 'current'));
     }

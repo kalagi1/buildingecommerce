@@ -44,7 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
         rel="stylesheet">
     <link href="{{ URL::to('/') }}/adminassets/vendors/simplebar/simplebar.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="{{ URL::to('/') }}/adminassets/assets/css/theme-rtl.min.css" type="text/css" rel="stylesheet"
         id="style-rtl">
     <link href="{{ URL::to('/') }}/adminassets/assets/css/theme.min.css" type="text/css" rel="stylesheet"
@@ -370,6 +370,30 @@
                     </div>
                 </div>
                 <ul class="navbar-nav navbar-nav-icons flex-row">
+                    <li class="nav-item dropdown">
+                    @php($notifications=App\Models\DocumentNotification::where('readed', '0')->get())
+                        <div class="theme-control-toggle fa-icon-wait px-2 position-relative" data-bs-toggle="dropdown">
+                            <label class="theme-control-toggle-label">
+                                <span class="icon" data-feather="bell"></span>
+                            </label>
+                            @if (count($notifications) > 0)
+                            <span class="badge bg-danger position-absolute" style="bottom: 0; right: 0;">{{count($notifications)}}</span>
+                            @endif
+                        </div>
+                        <div class="dropdown-menu px-4 dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300" style="max-heigth: 320px; overflow-y: scroll;">
+                            <div class="card position-relative border-0">
+                            @if (count($notifications) == 0)
+                                <div class="p-3 text-center">Bildirim Yok</div>
+                            @else
+                               @foreach ($notifications as $notification)
+                                <a class="mb-4 border-bottom p-3" href="{{ route('admin.set-readed-dn', ['dn' => $notification->id]) }}">
+                                    {{$notification->text}}
+                                </a>
+                                @endforeach
+                            @endif
+                            </div>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <div class="theme-control-toggle fa-icon-wait px-2"><input
                                 class="form-check-input ms-0 theme-control-toggle-input" type="checkbox"

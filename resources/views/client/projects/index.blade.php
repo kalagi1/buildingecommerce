@@ -13,7 +13,7 @@
                                 {{ $project->user->name }}
                                 <style type="text/css">
                                     .st0 {
-                                        fill: rgb(44, 191, 247);
+                                        fill: #446BB6;
                                     }
 
                                     .st1 {
@@ -129,6 +129,11 @@
                         <div class="news-item-bottom">
                             <a href="{{ route('project.housing.detail', $project->slug) }}" class="news-link">Proje
                                 Detayı</a>
+                            <div class="admin">
+                                <p>{!! $project->user->name !!}</p>
+                                <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
+                                    alt="">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -510,6 +515,9 @@ out center;`;
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        .mobile-hidden{
+            display: flex;
+        }
         @media (max-width: 768px) {
             .mobile-hidden{
                 display: none

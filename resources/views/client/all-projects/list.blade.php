@@ -1,6 +1,32 @@
 @extends('client.layouts.master')
 
 @section('content')
+    <style>
+        @media (min-width: 768px)
+        {
+            .filters-input-area 
+            {
+                display: block !important;
+            }
+        }
+
+        @media (max-width: 767px)
+        {
+            .filters-input-area
+            {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 90%;
+                height: 100%;
+                z-index: 1000;
+                background-color: white;
+                padding: 16px;
+                box-shadow: 0 0 48px rgba(0,0,0,.3);
+                overflow-y: scroll;
+            }
+        }
+    </style>
     @php
         function convertMonthToTurkishCharacter($date)
         {
@@ -58,10 +84,11 @@
         <div class="container">
 
             <div class="row project-filter-reverse">
-                <aside class="col-lg-3 col-md-12 car">
-                    <div class="widget">
+                <aside class="col-lg-3 col-md-12 order-2 order-md-1">
+                    <div class="widget filters-input-area" style="display: none;">
+                        <svg height="24px" id="Layer_1" onclick="$(this).parent().slideToggle();" class="d-md-none" style="float: left; margin-top: -24px; margin-bottom: 24px;enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M437.5,386.6L306.9,256l130.6-130.6c14.1-14.1,14.1-36.8,0-50.9c-14.1-14.1-36.8-14.1-50.9,0L256,205.1L125.4,74.5  c-14.1-14.1-36.8-14.1-50.9,0c-14.1,14.1-14.1,36.8,0,50.9L205.1,256L74.5,386.6c-14.1,14.1-14.1,36.8,0,50.9  c14.1,14.1,36.8,14.1,50.9,0L256,306.9l130.6,130.6c14.1,14.1,36.8,14.1,50.9,0C451.5,423.4,451.5,400.6,437.5,386.6z"/></svg>
                         <!-- Search Fields -->
-                        <div class="widget-boxed main-search-field">
+                        <div class="widget-boxed main-search-field mt-4">
                             <div class="trip-search">
                                 <div class="head d-flex">
                                     <b>Adres</b>
@@ -272,10 +299,14 @@
                         <button type="button" class="btn btn-primary btn-lg btn-block mt-4 mb-4"
                             id="clear-filters">Temizle</button>
 
+                        <button type="button" onclick="$('.filters-input-area').slideToggle();" style="background: var(--gray);" class="btn btn-secondary btn-lg btn-block mt-4 d-md-none mb-4"
+                            id="close-filters">Kapat</button>
+
                     </div>
                 </aside>
-                <div class="col-lg-9 col-md-12 blog-pots">
-                    <section class="headings-2 pt-0 d-flex flex-wrap justify-content-between align-items-center">
+
+                <div class="col-lg-9 col-md-12 blog-pots order-1">
+                    <section class="headings-2 pt-0 d-md-flex" style="display: grid;">
                         <div class="brand-head" style="padding-top:0">
                             <div class="brands-square" style="position: relative;top:0;left:0">
                                 <p class="brand-name"><a href="{{ url('/') }}" style="color:black">Anasayfa</a></p>
@@ -289,10 +320,12 @@
                                 </p>
                             </div>
                         </div>
-                   
-
                      
-                        <div id="sorting-options" class="d-flex align-items-center">
+                        <div id="sorting-options" class="d-flex align-items-center ml-0 ml-md-auto mr-md-0" style="gap: 16px;">
+
+                        <div onclick="$('.filters-input-area').slideToggle();" style="background: var(--blue); padding: 6px; border-radius: 5px;" class="d-md-none">
+                            <svg class="rounded-sm" enable-background="new 0 0 32 32" width="24px" height="24px" id="Editable-line" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="  M3.241,7.646L13,19v9l6-4v-5l9.759-11.354C29.315,6.996,28.848,6,27.986,6H4.014C3.152,6,2.685,6.996,3.241,7.646z" fill="none" id="XMLID_6_" stroke="#FFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/></svg>
+                        </div>
 
                             <select id="sort-select" class="form-control">
                                 <option value="sort">Sırala</option>
@@ -304,14 +337,14 @@
                                  <!-- Button trigger modal -->
                      
                         </div>
-
-
                     </section>
                     <section class="popular-places home18 mt-3" style="padding-top:0 !important">
                         <div class="container">
                             <div class="row pp-row">
                             </div>
                         </div>
+                    </section>
+                    <section id="pages" class="d-flex justify-content-center" style="gap: 12px;">
                     </section>
 
                 </div>
@@ -590,6 +623,8 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         'use strict';
+        let last_page;
+        let current_page = 1;
         $('#city').on('change', function() {
             $.ajax({
                 method: "GET",
@@ -628,9 +663,37 @@
                 }),
                 success: function(response) {
                     $('.pp-row').empty();
+                    $('#pages').empty();
 
-                    if (response.length > 0) {
-                        response.forEach((res) => {
+                    last_page = response.last_page;
+
+                    $('#pages').append(`
+                        <a class="btn btn-primary prev-page">Önceki</a>
+                    `);
+
+                    for (var i = 1; i <= response.last_page; ++i)
+                    {
+                        $('#pages').append(`
+                            <a class="btn btn-outline-primary filter-page" data-page="${i}" ${response.current_page == i ? 'style="color: white;"' : 'style="background: transparent;"'}>${i}</a>
+                        `);
+                    }
+
+                    $('#pages').append(`
+                        <a class="btn btn-primary next-page">Sonraki</a>
+                    `);
+
+                    if (current_page == '1')
+                        $('.prev-page').addClass('d-none');
+                    else 
+                        $('.prev-page').removeClass('d-none');
+
+                    if (current_page == last_page)
+                        $('.next-page').addClass('d-none');
+                    else 
+                        $('.next-page').removeClass('d-none');
+
+                    if (response.data.length > 0) {
+                        response.data.forEach((res) => {
                             @if (!$secondhandHousings)
                                 $('.pp-row').append(
                                     `
@@ -698,11 +761,17 @@
                                                         </li>
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;margin-top:20px !important;">
-                                                        <button class="addToCart ${res.in_cart ? 'bg-success' : ''}"
+                                                        ${res.sold ? 
+                                                            `<button
+                                                                style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                            </button>`
+                                                            : 
+                                                            `<button class="addToCart ${res.in_cart ? 'bg-success' : ''}"
                                                                 style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
                                                                 data-type='housing'
                                                                 data-id='${res.id}'>Sepete Ekle
-                                                        </button>
+                                                            </button>`
+                                                            }
                                                     </ul>
                                                 </div>
                                             </div>
@@ -752,7 +821,8 @@
         $(function() {
             drawList();
 
-            $('.filter-now').on('change', function() {
+            function filterNow()
+            {
                 let room_count = [];
                 $('#room_count_field .mt-4 .mb-2').each(function() {
                     let i = $(this).find('.form-check-input');
@@ -780,6 +850,7 @@
                 });
 
                 drawList({
+                    page: current_page,
                     city: $('#city').val(),
                     county: $('#county').val(),
                     @if ($secondhandHousings)
@@ -792,7 +863,7 @@
                         from_owner,
                     @endif
                 });
-            });
+            }
 
             $('#clear-filters').on('click', function() {
                 $('#city').val('#');
@@ -821,6 +892,26 @@
 
                 drawList();
             });
+
+            $('body').on('click', '.filter-page', function() {
+                current_page = $(this).data('page');
+
+                filterNow();
+            });
+
+            $('body').on('click', '.next-page', function() {
+                ++current_page;
+
+                filterNow();
+            });
+
+            $('body').on('click', '.prev-page', function() {
+                --current_page;
+
+                filterNow();
+            });
+
+            $('.filter-now').on('change', filterNow);
         });
     </script>
 @endsection

@@ -514,6 +514,12 @@ Version      : 1.2
         padding-top: 2.4rem;
     }
 
+    @media (max-width:768px) {
+        .brand-head {
+            padding-top: 0;
+        }
+    }
+
     .brand-head .card {
         border: none;
         margin-bottom: 1rem;
@@ -1433,11 +1439,7 @@ Version      : 1.2
         transition: transform 0.6s ease-in, -webkit-transform 0.6s ease-in;
     }
 
-    .homes,
-    .homes-img {
-        position: relative;
-        overflow: hidden;
-    }
+
 
     .homes-tag.featured {
         width: 84px !important;
@@ -3270,7 +3272,7 @@ Version      : 1.2
     .brand-image-pp {
         width: 52px;
         z-index: 2;
-        height: 52px;
+        height: 100%;
         object-fit: cover;
         border-radius: 50%;
     }
@@ -3498,7 +3500,7 @@ Version      : 1.2
     /*------------------------------------*/
 
     section.popular-places {
-        padding: 2.6rem 0 ;
+        padding: 2.6rem 0;
         background: #fff;
     }
 
@@ -4994,6 +4996,16 @@ Version      : 1.2
         color: #fff;
     }
 
+    .first-footer .netsocials a .fa-whatsapp {
+        background: transparent;
+        color: #fff;
+    }
+
+    .first-footer .netsocials a .fa-whatsapp:hover {
+        background: #379a37;
+        color: #fff;
+    }
+
     .first-footer .netsocials a .fa-youtube {
         background: transparent;
         color: #fff;
@@ -5004,6 +5016,7 @@ Version      : 1.2
         background: #cd201f;
         color: #fff;
     }
+  
 
     .homepage-2 .first-footer .netsocials a .fa-facebook,
     .homepage-5 .first-footer .netsocials a .fa-facebook,
@@ -5024,6 +5037,13 @@ Version      : 1.2
     .int_white_bg .first-footer .netsocials a .fa-instagram,
     .th-17 .first-footer .netsocials a .fa-instagram {
         background: #E1306C;
+    }
+
+    .homepage-2 .first-footer .netsocials a .fa-whatsapp,
+    .homepage-5 .first-footer .netsocials a .fa-whatsapp,
+    .int_white_bg .first-footer .netsocials a .fa-whatsapp,
+    .th-17 .first-footer .netsocials a .fa-whatsapp {
+        background: #379a37;
     }
 
     .homepage-2 .first-footer .netsocials a .fa-youtube,
@@ -5811,8 +5831,11 @@ Version      : 1.2
     }
 
     .homepage-2 .portfolio .project-head {
-        border-radius: 8px 8px 0 0;
         border: none;
+    }
+
+    .button-effect-2 .btn {
+        background: white !important;
     }
 
     .homepage-2 .portfolio .homes-price {
@@ -5855,7 +5878,7 @@ Version      : 1.2
 
     .homepage-2 .portfolio .footer img {
         width: 40px;
-        height: 40px;
+        height: 40px !important;
         border-radius: 50%;
     }
 
@@ -5863,9 +5886,6 @@ Version      : 1.2
         border-top: 1px solid #eee;
     }
 
-    .homepage-2 .portfolio .footer span {
-        margin-top: 13px;
-    }
 
     /*------ register form------------------------------------------------*/
 
@@ -8554,12 +8574,31 @@ Version      : 1.2
         border-bottom: none !important;
         margin-top: 20px;
     }
-    
+
     .userIcon,
     .heartIcon {
         margin-right: 15px;
     }
+
+    .mobile-hidden {
+        display: block;
+    }
+
+    .mobile-show {
+        display: none;
+    }
+
+
+
     @media screen and (max-width: 768px) {
+        .mobile-show {
+            display: block;
+        }
+
+        .mobile-hidden {
+            display: none;
+        }
+
         #header-container .container {
             margin-bottom: 1rem !important;
             padding-bottom: 1rem !important;
@@ -8574,7 +8613,7 @@ Version      : 1.2
             width: 100%;
         }
 
-      
+
 
         .header-widget a svg {
             color: black;
@@ -15761,7 +15800,8 @@ Version      : 1.2
     }
 
     .inner-pages .properties-right.list .homes-img img {
-        height: 150px;
+        height: 100%;
+        object-fit: cover;
     }
 
     .inner-pages .properties-right.list .project-single {
@@ -15874,10 +15914,15 @@ Version      : 1.2
             width: 100% !important;
         }
 
-        .inner-pages .portfolio .homes-content .homes-list-div ul li {
-            width: 100% !important;
-            justify-content: center;
+        .inner-pages .portfolio .homes-content .homes-list-div ul li.custom-width {
+            width: 25% !important;
+            justify-content: start;
         }
+
+        .inner-pages .portfolio .homes-content .homes-list-div ul li.special-width {
+            width: 50% !important;
+        }
+
 
         .project-card p {
             display: none !important;
@@ -15890,19 +15935,29 @@ Version      : 1.2
 
 
     .homes-button .first-btn {
-        padding: 10px;
+        padding: 15px;
         color: white;
         background-color: #446BB6;
         border: none;
         right: 0;
         position: absolute;
         top: 0;
+        width: 90%;
     }
 
     .homes-button .second-btn {
         position: absolute;
         bottom: 0;
         right: 0;
+        padding: 15px;
+        color: white;
+        background-color: #446BB6;
+        border: none;
+        /* right: 0; */
+        width: 90%;
+        /* position: absolute; */
+        /* top: 0; */
+
     }
 
     @media (max-width: 768px) {
@@ -16180,6 +16235,7 @@ Version      : 1.2
         background: #fff;
         border: 2px solid #e2dfdf;
         color: #333;
+        cursor: pointer;
     }
 
     .inner-pages .blog .main-search-field .at-col-default-mar {
@@ -17249,6 +17305,7 @@ Version      : 1.2
     .sidebar-widget .author-box img {
         float: left;
         width: 85px;
+        object-fit: cover;
         height: 85px;
         border: 4px solid #fff;
         margin-right: 15px;
@@ -22418,6 +22475,7 @@ Version      : 1.2
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
+        flex-wrap: wrap;
     }
 
     .inner-pages .recent-post .tags a {
@@ -25804,8 +25862,13 @@ Version      : 1.2
             font-size: 16px;
         }
 
+        .section-title {
+            margin: 20px 0;
+            margin-bottom: 50px;
+        }
+
         .section-title h2 {
-            font-size: 26px;
+            font-size: 24px;
         }
 
         .who-we-are .who img {

@@ -41012,6 +41012,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     max-width: 97px;
 }
 
+
 .confirm span{
     color: green;
 }
@@ -41030,6 +41031,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     color: var(--phoenix-gray-1100);
 }
 
+<<<<<<< HEAD
 .pop-up-v2{
     position:fixed;
     width:100%;
@@ -41096,4 +41098,10 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .project_imagex:hover .image-buttons{
     display: block;
     transition: .2s;
+=======
+.finish-button-first {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+>>>>>>> 05d76180f7c2bb770e38b39940ada5031467413f
 }

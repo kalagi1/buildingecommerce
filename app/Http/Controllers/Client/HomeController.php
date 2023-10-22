@@ -27,6 +27,7 @@ class HomeController extends Controller
             'housing_types.title as housing_type_title',
             'housings.housing_type_data',
             'housings.address',
+            \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
         )->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
             ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
             ->where('housings.status', 1)
@@ -73,9 +74,10 @@ class HomeController extends Controller
             }
         }
 
-        $projects = $query->get();
+        $itemPerPage = 12;
+        $projects = $query->paginate($itemPerPage);
 
-        $renderedProjects = $projects->map(function ($item) {
+        $renderedProjects = $projects->through(function ($item) {
             return [
                 'image' => url(str_replace('public/', 'storage/', $item->image)),
                 'url' => route('project.detail', $item->slug),
@@ -139,7 +141,9 @@ class HomeController extends Controller
             return $a;
         }
 
-        $obj = Housing::with('images');
+        $obj = Housing::select('housings.*',
+                               \Illuminate\Support\Facades\DB::raw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) AS sold'),
+                              )->with('images');
 
         if ($request->input('from_owner')) {
             switch ($request->input('from_owner')) {
@@ -252,14 +256,17 @@ class HomeController extends Controller
         }
         
 
-        $obj = $obj->get();
+        $itemPerPage = 12;
+        $obj = $obj->paginate($itemPerPage);
 
-        return response()->json($obj->map(fn($item) =>
-            [
+        return response()->json($obj->through(function($item) use($request)
+        {
+            return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
+                'sold' => $item->sold,
                 'housing_type_title' => $item->housing_type_title,
                 'id' => $item->id,
-                'in_cart' => $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
+                'in_cart' => $request->session()->get('cart') && $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
                 'housing_url' => route('housing.show', $item->id),
                 'title' => $item->title,
                 'housing_address' => $item->address,
@@ -272,7 +279,8 @@ class HomeController extends Controller
                     'price' => getData($item, 'price'),
                     'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
                 ],
-            ]));
+            ];
+        }));
     }
 
     public function getSearchList(Request $request)
@@ -287,7 +295,15 @@ class HomeController extends Controller
 
         return response()->json(
             [
-                'housings' => Housing::where('title', 'LIKE', "%{$term}%")->get()->map(function ($item) {
+                'housings' => Housing::select('housings.*')
+                                     ->where('housings.title', 'LIKE', "%{$term}%")
+                                     ->join('cities', 'cities.id', '=', 'housings.city_id')
+                                     ->join('counties', 'counties.id', '=', 'housings.county_id')
+                                     ->orWhereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.room_count[0]")) AS DECIMAL(10, 2)) = ?', $term)
+                                     ->orWhere('cities.title', $term)
+                                     ->orWhere('counties.title', $term)
+                                     ->get()
+                                     ->map(function ($item) {
                     $housingData = json_decode($item->housing_type_data);
                     return [
                         'id' => $item->id,

@@ -93,7 +93,7 @@
             {
                 "text": "Oluştur",
                 "key": "CreateProject",
-                "url": "institutional.projects.create",
+                "url": "institutional.project.create.v2",
                 "activePath": "institutional/projects/create"
             },
             {
@@ -116,7 +116,7 @@
             {
                 "text": "Oluştur",
                 "key": "CreateHousing",
-                "url": "institutional.housing.create",
+                "url": "institutional.housing.create.v2",
                 "activePath": "institutional/create_housing"
             },
             {

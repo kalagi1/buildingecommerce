@@ -796,9 +796,141 @@
 </script>
 
 
+<script>
+    'use strict';
+    $(function() {
+        const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+        let timeout; // AJAX isteği için zamanlayıcı değişkeni
+
+        function showSearchingMessage() {
+            $('.header-search-box-mobile').empty().append(
+                '<div class="font-weight-bold p-2 small" style="background-color: #EEE;">Aranıyor...</div>');
+        }
+
+        function hideSearchingMessage() {
+            $('.header-search-box-mobile div:contains("Aranıyor...")').remove();
+        }
+
+        function drawHeaderSearchbox(searchTerm) {
+            showSearchingMessage();
+
+            if (timeout) {
+                clearTimeout(timeout); // Önceki AJAX isteğini iptal et
+            }
+
+            timeout = setTimeout(function() {
+                $.ajax({
+                    url: "{{ route('get-search-list') }}",
+                    method: "GET",
+                    data: {
+                        searchTerm
+                    },
+                    success: function(data) {
+                        let hasResults = false;
+
+                        // Housing search
+                        if (data.housings.length > 0) {
+                            hasResults = true;
+                            $('.header-search-box-mobile').append(`
+                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
+                            `);
+                            console.log(data.housings);
+                            data.housings.forEach((e) => {
+                                const imageUrl =
+                                    `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+
+                                $('.header-search-box-mobile').append(`
+    <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+        <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
+        <span>${e.name}</span>
+    </a>
+`);
+
+                            });
+                        }
+
+                        // Project search
+                        if (data.projects.length > 0) {
+                            hasResults = true;
+                            $('.header-search-box-mobile').append(`
+                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">PROJELER</div>
+                            `);
+                            console.log(data.projects);
+                            data.projects.forEach((e) => {
+                                const imageUrl =
+                                    `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
+
+                                $('.header-search-box-mobile').append(`
+                                    <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                        <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
+                                        <span>${e.name}</span>
+                                    </a>
+                                `);
+                            });
+                        }
+
+                        // Merchant search
+                        if (data.merchants.length > 0) {
+                            hasResults = true;
+                            $('.header-search-box-mobile').append(`
+                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">MAĞAZALAR</div>
+                            `);
+                            data.merchants.forEach((e) => {
+                                const imageUrl =
+                                    `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+
+                                $('.header-search-box-mobile').append(`
+                                    <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                        <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
+                                        <span>${e.name}</span>
+                                    </a>
+                                `);
+                            });
+                        }
+
+                        // Veri yoksa veya herhangi bir sonuç yoksa "Sonuç Bulunamadı" mesajını görüntüle
+                        if (!hasResults) {
+                            $('.header-search-box-mobile').append(`
+                                <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç bulunamadı</div>
+                            `);
+                        } else {
+                            hideSearchingMessage
+                                (); // AJAX başarılı olduğunda "Aranıyor..." yazısını kaldır
+                        }
+
+                        if ($('.header-search-box-mobile').children().length > 3) {
+                            $('.header-search-box-mobile').css('overflow-y',
+                                'scroll'
+                            ); // 7'den fazla sonuç varsa kaydırma çubuğunu etkinleştir
+                        } else {
+                            $('.header-search-box-mobile').css('overflow-y',
+                                'unset'
+                            ); // 7 veya daha az sonuç varsa kaydırma çubuğunu devre dışı bırak
+                        }
+                    }
+                });
+            }, 1000); // 1 saniye gecikmeli AJAX isteği başlat
+        }
+
+        $('#ss-box-mobile').on('input', function() {
+            let term = $(this).val();
+
+            if (term != '') {
+                $('.header-search-box-mobile').addClass('d-flex').removeClass('d-none');
+                drawHeaderSearchbox(term);
+            } else {
+                $('.header-search-box-mobile').removeClass('d-flex').addClass('d-none');
+            }
+        });
+    });
+
+</script>
+
+
 
 
 @yield('scripts')
+
 </div>
 <!-- Wrapper / End -->
 

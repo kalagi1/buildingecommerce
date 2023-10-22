@@ -34,12 +34,38 @@
                                     </span>
                                 </div>
                                 <div class="py-2 px-3">
-                                    <form method="POST"
-                                        action="{{ route('institutional.profile.upgrade.action', [$plan->id]) }}">
-                                        @csrf
-                                        <button type="submit"
-                                            class="btn btn-primary btn-lg btn-block w-100">{{ $current && $current->price <= $plan->price ? 'SATIN AL' : 'YÜKSELT' }}</button>
-                                    </form>
+                             
+                                    <button type="button" class="btn btn-primary btn-lg btn-block w-100"
+                                        data-toggle="modal" data-target="#paymentModal{{$plan->id}}"
+                                        {{ $current->subscriptionPlan->id == $plan->id ? 'disabled' : '' }}>
+                                        {{ $current->subscriptionPlan->id == $plan->id ? 'AKTİF' : ($current->subscriptionPlan->price >= $plan->price ? 'SATIN AL' : 'YÜKSELT') }}
+                                        @if ($current->subscriptionPlan->price < $plan->price)
+                                            <i class="fas fa-angle-double-up ml-3"></i>
+                                        @endif
+                                    </button>
+
+                                    <!-- Ödeme Modalı -->
+                                    <div class="modal fade" id="paymentModal{{$plan->id}}" tabindex="-1" role="dialog"
+                                        aria-labelledby="paymentModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="paymentModalLabel">Ödeme Formu</h5>
+
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Ödeme Formu Alanları Buraya Gelecek -->
+                                                    <form method="POST"
+                                                        action="{{ route('institutional.profile.upgrade.action', [$plan->id]) }}">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-primary">Ödeme
+                                                            Yap</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             @else
                                 <div class="py-2 px-3 border-bottom d-flex">
