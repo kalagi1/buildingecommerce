@@ -32,7 +32,6 @@
                             <th class="white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
                               <div class="form-check mb-0 fs-0"><input class="form-check-input" id="bulk-select-example" type="checkbox" data-bulk-select='{"body":"bulk-select-body","actions":"bulk-select-actions","replacedElement":"bulk-select-replace-element"}' /></div>
                             </th>
-                            <th>Proje</th>
                             <th>İndirim Tutarı</th>
                             <th>Başlangıç Tarihi</th>
                             <th>Bitiş Tarihi</th>
@@ -76,10 +75,6 @@
             checkboxInput.setAttribute("data-bulk-select-row", JSON.stringify(project));
             checkboxDiv.appendChild(checkboxInput);
             checkboxCell.appendChild(checkboxDiv);
-
-            var titleCell = document.createElement("td");
-            titleCell.className = "align-middle ps-3 title";
-            titleCell.textContent = project.project.project_title;
 
             var aCell = document.createElement("td");
             aCell.className = "align-middle ps-3 title";
@@ -126,7 +121,6 @@
             actionsCell.appendChild(actionsDiv);
 
             row.appendChild(checkboxCell);
-            row.appendChild(titleCell);
             row.appendChild(aCell);
             row.appendChild(sdCell);
             row.appendChild(edCell);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Housing;
+use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Project;
 use App\Models\ProjectHousing;
@@ -102,59 +103,72 @@ class CartController extends Controller
         $project = $request->input('project');
 
         $cartItem = [];
-        if ($type == 'project') {
-            $project = Project::find($project);
-            $projectHousing = ProjectHousing::where('project_id', $project->id)
-                ->where('room_order', $id)
-                ->whereIn('key', ['Fiyat', 'Kapak Resmi'])
-                ->get()
-                ->keyBy('key');
-
-            $price = $projectHousing['Fiyat']->value;
-            $image = $projectHousing['Kapak Resmi']->value;
-            $cartItem = [
-                'id' => $project->id,
-                'housing' => $id,
-                'city' => $project->city->title,
-                'address' => $project->address,
-                'title' => $project->project_title,
-                'price' => $price,
-                'image' => asset('project_housing_images/' . $image),
-            ];
-        } else if ($type == 'housing') {
-            $housing = Housing::find($id);
-            $housingData = json_decode($housing->housing_type_data);
-
-            $cartItem = [
-                'id' => $housing->id,
-                'city' => $housing->city['title'],
-                'address' => $housing->address,
-                'title' => $housing->title,
-                'price' => $housingData->price[0],
-                'image' => asset('housing_images/' . $housingData->images[0]),
-            ];
-
-        }
-        // Find the product in the database
-
-        if (!$cartItem) {
-            return response(['message' => 'fail']);
-        }
 
         $cart = $request->session()->get('cart', []); // Get cart data from session
 
-        // Eğer sepeti temizlemeyi onaylamışsa, mevcut sepeti temizleyin
-        if ($request->input('clear_cart') === 'yes') {
+        http_response_code(500);
+        if ($cart && (($type == 'housing' && $cart['item']['id'] == $id) || ($type == 'project' && $cart['item']['housing'] == $id)))
+        {
             $request->session()->forget('cart');
         }
+        else
+        {
+            if ($type == 'project') {
+                $discount_amount = Offer::where('type', 'project')->where('project_id', $project)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
+                $project = Project::find($project);
+                $projectHousing = ProjectHousing::where('project_id', $project->id)
+                    ->where('room_order', $id)
+                    ->whereIn('key', ['Fiyat', 'Kapak Resmi'])
+                    ->get()
+                    ->keyBy('key');
 
-        // Add a new product to the cart
-        $cart = [
-            'item' => $cartItem,
-            'type' => $type,
-        ];
+                $price = $projectHousing['Fiyat']->value;
+                $image = $projectHousing['Kapak Resmi']->value;
+                $cartItem = [
+                    'id' => $project->id,
+                    'housing' => $id,
+                    'city' => $project->city->title,
+                    'address' => $project->address,
+                    'title' => $project->project_title,
+                    'price' => $price,
+                    'image' => asset('project_housing_images/' . $image),
+                    'discount_amount' => $discount_amount,
+                ];
+            } else if ($type == 'housing') {
+                $discount_amount = Offer::where('type', 'housing')->where('housing_id', $id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
+                $housing = Housing::find($id);
+                $housingData = json_decode($housing->housing_type_data);
 
-        $request->session()->put('cart', $cart); // Save cart data to session
+                $cartItem = [
+                    'id' => $housing->id,
+                    'city' => $housing->city['title'],
+                    'address' => $housing->address,
+                    'title' => $housing->title,
+                    'price' => $housingData->price[0],
+                    'image' => asset('housing_images/' . $housingData->images[0]),
+                    'discount_amount' => $discount_amount,
+                ];
+
+            }
+            // Find the product in the database
+
+            if (!$cartItem) {
+                return response(['message' => 'fail']);
+            }
+
+            // Eğer sepeti temizlemeyi onaylamışsa, mevcut sepeti temizleyin
+            if ($request->input('clear_cart') === 'yes') {
+                $request->session()->forget('cart');
+            }
+
+            // Add a new product to the cart
+            $cart = [
+                'item' => $cartItem,
+                'type' => $type,
+            ];
+
+            $request->session()->put('cart', $cart); // Save cart data to session
+        }
 
         return response(['message' => 'success']);
     }

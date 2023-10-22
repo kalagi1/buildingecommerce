@@ -9,7 +9,7 @@ class Offer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'project_id', 'discount_amount', 'start_date', 'end_date', 'project_housings'];
+    protected $fillable = ['user_id', 'project_id', 'housing_id', 'type', 'discount_amount', 'start_date', 'end_date', 'project_housings'];
 
     function project()
     {

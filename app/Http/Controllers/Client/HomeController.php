@@ -7,6 +7,7 @@ use App\Models\FooterSlider;
 use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\Menu;
+use App\Models\Offer;
 use App\Models\Project;
 use App\Models\Slider;
 use App\Models\StandOutUser;
@@ -265,6 +266,8 @@ class HomeController extends Controller
         $obj = $obj->paginate($itemPerPage);
 
         return response()->json($obj->through(function ($item) use ($request) {
+            $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
+
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
                 'housing_type_title' => $item->housing_type_title,
@@ -276,10 +279,11 @@ class HomeController extends Controller
                 'created_at' => $item->created_at,
                 'housing_type' =>
                 [
+                    'has_discount' => $discount_amount > 0,
                     'title' => $item->housing_type->title,
                     'room_count' => getData($item, 'room_count'),
                     'squaremeters' => getData($item, 'squaremeters'),
-                    'price' => getData($item, 'price'),
+                    'price' => getData($item, 'price') - $discount_amount,
                     'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
                 ],
             ];
