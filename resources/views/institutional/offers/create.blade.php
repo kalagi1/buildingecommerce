@@ -36,18 +36,34 @@
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-6">
+                                            <label for="#" class="form-label">Türü</label>
+                                            <select class="form-control" name="type" id="type">
+                                                <option value="housing">Konut</option>
+                                                <option value="project">Proje</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 item-housing">
+                                            <label class="form-label">Konut</label>
+                                            <select name="housing_id" id="housing_id" class="form-control">
+                                                <option value="#" selected disabled></option>
+                                                @foreach ($housings as $housing)
+                                                    <option value="{{ $housing->id }}">{{ $housing->title }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-12 item-project" style="display: none;">
                                             <label class="form-label" for="validationCustom01">Proje</label>
-                                            <select name="project_id" class="form-control" id="project_id" required>
+                                            <select name="project_id" class="form-control" id="project_id">
                                                 <option value="#" selected disabled></option>
                                                 @foreach($projects as $project)
                                                     <option value="{{$project->id}}">{{$project->project_title}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-12">
+                                        <div class="col-12 item-project" style="display: none;">
                                             <label class="form-label" for="validationCustom01">Projeye Ait Konutlar</label>
                                             <a href="#" class="small float-right" id="select-all-ph">Projenin Tüm Konutları</a>
-                                            <select name="project_housings[]" class="form-control" id="project_housings" multiple required>
+                                            <select name="project_housings[]" class="form-control" id="project_housings" multiple>
                                             </select>
                                         </div>
                                         <div class="col-md-6">
@@ -77,6 +93,22 @@
 @endsection
 @section('scripts')
     <script>
+        $('#type').on('change', function()
+        {
+            switch ($(this).val())
+            {
+                case "housing":
+                    $('.item-housing').slideDown();
+                    $('.item-project').slideUp();
+                    break;
+
+                case "project":
+                    $('.item-housing').slideUp();
+                    $('.item-project').slideDown();
+                    break;
+            }
+        });
+
         $('#select-all-ph').on('click', function()
         {
             $('#project_housings option').prop('selected', true);

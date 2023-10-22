@@ -72,6 +72,7 @@
                             @endforeach
                             @foreach ($projectFavorites as $key => $item)
                                 @php($data = $item->projectHousing->pluck('value', 'key')->toArray())
+                                @php($discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
                                 <tr>
                                     <td class="image myelist">
                                         <a
@@ -92,7 +93,7 @@
                                         </div>
                                     </td>
                                     <td> {{ $item->project->address }}</td>
-                                    <td> {{ $data['Fiyat'] }}₺</td>
+                                    <td> {{ $data['Fiyat'] - $discount_amount }}₺</td>
                                     <td>
                                         <button class="addToCart"
                                             style="width: 120px; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"

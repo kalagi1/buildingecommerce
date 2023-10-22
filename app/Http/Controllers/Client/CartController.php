@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Housing;
+use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Project;
 use App\Models\ProjectHousing;
@@ -113,6 +114,7 @@ class CartController extends Controller
         else
         {
             if ($type == 'project') {
+                $discount_amount = Offer::where('type', 'project')->where('project_id', $project)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
                 $project = Project::find($project);
                 $projectHousing = ProjectHousing::where('project_id', $project->id)
                     ->where('room_order', $id)
@@ -130,8 +132,10 @@ class CartController extends Controller
                     'title' => $project->project_title,
                     'price' => $price,
                     'image' => asset('project_housing_images/' . $image),
+                    'discount_amount' => $discount_amount,
                 ];
             } else if ($type == 'housing') {
+                $discount_amount = Offer::where('type', 'housing')->where('housing_id', $id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
                 $housing = Housing::find($id);
                 $housingData = json_decode($housing->housing_type_data);
 
@@ -142,6 +146,7 @@ class CartController extends Controller
                     'title' => $housing->title,
                     'price' => $housingData->price[0],
                     'image' => asset('housing_images/' . $housingData->images[0]),
+                    'discount_amount' => $discount_amount,
                 ];
 
             }

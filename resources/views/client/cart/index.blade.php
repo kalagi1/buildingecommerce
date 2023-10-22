@@ -38,7 +38,7 @@
                                     </div>
                                 </td>
                                 <td> {{ $cart['item']['city'] }}</td>
-                                <td> {{ $cart['item']['price'] }}</td>
+                                <td> {{ $cart['item']['price'] - $cart['item']['discount_amount'] }}</td>
                                 <td class="actions">
                                     <a href="#" class="remove-from-cart" style="float: left"><i
                                             class="far fa-trash-alt"></i></a>
@@ -65,10 +65,10 @@
                                 @else
                                     <ul>
                                         <li>Ürün Fiyatı<strong
-                                                class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'])), 2, ',', '.') }}
+                                                class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])), 2, ',', '.') }}
                                                 TL</strong></li>
                                         <li>%1'si<strong
-                                                class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'])) * 0.01, 2, ',', '.') }}
+                                                class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 2, ',', '.') }}
                                                 TL</strong></li>
                                     </ul>
                                 @endif

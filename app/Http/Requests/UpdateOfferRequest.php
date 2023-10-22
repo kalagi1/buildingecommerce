@@ -24,14 +24,16 @@ class UpdateOfferRequest extends FormRequest
     {
         return [
             'discount_amount' => 'required|integer|min:0',
+            'type' => 'required|in:housing,project',
+            'housing_id' => 'required_if:type,housing|exists:housings,id',
             'project_id' => 
             [
-                'required',
+                'required_if:type,project',
                 'exists:projects,id',
                 new OfferProjectBelongsTo,
             ],
-            'project_housings' => 'required|array',
-            'project_housings.*' => 'required|integer',
+            'project_housings' => 'array',
+            'project_housings.*' => 'integer',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
         ];

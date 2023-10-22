@@ -73,7 +73,7 @@
         }
     }
     @endphp
-    
+
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container recently-slider">
 
@@ -195,6 +195,8 @@
             <div class="mobile-show">
                 @foreach ($finishProjects as $project)
                     @for ($i = 0; $i < $project->room_count; $i++)
+                        @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
+                        @php($discount_amount = App\Models\Offer::where('type', 'housing')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex border-bottom" style="padding-right:0; width: 156px;">
                                 <div class="project-inner project-head">
@@ -237,7 +239,7 @@
                                                 <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px" height="24px" style="width: 24px !important; height: 24px !important;"/>
                                             </button>
                                         </div>
-                                        <span class="ml-auto text-primary"> {{ getHouse($project, 'price[]', $i + 1)->value }} TL</span>
+                                        <span class="ml-auto text-primary"> {{ getHouse($project, 'price[]', $i + 1)->value - $discount_amount }} TL</span>
                                     </div>
                                 </div>
                             </div>
@@ -253,6 +255,8 @@
                             <div class="row project-filter-reverse blog-pots finish-projects-web">
                                 @foreach ($finishProjects as $project)
                                     @for ($i = 0; $i < $project->room_count; $i++)
+                                        @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
+                                        @php($discount_amount = App\Models\Offer::where('type', 'housing')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <a class="text-decoration-none" href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                                 <div class="landscapes">
@@ -319,7 +323,7 @@
                                                             style="display: flex; justify-content: space-between;margin-top:20px !important;">
                                                             <li
                                                                 style="font-size: large; font-weight: 700;width:100%;white-space:nowrap">
-                                                                {{ getHouse($project, 'price[]', $i + 1)->value }} TL
+                                                                {{ getHouse($project, 'price[]', $i + 1)->value - $discount_amount}} TL
                                                             </li>
                                                             <li style="display: flex; justify-content: right;width:100%">
                                                                 {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
@@ -365,6 +369,8 @@
             <div class="mobile-show">
                 @foreach ($continueProjects as $project)
                     @for ($i = 0; $i < $project->room_count; $i++)
+                        @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
+                        @php($discount_amount = App\Models\Offer::where('type', 'housing')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex border-bottom" style="padding-right:0; width: 156px;">
                                 <div class="project-inner project-head">
@@ -407,7 +413,7 @@
                                                 <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px" height="24px" style="width: 24px !important; height: 24px !important;"/>
                                             </button>
                                         </div>
-                                        <span class="ml-auto text-primary"> {{ getHouse($project, 'price[]', $i + 1)->value }} TL</span>
+                                        <span class="ml-auto text-primary"> {{ getHouse($project, 'price[]', $i + 1)->value - $discount_amount }} TL</span>
                                     </div>
                                 </div>
                             </div>
@@ -423,6 +429,8 @@
                             <div class="row project-filter-reverse blog-pots continue-projects-web">
                                 @foreach ($continueProjects as $project)
                                     @for ($i = 0; $i < $project->room_count; $i++)
+                                        @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
+                                        @php($discount_amount = App\Models\Offer::where('type', 'housing')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <a href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}" class="text-decoration-none">
                                             <div class="landscapes">
@@ -484,7 +492,7 @@
                                                             style="display: flex; justify-content: space-between;margin-top:20px !important;">
                                                             <li
                                                                 style="font-size: large; font-weight: 700;width:100%; white-space:nowrap">
-                                                                {{ getHouse($project, 'price[]', $i + 1)->value }} TL
+                                                                {{ getHouse($project, 'price[]', $i + 1)->value - $discount_amount }} TL
                                                             </li>
                                                             <li style="display: flex; justify-content: right;width:100%">
                                                                 {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
@@ -527,6 +535,7 @@
             </div>
             <div class="mobile-show">
                 @foreach ($secondhandHousings as $project)
+                    @php($discount_amount = App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
                     <div class="d-flex" style="flex-wrap: nowrap">
                         <div class="align-items-center d-flex border-bottom" style="padding-right:0; width: 156px;">
                             <div class="project-inner project-head">
@@ -534,7 +543,6 @@
                                         href="{{ route('housing.show', [$project->id]) }}">
                                     <div class="homes">
                                         <!-- homes img -->
-
                                         <div class="homes-img h-100 d-flex align-items-center" style="width: 156px; height: 128px;">
                                             <img src="{{ URL::to('/') . '/housing_images/' . json_decode($project->housing_type_data)->image }}"
                                                  alt="{{ $project->title }}" class="img-responsive" style="height: 100% !important;">
@@ -568,7 +576,7 @@
                                             <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px" height="24px" style="width: 24px !important; height: 24px !important;"/>
                                         </button>
                                     </div>
-                                    <span class="ml-auto text-primary"> {{ json_decode($project->housing_type_data)->price[0] ?? '?' }} TL</span>
+                                    <span class="ml-auto text-primary"> {{ json_decode($project->housing_type_data)->price[0] - $discount_amount }} TL</span>
                                 </div>
                             </div>
                         </div>
@@ -583,6 +591,7 @@
                             <div class="container">
                             <div class="row project-filter-reverse blog-pots secondhand-housings-web">
                                 @foreach ($secondhandHousings as $project)
+                                    @php($discount_amount = App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
                                     <div data-aos="fade-up" data-aos-delay="150">
                                             <div class="landscapes">
                                                 <div class="project-single">
@@ -641,7 +650,7 @@
                                                             style="display: flex; justify-content: space-between;margin-top:20px !important;">
                                                             <li
                                                                     style="font-size: large; font-weight: 700;width:100%; white-space:nowrap">
-                                                                {{ json_decode($project->housing_type_data)->price[0] ?? null  }} TL
+                                                                {{ json_decode($project->housing_type_data)->price[0] - $discount_amount  }} TL
                                                             </li>
                                                             <li style="display: flex; justify-content: right;width:100%">
                                                                 {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
