@@ -10,70 +10,69 @@
             float: left;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css"
+        integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     @php
-    if (!function_exists('convertMonthToTurkishCharacter'))
-    {
-        function convertMonthToTurkishCharacter($date)
-        {
-            $aylar = [
-                'January' => 'Ocak',
-                'February' => 'Şubat',
-                'March' => 'Mart',
-                'April' => 'Nisan',
-                'May' => 'Mayıs',
-                'June' => 'Haziran',
-                'July' => 'Temmuz',
-                'August' => 'Ağustos',
-                'September' => 'Eylül',
-                'October' => 'Ekim',
-                'November' => 'Kasım',
-                'December' => 'Aralık',
-                'Monday' => 'Pazartesi',
-                'Tuesday' => 'Salı',
-                'Wednesday' => 'Çarşamba',
-                'Thursday' => 'Perşembe',
-                'Friday' => 'Cuma',
-                'Saturday' => 'Cumartesi',
-                'Sunday' => 'Pazar',
-                'Jan' => 'Oca',
-                'Feb' => 'Şub',
-                'Mar' => 'Mar',
-                'Apr' => 'Nis',
-                'May' => 'May',
-                'Jun' => 'Haz',
-                'Jul' => 'Tem',
-                'Aug' => 'Ağu',
-                'Sep' => 'Eyl',
-                'Oct' => 'Eki',
-                'Nov' => 'Kas',
-                'Dec' => 'Ara',
-            ];
-            return strtr($date, $aylar);
+        if (!function_exists('convertMonthToTurkishCharacter')) {
+            function convertMonthToTurkishCharacter($date)
+            {
+                $aylar = [
+                    'January' => 'Ocak',
+                    'February' => 'Şubat',
+                    'March' => 'Mart',
+                    'April' => 'Nisan',
+                    'May' => 'Mayıs',
+                    'June' => 'Haziran',
+                    'July' => 'Temmuz',
+                    'August' => 'Ağustos',
+                    'September' => 'Eylül',
+                    'October' => 'Ekim',
+                    'November' => 'Kasım',
+                    'December' => 'Aralık',
+                    'Monday' => 'Pazartesi',
+                    'Tuesday' => 'Salı',
+                    'Wednesday' => 'Çarşamba',
+                    'Thursday' => 'Perşembe',
+                    'Friday' => 'Cuma',
+                    'Saturday' => 'Cumartesi',
+                    'Sunday' => 'Pazar',
+                    'Jan' => 'Oca',
+                    'Feb' => 'Şub',
+                    'Mar' => 'Mar',
+                    'Apr' => 'Nis',
+                    'May' => 'May',
+                    'Jun' => 'Haz',
+                    'Jul' => 'Tem',
+                    'Aug' => 'Ağu',
+                    'Sep' => 'Eyl',
+                    'Oct' => 'Eki',
+                    'Nov' => 'Kas',
+                    'Dec' => 'Ara',
+                ];
+                return strtr($date, $aylar);
+            }
         }
-    }
 
-    if (!function_exists('getData'))
-    {
-        function getData($housing, $key)
-        {
-            $housing_type_data = json_decode($housing->housing_type_data);
-            $a = $housing_type_data->$key;
-            return $a[0];
+        if (!function_exists('getData')) {
+            function getData($housing, $key)
+            {
+                $housing_type_data = json_decode($housing->housing_type_data);
+                $a = $housing_type_data->$key;
+                return $a[0];
+            }
         }
-    }
 
-    if (!function_exists('getImage'))
-    {
-        function getImage($housing, $key)
-        {
-            $housing_type_data = json_decode($housing->housing_type_data);
-            $a = $housing_type_data->$key;
-            return $a;
+        if (!function_exists('getImage')) {
+            function getImage($housing, $key)
+            {
+                $housing_type_data = json_decode($housing->housing_type_data);
+                $a = $housing_type_data->$key;
+                return $a;
+            }
         }
-    }
     @endphp
-    
+
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container recently-slider">
 
@@ -180,8 +179,7 @@
                 </div>
             </div>
             @php
-                if (!function_exists('getHouse'))
-                {
+                if (!function_exists('getHouse')) {
                     function getHouse($project, $key, $roomOrder)
                     {
                         foreach ($project->roomInfo as $room) {
@@ -196,23 +194,25 @@
                 @foreach ($finishProjects as $project)
                     @for ($i = 0; $i < $project->room_count; $i++)
                         <div class="d-flex" style="flex-wrap: nowrap">
-                            <div class="align-items-center d-flex border-bottom" style="padding-right:0; width: 156px;">
+                            <div class="align-items-center d-flex" style="padding-right:0; width: 130px;">
                                 <div class="project-inner project-head">
                                     <a
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <div class="homes">
                                             <!-- homes img -->
 
-                                            <div class="homes-img h-100 d-flex align-items-center" style="width: 156px; height: 128px;">
+                                            <div class="homes-img h-100 d-flex align-items-center"
+                                                style="width: 130px; height: 128px;">
                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
-                                                     alt="{{ $project->housingType->title }}" class="img-responsive" style="height: 100% !important;">
+                                                    alt="{{ $project->housingType->title }}" class="img-responsive"
+                                                    style="height: 100% !important;">
                                             </div>
                                         </div>
                                     </a>
                                 </div>
                             </div>
-                            <div class="w-100" style="height: 128px; padding-left:0">
-                                <div class="border-bottom bg-white p-3 h-100 d-flex flex-column justify-content-center" style="padding:20px !important">
+                            <div class="w-100" style="padding-left:0;margin-top:10px">
+                                <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                     <a style="text-decoration: none"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
@@ -226,22 +226,43 @@
                                     <div class="d-flex">
                                         <div class="d-flex" style="gap: 8px;">
                                             <a href="#" class="btn toggle-project-favorite"
-                                               data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"  style="color: white;"
-                                               data-project-id="{{ $project->id }}">
+                                                data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                style="color: white;" data-project-id="{{ $project->id }}">
                                                 <i class="fa fa-heart"></i>
                                             </a>
                                             <button class="addToCart mobile px-2"
-                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                                    data-type='project' data-project='{{ $project->id }}'
-                                                    data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
-                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px" height="24px" style="width: 24px !important; height: 24px !important;"/>
+                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                data-type='project' data-project='{{ $project->id }}'
+                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
+                                                    height="24px"
+                                                    style="width: 24px !important; height: 24px !important;" />
                                             </button>
                                         </div>
-                                        <span class="ml-auto text-primary"> {{ getHouse($project, 'price[]', $i + 1)->value }} TL</span>
+                                        <span class="ml-auto text-primary priceFont">
+                                            {{ getHouse($project, 'price[]', $i + 1)->value }} TL</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
+                            <ul class="d-flex justify-content-around align-items-center h-100"
+                                style="list-style: none;padding:0;font-weight:600">
+                                <li class="d-flex align-items-center">
+                                    <i class="fa fa-circle circleIcon"></i>
+                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }} {{ '. Daire' }}
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <i class="fa fa-circle circleIcon"></i>
+                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }} m2
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <i class="fa fa-circle circleIcon"></i>
+                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
+                                </li>
+                            </ul>
+                        </div>
+                        <hr>
                     @endfor
                 @endforeach
             </div>
@@ -254,10 +275,11 @@
                                 @foreach ($finishProjects as $project)
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         <div data-aos="fade-up" data-aos-delay="150">
-                                            <a class="text-decoration-none" href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+                                            <a class="text-decoration-none"
+                                                href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                                 <div class="landscapes">
-                                                <div class="project-single">
-                                                    <div class="project-inner project-head">
+                                                    <div class="project-single">
+                                                        <div class="project-inner project-head">
                                                             <div class="homes">
                                                                 <!-- homes img -->
 
@@ -272,70 +294,74 @@
                                                                         class="img-responsive">
                                                                 </div>
                                                             </div>
-                                                        <div class="button-effect">
-                                                            <span class="btn toggle-project-favorite"
-                                                                data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
-                                                                data-project-id={{ $project->id }}>
-                                                                <i class="fa fa-heart"></i>
+                                                            <div class="button-effect">
+                                                                <span class="btn toggle-project-favorite"
+                                                                    data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                    data-project-id={{ $project->id }}>
+                                                                    <i class="fa fa-heart"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <!-- homes content -->
+                                                        <div class="homes-content p-3">
+
+                                                            <span style="text-decoration: none">
+                                                                <h3>{{ $project->project_title }} Projesinde
+                                                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
+                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
+                                                                </h3>
+
+                                                                <p class="homes-address mb-3">
+
+
+                                                                    <i
+                                                                        class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
+
+                                                                </p>
+
                                                             </span>
+                                                            <!-- homes List -->
+                                                            <ul class="homes-list clearfix pb-0"
+                                                                style="display: flex;justify-content:space-between">
+                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                    <i class="flaticon-bed mr-2" aria-hidden="true"></i>
+                                                                    <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
+                                                                </li>
+                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                    <i class="flaticon-bathtub mr-2"
+                                                                        aria-hidden="true"></i>
+                                                                    <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}.Kat</span>
+                                                                </li>
+                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                    <i class="flaticon-square mr-2"
+                                                                        aria-hidden="true"></i>
+                                                                    <span>{{ getHouse($project, 'squaremeters[]', $i + 1)->value }}
+                                                                        m2</span>
+                                                                </li>
+                                                            </ul>
+                                                            <ul class="homes-list clearfix pb-0"
+                                                                style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                                <li
+                                                                    style="font-size: large; font-weight: 700;width:100%;white-space:nowrap">
+                                                                    {{ getHouse($project, 'price[]', $i + 1)->value }} TL
+                                                                </li>
+                                                                <li
+                                                                    style="display: flex; justify-content: right;width:100%">
+                                                                    {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
+                                                                </li>
+                                                            </ul>
+                                                            <ul class="homes-list clearfix pb-0"
+                                                                style="display: flex; justify-content: center;margin-top:20px !important;">
+                                                                <button class="addToCart"
+                                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                                    data-type='project'
+                                                                    data-project='{{ $project->id }}'
+                                                                    data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
+                                                                    Ekle</button>
+                                                            </ul>
                                                         </div>
                                                     </div>
-                                                    <!-- homes content -->
-                                                    <div class="homes-content p-3" style="padding:20px !important">
-
-                                                        <span style="text-decoration: none">
-                                                            <h3>{{ $project->project_title }} Projesinde
-                                                                {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                                            </h3>
-
-                                                            <p class="homes-address mb-3">
-
-
-                                                                <i
-                                                                    class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
-
-                                                            </p>
-
-                                                        </span>
-                                                        <!-- homes List -->
-                                                        <ul class="homes-list clearfix pb-0"
-                                                            style="display: flex;justify-content:space-between">
-                                                            <li class="sude-the-icons" style="width:auto !important">
-                                                                <i class="flaticon-bed mr-2" aria-hidden="true"></i>
-                                                                <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
-                                                            </li>
-                                                            <li class="sude-the-icons" style="width:auto !important">
-                                                                <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
-                                                                <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}.Kat</span>
-                                                            </li>
-                                                            <li class="sude-the-icons" style="width:auto !important">
-                                                                <i class="flaticon-square mr-2" aria-hidden="true"></i>
-                                                                <span>{{ getHouse($project, 'squaremeters[]', $i + 1)->value }}
-                                                                    m2</span>
-                                                            </li>
-                                                        </ul>
-                                                        <ul class="homes-list clearfix pb-0"
-                                                            style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                            <li
-                                                                style="font-size: large; font-weight: 700;width:100%;white-space:nowrap">
-                                                                {{ getHouse($project, 'price[]', $i + 1)->value }} TL
-                                                            </li>
-                                                            <li style="display: flex; justify-content: right;width:100%">
-                                                                {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
-                                                            </li>
-                                                        </ul>
-                                                        <ul class="homes-list clearfix pb-0"
-                                                            style="display: flex; justify-content: center;margin-top:20px !important;">
-                                                            <button class="addToCart"
-                                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                                                data-type='project' data-project='{{ $project->id }}'
-                                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
-                                                                Ekle</button>
-                                                        </ul>
-                                                    </div>
                                                 </div>
-                                            </div>
                                             </a>
                                         </div>
                                     @endfor
@@ -366,26 +392,29 @@
                 @foreach ($continueProjects as $project)
                     @for ($i = 0; $i < $project->room_count; $i++)
                         <div class="d-flex" style="flex-wrap: nowrap">
-                            <div class="align-items-center d-flex border-bottom" style="padding-right:0; width: 156px;">
+                            <div class="align-items-center d-flex border-bottom" style="padding-right:0; width: 130px;">
                                 <div class="project-inner project-head">
                                     <a
-                                            href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+                                        href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <div class="homes">
                                             <!-- homes img -->
 
-                                            <div class="homes-img h-100 d-flex align-items-center" style="width: 156px; height: 128px;">
+                                            <div class="homes-img h-100 d-flex align-items-center"
+                                                style="width: 130px; height: 128px;">
                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
-                                                     alt="{{ $project->housingType->title }}" class="img-responsive" style="height: 100% !important;">
+                                                    alt="{{ $project->housingType->title }}" class="img-responsive"
+                                                    style="height: 100% !important;">
                                             </div>
                                         </div>
                                     </a>
                                 </div>
                             </div>
                             <div class="w-100" style="height: 128px; padding-left:0">
-                                <div class="border-bottom bg-white p-3 h-100 d-flex flex-column justify-content-center" style="padding:20px !important">
+                                <div class="border-bottom bg-white p-3 h-100 d-flex flex-column justify-content-center"
+                                    style="padding:20px !important">
 
                                     <a style="text-decoration: none"
-                                       href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+                                        href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h4>{{ $project->project_title }} Projesinde
                                             {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
                                             {{ getHouse($project, 'room_count[]', $i + 1)->value }}
@@ -396,18 +425,21 @@
                                     <div class="d-flex">
                                         <div class="d-flex" style="gap: 8px;">
                                             <a href="#" class="btn toggle-project-favorite"
-                                               data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
-                                               data-project-id="{{ $project->id }}" style="color: white;">
+                                                data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                data-project-id="{{ $project->id }}" style="color: white;">
                                                 <i class="fa fa-heart"></i>
                                             </a>
                                             <button class="addToCart mobile px-2"
-                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                                    data-type='project' data-project='{{ $project->id }}'
-                                                    data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
-                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px" height="24px" style="width: 24px !important; height: 24px !important;"/>
+                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                data-type='project' data-project='{{ $project->id }}'
+                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
+                                                    height="24px"
+                                                    style="width: 24px !important; height: 24px !important;" />
                                             </button>
                                         </div>
-                                        <span class="ml-auto text-primary"> {{ getHouse($project, 'price[]', $i + 1)->value }} TL</span>
+                                        <span class="ml-auto text-primary priceFont">
+                                            {{ getHouse($project, 'price[]', $i + 1)->value }} TL</span>
                                     </div>
                                 </div>
                             </div>
@@ -424,84 +456,90 @@
                                 @foreach ($continueProjects as $project)
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         <div data-aos="fade-up" data-aos-delay="150">
-                                            <a href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}" class="text-decoration-none">
-                                            <div class="landscapes">
-                                                <div class="project-single">
-                                                    <div class="project-inner project-head">
-                                                        <div class="homes">
-                                                            <!-- homes img -->
-                                                            <div class="homes-img">
-                                                                <div class="homes-tag button sale rent"
-                                                                    style="background-color:#ff5a5f !important">Öne Çıkan
+                                            <a href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}"
+                                                class="text-decoration-none">
+                                                <div class="landscapes">
+                                                    <div class="project-single">
+                                                        <div class="project-inner project-head">
+                                                            <div class="homes">
+                                                                <!-- homes img -->
+                                                                <div class="homes-img">
+                                                                    <div class="homes-tag button sale rent"
+                                                                        style="background-color:#ff5a5f !important">Öne
+                                                                        Çıkan
+                                                                    </div>
+                                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
+                                                                        alt="{{ $project->housingType->title }}"
+                                                                        class="img-responsive">
                                                                 </div>
-                                                                <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
-                                                                    alt="{{ $project->housingType->title }}"
-                                                                    class="img-responsive">
+                                                            </div>
+                                                            <div class="button-effect">
+                                                                <span class="btn toggle-project-favorite"
+                                                                    data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                    data-project-id={{ $project->id }}>
+                                                                    <i class="fa fa-heart"></i>
+                                                                </span>
                                                             </div>
                                                         </div>
-                                                        <div class="button-effect">
-                                                            <span class="btn toggle-project-favorite"
-                                                                data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
-                                                                data-project-id={{ $project->id }}>
-                                                                <i class="fa fa-heart"></i>
+                                                        <!-- homes content -->
+                                                        <div class="homes-content p-3" style="padding:20px !important">
+                                                            <span style="text-decoration: none">
+                                                                <h3>{{ $project->project_title }} Projesinde
+                                                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
+                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
+                                                                </h3>
+
+                                                                <p class="homes-address mb-3">
+
+
+                                                                    <i
+                                                                        class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
+
+                                                                </p>
                                                             </span>
+                                                            <!-- homes List -->
+                                                            <ul class="homes-list clearfix pb-0"
+                                                                style="display: flex;justify-content:space-between">
+                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                    <i class="flaticon-bed mr-2" aria-hidden="true"></i>
+                                                                    <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
+                                                                </li>
+                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                    <i class="flaticon-bathtub mr-2"
+                                                                        aria-hidden="true"></i>
+                                                                    <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}.Kat</span>
+                                                                </li>
+                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                    <i class="flaticon-square mr-2"
+                                                                        aria-hidden="true"></i>
+                                                                    <span>{{ getHouse($project, 'squaremeters[]', $i + 1)->value }}
+                                                                        m2</span>
+                                                                </li>
+                                                            </ul>
+                                                            <ul class="homes-list clearfix pb-0"
+                                                                style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                                <li
+                                                                    style="font-size: large; font-weight: 700;width:100%; white-space:nowrap">
+                                                                    {{ getHouse($project, 'price[]', $i + 1)->value }} TL
+                                                                </li>
+                                                                <li
+                                                                    style="display: flex; justify-content: right;width:100%">
+                                                                    {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
+                                                                </li>
+                                                            </ul>
+                                                            <ul class="homes-list clearfix pb-0"
+                                                                style="display: flex; justify-content: center;margin-top:20px !important;">
+                                                                <button class="addToCart"
+                                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                                    data-type='project'
+                                                                    data-project='{{ $project->id }}'
+                                                                    data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
+                                                                    Ekle</button>
+                                                            </ul>
                                                         </div>
                                                     </div>
-                                                    <!-- homes content -->
-                                                    <div class="homes-content p-3" style="padding:20px !important">
-                                                        <span style="text-decoration: none">
-                                                            <h3>{{ $project->project_title }} Projesinde
-                                                                {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                                            </h3>
-
-                                                            <p class="homes-address mb-3">
-
-
-                                                                <i
-                                                                    class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
-
-                                                            </p>
-                                                        </span>
-                                                        <!-- homes List -->
-                                                        <ul class="homes-list clearfix pb-0"
-                                                            style="display: flex;justify-content:space-between">
-                                                            <li class="sude-the-icons" style="width:auto !important">
-                                                                <i class="flaticon-bed mr-2" aria-hidden="true"></i>
-                                                                <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
-                                                            </li>
-                                                            <li class="sude-the-icons" style="width:auto !important">
-                                                                <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
-                                                                <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}.Kat</span>
-                                                            </li>
-                                                            <li class="sude-the-icons" style="width:auto !important">
-                                                                <i class="flaticon-square mr-2" aria-hidden="true"></i>
-                                                                <span>{{ getHouse($project, 'squaremeters[]', $i + 1)->value }}
-                                                                    m2</span>
-                                                            </li>
-                                                        </ul>
-                                                        <ul class="homes-list clearfix pb-0"
-                                                            style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                            <li
-                                                                style="font-size: large; font-weight: 700;width:100%; white-space:nowrap">
-                                                                {{ getHouse($project, 'price[]', $i + 1)->value }} TL
-                                                            </li>
-                                                            <li style="display: flex; justify-content: right;width:100%">
-                                                                {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
-                                                            </li>
-                                                        </ul>
-                                                        <ul class="homes-list clearfix pb-0"
-                                                            style="display: flex; justify-content: center;margin-top:20px !important;">
-                                                            <button class="addToCart"
-                                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                                                data-type='project' data-project='{{ $project->id }}'
-                                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>Sepete
-                                                                Ekle</button>
-                                                        </ul>
-                                                    </div>
                                                 </div>
-                                            </div>
-                                        </a>
+                                            </a>
                                         </div>
                                     @endfor
                                 @endforeach
@@ -528,26 +566,27 @@
             <div class="mobile-show">
                 @foreach ($secondhandHousings as $project)
                     <div class="d-flex" style="flex-wrap: nowrap">
-                        <div class="align-items-center d-flex border-bottom" style="padding-right:0; width: 156px;">
+                        <div class="align-items-center d-flex border-bottom" style="padding-right:0; width: 130px;">
                             <div class="project-inner project-head">
-                                <a
-                                        href="{{ route('housing.show', [$project->id]) }}">
+                                <a href="{{ route('housing.show', [$project->id]) }}">
                                     <div class="homes">
                                         <!-- homes img -->
 
-                                        <div class="homes-img h-100 d-flex align-items-center" style="width: 156px; height: 128px;">
+                                        <div class="homes-img h-100 d-flex align-items-center"
+                                            style="width: 130px; height: 128px;">
                                             <img src="{{ URL::to('/') . '/housing_images/' . json_decode($project->housing_type_data)->image }}"
-                                                 alt="{{ $project->title }}" class="img-responsive" style="height: 100% !important;">
+                                                alt="{{ $project->title }}" class="img-responsive"
+                                                style="height: 100% !important;">
                                         </div>
                                     </div>
                                 </a>
                             </div>
                         </div>
                         <div class="w-100" style="height: 128px; padding-left:0">
-                            <div class="border-bottom bg-white p-3 h-100 d-flex flex-column justify-content-center" style="padding:20px !important">
+                            <div class="border-bottom bg-white p-3 h-100 d-flex flex-column justify-content-center"
+                                style="padding:20px !important">
 
-                                <a style="text-decoration: none"
-                                   href="{{ route('housing.show', [$project->id]) }}">
+                                <a style="text-decoration: none" href="{{ route('housing.show', [$project->id]) }}">
                                     <h4>{{ $project->title }}
                                         {{ json_decode($project->housing_type_data)->squaremeters[0] ?? '?' }}m2
                                         {{ json_decode($project->housing_type_data)->room_count[0] ?? '?' }}
@@ -558,22 +597,22 @@
                                 <div class="d-flex">
                                     <div class="d-flex" style="gap: 8px;">
                                         <a href="#" class="btn toggle-favorite"
-                                           data-housing-id="{{ $project->id }}" style="color: white;">
+                                            data-housing-id="{{ $project->id }}" style="color: white;">
                                             <i class="fa fa-heart"></i>
                                         </a>
                                         <button class="addToCart mobile px-2"
-                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                                data-type='housing'
-                                                data-id='{{ $project->id }}'>
-                                            <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px" height="24px" style="width: 24px !important; height: 24px !important;"/>
+                                            style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                            data-type='housing' data-id='{{ $project->id }}'>
+                                            <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
+                                                height="24px" style="width: 24px !important; height: 24px !important;" />
                                         </button>
                                     </div>
-                                    <span class="ml-auto text-primary"> {{ json_decode($project->housing_type_data)->price[0] ?? '?' }} TL</span>
+                                    <span class="ml-auto text-primary priceFont">
+                                        {{ json_decode($project->housing_type_data)->price[0] ?? '?' }} TL</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 @endforeach
             </div>
             <div class="mobile-hidden">
@@ -581,28 +620,27 @@
                     <section class="properties-right list featured portfolio blog  pb-5 bg-white">
                         <a href="{{ route('housing.show', [$project->id]) }}" class="text-decoration-none">
                             <div class="container">
-                            <div class="row project-filter-reverse blog-pots secondhand-housings-web">
-                                @foreach ($secondhandHousings as $project)
-                                    <div data-aos="fade-up" data-aos-delay="150">
+                                <div class="row project-filter-reverse blog-pots secondhand-housings-web">
+                                    @foreach ($secondhandHousings as $project)
+                                        <div data-aos="fade-up" data-aos-delay="150">
                                             <div class="landscapes">
                                                 <div class="project-single">
                                                     <div class="project-inner project-head">
                                                         <div class="homes">
                                                             <!-- homes img -->
 
-                                                            <div
-                                                               class="homes-img">
+                                                            <div class="homes-img">
                                                                 <div class="homes-tag button sale rent"
-                                                                     style="background-color:#ff5a5f !important">Öne Çıkan
+                                                                    style="background-color:#ff5a5f !important">Öne Çıkan
                                                                 </div>
                                                                 <img src="{{ URL::to('/') . '/housing_images/' . json_decode($project->housing_type_data)->image }}"
-                                                                     alt="Housing {{ $project->id }}"
-                                                                     class="img-responsive">
+                                                                    alt="Housing {{ $project->id }}"
+                                                                    class="img-responsive">
                                                             </div>
                                                         </div>
                                                         <div class="button-effect">
                                                             <span class="btn toggle-favorite"
-                                                               data-housing-id={{ $project->id }}>
+                                                                data-housing-id={{ $project->id }}>
                                                                 <i class="fa fa-heart"></i>
                                                             </span>
                                                         </div>
@@ -616,7 +654,8 @@
                                                             <p class="homes-address mb-3">
 
 
-                                                                <i class="fa fa-map-marker"></i> <span>{{ $project->address }}</span>
+                                                                <i class="fa fa-map-marker"></i>
+                                                                <span>{{ $project->address }}</span>
 
                                                             </p>
                                                         </span>
@@ -633,15 +672,16 @@
                                                             </li>
                                                             <li class="sude-the-icons" style="width:auto !important">
                                                                 <i class="flaticon-square mr-2" aria-hidden="true"></i>
-                                                                <span>{{  json_decode($project->housing_type_data)->squaremeters[0] ?? null  }}
+                                                                <span>{{ json_decode($project->housing_type_data)->squaremeters[0] ?? null }}
                                                                     m2</span>
                                                             </li>
                                                         </ul>
                                                         <ul class="homes-list clearfix pb-0"
                                                             style="display: flex; justify-content: space-between;margin-top:20px !important;">
                                                             <li
-                                                                    style="font-size: large; font-weight: 700;width:100%; white-space:nowrap">
-                                                                {{ json_decode($project->housing_type_data)->price[0] ?? null  }} TL
+                                                                style="font-size: large; font-weight: 700;width:100%; white-space:nowrap">
+                                                                {{ json_decode($project->housing_type_data)->price[0] ?? null }}
+                                                                TL
                                                             </li>
                                                             <li style="display: flex; justify-content: right;width:100%">
                                                                 {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
@@ -650,17 +690,17 @@
                                                         <ul class="homes-list clearfix pb-0"
                                                             style="display: flex; justify-content: center;margin-top:20px !important;">
                                                             <button class="addToCart"
-                                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                                                    data-type='housing' data-id='{{ $project->id }}'>Sepete
+                                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                                data-type='housing' data-id='{{ $project->id }}'>Sepete
                                                                 Ekle</button>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                @endforeach
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
                         </a>
                     </section>
                 @else
@@ -812,26 +852,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $('.finish-projects-web').slick({
-            loop:true,
-            nav:false,
+            loop: true,
+            nav: false,
             slidesToShow: 4,
-            margin:10,
+            margin: 10,
         })
 
         $('.continue-projects-web').slick({
-            loop:true,
-            nav:false,
+            loop: true,
+            nav: false,
             slidesToShow: 4,
-            margin:10,
+            margin: 10,
         })
 
-        $('.secondhand-housings-web').slick(
-            {
-                loop:true,
-                nav:false,
-                slidesToShow: 4,
-                margin:10,
-            }
-        );
+        $('.secondhand-housings-web').slick({
+            loop: true,
+            nav: false,
+            slidesToShow: 4,
+            margin: 10,
+        });
     </script>
+@endsection
+
+@section('styles')
+    <style>
+        @media (max-width: 768px) {
+            .section-title {
+                margin-bottom: 20px !important;
+                padding-bottom: 0 !important;
+            }
+
+            .circleIcon {
+                font-size: 5px;
+                color: #446BB6;
+                padding-right: 5px
+            }
+
+            .priceFont {
+                font-weight: 600;
+                font-size: 18px;
+            }
+        }
+    </style>
 @endsection
