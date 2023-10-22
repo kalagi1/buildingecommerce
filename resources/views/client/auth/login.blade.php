@@ -143,44 +143,6 @@
                                         </div>
 
                                         <div class="individual-form" id="individualForm">
-
-
-                                            <div class="mt-3">
-                                                <label for="" class="q-label">Abonelik Planı</label>
-                                                <div class="owl-carousel">
-                                                    @foreach ($subscriptionPlans_bireysel as $plan)
-                                                        <div class="item">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <label for=""
-                                                                        class="q-label">{{ $plan->name }}</label>
-
-                                                                    <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:#446BB6">{{ $plan->price }}
-                                                                            TL</span></label>
-
-                                                                    <label for="" class="q-label">Konut Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:#446BB6">{{ $plan->housing_limit }}
-                                                                        </span></label>
-
-                                                                </div>
-                                                                <div class="card-footer">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-block plan-button"
-                                                                        data-plan-id="{{ $plan->id }}"
-                                                                        data-plan-name="{{ $plan->name }}"
-                                                                        data-plan-price="{{ $plan->price }}"
-                                                                        onclick="selectPlan(this)">
-                                                                        Seç
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
                                             {{--
                                             <div class="form-group custom-control custom-checkbox mt-3">
                                                 <input type="checkbox" name="check" class="custom-control-input" id="exampleCheck3"

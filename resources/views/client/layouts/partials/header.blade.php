@@ -252,6 +252,21 @@
                                                         @endif
                                                         {{ $childItem['text'] }}
                                                     </a>
+                                                    @if ($childItem['children'] && count($childItem['children']) > 0)
+                                                    <ul>
+                                                        @foreach ($childItem['children'] as $subChildItem)
+                                                            <li>
+                                                                <a href="{{$subChildItem['href']}}">
+                                                                    @if (!empty($subChildItem['icon']))
+                                                                        <i class="{{ $subChildItem['icon'] }}"></i>
+                                                                        <!-- İkonu eklemek için -->
+                                                                    @endif
+                                                                    {{ $subChildItem['text'] }}
+                                                                </a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                    @endif
                                                 </li>
                                             @endforeach
                                         </ul>
