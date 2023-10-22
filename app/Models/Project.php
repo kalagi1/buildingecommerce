@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Project extends Model
 {
@@ -68,9 +69,12 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'project_favorites', 'project_id', 'user_id');
     }
 
-
     public function housingStatus(){
         return $this->hasMany(ProjectHousingType::class,"project_id","id");
+    }
+
+    public function housingStatusIds(){
+        return $this->hasMany(ProjectHousingType::class,"project_id","id")->select(DB::raw('housing_type_id as id'));
     }
 
     public function rejectedLog(){

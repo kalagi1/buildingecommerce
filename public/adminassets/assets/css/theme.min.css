@@ -41029,3 +41029,9 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     font-size: 12.8px;
     color: var(--phoenix-gray-1100);
 }
+
+.finish-button-first {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+}
