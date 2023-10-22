@@ -253,20 +253,36 @@
                                                         {{ $childItem['text'] }}
                                                     </a>
                                                     @if ($childItem['children'] && count($childItem['children']) > 0)
-                                                        <ul>
-                                                            @foreach ($childItem['children'] as $subChildItem)
-                                                                <li>
-                                                                    <a href="{{ $subChildItem['href'] }}">
-                                                                        @if (!empty($subChildItem['icon']))
-                                                                            <i
-                                                                                class="{{ $subChildItem['icon'] }}"></i>
-                                                                            <!-- İkonu eklemek için -->
-                                                                        @endif
-                                                                        {{ $subChildItem['text'] }}
-                                                                    </a>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
+
+                                                    <ul>
+                                                        @foreach ($childItem['children'] as $subChildItem)
+                                                            <li>
+                                                                <a href="{{$subChildItem['href']}}">
+                                                                    @if (!empty($subChildItem['icon']))
+                                                                        <i class="{{ $subChildItem['icon'] }}"></i>
+                                                                        <!-- İkonu eklemek için -->
+                                                                    @endif
+                                                                    {{ $subChildItem['text'] }}
+                                                                </a>
+                                                                @if ($subChildItem['children'] && count($subChildItem['children']) > 0)
+                                                                    <ul>
+                                                                        @foreach ($subChildItem['children'] as $subofsubChildItem)
+                                                                            <li>
+                                                                                <a href="{{$subofsubChildItem['href']}}">
+                                                                                    @if (!empty($subofsubChildItem['icon']))
+                                                                                        <i class="{{ $subofsubChildItem['icon'] }}"></i>
+                                                                                        <!-- İkonu eklemek için -->
+                                                                                    @endif
+                                                                                    {{ $subofsubChildItem['text'] }}
+                                                                                </a>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                @endif
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+
                                                     @endif
                                                 </li>
                                             @endforeach

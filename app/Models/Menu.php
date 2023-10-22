@@ -25,7 +25,10 @@ class Menu extends Model
     {
         $menus = self::whereNull('parent_id')->with(['children' => function($query)
         {
-            $query->with('children');
+            $query->with(['children' => function($query)
+            {
+                $query->with('children');
+            }]);
         }])->get();
 
         $menus = $menus->map(function ($menu) {
