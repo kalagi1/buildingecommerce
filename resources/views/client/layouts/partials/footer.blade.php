@@ -445,7 +445,9 @@
                                     button.classList.add("bg-success");
 
                                     // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
-                                    button.textContent = "Sepete Eklendi";
+                                    if (!button.classList.contains("mobile"))
+                                        button.textContent = "Sepete Eklendi";
+
                                     button.disabled = true;
 
                                     // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
@@ -473,7 +475,7 @@
         updateCartButton();
 
         function updateCartButton() {
-            var addToCartButtons = document.querySelectorAll(".addToCart");
+            var addToCartButtons = document.querySelectorAll(".addToCart:not(.mobile)");
 
             addToCartButtons.forEach(function(button) {
                 var productId = button.getAttribute("data-id");
