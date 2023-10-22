@@ -17,6 +17,12 @@ class UserController extends Controller
             return redirect()->back()->with('success', 'Kullanıcı engellemesi kaldırıldı.');
         } else {
             $user->update(['is_blocked' => true]);
+
+            foreach ($user->projects as $value) {
+                $value->update([
+                    "status" => 0,
+                ]);
+            }
             return redirect()->back()->with('success', 'Kullanıcı engellendi.');
         }
     }

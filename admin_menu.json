@@ -57,7 +57,7 @@
     {
         "id": "menu",
         "label": "Yönetim",
-        "icon": "menu",
+        "icon": "list",
         "text": "Menü",
         "key": "Menus",
         "url": "admin.menu_management",
@@ -66,7 +66,7 @@
     {
         "id": "comment",
         "label": "Uygulama",
-        "icon": "message-circle",
+        "icon": "comments",
         "text": "Yorumlar",
         "key": "GetHousingComments",
         "url": "admin.housings.comments",
@@ -75,7 +75,7 @@
     {
         "id": "order",
         "label": "Uygulama",
-        "icon": "list",
+        "icon": "shopping-bag",
         "text": "Siparişler",
         "key": "GetOrders",
         "url": "admin.orders",
@@ -340,7 +340,7 @@
     {
         "id": "smtp_settings",
         "label": "Yönetim",
-        "icon": "send",
+        "icon": "envelope",
         "text": "SMTP Ayarları",
         "key": "GetSmtpSettingById",
         "url": "admin.smtp.edit",
@@ -404,7 +404,7 @@
     {
         "id": "social_media_icons",
         "label": "Yönetim",
-        "icon": "instagram",
+        "icon": "share-square",
         "text": "Sosyal Medya İkonları",
         "key": "SocialMediaIcons",
         "url": "#nv-social-media-icons",
@@ -427,7 +427,7 @@
     {
         "id": "email_templates",
         "label": "E-posta Şablonları",
-        "icon": "mail",
+        "icon": "reply",
         "text": "E-posta Şablonları",
         "key": "EmailTemplates",
         "url": "#nv-email-templates",

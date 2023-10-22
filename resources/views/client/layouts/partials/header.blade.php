@@ -72,13 +72,14 @@
     <div id="wrapper">
         <div class="slick-lancersl">
             @foreach ($adBanners as $adBanner)
-            <div class="home-top-banner d-xl-block d-none d-lg-block" style="background-color: {{ $adBanner->background_color }}">
-                <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
-            </div>
+                <div class="home-top-banner d-xl-block d-none d-lg-block"
+                    style="background-color: {{ $adBanner->background_color }}">
+                    <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
+                </div>
             @endforeach
         </div>
-        
-    
+
+
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
         ================================================== -->
@@ -202,13 +203,13 @@
                                         <span class="d-xl-block d-none d-lg-block rightNavText">Sepetim</span></a>
                                 @endif
 
-                                @if (auth()->user())
+                                @if (Auth::check() && Auth::user()->type == 2)
                                     <a href="{{ url('institutional/create_project_v2') }}"
                                         class="btn btn-primary text-white ml-3"> <i class="fa fa-plus"
-                                            style="margin-right: 5px"></i> Ücretsiz İlan Ekle</a>
+                                            style="margin-right: 5px"></i>İlan Ekle</a>
                                 @else
-                                    <a href="{{ route('client.login') }}"
-                                        class="btn btn-primary text-white ml-3">Ücretsiz İlan Ekle</a>
+                                    <a href="{{ route('client.login') }}" class="btn btn-primary text-white ml-3"><i
+                                            class="fa fa-plus" style="margin-right: 5px"></i>İlan Ekle</a>
                                 @endif
 
                             </div>
@@ -361,5 +362,3 @@
                 padding-top: 15px;
             }
         </style>
-
-     
