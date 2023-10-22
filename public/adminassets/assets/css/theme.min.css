@@ -41012,6 +41012,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     max-width: 97px;
 }
 
+
 .confirm span{
     color: green;
 }
@@ -41030,6 +41031,73 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     color: var(--phoenix-gray-1100);
 }
 
+.pop-up-v2{
+    position:fixed;
+    width:100%;
+    height:100vh;
+    left:0;
+    top:0;
+    z-index: 9999;
+}
+
+.pop-back{
+    position:absolute;
+    width: 100%;
+    height: 100vh;
+    left:0;
+    top: 0;
+    background: #333;
+    opacity: .3;
+}
+
+.pop-content{
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    left:0;
+    top: 0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pop-content-inner{
+    width: 50%;
+    background-color: white;
+    padding: 15px;
+}
+
+.choises{
+    display:flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.choise{
+    cursor: pointer;
+    width: 45%;
+    background-color: #5272F2;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    color: #fff;
+}
+
+.image-buttons{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #00000091;
+    color: #fff;
+    display: none;
+    cursor: pointer;
+}
+
+.project_imagex:hover .image-buttons{
+    display: block;
+    transition: .2s;
+}
 .finish-button-first {
     display: flex;
     justify-content: center;
