@@ -253,19 +253,20 @@
                                                         {{ $childItem['text'] }}
                                                     </a>
                                                     @if ($childItem['children'] && count($childItem['children']) > 0)
-                                                    <ul>
-                                                        @foreach ($childItem['children'] as $subChildItem)
-                                                            <li>
-                                                                <a href="{{$subChildItem['href']}}">
-                                                                    @if (!empty($subChildItem['icon']))
-                                                                        <i class="{{ $subChildItem['icon'] }}"></i>
-                                                                        <!-- İkonu eklemek için -->
-                                                                    @endif
-                                                                    {{ $subChildItem['text'] }}
-                                                                </a>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
+                                                        <ul>
+                                                            @foreach ($childItem['children'] as $subChildItem)
+                                                                <li>
+                                                                    <a href="{{ $subChildItem['href'] }}">
+                                                                        @if (!empty($subChildItem['icon']))
+                                                                            <i
+                                                                                class="{{ $subChildItem['icon'] }}"></i>
+                                                                            <!-- İkonu eklemek için -->
+                                                                        @endif
+                                                                        {{ $subChildItem['text'] }}
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
                                                     @endif
                                                 </li>
                                             @endforeach
@@ -311,6 +312,20 @@
                 padding: 5px 10px;
                 height: 100%;
                 background-color: red
+            }
+
+            @media (max-width: 768px) {
+                .cartIconBtn {
+                    padding: 2px;
+                    height: 100%;
+                    background-color: black
+                }
+
+                .cartTextBtn {
+                    padding: 2px;
+                    height: 100%;
+                    background-color: red
+                }
             }
 
             .dropdown ul {
@@ -389,6 +404,11 @@
                 border: none;
                 border-radius: 0 !important
             }
+
+            .buyUserRequestBtn:hover {
+                background: black !important
+            }
+
 
             .dropdown li:first-child a:hover::before {
                 border-bottom-color: #EEE;

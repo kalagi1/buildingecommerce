@@ -5946,7 +5946,7 @@ Version      : 1.2
     .homepage-2 .btn:hover,
     .homepage-2 .popular-places .listing-badges .featured,
     .homepage-2 .homes-tag.featured {
-        background: #446BB6 !important;
+        background: #446BB6;
     }
 
     .homepage-2 .portfolio .homes-tag.sale {
