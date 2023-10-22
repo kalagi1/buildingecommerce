@@ -99,6 +99,7 @@
                                 <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
                                         alt=""></a>
                             </div>
+
                         </div>
                         <div class="center position-relative">
                             <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
@@ -109,7 +110,7 @@
                                 style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px;">
                             </div>
                         </div>
-                        <div class="rightSide">
+                        <div class="rightSide d-xl-block d-none d-lg-block ">
                             <div class="header-widget d-flex">
                                 @if (Auth::user())
                                     @if (Auth::user()->type == 1)
@@ -203,30 +204,34 @@
                                         <span class="d-xl-block d-none d-lg-block rightNavText">Sepetim</span></a>
                                 @endif
 
-                                @if (Auth::check() && Auth::user()->type == 2)
-                                    <a href="{{ url('institutional/create_project_v2') }}">
+                                @if (Auth::check())
+                                    @if (Auth::user()->type == 2)
+                                        <a href="{{ url('institutional/create_project_v2') }}">
+                                            <button type="button" class="buyUserRequest ml-3">
+                                                <span class="buyUserRequest__text"> İlan Ekle</span>
+                                                <span class="buyUserRequest__icon">
+                                                    <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                                </span>
+                                            </button></a>
+                                    @elseif (Auth::check() && Auth::user()->type == 1)
                                         <button type="button" class="buyUserRequest ml-3">
-                                            <span class="buyUserRequest__text"> İlan Ekle</span>
+                                            <span class="buyUserRequest__text"> Sat Kirala</span>
                                             <span class="buyUserRequest__icon">
                                                 <img src="{{ asset('sc.png') }}" alt="" srcset="">
                                             </span>
-                                        </button></a>
-                                @elseif (Auth::check() && Auth::user()->type == 1)
-                                    <button type="button" class="buyUserRequest ml-3">
-                                        <span class="buyUserRequest__text"> Sat Kirala</span>
-                                        <span class="buyUserRequest__icon">
-                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                        </span>
-                                    </button>
+                                        </button>
+                                    @endif
                                 @else
                                     <a href="{{ route('client.login') }}">
                                         <button type="button" class="buyUserRequest ml-3">
-                                            <span class="buyUserRequest__text"> İlan Ekle</span>
+                                            <span class="buyUserRequest__text"> Sat Kirala</span>
                                             <span class="buyUserRequest__icon">
                                                 <img src="{{ asset('sc.png') }}" alt="" srcset="">
                                             </span>
                                         </button></a>
+
                                 @endif
+
 
                             </div>
                         </div>
@@ -327,9 +332,10 @@
 
 
         <style>
-            a{
+            a {
                 text-decoration: none !important;
             }
+
             .buyUserRequest {
                 position: relative;
                 width: 150px;
@@ -348,7 +354,7 @@
             }
 
             .buyUserRequest .buyUserRequest__text {
-                transform: translateX(10px);
+                transform: translateX(20px);
                 color: #fff;
                 font-weight: 600;
                 line-height: 14px;
@@ -405,6 +411,19 @@
             }
 
             @media (max-width: 768px) {
+                .buyUserRequest {
+                    width: 80px !important;
+                }
+
+                .buyUserRequest .buyUserRequest__text {
+                    transform: translateX(5px) !important
+                }
+
+                .buyUserRequest__icon {
+                    display: none !important;
+
+                }
+
                 .cartIconBtn {
                     padding: 2px;
                     height: 100%;

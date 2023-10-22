@@ -286,7 +286,6 @@ Version      : 1.2
         margin-bottom: 20px;
         display: flex;
         align-items: center;
-        padding-left: 35px;
         position: relative;
 
     }
@@ -295,16 +294,7 @@ Version      : 1.2
         margin-bottom: 2.5rem;
     }
 
-    .section-title:before {
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 15px;
-        content: '';
-        border-radius: 3px;
-        position: absolute;
-        background-color: #446BB6;
-    }
+  
 
     .featured .allView,
     .popular-places button {
@@ -8310,6 +8300,8 @@ Version      : 1.2
 
     .leftSide {
         display: flex;
+        width: 100%;
+        justify-content: space-between;
         align-items: center;
     }
 
@@ -26816,8 +26808,72 @@ Version      : 1.2
         /* Yazı rengi */
     }
 
-    .slick-lancersl
-    {
+    .slick-lancersl {
         position: relative;
         overflow: hidden;
+    }
+
+    .CartBtn {
+        width: 100%;
+        margin-top: 10px;
+        height: 40px;
+        border-radius: 12px;
+        border: none;
+        background-color: #446BB6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition-duration: .5s;
+        overflow: hidden;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.103);
+        position: relative;
+    }
+
+    .IconContainer {
+        position: absolute;
+        left: -50px;
+        width: 30px;
+        height: 30px;
+        background-color: transparent;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        z-index: 2;
+        transition-duration: .5s;
+    }
+
+    .CartBtn .icon {
+        border-radius: 1px;
+    }
+
+    .CartBtn .text {
+        height: 100%;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        z-index: 1;
+        transition-duration: .5s;
+        font-size: 1.04em;
+        font-weight: 600;
+    }
+
+    .CartBtn:hover .IconContainer {
+        transform: translateX(70px);
+        border-radius: 40px;
+        transition-duration: .5s;
+    }
+
+    .CartBtn:hover .text {
+        transform: translate(10px, 0px);
+        transition-duration: .5s;
+    }
+
+    .CartBtn:active {
+        transform: scale(0.95);
+        transition-duration: .5s;
     }

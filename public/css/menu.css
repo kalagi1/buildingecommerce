@@ -1501,6 +1501,10 @@ html.mm-opening .mm-menu.mm-opened~.mm-slideout {
     }
 }
 
+.mm-counter{
+    display: none !important;
+}
+
 .mm-sronly {
     border: 0 !important;
     clip: rect(1px, 1px, 1px, 1px) !important;
