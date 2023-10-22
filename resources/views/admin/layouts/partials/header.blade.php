@@ -74,6 +74,9 @@
     <link href="{{ URL::to('/') }}/adminassets/vendors/leaflet.markercluster/MarkerCluster.Default.css"
         rel="stylesheet">
     @yield('css')
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 </head>
 
 <body>
@@ -134,8 +137,9 @@
                                             @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
                                             <div class="d-flex align-items-center">
 
-                                                <span class="nav-link-icon"><span
-                                                        data-feather="{{ $menuItem['icon'] }}"></span></span>
+                                                <span class="nav-link-icon">
+                                                    <i class="fas fa-{{ $menuItem['icon'] }}"></i>
+</span>
                                                 <span class="nav-link-text">{{ $menuItem['text'] }}
                                                 </span>
                                                 @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)

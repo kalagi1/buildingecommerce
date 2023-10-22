@@ -91,10 +91,10 @@ Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectD
 
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
-Route::get('/get-counties/{city}', [CountyController::class,"getCounties"])->name("getCounties");
-Route::get('/get-counties-for-client/{city}', [CountyController::class,"getCountiesForClient"])->name("getCountiesForClient");
-Route::get('/get-neighborhoods-for-client/{county}', [CountyController::class,"getNeighborhoodsForClient"])->name("getNeighborhoodsForClient");
-Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class,"getNeighborhoods"])->name("getNeighborhoods");
+Route::get('/get-counties/{city}', [CountyController::class, "getCounties"])->name("getCounties");
+Route::get('/get-counties-for-client/{city}', [CountyController::class, "getCountiesForClient"])->name("getCountiesForClient");
+Route::get('/get-neighborhoods-for-client/{county}', [CountyController::class, "getNeighborhoodsForClient"])->name("getNeighborhoodsForClient");
+Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class, "getNeighborhoods"])->name("getNeighborhoods");
 
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
@@ -156,6 +156,7 @@ Route::get('/institutional/login', [LoginController::class, 'index'])->name('ins
 Route::post('/institutional/login', [LoginController::class, 'login'])->name('institutional.login.post');
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
+    Route::put('/users/{user}/block', [UserController::class, 'blockUser'])->name('users.block');
 
     Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
     Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
@@ -595,6 +596,9 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     });
 
     Route::middleware(['checkPermission:TempOrder'])->group(function () {
+        Route::post('/update_image_order_temp_update', [TempOrderController::class, 'updateImageOrders'])->name('update.image.order.temp.update');
+        Route::post('/delete_image_order_temp_update', [TempOrderController::class, 'deleteImageOrders'])->name('delete.image.order.temp.update');
+        Route::post('/delete_temp_update', [TempOrderController::class, 'deleteTempUpdate'])->name('delete.temp.update');
         Route::get('/get_busy_housing_statuses/{id}', [InstitutionalProjectController::class, 'getBusyDatesByStatusType'])->name('get.busy.housing.statuses');
         Route::post('/change_step_order', [TempOrderController::class, 'changeStepOrder'])->name('change.step.order');
         Route::get('/get_housing_type_id/{slug}', [TempOrderController::class, 'getHousingTypeId'])->name('get.housing.type.id');
@@ -684,9 +688,11 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
 
-    Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
-    Route::get('/create_project_v2', [InstitutionalProjectController::class, "createV2"])->name('project.create.v2');
-    Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
+    Route::post('/end_project_temp_order', [InstitutionalProjectController::class,"createProjectEnd"])->name('project.end.temp.order');
+    Route::post('/update_project_temp_order', [InstitutionalProjectController::class,"updateProjectEnd"])->name('project.update.temp.order');
+    Route::get('/create_project_v2', [InstitutionalProjectController::class,"createV2"])->name('project.create.v2');
+    Route::get('/edit_project_v2/{projectSlug}', [InstitutionalProjectController::class,"editV2"])->name('project.edit.v2');
+    Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class,"getHousingTypeChildren"])->name('get.housing.type.childrens');
     Route::get('/projects/{project_id}/logs', [InstitutionalProjectController::class, 'logs'])->name('projects.logs');
     Route::get('/housings/{housing_id}/logs', [InstitutionalHousingController::class, 'logs'])->name('housing.logs');
     Route::get('/project_stand_out/{project_id}', [InstitutionalProjectController::class, "standOut"])->name('project.stand.out');

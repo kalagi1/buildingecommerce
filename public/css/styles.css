@@ -230,25 +230,21 @@ Version      : 1.2
     }
 
     .inner-pages .properties-right.list .homes-img img,
-    .featured.portfolio .project-head img
-    {
+    .featured.portfolio .project-head img {
         height: 184px !important;
         object-fit: cover !important;
     }
 
 
-    .social-square
-    {
+    .social-square {
         float: right;
         margin-left: auto;
         display: flex;
         gap: 12px;
     }
 
-    @media (max-width: 768px)
-    {
-        .social-square
-        {
+    @media (max-width: 768px) {
+        .social-square {
             /*
             float: unset;
             margin: 0 auto;
@@ -555,6 +551,67 @@ Version      : 1.2
         object-fit: cover;
         width: 100%;
     }
+
+    .share-icons .button {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: 400;
+        background: #446BB6;
+        color: white;
+        padding: 0.35em 0;
+        font-size: 17px;
+        border: none;
+        border-radius: 0.7em;
+        letter-spacing: 0.08em;
+        position: relative;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        overflow: hidden;
+        height: 2.7em;
+        padding-left: 3em;
+        padding-right: 0.5em;
+    }
+
+    .share-icons .button .icon {
+        background: #fff;
+        margin-right: 1em;
+        height: 2.2em;
+        width: 2.2em;
+        border-radius: 0.5em;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        left: 0.2em;
+        transition: all .7s;
+        gap: 10px;
+    }
+
+    .share-icons .shere {
+        width: 1.3rem;
+        height: 1.3rem;
+    }
+
+    .share-icons .button:hover .icon {
+        width: calc(100% - 0.6rem);
+    }
+
+    .share-icons .button:hover .shere {
+        width: calc(100% - 0.6rem);
+        display: none;
+    }
+
+    .share-icons .button .icon-shere {
+        color: #f2295b;
+        width: 1.5rem;
+        height: 1.5rem;
+        display: none;
+    }
+
+    .share-icons .button:hover .icon .icon-shere {
+        display: flex;
+    }
+
 
     .brand-head .brands-square {
         position: absolute;
@@ -5040,7 +5097,7 @@ Version      : 1.2
         background: #cd201f;
         color: #fff;
     }
-  
+
 
     .homepage-2 .first-footer .netsocials a .fa-facebook,
     .homepage-5 .first-footer .netsocials a .fa-facebook,
@@ -20505,8 +20562,8 @@ Version      : 1.2
         }
     }
 
-    .header-search-box a ,
-    .header-search-box-mobile a{
+    .header-search-box a,
+    .header-search-box-mobile a {
         padding-bottom: 15px !important;
 
     }
@@ -20515,9 +20572,11 @@ Version      : 1.2
         .buttonDetail {
             margin-top: 20px;
         }
-        section.single-proper.details{
-            padding: 2rem 0 !important ;
+
+        section.single-proper.details {
+            padding: 2rem 0 !important;
         }
+
         .dashboard-bd .left-side {
             width: 80% !important;
         }
@@ -26548,9 +26607,10 @@ Version      : 1.2
     @media screen and (max-width: 992px) {}
 
     @media screen and (max-width: 768px) {
-        .pro-wrapper{
+        .pro-wrapper {
             flex-wrap: wrap;
         }
+
         .sude .odeme-section .odeme-info .odeme-info-left {
             display: flex;
             flex-direction: column !important;

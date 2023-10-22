@@ -106,29 +106,74 @@
                     <div class="card shadow-none border border-300 p-0" data-component-card="data-component-card">
                         <div class="card-header border-bottom border-300 bg-soft">
                             <div class="row g-3 justify-content-between align-items-center">
-                                <div class="col-12 col-md">
+                                <div class="col-6 col-md">
                                     <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Üye
                                         Düzenle</h4>
                                 </div>
+                                <div class="col-6">
+                                    @if ($userDetail->is_blocked)
+                                        <form action="{{ route('admin.users.block', $userDetail) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="btn btn-phoenix-danger" style="float: right">
+
+                                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                                    stroke-width="2" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round" class="css-i6dzq1">
+                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                    <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                                                    <line x1="9" y1="9" x2="9.01" y2="9">
+                                                    </line>
+                                                    <line x1="15" y1="9" x2="15.01" y2="9">
+                                                    </line>
+                                                </svg>
+                                                <span style="margin-left: 5px"> Kullanıcının Engelini Kaldır</span>
+
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('admin.users.block', $userDetail) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="btn btn-phoenix-danger" style="float: right">
+                                                <svg viewBox="0 0 24 24" width="18" height="18"
+                                                    stroke="currentColor" stroke-width="2" fill="none"
+                                                    stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                    <line x1="8" y1="15" x2="16" y2="15">
+                                                    </line>
+                                                    <line x1="9" y1="9" x2="9.01" y2="9">
+                                                    </line>
+                                                    <line x1="15" y1="9" x2="15.01" y2="9">
+                                                    </line>
+                                                </svg>
+                                                <span style="margin-left: 5px">Kullanıcıyı Engelle</span>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
+
                             </div>
                         </div>
-                        @if (session()->has('success'))
-                            <div class="alert alert-success">
-                                {{ session()->get('success') }}
-                            </div>
-                        @endif
 
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
                         <div class="card-body p-0">
+
                             <div class="p-4">
+                                @if (session()->has('success'))
+                                    <div class="alert alert-success text-white">
+                                        {{ session()->get('success') }}
+                                    </div>
+                                @endif
+
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 <form class="row g-3 needs-validation" novalidate="" method="POST"
                                     action="{{ route('admin.users.update', $userDetail->id) }}">
                                     @csrf
@@ -311,14 +356,14 @@
     </div>
 @endsection
 
-@section("scripts")
-   <!-- lightbox2 CSS -->
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
-   <!-- jQuery -->
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   <!-- lightbox2 JavaScript -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+@section('scripts')
+    <!-- lightbox2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- lightbox2 JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endsection

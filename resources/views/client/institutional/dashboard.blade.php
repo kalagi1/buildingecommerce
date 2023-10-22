@@ -146,45 +146,7 @@
                         @endif
 
                     </div>
-                    <div class="social-square" style="gap: 16px; font-size: 26px !important; padding: 30px 35px;">
-                        @php
-                            $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-                            $host = $_SERVER['HTTP_HOST'];
-                            $uri = $_SERVER['REQUEST_URI'];
-                            $shareUrl = $protocol . '://' . $host . $uri;
-                        @endphp
-                        <div class="first-footer">
-                            <ul class="netsocials px-2" style="margin-right: 0 !important">
-                                @php
-                                    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-                                    $host = $_SERVER['HTTP_HOST'];
-                                    $uri = $_SERVER['REQUEST_URI'];
-                                    $shareUrl = $protocol . '://' . $host . $uri;
-                                @endphp
-                                <li>
-                                    <a href="https://twitter.com/share?url={{ $shareUrl }}">
-                                        <i class="fa fa-twitter" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://www.instagram.com/">
-                                        <i class="fa fa-instagram" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="whatsapp://send?text={{ $shareUrl }}">
-                                        <i class="fa fa-whatsapp" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                        <i class="fa fa-facebook" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
+                   
                 </div>
 
                 <div class="card-body">
