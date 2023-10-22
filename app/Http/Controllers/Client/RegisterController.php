@@ -58,8 +58,7 @@ class RegisterController extends Controller
         $user->email = $validatedData['email'];
         $user->subscription_plan_id = $request->input("subscription_plan_id");
 
-        if ($request->input('type') == '2')
-            $subscriptionPlan = SubscriptionPlan::where("id", $request->input("subscription_plan_id"))->first();
+        $subscriptionPlan = SubscriptionPlan::where("id", $request->input("subscription_plan_id"))->first();
 
         $user->name = $validatedData['name'];
         $user->profile_image = "indir.png";
@@ -80,15 +79,13 @@ class RegisterController extends Controller
         $user->corporate_type = $request->input("corporate-account-type");
         $user->save();
 
-        if ($request->input('type') == '2')
-            UserPlan::create([
-                "user_id" => $user->id,
-                "subscription_plan_id" => $subscriptionPlan->id,
-                "project_limit" => $subscriptionPlan->project_limit,
-                "user_limit" => $subscriptionPlan->user_limit,
-                "housing_limit" => $subscriptionPlan->housing_limit,
-            ]);
-
+        UserPlan::create([
+            "user_id" => $user->id,
+            "subscription_plan_id" => $subscriptionPlan->id,
+            "project_limit" => $subscriptionPlan->project_limit,
+            "user_limit" => $subscriptionPlan->user_limit,
+            "housing_limit" => $subscriptionPlan->housing_limit,
+        ]);
         $emailTemplate = EmailTemplate::where('slug', "account-verify")->first();
 
         if (!$emailTemplate) {
