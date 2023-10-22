@@ -207,6 +207,14 @@
                                     <a href="{{ url('institutional/create_project_v2') }}"
                                         class="btn btn-primary text-white ml-3"> <i class="fa fa-plus"
                                             style="margin-right: 5px"></i>İlan Ekle</a>
+                                @elseif (Auth::check() && Auth::user()->type == 1)
+                                    <a href="{{ url('institutional/create_project_v2') }}"
+                                        class="btn text-white buyUserRequestBtn ml-3">
+                                        <span class="cartIconBtn"><i class="fa fa-plus"></i></span>
+
+                                        <span class="cartTextBtn">Mülkünü Sat Kirala</span>
+
+                                    </a>
                                 @else
                                     <a href="{{ route('client.login') }}" class="btn btn-primary text-white ml-3"><i
                                             class="fa fa-plus" style="margin-right: 5px"></i>İlan Ekle</a>
@@ -278,6 +286,18 @@
 
 
         <style>
+            .cartIconBtn {
+                padding: 5px 10px;
+                height: 100%;
+                background-color: black
+            }
+
+            .cartTextBtn {
+                padding: 5px 10px;
+                height: 100%;
+                background-color: red
+            }
+
             .dropdown ul {
                 width: 200px !important;
                 text-align: left;
@@ -346,6 +366,13 @@
             .dropdown.toggle>label:hover::after,
             .dropdown.toggle>input:checked~label::after {
                 border-top-color: #AAA;
+            }
+
+            .buyUserRequestBtn {
+                padding: 0;
+                background: Black !important;
+                border: none;
+                border-radius: 0 !important
             }
 
             .dropdown li:first-child a:hover::before {
