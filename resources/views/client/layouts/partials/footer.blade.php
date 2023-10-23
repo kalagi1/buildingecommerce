@@ -5,7 +5,7 @@
                 <div class="col-sm-12 col-md-6 col-lg col-xl">
                     <div class="netabout">
                         <a href="index.html" class="logo">
-                            <img src="{{ URL::to('/') }}/images/logo.png" alt="netcom">
+                            <img src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt="netcom">
                         </a>
                     </div>
 
@@ -110,7 +110,7 @@
 
 <div class="button-container">
 
-    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('client.index') : (Auth::user()->type == 2 ? route('institutional.index') : (Auth::user()->type == 3 ? route('admin.index') : 'client.login'))) : 'client.login' }}"
+    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('client.index') : (Auth::user()->type == 2 ? route('institutional.index') : (Auth::user()->type == 3 ? route('admin.index') : route('client.login')))) : route('client.login') }}"
         class="button">
         <button class="button">
             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024"
@@ -119,7 +119,11 @@
                     d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
                 </path>
             </svg>
-            <span>Hesabım</span>
+            @if (Auth::check())
+                <span>Hesabım</span>
+            @else
+                <span>Giriş Yap</span>
+            @endif
         </button>
     </a>
 
@@ -136,39 +140,35 @@
     </a>
 
 
-    @if (Auth::check() && Auth::user()->type != 3)
+    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('client.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? 'javascript:void(0)' : 'javascript:void(0)'))) : route('client.login') }}"
+        class="button" class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
+        <button class="button">
+            <svg viewBox="0 0 24 24" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none"
+                stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            @if (Auth::check() && Auth::user()->type == 2)
+                <span>İlan Ver</span>
+            @else
+                <span>Sat Kirala</span>
+            @endif
+        </button>
+    </a>
 
-        <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('client.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? 'javascript:void(0)' : 'javascript:void(0)'))) : route('client.login') }}"
-            class="button">
-            <button class="button">
-                <svg viewBox="0 0 24 24" width="1em" height="1em" stroke="currentColor" stroke-width="2"
-                    fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-                @if (Auth::user()->type == 2)
-                    <span>İlan Ver</span>
-                @else
-                    <span>Sat Kirala</span>
-                @endif
-            </button>
-        </a>
-    @endif
-
-    @if (Auth::check() && Auth::user()->type != 3)
-        <a href="{{ route('cart') }}" class="button">
-            <button class="button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round"
-                    stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor"
-                    class="icon">
-                    <circle r="1" cy="21" cx="9"></circle>
-                    <circle r="1" cy="21" cx="20"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                </svg>
-                <span>Sepetim</span>
-            </button>
-        </a>
-    @endif
+    <a href="{{ route('cart') }}" class="button"
+        class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
+        <button class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round"
+                stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor"
+                class="icon">
+                <circle r="1" cy="21" cx="9"></circle>
+                <circle r="1" cy="21" cx="20"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span>Sepetim</span>
+        </button>
+    </a>
 
 </div>
 

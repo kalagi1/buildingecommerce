@@ -206,7 +206,7 @@
                         aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                 class="toggle-line"></span></span></button>
                                 <div class="d-flex align-items-center">
-                                    <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
+                                    <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
                                             class="logo" alt=""></a>
                                     <p class="logo-text ms-2 d-none d-sm-block">Emlak Sepeti</p>
                                 </div>
@@ -1000,7 +1000,7 @@
                 <a class="navbar-brand me-1 me-sm-3" href="index.html">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
-                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png" alt="phoenix"
+                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png" alt="phoenix"
                                 width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                         </div>
@@ -3595,7 +3595,7 @@
                 <a class="navbar-brand me-1 me-sm-3" href="index.html">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
-                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png" alt="phoenix"
+                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png" alt="phoenix"
                                 width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                         </div>
@@ -6199,7 +6199,7 @@
                         <a class="navbar-brand me-1 me-sm-3" href="index.html">
                             <div class="d-flex align-items-center">
                                 <div class="d-flex align-items-center"><img
-                                        src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png"
+                                        src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
                                         alt="phoenix" width="27" />
                                     <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                                 </div>

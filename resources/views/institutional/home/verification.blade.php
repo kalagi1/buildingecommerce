@@ -154,7 +154,7 @@
         .crossmark::after {
             content: '✗';
             /* Unicode character for the 'X' symbol */
-            color: red;
+            color: #EA2B2E;
             /* Color of the crossmark */
             font-size: 16px;
             /* Adjust the font size as needed */

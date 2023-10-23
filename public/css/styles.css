@@ -294,7 +294,7 @@ Version      : 1.2
         margin-bottom: 2.5rem;
     }
 
-  
+
 
     .featured .allView,
     .popular-places button {
@@ -3701,6 +3701,7 @@ Version      : 1.2
 
     .popular-places .hover-effect img {
         height: 100%;
+        object-fit: cover;
         -webkit-transform: scale(1);
         transform: scale(1);
         -webkit-transition: all .8s ease;
@@ -8298,11 +8299,20 @@ Version      : 1.2
         height: auto;
     }
 
+
     .leftSide {
         display: flex;
-        width: 100%;
-        justify-content: space-between;
         align-items: center;
+    }
+
+    @media (max-width: 768px) {
+        .leftSide {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+        }
+
     }
 
     .header-widget.sign-in a {
@@ -12890,7 +12900,7 @@ Version      : 1.2
         display: block;
         position: relative;
         overflow: hidden;
-        height: 400px;
+        height: 250px;
     }
 
     .recent-img16 {
@@ -17701,7 +17711,6 @@ Version      : 1.2
     .ag-de .similar-property,
     .ag-de .portfolio.py-0.age,
     .det .similar-property {
-        padding: 1.5rem !important;
         background: #fff;
         border: 1px solid #eaeff5;
         -webkit-box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
@@ -24246,7 +24255,7 @@ Version      : 1.2
     }
 
     .form-block label .error {
-        color: red;
+        color: #EA2B2E;
         font-size: 13px;
         margin-left: 10px;
     }
@@ -26819,7 +26828,7 @@ Version      : 1.2
         height: 40px;
         border-radius: 12px;
         border: none;
-        background-color: #446BB6;
+        background-color: black;
         display: flex;
         align-items: center;
         justify-content: center;

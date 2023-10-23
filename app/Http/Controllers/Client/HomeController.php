@@ -20,8 +20,8 @@ class HomeController extends Controller
     public function index()
     {
         $menu = Menu::getMenuItems();
-
-        $secondhandHousings = Housing::with('images')->select(
+        $secondhandHousings = Housing::with('images')
+        ->select(
             'housings.id',
             'housings.title AS housing_title',
             'housings.created_at',
@@ -29,10 +29,15 @@ class HomeController extends Controller
             'housings.housing_type_data',
             'housings.address',
             \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
-        )->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
-            ->where('housings.status', 1)
-            ->get();
+            'cities.title AS city_title', // city tablosundan veri çekme
+            'districts.ilce_title AS county_title' // district tablosundan veri çekme
+        )
+        ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+        ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+        ->leftJoin('cities', 'cities.id', '=', 'housings.city_id') // city tablosunu join etme
+        ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id') // district tablosunu join etme
+        ->where('housings.status', 1)
+        ->get();    
 
         $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))->where('end_date', ">=", date("Y-m-d"))->orderBy("item_order")->get();
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
@@ -40,11 +45,11 @@ class HomeController extends Controller
         $sliders = Slider::all();
         $footerSlider = FooterSlider::all();
 
-        $finishProjects = Project::whereHas('housingStatus', function ($query) {
+        $finishProjects = Project::with("city","county")->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '2');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->orderBy("created_at", "desc")->where('status', 1)->get();
 
-        $continueProjects = Project::whereHas('housingStatus', function ($query) {
+        $continueProjects = Project::with("city","county")->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '3');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
 

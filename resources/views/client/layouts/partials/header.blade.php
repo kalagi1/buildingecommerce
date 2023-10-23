@@ -96,7 +96,7 @@
                                 </button>
                             </div>
                             <div id="logo">
-                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
+                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
                                         alt=""></a>
                             </div>
 
@@ -250,9 +250,7 @@
                                         @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
                                             <span class="caret"></span>
                                         @endif
-                                        @if ($key == 0 || $key == 3 || $key == 7)
-                                            <span class="new-badge">Yeni</span>
-                                        @endif
+                                     
                                     </a>
                                     @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
                                         <ul>
@@ -344,7 +342,7 @@
                 display: flex;
                 align-items: center;
                 border: 1px solid red;
-                background-color: red;
+                background-color: #EA2B2E;
             }
 
             .buyUserRequest,
@@ -377,7 +375,7 @@
             }
 
             .buyUserRequest:hover {
-                background: red;
+                background: #EA2B2E;
             }
 
             .buyUserRequest:hover .buyUserRequest__text {
@@ -390,7 +388,7 @@
             }
 
             .buyUserRequest:active .buyUserRequest__icon {
-                background-color: red;
+                background-color: #EA2B2E;
             }
 
             .buyUserRequest:active {

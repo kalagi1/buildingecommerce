@@ -194,7 +194,10 @@
                 @foreach ($finishProjects as $project)
                     @for ($i = 0; $i < $project->room_count; $i++)
                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
-                        @php($discount_amount =App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
+                        @php(
+    $discount_amount =
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+)
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex" style="padding-right:0; width: 130px;">
                                 <div class="project-inner project-head">
@@ -207,25 +210,25 @@
                                                 style="width: 130px; height: 128px;">
                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
                                                     alt="{{ $project->housingType->title }}" class="img-responsive"
-                                                    style="height: 100% !important;">
+                                                    style="height: 100px !important;">
                                             </div>
                                         </div>
                                     </a>
                                 </div>
                             </div>
-                            <div class="w-100" style="padding-left:0;margin-top:10px">
+                            <div class="w-100" style="padding-left:0;">
                                 <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
-                                    <a style="text-decoration: none"
+                                    <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
-                                        <h4>{{ $project->project_title }} Projesinde
+                                        <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
                                             {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
                                             {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                        </h4>
+                                        </h3>
 
 
                                     </a>
-                                    <div class="d-flex">
+                                    <div class="d-flex align-items-center">
                                         <div class="d-flex" style="gap: 8px;">
                                             <a href="#" class="btn toggle-project-favorite"
                                                 data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
@@ -243,7 +246,7 @@
                                         </div>
                                         <span class="ml-auto text-primary priceFont">
 
-                                            {{ getHouse($project, 'price[]', $i + 1)->value - $discount_amount }} TL
+                                            {{ getHouse($project, 'price[]', $i + 1)->value - $discount_amount }} ₺
                                     </div>
                                 </div>
                             </div>
@@ -253,7 +256,8 @@
                                 style="list-style: none;padding:0;font-weight:600">
                                 <li class="d-flex align-items-center">
                                     <i class="fa fa-circle circleIcon"></i>
-                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }} {{ '. Daire' }}
+                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }} <span> No'lu
+                                        Daire</span>
                                 </li>
                                 <li class="d-flex align-items-center">
                                     <i class="fa fa-circle circleIcon"></i>
@@ -263,6 +267,13 @@
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'room_count[]', $i + 1)->value }}
                                 </li>
+                                <li class="d-flex align-items-center" style="font-size:13px">
+                                    <i class="fa fa-circle circleIcon"></i>
+                                    {{ $project->city->title }} {{ '/' }} {{ $project->county->ilce_title }}
+                                </li>
+
+
+
                             </ul>
                         </div>
                         <hr>
@@ -278,7 +289,10 @@
                                 @foreach ($finishProjects as $project)
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
-                                        @php($discount_amount =  App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
+                                        @php(
+    $discount_amount =
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+)
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <a class="text-decoration-none"
                                                 href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
@@ -290,7 +304,7 @@
 
                                                                 <div class="homes-img">
                                                                     <div class="homes-tag button sale rent"
-                                                                        style="background-color:red!important">Öne
+                                                                        style="background-color:#EA2B2E!important">Öne
                                                                         Çıkan
                                                                     </div>
 
@@ -311,7 +325,7 @@
                                                         <div class="homes-content p-3">
 
                                                             <span style="text-decoration: none">
-                                                                <h3>{{ $project->project_title }} Projesinde
+                                                                <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
                                                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
                                                                     {{ getHouse($project, 'room_count[]', $i + 1)->value }}
                                                                 </h3>
@@ -348,7 +362,7 @@
                                                                 <li
                                                                     style="font-size: large; font-weight: 700;width:100%;white-space:nowrap">
                                                                     {{ getHouse($project, 'price[]', $i + 1)->value - $discount_amount }}
-                                                                    TL
+                                                                    ₺
                                                                 </li>
                                                                 <li
                                                                     style="display: flex; justify-content: right;width:100%">
@@ -356,14 +370,14 @@
                                                                 </li>
                                                             </ul>
                                                             <button class="CartBtn" data-type='project'
-                                                            data-project='{{ $project->id }}'
-                                                            data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                                data-project='{{ $project->id }}'
+                                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
                                                                 <span class="IconContainer">
-                                                                   <img src="{{asset("sc.png")}}" alt="">
+                                                                    <img src="{{ asset('sc.png') }}" alt="">
                                                                 </span>
                                                                 <span class="text">Add to Cart</span>
                                                             </button>
-                                                           
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -397,7 +411,10 @@
                 @foreach ($continueProjects as $project)
                     @for ($i = 0; $i < $project->room_count; $i++)
                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
-                        @php($discount_amount =App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
+                        @php(
+    $discount_amount =
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+)
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex" style="padding-right:0; width: 130px;">
                                 <div class="project-inner project-head">
@@ -410,25 +427,25 @@
                                                 style="width: 130px; height: 128px;">
                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
                                                     alt="{{ $project->housingType->title }}" class="img-responsive"
-                                                    style="height: 100% !important;">
+                                                    style="height: 100px !important;">
                                             </div>
                                         </div>
                                     </a>
                                 </div>
                             </div>
-                            <div class="w-100" style="padding-left:0;margin-top:10px">
+                            <div class="w-100" style="padding-left:0;">
                                 <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
-                                    <a style="text-decoration: none"
+                                    <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
-                                        <h4>{{ $project->project_title }} Projesinde
+                                        <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
                                             {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
                                             {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                        </h4>
+                                        </h3>
 
 
                                     </a>
-                                    <div class="d-flex">
+                                    <div class="d-flex align-items-center">
                                         <div class="d-flex" style="gap: 8px;">
                                             <a href="#" class="btn toggle-project-favorite"
                                                 data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
@@ -446,7 +463,7 @@
                                         </div>
                                         <span class="ml-auto text-primary priceFont">
 
-                                            {{ getHouse($project, 'price[]', $i + 1)->value - $discount_amount }} TL
+                                            {{ getHouse($project, 'price[]', $i + 1)->value - $discount_amount }} ₺
                                     </div>
                                 </div>
                             </div>
@@ -456,7 +473,8 @@
                                 style="list-style: none;padding:0;font-weight:600">
                                 <li class="d-flex align-items-center">
                                     <i class="fa fa-circle circleIcon"></i>
-                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }} {{ '. Daire' }}
+                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }} <span> No'lu
+                                        Daire</span>
                                 </li>
                                 <li class="d-flex align-items-center">
                                     <i class="fa fa-circle circleIcon"></i>
@@ -466,6 +484,13 @@
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'room_count[]', $i + 1)->value }}
                                 </li>
+                                <li class="d-flex align-items-center" style="font-size:13px">
+                                    <i class="fa fa-circle circleIcon"></i>
+                                    {{ $project->city->title }} {{ '/' }} {{ $project->county->ilce_title }}
+                                </li>
+
+
+
                             </ul>
                         </div>
                         <hr>
@@ -481,7 +506,10 @@
                                 @foreach ($continueProjects as $project)
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
-                                        @php($discount_amount =  App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
+                                        @php(
+    $discount_amount =
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+)
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <a class="text-decoration-none"
                                                 href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
@@ -493,7 +521,7 @@
 
                                                                 <div class="homes-img">
                                                                     <div class="homes-tag button sale rent"
-                                                                        style="background-color:red!important">Öne
+                                                                        style="background-color:#EA2B2E!important">Öne
                                                                         Çıkan
                                                                     </div>
 
@@ -514,7 +542,7 @@
                                                         <div class="homes-content p-3">
 
                                                             <span style="text-decoration: none">
-                                                                <h3>{{ $project->project_title }} Projesinde
+                                                                <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
                                                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
                                                                     {{ getHouse($project, 'room_count[]', $i + 1)->value }}
                                                                 </h3>
@@ -551,7 +579,7 @@
                                                                 <li
                                                                     style="font-size: large; font-weight: 700;width:100%;white-space:nowrap">
                                                                     {{ getHouse($project, 'price[]', $i + 1)->value - $discount_amount }}
-                                                                    TL
+                                                                    ₺
                                                                 </li>
                                                                 <li
                                                                     style="display: flex; justify-content: right;width:100%">
@@ -559,15 +587,14 @@
                                                                 </li>
                                                             </ul>
                                                             <button class="CartBtn" data-type='project'
-                                                            data-project='{{ $project->id }}'
-                                                            data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                                data-project='{{ $project->id }}'
+                                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
                                                                 <span class="IconContainer">
-                                                                    <img src="{{asset("sc.png")}}" alt="">
-
+                                                                    <img src="{{ asset('sc.png') }}" alt="">
                                                                 </span>
                                                                 <span class="text">Add to Cart</span>
                                                             </button>
-                                                           
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -597,10 +624,13 @@
             </div>
             <div class="mobile-show">
                 @foreach ($secondhandHousings as $project)
-                    @php($discount_amount =App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
+                    @php(
+    $discount_amount =
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+)
 
                     <div class="d-flex" style="flex-wrap: nowrap">
-                        <div class="align-items-center d-flex border-bottom" style="padding-right:0; width: 130px;">
+                        <div class="align-items-center d-flex " style="padding-right:0; width: 130px;">
                             <div class="project-inner project-head">
                                 <a href="{{ route('housing.show', [$project->id]) }}">
                                     <div class="homes">
@@ -609,24 +639,22 @@
                                         <div class="homes-img h-100 d-flex align-items-center"
                                             style="width: 130px; height: 128px;">
                                             <img src="{{ URL::to('/') . '/housing_images/' . json_decode($project->housing_type_data)->image }}"
-                                                alt="{{ $project->title }}" class="img-responsive"
-                                                style="height: 100% !important;">
+                                                alt="{{ $project->housing_title }}" class="img-responsive"
+                                                style="height: 100px !important;">
                                         </div>
                                     </div>
                                 </a>
                             </div>
                         </div>
-                        <div class="w-100" style="height: 128px; padding-left:0">
-                            <div class="border-bottom bg-white p-3 h-100 d-flex flex-column justify-content-center"
-                                style="padding:20px !important">
+                        <div class="w-100" style="padding-left:0;">
+                            <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
-                                <a style="text-decoration: none" href="{{ route('housing.show', [$project->id]) }}">
-                                    <h4>{{ $project->title }}
+                                <a style="text-decoration: none;height:100%" href="{{ route('housing.show', [$project->id]) }}">
+                                    <h3>
+                                        {{ mb_convert_case($project->housing_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}
                                         {{ json_decode($project->housing_type_data)->squaremeters[0] ?? '?' }}m2
                                         {{ json_decode($project->housing_type_data)->room_count[0] ?? '?' }}
-                                    </h4>
-
-
+                                    </h3>
                                 </a>
                                 <div class="d-flex">
                                     <div class="d-flex" style="gap: 8px;">
@@ -644,11 +672,36 @@
                                     <span class="ml-auto text-primary priceFont">
 
                                         {{ json_decode($project->housing_type_data)->price[0] - $discount_amount ?? '?' }}
-                                        TL</span>
+                                        ₺</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
+                        <ul class="d-flex justify-content-around align-items-center h-100"
+                            style="list-style: none;padding:0;font-weight:600">
+                            <li class="d-flex align-items-center">
+                                <i class="fa fa-circle circleIcon"></i>
+                                {{ $project->id }} <span> No'lu Daire</span>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <i class="fa fa-circle circleIcon"></i>
+                                {{ json_decode($project->housing_type_data)->squaremeters[0] ?? null }} m2
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <i class="fa fa-circle circleIcon"></i>
+                                {{ json_decode($project->housing_type_data)->room_count[0] ?? null }}
+                            </li>
+                            <li class="d-flex align-items-center" style="font-size:13px">
+                                <i class="fa fa-circle circleIcon"></i>
+                                {{$project->city_title}} {{"/"}} {{$project->county_title}}
+                            </li>
+
+
+
+                        </ul>
+                    </div>
+                    <hr>
                 @endforeach
             </div>
             <div class="mobile-hidden">
@@ -667,7 +720,7 @@
 
                                                             <div class="homes-img">
                                                                 <div class="homes-tag button sale rent"
-                                                                    style="background-color:red!important">Öne Çıkan
+                                                                    style="background-color:#EA2B2E!important">Öne Çıkan
                                                                 </div>
                                                                 <img src="{{ URL::to('/') . '/housing_images/' . json_decode($project->housing_type_data)->image }}"
                                                                     alt="Housing {{ $project->id }}"
@@ -685,7 +738,7 @@
                                                     <div class="homes-content p-3" style="padding:20px !important">
                                                         <span style="text-decoration: none">
 
-                                                            <h4>{{ $project->housing_title }}</h4>
+                                                            <h4>{{ mb_convert_case($project->housing_title, MB_CASE_TITLE, 'UTF-8') }}</h4>
 
                                                             <p class="homes-address mb-3">
 
@@ -717,15 +770,16 @@
                                                             <li
                                                                 style="font-size: large; font-weight: 700;width:100%; white-space:nowrap">
                                                                 {{ json_decode($project->housing_type_data)->price[0] ?? null }}
-                                                                TL
+                                                                ₺
                                                             </li>
                                                             <li style="display: flex; justify-content: right;width:100%">
                                                                 {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
                                                             </li>
                                                         </ul>
-                                                        <button class="CartBtn"  data-type='housing' data-id='{{ $project->id }}'>
+                                                        <button class="CartBtn" data-type='housing'
+                                                            data-id='{{ $project->id }}'>
                                                             <span class="IconContainer">
-                                                                <img src="{{asset("sc.png")}}" alt="">
+                                                                <img src="{{ asset('sc.png') }}" alt="">
 
                                                             </span>
                                                             <span class="text">Add to Cart</span>
@@ -926,7 +980,7 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 18px;
+                font-size: 17px;
             }
         }
     </style>

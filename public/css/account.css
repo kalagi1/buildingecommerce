@@ -5853,7 +5853,7 @@ textarea.form-control {
 }
 
 .ps-block--bought-toggether .ps-block__total p strong {
-    color: red;
+    color: #EA2B2E;
     font-size: 20px;
     font-weight: 500;
 }
@@ -5896,7 +5896,7 @@ textarea.form-control {
 }
 
 .ps-block--bought-toggether .ps-block__footer .ps-checkbox label span {
-    color: red;
+    color: #EA2B2E;
     font-weight: 500;
 }
 
@@ -9321,7 +9321,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-product--detail .ps-product__desc .ps-tag--out-stock {
-    color: red;
+    color: #EA2B2E;
     text-transform: none;
     font-size: 14px;
 }
@@ -9764,7 +9764,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     background-color: #ffffff;
     border: 1px solid #ccc;
     font-size: 30px;
-    color: red;
+    color: #EA2B2E;
     font-weight: 600;
 }
 
@@ -11640,7 +11640,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-table--product-groupped .ps-tag--out-stock {
-    color: red;
+    color: #EA2B2E;
     font-weight: 500;
 }
 
@@ -12129,7 +12129,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-cart--mini .ps-cart__footer h3 strong {
     float: right;
-    color: red;
+    color: #EA2B2E;
 }
 
 .ps-cart--mini figure {
@@ -12168,7 +12168,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-cart--mobile .ps-cart__footer h3 strong {
     float: right;
-    color: red;
+    color: #EA2B2E;
 }
 
 .ps-cart--mobile figure {
@@ -15129,7 +15129,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 #homepage-1 .ps-deal-of-day .ps-product .ps-product__price small {
     margin-left: 10px;
-    color: red;
+    color: #EA2B2E;
 }
 
 #homepage-1 .ps-top-categories {

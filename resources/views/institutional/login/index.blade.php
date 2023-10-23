@@ -81,7 +81,7 @@
                         @csrf
                         <div class="auth-form-box">
                             <div class="text-center mb-7"><a class="d-flex flex-center text-decoration-none mb-4" href="../../../index.html">
-                                <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png" alt="phoenix" width="58" /></div>
+                                <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png" alt="phoenix" width="58" /></div>
                               </a>
                               <h3 class="text-1000">Kurumsal Giriş Yap</h3>
                               <p class="text-700">Hesabınıza erişim sağlayın</p>
