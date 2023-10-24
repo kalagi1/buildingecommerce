@@ -209,7 +209,7 @@
                                             <ul class="homes-list clearfix pb-0"
                                                 style="display: flex; justify-content: center;margin-top:20px !important;">
                                                 <button id="addToCart"
-                                                    style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
+                                                    style="width: 100%; border: none; background-color: black; border-radius: 10px; padding: 5px 0px; color: white;"
                                                     data-type='housing' data-id='{{ $housing->id }}'>Sepete
                                                     Ekle</button>
 
@@ -220,7 +220,7 @@
                             </div>
                         @endforeach
                     @else
-                        <p>Veri Yok</p>
+                        <p>Henüz İlan Yayınlanmadı</p>
                     @endif
 
 

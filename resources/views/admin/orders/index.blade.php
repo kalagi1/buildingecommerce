@@ -28,7 +28,7 @@
 
                     <style type="text/css">
                         .st0 {
-                            fill: #446BB6;
+                            fill: #e54242;
                         }
 
                         .st1 {

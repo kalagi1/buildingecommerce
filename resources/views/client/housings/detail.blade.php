@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-md-10 col-10">
                             <button
-                                style="border: none;width:100%; background-color: #446BB6; border-radius: 10px; padding: 10px 50px; color: white;"
+                                style="border: none;width:100%; background-color: black; border-radius: 10px; padding: 10px 50px; color: white;"
                                 class="addToCart" data-type='housing' data-id='{{ $housing->id }}'>Sepete
                                 Ekle</button>
                         </div>
@@ -153,7 +153,7 @@
                                                 <span class="font-weight-bold mr-1">{{ $key }}:</span>
 
                                                 <span class="det"
-                                                    style="color: #446BB6; font-weight: bold;">{{ number_format($val[0], 2, ',', '.') }}
+                                                    style="color: black; font-weight: bold;">{{ number_format($val[0], 2, ',', '.') }}
                                                     TL</span>
                                             @else
                                                 <span class="font-weight-bold mr-1">{{ $key }}:</span>

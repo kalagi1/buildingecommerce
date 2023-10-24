@@ -1,75 +1,75 @@
 .header-top {
-    background: #446BB6;
+    background: black;
 }
 
 a.button.border,
 a.button {
-    background: #446BB6;
+    background: black;
 }
 
 #main-menu ul li a:hover {
-    background: #446BB6;
+    background: black;
 }
 
 #main-menu .dropdown-menu a:hover {
-    background: #446BB6;
+    background: black;
 }
 
 .bloq-search input[type="text"] {
-    border: 1px solid #446BB6;
+    border: 1px solid black;
 }
 
 .bloq-search input[type="submit"] {
-    background: #446BB6;
+    background: black;
 }
 
 .google-maps .filter {
-    background: #446BB6;
+    background: black;
 }
 
 .section-title:before {
-    background-color: #446BB6;
+    background-color: black;
 }
 
 .parallax-searchs .form-group .nice-select i,
 .parallax-searchs .form-group .nice-select:hover {
-    color: #446BB6;
+    color: black;
 }
 
 .nice-select .option:hover,
 .parallax-searchs .form-group .btn {
-    background: #446BB6 !important;
+    background: black !important;
 }
 
 .listing-hidden-content.blue {
-    background: #446BB6;
+    background: black;
 }
 
 .section-title h2 {
-    color: #446BB6;
+    color: black;
 }
 
 .recently .homes-content .homes-list li {
-    color: #446BB6;
+    color: black;
 }
 
 .recently .homes-content .homes-list li i {
-    color: #446BB6;
+    color: black;
 }
 
 .btn.btn-outline-light,
 .first-footer .newsletters h3::after {
-    background: #446BB6;
+    background: black;
 }
 
 .welcome-title h2 span,
 .welcome-title h2 span {
-    color: #446BB6;
+    color: black;
 }
 
 .welcome .popup-youtube,
 .first-footer .contactus ul li .fa {
-    color: #446BB6;
+    color: black;
 }
 
 .welcome .wprt-image-video .iq-waves .waves {
@@ -78,28 +78,28 @@ a.button {
 
 .services-home .bg-base,
 .first-footer .bloq-email .email input[type="submit"] {
-    background: #446BB6;
+    background: black;
 }
 
 #navigation.style-1 .current {
-    color: #446BB6;
+    color: black;
 }
 
 #navigation.style-1 ul li:hover {
-    background: #446BB6;
+    background: black;
 }
 
 .feature-cities-1 .listing-badges .featured {
-    background: #446BB6;
+    background: black;
 }
 
 .services-home a.text-base,
 .twitter-widget.contuct .twitter-area .text h5 a {
-    color: #446BB6;
+    color: black;
 }
 
 .portfolio .homes-content .homes-list li {
-    color: #446BB6;
+    color: black;
 }
 
 .portfolio .homes-content .homes-list li i {
@@ -113,51 +113,51 @@ a.button {
 }
 
 .top-location .owl-theme .owl-nav [class*=owl-] {
-    background: #446BB6;
+    background: black;
 }
 
 .blog-section .news-item a:hover h3 {
-    color: #446BB6;
+    color: black;
 }
 
 .blog-section .news-link {
-    color: #446BB6;
+    color: black;
 }
 
 .testimonials .test-1 p::before {
-    color: #446BB6;
+    color: black;
 }
 
 .testimonials .test-1 h3 {
-    color: #446BB6;
+    color: black;
 }
 
 .owl-dot.active {
-    background: #446BB6 !important;
+    background: black !important;
 }
 
 .counterup .countr .fa {
-    color: #446BB6;
+    color: black;
 }
 
 .realhome_subscribe input {
-    border-color: #446BB6;
+    border-color: black;
 }
 
 .realhome_form_subscribe button {
-    background: #446BB6;
-    border: 2px solid #446BB6;
+    background: black;
+    border: 2px solid black;
 }
 
 .first-footer .netabout h3::after,
 .first-footer .navigation h3::after,
 .first-footer .widget h3::after,
 .first-footer .contactus h3::after {
-    background-color: #446BB6;
+    background-color: black;
 }
 
 .first-footer .btn {
-    background: #446BB6;
+    background: black;
 }
 
 .first-footer .btn:hover {
@@ -165,16 +165,16 @@ a.button {
 }
 
 .navigation ul li a:hover {
-    color: #446BB6;
+    color: black;
 }
 
 .twitter-widget.contuct .twitter-area .icon-holder i {
-    color: #446BB6;
+    color: black;
 }
 
 .twitter-widget.contuct .twitter-area .text h4,
 .inner-pages .twitter-widget.contuct .twitter-area .text h4 {
-    color: #446BB6;
+    color: black;
 }
 
 .second-footer {
@@ -182,7 +182,7 @@ a.button {
 }
 
 .go-up {
-    background: #446BB6;
+    background: black;
 }
 
 @media only screen and (max-width: 991px) {
@@ -192,179 +192,179 @@ a.button {
 }
 
 .main-search-field {
-    background: #446BB6;
+    background: black;
 }
 
 .btn-default.btn-theme-colored2:hover {
-    background: #446BB6;
+    background: black;
 }
 
 .text-theme-colored2 {
-    color: #446BB6 !important;
+    color: black !important;
 }
 
 .btn-dark.btn-theme-colored {
-    background-color: #446BB6;
+    background-color: black;
 }
 
 .parallax-search .form-group .nice-select:hover {
-    color: #446BB6;
+    color: black;
 }
 
 .parallax-search .form-group .nice-select i {
-    color: #446BB6;
+    color: black;
 }
 
 .parallax-search .form-group .list li:hover {
-    background: #446BB6;
+    background: black;
 }
 
 .parallax-search .form-group .btn {
-    background: #446BB6;
+    background: black;
 }
 
 .inner-pages .blog .active-view-btn:hover {
-    background: #446BB6 !important;
+    background: black !important;
 }
 
 .inner-pages .change-view-btn:hover {
-    color: #446BB6 !important;
+    color: black !important;
 }
 
 .inner-pages .blog .block-heading .change-view-btn.lde:hover {
-    background: #446BB6;
+    background: black;
 }
 
 .inner-pages .blog .section-heading .media .media-left i {
-    background: #446BB6;
+    background: black;
 }
 
 .inner-pages .blog .main-search-field select {
-    background: #446BB6;
+    background: black;
 }
 
 .inner-pages .blog .at-input {
-    border: 2px solid #446BB6;
+    border: 2px solid black;
 }
 
 .inner-pages .blog .ui-widget.ui-widget-content {
-    background: #446BB6;
+    background: black;
 }
 
 .inner-pages .blog .hvr-bounce-to-right {
-    background: #446BB6;
+    background: black;
 }
 
 .inner-pages .widget h5::after {
-    background-color: #446BB6;
+    background-color: black;
 }
 
 .inner-pages .portfolio .footer i {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .recent-post .tags a:hover {
-    color: #446BB6;
-    border-color: #446BB6;
+    color: black;
+    border-color: black;
 }
 
 .page-item.active .page-link {
-    background: #446BB6;
-    border-color: #446BB6;
+    background: black;
+    border-color: black;
 }
 
 .page-link {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .blog .homes-content.details-2 .fa {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .blog .sorting-options h5 {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .blog .homes-content h5::after,
 .inner-pages .blog .blog-info.details h5::after,
 .inner-pages .blog .property-location h5::after,
 .inner-pages .blog .team.assigned h5::after {
-    color: #446BB6;
-    background-color: #446BB6;
+    color: black;
+    background-color: black;
 }
 
 .inner-pages .blog .homes-content.details .fa {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .button.alt {
-    background-color: #446BB6;
+    background-color: black;
 }
 
 .inner-pages .agent-details a:hover {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .agent-details .fa {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .about-us .who-1 h2 span {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .about-us .wprt-image-video .icon-wrap {
-    background-color: #446BB6;
+    background-color: black;
 }
 
 .bg-2 .button {
-    border-color: #446BB6;
+    border-color: black;
 }
 
 .inner-pages .panel .panel-heading a {
-    background: #446BB6;
+    background: black;
 }
 
 .plan-price {
-    background: #446BB6;
+    background: black;
 }
 
 .plan-price:after {
-    border-top-color: #446BB6;
+    border-top-color: black;
 }
 
 .plan a.btn {
-    background: #446BB6;
+    background: black;
 }
 
 .inner-pages .top-headings h2 {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .port-info .btn {
-    background: #446BB6;
-    border: 1px solid #446BB6;
+    background: black;
+    border: 1px solid black;
 }
 
 #login .btn_1,
 a.btn_1 {
-    background: #446BB6;
+    background: black;
 }
 
 .inner-pages .blog .social .date {
-    background-color: #446BB6;
+    background-color: black;
 }
 
 .blog-pots figure {
-    background: #446BB6;
+    background: black;
 }
 
 .blog .blog-pots .fa {
-    color: #446BB6;
+    color: black;
 }
 
 .btn-secondary {
-    background: #446BB6;
+    background: black;
 }
 
 .single-blog-post .img-box .overlay {
@@ -372,90 +372,90 @@ a.btn_1 {
 }
 
 .inner-pages .form-control {
-    border: 1px solid #446BB6;
+    border: 1px solid black;
 }
 
 .inner-pages .input-group-btn .btn-primary {
-    background: #446BB6;
-    border: 1px solid #446BB6;
+    background: black;
+    border: 1px solid black;
 }
 
 .inner-pages .input-group-btn .btn-primary:hover {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .comments-info h5 {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .comments h3::after,
 .inner-pages .leve-comments h3::after {
-    background-color: #446BB6;
+    background-color: black;
 }
 
 .inner-pages .leve-comments .btn {
-    background: #446BB6;
-    border: 1px solid #446BB6;
+    background: black;
+    border: 1px solid black;
 }
 
 .inner-pages .leve-comments .btn:hover {
-    border: 1px solid #446BB6;
+    border: 1px solid black;
 }
 
 .inner-pages .contact-us .btn {
-    background: #446BB6;
-    border: 1px solid #446BB6;
+    background: black;
+    border: 1px solid black;
 }
 
 .inner-pages .contact-us .btn:hover {
-    border: 1px solid #446BB6;
+    border: 1px solid black;
 }
 
 .inner-pages .call-info h3::after {
-    background-color: #446BB6;
+    background-color: black;
 }
 
 .inner-pages .call-info ul li .fa {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .single-add-property>h3 {
-    color: #446BB6;
+    color: black;
 }
 
 .inner-pages .prperty-submit-button>button {
-    background: #446BB6 none repeat scroll 0 0;
+    background: black none repeat scroll 0 0;
 }
 
 .leaflet-div-icon,
 .map-marker {
-    background-color: #446BB6;
-    border: 5px solid #446BB6;
+    background-color: black;
+    border: 5px solid black;
 }
 
 .leaflet-div-icon:before,
 .map-marker:before {
-    border-top-color: #446BB6;
+    border-top-color: black;
 }
 
 .listing-window-image:before {
-    background-color: #446BB6;
+    background-color: black;
 }
 
 .listing-window-content h3 {
-    background-color: #446BB6;
+    background-color: black;
 }
 
 .blog-section .action-list .fa-comment {
-    color: #446BB6;
+    color: black;
 }
 
 .blog-section .action-list .fa-share-alt {
-    color: #446BB6;
+    color: black;
 }
 
 .blog-section .action-list .fa-heart {
-    color: #446BB6;
+    color: black;
 }
 
 section.pricing-table {

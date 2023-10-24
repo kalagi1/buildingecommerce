@@ -96,9 +96,10 @@
                                 </button>
                             </div>
                             <div id="logo">
-                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
+                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
                                         alt=""></a>
                             </div>
+
                         </div>
                         <div class="center position-relative">
                             <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
@@ -109,7 +110,7 @@
                                 style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px;">
                             </div>
                         </div>
-                        <div class="rightSide">
+                        <div class="rightSide d-xl-block d-none d-lg-block ">
                             <div class="header-widget d-flex">
                                 @if (Auth::user())
                                     @if (Auth::user()->type == 1)
@@ -203,30 +204,34 @@
                                         <span class="d-xl-block d-none d-lg-block rightNavText">Sepetim</span></a>
                                 @endif
 
-                                @if (Auth::check() && Auth::user()->type == 2)
-                                    <a href="{{ url('institutional/create_project_v2') }}">
+                                @if (Auth::check())
+                                    @if (Auth::user()->type == 2)
+                                        <a href="{{ url('institutional/create_project_v2') }}">
+                                            <button type="button" class="buyUserRequest ml-3">
+                                                <span class="buyUserRequest__text"> İlan Ekle</span>
+                                                <span class="buyUserRequest__icon">
+                                                    <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                                </span>
+                                            </button></a>
+                                    @elseif (Auth::check() && Auth::user()->type == 1)
                                         <button type="button" class="buyUserRequest ml-3">
-                                            <span class="buyUserRequest__text"> İlan Ekle</span>
+                                            <span class="buyUserRequest__text"> Sat Kirala</span>
                                             <span class="buyUserRequest__icon">
                                                 <img src="{{ asset('sc.png') }}" alt="" srcset="">
                                             </span>
-                                        </button></a>
-                                @elseif (Auth::check() && Auth::user()->type == 1)
-                                    <button type="button" class="buyUserRequest ml-3">
-                                        <span class="buyUserRequest__text"> Sat Kirala</span>
-                                        <span class="buyUserRequest__icon">
-                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                        </span>
-                                    </button>
+                                        </button>
+                                    @endif
                                 @else
                                     <a href="{{ route('client.login') }}">
                                         <button type="button" class="buyUserRequest ml-3">
-                                            <span class="buyUserRequest__text"> İlan Ekle</span>
+                                            <span class="buyUserRequest__text"> Sat Kirala</span>
                                             <span class="buyUserRequest__icon">
                                                 <img src="{{ asset('sc.png') }}" alt="" srcset="">
                                             </span>
                                         </button></a>
+
                                 @endif
+
 
                             </div>
                         </div>
@@ -245,9 +250,7 @@
                                         @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
                                             <span class="caret"></span>
                                         @endif
-                                        @if ($key == 0 || $key == 3 || $key == 7)
-                                            <span class="new-badge">Yeni</span>
-                                        @endif
+                                     
                                     </a>
                                     @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
                                         <ul>
@@ -327,9 +330,10 @@
 
 
         <style>
-            a{
+            a {
                 text-decoration: none !important;
             }
+
             .buyUserRequest {
                 position: relative;
                 width: 150px;
@@ -338,7 +342,7 @@
                 display: flex;
                 align-items: center;
                 border: 1px solid red;
-                background-color: red;
+                background-color: #EA2B2E;
             }
 
             .buyUserRequest,
@@ -348,7 +352,7 @@
             }
 
             .buyUserRequest .buyUserRequest__text {
-                transform: translateX(10px);
+                transform: translateX(20px);
                 color: #fff;
                 font-weight: 600;
                 line-height: 14px;
@@ -371,7 +375,7 @@
             }
 
             .buyUserRequest:hover {
-                background: red;
+                background: #EA2B2E;
             }
 
             .buyUserRequest:hover .buyUserRequest__text {
@@ -384,7 +388,7 @@
             }
 
             .buyUserRequest:active .buyUserRequest__icon {
-                background-color: red;
+                background-color: #EA2B2E;
             }
 
             .buyUserRequest:active {
@@ -405,6 +409,19 @@
             }
 
             @media (max-width: 768px) {
+                .buyUserRequest {
+                    width: 80px !important;
+                }
+
+                .buyUserRequest .buyUserRequest__text {
+                    transform: translateX(5px) !important
+                }
+
+                .buyUserRequest__icon {
+                    display: none !important;
+
+                }
+
                 .cartIconBtn {
                     padding: 2px;
                     height: 100%;

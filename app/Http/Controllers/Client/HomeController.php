@@ -20,17 +20,22 @@ class HomeController extends Controller
     public function index()
     {
         $menu = Menu::getMenuItems();
-
-        $secondhandHousings = Housing::with('images')->select(
-            'housings.id',
-            'housings.title AS housing_title',
-            'housings.created_at',
-            'housing_types.title as housing_type_title',
-            'housings.housing_type_data',
-            'housings.address',
-            \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
-        )->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+        $secondhandHousings = Housing::with('images')
+            ->select(
+                'housings.id',
+                'housings.title AS housing_title',
+                'housings.created_at',
+                'housing_types.title as housing_type_title',
+                'housings.housing_type_data',
+                'housings.address',
+                \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+                'cities.title AS city_title', // city tablosundan veri çekme
+                'districts.ilce_title AS county_title' // district tablosundan veri çekme
+            )
+            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
             ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+            ->leftJoin('cities', 'cities.id', '=', 'housings.city_id') // city tablosunu join etme
+            ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id') // district tablosunu join etme
             ->where('housings.status', 1)
             ->get();
 
@@ -40,11 +45,11 @@ class HomeController extends Controller
         $sliders = Slider::all();
         $footerSlider = FooterSlider::all();
 
-        $finishProjects = Project::whereHas('housingStatus', function ($query) {
+        $finishProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '2');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->orderBy("created_at", "desc")->where('status', 1)->get();
 
-        $continueProjects = Project::whereHas('housingStatus', function ($query) {
+        $continueProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '3');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
 
@@ -146,7 +151,7 @@ class HomeController extends Controller
             return $a;
         }
 
-        $obj = Housing::select('housings.*')->with('images')->where('housings.status', 1)->whereRaw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) IS NULL');
+        $obj = Housing::select('housings.*')->with('images', "city", "county")->where('housings.status', 1)->whereRaw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) IS NULL');
 
         if ($request->input('from_owner')) {
             switch ($request->input('from_owner')) {
@@ -276,6 +281,9 @@ class HomeController extends Controller
                 'housing_url' => route('housing.show', $item->id),
                 'title' => $item->title,
                 'housing_address' => $item->address,
+                'city' => $item->city,
+                'county' => $item->county,
+
                 'created_at' => $item->created_at,
                 'housing_type' =>
                 [
@@ -307,8 +315,7 @@ class HomeController extends Controller
                     ->join('cities', 'cities.id', '=', 'housings.city_id')
                     ->join('counties', 'counties.id', '=', 'housings.county_id')
                     ->where('status', 1)
-                    ->where(function ($query) use ($term)
-                    {
+                    ->where(function ($query) use ($term) {
                         $query->where('housings.title', 'LIKE', "%{$term}%");
                         $query->orWhereRaw('JSON_EXTRACT(housings.housing_type_data, "$.room_count[0]") = ?', $term);
                         $query->orWhere('cities.title', $term);
@@ -324,8 +331,8 @@ class HomeController extends Controller
                         ];
                     }),
                 'projects' => Project::where('project_title', 'LIKE', "%{$term}%")
-                                     ->where('status', 1)
-                                     ->get()->map(function ($item) {
+                    ->where('status', 1)
+                    ->get()->map(function ($item) {
                     return [
                         'id' => $item->id,
                         'photo' => $item->image,

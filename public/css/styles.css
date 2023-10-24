@@ -126,7 +126,7 @@ Version      : 1.2
 
     h2 span {
         font-weight: 600;
-        color: #446BB6;
+        color: black;
     }
 
     h3 {
@@ -268,7 +268,7 @@ Version      : 1.2
         display: block;
         height: 3px;
         font-weight: bold;
-        background-color: #446BB6;
+        background-color: black;
         content: " ";
         width: 100px;
         margin: 0 auto;
@@ -286,7 +286,6 @@ Version      : 1.2
         margin-bottom: 20px;
         display: flex;
         align-items: center;
-        padding-left: 35px;
         position: relative;
 
     }
@@ -295,20 +294,11 @@ Version      : 1.2
         margin-bottom: 2.5rem;
     }
 
-    .section-title:before {
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 15px;
-        content: '';
-        border-radius: 3px;
-        position: absolute;
-        background-color: #446BB6;
-    }
+
 
     .featured .allView,
     .popular-places button {
-        background-color: #446BB6;
+        background-color: black;
         border: none;
         padding: 10px 15px;
         border-radius: 5px;
@@ -334,7 +324,7 @@ Version      : 1.2
 
     .section-title h2 {
         font-size: 20px;
-        color: #446BB6;
+        color: black;
         margin-bottom: 0 !important;
         text-transform: uppercase;
     }
@@ -362,7 +352,7 @@ Version      : 1.2
     /*-----------------------------------*/
 
     .header-top {
-        background: #446BB6;
+        background: black;
         color: #7f8997;
         display: block;
         padding: 1rem 0;
@@ -513,7 +503,7 @@ Version      : 1.2
     }
 
     .header-top .social-icons:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .header-top .dropdown {
@@ -555,7 +545,7 @@ Version      : 1.2
     .share-icons .button {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         font-weight: 400;
-        background: #446BB6;
+        background: black;
         color: white;
         padding: 0.35em 0;
         font-size: 17px;
@@ -625,7 +615,6 @@ Version      : 1.2
         width: 50px !important;
         height: 50px !important;
         border-radius: 30px;
-        border: 3px solid #dc2e2e;
         padding: 5px;
     }
 
@@ -678,7 +667,7 @@ Version      : 1.2
         border: none;
         border-radius: 50px;
         background: transparent;
-        color: orange;
+        color: #e54242;
         margin-left: -48px;
     }
 
@@ -867,7 +856,7 @@ Version      : 1.2
     }
 
     .get-quote a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     #bloq-search {
@@ -886,7 +875,7 @@ Version      : 1.2
     }
 
     .bloq-search input[type="text"] {
-        border: 1px solid #446BB6;
+        border: 1px solid black;
         border-radius: 5px 0 0 5px;
         margin-bottom: 0px;
         padding: 1rem;
@@ -902,7 +891,7 @@ Version      : 1.2
         border: 0;
         width: auto;
         border-radius: 0 5px 5px 0;
-        background: #446BB6;
+        background: black;
         color: #fff;
         cursor: pointer;
         margin-bottom: 0px;
@@ -940,7 +929,7 @@ Version      : 1.2
 
     #main-menu ul a:hover,
     #main-menu ul li.active a {
-        color: #446BB6;
+        color: black;
     }
 
     #main-menu .card {
@@ -1042,7 +1031,7 @@ Version      : 1.2
     }
 
     .tp-leftarrow:hover {
-        background: #446BB6;
+        background: black;
     }
 
     .tp-rightarrow {
@@ -1051,7 +1040,7 @@ Version      : 1.2
     }
 
     .tp-rightarrow:hover {
-        background: #446BB6;
+        background: black;
     }
 
     .tp-parallax-wrap {
@@ -1081,7 +1070,7 @@ Version      : 1.2
     }
 
     .text-theme-colored2 {
-        color: #0098ef !important;
+        color: #e54242 !important;
     }
 
     .tp-caption.font-p {
@@ -1111,14 +1100,14 @@ Version      : 1.2
     }
 
     .btn-default.btn-theme-colored2:hover {
-        background: #446BB6;
+        background: black;
         color: #fff;
         border-color: #fff;
     }
 
     .btn-dark.btn-theme-colored {
         color: #fff;
-        background-color: #446BB6;
+        background-color: black;
         border-color: #fff;
         font-size: 16px;
         font-weight: 600;
@@ -1139,7 +1128,7 @@ Version      : 1.2
     /* Box colors */
 
     .bg-1 {
-        background: #446BB6;
+        background: black;
         color: #fff;
         display: inline-block;
         -webkit-box-pack: start;
@@ -1220,7 +1209,7 @@ Version      : 1.2
 
     .bg-2 .button {
         color: #000 !important;
-        border-color: #446BB6;
+        border-color: black;
     }
 
     .bg-2 .button:hover {
@@ -1233,12 +1222,12 @@ Version      : 1.2
     }
 
     .bg-3 .button {
-        color: #446BB6;
-        border-color: #446BB6;
+        color: black;
+        border-color: black;
     }
 
     .bg-3 .button:hover {
-        border-color: #446BB6;
+        border-color: black;
         color: #fff;
     }
 
@@ -1344,7 +1333,7 @@ Version      : 1.2
         left: 0;
         width: 150%;
         height: 100%;
-        background: #446BB6;
+        background: black;
         z-index: -1;
         -webkit-transform: rotate3d(0, 0, 1, -45deg) translate3d(0, -3em, 0);
         transform: rotate3d(0, 0, 1, -45deg) translate3d(0, -3em, 0);
@@ -1363,12 +1352,12 @@ Version      : 1.2
 
     .button--wayra.button--inverted:hover {
         color: #fff;
-        border-color: #446BB6;
+        border-color: black;
     }
 
     .button--wayra:hover::before {
         opacity: 1;
-        background-color: #446BB6;
+        background-color: black;
         -webkit-transform: rotate3d(0, 0, 1, 0deg);
         transform: rotate3d(0, 0, 1, 0deg);
         -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
@@ -1376,7 +1365,7 @@ Version      : 1.2
     }
 
     .button--wayra.button--inverted:hover::before {
-        background-color: #446BB6;
+        background-color: black;
     }
 
     .portfolio .box a {
@@ -1504,7 +1493,7 @@ Version      : 1.2
     }
 
     .portfolio .sec-title h2 {
-        color: #446BB6;
+        color: black;
         margin-bottom: .5rem;
     }
 
@@ -1534,7 +1523,7 @@ Version      : 1.2
         border-radius: 2px;
         color: #fff;
         border: none;
-        background-color: #446BB6;
+        background-color: black;
         display: inline-block;
         z-index: 99;
     }
@@ -1692,13 +1681,13 @@ Version      : 1.2
         font-size: 14px;
         line-height: 40px;
         list-style: none;
-        color: #446BB6;
+        color: black;
     }
 
     .recently .homes-content .homes-list li i {
         font-size: 1rem;
         margin-right: 5px;
-        color: #446BB6;
+        color: black;
     }
 
     .recently .homes-content .homes-list span {
@@ -1749,7 +1738,7 @@ Version      : 1.2
     }
 
     .house-details.thehp-1 i {
-        color: #446BB6;
+        color: black;
         font-size: 18px;
         font-weight: 500;
     }
@@ -1765,7 +1754,7 @@ Version      : 1.2
         border-radius: 2px;
         color: #fff;
         border: none;
-        background-color: #446BB6;
+        background-color: black;
         display: inline-block;
         z-index: 1;
     }
@@ -1963,11 +1952,11 @@ Version      : 1.2
     .hp1 .request .btn {
         cursor: pointer;
         margin-top: 1rem;
-        background: #446BB6;
+        background: black;
     }
 
     .hp1 .request .btn:hover {
-        background: #446BB6;
+        background: black;
     }
 
     .hp1 .request .address-info p:last-child {
@@ -2007,7 +1996,7 @@ Version      : 1.2
     .hp1 .request .contact-form input[type="text"]:focus,
     .hp1 .request .contact-form input[type="email"]:focus,
     .hp1 .request .contact-form textarea:focus {
-        border-color: #446BB6;
+        border-color: black;
     }
 
     .hp1 .request .contact-form textarea {
@@ -2062,7 +2051,7 @@ Version      : 1.2
         display: block;
         height: 3px;
         font-weight: bold;
-        background-color: #446BB6;
+        background-color: black;
         content: " ";
         width: 50px;
         margin-top: .5rem;
@@ -2077,7 +2066,7 @@ Version      : 1.2
         display: block;
         height: 3px;
         font-weight: bold;
-        background-color: #446BB6;
+        background-color: black;
         content: " ";
         width: 50px;
         margin-top: .5rem;
@@ -2120,7 +2109,7 @@ Version      : 1.2
 
     .hp1 .call-info ul li .fa {
         font-size: 1.6rem;
-        color: #446BB6;
+        color: black;
     }
 
     .info-help .project-single {
@@ -2317,7 +2306,7 @@ Version      : 1.2
     }
 
     .listing-hidden-content.blue {
-        background: #446BB6;
+        background: black;
     }
 
     /*----- SLICK CAROUSEL -----*/
@@ -2355,7 +2344,7 @@ Version      : 1.2
     .slick-next:hover {
         color: transparent;
         outline: none;
-        background: #446BB6;
+        background: black;
     }
 
     .slick-prev:hover:before,
@@ -2374,7 +2363,7 @@ Version      : 1.2
 
     .slick-prev.slick-disabled:hover,
     .slick-next.slick-disabled:hover {
-        background: #446BB6;
+        background: black;
         color: #fff;
     }
 
@@ -2447,7 +2436,7 @@ Version      : 1.2
         font-size: 0;
         line-height: 0;
         cursor: pointer;
-        color: #446BB6;
+        color: black;
         border: 0;
         position: relative;
         outline: none;
@@ -2458,15 +2447,15 @@ Version      : 1.2
         opacity: 1;
         border-radius: 50%;
         line-height: 0;
-        -webkit-box-shadow: inset 0 0 0 2px #446BB6;
-        box-shadow: inset 0 0 0 2px #446BB6;
+        -webkit-box-shadow: inset 0 0 0 2px black;
+        box-shadow: inset 0 0 0 2px black;
         -webkit-transition: all 0.3s;
         transition: all 0.3s;
     }
 
     .slick-dots li.slick-active {
-        -webkit-box-shadow: inset 0 0 0 6px #446BB6;
-        box-shadow: inset 0 0 0 6px #446BB6;
+        -webkit-box-shadow: inset 0 0 0 6px black;
+        box-shadow: inset 0 0 0 6px black;
         -webkit-transition: all 0.3s;
         transition: all 0.3s;
     }
@@ -2484,7 +2473,7 @@ Version      : 1.2
         -webkit-transition: all 0.3s;
         transition: all 0.3s;
         opacity: 0;
-        background-color: #446BB6;
+        background-color: black;
     }
 
     .slick-dots li.slick-active:after {
@@ -2593,7 +2582,7 @@ Version      : 1.2
 
     .welcome-title h2 span,
     .welcome-title h2 span {
-        color: #446BB6;
+        color: black;
         font-weight: 800;
     }
 
@@ -2662,7 +2651,7 @@ Version      : 1.2
     .welcome .popup-youtube {
         background: #fff none repeat scroll 0 0;
         border-radius: 100%;
-        color: #446BB6;
+        color: black;
         font-size: 30px;
         height: 70px;
         left: 50%;
@@ -2828,7 +2817,7 @@ Version      : 1.2
     }
 
     .services-home .bg-base {
-        background: #446BB6;
+        background: black;
     }
 
     .services-home .text-white {
@@ -2922,7 +2911,7 @@ Version      : 1.2
     }
 
     .services-home a.text-base:hover {
-        color: #446BB6;
+        color: black;
     }
 
     @media screen and (max-width: 991px) {
@@ -2954,7 +2943,7 @@ Version      : 1.2
     }
 
     .portfolio .sec-title h2 {
-        color: #446BB6;
+        color: black;
         margin-bottom: .5rem;
     }
 
@@ -2989,7 +2978,7 @@ Version      : 1.2
     }
 
     .portfolio .filters-group ul li:hover {
-        background: #446BB6;
+        background: black;
         color: #fff;
     }
 
@@ -3083,7 +3072,7 @@ Version      : 1.2
         border-radius: 2px;
         color: #fff;
         border: none;
-        background-color: #446BB6;
+        background-color: black;
         display: inline-block;
         z-index: 1;
     }
@@ -3093,7 +3082,7 @@ Version      : 1.2
         text-align: center;
         width: 120px !important;
         margin-top: 15px;
-        background-color: #446BB6 !important;
+        background-color: black !important;
     }
 
     .portfolio .homes-price,
@@ -3216,7 +3205,7 @@ Version      : 1.2
     }
 
     .portfolio .homes-content h3 a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .price-properties h3 {
@@ -3265,13 +3254,13 @@ Version      : 1.2
         font-size: 14px;
         line-height: 40px;
         list-style: none;
-        color: #446BB6;
+        color: black;
     }
 
     .portfolio .homes-content .homes-list li i {
         font-size: 1rem;
         margin-right: 5px;
-        color: #446BB6;
+        color: black;
     }
 
     .portfolio .homes-content .homes-list span {
@@ -3542,7 +3531,7 @@ Version      : 1.2
     }
 
     .btn.btn-outline-light {
-        background-color: #446BB6;
+        background-color: black;
         color: #fff;
         border-color: #fff;
         font-size: 16px;
@@ -3601,7 +3590,7 @@ Version      : 1.2
     }
 
     .popular-places .img-box:hover {
-        background: #446BB6;
+        background: black;
     }
 
     .popular-places .img-box:before {
@@ -3711,6 +3700,7 @@ Version      : 1.2
 
     .popular-places .hover-effect img {
         height: 100%;
+        object-fit: cover;
         -webkit-transform: scale(1);
         transform: scale(1);
         -webkit-transition: all .8s ease;
@@ -3752,7 +3742,7 @@ Version      : 1.2
     }
 
     .feature-cities-1 .img-box:hover {
-        background: #446BB6;
+        background: black;
     }
 
     .feature-cities-1 .img-box:before {
@@ -3786,7 +3776,7 @@ Version      : 1.2
     }
 
     .feature-cities-1 .listing-badges .featured {
-        background-color: #446BB6;
+        background-color: black;
         float: right;
         border-radius: 20px;
         right: 23px;
@@ -3930,7 +3920,7 @@ Version      : 1.2
     }
 
     .team .sec-title h2 {
-        color: #446BB6;
+        color: black;
         margin-bottom: .5rem;
     }
 
@@ -4280,7 +4270,7 @@ Version      : 1.2
     .top-location .owl-theme .owl-nav [class*=owl-] {
         margin: 0;
         padding: 0;
-        background: #446BB6;
+        background: black;
         display: inline-block;
         cursor: pointer;
         border-radius: 0;
@@ -4378,7 +4368,7 @@ Version      : 1.2
     }
 
     .blog-section .news-item a:hover h3 {
-        color: #446BB6;
+        color: black;
         -webkit-transition: all .25s;
         transition: all .25s;
     }
@@ -4506,15 +4496,15 @@ Version      : 1.2
     }
 
     .blog-section .action-list .fa-comment {
-        color: #446BB6;
+        color: black;
     }
 
     .blog-section .action-list .fa-share-alt {
-        color: #446BB6;
+        color: black;
     }
 
     .blog-section .action-list .fa-heart {
-        color: #446BB6;
+        color: black;
     }
 
     .blog-section ul.action-list {
@@ -4572,7 +4562,7 @@ Version      : 1.2
         position: relative;
         font-size: 1rem;
         font-weight: 600;
-        color: #446BB6;
+        color: black;
         -webkit-transition: all 0.25s;
         transition: all 0.25s;
     }
@@ -4666,7 +4656,7 @@ Version      : 1.2
 
     .testimonials .title-style h2,
     .testimonials .title-style p {
-        color: #446BB6;
+        color: black;
     }
 
     .testimonials .title-style span {
@@ -4694,7 +4684,7 @@ Version      : 1.2
     }
 
     .testimonials .title-icon i {
-        color: #446BB6;
+        color: black;
         font-size: 1.8rem;
         margin-top: 1px;
     }
@@ -4738,7 +4728,7 @@ Version      : 1.2
         left: 136px;
         top: -24px;
         position: relative;
-        color: #446BB6;
+        color: black;
     }
 
     .testimonials .test-1 p::after {
@@ -4757,7 +4747,7 @@ Version      : 1.2
         text-align: center;
         font-size: 1.2rem;
         margin-bottom: .8rem;
-        color: #446BB6;
+        color: black;
         font-weight: 600;
     }
 
@@ -4785,7 +4775,7 @@ Version      : 1.2
     }
 
     .owl-dot.active {
-        background: #446BB6 !important;
+        background: black !important;
     }
 
     .starts {
@@ -4876,7 +4866,7 @@ Version      : 1.2
         content: "";
         width: 100px;
         height: 2px;
-        background: #446BB6;
+        background: black;
         position: absolute;
         top: 14px;
         left: -80px;
@@ -4886,7 +4876,7 @@ Version      : 1.2
         content: "";
         width: 100px;
         height: 2px;
-        background: #446BB6;
+        background: black;
         position: absolute;
         top: 14px;
         right: -80px;
@@ -4900,7 +4890,7 @@ Version      : 1.2
 
     .counterup .countr .fa {
         font-size: 3rem;
-        color: #446BB6;
+        color: black;
         border-radius: 3px;
         margin-right: 1.5rem;
     }
@@ -4913,7 +4903,7 @@ Version      : 1.2
 
     .counterup .title-style h2,
     .counterup .title-style p {
-        color: #446BB6;
+        color: black;
     }
 
     .counterup .title-style span {
@@ -4984,12 +4974,12 @@ Version      : 1.2
     .first-footer .top-footer {
         background: #303441;
         color: #333;
-        padding: 6rem 0;
+        padding: 3rem 0;
         border-top: 1px solid #e5e5e5;
     }
 
     .first-footer .logo img {
-        width: 50%;
+        width: 100%;
         height: auto;
         margin-bottom: 1.6rem;
     }
@@ -5136,9 +5126,13 @@ Version      : 1.2
 
     @media screen and (max-width: 768px) {
         .first-footer .logo img {
-            width: 20%;
+            width: 100%;
             height: auto;
             margin-bottom: 1.6rem;
+        }
+
+        .second-footer span {
+            margin-bottom: 30px;
         }
 
         .homepage-2 .second-footer .container-fluid {
@@ -5167,7 +5161,7 @@ Version      : 1.2
         display: block;
         height: 3px;
         font-weight: bold;
-        background-color: #446BB6;
+        background-color: black;
         content: " ";
         width: 50px;
         margin-top: .5rem;
@@ -5234,7 +5228,7 @@ Version      : 1.2
         display: block;
         height: 3px;
         font-weight: bold;
-        background-color: #446BB6;
+        background-color: black;
         content: " ";
         width: 50px;
         margin-top: .5rem;
@@ -5301,7 +5295,7 @@ Version      : 1.2
         display: block;
         height: 3px;
         font-weight: bold;
-        background-color: #446BB6;
+        background-color: black;
         content: " ";
         width: 50px;
         margin-top: .5rem;
@@ -5396,7 +5390,7 @@ Version      : 1.2
         display: block;
         height: 3px;
         font-weight: bold;
-        background-color: #446BB6;
+        background-color: black;
         content: " ";
         width: 50px;
         margin-top: .5rem;
@@ -5439,7 +5433,7 @@ Version      : 1.2
     .first-footer .bloq-email .email input[type="submit"] {
         border: 0px;
         padding: .8rem;
-        background: #446BB6;
+        background: black;
         color: #fff;
         text-transform: uppercase;
         font-weight: bold;
@@ -5603,7 +5597,7 @@ Version      : 1.2
         right: 1rem;
         font-size: 1.5rem;
         font-weight: 500;
-        background: #446BB6;
+        background: black;
         padding: .9rem;
         color: #fff;
         border-radius: 3px;
@@ -5654,7 +5648,7 @@ Version      : 1.2
 
     .homepage-2 .btn.btn-yellow:hover {
         background: #fff !important;
-        color: #446BB6;
+        color: black;
     }
 
     .homepage-2 .info-help:before {
@@ -5666,12 +5660,12 @@ Version      : 1.2
     }
 
     .loginButton {
-        border: 1px solid #446BB6 !important;
+        border: 1px solid black !important;
         background-color: transparent !important;
     }
 
     .loginButton a.button {
-        color: #446BB6 !important;
+        color: black !important;
     }
 
     .homepage-2 .info-help.h18 {
@@ -5706,7 +5700,7 @@ Version      : 1.2
     .homepage-2 .nav-item a:hover,
     .homepage-2 .nav-item a.active:before,
     .homepage-2 .btn.btn-yellow {
-        background: #446BB6;
+        background: black;
     }
 
     .homepage-2 .form-group .nice-select {
@@ -5726,7 +5720,7 @@ Version      : 1.2
     }
 
     .homepage-2 .form-group .nice-select i {
-        color: #446BB6;
+        color: black;
         font-size: 1.2rem;
         margin-top: 5px;
         margin-right: 10px;
@@ -5744,12 +5738,12 @@ Version      : 1.2
     }
 
     .homepage-2 .range-slider .ui-slider .ui-slider-handle {
-        border: 2px solid #446BB6;
+        border: 2px solid black;
     }
 
     .homepage-2 .range-slider .ui-widget-header,
     .homepage-2 .checkboxes input[type=checkbox]:checked+label:before {
-        background: #446BB6;
+        background: black;
     }
 
     .homepage-2 .banner-inner h1 {
@@ -5940,13 +5934,13 @@ Version      : 1.2
     .homepage-2 .portfolio .homes-content h3 a:hover,
     .homepage-2 .blog-section .news-item h3:hover,
     .homepage-2 .dropdown-filter span::after {
-        color: #446BB6;
+        color: black;
     }
 
     .homepage-2 .btn:hover,
     .homepage-2 .popular-places .listing-badges .featured,
     .homepage-2 .homes-tag.featured {
-        background: #446BB6;
+        background: black;
     }
 
     .homepage-2 .portfolio .homes-tag.sale {
@@ -6028,7 +6022,7 @@ Version      : 1.2
 
     .login-and-register-form .close-reg {
         position: absolute;
-        background: #446BB6;
+        background: black;
         top: 14px;
         right: 30px;
         border-radius: 100%;
@@ -6149,7 +6143,7 @@ Version      : 1.2
     }
 
     .login-and-register-form .tabs-menu li.current a {
-        background: #446BB6;
+        background: black;
     }
 
     .login-and-register-form .main-register .filter-tags {
@@ -6250,7 +6244,7 @@ Version      : 1.2
 
     .login-and-register-form .custom-form .log-submit-btn {
         float: left;
-        background: #446BB6;
+        background: black;
         padding: 13px 35px;
         border: none;
         border-radius: 4px;
@@ -6274,7 +6268,7 @@ Version      : 1.2
     .login-and-register-form .tabs-menu li.current a,
     .login-and-register-form .tabs-menu li a:hover {
         color: #fff;
-        background: #446BB6;
+        background: black;
     }
 
     .login-and-register-form .tab-contents {
@@ -6288,7 +6282,7 @@ Version      : 1.2
     }
 
     .login-and-register-form .main-register h3 span strong {
-        color: #446BB6;
+        color: black;
         border: none;
         outline: 0;
         font-weight: inherit;
@@ -6658,7 +6652,7 @@ Version      : 1.2
 
     .homepage-3 .portfolio .homes-content h3 a:hover,
     .homepage-3 .blog-section .news-item h3:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .homepage-3 .btn:hover,
@@ -6668,7 +6662,7 @@ Version      : 1.2
     }
 
     .homepage-3 .portfolio .homes-tag.sale {
-        background: #446BB6 !important;
+        background: black !important;
     }
 
     .homepage-3 .portfolio .homes-tag.rent {
@@ -6921,7 +6915,7 @@ Version      : 1.2
 
     .homepage-1 .job_clientSlide .owl-nav .owl-prev:hover,
     .homepage-1 .job_clientSlide .owl-nav .owl-next:hover {
-        background: #446BB6;
+        background: black;
         color: #fff;
     }
 
@@ -7029,7 +7023,7 @@ Version      : 1.2
 
     .play-icon {
         font-size: 22px;
-        color: #446BB6;
+        color: black;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -7136,7 +7130,7 @@ Version      : 1.2
     }
 
     .overlay-dark::after {
-        background-color: #446BB6;
+        background-color: black;
         opacity: 0.80;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)";
         z-index: -1;
@@ -7153,7 +7147,7 @@ Version      : 1.2
     }
 
     .homepage-4 #navigation.style-1 ul li:hover {
-        background: #446BB6;
+        background: black;
     }
 
     .homepage-4 .btn,
@@ -7171,7 +7165,7 @@ Version      : 1.2
 
     .homepage-4 .slick-prev:hover,
     .homepage-4 .slick-next:hover {
-        background: #446BB6;
+        background: black;
     }
 
     .homepage-4 .project-single .button-effect {
@@ -7262,17 +7256,17 @@ Version      : 1.2
     a.button,
     .homepage-4 .header-image .left .btn-white {
         background: #fff;
-        color: #446BB6 !important;
+        color: black !important;
         -webkit-box-shadow: 0px 0px 0px 4px rgba(255, 255, 255, 0.2);
         box-shadow: 0px 0px 0px 4px rgba(255, 255, 255, 0.2);
     }
 
     .homepage-4 .home18 .sec-title h2 {
-        color: #446BB6;
+        color: black;
     }
 
     .homepage-4 .home18 .sec-title h2 span::before {
-        background: #446BB6;
+        background: black;
     }
 
     .homepage-4 .portfolio .homes-tag.sale {
@@ -7280,7 +7274,7 @@ Version      : 1.2
     }
 
     .homepage-4 .homes-tag.featured {
-        background: #446BB6 !important;
+        background: black !important;
     }
 
     .homepage-4 .portfolio .homes-price {
@@ -7375,12 +7369,12 @@ Version      : 1.2
 
     .homepage-4 .portfolio .homes-content h3 a:hover,
     .homepage-4 .blog-section .news-item h3:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .homepage-4 .btn:hover,
     .homepage-4 .popular-places .listing-badges .featured {
-        background: #446BB6;
+        background: black;
     }
 
     .homepage-4 .popular-places .img-box {
@@ -7415,7 +7409,7 @@ Version      : 1.2
     }
 
     .homepage-4 .info-help .info-head .info-text .btn-pro {
-        background: #446BB6;
+        background: black;
     }
 
     .homepage-4 .testimonials .test-1 h3 {
@@ -7423,7 +7417,7 @@ Version      : 1.2
     }
 
     .homepage-4 .starts .fa {
-        color: #446BB6 !important;
+        color: black !important;
     }
 
     .homepage-4 .testimonials .test-1 p::before {
@@ -7433,7 +7427,7 @@ Version      : 1.2
         left: 236px;
         top: -24px;
         position: relative;
-        color: #446BB6;
+        color: black;
     }
 
     .homepage-4 .owl-dots {
@@ -7466,7 +7460,7 @@ Version      : 1.2
     .homepage-4 .blog-section .action-list .fa-comment,
     .homepage-4 .blog-section .action-list .fa-share-alt,
     .homepage-4 .blog-section .news-link {
-        color: #446BB6;
+        color: black;
     }
 
     .homepage-4 .first-footer .top-footer {
@@ -7478,7 +7472,7 @@ Version      : 1.2
     .homepage-4 .first-footer .newsletters h3::after,
     .homepage-4 .first-footer .bloq-email .email input[type="submit"],
     .homepage-4 .go-up {
-        background: #446BB6;
+        background: black;
     }
 
     .homepage-4 .welcome-area {
@@ -7787,7 +7781,7 @@ Version      : 1.2
 
     .main-search-field {
         padding: 3rem 0;
-        background: #446BB6;
+        background: black;
         background-repeat: repeat;
     }
 
@@ -8044,7 +8038,7 @@ Version      : 1.2
     }
 
     .parallax-search .form-group .nice-select:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .parallax-search .form-group .nice-select::after {
@@ -8053,7 +8047,7 @@ Version      : 1.2
     }
 
     .parallax-search .form-group .nice-select i {
-        color: #446BB6;
+        color: black;
         font-size: 1.2rem;
         margin-top: 5px;
         margin-right: 10px;
@@ -8070,7 +8064,7 @@ Version      : 1.2
 
     .parallax-search .form-group .list li:hover {
         color: #fff;
-        background: #446BB6;
+        background: black;
     }
 
     .parallax-search .form-group.location {
@@ -8159,12 +8153,12 @@ Version      : 1.2
     .hp-6 .btn.sApp-btn:before,
     .hp-6 .bg-overlay::after,
     .hp-6 .benifits-item:after {
-        background: linear-gradient(-47deg, #446BB6 0%, #446BB6 100%);
+        background: linear-gradient(-47deg, black 0%, black 100%);
     }
 
     .hp-6 a.btn.btn-yellow:hover {
         background: #fff !important;
-        color: #446BB6;
+        color: black;
     }
 
     .hp-6 .bg-overlay::after {
@@ -8175,14 +8169,14 @@ Version      : 1.2
     .hp-6 .rld-banner-tab .nav-item a.active,
     .hp-6 .rld-banner-tab .nav-item a:hover,
     .hp-6 .rld-banner-tab .nav-item a.active:before {
-        background: #446BB6;
+        background: black;
     }
 
     .hp-6 .btn.btn-yellow {
         border: 0px;
         border-radius: 3px;
         font-size: 15px;
-        background-color: #446BB6;
+        background-color: black;
         -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
         box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
         color: #ffffff;
@@ -8308,9 +8302,24 @@ Version      : 1.2
         height: auto;
     }
 
+
     .leftSide {
         display: flex;
         align-items: center;
+    }
+
+    @media (max-width: 768px) {
+        .itemCircleFont {
+            font-size: 13px;
+        }
+
+        .leftSide {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+        }
+
     }
 
     .header-widget.sign-in a {
@@ -8424,7 +8433,7 @@ Version      : 1.2
         font-size: 20px;
         font-weight: 400;
         margin-left: 15px;
-        color: #446BB6;
+        color: black;
     }
 
     .hp-6 .explore__form-checkbox-list.full-filter.filter-block {
@@ -8530,7 +8539,7 @@ Version      : 1.2
     }
 
     .homepage-12 .header-image .left .btn-white {
-        background: #446BB6;
+        background: black;
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -8549,7 +8558,7 @@ Version      : 1.2
         display: inline-block;
         height: 100px;
         width: 100px;
-        background-color: #446BB6;
+        background-color: black;
         border-radius: 50%;
         margin-top: 50px;
     }
@@ -8563,7 +8572,7 @@ Version      : 1.2
         height: 100%;
         width: 100%;
         border-radius: 50%;
-        background-color: #446BB6;
+        background-color: black;
     }
 
     .homepage-12 .play-icon {
@@ -8590,7 +8599,7 @@ Version      : 1.2
         background-color: #fff;
         flex-wrap: nowrap;
         justify-content: space-between;
-        width: 550px;
+        width: 420px;
         align-items: center !important;
     }
 
@@ -8604,7 +8613,7 @@ Version      : 1.2
 
     .input-group.search i {
         margin-right: 30px;
-        color: #446BB6;
+        color: black;
     }
 
     @media screen and (max-width: 991px) {
@@ -8796,7 +8805,7 @@ Version      : 1.2
         width: 18px;
         height: 18px;
         border-radius: 50%;
-        border: 2px solid #446BB6;
+        border: 2px solid black;
         cursor: w-resize;
         background: #fff;
         outline: none;
@@ -8819,7 +8828,7 @@ Version      : 1.2
     }
 
     .hp-6 .range-slider .ui-widget-header {
-        background-color: #446BB6;
+        background-color: black;
     }
 
     .hp-6 .range-slider .ui-slider.ui-state-disabled .ui-slider-handle,
@@ -8952,7 +8961,7 @@ Version      : 1.2
         color: #fff;
         text-align: center;
         line-height: 15px;
-        background-color: #446BB6;
+        background-color: black;
         border: 2px solid transparent;
         -webkit-transition: border-color 0s;
         transition: border-color 0s;
@@ -8961,7 +8970,7 @@ Version      : 1.2
     .parallax-search .form-group .btn {
         display: block;
         width: 100%;
-        background: #446BB6;
+        background: black;
         cursor: pointer;
         color: #fff;
         text-transform: uppercase;
@@ -9239,7 +9248,7 @@ Version      : 1.2
     }
 
     .search-2 .form-group .nice-select:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .search-2 .form-group .nice-select::after {
@@ -9248,7 +9257,7 @@ Version      : 1.2
     }
 
     .search-2 .form-group .nice-select i {
-        color: #446BB6;
+        color: black;
         font-size: 1.2rem;
         margin-top: 5px;
         margin-right: 10px;
@@ -9265,7 +9274,7 @@ Version      : 1.2
 
     .search-2 .form-group .list li:hover {
         color: #fff;
-        background: #446BB6;
+        background: black;
     }
 
     .search-2 .form-group.looking {
@@ -9325,7 +9334,7 @@ Version      : 1.2
     .search-2 .form-group .btn {
         display: block;
         width: 100%;
-        background: #446BB6;
+        background: black;
         cursor: pointer;
         color: #fff;
         text-transform: uppercase;
@@ -10745,7 +10754,7 @@ Version      : 1.2
         display: inline-block;
         padding: 5px 10px;
         float: right;
-        background-color: #446BB6;
+        background-color: black;
         border-radius: 3px;
         top: 15px;
         right: 15px;
@@ -12094,7 +12103,7 @@ Version      : 1.2
     }
 
     .featured.home15 .sec-title h2 {
-        color: #446BB6;
+        color: black;
         margin-bottom: .5rem;
     }
 
@@ -12125,7 +12134,7 @@ Version      : 1.2
     }
 
     .featured.home15 .filters-group ul li:hover {
-        background: #446BB6;
+        background: black;
         color: #fff;
     }
 
@@ -12146,7 +12155,7 @@ Version      : 1.2
     }
 
     .featured.home15 .filters-group .active {
-        background: #446BB6;
+        background: black;
         color: #fff;
     }
 
@@ -12235,7 +12244,7 @@ Version      : 1.2
         border-radius: 2px;
         color: #fff;
         border: none;
-        background-color: #446BB6;
+        background-color: black;
         display: inline-block;
         z-index: 99;
     }
@@ -12367,7 +12376,7 @@ Version      : 1.2
     }
 
     .featured.home15 .homes-content h3 a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .price-properties h3 {
@@ -12416,7 +12425,7 @@ Version      : 1.2
         font-size: 13px;
         line-height: 40px;
         list-style: none;
-        color: #446BB6;
+        color: black;
     }
 
     .featured.home15 .homes-content .homes-list li i {
@@ -12732,7 +12741,7 @@ Version      : 1.2
     }
 
     .visited-cities .img-box:hover {
-        background: #446BB6;
+        background: black;
     }
 
     .visited-cities .img-box:before {
@@ -12765,7 +12774,7 @@ Version      : 1.2
     }
 
     .visited-cities .listing-badges .featured {
-        background-color: #446BB6;
+        background-color: black;
         float: left;
         -webkit-transform: rotate(-45deg);
         transform: rotate(-45deg);
@@ -12898,7 +12907,7 @@ Version      : 1.2
         display: block;
         position: relative;
         overflow: hidden;
-        height: 400px;
+        height: 250px;
     }
 
     .recent-img16 {
@@ -13046,18 +13055,18 @@ Version      : 1.2
     .th-17 .btn.btn-yellow,
     .th-17 .range-slider .ui-widget-header,
     .th-17 .checkboxes input[type=checkbox]:checked+label:before {
-        background: #446BB6;
+        background: black;
     }
 
     .th-17 .dropdown-filter span::after,
     .th-17 .form-group .nice-select i,
     .th-17 a.btn.btn-yellow:hover,
     .th-17 .form-group .nice-select:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .th-17 .range-slider .ui-slider .ui-slider-handle {
-        border: 2px solid #446BB6;
+        border: 2px solid black;
     }
 
     .th-17 .explore__form-checkbox-list.full-filter.filter-block {
@@ -13140,9 +13149,9 @@ Version      : 1.2
     }
 
     .btn-yellow {
-        background: #446BB6;
+        background: black;
         color: #fff;
-        border: 1px solid #446BB6;
+        border: 1px solid black;
     }
 
     .btn.btn-yellow {
@@ -13152,7 +13161,7 @@ Version      : 1.2
         border-radius: 4px;
         overflow: hidden;
         position: relative;
-        border: 0px solid #446BB6;
+        border: 0px solid black;
         font-size: 14px;
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
@@ -13162,8 +13171,8 @@ Version      : 1.2
     .btn-yellow:hover,
     .btn-yellow:focus {
         background: #fff;
-        border: 1px solid #446BB6;
-        color: #446BB6;
+        border: 1px solid black;
+        color: black;
     }
 
     .rld-single-input {
@@ -13185,14 +13194,14 @@ Version      : 1.2
     .rld-single-input input:hover,
     .rld-single-input input:active,
     .rld-single-input input:focus {
-        border: 1px solid #446BB6;
+        border: 1px solid black;
     }
 
     .rld-single-input.left-icon:before {
         content: '\f041';
         font-size: 18px;
         font-family: fontawesome;
-        color: #446BB6;
+        color: black;
         position: absolute;
         top: 13px;
         background-size: auto;
@@ -13220,7 +13229,7 @@ Version      : 1.2
     .rld-single-input textarea:hover,
     .rld-single-input textarea:active,
     .rld-single-input textarea:focus {
-        border: 1px solid #446BB6;
+        border: 1px solid black;
     }
 
     .rld-single-select .single-select {
@@ -13238,7 +13247,7 @@ Version      : 1.2
     .rld-single-select .single-select:hover,
     .rld-single-select .single-select:active,
     .rld-single-select .single-select:focus {
-        border: 1px solid #446BB6;
+        border: 1px solid black;
     }
 
     .rld-single-select .single-select:after {
@@ -13249,7 +13258,7 @@ Version      : 1.2
         content: '\f0dd';
         font-size: 20px;
         font-family: fontawesome;
-        color: #446BB6;
+        color: black;
         position: absolute;
         top: 0px;
         margin: 0px;
@@ -13277,7 +13286,7 @@ Version      : 1.2
     .rld-price-slider-wrap .ui-slider-handle {
         height: 24px;
         width: 42px;
-        background: #446BB6;
+        background: black;
         border: 0;
         text-align: center;
         color: #fff;
@@ -13364,7 +13373,7 @@ Version      : 1.2
     .rld-banner-tab .nav-item a:hover,
     .rld-banner-tab .nav-item a:focus,
     .rld-banner-tab .nav-item a.active {
-        background: #446BB6;
+        background: black;
         color: #fff;
     }
 
@@ -13538,7 +13547,7 @@ Version      : 1.2
     }
 
     .team-block .inner-box .lower-box h3 a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .team-block .inner-box .lower-box .designation {
@@ -13645,19 +13654,19 @@ Version      : 1.2
     }
 
     .team .team-social li a.facebook {
-        background-color: #446BB6;
+        background-color: black;
     }
 
     .team .team-social li a.twitter {
-        background-color: #446BB6;
+        background-color: black;
     }
 
     .team .team-social li a.instagram {
-        background-color: #446BB6;
+        background-color: black;
     }
 
     .team .team-social li a.linkedin {
-        background-color: #446BB6;
+        background-color: black;
     }
 
     .team .team-social li {
@@ -13723,7 +13732,7 @@ Version      : 1.2
     .th-8 .btn:hover,
     .th-8 .popular-places .listing-badges .featured,
     .th-8 .homes-tag.featured {
-        background: #446BB6 !important;
+        background: black !important;
     }
 
     .th-8 .filter .button {
@@ -13813,7 +13822,7 @@ Version      : 1.2
 
     .th-8 a.button.border,
     a.button {
-        background: #446BB6;
+        background: black;
         color: #fff !important;
     }
 
@@ -13890,8 +13899,8 @@ Version      : 1.2
     }
 
     .th-8 .contact-us .btn {
-        background: #446BB6;
-        border: 1px solid #446BB6;
+        background: black;
+        border: 1px solid black;
         cursor: pointer;
         -webkit-transition: all .5s ease;
         transition: all .5s ease;
@@ -13900,7 +13909,7 @@ Version      : 1.2
     .th-8 .contact-us .btn:hover {
         background: #fff;
         color: #121B22;
-        border: 1px solid #446BB6;
+        border: 1px solid black;
     }
 
     .th-8 .address-info p:last-child {
@@ -14083,7 +14092,7 @@ Version      : 1.2
     }
 
     .th-8 .parallax-search8 .form-group .nice-select:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .th-8 .parallax-search8 .form-group .nice-select::after {
@@ -14092,7 +14101,7 @@ Version      : 1.2
     }
 
     .th-8 .parallax-search8 .form-group .nice-select i {
-        color: #446BB6;
+        color: black;
         font-size: 1.2rem;
         margin-top: 5px;
         margin-right: 10px;
@@ -14109,7 +14118,7 @@ Version      : 1.2
 
     .th-8 .parallax-search8 .form-group .list li:hover {
         color: #fff;
-        background: #446BB6;
+        background: black;
     }
 
     .th-8 .parallax-search8 .form-group.looking {
@@ -14173,7 +14182,7 @@ Version      : 1.2
     .th-8 .parallax-search8 .form-group .btn {
         display: block;
         width: 100%;
-        background: #446BB6;
+        background: black;
         cursor: pointer;
         color: #fff;
         text-transform: uppercase;
@@ -14195,11 +14204,11 @@ Version      : 1.2
     }
 
     .th-8 .parallax-search8 .form-group .nice-select i {
-        color: #446BB6;
+        color: black;
     }
 
     .th-8 .parallax-search8 .form-group .nice-select:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .th-8 .parallax-search8 img {
@@ -14293,7 +14302,7 @@ Version      : 1.2
         width: 18px;
         height: 18px;
         border-radius: 50%;
-        border: 2px solid #446BB6;
+        border: 2px solid black;
         cursor: w-resize;
         background: #fff;
         outline: none;
@@ -14316,7 +14325,7 @@ Version      : 1.2
     }
 
     .th-8 .range-slider .ui-widget-header {
-        background-color: #446BB6;
+        background-color: black;
     }
 
     .th-8 .range-slider .ui-slider.ui-state-disabled .ui-slider-handle,
@@ -15477,7 +15486,7 @@ Version      : 1.2
     }
 
     .homepage-24 .header-image .left .btn-white {
-        background: #446BB6;
+        background: black;
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -15534,7 +15543,7 @@ Version      : 1.2
         display: block;
         height: 3px;
         font-weight: bold;
-        background-color: #446BB6;
+        background-color: black;
         content: " ";
         width: 50px;
         margin-top: .5rem;
@@ -15565,7 +15574,7 @@ Version      : 1.2
         cursor: pointer;
         margin-top: 1rem;
         border: 0px;
-        background: #446BB6;
+        background: black;
     }
 
     .homepage-24 .bgc {
@@ -15595,7 +15604,7 @@ Version      : 1.2
 
     .homepage-24 .call-info ul li .fa {
         font-size: 1.6rem;
-        color: #446BB6;
+        color: black;
     }
 
     .homepage-24 .call-info .info p {
@@ -15616,7 +15625,7 @@ Version      : 1.2
         display: inline-block;
         height: 100px;
         width: 100px;
-        background-color: #446BB6;
+        background-color: black;
         border-radius: 50%;
         margin-top: 35px;
     }
@@ -15630,7 +15639,7 @@ Version      : 1.2
         height: 100%;
         width: 100%;
         border-radius: 50%;
-        background-color: #446BB6;
+        background-color: black;
     }
 
     .homepage-24 .teh-left {
@@ -15798,11 +15807,11 @@ Version      : 1.2
     .inner-pages.hp-6.full .parallax-searchs .form-group .nice-select:hover,
     .inner-pages.hp-6.full .dropdown-filter span::after,
     .inner-pages.hp-6.full .btn.btn-yellow:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages.hp-6.full .btn.btn-yellow {
-        background: #446BB6;
+        background: black;
     }
 
     .inner-pages.hp-6.full .nice-select.wide {
@@ -15992,11 +16001,11 @@ Version      : 1.2
         }
 
         .inner-pages .portfolio .homes-content .homes-list-div ul {
-            width: 100% !important;
+            width: 50% !important;
         }
 
         .inner-pages .portfolio .homes-content .homes-list-div ul li.custom-width {
-            width: 25% !important;
+            width: 50% !important;
             justify-content: start;
         }
 
@@ -16018,7 +16027,7 @@ Version      : 1.2
     .homes-button .first-btn {
         padding: 15px;
         color: white;
-        background-color: #446BB6;
+        background-color: black;
         border: none;
         right: 0;
         position: absolute;
@@ -16032,7 +16041,7 @@ Version      : 1.2
         right: 0;
         padding: 15px;
         color: white;
-        background-color: #446BB6;
+        background-color: black;
         border: none;
         /* right: 0; */
         width: 90%;
@@ -16051,7 +16060,7 @@ Version      : 1.2
         }
 
         .inner-pages .portfolio .homes-content .homes-button {
-            width: 100% !important;
+            width: 50% !important;
             display: flex;
             justify-content: space-around;
             padding: 20px 0;
@@ -16219,7 +16228,7 @@ Version      : 1.2
     }
 
     .inner-pages .blog .block-heading .change-view-btn.lde:hover {
-        background: #446BB6;
+        background: black;
         color: #fff !important;
     }
 
@@ -16237,7 +16246,7 @@ Version      : 1.2
     }
 
     .inner-pages .change-view-btn:hover {
-        color: #446BB6 !important;
+        color: black !important;
     }
 
     .inner-pages .active-view-btn {
@@ -16248,7 +16257,7 @@ Version      : 1.2
     }
 
     .inner-pages .blog .active-view-btn:hover {
-        background: #446BB6 !important;
+        background: black !important;
         color: #fff;
     }
 
@@ -16258,7 +16267,7 @@ Version      : 1.2
     }
 
     .inner-pages .blog .homes .fa {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .properties-list .compare,
@@ -16275,7 +16284,7 @@ Version      : 1.2
     }
 
     .inner-pages .blog .section-heading .media .media-left i {
-        background: #446BB6;
+        background: black;
         color: #fff;
         width: 47px;
         height: 47px;
@@ -16350,7 +16359,7 @@ Version      : 1.2
     }
 
     .inner-pages .blog .ui-widget.ui-widget-content {
-        background: #446BB6;
+        background: black;
     }
 
     .inner-pages .blog .hvr-bounce-to-right {
@@ -16360,7 +16369,7 @@ Version      : 1.2
         margin-top: 2rem;
         font-size: 14px;
         cursor: pointer;
-        background: #446BB6;
+        background: black;
         color: #ffffff;
         text-transform: uppercase;
         border: none;
@@ -16379,11 +16388,11 @@ Version      : 1.2
     .inner-pages.homepage-4 .first-footer .newsletters h3::after,
     .inner-pages.homepage-4 .first-footer .bloq-email .email input[type="submit"],
     .inner-pages.homepage-4 .go-up {
-        background: #446BB6;
+        background: black;
     }
 
     .inner-pages.homepage-4 #navigation.style-1 ul li:hover {
-        background: #446BB6;
+        background: black;
     }
 
     @media screen and (min-width: 992px) {
@@ -16525,7 +16534,7 @@ Version      : 1.2
 
     .inner-pages a.more-search-options-trigger {
         text-decoration: none;
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .form-group.looking {
@@ -16637,7 +16646,7 @@ Version      : 1.2
         width: 18px;
         height: 18px;
         border-radius: 50%;
-        border: 2px solid #446BB6;
+        border: 2px solid black;
         cursor: w-resize;
         background: #fff;
         outline: none;
@@ -16660,7 +16669,7 @@ Version      : 1.2
     }
 
     .inner-pages .range-slider .ui-widget-header {
-        background-color: #446BB6;
+        background-color: black;
     }
 
     .inner-pages .range-slider .ui-slider.ui-state-disabled .ui-slider-handle,
@@ -16791,7 +16800,7 @@ Version      : 1.2
         color: #fff;
         text-align: center;
         line-height: 15px;
-        background-color: #446BB6;
+        background-color: black;
         border: 2px solid transparent;
         -webkit-transition: border-color 0s;
         transition: border-color 0s;
@@ -16885,16 +16894,16 @@ Version      : 1.2
     }
 
     .half-map-view .dropdown-filter span::after {
-        color: #446BB6;
+        color: black;
     }
 
     .half-map-view .btn.btn-yellow {
-        background: #446BB6;
+        background: black;
     }
 
     .half-map-view a.btn.btn-yellow:hover,
     .half-map-view .form-group .nice-select:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .half-map-view .explore__form-checkbox-list.full-filter.filter-block {
@@ -17078,7 +17087,7 @@ Version      : 1.2
     .inner-pages .headings-2 .listing-title-bar h4 {
         font-size: 24px;
         font-weight: 600;
-        color: #446BB6;
+        color: black;
         text-transform: capitalize !important;
     }
 
@@ -17091,7 +17100,7 @@ Version      : 1.2
 
     .inner-pages .headings-2 span.category-tag {
         font-size: 14px;
-        background: #446BB6;
+        background: black;
         color: #fff;
         border: 1px solid #fff;
         padding: 5px 15px;
@@ -17205,7 +17214,7 @@ Version      : 1.2
         position: absolute;
         top: 50%;
         left: 35px;
-        background: #446BB6;
+        background: black;
         width: 36px;
         height: 36px;
         line-height: 36px;
@@ -17237,7 +17246,7 @@ Version      : 1.2
         position: absolute;
         top: 50%;
         right: 35px;
-        background: #446BB6;
+        background: black;
         width: 36px;
         height: 36px;
         line-height: 36px;
@@ -17297,7 +17306,7 @@ Version      : 1.2
     div.datedropper.my-style .pick-m,
     div.datedropper.my-style .pick-submit,
     div.datedropper.my-style:before {
-        background-color: #446BB6;
+        background-color: black;
     }
 
     div.datedropper.my-style .pick-l,
@@ -17311,7 +17320,7 @@ Version      : 1.2
     div.datedropper.my-style .pick-btn,
     div.datedropper.my-style .pick-lg-b .pick-wke,
     div.datedropper.my-style .pick-y.pick-jump {
-        color: #446BB6;
+        color: black;
     }
 
     div.datedropper.my-style .pick-arw,
@@ -17354,7 +17363,7 @@ Version      : 1.2
     .theme-btn:hover,
     .theme-btn:active {
         color: #fff;
-        background: #446BB6;
+        background: black;
     }
 
     .schedule .full-width {
@@ -17371,7 +17380,7 @@ Version      : 1.2
 
     .schedule .input-group-btn:not(:last-child)>.btn:hover,
     .input-group-btn:not(:first-child)>.btn:hover {
-        background: #446BB6;
+        background: black;
         color: #fff;
     }
 
@@ -17424,7 +17433,7 @@ Version      : 1.2
         line-height: 40px;
         text-align: center;
         background-color: #fff;
-        color: #446BB6;
+        color: black;
         border-radius: 50%;
         font-size: 18px;
         margin-right: 10px;
@@ -17440,7 +17449,7 @@ Version      : 1.2
     }
 
     .sidebar .sidebar-widget .author__contact li a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .sidebar-widget ul {
@@ -17475,7 +17484,7 @@ Version      : 1.2
         height: 35px;
         line-height: 35px;
         background-color: rgba(128, 137, 150, 0.2);
-        color: #446BB6;
+        color: black;
         border-radius: 50%;
         font-size: 16px;
         -webkit-transition: all .3s;
@@ -17500,7 +17509,7 @@ Version      : 1.2
 
     .widget-boxed .input-group .fa {
         font-size: 18px !important;
-        color: #446BB6;
+        color: black;
     }
 
     .widget-boxed .input-group .fa:hover {
@@ -17521,7 +17530,7 @@ Version      : 1.2
     }
 
     .widget-boxed-header h4 .fa {
-        color: #446BB6;
+        color: black;
         position: relative;
         top: 0px;
     }
@@ -17572,7 +17581,7 @@ Version      : 1.2
     }
 
     .agent-contact-form-sidebar .multiple-send-message {
-        background-color: #446BB6;
+        background-color: black;
         color: #ffffff;
         font-family: "Montserrat", sans-serif;
         cursor: pointer;
@@ -17709,8 +17718,8 @@ Version      : 1.2
     .ag-de .similar-property,
     .ag-de .portfolio.py-0.age,
     .det .similar-property {
-        padding: 1.5rem !important;
         background: #fff;
+        padding: 20px;
         border: 1px solid #eaeff5;
         -webkit-box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
         box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
@@ -17752,11 +17761,12 @@ Version      : 1.2
         line-height: 36px;
         list-style: none;
         justify-content: center;
-        color: #0098ef;
+        color: #e54242;
     }
 
     .inner-pages .blog .homes-content .homes-list li:last-child {
         border: none;
+        font-weight: 600;
     }
 
     .inner-pages .blog .homes-content.details-2 {
@@ -17970,7 +17980,7 @@ Version      : 1.2
     }
 
     .inner-pages .blog .sorting-options h5 {
-        color: #446BB6;
+        color: black;
         font-family: 'Quicksand', sans-serif;
         font-weight: bold;
         margin-top: 0px;
@@ -18006,11 +18016,11 @@ Version      : 1.2
     .wprt-image-video.w50.pro h5:after,
     .similar-property h5:after,
     .ag-de .blog-section h5:after {
-        color: #446BB6;
+        color: black;
         display: block;
         height: 3px;
         font-weight: bold;
-        background-color: #446BB6;
+        background-color: black;
         content: " ";
         width: 50px;
         margin-top: .5rem;
@@ -18020,7 +18030,7 @@ Version      : 1.2
     .property .popup-youtube {
         background: #fff none repeat scroll 0 0;
         border-radius: 100%;
-        color: #446BB6;
+        color: black;
         font-size: 30px;
         height: 70px;
         left: 50%;
@@ -18234,7 +18244,7 @@ Version      : 1.2
         padding: 6px 7px;
         color: #fff;
         border: 0px;
-        background-color: #446BB6;
+        background-color: black;
         border-radius: 50px;
         display: inline-block;
         position: relative;
@@ -18322,7 +18332,7 @@ Version      : 1.2
     }
 
     .inner-pages .blog .homes-content.details .fa {
-        color: #446BB6;
+        color: black;
         font-size: 1.5rem;
         font-weight: bold;
     }
@@ -18354,13 +18364,13 @@ Version      : 1.2
 
     .swiper-button-prev.swiper-button-white,
     .swiper-button-next.swiper-button-white {
-        background-color: #446BB6;
+        background-color: black;
         width: 55px;
         height: 55px;
     }
 
     .swiper-pagination-white .swiper-pagination-bullet-active {
-        background: #446BB6;
+        background: black;
         padding: 8px;
     }
 
@@ -18629,7 +18639,7 @@ Version      : 1.2
         -webkit-transition: all 0.6s;
         transition: all 0.6s;
         z-index: 9;
-        background: #446BB6;
+        background: black;
     }
 
     .inner-pages .team-wrap:hover .team-content {
@@ -18641,14 +18651,14 @@ Version      : 1.2
     }
 
     .inner-pages .team-info {
-        background: #446BB6;
+        background: black;
         padding: 20px;
         -webkit-transition: all .3s;
         transition: all .3s;
     }
 
     .inner-pages .team-wrap:hover .team-content .team-info {
-        background: #446BB6;
+        background: black;
     }
 
     .inner-pages .team-content h3 {
@@ -18759,7 +18769,7 @@ Version      : 1.2
     }
 
     .inner-pages .team-content span a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .team .team-pro ul {
@@ -18942,7 +18952,7 @@ Version      : 1.2
     }
 
     .view-my-listing a {
-        color: #446BB6 !important;
+        color: black !important;
         -webkit-transition: all .3s ease;
         transition: all .3s ease;
     }
@@ -18952,7 +18962,7 @@ Version      : 1.2
     }
 
     .agents .listing-hidden-content {
-        background: #446BB6;
+        background: black;
     }
 
     .agents .schedule.widget-boxed.mt-33 {
@@ -19147,7 +19157,7 @@ Version      : 1.2
     }
 
     .inner-pages .button.alt {
-        background-color: #446BB6;
+        background-color: black;
         color: #fff;
     }
 
@@ -19174,7 +19184,7 @@ Version      : 1.2
         font-size: 1.2rem !important;
         margin: 0 0 15px;
         text-decoration: none;
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .homes-address span {
@@ -19192,7 +19202,7 @@ Version      : 1.2
     }
 
     .inner-pages .agent-details .fa {
-        color: #446BB6;
+        color: black;
         font-size: 15px;
         margin-right: 8px;
     }
@@ -19379,7 +19389,7 @@ Version      : 1.2
 
     .agents.det .text-heading.text-left span {
         font-size: 16px;
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .agent-details .button-effect {
@@ -19435,7 +19445,7 @@ Version      : 1.2
 
     .agents a.button.border,
     a.button {
-        background-color: #446BB6;
+        background-color: black;
         color: #fff !important;
     }
 
@@ -19448,7 +19458,7 @@ Version      : 1.2
 
     .inner-pages.sin-1 a.button.border,
     a.button {
-        background-color: #446BB6;
+        background-color: black;
         color: #fff !important;
     }
 
@@ -19673,7 +19683,7 @@ Version      : 1.2
 
     .dashboard-bd.hd-white a.button.border,
     .dashboard-bd.hd-white a.button {
-        background-color: #446BB6;
+        background-color: black;
         width: 150px;
         top: 0;
         padding: 10px 20px;
@@ -20016,13 +20026,13 @@ Version      : 1.2
     }
 
     .dashborad-box a {
-        color: #446BB6;
+        color: black;
         text-decoration: none;
     }
 
     .dashborad-box .item .icon span {
         font-size: 32px;
-        color: #446BB6;
+        color: black;
     }
 
     .dashborad-box .item .info {
@@ -20072,7 +20082,7 @@ Version      : 1.2
     }
 
     .dashboard-bd .second-footer p .fa-heart:before {
-        color: #446BB6;
+        color: black;
     }
 
     .listing-table .table thead tr .rating span {
@@ -20095,7 +20105,7 @@ Version      : 1.2
     }
 
     .listing-table .table thead tr .edit a span {
-        color: #446BB6 !important;
+        color: black !important;
     }
 
     .listing-table .table thead tr th {
@@ -20143,7 +20153,7 @@ Version      : 1.2
     }
 
     .messages .message .body h6 .badge {
-        background: #446BB6;
+        background: black;
         color: #ffffff;
     }
 
@@ -20168,7 +20178,7 @@ Version      : 1.2
     }
 
     .messages .message .body .controller ul li a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .review {
@@ -20231,7 +20241,7 @@ Version      : 1.2
     }
 
     .review .body .controller ul li a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .password-section {
@@ -20492,7 +20502,7 @@ Version      : 1.2
     .inner-pages .section-inforamation .btn-primary,
     .inner-pages .my-address .btn-primary {
         color: #fff;
-        background-color: #446BB6;
+        background-color: black;
         border: none;
         cursor: pointer;
         -webkit-transition: all .5s ease;
@@ -20523,7 +20533,7 @@ Version      : 1.2
     }
 
     .btn-common {
-        background-color: #446BB6;
+        background-color: black;
         position: relative;
         z-index: 1;
         color: #fff;
@@ -20536,14 +20546,14 @@ Version      : 1.2
     .pagination-container .pagination .page-item .page-link {
         margin: 0 10px;
         padding: 15px 20px;
-        color: #446BB6;
+        color: black;
         border-color: #f3f3f3;
         border-radius: 4px;
         background: #fff;
     }
 
     .pagination-container .pagination .page-item .page-link:hover {
-        background: #446BB6;
+        background: black;
         color: #fff;
     }
 
@@ -20819,7 +20829,7 @@ Version      : 1.2
     }
 
     .tr-single-header i {
-        color: #446BB6;
+        color: black;
     }
 
     .tr-single-header h4 {
@@ -20973,8 +20983,8 @@ Version      : 1.2
     }
 
     .custom-checkbox input[type="checkbox"]:checked+label:before {
-        border-color: #446BB6;
-        background: #446BB6;
+        border-color: black;
+        background: black;
     }
 
     .custom-checkbox input[type="checkbox"]:checked+label:after {
@@ -21058,7 +21068,7 @@ Version      : 1.2
     }
 
     .inner-pages .headings h2 a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .about-us h2::after {
@@ -21150,7 +21160,7 @@ Version      : 1.2
 
     .inner-pages.about .sec-title h2 span {
         font-weight: 600;
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages.about .sec-title h2 span::before {
@@ -21168,7 +21178,7 @@ Version      : 1.2
     }
 
     .inner-pages.about .starts .fa {
-        color: #446BB6 !important;
+        color: black !important;
     }
 
     @media screen and (max-width: 500px) {
@@ -21196,7 +21206,7 @@ Version      : 1.2
     }
 
     .inner-pages .about-us .who-1 h2 span {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .about-us .who-1 p {
@@ -21226,7 +21236,7 @@ Version      : 1.2
 
     .inner-pages .services-2 .section-title .title-style h2,
     .inner-pages .team .section-title .title-style h2 {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .services-2 .title-icon:before,
@@ -21254,7 +21264,7 @@ Version      : 1.2
 
     .services-2 .art-1 {
         background: #fff;
-        color: #446BB6;
+        color: black;
         text-align: center;
         padding: 2rem;
         border-radius: 3px;
@@ -21340,7 +21350,7 @@ Version      : 1.2
     }
 
     .inner-pages .panel .panel-heading a {
-        background: #446BB6;
+        background: black;
         color: #fff;
         display: block;
         padding: 1rem;
@@ -21408,7 +21418,7 @@ Version      : 1.2
         padding: 30px 0;
         margin-bottom: 30px;
         position: relative;
-        background: #446BB6;
+        background: black;
         color: #fff;
     }
 
@@ -21418,7 +21428,7 @@ Version      : 1.2
         content: " ";
         position: absolute;
         border-width: 15px;
-        border-top-color: #446BB6;
+        border-top-color: black;
         left: 50%;
         margin-left: -16px;
     }
@@ -21477,7 +21487,7 @@ Version      : 1.2
 
     .plan a.btn {
         color: #fff;
-        background: #446BB6;
+        background: black;
         border: 0px;
         margin: 25px 0;
         padding: 8px 30px;
@@ -21514,7 +21524,7 @@ Version      : 1.2
 
     .inner-pages .top-headings h2 {
         font-size: 10rem;
-        color: #446BB6;
+        color: black;
         margin-bottom: 2rem;
         line-height: 0.73;
     }
@@ -21540,9 +21550,9 @@ Version      : 1.2
     }
 
     .inner-pages .port-info .btn {
-        background: #446BB6;
+        background: black;
         color: #fff;
-        border: 1px solid #446BB6;
+        border: 1px solid black;
         -webkit-transition: all .5s ease;
         transition: all .5s ease;
     }
@@ -21735,7 +21745,7 @@ Version      : 1.2
     #login .btn_1,
     a.btn_1 {
         border: none;
-        background: #446BB6;
+        background: black;
         cursor: pointer;
         display: inline-block;
         padding: 15px 30px;
@@ -21849,7 +21859,7 @@ Version      : 1.2
     .headings-7 .bloq-email .email input[type="submit"] {
         border: 0;
         padding: .8rem;
-        background: #446BB6;
+        background: black;
         border: 1px solid #fff;
         color: #fff;
         text-transform: capitalize;
@@ -21918,7 +21928,7 @@ Version      : 1.2
     .headings-8 .bloq-email .email input[type="submit"] {
         border: 0;
         padding: .8rem;
-        background: #446BB6;
+        background: black;
         border: 1px solid #fff;
         color: #fff;
         text-transform: capitalize;
@@ -21998,7 +22008,7 @@ Version      : 1.2
     }
 
     .inner-pages .blog-section .news-item a:hover h3 {
-        color: #446BB6;
+        color: black;
         -webkit-transition: all .25s;
         transition: all .25s;
     }
@@ -22063,7 +22073,7 @@ Version      : 1.2
         display: block;
         margin-bottom: 10px;
         font-size: 13px;
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .blog-section .news-item-descr {
@@ -22100,15 +22110,15 @@ Version      : 1.2
     }
 
     .inner-pages .blog-section .action-list .fa-comment {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .blog-section .action-list .fa-share-alt {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .blog-section .action-list .fa-heart {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .blog-section ul.action-list {
@@ -22173,7 +22183,7 @@ Version      : 1.2
         position: relative;
         font-size: 1rem;
         font-weight: 600;
-        color: #446BB6;
+        color: black;
         -webkit-transition: all 0.25s;
         transition: all 0.25s;
     }
@@ -22280,8 +22290,8 @@ Version      : 1.2
     }
 
     .page-item.active .page-link {
-        background: #446BB6;
-        border-color: #446BB6;
+        background: black;
+        border-color: black;
     }
 
     .page-link {
@@ -22291,7 +22301,7 @@ Version      : 1.2
     }
 
     .page-link:hover {
-        background: #446BB6;
+        background: black;
         color: #fff;
     }
 
@@ -22350,7 +22360,7 @@ Version      : 1.2
     }
 
     .inner-pages .blog-section .news-item a:hover h3 {
-        color: #446BB6;
+        color: black;
         -webkit-transition: all .25s;
         transition: all .25s;
     }
@@ -22451,15 +22461,15 @@ Version      : 1.2
     }
 
     .inner-pages .blog-section .action-list .fa-comment {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .blog-section .action-list .fa-share-alt {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .blog-section .action-list .fa-heart {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .blog-section ul.action-list {
@@ -22489,7 +22499,7 @@ Version      : 1.2
 
     .inner-pages .form-control {
         padding: 0 0.3rem !important;
-        border: 1px solid #446BB6;
+        border: 1px solid black;
     }
 
     @media screen and (max-width: 767px) {
@@ -22514,8 +22524,8 @@ Version      : 1.2
     }
 
     .inner-pages .input-group-btn .btn-primary {
-        background: #446BB6;
-        border: 1px solid #446BB6;
+        background: black;
+        border: 1px solid black;
         cursor: pointer;
         -webkit-transition: all .5s ease;
         transition: all .5s ease;
@@ -22563,7 +22573,7 @@ Version      : 1.2
     }
 
     .inner-pages .info-img a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .recent-post .tags {
@@ -22574,9 +22584,9 @@ Version      : 1.2
     }
 
     .inner-pages .recent-post .tags a {
-        background: #446BB6;
+        background: black;
         color: #fff;
-        border: 1px solid #446BB6;
+        border: 1px solid black;
         margin-bottom: .7rem;
         margin-left: .2rem;
         -webkit-transition: all .5s ease;
@@ -22585,7 +22595,7 @@ Version      : 1.2
 
     .inner-pages .recent-post .tags a:hover {
         background: #fff;
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .recent-post .tags.no-mb a {
@@ -22619,7 +22629,7 @@ Version      : 1.2
     }
 
     .inner-pages .recent-post ul li a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .recent-post ul li .fa {
@@ -22715,8 +22725,8 @@ Version      : 1.2
     }
 
     .inner-pages .input-group-btn .btn-primary {
-        background: #446BB6;
-        border: 1px solid #446BB6;
+        background: black;
+        border: 1px solid black;
         cursor: pointer;
         -webkit-transition: all .5s ease;
         transition: all .5s ease;
@@ -22724,7 +22734,7 @@ Version      : 1.2
 
     .inner-pages .input-group-btn .btn-primary:hover {
         background: #fff;
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .recent-main {
@@ -22768,7 +22778,7 @@ Version      : 1.2
     }
 
     .inner-pages .info-img a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .recent-post .tags a {
@@ -22787,8 +22797,8 @@ Version      : 1.2
 
     .inner-pages .recent-post .tags a:hover {
         background: #fff;
-        color: #446BB6;
-        border: 1px solid #446BB6;
+        color: black;
+        border: 1px solid black;
     }
 
     .inner-pages .recent-post ul {
@@ -22815,7 +22825,7 @@ Version      : 1.2
     }
 
     .inner-pages .recent-post ul li a:hover {
-        color: #446BB6;
+        color: black;
     }
 
     .inner-pages .recent-post ul li .fa {
@@ -22862,7 +22872,7 @@ Version      : 1.2
     }
 
     .inner-pages .comments-info h5 {
-        color: #446BB6;
+        color: black;
         font-size: 17px;
         font-weight: 600;
         margin-bottom: 0px;
@@ -22902,7 +22912,7 @@ Version      : 1.2
     }
 
     .inner-pages .social-share a {
-        color: #446BB6;
+        color: black;
         font-size: 1.5rem;
         margin: 0 .5rem;
     }
@@ -22928,7 +22938,7 @@ Version      : 1.2
         display: block;
         height: 3px;
         font-weight: bold;
-        background-color: #446BB6;
+        background-color: black;
         content: " ";
         width: 50px;
         margin-top: .5rem;
@@ -22963,7 +22973,7 @@ Version      : 1.2
     }
 
     .inner-pages .leve-comments .btn {
-        background: #446BB6;
+        background: black;
         cursor: pointer;
         font-size: 16px;
         border: none;
@@ -23022,8 +23032,8 @@ Version      : 1.2
     }
 
     .inner-pages .contact-us .btn {
-        background: #446BB6;
-        border: 1px solid #446BB6;
+        background: black;
+        border: 1px solid black;
         cursor: pointer;
         -webkit-transition: all .5s ease;
         transition: all .5s ease;
@@ -23032,7 +23042,7 @@ Version      : 1.2
     .inner-pages .contact-us .btn:hover {
         background: #fff;
         color: #121B22;
-        border: 1px solid #446BB6;
+        border: 1px solid black;
     }
 
     .inner-pages .address-info p:last-child {
@@ -23118,7 +23128,7 @@ Version      : 1.2
         display: block;
         height: 3px;
         font-weight: bold;
-        background-color: #446BB6;
+        background-color: black;
         content: " ";
         width: 50px;
         margin-top: .5rem;
@@ -23212,7 +23222,7 @@ Version      : 1.2
         border-bottom: 1px solid #ddd;
         margin-bottom: 40px;
         padding-bottom: 25px;
-        color: #446BB6;
+        color: black;
         text-transform: capitalize;
     }
 
@@ -23401,7 +23411,7 @@ Version      : 1.2
     }
 
     .inner-pages .prperty-submit-button>button {
-        background: #446BB6 none repeat scroll 0 0;
+        background: black none repeat scroll 0 0;
         border: medium none;
         color: #fff;
         cursor: pointer;
@@ -23535,8 +23545,8 @@ Version      : 1.2
 
     .leaflet-div-icon,
     .map-marker {
-        background-color: #446BB6;
-        border: 5px solid #446BB6;
+        background-color: black;
+        border: 5px solid black;
         border-radius: 50%;
         cursor: pointer;
         position: relative;
@@ -23549,7 +23559,7 @@ Version      : 1.2
     .map-marker:before {
         border: 4px solid transparent;
         border-width: 10px 8px;
-        border-top-color: #446BB6;
+        border-top-color: black;
         bottom: -24px;
         height: 0;
         content: '';
@@ -23687,7 +23697,7 @@ Version      : 1.2
 
     .listing-window-image:before {
         -webkit-font-smoothing: antialiased;
-        background-color: #446BB6;
+        background-color: black;
         border-radius: 50%;
         color: #fff;
         content: '\f002';
@@ -23747,7 +23757,7 @@ Version      : 1.2
     }
 
     .listing-window-content h3 {
-        background-color: #446BB6;
+        background-color: black;
         border-radius: 3px;
         color: #fff;
         display: inline-block;
@@ -24006,7 +24016,7 @@ Version      : 1.2
         position: relative;
         z-index: 100;
         border-radius: 3px;
-        background: #446BB6;
+        background: black;
         float: right;
         color: #fff;
     }
@@ -24040,7 +24050,7 @@ Version      : 1.2
             padding: 15px;
             position: absolute;
             width: 100%;
-            background: #446BB6;
+            background: black;
         }
 
         .google-maps .filter .filter-item {
@@ -24254,7 +24264,7 @@ Version      : 1.2
     }
 
     .form-block label .error {
-        color: red;
+        color: #EA2B2E;
         font-size: 13px;
         margin-left: 10px;
     }
@@ -24281,7 +24291,7 @@ Version      : 1.2
         padding: 6px 23px 6px 23px;
         font-size: 13px;
         color: #fff;
-        background: #446BB6;
+        background: black;
         display: inline-block;
         width: auto;
         border: none;
@@ -24378,7 +24388,7 @@ Version      : 1.2
     }
 
     .ui-elements .accordion-1 .active .title {
-        background: #446BB6;
+        background: black;
         color: #fff;
     }
 
@@ -24405,7 +24415,7 @@ Version      : 1.2
     }
 
     .ui-elements .accordion-1 .active .title:hover {
-        background: #446BB6;
+        background: black;
     }
 
     .ui-elements ul {
@@ -24539,7 +24549,7 @@ Version      : 1.2
     }
 
     .ui-elements .button-tabs .active .tab-title:hover {
-        background: #446BB6;
+        background: black;
     }
 
     .ui-elements .button-tabs.vertical {
@@ -26105,13 +26115,13 @@ Version      : 1.2
     }
 
     .special-button-content button:hover {
-        background-color: #446BB6 !important;
+        background-color: black !important;
         color: white !important;
         transition: 0.5s;
     }
 
     .special-button-content button:active {
-        background-color: #446BB6 !important;
+        background-color: black !important;
         color: white !important;
     }
 
@@ -26538,7 +26548,7 @@ Version      : 1.2
         -webkit-appearance: none;
         appearance: none;
         /* For iOS < 15 to remove gradient background */
-        background-color: #446BB6;
+        background-color: black;
         /* Not removed via appearance */
         margin: 0;
     }
@@ -26548,7 +26558,7 @@ Version      : 1.2
         background-color: white;
         margin: 0;
         font: inherit;
-        color: #446BB6;
+        color: black;
         width: 1.15em;
         height: 1.15em;
         border: 0.15em solid none;
@@ -26592,7 +26602,7 @@ Version      : 1.2
         /* ...existing styles */
 
         /* Windows High Contrast Mode */
-        background-color: #446BB6;
+        background-color: black;
     }
 
     input[type="checkbox"]::before {
@@ -26730,8 +26740,8 @@ Version      : 1.2
     }
 
     .header-search__suggestions__section__items a:hover {
-        color: #446BB6;
-        border-color: #446BB6
+        color: black;
+        border-color: black
     }
 
 
@@ -26816,8 +26826,72 @@ Version      : 1.2
         /* Yazı rengi */
     }
 
-    .slick-lancersl
-    {
+    .slick-lancersl {
         position: relative;
         overflow: hidden;
+    }
+
+    .CartBtn {
+        width: 100%;
+        margin-top: 10px;
+        height: 40px;
+        border-radius: 12px;
+        border: none;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition-duration: .5s;
+        overflow: hidden;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.103);
+        position: relative;
+    }
+
+    .IconContainer {
+        position: absolute;
+        left: -50px;
+        width: 30px;
+        height: 30px;
+        background-color: transparent;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        z-index: 2;
+        transition-duration: .5s;
+    }
+
+    .CartBtn .icon {
+        border-radius: 1px;
+    }
+
+    .CartBtn .text {
+        height: 100%;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        z-index: 1;
+        transition-duration: .5s;
+        font-size: 1.04em;
+        font-weight: 600;
+    }
+
+    .CartBtn:hover .IconContainer {
+        transform: translateX(70px);
+        border-radius: 40px;
+        transition-duration: .5s;
+    }
+
+    .CartBtn:hover .text {
+        transform: translate(10px, 0px);
+        transition-duration: .5s;
+    }
+
+    .CartBtn:active {
+        transform: scale(0.95);
+        transition-duration: .5s;
     }

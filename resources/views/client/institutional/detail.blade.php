@@ -29,7 +29,7 @@
                                 {{ $institutional->name }}
                                 <style type="text/css">
                                     .st0 {
-                                        fill: #446BB6;
+                                        fill: #e54242;
                                     }
 
                                     .st1 {
@@ -221,7 +221,7 @@
                                                         <a href="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
                                                             data-lightbox="gallery">
                                                             <img src="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
-                                                                style="object-fit: cover;width:100%;height:100%" />
+                                                                style="object-fit: cover;width:100%;height:150px" />
                                                         </a>
                                                     </div>
                                                 </div>
@@ -286,7 +286,7 @@
                                 </div>
                                 <div class="row mt-3">
                                     @foreach (json_decode($comment->images, true) as $img)
-                                        <div class="col-md-2 col-6">
+                                        <div class="col-md-1 col-3 mt-3">
                                             <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
                                                 data-lightbox="gallery">
                                                 <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"

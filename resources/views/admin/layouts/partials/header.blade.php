@@ -206,9 +206,8 @@
                         aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                 class="toggle-line"></span></span></button>
                                 <div class="d-flex align-items-center">
-                                    <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
+                                    <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
                                             class="logo" alt=""></a>
-                                    <p class="logo-text ms-2 d-none d-sm-block">Emlak Sepeti</p>
                                 </div>
                 </div>
                 {{-- <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
@@ -443,7 +442,7 @@
                                                   break;
 
                                               case preg_match('@proje@', $notification->text):
-                                                  $url = route('admin.projects.detail', ['projectsId' => $notification->item_id]);
+                                                  $url = route('admin.projects.detail', ['projectId' => $notification->item_id]);
                                                   break;
 
                                               case preg_match('@belge@', $notification->text):
@@ -1000,7 +999,7 @@
                 <a class="navbar-brand me-1 me-sm-3" href="index.html">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
-                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png" alt="phoenix"
+                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png" alt="phoenix"
                                 width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                         </div>
@@ -3595,7 +3594,7 @@
                 <a class="navbar-brand me-1 me-sm-3" href="index.html">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
-                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png" alt="phoenix"
+                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png" alt="phoenix"
                                 width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                         </div>
@@ -6199,7 +6198,7 @@
                         <a class="navbar-brand me-1 me-sm-3" href="index.html">
                             <div class="d-flex align-items-center">
                                 <div class="d-flex align-items-center"><img
-                                        src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png"
+                                        src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
                                         alt="phoenix" width="27" />
                                     <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                                 </div>
@@ -8024,7 +8023,7 @@
 
 <style>
     .navbar-logo .logo {
-        height: 70px !important;
+        height: 45px !important;
         padding: 5px;
     }
 

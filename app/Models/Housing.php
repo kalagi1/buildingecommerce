@@ -19,8 +19,9 @@ class Housing extends Model
         return $this->hasMany(HousingImages::class);
     }
 
-    public function housingStatus(){
-        return $this->hasMany(HousingStatusConnection::class,"housing_id","id");
+    public function housingStatus()
+    {
+        return $this->hasMany(HousingStatusConnection::class, "housing_id", "id");
     }
 
     public function brand()
@@ -32,23 +33,24 @@ class Housing extends Model
     {
         return $this->belongsToMany(User::class, 'housing_favorites', 'housing_id', 'user_id');
     }
-    public function city()
-    {
-        return $this->hasOne(City::class, "id", "city_id");
-    }
 
     public function user()
     {
         return $this->hasOne(User::class, "id", "user_id");
     }
 
+    public function city()
+    {
+        return $this->hasOne(City::class, "id", "city_id");
+    }
 
     public function county()
     {
         return $this->hasOne(District::class, "ilce_key", "county_id");
     }
 
-    public function rejectedLog(){
-        return $this->hasOne(Log::class,'item_id','id')->where('item_type',2)->where('is_rejected',1)->orderByDesc('created_at');
+    public function rejectedLog()
+    {
+        return $this->hasOne(Log::class, 'item_id', 'id')->where('item_type', 2)->where('is_rejected', 1)->orderByDesc('created_at');
     }
 }

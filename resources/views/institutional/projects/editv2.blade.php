@@ -228,7 +228,7 @@
     <script>
         var nextTemp = false;
         var housingImages = [];
-        var descriptionText = @if(isset($tempData) && isset($tempData->description)) "{!! $tempData->description !!}" @else "" @endif;
+        var descriptionText = @if(isset($tempData) && isset($tempData->description)) '{!! $tempData->description !!}' @else "" @endif;
         var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
         
         $('.choise-1').click(function(){
@@ -1974,38 +1974,54 @@
             });
         });
     </script>
-    <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
+
     <script>
-        CKEDITOR.replace('editor');
+        tinymce.init({
+                selector: '#editor', // HTML elementinizi seçin
+                plugins: 'advlist autolink lists link image charmap print preview anchor',
+                toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | forecolor backcolor ',
+                menubar: false, // Menü çubuğunu tamamen devre dışı bırakır
 
-        CKEDITOR.on('instanceReady', function (ev) {
-            var editor = ev.editor;
-            editor.on('change', function (event) {
-                var editorContent = editor.getData();
-                descriptionText = editorContent;
-                if(editorContent == ""){
-                }else{
-                    $('.description-field .error-text').remove();
-                    editor.document.$.body.style.backgroundColor = 'white';
+                // Görünümleri devre dışı bırakmak için aşağıdaki yapılandırmaları kullanın
+                file_browser_callback_types: 'image media',
+                file_browser_callback: function(field_name, url, type, win) {
+                    // Herhangi bir işlem yapmadan boş bir işlev kullanarak "File" görünümünü devre dışı bırakır
+                },
+                file_picker_types: 'image media',
+                file_picker_callback: function(callback, value, meta) {
+                    // Herhangi bir işlem yapmadan boş bir işlev kullanarak "File" görünümünü devre dışı bırakır
+                },
+                setup: function (editor) {
+                    // 'change' olayını dinleyin
+                    editor.on('change', function () {
+                        // Editör içeriği değiştiğinde yapılacak işlemi burada tanımlayabilirsiniz.
+                        console.log("Editör içeriği değişti.");
+                        const editorContent = editor.getContent();
+                        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+                        
+                        
+                        // Verileri FormData nesnesine ekleyin
+                        const formData = new FormData();
+                        formData.append('_token', csrfToken);
+                        formData.append('value', editorContent);
+                        formData.append('key', "description");
+                        formData.append('item_type', 3);
+                        
+                        // AJAX isteği gönderin
+                        fetch("{{ route('institutional.temp.order.data.change') }}", {
+                            method: "POST",
+                            body: formData,
+                        })
+                        .then(data => {
+                            // Sunucu yanıtını işleyebilirsiniz.
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                    });
                 }
-
-                var formData = new FormData();
-                var csrfToken = $("meta[name='csrf-token']").attr("content");
-                formData.append('_token', csrfToken);
-                formData.append('value',editorContent);
-                formData.append('key',"description");
-                formData.append('item_type',3);
-                $.ajax({
-                    type: "POST",
-                    url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                    },
-                });
             });
-        });
 
         
 

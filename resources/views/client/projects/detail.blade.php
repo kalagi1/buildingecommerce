@@ -12,7 +12,7 @@
                                 style="color:White">{{ $project->user->name }}
                                 <style type="text/css">
                                     .st0 {
-                                        fill: #446BB6;
+                                        fill: #e54242;
                                     }
 
                                     .st1 {
@@ -173,11 +173,11 @@
                         <div class="news-item news-item-sm">
                             <div class="news-item-text">
 
-                            <div class="blog-info details mb-30">
-                                <h3 class="mb-4">Açıklama</h3>
-                                <p class="mb-3">{!! $project->description !!}</p>
+                                <div class="blog-info details mb-30">
+                                    <h3 class="mb-4">Açıklama</h3>
+                                    <p class="mb-3">{!! $project->description !!}</p>
+                                </div>
                             </div>
-                        </div>
 
                         </div>
                     </div>
@@ -201,14 +201,17 @@
 
 
     <section class="properties-right list featured portfolio blog pb-5 bg-white">
+      <div class="mobile-hidden">
         <div class="container">
 
             <div class="row project-filter-reverse blog-pots">
+
 
                 @for ($i = 0; $i < $project->room_count; $i++)
                     @php
                         $sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order]) ?? false;
                     @endphp
+
                     <div class="col-md-12 col-12">
                         <div class="project-card mb-3">
                             <div class="row">
@@ -217,7 +220,7 @@
                                         style="height: 100%">
                                         <div class="d-flex" style="height: 100%;">
                                             <div
-                                                style="background-color: #446BB6; border-radius: 0px 8px 0px 8px;height:100%">
+                                                style="background-color: black; border-radius: 0px 8px 0px 8px;height:100%">
                                                 <p
                                                     style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
                                                     {{ $i + 1 }}</p>
@@ -239,7 +242,7 @@
                                                             style="height: 120px !important;object-fit:cover">
                                                         @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                             <div
-                                                                style="z-index: 2;right: 0;top: 0;background: orange; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
+                                                                style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
                                                                 <div
                                                                     style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
                                                                     {{ '%' . round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100) }}
@@ -265,9 +268,11 @@
                                     </a>
                                 </div>
 
+                                
                                 <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
                                     data-aos="fade-up"
                                     @if ($sold) style="background: #EEE !important;" @endif>
+
                                     <div class="row align-items-center justify-content-between mobile-position">
                                         <div class="col-md-8">
 
@@ -275,18 +280,13 @@
 
                                                 <ul class="homes-list clearfix pb-3 d-flex">
                                                     <li class="the-icons custom-width">
-                                                        <i class="fas fa-home mr-2" style="color: #446BB6;"
+                                                        <i class="fas fa-home mr-2" style="color: black;"
                                                             aria-hidden="true"></i>
                                                         <span>{{ $project->housingType->title }}</span>
                                                     </li>
                                                     <li class="the-icons custom-width">
                                                         <i class="flaticon-bed mr-2" aria-hidden="true"></i>
-                                                        <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
-                                                    </li>
-                                                    <li class="the-icons desktop-hidden homes-button special-width">
-                                                        <button class="first-btn">
-                                                            Ödeme Detaylarını Gör
-                                                        </button>
+                                                        {{-- <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span> --}}
                                                     </li>
                                                     <li class="the-icons custom-width">
                                                         <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
@@ -296,44 +296,23 @@
                                                         <i class="flaticon-square mr-2" aria-hidden="true"></i>
                                                         <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
                                                     </li>
-                                                    <li class="the-icons desktop-hidden homes-button special-width">
-                                                        @if (
-                                                            \Illuminate\Support\Facades\DB::raw(
-                                                                '(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1) AS sold',
-                                                                [getData($project, 'price[]', $i + 1)->room_order])->sold ?? false)
-                                                            <button class="btn bg-warning" <h6
-                                                                style="color: black;font-weight:600;top:3px;position: relative;">
-                                                                Rezerve Edildi
-                                                                </h6>
-                                                            </button>
-                                                        @else
-                                                            <button class="addToCart second-btn" data-type='project'
-                                                                data-project='{{ $project->id }}'
-                                                                data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                <h6
-                                                                    style="color: black;font-weight:600;top:3px;position: relative;">
-                                                                    Sepete Ekle
-                                                                </h6>
 
-                                                            </button>
-                                                        @endif
-                                                    </li>
                                                     <li class="the-icons mobile-hidden">
                                                         <span>
                                                             @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                                 <h6
-                                                                    style="color: orange;position: relative;top:4px;font-weight:600;font-size:15px;">
+                                                                    style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
                                                                     {{ getData($project, 'price[]', $i + 1)->value - (getData($project, 'price[]', $i + 1)->value * round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100)) / 100 }}
-                                                                    TL</h6>
+                                                                    ₺</h6>
                                                                 <h6
                                                                     style="color: black;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
-                                                                    {{ getData($project, 'price[]', $i + 1)->value }} TL
+                                                                    {{ getData($project, 'price[]', $i + 1)->value }} ₺
 
                                                                 </h6>
                                                             @else
                                                                 <h6
                                                                     style="color: black;position: relative;top:4px;font-weight:600">
-                                                                    {{ getData($project, 'price[]', $i + 1)->value }} TL
+                                                                    {{ getData($project, 'price[]', $i + 1)->value }} ₺
                                                                 </h6>
                                                             @endif
                                                         </span>
@@ -341,6 +320,7 @@
 
 
                                                 </ul>
+
                                             </div>
                                             <div class="footer">
                                                 <a
@@ -352,16 +332,16 @@
                                                     @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                         <h6
                                                             style="color: black;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
-                                                            {{ getData($project, 'price[]', $i + 1)->value }} TL
+                                                            {{ getData($project, 'price[]', $i + 1)->value }} ₺
                                                         </h6>
                                                         <h6
-                                                            style="color: orange;position: relative;top:4px;font-weight:600;font-size:14px;">
+                                                            style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:20px;">
                                                             {{ getData($project, 'price[]', $i + 1)->value - (getData($project, 'price[]', $i + 1)->value * round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100)) / 100 }}
-                                                            TL</h6>
+                                                            ₺</h6>
                                                     @else
                                                         <h6
                                                             style="color: black;position: relative;top:4px;font-weight:600">
-                                                            {{ getData($project, 'price[]', $i + 1)->value }} TL
+                                                            {{ getData($project, 'price[]', $i + 1)->value }} ₺
                                                         </h6>
                                                     @endif
                                                 </span>
@@ -410,6 +390,7 @@
             </div>
 
         </div>
+      </div>
     </section>
 @endsection
 
