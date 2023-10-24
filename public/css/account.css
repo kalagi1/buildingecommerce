@@ -7691,7 +7691,7 @@ textarea.form-control {
 .widget_best-sale {
     padding: 15px 10px;
     border: 1px solid #d9d9d9;
-    border-bottom: 5px solid red;
+    border-bottom: 5px solid #EA2B2E;
     max-height: 500px;
 }
 

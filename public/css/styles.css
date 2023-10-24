@@ -3249,7 +3249,7 @@ Version      : 1.2
     }
 
     .portfolio .homes-content .homes-list li {
-        width: 45%;
+        width: 50%;
         float: left;
         font-size: 14px;
         line-height: 40px;
@@ -17740,7 +17740,7 @@ Version      : 1.2
     }
 
     .inner-pages .blog .blog-info.details {
-        padding: 0;
+        padding: 20px;
     }
 
     .inner-pages .blog .homes-content .homes-list {

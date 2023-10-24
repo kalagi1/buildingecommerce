@@ -341,7 +341,7 @@
                 cursor: pointer;
                 display: flex;
                 align-items: center;
-                border: 1px solid red;
+                border: 1px solid #EA2B2E;
                 background-color: #EA2B2E;
             }
 
@@ -392,7 +392,7 @@
             }
 
             .buyUserRequest:active {
-                border: 1px solid red;
+                border: 1px solid #EA2B2E;
             }
 
 
