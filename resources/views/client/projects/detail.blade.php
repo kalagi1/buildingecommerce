@@ -209,7 +209,7 @@
 
                 @for ($i = 0; $i < $project->room_count; $i++)
                     @php
-                        $sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order]) ?? false;
+                        $sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]) ?? false;
                     @endphp
 
                     <div class="col-md-12 col-12">
@@ -353,7 +353,7 @@
                                                 <button class="first-btn">
                                                     Ödeme Detaylarını Gör </button>
                                                 @if ($sold)
-                                                    <button class="btn second-btn" style="background: red !important;" <h6
+                                                    <button class="btn second-btn" style="background: red !important;"> <h6
                                                         style="color: white;font-weight:600;top: calc(100% - 52px);position: relative;left: calc(100% - 192px);position: relative;">
                                                         Rezerve Edildi
                                                         </h6>
