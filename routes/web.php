@@ -163,6 +163,8 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
     Route::put('/users/{user}/block', [UserController::class, 'blockUser'])->name('users.block');
 
+    Route::get('/notification-history', [InfoController::class, 'notificationHistory'])->name('notification-history');
+
     Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
     Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
 

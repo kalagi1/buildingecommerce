@@ -390,7 +390,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         @php
-                        $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->get();
+                        $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->limit(10)->get();
                         @endphp
 
                         <a class="nav-link" href="#" style="min-width: 2.5rem" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside">
@@ -426,7 +426,7 @@
                                         </div>
                                         <div class="flex-1 me-sm-3">
                                           <h4 class="fs--1 text-black">{{$notification->user->name}}</h4>
-                                          <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">  {{$notification->text}}</p>
+                                          <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">  {!! $notification->text !!}</p>
                                           @php
                                           // Örnek bir tarih zamanı, notificcaiton->created_At'ı buraya ekleyin
                                           $notificationCreatedAt = $notification->created_at;
@@ -468,6 +468,10 @@
                                     </div>
                                   </div>
                                     @endforeach
+
+                                        <div class="bg-white border-top p-3 text-center">
+                                            <a href="{{ route('admin.notification-history') }}">Bildirim Geçmişi</a>
+                                        </div>
                                 @endif
                                
                                 </div>

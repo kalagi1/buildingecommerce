@@ -17,6 +17,11 @@ class InfoController extends Controller
         return redirect()->route('admin.user.show-corporate-account', ['user' => $dn->user_id]);
     }
 
+    function notificationHistory()
+    {
+        return view('admin.notification-history');
+    }
+
     public function contact()
     {
         $contactInfo = ContactInfo::first();
