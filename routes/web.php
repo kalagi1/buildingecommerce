@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BankAccountController;
 use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\EmailTemplateController;
 use App\Http\Controllers\Admin\FooterLinkController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\MarketingController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\PaymentTempController as AdminPaymentTempController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PermissionGroupController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -40,6 +42,7 @@ use App\Http\Controllers\Client\PageController as ClientPageController;
 use App\Http\Controllers\Client\RegisterController;
 use App\Http\Controllers\Client\TaxOfficeController;
 use App\Http\Controllers\Client\VerifyController;
+use App\Http\Controllers\Institutional\BankAccountController as InstitutionalBankAccountController;
 use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\BuyController;
 use App\Http\Controllers\Institutional\ChangePasswordController as InstitutionalChangePasswordController;
@@ -52,6 +55,8 @@ use App\Http\Controllers\Institutional\RoleController as InstitutionalRoleContro
 use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\Institutional\OfferController as InstitutionalOfferController;
+use App\Http\Controllers\Institutional\PaymentTempController;
+use App\Http\Controllers\Institutional\SinglePriceController;
 use App\Http\Controllers\Institutional\TempOrderController;
 use App\Http\Controllers\SocialShareButtonsController;
 use Illuminate\Support\Facades\Auth;
@@ -547,7 +552,36 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::delete('/subscription-plans/{subscriptionPlan}', [SubscriptionPlanController::class, 'destroy'])->name('subscriptionPlans.destroy');
     });
 
+    Route::middleware(['checkPermission:CreateBankAccount'])->group(function () {
+        Route::get('/bank_account/create', [BankAccountController::class, 'create'])->name('bank_account.create');
+        Route::post('/bank_account/create', [BankAccountController::class, 'store'])->name('bank_account.store');
+    });
 
+    Route::middleware(['checkPermission:GetBankAccounts'])->group(function () {
+        Route::get('/bank_accounts', [BankAccountController::class, 'index'])->name('bank_account.index');
+    });
+
+    Route::middleware(['checkPermission:CreateBankAccount'])->group(function () {
+        Route::get('/bank_account/create', [BankAccountController::class, 'create'])->name('bank_account.create');
+        Route::post('/bank_account/create', [BankAccountController::class, 'store'])->name('bank_account.store');
+    });
+
+    Route::middleware(['checkPermission:UpdateBankAccounts'])->group(function () {
+        Route::get('/bank_account/{id}/edit', [BankAccountController::class, 'edit'])->name('bank_account.edit');
+        Route::post('/bank_account/{id}/update', [BankAccountController::class, 'update'])->name('bank_account.update');
+    });
+
+    Route::middleware(['checkPermission:DeleteBankAccounts'])->group(function () {
+        Route::delete('/bank_account/{id}/delete', [BankAccountController::class, 'destroy'])->name('bank_account.destroy');
+    });
+
+    Route::middleware(['checkPermission:PaymentTempList'])->group(function () {
+        Route::get('/payment_list', [AdminPaymentTempController::class, 'index'])->name('payment.temp.list');
+    });
+
+    Route::middleware(['checkPermission:PaymentTempStatusChange'])->group(function () {
+        Route::post('/payment_temp_change_status/{id}', [AdminPaymentTempController::class, 'changeStatus'])->name('payment.temp.change.status');
+    });
 
 });
 
@@ -672,16 +706,19 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
     
+    Route::post('/end_extend_time', [PaymentTempController::class,"createPaymentTemp"])->name('create.payment.end.temp');
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class,"createProjectEnd"])->name('project.end.temp.order');
     Route::post('/update_project_temp_order', [InstitutionalProjectController::class,"updateProjectEnd"])->name('project.update.temp.order');
     Route::get('/create_project_v2', [InstitutionalProjectController::class,"createV2"])->name('project.create.v2');
-    Route::get('/edit_project_v2/{projectSlug}', [InstitutionalProjectController::class,"editV2"])->name('project.create.v2');
+    Route::get('/get_bank_account/{id}', [InstitutionalBankAccountController::class,"getBankAccount"])->name('get.bank.account');
+    Route::get('/edit_project_v2/{projectSlug}', [InstitutionalProjectController::class,"editV2"])->name('project.edit.v2');
     Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class,"getHousingTypeChildren"])->name('get.housing.type.childrens');
     Route::get('/projects/{project_id}/logs', [InstitutionalProjectController::class, 'logs'])->name('projects.logs');
     Route::get('/housings/{housing_id}/logs', [InstitutionalHousingController::class, 'logs'])->name('housing.logs');
     Route::get('/project_stand_out/{project_id}', [InstitutionalProjectController::class,"standOut"])->name('project.stand.out');
     Route::get('/get_stand_out_prices', [InstitutionalProjectController::class,"pricingList"])->name('project.pricing.list');
     Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
+    Route::get('/single_prices', [SinglePriceController::class, "getSinglePrice"])->name('get.single.price');
     Route::get('/get_neighbourhood', [InstitutionalProjectController::class, "getNeighbourhood"])->name('get.neighbourhood');
     Route::post('/buy_order', [BuyController::class, "buyOrder"])->name('buy.order');
     Route::middleware(['checkPermission:NewProjectImage'])->group(function () {
