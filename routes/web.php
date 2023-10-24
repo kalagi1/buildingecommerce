@@ -88,7 +88,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/proje/{slug}', [ClientProjectController::class, "index"])->name('project.detail');
-Route::get('/proje/{slug}/detay', [ClientProjectController::class, "detail"])->name('project.housing.detail');
+Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->name('project.housing.detail');
 Route::get('/magaza/{slug}', [InstitutionalController::class, "dashboard"])->name('instituional.dashboard');
 
 Route::get('/magaza/{slug}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
