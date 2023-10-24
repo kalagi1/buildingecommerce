@@ -7,6 +7,7 @@ use App\Http\Requests\CreateOfferRequest;
 use App\Http\Requests\UpdateOfferRequest;
 use App\Models\Offer;
 use App\Models\Project;
+use App\Models\Housing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,28 +16,35 @@ class OfferController extends Controller
 
     public function index()
     {
-        $offers = Offer::where("user_id", auth()->user()->id)->with(['project' => function ($query) {
-            $query->select('id', 'project_title');
-        }])->get();
+        $offers = Offer::where("user_id", auth()->user()->id)->get();
         return view('institutional.offers.index', compact('offers'));
     }
 
     public function create()
     {
         $projects = Project::where('user_id', auth()->user()->id)->get();
-        return view('institutional.offers.create', compact('projects'));
+        $housings = Housing::where('user_id', auth()->user()->id)->get();
+        return view('institutional.offers.create', compact('projects', 'housings'));
     }
 
     public function edit(Request $request, $id)
     {
         $projects = Project::where('user_id', auth()->user()->id)->get();
+        $housings = Housing::where('user_id', auth()->user()->id)->get();
         $offer = Offer::find($id);
-        return view('institutional.offers.edit', compact('projects', 'id', 'offer'));
+        return view('institutional.offers.edit', compact('projects', 'housings', 'id', 'offer'));
     }
 
     public function store(CreateOfferRequest $request)
     {
-        Offer::create(array_merge($request->all(), ['user_id' => auth()->user()->id, 'project_housings' => json_encode($request->input('project_housings'))]));
+        Offer::create(
+            array_merge($request->all(),
+                [
+                    'user_id' => auth()->user()->id,
+                    'project_housings' => json_encode($request->input('project_housings', [])),
+                ]
+            )
+        );
         return redirect()->route('institutional.offers.index')->with('success', 'Kampanya Başarıyla Oluşturuldu');
     }
 

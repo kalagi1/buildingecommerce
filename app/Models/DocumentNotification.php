@@ -9,5 +9,9 @@ class DocumentNotification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'text', 'readed'];
+    protected $fillable = ['user_id', 'text', 'item_id', 'readed'];
+    public function user()
+    {
+        return $this->hasOne(User::class, "id", "user_id");
+    }
 }

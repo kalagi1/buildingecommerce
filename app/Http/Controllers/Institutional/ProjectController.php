@@ -14,6 +14,7 @@ use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\HousingTypeParentConnection;
 use App\Models\Log;
+use App\Models\DocumentNotification;
 use App\Models\Neighborhood;
 use App\Models\Neighbourhood;
 use App\Models\PricingStandOut;
@@ -277,6 +278,14 @@ class ProjectController extends Controller
                     ]);
                 }
 
+                DocumentNotification::create(
+                    [
+                        'user_id' => auth()->user()->id,
+                        'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
+                        'item_id' => $project->id,
+                    ]
+                );
+
                 DB::commit();
                 
                 TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->delete();
@@ -357,7 +366,7 @@ class ProjectController extends Controller
                 "room_count" => $request->input('house_count'),
                 "city_id" => $request->input('city_id'),
                 "county_id" => $request->input('county_id'),
-                "user_id" => Auth::user()->id,
+                "user_id" => auth()->user()->parent_id ?? auth()->user()->id,
                 "status_id" => 1,
                 "image" => $filePath,
                 'document' => $documentName,
@@ -442,6 +451,14 @@ class ProjectController extends Controller
                 }
             }
         }
+
+        DocumentNotification::create(
+            [
+                'user_id' => auth()->user()->id,
+                'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
+                'item_id' => $project->id,
+            ]
+        );
 
         return redirect()->route('institutional.projects.index', ["status" => "new_project"]);
     }

@@ -60,6 +60,14 @@
                                     <option value="footer">Footer</option>
                                 </select>
                             </div>
+                            <div class="mb-3 footer-link-area" style="display: none;">
+                                <label for="link" class="form-label">Footer Widget:</label>
+                                <select name="widget" id="link" class="form-control">
+                                    @foreach ($footerLinks as $link)
+                                    <option value="{{$link->widget}}">{{$link->widget}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <button type="submit" class="btn btn-primary">Sayfa Oluştur</button>
                         </form>
                     </div>
@@ -73,6 +81,15 @@
     <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('editor');
+    </script>
+    <script>
+        $('#loc').on('change', function()
+        {
+            if ($(this).val() == 'footer')
+                $('.footer-link-area').slideDown();
+            else
+                $('.footer-link-area').slideUp();
+        });
     </script>
     @stack('scripts')
 @endsection

@@ -21,6 +21,7 @@ class CreatePageRequest extends FormRequest
             'meta_keywords' => 'nullable|string|max:255',
             'meta_author' => 'nullable|string|max:255',
             'location' => 'required|in:header,footer',
+            'widget' => 'nullable|string',
         ];
     }
 

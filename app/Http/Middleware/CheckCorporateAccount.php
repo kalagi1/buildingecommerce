@@ -20,6 +20,9 @@ class CheckCorporateAccount
         'institutional.get.record-document',
         'institutional.get.identity-document',
         'institutional.get.company-document',
+        'institutional.profile.edit',
+        'institutional.profile.update',
+        'client.logout',
     ];
 
     /**
@@ -29,7 +32,11 @@ class CheckCorporateAccount
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 0 && auth()->user()->type == 2 && !in_array(request()->route()->getName(), $this->whitelist))
+        if (auth()->user()->parent_id != NULL && \App\Models\User::find(auth()->user()->parent_id)->corporate_account_status == 0)
+        {
+            die('Bağlı olduğunuz ana kurum hesabı onaylanmamış.');
+        }
+        elseif (auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 0 && auth()->user()->type == 2 && !in_array(request()->route()->getName(), $this->whitelist))
         {
             return redirect()->route('institutional.corporate-account-verification');
         }

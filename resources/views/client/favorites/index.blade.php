@@ -1,20 +1,27 @@
 @extends('client.layouts.master')
 
 @section('content')
-    @php
-        function getHouse($project, $key, $roomOrder)
-        {
-            foreach ($project->roomInfo as $room) {
-                if ($room->room_order == $roomOrder && $room->name == $key) {
-                    return $room;
-                }
+@php
+
+    function getHouse($project, $key, $roomOrder)
+    {
+        foreach ($project->roomInfo as $room) {
+            if ($room->room_order == $roomOrder && $room->name == $key) {
+                return $room;
             }
         }
-    @endphp
+    }
+
+@endphp
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
 
             <div class="my-properties">
+
+                <a href="{{ url('/') }}" class="btn btn-primary float-left mb-4">
+                    <i class="fas fa-arrow-left"></i> Geri Dön
+                </a>
+                
                 <table class="table-responsive">
                     <thead>
                         <tr>
@@ -22,6 +29,7 @@
                             <th class="p-0"></th>
                             <th class="pl-2">İl</th>
                             <th class="pl-2">Fiyat</th>
+                            <th>Sepete Ekle</th>
                             <th>Kaldır</th>
                         </tr>
                     </thead>
@@ -34,8 +42,7 @@
                             @foreach ($favorites as $key => $item)
                                 <tr>
                                     <td class="image myelist">
-                                        <a href="{{ route('housing.show', $item->housing->id) }}"><img
-                                                alt="my-properties-3"
+                                        <a href="{{ route('housing.show', $item->housing->id) }}"><img alt="my-properties-3"
                                                 src="{{ asset('housing_images/') . '/' . json_decode($item->housing->housing_type_data)->image }}"
                                                 class="img-fluid"></a>
                                     </td>
@@ -50,6 +57,12 @@
                                     </td>
                                     <td> {{ $item->housing->city->title }}</td>
                                     <td> {{ json_decode($item->housing->housing_type_data)->price[0] }}₺</td>
+                                    <td>
+                                        <button class="addToCart"
+                                            style="width: 120px; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                            data-type='housing' data-id='{{ $item->id }}'>
+                                        </button>
+                                    </td>
                                     <td class="actions">
                                         <a href="#" class="remove-from-cart"
                                             data-housing-id="{{ $item->housing->id }}" style="float: left"><i
@@ -59,16 +72,19 @@
                             @endforeach
                             @foreach ($projectFavorites as $key => $item)
                                 @php($data = $item->projectHousing->pluck('value', 'key')->toArray())
+                                @php($discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
                                 <tr>
                                     <td class="image myelist">
-                                        <a href="{{ route('project.detail', $item->project_id) }}"><img
+                                        <a
+                                            href="{{ route('project.housings.detail', [$item->project->slug,  getHouse($item->project, 'squaremeters[]', $key + 1)->room_order]) }}"><img
                                                 alt="my-properties-3"
                                                 src="{{ asset('project_housing_images/') . '/' . $data['Kapak Resmi'] }}"
                                                 class="img-fluid"></a>
                                     </td>
                                     <td>
                                         <div class="inner">
-                                            <a href="{{ route('project.detail', $item->project_id) }}">
+                                            <a
+                                                href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $key + 1)->room_order]) }}">
                                                 <h2 style="font-weight: 600">
                                                     {{ $data['Metrekare'] . ' metrekare ' . $data['Oda Sayısı'] }}</h2>
                                                 <h2> {{ $item->project->project_title }}</h2>
@@ -77,7 +93,14 @@
                                         </div>
                                     </td>
                                     <td> {{ $item->project->address }}</td>
-                                    <td> {{ $data['Fiyat'] }}₺</td>
+                                    <td> {{ $data['Fiyat'] - $discount_amount }}₺</td>
+                                    <td>
+                                        <button class="addToCart"
+                                            style="width: 120px; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                            data-type='project' data-project='{{ $item->project_id }}'
+                                            data-id={{ $item->housing_id }}>
+                                        </button>
+                                    </td>
                                     <td class="actions">
                                         <a href="#" class="remove-from-project-cart"
                                             data-project-housing-id="{{ $item->room_order }}"

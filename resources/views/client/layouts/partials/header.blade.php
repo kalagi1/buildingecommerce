@@ -64,16 +64,22 @@
                 padding: 13px !important
             }
         }
-        
     </style>
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
     <!-- Wrapper -->
     <div id="wrapper">
-        <div class="home-top-banner d-xl-block d-none d-lg-block">
-            <img src="https://cdn.dsmcdn.com/mrktng/crm/2023/top/jul/t1.jpg" alt="Home Top Banner Görseli">
+        <div class="slick-lancersl">
+            @foreach ($adBanners as $adBanner)
+                <div class="home-top-banner d-xl-block d-none d-lg-block"
+                    style="background-color: {{ $adBanner->background_color }}">
+                    <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
+                </div>
+            @endforeach
         </div>
+
+
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
         ================================================== -->
@@ -90,9 +96,10 @@
                                 </button>
                             </div>
                             <div id="logo">
-                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
+                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
                                         alt=""></a>
                             </div>
+
                         </div>
                         <div class="center position-relative">
                             <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
@@ -103,7 +110,7 @@
                                 style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px;">
                             </div>
                         </div>
-                        <div class="rightSide">
+                        <div class="rightSide d-xl-block d-none d-lg-block ">
                             <div class="header-widget d-flex">
                                 @if (Auth::user())
                                     @if (Auth::user()->type == 1)
@@ -197,12 +204,34 @@
                                         <span class="d-xl-block d-none d-lg-block rightNavText">Sepetim</span></a>
                                 @endif
 
-                                @if (auth()->user())
-                                    <a href="#" class="btn btn-primary text-white ml-3"> <i class="fa fa-plus"
-                                            style="margin-right: 5px"></i> Ücretsiz İlan Ekle</a>
+                                @if (Auth::check())
+                                    @if (Auth::user()->type == 2)
+                                        <a href="{{ url('institutional/create_project_v2') }}">
+                                            <button type="button" class="buyUserRequest ml-3">
+                                                <span class="buyUserRequest__text"> İlan Ekle</span>
+                                                <span class="buyUserRequest__icon">
+                                                    <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                                </span>
+                                            </button></a>
+                                    @elseif (Auth::check() && Auth::user()->type == 1)
+                                        <button type="button" class="buyUserRequest ml-3">
+                                            <span class="buyUserRequest__text"> Sat Kirala</span>
+                                            <span class="buyUserRequest__icon">
+                                                <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                            </span>
+                                        </button>
+                                    @endif
                                 @else
-                                <a href="{{route('client.login')}}" class="btn btn-primary text-white ml-3">Ücretsiz İlan Ekle</a>
+                                    <a href="{{ route('client.login') }}">
+                                        <button type="button" class="buyUserRequest ml-3">
+                                            <span class="buyUserRequest__text"> Sat Kirala</span>
+                                            <span class="buyUserRequest__icon">
+                                                <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                            </span>
+                                        </button></a>
+
                                 @endif
+
 
                             </div>
                         </div>
@@ -221,9 +250,7 @@
                                         @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
                                             <span class="caret"></span>
                                         @endif
-                                        @if ($key == 0 || $key == 3 || $key == 7)
-                                            <span class="new-badge">Yeni</span>
-                                        @endif
+                                     
                                     </a>
                                     @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
                                         <ul>
@@ -236,6 +263,39 @@
                                                         @endif
                                                         {{ $childItem['text'] }}
                                                     </a>
+                                                    @if ($childItem['children'] && count($childItem['children']) > 0)
+                                                        <ul>
+                                                            @foreach ($childItem['children'] as $subChildItem)
+                                                                <li>
+                                                                    <a href="{{ $subChildItem['href'] }}">
+                                                                        @if (!empty($subChildItem['icon']))
+                                                                            <i
+                                                                                class="{{ $subChildItem['icon'] }}"></i>
+                                                                            <!-- İkonu eklemek için -->
+                                                                        @endif
+                                                                        {{ $subChildItem['text'] }}
+                                                                    </a>
+                                                                    @if ($subChildItem['children'] && count($subChildItem['children']) > 0)
+                                                                        <ul>
+                                                                            @foreach ($subChildItem['children'] as $subofsubChildItem)
+                                                                                <li>
+                                                                                    <a
+                                                                                        href="{{ $subofsubChildItem['href'] }}">
+                                                                                        @if (!empty($subofsubChildItem['icon']))
+                                                                                            <i
+                                                                                                class="{{ $subofsubChildItem['icon'] }}"></i>
+                                                                                            <!-- İkonu eklemek için -->
+                                                                                        @endif
+                                                                                        {{ $subofsubChildItem['text'] }}
+                                                                                    </a>
+                                                                                </li>
+                                                                            @endforeach
+                                                                        </ul>
+                                                                    @endif
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -263,13 +323,118 @@
                 </div>
             </div>
 
-          
+
         </header>
         <div class="clearfix"></div>
 
 
 
         <style>
+            a {
+                text-decoration: none !important;
+            }
+
+            .buyUserRequest {
+                position: relative;
+                width: 150px;
+                height: 35px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                border: 1px solid red;
+                background-color: #EA2B2E;
+            }
+
+            .buyUserRequest,
+            .buyUserRequest__icon,
+            .buyUserRequest__text {
+                transition: all 0.3s;
+            }
+
+            .buyUserRequest .buyUserRequest__text {
+                transform: translateX(20px);
+                color: #fff;
+                font-weight: 600;
+                line-height: 14px;
+            }
+
+            .buyUserRequest .buyUserRequest__icon {
+                position: absolute;
+                transform: translateX(109px);
+                height: 100%;
+                width: 39px;
+                background-color: black;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .buyUserRequest img {
+                width: 30px;
+                stroke: #fff;
+            }
+
+            .buyUserRequest:hover {
+                background: #EA2B2E;
+            }
+
+            .buyUserRequest:hover .buyUserRequest__text {
+                color: transparent;
+            }
+
+            .buyUserRequest:hover .buyUserRequest__icon {
+                width: 148px;
+                transform: translateX(0);
+            }
+
+            .buyUserRequest:active .buyUserRequest__icon {
+                background-color: #EA2B2E;
+            }
+
+            .buyUserRequest:active {
+                border: 1px solid red;
+            }
+
+
+            .cartIconBtn {
+                padding: 5px 10px;
+                height: 100%;
+                background-color: black
+            }
+
+            .cartTextBtn {
+                padding: 5px 10px;
+                height: 100%;
+                background-color: red
+            }
+
+            @media (max-width: 768px) {
+                .buyUserRequest {
+                    width: 80px !important;
+                }
+
+                .buyUserRequest .buyUserRequest__text {
+                    transform: translateX(5px) !important
+                }
+
+                .buyUserRequest__icon {
+                    display: none !important;
+
+                }
+
+                .cartIconBtn {
+                    padding: 2px;
+                    height: 100%;
+                    background-color: black
+                }
+
+                .cartTextBtn {
+                    padding: 2px;
+                    height: 100%;
+                    background-color: red
+                }
+            }
+
             .dropdown ul {
                 width: 200px !important;
                 text-align: left;
@@ -339,6 +504,18 @@
             .dropdown.toggle>input:checked~label::after {
                 border-top-color: #AAA;
             }
+
+            .buyUserRequestBtn {
+                padding: 0;
+                background: Black !important;
+                border: none;
+                border-radius: 0 !important
+            }
+
+            .buyUserRequestBtn:hover {
+                background: black !important
+            }
+
 
             .dropdown li:first-child a:hover::before {
                 border-bottom-color: #EEE;

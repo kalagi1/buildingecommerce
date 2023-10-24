@@ -103,7 +103,7 @@
                         <span id="generate_tabs" class=" btn btn-primary mb-5">Daireleri Oluştur</span>
                         <div class="row">
                             <div class="col-sm-3">
-                                <div id="tablist" class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab h-100 justify-content-between" role="tablist" aria-orientation="vertical">
+                                <div id="tablist" class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab h-100" role="tablist" aria-orientation="vertical">
         
                                 </div>
                             </div>
@@ -1031,6 +1031,8 @@
                             var csrfToken = $("meta[name='csrf-token']").attr("content");
                             formData.append('_token', csrfToken);
                             formData.append('value',$(this).val());
+                            
+                            console.log($(this).attr('name'))
                             formData.append('order',parseInt($(this).closest('.tab-pane').attr('id').replace('TabContent',"")) - 1);
                             formData.append('key',$(this).attr('name').replace("[]", "").replace("[]", ""));
                             formData.append('item_type',1);

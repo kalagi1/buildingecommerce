@@ -5,13 +5,13 @@
                 <div class="col-sm-12 col-md-6 col-lg col-xl">
                     <div class="netabout">
                         <a href="index.html" class="logo">
-                            <img src="{{ URL::to('/') }}/images/logo.png" alt="netcom">
+                            <img src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt="netcom">
                         </a>
                     </div>
 
                 </div>
                 @foreach ($widgetGroups as $widgetGroup)
-                    <div class="col-sm-6 col-md-6 col-lg col-xl">
+                    <div class="col-sm-6 col-md-6 col-lg col-6">
                         <div class="navigation">
                             <h3>{{ $widgetGroup->widget }}</h3>
                             <div class="nav-footer">
@@ -20,6 +20,9 @@
                                         @if ($footerLink->widget === $widgetGroup->widget)
                                             <li><a href="{{ $footerLink->url }}">{!! $footerLink->title !!}</a></li>
                                         @endif
+                                    @endforeach
+                                    @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
+                                        <li><a href="{{ $p->slug }}">{{ $p->title }}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -52,76 +55,122 @@
 <a data-scroll href="#wrapper" class="go-up"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
 <!-- END FOOTER -->
 
-<!--register form -->
-<div class="login-and-register-form modal">
-    <div class="main-overlay"></div>
-    <div class="main-register-holder">
-        <div class="main-register fl-wrap">
-            <div class="close-reg"><i class="fa fa-times"></i></div>
-            <h3>Welcome to <span>Find<strong>Houses</strong></span></h3>
-            <div class="soc-log fl-wrap">
-                <p>Login</p>
-                <a href="#" class="facebook-log"><i class="fa fa-facebook-official"></i>Log in with Facebook</a>
-                <a href="#" class="twitter-log"><i class="fa fa-twitter"></i> Log in with Twitter</a>
-            </div>
-            <div class="log-separator fl-wrap"><span>Or</span></div>
-            <div id="tabs-container">
-                <ul class="tabs-menu">
-                    <li class="current"><a href="#tab-1">Login</a></li>
-                    <li><a href="#tab-2">Register</a></li>
-                </ul>
-                <div class="tab">
-                    <div id="tab-1" class="tab-contents">
-                        <div class="custom-form">
-                            <form method="post" name="registerform">
-                                <label>Username or Email Address * </label>
-                                <input name="email" type="text" onClick="this.select()" value="">
-                                <label>Password * </label>
-                                <input name="password" type="password" onClick="this.select()" value="">
-                                <button type="submit" class="log-submit-btn"><span>Log In</span></button>
-                                <div class="clearfix"></div>
-                                <div class="filter-tags">
-                                    <input id="check-a" type="checkbox" name="check">
-                                    <label for="check-a">Remember me</label>
-                                </div>
-                            </form>
-                            <div class="lost_password">
-                                <a href="#">Lost Your Password?</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab">
-                        <div id="tab-2" class="tab-contents">
-                            <div class="custom-form">
-                                <form method="post" name="registerform" class="main-register-form"
-                                    id="main-register-form2">
-                                    <label>First Name * </label>
-                                    <input name="name" type="text" onClick="this.select()" value="">
-                                    <label>Second Name *</label>
-                                    <input name="name2" type="text" onClick="this.select()" value="">
-                                    <label>Email Address *</label>
-                                    <input name="email" type="text" onClick="this.select()" value="">
-                                    <label>Password *</label>
-                                    <input name="password" type="password" onClick="this.select()" value="">
-                                    <button type="submit" class="log-submit-btn"><span>Register</span></button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--register form end -->
+<style>
+    .button-container {
+        display: none;
+    }
 
-<!-- START PRELOADER -->
-<div id="preloader">
-    <div id="status">
-        <div class="status-mes"></div>
-    </div>
+    @media (max-width: 768px) {
+        .button-container {
+            z-index: 9999999;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            display: flex;
+            background-color: #F7F7F7;
+            height: 70px;
+            align-items: center;
+            justify-content: space-around;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
+                rgba(245, 73, 144, 0.5) 5px 10px 15px;
+        }
+
+        .button-container .button {
+            outline: 0 !important;
+            border: 0 !important;
+            padding: 0 !important;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            transition: all ease-in-out 0.3s;
+            cursor: pointer;
+            flex-direction: column;
+
+        }
+
+        .button-container .button span {
+            margin-top: 5px;
+            font-size: 13px
+        }
+
+        .button-container .button:hover {
+            transform: translateY(-3px);
+        }
+
+        .button-container .icon {
+            font-size: 20px;
+        }
+    }
+</style>
+
+<div class="button-container">
+
+    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('client.index') : (Auth::user()->type == 2 ? route('institutional.index') : (Auth::user()->type == 3 ? route('admin.index') : route('client.login')))) : route('client.login') }}"
+        class="button">
+        <button class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024"
+                stroke-width="0" fill="currentColor" stroke="currentColor" class="icon">
+                <path
+                    d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
+                </path>
+            </svg>
+            @if (Auth::check())
+                <span>Hesabım</span>
+            @else
+                <span>Giriş Yap</span>
+            @endif
+        </button>
+    </a>
+
+    <a href="{{ Auth::check() ? route('favorites') : route('client.login') }}" class="button">
+        <button class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" aria-hidden="true" viewBox="0 0 24 24"
+                stroke-width="2" fill="none" stroke="currentColor" class="icon">
+                <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                </path>
+            </svg>
+            <span>Favorilerim</span>
+        </button>
+    </a>
+
+
+    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('client.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? 'javascript:void(0)' : 'javascript:void(0)'))) : route('client.login') }}"
+        class="button" class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
+        <button class="button">
+            <svg viewBox="0 0 24 24" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none"
+                stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            @if (Auth::check() && Auth::user()->type == 2)
+                <span>İlan Ver</span>
+            @else
+                <span>Sat Kirala</span>
+            @endif
+        </button>
+    </a>
+
+    <a href="{{ route('cart') }}" class="button"
+        class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
+        <button class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round"
+                stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor"
+                class="icon">
+                <circle r="1" cy="21" cx="9"></circle>
+                <circle r="1" cy="21" cx="20"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span>Sepetim</span>
+        </button>
+    </a>
+
 </div>
-<!-- END PRELOADER -->
 
 <!-- ARCHIVES JS -->
 <script src="{{ URL::to('/') }}/js/jquery-3.5.1.min.js"></script>
@@ -275,8 +324,6 @@
         }]
     });
 </script>
-
-
 <script>
     $('.slick-lancers').slick({
         infinite: false,
@@ -395,6 +442,7 @@
         var addToCartButtons = document.querySelectorAll(".addToCart");
         // Tüm "Sepete Ekle" düğmelerini seçin (dinamik olarak oluşturulanlar dahil)
         $('body').on('click', '.addToCart', function(event) {
+            event.preventDefault();
             if (event.target && event.target.classList.contains('addToCart')) {
                 var button = event.target;
                 var productId = button.getAttribute("data-id");
@@ -420,50 +468,127 @@
                 }
 
                 // Eğer kullanıcı zaten ürün eklediyse ve yeni bir ürün eklenmek isteniyorsa sepeti temizlemeyi sorgula
-                if (!isProductInCart(productId)) {
-                    // Kullanıcıya onay için bir onay kutusu göster
-                    Swal.fire({
-                        title: 'Mevcut sepeti temizlemek istiyor musunuz?',
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonText: 'Evet, temizle',
-                        cancelButtonText: 'Hayır',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            cart.clear_cart = "yes"; // Kullanıcı sepeti temizlemeyi onayladı
-                            // Ajax isteğini gönder
-                            var xhr = new XMLHttpRequest();
-                            xhr.open("POST", "{{ route('add.to.cart') }}", true);
-                            xhr.setRequestHeader("Content-Type",
-                                "application/json;charset=UTF-8");
-                            xhr.onload = function() {
-                                if (xhr.status === 200) {
-                                    console.log(xhr.responseText);
-                                    toastr.success("Ürün Sepete Eklendi");
-                                    button.classList.add("bg-success");
+                // Kullanıcıya onay için bir onay kutusu göster
+                Swal.fire({
+                    title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
+                        'Mevcut sepeti temizlemek istiyor musunuz?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Evet, temizle',
+                    cancelButtonText: 'Hayır',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        cart.clear_cart = "yes"; // Kullanıcı sepeti temizlemeyi onayladı
+                        // Ajax isteğini gönder
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "{{ route('add.to.cart') }}", true);
+                        xhr.setRequestHeader("Content-Type",
+                            "application/json;charset=UTF-8");
+                        xhr.onload = function() {
+                            if (xhr.status === 200) {
+                                console.log(xhr.responseText);
+                                toastr.success("Ürün Sepete Eklendi");
+                                button.classList.add("bg-success");
 
-                                    // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
+                                // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
+                                if (!button.classList.contains("mobile"))
                                     button.textContent = "Sepete Eklendi";
-                                    button.disabled = true;
 
-                                    // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
-                                    if (cart.clear_cart === "yes") {
-                                        location.reload();
-                                    }
-                                } else {
-                                    toastr.error("Hata oluştu: " + xhr.responseText,
-                                        "Hata");
-                                    console.error("Hata oluştu: " + xhr.responseText);
+                                // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
+                                if (cart.clear_cart === "yes") {
+                                    location.reload();
                                 }
-                            };
-                            xhr.onerror = function() {
-                                toastr.error("Hata oluştu: İstek gönderilemedi", "Hata");
-                                console.error("Hata oluştu: İstek gönderilemedi");
-                            };
-                            xhr.send(JSON.stringify(cart));
-                        }
-                    });
+                            } else {
+                                toastr.error("Hata oluştu: " + xhr.responseText,
+                                    "Hata");
+                                console.error("Hata oluştu: " + xhr.responseText);
+                            }
+                        };
+                        xhr.onerror = function() {
+                            toastr.error("Hata oluştu: İstek gönderilemedi", "Hata");
+                            console.error("Hata oluştu: İstek gönderilemedi");
+                        };
+                        xhr.send(JSON.stringify(cart));
+                    }
+                });
+            }
+        });
+
+        var addToCartButtons = document.querySelectorAll(".CartBtn");
+        // Tüm "Sepete Ekle" düğmelerini seçin (dinamik olarak oluşturulanlar dahil)
+        $('body').on('click', '.CartBtn', function(event) {
+            event.preventDefault();
+            if (event.target && event.target.classList.contains('CartBtn')) {
+                var button = event.target;
+                var productId = button.getAttribute("data-id");
+
+                var project = null;
+                if (button.getAttribute("data-type") == "project") {
+                    project = button.getAttribute("data-project");
+                    // Ajax isteği gönderme
+                    var cart = {
+                        id: productId,
+                        type: button.getAttribute("data-type"),
+                        project: project,
+                        _token: "{{ csrf_token() }}",
+                        clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
+                    };
+                } else {
+                    var cart = {
+                        id: productId,
+                        type: button.getAttribute("data-type"),
+                        _token: "{{ csrf_token() }}",
+                        clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
+                    };
                 }
+
+                // Eğer kullanıcı zaten ürün eklediyse ve yeni bir ürün eklenmek isteniyorsa sepeti temizlemeyi sorgula
+                // Kullanıcıya onay için bir onay kutusu göster
+                Swal.fire({
+                    title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
+                        'Mevcut sepeti temizlemek istiyor musunuz?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Evet, temizle',
+                    cancelButtonText: 'Hayır',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        cart.clear_cart = "yes"; // Kullanıcı sepeti temizlemeyi onayladı
+                        // Ajax isteğini gönder
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "{{ route('add.to.cart') }}", true);
+                        xhr.setRequestHeader("Content-Type",
+                            "application/json;charset=UTF-8");
+                        xhr.onload = function() {
+                            if (xhr.status === 200) {
+                                console.log(xhr.responseText);
+                                toastr.success(isCartEmpty() ?
+                                    'Ürün Sepete Eklendi' :
+                                    'Ürün Sepetten Çıkarıldı');
+                                button.classList.add("bg-success");
+
+                                // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
+                                if (!button.classList.contains("mobile"))
+                                    button.querySelector(".text").textContent =
+                                    "Sepete Eklendi";
+
+                                // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
+                                if (cart.clear_cart === "yes") {
+                                    location.reload();
+                                }
+                            } else {
+                                toastr.error("Hata oluştu: " + xhr.responseText,
+                                    "Hata");
+                                console.error("Hata oluştu: " + xhr.responseText);
+                            }
+                        };
+                        xhr.onerror = function() {
+                            toastr.error("Hata oluştu: İstek gönderilemedi", "Hata");
+                            console.error("Hata oluştu: İstek gönderilemedi");
+                        };
+                        xhr.send(JSON.stringify(cart));
+                    }
+                });
             }
         });
 
@@ -471,7 +596,7 @@
         updateCartButton();
 
         function updateCartButton() {
-            var addToCartButtons = document.querySelectorAll(".addToCart");
+            var addToCartButtons = document.querySelectorAll(".addToCart:not(.mobile)");
 
             addToCartButtons.forEach(function(button) {
                 var productId = button.getAttribute("data-id");
@@ -484,15 +609,36 @@
                 if (isProductInCart(productId, product)) {
                     button.textContent = "Sepete Eklendi";
                     button.classList.add("bg-success");
-                    button.disabled = true;
                 } else {
                     button.textContent = "Sepete Ekle";
                     button.classList.remove("bg-success");
-                    button.disabled = false;
+                }
+            });
+
+            var CartBtn = document.querySelectorAll(".CartBtn:not(.mobile)");
+
+            CartBtn.forEach(function(button) {
+                var productId = button.getAttribute("data-id");
+                var productType = button.getAttribute("data-type");
+                var product = null;
+                if (productType == "project") {
+                    product = button.getAttribute("data-project");
+                }
+
+                if (isProductInCart(productId, product)) {
+                    button.querySelector(".text").textContent = "Sepete Eklendi";
+                    button.classList.add("bg-success");
+                } else {
+                    button.querySelector(".text").textContent = "Sepete Ekle";
+                    button.classList.remove("bg-success");
                 }
             });
         }
 
+        function isCartEmpty() {
+            var cart = @json(session('cart', []));
+            return cart.length <= 0;
+        }
 
         function isProductInCart(productId, product) {
             var cart = @json(session('cart', []));
@@ -923,7 +1069,24 @@
             }
         });
     });
-
+    $(document).ready(function() {
+        $('.slick-lancersl').slick({
+            loop: true,
+            margin: 30,
+            rtl: false,
+            autoplayHoverPause: false,
+            singleItem: true,
+            smartSpeed: 1200,
+            infinite: true,
+            autoplay: true,
+            loop: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: false,
+            arrows: true,
+            adaptiveHeight: true,
+        });
+    });
 </script>
 
 

@@ -55,8 +55,8 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-2">
+                    <div class="row buttonDetail">
+                        <div class="col-md-2 col-2">
                             <style>
                                 .button-effect {
                                     border: solid 1px #e6e6e6;
@@ -73,9 +73,9 @@
                                 <i class="fa fa-heart"></i>
                             </div>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-10 col-10">
                             <button
-                                style="border: none;width:100%; background-color: #446BB6; border-radius: 10px; padding: 10px 50px; color: white;"
+                                style="border: none;width:100%; background-color: black; border-radius: 10px; padding: 10px 50px; color: white;"
                                 class="addToCart" data-type='housing' data-id='{{ $housing->id }}'>Sepete
                                 Ekle</button>
                         </div>
@@ -153,7 +153,7 @@
                                                 <span class="font-weight-bold mr-1">{{ $key }}:</span>
 
                                                 <span class="det"
-                                                    style="color: #446BB6; font-weight: bold;">{{ number_format($val[0], 2, ',', '.') }}
+                                                    style="color: black; font-weight: bold;">{{ number_format($val[0], 2, ',', '.') }}
                                                     TL</span>
                                             @else
                                                 <span class="font-weight-bold mr-1">{{ $key }}:</span>
@@ -243,7 +243,7 @@
                                             </div>
                                             <div class="row mt-3">
                                                 @foreach (json_decode($comment->images, true) as $img)
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-2 col-3 mb-3">
                                                         <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
                                                             data-lightbox="gallery">
                                                             <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
@@ -351,7 +351,8 @@
                                         <p class="author__meta">{{ $housing->user->corporate_type }}</p>
                                     </div>
                                     <ul class="author__contact">
-                                        <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>{!! $housing->address !!}</li>
+                                        <li><span class="la la-map-marker"><i
+                                                    class="fa fa-map-marker"></i></span>{!! $housing->address !!}</li>
                                         <li><span class="la la-phone"><i class="fa fa-phone"
                                                     aria-hidden="true"></i></span><a
                                                 style="text-decoration: none;color:inherit"
@@ -364,14 +365,16 @@
                                     </ul>
                                 </div>
                                 <hr>
+                                @php
+                                    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+                                    $host = $_SERVER['HTTP_HOST'];
+                                    $uri = $_SERVER['REQUEST_URI'];
+                                    $shareUrl = $protocol . '://' . $host . $uri;
+                                @endphp
+                              
                                 <div class="first-footer">
                                     <ul class="netsocials px-2">
-                                        @php
-                                            $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-                                            $host = $_SERVER['HTTP_HOST'];
-                                            $uri = $_SERVER['REQUEST_URI'];
-                                            $shareUrl = $protocol . '://' . $host . $uri;
-                                        @endphp
+
                                         <li>
                                             <a href="https://twitter.com/share?url={{ $shareUrl }}">
                                                 <i class="fa fa-twitter" aria-hidden="true"></i>
@@ -405,7 +408,7 @@
                                 <div class="recent-post">
                                     <div class="tags">
                                         @foreach ($housing->user->housings as $item)
-                                            <span><a href="#"
+                                            <span><a href="{{ route('housing.show', $item->id) }}"
                                                     class="btn btn-outline-primary">{{ $item->title }}</a></span>
                                         @endforeach
 
@@ -518,6 +521,11 @@
             $('#rate').val($(this).index() + 1);
         });
     </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 @endsection
 
 @section('styles')

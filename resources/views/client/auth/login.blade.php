@@ -143,44 +143,6 @@
                                         </div>
 
                                         <div class="individual-form" id="individualForm">
-
-
-                                            <div class="mt-3">
-                                                <label for="" class="q-label">Abonelik Planı</label>
-                                                <div class="owl-carousel">
-                                                    @foreach ($subscriptionPlans_bireysel as $plan)
-                                                        <div class="item">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <label for=""
-                                                                        class="q-label">{{ $plan->name }}</label>
-
-                                                                    <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:#446BB6">{{ $plan->price }}
-                                                                            TL</span></label>
-
-                                                                    <label for="" class="q-label">Konut Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:#446BB6">{{ $plan->housing_limit }}
-                                                                        </span></label>
-
-                                                                </div>
-                                                                <div class="card-footer">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-block plan-button"
-                                                                        data-plan-id="{{ $plan->id }}"
-                                                                        data-plan-name="{{ $plan->name }}"
-                                                                        data-plan-price="{{ $plan->price }}"
-                                                                        onclick="selectPlan(this)">
-                                                                        Seç
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
                                             {{--
                                             <div class="form-group custom-control custom-checkbox mt-3">
                                                 <input type="checkbox" name="check" class="custom-control-input" id="exampleCheck3"
@@ -216,24 +178,24 @@
                                                                         class="q-label">{{ $plan->name }}</label>
 
                                                                     <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:#446BB6">{{ $plan->price }}
+                                                                        <span style="color:black">{{ $plan->price }}
                                                                             TL</span></label>
 
                                                                     <label for="" class="q-label">Proje Ekleme
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->project_limit }}
+                                                                            style="color:black">{{ $plan->project_limit }}
                                                                         </span></label>
 
                                                                     <label for="" class="q-label">Kullanıcı
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->user_limit }}</span></label>
+                                                                            style="color:black">{{ $plan->user_limit }}</span></label>
 
                                                                     <label for="" class="q-label">Konut Ekleme
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->housing_limit }}
+                                                                            style="color:black">{{ $plan->housing_limit }}
                                                                         </span></label>
 
                                                                 </div>
@@ -263,24 +225,24 @@
                                                                         class="q-label">{{ $plan->name }}</label>
 
                                                                     <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:#446BB6">{{ $plan->price }}
+                                                                        <span style="color:black">{{ $plan->price }}
                                                                             TL</span></label>
 
                                                                     <label for="" class="q-label">Proje Ekleme
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->project_limit }}
+                                                                            style="color:black">{{ $plan->project_limit }}
                                                                         </span></label>
 
                                                                     <label for="" class="q-label">Kullanıcı
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->user_limit }}</span></label>
+                                                                            style="color:black">{{ $plan->user_limit }}</span></label>
 
                                                                     <label for="" class="q-label">Konut Ekleme
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->housing_limit }}
+                                                                            style="color:black">{{ $plan->housing_limit }}
                                                                         </span></label>
 
                                                                 </div>
@@ -310,24 +272,24 @@
                                                                         class="q-label">{{ $plan->name }}</label>
 
                                                                     <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:#446BB6">{{ $plan->price }}
+                                                                        <span style="color:black">{{ $plan->price }}
                                                                             TL</span></label>
 
                                                                     <label for="" class="q-label">Proje Ekleme
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->project_limit }}
+                                                                            style="color:black">{{ $plan->project_limit }}
                                                                         </span></label>
 
                                                                     <label for="" class="q-label">Kullanıcı
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->user_limit }}</span></label>
+                                                                            style="color:black">{{ $plan->user_limit }}</span></label>
 
                                                                     <label for="" class="q-label">Konut Ekleme
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->housing_limit }}
+                                                                            style="color:black">{{ $plan->housing_limit }}
                                                                         </span></label>
 
                                                                 </div>
@@ -509,13 +471,13 @@
 
 
 @section('scripts')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
     <script>
         const individualForm = document.getElementById('individualForm');
         const corporateForm = document.getElementById('corporateForm');
@@ -678,4 +640,5 @@
             $(`.sub-plan-tab.${data[value]}`).removeClass('d-none');
         });
     </script>
+    
 @endsection
