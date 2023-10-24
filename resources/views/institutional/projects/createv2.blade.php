@@ -376,7 +376,7 @@
     <script>
         var nextTemp = false;
         var housingImages = [];
-        var descriptionText = @if(isset($tempData) && isset($tempData->description)) "{!! $tempData->description !!}" @else "" @endif;
+        var descriptionText = @if(isset($tempData) && isset($tempData->description)) '{!! $tempData->description !!}' @else "" @endif;
         var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
         
         function confirmHousings(){
@@ -393,10 +393,10 @@
                         confirm = 0;
                     }
                 })
-
-                if(!$('.tab-pane').eq(i).find('input[type="file"]').val()){
+                if($('.tab-pane').eq(i).find('input[type="file"]').closest('.formbuilder-file').find('.project_imaget').length == 0){
                     confirm = 0;
                 }
+
 
                 if(confirm){
                     $('#tablist>.item-left-area').eq(i).addClass('confirm');
@@ -552,7 +552,6 @@
             return Math.round((second - first) / (1000 * 60 * 60 * 24));
         }
         $('.list-dates').click(function(){
-            console.log()
             if($('.doping_statuses').val() == ""){
                 $('.doping_statuses').addClass('error-border')
             }
@@ -598,7 +597,6 @@
                             return [valid,_class,_tooltip];
                         }
                     }).on('datepicker-change',function(event,obj){
-                        console.log("asd");
                         /* This event will be triggered when second date is selected */
                         var startTime = new Date(obj.date1);
                         var endTime = new Date(obj.date2);
@@ -734,7 +732,6 @@
                             renderHtml = renderHtmlx;
                             }
                         }
-                        console.log(renderHtmlx);
                         $('#renderForm'+(i)).html(renderHtmlx);
 
                         if(i > 1 && i != $('.tab-pane').length){
@@ -780,10 +777,16 @@
                             nextHousing = false;
                             $('.tab-pane.active input[name="price[]"]').addClass('error-border')
                         }
+
                         var indexItem = $('.tab-pane.active').index();
                         if(nextHousing){
+                            $('html, body').animate({
+                                scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
+                            }, 100);
                             $('.tab-pane.active').removeClass('active');
                             $('.tab-pane').eq(indexItem + 1).addClass('active');
+                            $('.item-left-area p').removeClass('active');
+                            $('.item-left-area').eq(indexItem + 1).find('p').addClass('active');
                         }else{
                             $('html, body').animate({
                                 scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
@@ -796,9 +799,15 @@
                         var indexItem = $('.tab-pane.active').index();
                         $('.tab-pane.active').removeClass('active');
                         $('.tab-pane').eq(indexItem - 1).addClass('active');
+                        
+                        $('.item-left-area p').removeClass('active');
+                        $('.item-left-area').eq(indexItem - 1).find('p').addClass('active');
+                        $('html, body').animate({
+                            scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
+                        }, 100);
                     })
                     for (let i = 1; i <= houseCount; i++) {
-                        for(var j = 2 ; j < formInputs.length; j++){
+                        for(var j = 0 ; j < formInputs.length; j++){
                         if(formInputs[j].type == "number" || formInputs[j].type == "text"){
                             var inputName = formInputs[j].name;
                             var inputNamex = inputName;
@@ -832,7 +841,6 @@
                             $($('input[name="'+checkboxName+[i]+'[][]"]')).map((key,item) => {
                             if(oldData[inputNamex[0]+(i)]){
                                 oldData[inputNamex[0]+(i)].map((checkbox) => {
-                                console.log(checkbox,$(item).attr("value"));
                                     if(checkbox == $(item).attr("value")){
                                         $(item).attr('checked','checked')
                                     }
@@ -840,8 +848,15 @@
                             }
                             
                             });
+                        }else if(formInputs[j].type == 'file'){
+                            var inputName = formInputs[j].name;
+                            var inputNamex = inputName;
+                            inputNamex = inputNamex.split('[]')
+                            console.log(oldData[inputNamex[0]])
+                            if(oldData[inputNamex[0]] != undefined){
+                                $($('input[name="'+formInputs[j].name+'"]')[i-1]).parent('div').append('<div class="project_imaget"><img src="{{URL::to("/")}}/storage/project_images/'+oldData[inputNamex[0]][i]+'"></div>');
+                            }
                         }
-                        
                         }
                     }
                     
@@ -864,10 +879,6 @@
 
                     $('.add-new-project-house-image').click(function(){
                         $(this).parent('div').find('.new_file_on_drop').trigger("click")
-                    })
-                    
-                    $('.new_project_housing_image').click(function(){
-                        console.log("asd");
                     })
 
                     $('.item-left-area').click(function(e){
@@ -962,7 +973,6 @@
                                 $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value[0]+'"]').prop('selected',true);
                                 var formData = new FormData();
                                 var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                console.log(value);
                                 formData.append('_token', csrfToken);
                                 formData.append('value', value);
                                 formData.append('order',currentOrder);
@@ -1050,7 +1060,6 @@
                         var csrfToken = $("meta[name='csrf-token']").attr("content");
                         formData.append('_token', csrfToken);
                         formData.append('value',$(this).val());
-                        console.log($(this).closest('.tab-pane').attr('id'))
                         formData.append('order',parseInt($(this).closest('.tab-pane').attr('id').replace('TabContent',"")) - 1);
                         formData.append('key',$(this).attr('name').replace("[]", ""));
                         formData.append('item_type',1);
@@ -1363,7 +1372,6 @@
         });
 
         $('.finish-tick').click(function(){
-            console.log($(this).find('input').is(':checked'));
             if($(this).find('input').is(':checked')){
                 $(this).find('input').prop('checked',false)
             }else{
@@ -1413,7 +1421,6 @@
                 @php $housingType = DB::table('housing_types')->where('id',old('housing_type'))->first(); @endphp
                 var housingTypeData = @json($housingType);
                 var oldData = @json(old());
-                console.log(oldData);
                 var formInputs = JSON.parse(housingTypeData.form_json);
 
                 $('.rendered-area').removeClass('d-none')
@@ -1476,7 +1483,6 @@
                                 var inputName = formInputs[j].name;
                                 var inputNamex = inputName;
                                 inputNamex = inputNamex.split('[]')
-                                console.log(inputNamex);
                                 $($('input[name="'+formInputs[j].name+'"]')[i-1]).val(oldData[inputNamex[0]][i - 1]);
                             }else if(formInputs[j].type == "select"){
                                 var inputName = formInputs[j].name;
@@ -1497,7 +1503,6 @@
                                 checkboxName = checkboxName.split('[]');
                                 checkboxName = checkboxName[0];
                                 $($('input[name="'+checkboxName+[i]+'[][]"]')).map((key,item) => {
-                                console.log(oldData[(checkboxName+i)],$(item).attr("value"))
                                 oldData[(checkboxName+i)].map((checkbox) => {
                                     if(checkbox[0] == $(item).attr("value")){
                                     $(item).attr('checked','checked')
@@ -1571,11 +1576,11 @@
                         var html = "";
                         var htmlContent = "";
                         for(var i = 0 ; i < houseCount; i++ ){
-                            html += '<div class="item-left-area"><a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center '+(i == 0 ? 'active' : '')+'" id="Tab'+(i+1)+'" data-bs-toggle="tab" data-bs-target="#TabContent'+(i+1)+'" role="tab" aria-controls="TabContent'+(i+1)+'" aria-selected="true">'+
+                            html += '<div class="item-left-area"><p class="nav-linkx border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center '+(i == 0 ? 'active' : '')+'" id="Tab'+(i+1)+'"  aria-controls="TabContent'+(i+1)+'" aria-selected="true">'+
                                 '<span class="me-sm-2 fs-4 nav-icons" data-feather="tag"></span>'+
                                 '<span class="d-block d-sm-inline">'+(i+1)+' Nolu Konut Bilgileri</span>'+
                                 '<span class="d-block d-sm-inline">Kopyala (Aynı Olan Dairelere Otomatik Giriş) '+getCopyList(houseCount,i+1)+'</span>'+
-                            '</a></div>';
+                            '</p></div>';
 
                             htmlContent += '<div class="tab-pane fade show '+(i == 0 ? 'active' : '')+'" id="TabContent'+(i+1)+'" role="tabpanel">'+
                                 '<div id="renderForm'+(i+1)+'" class="card p-4"></div>'+
@@ -1585,7 +1590,6 @@
                         $('#tablist').html(html);
                         $('.tab-content').html(htmlContent)
                         for (let i = 1; i <= houseCount; i++) {
-                            console.log(i);
                             formRenderOpts = {
                                 dataType: 'json',
                                 formData: response.form_json
@@ -1599,7 +1603,6 @@
                             renderHtml = renderHtml[0]+'images'+i+'[][]'+renderHtml[1];
                             for(var lm = 0 ; lm < json.length; lm++){
                                 if(json[lm].type == "checkbox-group"){
-                                    console.log();
                                     var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
                                     renderHtmlx = "";
                                     var json = JSON.parse(response.form_json);
@@ -1650,8 +1653,13 @@
                             }
                             var indexItem = $('.tab-pane.active').index();
                             if(nextHousing){
+                                $('html, body').animate({
+                                    scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
+                                }, 100);
                                 $('.tab-pane.active').removeClass('active');
                                 $('.tab-pane').eq(indexItem + 1).addClass('active');
+                                $('.item-left-area p').removeClass('active');
+                                $('.item-left-area').eq(indexItem + 1).find('p').addClass('active');
                             }else{
                                 $('html, body').animate({
                                     scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
@@ -1662,9 +1670,69 @@
                         $('.prev_house').click(function(){
                             
                             var indexItem = $('.tab-pane.active').index();
-                            console.log(indexItem);
                             $('.tab-pane.active').removeClass('active');
                             $('.tab-pane').eq(indexItem - 1).addClass('active');
+
+                            $('.item-left-area p').removeClass('active');
+                            $('.item-left-area').eq(indexItem - 1).find('p').addClass('active');
+                            $('html, body').animate({
+                                scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
+                            }, 100);
+                        })
+
+                        $('.item-left-area').click(function(e){
+                            var clickIndex = $(this).index();
+                            var currentIndex = $('.nav-linkx.active').closest('.item-left-area').index();
+
+                            if(clickIndex>currentIndex){
+                                var nextHousing = true;
+                                $('.tab-pane.active input[required="required"]').map((key,item) => {
+                                    if(!$(item).val()){
+                                        nextHousing = false;
+                                        $(item).addClass("error-border")
+                                    }
+                                })
+
+                                $('.tab-pane.active select[required="required"]').map((key,item) => {
+                                    if(!$(item).val().length){
+                                        nextHousing = false;
+                                        $(item).addClass("error-border")
+                                    }
+                                })
+                                if($('.tab-pane.active input[required="required"]').val() == ""){
+                                    nextHousing = false;
+                                    $('.tab-pane.active input[name="price[]"]').addClass('error-border')
+                                }
+
+                                $('.tab-pane.active input[type="file"]').map((key,item) => {
+                                    if($(item).parent('div').find('.project_imaget').length == 0){
+                                        nextHousing = false;
+                                        $(item).addClass("error-border")
+                                    }
+                                })
+                                
+                                var indexItem = $('.tab-pane.active').index();
+                                if(nextHousing){
+                                    $('.tab-pane.active').removeClass('active');
+                                    $('.tab-pane').eq(indexItem + 1).addClass('active');
+                                    $('.item-left-area p').removeClass('active')
+                                    $(this).children('p').addClass('active');
+                                }else{
+                                    $('html, body').animate({
+                                        scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
+                                    }, 100);
+                                }
+
+                                
+
+                            }else{
+
+                                $('.item-left-area p').removeClass('active')
+                                $(this).children('p').addClass('active');
+                                $('.tab-pane.active').removeClass('active');
+                                $('.tab-pane').eq(clickIndex).addClass('active');
+                            }
+                            
                         })
 
                         $('.copy-item').change(function(){
@@ -1703,7 +1771,6 @@
                                 $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value[0]+'"]').prop('selected',true);
                                 var formData = new FormData();
                                 var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                console.log(value);
                                 formData.append('_token', csrfToken);
                                 formData.append('value', value);
                                 formData.append('order',currentOrder);
@@ -1790,7 +1857,6 @@
                             var csrfToken = $("meta[name='csrf-token']").attr("content");
                             formData.append('_token', csrfToken);
                             formData.append('value',$(this).val());
-                            console.log($(this).closest('.tab-pane').attr('id'))
                             formData.append('order',parseInt($(this).closest('.tab-pane').attr('id').replace('TabContent',"")) - 1);
                             formData.append('key',$(this).attr('name').replace("[]", ""));
                             formData.append('item_type',1);
@@ -2001,7 +2067,6 @@
         $('#counties').change(function(){
             var selectedCounty = $(this).val(); // Seçilen şehir değerini al
             var selectedCountyKey = $('#counties option[value="'+selectedCounty+'"]').attr("key_x");
-            console.log($('#counties option[value="'+selectedCounty+'"]'));
             // AJAX isteği yap
             $.ajax({
                 url: '{{route("institutional.get.neighbourhood")}}', // Endpoint URL'si (get.counties olarak varsayalım)
@@ -2028,54 +2093,70 @@
             });
         });
     </script>
-    <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/40.0.0/ckeditor.min.js" integrity="sha512-Zyl/SvrviD3rEMVNCPN+m5zV0PofJYlGHnLDzol2kM224QpmWj9p5z7hQYppmnLFhZwqif5Fugjjouuk5l1lgA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
     <script>
-        CKEDITOR.replace('editor');
-
-        CKEDITOR.on('instanceReady', function (ev) {
-            var editor = ev.editor;
-            editor.on('change', function (event) {
-                var editorContent = editor.getData();
-                descriptionText = editorContent;
-                if(editorContent == ""){
-                }else{
-                    $('.description-field .error-text').remove();
-                    editor.document.$.body.style.backgroundColor = 'white';
-                }
-
-                var formData = new FormData();
-                var csrfToken = $("meta[name='csrf-token']").attr("content");
-                formData.append('_token', csrfToken);
-                formData.append('value',editorContent);
-                formData.append('key',"description");
-                formData.append('item_type',1);
-                $.ajax({
-                    type: "POST",
-                    url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                    },
-                });
-            });
-        });
+         
 
         
 
-        $('.finish-button').click(function(e){
+        
+            tinymce.init({
+                selector: '#editor', // HTML elementinizi seçin
+                plugins: 'advlist autolink lists link image charmap print preview anchor',
+                toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | forecolor backcolor ',
+                menubar: false, // Menü çubuğunu tamamen devre dışı bırakır
+
+                // Görünümleri devre dışı bırakmak için aşağıdaki yapılandırmaları kullanın
+                file_browser_callback_types: 'image media',
+                file_browser_callback: function(field_name, url, type, win) {
+                    // Herhangi bir işlem yapmadan boş bir işlev kullanarak "File" görünümünü devre dışı bırakır
+                },
+                file_picker_types: 'image media',
+                file_picker_callback: function(callback, value, meta) {
+                    // Herhangi bir işlem yapmadan boş bir işlev kullanarak "File" görünümünü devre dışı bırakır
+                },
+                setup: function (editor) {
+                    // 'change' olayını dinleyin
+                    editor.on('change', function () {
+                        // Editör içeriği değiştiğinde yapılacak işlemi burada tanımlayabilirsiniz.
+                        console.log("Editör içeriği değişti.");
+                        const editorContent = editor.getContent();
+                        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+                        
+                        
+                        // Verileri FormData nesnesine ekleyin
+                        const formData = new FormData();
+                        formData.append('_token', csrfToken);
+                        formData.append('value', editorContent);
+                        formData.append('key', "description");
+                        formData.append('item_type', 1);
+                        
+                        // AJAX isteği gönderin
+                        fetch("{{ route('institutional.temp.order.data.change') }}", {
+                            method: "POST",
+                            body: formData,
+                        })
+                        .then(data => {
+                            // Sunucu yanıtını işleyebilirsiniz.
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                    });
+                }
+            });
+            $('.finish-button').click(function(e){
             e.preventDefault();
             var next = true;
             var topError = 0;
             if(!$('input[name="name"]').val()){
                 next = false;
-                console.log("deneme")
                 $('input[name="name"]').addClass('error-border')
                 topError = $('input[name="name"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
             }
 
             if(!$('#housing_status').val()){
-                console.log("deneme")
                 next = false;
                 if(topError){
                     if($('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
@@ -2501,7 +2582,6 @@
         var $select = $('#housing_status').selectize();
         var selectize = $select[0].selectize;
         selectize.on('item_click', function(item) {
-            console.log("asd");
             selectize.removeItem(item);
         });
 
@@ -2542,5 +2622,6 @@
 @section('css')
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.css"/>
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/daterangepicker.css">
+    <link rel="stylesheet" href="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/content/default/content.min.css">
 @endsection
 

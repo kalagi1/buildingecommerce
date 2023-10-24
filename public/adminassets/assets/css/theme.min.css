@@ -41014,7 +41014,15 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
 
 .confirm span{
-    color: green;
+    color: white;
+}
+
+.item-left-area p{
+    margin: 0;
+}
+
+.confirm{
+    background: green;
 }
 
 .nav-linkx{
@@ -41102,4 +41110,92 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     display: flex;
     justify-content: center;
     margin: 0 auto;
+}
+
+.w-full{
+    width: 100%;
+}
+
+.price-table-extend-time td{
+    border-right: 1px solid white;
+    color: #fff;
+}
+
+.price-table-extend-time tr{
+    background-color: #0097eb;
+}
+
+.price-table-extend-time td p{
+    margin: 0;
+}
+
+.price-table-extend-time td label{
+    text-align: center;
+    display: block;
+}
+
+.price-table-extend-time td p{
+    text-align: center;
+}
+
+.close-pop-icon{
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    background: #333;
+    color: #fff;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.pop-content-inner{
+    position: relative;
+}
+
+.bank-account img{
+    max-width: 100%;
+    max-height: 150px;
+}
+
+.bank-account{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bank-account{
+    cursor: pointer;
+}
+
+.step3 .item{
+    border: 1px solid #f1f1f1;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.step3 .item label{
+    font-weight: 600;
+}
+
+.back_icon{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #333;
+    border-radius: 100%;
+    color: #fff;
+    position: absolute;
+    left: -15px;
+    top: -15px;
+    cursor: pointer;
+
 }

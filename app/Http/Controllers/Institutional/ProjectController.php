@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\AdvertTimeJob;
+use App\Models\BankAccount;
 use App\Models\Brand;
 use App\Models\City;
 use App\Models\County;
@@ -24,6 +26,7 @@ use App\Models\SinglePrice;
 use App\Models\StandOutUser;
 use App\Models\TempOrder;
 use App\Models\UserPlan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -35,8 +38,9 @@ class ProjectController extends Controller
 {
     public function index()
     {
+        $bankAccounts = BankAccount::all();
         $projects = Project::where('user_id', Auth::user()->id)->get();
-        return view('institutional.projects.index', compact('projects'));
+        return view('institutional.projects.index', compact('projects','bankAccounts'));
     }
 
     public function create()
@@ -171,6 +175,16 @@ class ProjectController extends Controller
                 $newDocument = Str::slug($tempOrder->name).'_verification_'.(Auth::user()->id).'.'.end($extension);
                 $newDocumentFile = public_path('housing_documents/'.$newDocument); // Yeni dosya adı ve yolu
                 File::move($oldDocument, $newDocumentFile);
+                $now = Carbon::now();
+                if($tempOrder->{"pricing-type"} == "2"){
+                    $singlePrice = SinglePrice::where('id',$tempOrder->price_id)->first();
+                    $endDate = $now->addMonths($singlePrice->month);
+                    $month = $singlePrice->month;
+                }else{
+                    $endDate = $now->addMonths(2);
+                    $month = 2;
+                }
+
                 $project = Project::create([
                     "housing_type_id" => $housingType->id,
                     "step1_slug" => $tempOrder->step1_slug,
@@ -187,6 +201,7 @@ class ProjectController extends Controller
                     "status_id" => 1,
                     "image" => 'public/project_images/'.$newCoverImage,
                     'document' => $newDocument,
+                    "end_date" => $endDate->format('Y-m-d'),
                     "status" => 2
                 ]);
 
@@ -274,7 +289,8 @@ class ProjectController extends Controller
                 DB::commit();
                 
                 TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->delete();
-
+                UserPlan::where('user_id', auth()->user()->id)->decrement('project_limit');
+                dispatch(new AdvertTimeJob($project))->delay(now()->addMonths($month));
                 return json_encode([
                     "status" => true
                 ]);
