@@ -56,11 +56,9 @@ use App\Http\Controllers\Institutional\ProjectController as InstitutionalProject
 use App\Http\Controllers\Institutional\RoleController as InstitutionalRoleController;
 use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
-use App\Http\Controllers\Institutional\OfferController as InstitutionalOfferController;
 use App\Http\Controllers\Institutional\PaymentTempController;
 use App\Http\Controllers\Institutional\SinglePriceController;
 use App\Http\Controllers\Institutional\TempOrderController;
-use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use Illuminate\Support\Facades\Route;
 
 /*

@@ -2921,7 +2921,7 @@
     width: 60px;
     height: 60px;
     color: #fff;
-    background: #5272F2;
+    background: #e54242;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -3133,7 +3133,7 @@
 }
 
 .rulesOpen{
-    color: #438ed8;
+    color: #e54242;
     cursor: pointer;
     font-weight: normal;
     padding-right: 3px;
@@ -3164,12 +3164,12 @@
 
 .photo-area i{
     font-size: 40px;
-    fill: #438ed8;
-    color : #438ed8;
+    fill: #e54242;
+    color : #e54242;
 }
 
 .photo-area label {
-    color: #438ed8;
+    color: #e54242;
     width: 50%;
     margin-left: 10px;
     line-height: 17px;
@@ -3199,12 +3199,12 @@
 
 .cover-photo-area i{
     font-size: 40px;
-    fill: #438ed8;
-    color : #438ed8;
+    fill: #e54242;
+    color : #e54242;
 }
 
 .cover-photo-area label {
-    color: #438ed8;
+    color: #e54242;
     width: 50%;
     margin-left: 10px;
     font-weight: bold !important;
@@ -3234,12 +3234,12 @@
 
 .cover-document-area i{
     font-size: 40px;
-    fill: #438ed8;
-    color : #438ed8;
+    fill: #e54242;
+    color : #e54242;
 }
 
 .cover-document-area label {
-    color: #438ed8;
+    color: #e54242;
     width: 50%;
     margin-left: 10px;
     font-weight: bold !important;
@@ -3303,7 +3303,7 @@
     height: 40px;
     margin-left: 16px;
     margin-top: -64px;
-    color: #5272F2;
+    color: #e54242;
     line-height: 40px;
     border-radius: 36px;
     display: flex;
@@ -3339,7 +3339,7 @@
     width: 100%;
     height: 4px;
     content: '';
-    background-color: #5272F2;
+    background-color: #e54242;
     position: absolute;
     left: 0;
     top: 50%;
@@ -3400,7 +3400,7 @@
     transition: width 0.7s linear;
     height: 4px;
     content: '';
-    background-color: #5272F2;
+    background-color: #e54242;
     position: absolute;
     left: 0;
     top: 50%;
@@ -3410,7 +3410,7 @@
 .progress-line ol li.current .step-counter i{
     font-size: 40px;
     margin-left: 17px;
-    color: #5272F2;
+    color: #e54242;
     line-height: 40px;
     position: absolute;
 }
@@ -3462,7 +3462,7 @@
 
 .breadcrumb-v2 .icon{
     font-size: 16px;
-    background-color: #5272F2;
+    background-color: #e54242;
     display: flex;
     justify-content: center;
     align-items: center;
