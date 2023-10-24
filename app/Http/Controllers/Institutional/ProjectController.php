@@ -168,13 +168,16 @@ class ProjectController extends Controller
                 $extension = explode('.',$tempOrder->cover_image);
                 $newCoverImage = Str::slug($tempOrder->name).(Auth::user()->id).'.'.end($extension);
                 $newCoverImageName = public_path('storage/project_images/'.$newCoverImage); // Yeni dosya adı ve yolu
-                File::move($oldCoverImage, $newCoverImageName);
-
+                if(File::exists($oldCoverImage)){
+                    File::move($oldCoverImage, $newCoverImageName);
+                }
                 $oldDocument = public_path('housing_documents/'.$tempOrder->document); // Mevcut dosyanın yolu
                 $extension = explode('.',$tempOrder->document);
                 $newDocument = Str::slug($tempOrder->name).'_verification_'.(Auth::user()->id).'.'.end($extension);
                 $newDocumentFile = public_path('housing_documents/'.$newDocument); // Yeni dosya adı ve yolu
-                File::move($oldDocument, $newDocumentFile);
+                if(File::exists($oldDocument)){
+                    File::move($oldDocument, $newDocumentFile);
+                }
                 $now = Carbon::now();
                 if($tempOrder->{"pricing-type"} == "2"){
                     $singlePrice = SinglePrice::where('id',$tempOrder->price_id)->first();
@@ -217,13 +220,14 @@ class ProjectController extends Controller
                     $extension = explode('.',$image);
                     $newFileName = Str::slug($tempOrder->name).'-'.($key+1).'.'.end($extension);
                     $yeniDosyaAdi = public_path('storage/project_images/'.$newFileName); // Yeni dosya adı ve yolu
-
-                    // Dosya adını değiştirme işlemi
-                    if (File::move($eskiDosyaAdi, $yeniDosyaAdi)) {
-                        $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
-                        $projectImage->image = 'public/project_images/'.$newFileName;
-                        $projectImage->project_id = $project->id;
-                        $projectImage->save();
+                    
+                    if(File::exists($eskiDosyaAdi)){
+                        if (File::move($eskiDosyaAdi, $yeniDosyaAdi)) {
+                            $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
+                            $projectImage->image = 'public/project_images/'.$newFileName;
+                            $projectImage->project_id = $project->id;
+                            $projectImage->save();
+                        }
                     }
                 }
 
@@ -254,7 +258,10 @@ class ProjectController extends Controller
                                 $extension = explode('.',$tempOrder->roomInfoKeys->image[$i]);
                                 $newFileName = Str::slug($tempOrder->name).'-project_housing-image-'.($i).'.'.end($extension);
                                 $yeniDosyaAdi = public_path('project_housing_images/'.$newFileName); // Yeni dosya adı ve yolu
-                                File::move($eskiDosyaAdi, $yeniDosyaAdi);
+                                
+                                if(File::exists($eskiDosyaAdi)){
+                                    File::move($eskiDosyaAdi, $yeniDosyaAdi);
+                                }
                                 ProjectHousing::create([
                                     "key" => $housingTypeInputs[$j]->label,
                                     "name" => $housingTypeInputs[$j]->name,

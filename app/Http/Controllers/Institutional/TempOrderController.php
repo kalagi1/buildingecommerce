@@ -431,4 +431,13 @@ class TempOrderController extends Controller
             "status" => true
         ]);
     }
+
+    public function copyItemImage(Request $request){
+        $tempOrder = TempOrder::where('user_id',auth()->user()->id)->where('item_type',$request->input('item_type'))->first();
+        $data = json_decode($tempOrder->data);
+        array_push($data->roomInfoKeys->image,$data->roomInfoKeys->image[$request->input('lastorder')]);
+        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            "data" => json_encode($data),
+        ]);
+    }
 }

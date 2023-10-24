@@ -748,15 +748,11 @@
                     $('.next_house').click(function(){
                         var nextHousing = true;
                         $('.tab-pane.active input[required="required"]').map((key,item) => {
-                            if(!$(item).val()){
+                            if(!$(item).val() && $(item).attr('type') != "file"){
                                 nextHousing = false;
                                 $(item).addClass("error-border")
                             }
                         })
-                        if($('.tab-pane.active input[required="required"]').val() == ""){
-                                nextHousing = false;
-                                $('.tab-pane.active input[name="price[]"]').addClass('error-border')
-                            }
 
                         $('.tab-pane.active select[required="required"]').map((key,item) => {
                             if(!$(item).val()){
@@ -772,11 +768,6 @@
                                 $(item).addClass("error-border")
                             }
                         })
-
-                        if($('.tab-pane.active input[required="required"]').val() == ""){
-                            nextHousing = false;
-                            $('.tab-pane.active input[name="price[]"]').addClass('error-border')
-                        }
 
                         var indexItem = $('.tab-pane.active').index();
                         if(nextHousing){
@@ -889,7 +880,7 @@
                         if(clickIndex>currentIndex){
                             var nextHousing = true;
                             $('.tab-pane.active input[required="required"]').map((key,item) => {
-                                if(!$(item).val()){
+                                if(!$(item).val() && $(item).attr('type') != "file"){
                                     nextHousing = false;
                                     $(item).addClass("error-border")
                                 }
@@ -901,10 +892,7 @@
                                     $(item).addClass("error-border")
                                 }
                             })
-                            if($('.tab-pane.active input[required="required"]').val() == ""){
-                                nextHousing = false;
-                                $('.tab-pane.active input[name="price[]"]').addClass('error-border')
-                            }
+                            
 
                             $('.tab-pane.active input[type="file"]').map((key,item) => {
                                 if($(item).parent('div').find('.project_imaget').length == 0){
@@ -991,12 +979,24 @@
 
                                 confirmHousings();
                             }else if(json[lm].type == "file" && json[lm].name == "image[]"){
-                                var files = $('input[name="'+(json[lm].name)+'"]').eq(order)[0].files;
-                                var input2 = $('input[name="'+(json[lm].name)+'"]').eq(currentOrder);
-                                for (var i = 0; i < files.length; i++) {
-                                    var file = files[i];
-                                    input2.prop("files",files);
-                                }
+                                
+                                var formData = new FormData();
+                                var csrfToken = $("meta[name='csrf-token']").attr("content");
+                                formData.append('_token', csrfToken);
+                                formData.append('lastorder',order);
+                                formData.append('order',currentOrder);
+                                formData.append('item_type',1);
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{route('institutional.copy.item.image')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function(response) {
+                                    },
+                                });
+                                var cloneImage = $('.tab-pane').eq(order).find('.project_imaget').clone();
+                                $('.tab-pane.active').find('.cover-image-by-housing-type').parent('div').append(cloneImage)
                             }else if(json[lm].type != "file"){
                                 if(json[lm].name){
                                     var value = $('input[name="'+(json[lm].name)+'"]').eq(order).val();
@@ -1789,12 +1789,24 @@
 
                                 confirmHousings();
                             }else if(json[lm].type == "file" && json[lm].name == "image[]"){
-                                var files = $('input[name="'+(json[lm].name)+'"]').eq(order)[0].files;
-                                var input2 = $('input[name="'+(json[lm].name)+'"]').eq(currentOrder);
-                                for (var i = 0; i < files.length; i++) {
-                                    var file = files[i];
-                                    input2.prop("files",files);
-                                }
+                                
+                                var formData = new FormData();
+                                var csrfToken = $("meta[name='csrf-token']").attr("content");
+                                formData.append('_token', csrfToken);
+                                formData.append('lastorder',order);
+                                formData.append('order',currentOrder);
+                                formData.append('item_type',1);
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{route('institutional.copy.item.image')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function(response) {
+                                    },
+                                });
+                                var cloneImage = $('.tab-pane').eq(order).find('.project_imaget').clone();
+                                $('.tab-pane.active').find('.cover-image-by-housing-type').parent('div').append(cloneImage)
                             }else if(json[lm].type != "file"){
                                 if(json[lm].name){
                                     var value = $('input[name="'+(json[lm].name)+'"]').eq(order).val();
@@ -2217,7 +2229,7 @@
             }
 
             $('.tab-pane.active input[required="required"]').map((key,item) => {
-                    if(!$(item).val()){
+                    if(!$(item).val() && $(item).attr('type') != 'file'){
                         next = false;
 
                         if(topError){

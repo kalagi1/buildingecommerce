@@ -634,6 +634,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     });
 
     Route::middleware(['checkPermission:TempOrder'])->group(function () {
+        Route::post('/end_project_copy_item_image', [TempOrderController::class,"copyItemImage"])->name('copy.item.image');
         Route::post('/update_image_order_temp_update', [TempOrderController::class, 'updateImageOrders'])->name('update.image.order.temp.update');
         Route::post('/delete_image_order_temp_update', [TempOrderController::class, 'deleteImageOrders'])->name('delete.image.order.temp.update');
         Route::post('/delete_temp_update', [TempOrderController::class, 'deleteTempUpdate'])->name('delete.temp.update');
