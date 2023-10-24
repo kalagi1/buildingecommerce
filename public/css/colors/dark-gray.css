@@ -275,12 +275,12 @@ a.button {
 .inner-pages .blog .blog-info.details h5::after,
 .inner-pages .blog .property-location h5::after,
 .inner-pages .blog .team.assigned h5::after {
-    color: black;
-    background-color: black;
+    color: #EA2B2E  ;
+    background-color: #EA2B2E;
 }
 
 .inner-pages .blog .homes-content.details .fa {
-    color: black;
+    color: #EA2B2E;
 }
 
 .inner-pages .button.alt {

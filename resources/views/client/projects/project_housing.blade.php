@@ -29,7 +29,7 @@
                                         <div class="mt-0">
                                             <a href="#listing-location" class="listing-address">
                                                 <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
-                                                {!! $project->address !!}
+                                                {!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}
                                             </a>
                                         </div>
                                     </div>
@@ -93,8 +93,8 @@
                                 <ul class="carousel-indicators smail-listing list-inline">
                                     @foreach ($project->images as $key => $housingImage)
                                         <li class="list-inline-item active">
-                                            <a id="carousel-selector-0" class="selected" data-slide-to="0"
-                                                data-target="#listingDetailsSlider">
+                                            <a id="carousel-selector-0" class="selected"
+                                                data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                     class="img-fluid" alt="listing-small">
                                             </a>
@@ -115,50 +115,103 @@
                         <div class="single homes-content details mb-30">
 
                             <h5 class="mb-4">Bina Özellikleri</h5>
-                            <ul class="homes-list clearfix">
-                                @php
-                                    function implodeData($array)
-                                    {
-                                        $html = '';
+                            @php
+                                function implodeData($array)
+                                {
+                                    $html = '';
 
-                                        for ($i = 0; $i < count($array); $i++) {
-                                            if ($i == 0) {
-                                                $html .= ' ' . $array[$i];
-                                            } else {
-                                                $html .= ', ' . $array[$i];
-                                            }
+                                    for ($i = 0; $i < count($array); $i++) {
+                                        if ($i == 0) {
+                                            $html .= ' ' . $array[$i];
+                                        } else {
+                                            $html .= ', ' . $array[$i];
                                         }
-
-                                        return $html;
                                     }
-                                @endphp
+
+                                    return $html;
+                                }
+                            @endphp
+                            <ul class="homes-list clearfix">
+
                                 @foreach ($projectHousingSetting as $housingSetting)
                                     @php
                                         $isArrayCheck = $housingSetting->is_array;
                                         $onProject = false;
                                         if ($isArrayCheck) {
                                             $onProject = false;
-                                            $value = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                            $value = implodeData($value);
+                                            $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
+                                            $value = implodeData($valueArray);
                                         } elseif ($housingSetting->is_parent_table) {
                                             $value = $project[$housingSetting->column_name];
                                             $onProject = true;
+                                        } else {
+                                            foreach ($project->roomInfo as $roomInfo) {
+                                                if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                    if ($roomInfo['value'] == '["on"]') {
+                                                        $value = 'Evet';
+                                                    } elseif ($roomInfo['value'] == '["off"]') {
+                                                        $value = 'Hayır';
+                                                    } else {
+                                                        $value = $roomInfo['value'];
+                                                    }
+                                                    $onProject = true;
+                                                }
+                                            }
                                         }
                                     @endphp
                                     <li style="border: none !important;">
                                         @if ($onProject)
-                                            <span class="font-weight-bold mr-1">{{ $housingSetting->label }}:</span>
-                                        @else
-                                            <span
-                                                class="font-weight-bold mr-1">{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:</span>
+                                            <span class="font-weight-bold mr-1">{{ $housingSetting->label }}:</span> <span
+                                                class="det">
+                                                {{ $value }}
+                                            </span>
                                         @endif
-                                        <span class="det">
-                                            {{ $value }}
-                                        </span>
+
                                     </li>
                                 @endforeach
 
                             </ul>
+                            @foreach ($projectHousingSetting as $housingSetting)
+                                @php
+                                    $isArrayCheck = $housingSetting->is_array;
+                                    $onProject = false;
+                                    if ($isArrayCheck) {
+                                        $onProject = false;
+                                        $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
+                                        $value = implodeData($valueArray);
+                                    } elseif ($housingSetting->is_parent_table) {
+                                        $value = $project[$housingSetting->column_name];
+                                        $onProject = true;
+                                    } else {
+                                        foreach ($project->roomInfo as $roomInfo) {
+                                            if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                if ($roomInfo['value'] == '["on"]') {
+                                                    $value = 'Evet';
+                                                } elseif ($roomInfo['value'] == '["off"]') {
+                                                    $value = 'Hayır';
+                                                } else {
+                                                    $value = $roomInfo['value'];
+                                                }
+                                                $onProject = true;
+                                            }
+                                        }
+                                    }
+                                @endphp
+
+                                @if (!$onProject)
+                                    <h5 class="mt-5">{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:
+                                    </h5>
+                                    <span>
+                                        <ul class="homes-list clearfix">
+                                            @foreach ($valueArray as $ozellik)
+                                                <li><i class="fa fa-check-square"
+                                                        aria-hidden="true"></i><span>{{ $ozellik }}</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </span>
+                                @endif
+                            @endforeach
                         </div>
 
                     </div>
@@ -179,8 +232,9 @@
                                         <p class="author__meta">{{ $project->user->corporate_type }}</p>
                                     </div>
                                     <ul class="author__contact">
-                                        <li><span class="la la-map-marker"><i
-                                                    class="fa fa-map-marker"></i></span>{!! $project->address !!}</li>
+                                        <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>
+                                            {!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}
+                                        </li>
                                         <li><span class="la la-phone"><i class="fa fa-phone"
                                                     aria-hidden="true"></i></span><a
                                                 style="text-decoration: none;color:inherit"
