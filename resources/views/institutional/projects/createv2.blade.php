@@ -2217,7 +2217,7 @@
             }
 
             $('.tab-pane.active input[required="required"]').map((key,item) => {
-                    if(!$(item).val()){
+                    if(!$(item).val() && $(item).attr('type') != 'file'){
                         next = false;
 
                         if(topError){
