@@ -1020,6 +1020,8 @@
                             var csrfToken = $("meta[name='csrf-token']").attr("content");
                             formData.append('_token', csrfToken);
                             formData.append('value',$(this).val());
+                            
+                            console.log($(this).attr('name'))
                             formData.append('order',parseInt($(this).closest('.tab-pane').attr('id').replace('TabContent',"")) - 1);
                             formData.append('key',$(this).attr('name').replace("[]", "").replace("[]", ""));
                             formData.append('item_type',1);

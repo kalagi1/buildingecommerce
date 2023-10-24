@@ -178,24 +178,24 @@
                                                                         class="q-label">{{ $plan->name }}</label>
 
                                                                     <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:#446BB6">{{ $plan->price }}
+                                                                        <span style="color:black">{{ $plan->price }}
                                                                             TL</span></label>
 
                                                                     <label for="" class="q-label">Proje Ekleme
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->project_limit }}
+                                                                            style="color:black">{{ $plan->project_limit }}
                                                                         </span></label>
 
                                                                     <label for="" class="q-label">Kullanıcı
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->user_limit }}</span></label>
+                                                                            style="color:black">{{ $plan->user_limit }}</span></label>
 
                                                                     <label for="" class="q-label">Konut Ekleme
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->housing_limit }}
+                                                                            style="color:black">{{ $plan->housing_limit }}
                                                                         </span></label>
 
                                                                 </div>
@@ -225,24 +225,24 @@
                                                                         class="q-label">{{ $plan->name }}</label>
 
                                                                     <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:#446BB6">{{ $plan->price }}
+                                                                        <span style="color:black">{{ $plan->price }}
                                                                             TL</span></label>
 
                                                                     <label for="" class="q-label">Proje Ekleme
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->project_limit }}
+                                                                            style="color:black">{{ $plan->project_limit }}
                                                                         </span></label>
 
                                                                     <label for="" class="q-label">Kullanıcı
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->user_limit }}</span></label>
+                                                                            style="color:black">{{ $plan->user_limit }}</span></label>
 
                                                                     <label for="" class="q-label">Konut Ekleme
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->housing_limit }}
+                                                                            style="color:black">{{ $plan->housing_limit }}
                                                                         </span></label>
 
                                                                 </div>
@@ -272,24 +272,24 @@
                                                                         class="q-label">{{ $plan->name }}</label>
 
                                                                     <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:#446BB6">{{ $plan->price }}
+                                                                        <span style="color:black">{{ $plan->price }}
                                                                             TL</span></label>
 
                                                                     <label for="" class="q-label">Proje Ekleme
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->project_limit }}
+                                                                            style="color:black">{{ $plan->project_limit }}
                                                                         </span></label>
 
                                                                     <label for="" class="q-label">Kullanıcı
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->user_limit }}</span></label>
+                                                                            style="color:black">{{ $plan->user_limit }}</span></label>
 
                                                                     <label for="" class="q-label">Konut Ekleme
                                                                         Limiti:
                                                                         <span
-                                                                            style="color:#446BB6">{{ $plan->housing_limit }}
+                                                                            style="color:black">{{ $plan->housing_limit }}
                                                                         </span></label>
 
                                                                 </div>

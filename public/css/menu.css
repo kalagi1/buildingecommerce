@@ -247,7 +247,7 @@ a.button.border {
 
 a.button.border,
 a.button {
-    background-color: #446BB6;
+    background-color: black;
     top: 0;
     padding: 10px 20px;
     color: #fff;
@@ -654,11 +654,11 @@ a.button {
 
 #navigation.style-1 ul li:hover {
     background-color: transparent !important;
-    color: #446BB6 !important;
+    color: black !important;
 }
 
 #navigation.style-1 ul li:hover a {
-    color: #446BB6 !important;
+    color: black !important;
 }
 
 #navigation.style-1 ul a {
@@ -1597,7 +1597,7 @@ em.mm-counter+a.mm-fullsubopen+span {
 
 .hamburger {
     padding: 0;
-    top: 13px;
+    top: 18px;
     left: 12px;
     transform: scale(0.72);
     -moz-transform: scale(0.72) translateY(3px);
@@ -1633,7 +1633,7 @@ em.mm-counter+a.mm-fullsubopen+span {
 .hamburger-inner::after {
     width: 34px;
     height: 4px;
-    background-color: #555;
+    background-color: black;
     border-radius: 4px;
     position: absolute;
     transition-property: transform;

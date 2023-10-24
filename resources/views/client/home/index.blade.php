@@ -128,7 +128,7 @@
             @foreach ($dashboardStatuses as $status)
                 <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
                     <a href="{{ url('kategori/' . $status->slug) }}">
-                        <button style="background-color: #dee0f5; color: #504fa3;" class="w-100">
+                        <button style="background-color: #e5424224; color: #e54242;" class="w-100">
                             {{ $status->name }}
                         </button>
                     </a>
@@ -156,7 +156,7 @@
                 <div class="col-md-12">
                 </div>
                 @foreach ($dashboardProjects as $project)
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-6" data-aos="zoom-in" data-aos-delay="150">
+                    <div class="col-sm-12 col-md-4 col-lg-4 col-12" data-aos="zoom-in" data-aos-delay="150">
                         <!-- Image Box -->
                         <a href="{{ route('project.detail', $project->project->slug) }}" class="img-box hover-effect">
                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"
@@ -233,10 +233,10 @@
                                             <a href="#" class="btn toggle-project-favorite"
                                                 data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                 style="color: white;" data-project-id="{{ $project->id }}">
-                                                <i class="fa fa-heart"></i>
+                                                <i class="fa fa-heart" ></i>
                                             </a>
                                             <button class="addToCart mobile px-2"
-                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                style="width: 100%; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
                                                 data-type='project' data-project='{{ $project->id }}'
                                                 data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
                                                 <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
@@ -254,16 +254,16 @@
                         <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
                             <ul class="d-flex justify-content-around align-items-center h-100"
                                 style="list-style: none;padding:0;font-weight:600">
-                                <li class="d-flex align-items-center">
+                                <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }} <span> No'lu
                                         Daire</span>
                                 </li>
-                                <li class="d-flex align-items-center">
+                                <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->value }} m2
                                 </li>
-                                <li class="d-flex align-items-center">
+                                <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'room_count[]', $i + 1)->value }}
                                 </li>
@@ -389,7 +389,7 @@
                         </div>
                     </div>
                 @else
-                    <p>Veri Yok</p>
+                    <p>Henüz İlan Yayınlanmadı</p>
                 @endif
             </div>
 
@@ -453,7 +453,7 @@
                                                 <i class="fa fa-heart"></i>
                                             </a>
                                             <button class="addToCart mobile px-2"
-                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                style="width: 100%; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
                                                 data-type='project' data-project='{{ $project->id }}'
                                                 data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
                                                 <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
@@ -471,16 +471,16 @@
                         <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
                             <ul class="d-flex justify-content-around align-items-center h-100"
                                 style="list-style: none;padding:0;font-weight:600">
-                                <li class="d-flex align-items-center">
+                                <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }} <span> No'lu
                                         Daire</span>
                                 </li>
-                                <li class="d-flex align-items-center">
+                                <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->value }} m2
                                 </li>
-                                <li class="d-flex align-items-center">
+                                <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'room_count[]', $i + 1)->value }}
                                 </li>
@@ -606,7 +606,7 @@
                         </div>
                     </div>
                 @else
-                    <p>Veri Yok</p>
+                    <p>Henüz İlan Yayınlanmadı</p>
                 @endif
             </div>
         </div>
@@ -663,7 +663,7 @@
                                             <i class="fa fa-heart"></i>
                                         </a>
                                         <button class="addToCart mobile px-2"
-                                            style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                            style="width: 100%; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
                                             data-type='housing' data-id='{{ $project->id }}'>
                                             <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
                                                 height="24px" style="width: 24px !important; height: 24px !important;" />
@@ -680,15 +680,15 @@
                     <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
                         <ul class="d-flex justify-content-around align-items-center h-100"
                             style="list-style: none;padding:0;font-weight:600">
-                            <li class="d-flex align-items-center">
+                            <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon"></i>
                                 {{ $project->id }} <span> No'lu Daire</span>
                             </li>
-                            <li class="d-flex align-items-center">
+                            <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon"></i>
                                 {{ json_decode($project->housing_type_data)->squaremeters[0] ?? null }} m2
                             </li>
-                            <li class="d-flex align-items-center">
+                            <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon"></i>
                                 {{ json_decode($project->housing_type_data)->room_count[0] ?? null }}
                             </li>
@@ -794,7 +794,7 @@
                         </a>
                     </section>
                 @else
-                    <p>Veri Yok</p>
+                    <p>Henüz İlan Yayınlanmadı</p>
                 @endif
             </div>
         </div>
@@ -974,7 +974,7 @@
 
             .circleIcon {
                 font-size: 5px;
-                color: #446BB6;
+                color: black;
                 padding-right: 5px
             }
 

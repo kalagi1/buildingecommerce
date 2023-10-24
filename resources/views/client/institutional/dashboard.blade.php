@@ -75,7 +75,7 @@
                                 {{ $store->name }}
                                 <style type="text/css">
                                     .st0 {
-                                        fill: #446BB6;
+                                        fill: #e54242;
                                     }
 
                                     .st1 {
@@ -260,7 +260,7 @@
                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex" style="padding-right:0; width: 130px;">
@@ -300,7 +300,7 @@
                                                 <i class="fa fa-heart"></i>
                                             </a>
                                             <button class="addToCart mobile px-2"
-                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                style="width: 100%; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
                                                 data-type='project' data-project='{{ $project->id }}'
                                                 data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
                                                 <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
@@ -318,16 +318,16 @@
                         <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
                             <ul class="d-flex justify-content-around align-items-center h-100"
                                 style="list-style: none;padding:0;font-weight:600">
-                                <li class="d-flex align-items-center">
+                                <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }} <span> No'lu
                                         Daire</span>
                                 </li>
-                                <li class="d-flex align-items-center">
+                                <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->value }} m2
                                 </li>
-                                <li class="d-flex align-items-center">
+                                <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'room_count[]', $i + 1)->value }}
                                 </li>
@@ -355,7 +355,7 @@
                                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <a class="text-decoration-none"
@@ -454,7 +454,7 @@
                         </div>
                     </div>
                 @else
-                    <p>Veri Yok</p>
+                    <p>Henüz İlan Yayınlanmadı</p>
                 @endif
             </div>
 
@@ -478,7 +478,7 @@
                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex" style="padding-right:0; width: 130px;">
@@ -518,7 +518,7 @@
                                                 <i class="fa fa-heart"></i>
                                             </a>
                                             <button class="addToCart mobile px-2"
-                                                style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                style="width: 100%; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
                                                 data-type='project' data-project='{{ $project->id }}'
                                                 data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
                                                 <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
@@ -536,16 +536,16 @@
                         <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
                             <ul class="d-flex justify-content-around align-items-center h-100"
                                 style="list-style: none;padding:0;font-weight:600">
-                                <li class="d-flex align-items-center">
+                                <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }} <span> No'lu
                                         Daire</span>
                                 </li>
-                                <li class="d-flex align-items-center">
+                                <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->value }} m2
                                 </li>
-                                <li class="d-flex align-items-center">
+                                <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'room_count[]', $i + 1)->value }}
                                 </li>
@@ -573,7 +573,7 @@
                                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <a class="text-decoration-none"
@@ -672,7 +672,7 @@
                         </div>
                     </div>
                 @else
-                    <p>Veri Yok</p>
+                    <p>Henüz İlan Yayınlanmadı</p>
                 @endif
             </div>
         </div>
@@ -692,7 +692,7 @@
                 @foreach ($secondhandHousings as $project)
                     @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
 
                     <div class="d-flex" style="flex-wrap: nowrap">
@@ -730,7 +730,7 @@
                                             <i class="fa fa-heart"></i>
                                         </a>
                                         <button class="addToCart mobile px-2"
-                                            style="width: 100%; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                            style="width: 100%; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
                                             data-type='housing' data-id='{{ $project->id }}'>
                                             <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
                                                 height="24px" style="width: 24px !important; height: 24px !important;" />
@@ -747,15 +747,15 @@
                     <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
                         <ul class="d-flex justify-content-around align-items-center h-100"
                             style="list-style: none;padding:0;font-weight:600">
-                            <li class="d-flex align-items-center">
+                            <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon"></i>
                                 {{ $project->id }} <span> No'lu Daire</span>
                             </li>
-                            <li class="d-flex align-items-center">
+                            <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon"></i>
                                 {{ json_decode($project->housing_type_data)->squaremeters[0] ?? null }} m2
                             </li>
-                            <li class="d-flex align-items-center">
+                            <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon"></i>
                                 {{ json_decode($project->housing_type_data)->room_count[0] ?? null }}
                             </li>
@@ -862,7 +862,7 @@
                         </a>
                     </section>
                 @else
-                    <p>Veri Yok</p>
+                    <p>Henüz İlan Yayınlanmadı</p>
                 @endif
             </div>
         </div>
@@ -982,7 +982,7 @@
 
             .circleIcon {
                 font-size: 5px;
-                color: #446BB6;
+                color: black;
                 padding-right: 5px
             }
 

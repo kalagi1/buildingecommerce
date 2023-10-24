@@ -59,7 +59,7 @@
                                     <td> {{ json_decode($item->housing->housing_type_data)->price[0] }}₺</td>
                                     <td>
                                         <button class="addToCart"
-                                            style="width: 120px; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                            style="width: 120px; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
                                             data-type='housing' data-id='{{ $item->id }}'>
                                         </button>
                                     </td>
@@ -96,7 +96,7 @@
                                     <td> {{ $data['Fiyat'] - $discount_amount }}₺</td>
                                     <td>
                                         <button class="addToCart"
-                                            style="width: 120px; border: none; background-color: #446BB6; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                            style="width: 120px; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
                                             data-type='project' data-project='{{ $item->project_id }}'
                                             data-id={{ $item->housing_id }}>
                                         </button>

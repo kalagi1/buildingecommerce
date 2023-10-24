@@ -2453,7 +2453,7 @@ screen and (max-height:300px) {
 }
 
 .homepage-9 .homes-tag.featured {
-    background: #446BB6 !important;
+    background: black !important;
 }
 
 .homepage-9 .portfolio .homes-price {
@@ -2537,7 +2537,7 @@ screen and (max-height:300px) {
 .homepage-9.homepage-4 a.button.border,
 a.button {
     width: 150px;
-    background: #446BB6;
+    background: black;
     color: #fff !important;
 }
 
@@ -2647,7 +2647,7 @@ a.button {
 
 .homepage-9 .portfolio .homes-content h3 a:hover,
 .homepage-9 .blog-section .news-item h3:hover {
-    color: #446BB6;
+    color: black;
 }
 
 .homepage-9 .portfolio .footer img {
@@ -2767,7 +2767,7 @@ section.feature-categories {
 
 .homepage-9 section.portfolio {
     padding: 2.6rem 0;
-    background: #446BB6;
+    background: black;
 }
 
 .homepage-9 .sec-title.discover h2 span,
@@ -2786,7 +2786,7 @@ section.feature-categories {
 }
 
 .homepage-9 .fd-1 .slick-dots li:after {
-    background: #446BB6;
+    background: black;
 }
 
 .homepage-9 .portfolio .project-single {

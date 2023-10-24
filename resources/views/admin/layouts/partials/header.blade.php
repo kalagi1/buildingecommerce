@@ -208,7 +208,6 @@
                                 <div class="d-flex align-items-center">
                                     <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
                                             class="logo" alt=""></a>
-                                    <p class="logo-text ms-2 d-none d-sm-block">Emlak Sepeti</p>
                                 </div>
                 </div>
                 {{-- <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
@@ -443,7 +442,7 @@
                                                   break;
 
                                               case preg_match('@proje@', $notification->text):
-                                                  $url = route('admin.projects.detail', ['projectsId' => $notification->item_id]);
+                                                  $url = route('admin.projects.detail', ['projectId' => $notification->item_id]);
                                                   break;
 
                                               case preg_match('@belge@', $notification->text):
@@ -8024,7 +8023,7 @@
 
 <style>
     .navbar-logo .logo {
-        height: 70px !important;
+        height: 45px !important;
         padding: 5px;
     }
 

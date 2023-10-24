@@ -202,13 +202,13 @@
                         aria-controls="navbarVerticalCollapse" aria-expanded="false"
                         aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                 class="toggle-line"></span></span></button>
+                    <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center">
-                            <div class="d-flex align-items-center">
-                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
-                                        class="logo" alt=""></a>
-                                <p class="logo-text ms-2 d-none d-sm-block">Emlak Sepeti</p>
-                            </div>
+                            <a href="{{ route('index') }}"><img
+                                    src="{{ URL::to('/') }}/images/emlaksepettelogo.png" class="logo"
+                                    alt=""></a>
                         </div>
+                    </div>
                 </div>
                 {{-- <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
                     style="width:25rem;">
@@ -389,8 +389,8 @@
                             aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
                                 <img class="rounded-circle "
-                                src="{{ asset('storage/profile_images/' .Auth::user()->profile_image) }}"
-                                alt="" />
+                                    src="{{ asset('storage/profile_images/' . Auth::user()->profile_image) }}"
+                                    alt="" />
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300"
@@ -400,7 +400,7 @@
                                     <div class="text-center pt-4 pb-3">
                                         <div class="avatar avatar-xl ">
                                             <img class="rounded-circle "
-                                                src="{{ asset('storage/profile_images/' .Auth::user()->profile_image) }}"
+                                                src="{{ asset('storage/profile_images/' . Auth::user()->profile_image) }}"
                                                 alt="" />
                                         </div>
                                         <h6 class="mt-2 text-black">{{ Auth::user()->name }}</h6>
@@ -908,8 +908,8 @@
                 <a class="navbar-brand me-1 me-sm-3" href="index.html">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
-                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png" alt="phoenix"
-                                width="27" />
+                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
+                                alt="phoenix" width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                         </div>
                     </div>
@@ -1126,8 +1126,7 @@
                                             <div class="dropdown-item-wrapper"><span class="me-2 uil"></span>Todo
                                                 list</div>
                                         </a></li>
-                                    <li><a class="dropdown-item"
-                                            href="apps/project-management/project-details.html">
+                                    <li><a class="dropdown-item" href="apps/project-management/project-details.html">
                                             <div class="dropdown-item-wrapper"><span class="me-2 uil"></span>Project
                                                 details</div>
                                         </a></li>
@@ -1208,8 +1207,8 @@
                                             </div>
                                         </a></li>
                                     <li><a class="dropdown-item" href="apps/social/settings.html">
-                                            <div class="dropdown-item-wrapper"><span
-                                                    class="me-2 uil"></span>Settings</div>
+                                            <div class="dropdown-item-wrapper"><span class="me-2 uil"></span>Settings
+                                            </div>
                                         </a></li>
                                 </ul>
                             </li>
@@ -3503,8 +3502,8 @@
                 <a class="navbar-brand me-1 me-sm-3" href="index.html">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
-                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png" alt="phoenix"
-                                width="27" />
+                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
+                                alt="phoenix" width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                         </div>
                     </div>
@@ -7932,7 +7931,7 @@
 
         <style>
             .navbar-logo .logo {
-                height: 70px !important;
+                height: 45px !important;
                 padding: 5px;
             }
 

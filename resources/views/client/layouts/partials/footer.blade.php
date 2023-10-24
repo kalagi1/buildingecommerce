@@ -11,7 +11,7 @@
 
                 </div>
                 @foreach ($widgetGroups as $widgetGroup)
-                    <div class="col-sm-6 col-md-6 col-lg col-xl">
+                    <div class="col-sm-6 col-md-6 col-lg col-6">
                         <div class="navigation">
                             <h3>{{ $widgetGroup->widget }}</h3>
                             <div class="nav-footer">

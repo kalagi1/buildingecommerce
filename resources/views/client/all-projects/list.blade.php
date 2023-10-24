@@ -324,7 +324,7 @@
                             id="clear-filters">Temizle</button>
 
                         <button type="button" onclick="$('.filters-input-area').slideToggle();"
-                            style="background: var(--gray);"
+                            style="background: #e54242 !important"
                             class="btn btn-secondary btn-lg btn-block mt-4 d-md-none mb-4"
                             id="close-filters">Kapat</button>
 
@@ -351,7 +351,8 @@
                             style="gap: 16px;">
 
                             <div onclick="$('.filters-input-area').slideToggle();"
-                                style="background: var(--blue); padding: 6px; border-radius: 5px;cursor: pointer;" class="d-md-none">
+                                style="background: #e54242 !important; padding: 6px; border-radius: 5px;cursor: pointer;"
+                                class="d-md-none">
                                 <svg class="rounded-sm" enable-background="new 0 0 32 32" width="24px" height="24px"
                                     id="Editable-line" version="1.1" viewBox="0 0 32 32" xml:space="preserve"
                                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -375,8 +376,15 @@
                     </section>
                     <section class="popular-places home18 mt-3" style="padding-top:0 !important">
                         <div class="container">
-                            <div class="row pp-row">
+                            <div class="mobile-hidden">
+                                <div class="row pp-row">
+                                </div>
                             </div>
+                            <div class="mobile-show">
+                                <div class="row pp-col">
+                                </div>
+                            </div>
+
                         </div>
                     </section>
                     <section id="pages" class="d-flex justify-content-center" style="gap: 12px;">
@@ -714,7 +722,10 @@
                         $('.next-page').removeClass('d-none');
 
                     if (response.data.length > 0) {
+                        var assetPath = "{{ asset('images/sc.png') }}";
+
                         response.data.forEach((res) => {
+                            console.log(res);
                             @if (!$secondhandHousings)
                                 $('.pp-row').append(
                                     `
@@ -784,14 +795,14 @@
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;margin-top:20px !important;">
                                                         ${res.sold ? 
                                                             `<button
-                                                                        style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
-                                                                    </button>`
+                                                                                            style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
+                                                                                        </button>`
                                                             : 
                                                             `<button class="addToCart ${res.in_cart ? 'bg-success' : ''}"
-                                                                        style="width: 100%; border: none; background-color: #446BB6; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                                        data-type='housing'
-                                                                        data-id='${res.id}'>${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}
-                                                                    </button>`
+                                                                                            style="width: 100%; border: none; background-color: black; border-radius: 10px; padding: 5px 0px; color: white;"
+                                                                                            data-type='housing'
+                                                                                            data-id='${res.id}'>${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}
+                                                                                        </button>`
                                                             }
                                                     </ul>
                                                 </div>
@@ -800,6 +811,71 @@
                                     </div>
                                     `
                                 );
+                                $('.pp-col').append(`
+    <div class="d-flex" style="flex-wrap: nowrap">
+        <div class="align-items-center d-flex " style="padding-right:0; width: 130px;">
+            <div class="project-inner project-head">
+                <a href="${res.housing_url}">
+                    <div class="homes">
+                        <!-- homes img -->
+                        <div class="homes-img h-100 d-flex align-items-center"
+                            style="width: 130px; height: 128px;">
+                            <img src="${res.image}" alt="${res.title}" class="img-responsive"
+                                style="height: 100px !important;">
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="w-100" style="padding-left:0;">
+            <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
+                <a style="text-decoration: none;height:100%" href="${res.housing_url}">
+                    <h3>
+                        ${res.title} ${' '}${res.housing_type.squaremeters ?? '?' }m2 ${res.housing_type.room_count ?? '?' }
+                    </h3>
+                </a>
+                <div class="d-flex">
+                    <div class="d-flex" style="gap: 8px;">
+                        <a href="#" class="btn toggle-favorite" data-housing-id="${res.id}" style="color: white;">
+                            <i class="fa fa-heart"></i>
+                        </a>
+                        <button class="addToCart mobile px-2" style="width: 100%; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
+                            data-type='housing' data-id='${res.id}'>
+                            <img src="${res.in_cart ? assetPath : assetPath}" alt="sc" width="24px"
+     height="24px" style="width: 24px !important; height: 24px !important;" />
+
+                        </button>
+                    </div>
+                    <span class="ml-auto text-primary priceFont">
+                        ${res.housing_type.price  ?? '?' } ₺
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
+        <ul class="d-flex justify-content-around align-items-center h-100"
+            style="list-style: none;padding:0;font-weight:600">
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon"></i>
+                ${res.id} <span> No'lu Daire</span>
+            </li>
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon"></i>
+                ${res.housing_type.squaremeters ?? null } m2
+            </li>
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon"></i>
+                ${res.housing_type.room_count ?? null }
+            </li>
+            <li class="d-flex align-items-center" style="font-size:13px">
+                <i class="fa fa-circle circleIcon"></i>
+                ${res.city.title} ${"/"} ${res.county.ilce_title}
+            </li>
+        </ul>
+    </div>
+    <hr>
+`);
                             @endif
                         });
                     } else {
@@ -944,7 +1020,6 @@
         .brand-head .brand-name {
             margin-left: 0 !important;
             margin-right: 10px !important
-
         }
 
         .brand-head .brands-square {
@@ -966,9 +1041,15 @@
                 width: 200px;
             }
 
+            .circleIcon {
+                font-size: 5px;
+                color: black !important;
+                padding-right: 5px
+            }
+
             section.headings-2 {
 
-                padding: 0 15px
+                padding: 0 !important
             }
 
             .car {
