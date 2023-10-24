@@ -398,7 +398,8 @@
                                                                 <p class="homes-address mb-3">
 
                                                                     <i
-                                                                        class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
+                                                                        class="fa fa-map-marker"></i><span>                                                {!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}
+</span>
 
                                                                 </p>
 
@@ -616,7 +617,10 @@
                                                                 <p class="homes-address mb-3">
 
                                                                     <i
-                                                                        class="fa fa-map-marker"></i><span>{{ $project->address }}</span>
+                                                                        class="fa fa-map-marker"></i><span>
+                                                                            {!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}
+
+                                                                        </span>
 
                                                                 </p>
 
@@ -812,7 +816,8 @@
 
 
                                                                 <i class="fa fa-map-marker"></i>
-                                                                <span>{{ $project->address }}</span>
+                                                                <span>                                                {!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}
+</span>
 
                                                             </p>
                                                         </span>

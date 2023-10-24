@@ -117,7 +117,7 @@
                                 <li class="list-inline-item @if ($key == 0) active @endif ">
                                     <a id="carousel-selector-{{ $key }}"
                                         @if ($key == 0) class="selected" @endif
-                                         data-target="#listingDetailsSlider">
+                                        data-target="#listingDetailsSlider">
                                         <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $item->image) }}"
                                             class="img-fluid" alt="listing-small">
                                     </a>
@@ -153,8 +153,7 @@
                                     </ul>
                                 </div>
                                 <div class="news-item-bottom">
-                                    <a href="{{ route('project.housing.detail', $project->slug) }}"
-                                        class="news-link">Proje
+                                    <a href="{{ route('project.housing.detail', $project->slug) }}" class="news-link">Proje
                                         Detayı</a>
 
                                     <div class="admin">
@@ -172,20 +171,20 @@
                 </div>
             </div>
             <div class="row">
-               <div class="col-md-12">
-                <div class="blog-section mt-3">
-                    <div class="news-item news-item-sm">
-                        <div class="news-item-text">
+                <div class="col-md-12">
+                    <div class="blog-section mt-3">
+                        <div class="news-item news-item-sm">
+                            <div class="news-item-text">
 
-                            <div class="blog-info details mb-30">
-                                <h3 class="mb-4">Açıklama</h3>
-                                <p class="mb-3">{!! $project->description !!}</p>
+                                <div class="blog-info details mb-30">
+                                    <h3 class="mb-4">Açıklama</h3>
+                                    <p class="mb-3">{!! $project->description !!}</p>
+                                </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
-               </div>
             </div>
         </div>
     </section>
@@ -205,38 +204,41 @@
 
 
     <section class="properties-right list featured portfolio blog pb-5 bg-white">
-      <div class="mobile-hidden">
-        <div class="container">
+        <div class="mobile-hidden">
+            <div class="container">
 
-            <div class="row project-filter-reverse blog-pots">
+                <div class="row project-filter-reverse blog-pots">
 
 
-                @for ($i = 0; $i < $project->room_count; $i++)
+                    @for ($i = 0; $i < $project->room_count; $i++)
                     @php
                         $sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]) ?? false;
                     @endphp
 
-                    <div class="col-md-12 col-12">
-                        <div class="project-card mb-3">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <a href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}"
-                                        style="height: 100%">
-                                        <div class="d-flex" style="height: 100%;">
-                                            <div
-                                                style="background-color: black; border-radius: 0px 8px 0px 8px;height:100%">
-                                                <p
-                                                    style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
-                                                    {{ $i + 1 }}</p>
-                                            </div>
-                                            <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
-                                                <div class="project-inner project-head">
+                        <div class="col-md-12 col-12">
+                            <div class="project-card mb-3">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <a href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}"
+                                            style="height: 100%">
+                                            <div class="d-flex" style="height: 100%;">
+                                                <div
+                                                    style="background-color: black; border-radius: 0px 8px 0px 8px;height:100%">
+                                                    <p
+                                                        style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
+                                                        {{ $i + 1 }}</p>
+                                                </div>
+                                                <div class="project-single mb-0 bb-0 aos-init aos-animate"
+                                                    data-aos="fade-up">
+                                                    <div class="project-inner project-head">
 
-                                                    <div class="button-effect">
-                                                        <div href="javascript:void()" class="btn toggle-project-favorite"
-                                                            data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
-                                                            data-project-id={{ $project->id }}>
-                                                            <i class="fa fa-heart"></i>   
+                                                        <div class="button-effect">
+                                                            <div href="javascript:void()"
+                                                                class="btn toggle-project-favorite"
+                                                                data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                data-project-id={{ $project->id }}>
+                                                                <i class="fa fa-heart"></i>
+                                                            </div>
                                                         </div>
                                                         <div class="homes position-relative">
                                                             <!-- homes img -->
@@ -377,28 +379,6 @@
 
                                                 </div>
                                             </div>
-
-                                        <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
-                                            <div class="homes-button" style="width:100%;height:100%">
-                                                <button class="first-btn">
-                                                    Ödeme Detaylarını Gör </button>
-                                                @if ($sold)
-                                                    <button class="btn second-btn" style="background: red !important;"> <h6
-                                                        style="color: white;font-weight:600;top: calc(100% - 52px);position: relative;left: calc(100% - 192px);position: relative;">
-                                                        Rezerve Edildi
-                                                        </h6>
-                                                    </button>
-                                                @else
-                                                    <button class="addToCart second-btn" data-type='project'
-                                                        data-project='{{ $project->id }}'
-                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                        <h6
-                                                            style="color: black;font-weight:600;top:3px;position: relative;">
-                                                            Sepete Ekle
-                                                        </h6>
-
-                                                    </button>
-                                                @endif
 
 
                                         </div>
