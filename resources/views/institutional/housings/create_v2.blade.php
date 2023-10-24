@@ -360,7 +360,7 @@
     
     <script>
         var nextTemp = false;
-        var descriptionText = @if(isset($tempData) && isset($tempData->description)) "{!! $tempData->description !!}" @else "" @endif;
+        var descriptionText = @if(isset($tempData) && isset($tempData->description)) "{{ $tempData->description }}" @else "" @endif;
         var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
         
 
