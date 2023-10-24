@@ -376,7 +376,7 @@
     <script>
         var nextTemp = false;
         var housingImages = [];
-        var descriptionText = @if(isset($tempData) && isset($tempData->description)) '{!! $tempData->description !!}' @else "" @endif;
+        var descriptionText = @if(isset($tempData) && isset($tempData->description)) 'evet var' @else "" @endif;
         var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
         
         function confirmHousings(){
@@ -759,7 +759,7 @@
                             }
 
                         $('.tab-pane.active select[required="required"]').map((key,item) => {
-                            if(!$(item).val().length){
+                            if(!$(item).val()){
                                 nextHousing = false;
                                 $(item).addClass("error-border")
                             }
@@ -839,9 +839,10 @@
                             checkboxName = checkboxName.split('[]');
                             checkboxName = checkboxName[0];
                             $($('input[name="'+checkboxName+[i]+'[][]"]')).map((key,item) => {
+                                
                             if(oldData[inputNamex[0]+(i)]){
                                 oldData[inputNamex[0]+(i)].map((checkbox) => {
-                                    if(checkbox == $(item).attr("value")){
+                                    if(checkbox.trim() == $(item).attr("value").trim()){
                                         $(item).attr('checked','checked')
                                     }
                                 })
@@ -854,7 +855,7 @@
                             inputNamex = inputNamex.split('[]')
                             console.log(oldData[inputNamex[0]])
                             if(oldData[inputNamex[0]] != undefined){
-                                $($('input[name="'+formInputs[j].name+'"]')[i-1]).parent('div').append('<div class="project_imaget"><img src="{{URL::to("/")}}/storage/project_images/'+oldData[inputNamex[0]][i]+'"></div>');
+                                $($('input[name="'+formInputs[j].name+'"]')[i-1]).parent('div').append('<div class="project_imaget"><img src="{{URL::to("/")}}/storage/project_images/'+oldData[inputNamex[0]][i - 1]+'"></div>');
                             }
                         }
                         }
@@ -895,7 +896,7 @@
                             })
 
                             $('.tab-pane.active select[required="required"]').map((key,item) => {
-                                if(!$(item).val().length){
+                                if(!$(item).val()){
                                     nextHousing = false;
                                     $(item).addClass("error-border")
                                 }
@@ -1640,7 +1641,7 @@
                             })
 
                             $('.tab-pane.active select[required="required"]').map((key,item) => {
-                                if(!$(item).val().length){
+                                if(!$(item).val()){
                                     nextHousing = false;
                                     $(item).addClass("error-border")
                                 }
@@ -1692,7 +1693,7 @@
                                 })
 
                                 $('.tab-pane.active select[required="required"]').map((key,item) => {
-                                    if(!$(item).val().length){
+                                    if(!$(item).val()){
                                         nextHousing = false;
                                         $(item).addClass("error-border")
                                     }
@@ -2120,6 +2121,12 @@
                         // Editör içeriği değiştiğinde yapılacak işlemi burada tanımlayabilirsiniz.
                         console.log("Editör içeriği değişti.");
                         const editorContent = editor.getContent();
+                        console.log(editorContent);
+                        if(editorContent != ""){
+                            descriptionText = "evet var";
+                        }else{
+                            descriptionText = "";
+                        }
                         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
                         
                         
@@ -2238,7 +2245,7 @@
                 })
 
                 $('.tab-pane.active select[required="required"]').map((key,item) => {
-                    if(!$(item).val().length){
+                    if(!$(item).val()){
                         next = false;
                         if(topError){
                             if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
