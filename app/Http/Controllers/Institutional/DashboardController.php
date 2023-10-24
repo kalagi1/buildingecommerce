@@ -59,6 +59,7 @@ class DashboardController extends Controller
             [
                 'user_id' => auth()->user()->id,
                 'text' => 'Yeni belge gönderildi. Kullanıcı : '.auth()->user()->email,
+                'item_id' => auth()->user()->id,
             ]
         );
 

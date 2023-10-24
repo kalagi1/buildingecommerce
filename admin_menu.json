@@ -1,21 +1,26 @@
 [
     {
-        "id": "home",
-        "label": "Yönetim",
-        "icon": "home",
-        "text": "Anasayfa",
-        "key": "ViewDashboard",
-        "url": "admin.index",
-        "activePath": "admin/*"
-    },
-    {
-        "id": "menu",
-        "label": "Yönetim",
-        "icon": "menu",
-        "text": "Menü",
-        "key": "Menus",
-        "url": "admin.menu_management",
-        "activePath": "admin/menus*"
+        "id": "ad-banners",
+        "label": "Uygulama",
+        "icon": "ad",
+        "text": "Reklam Bannerları",
+        "key": "AdBanners",
+        "url": "#nv-ad-banners",
+        "activePath": "admin/ad-banners/*",
+        "subMenu": [
+            {
+                "text": "Yeni Ekle",
+                "key": "CreateAdBanner",
+                "url": "admin.adBanners.create",
+                "activePath": "admin/ad-banners/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetAdBanners",
+                "url": "admin.adBanners.index",
+                "activePath": "admin/ad-banners"
+            }
+        ]
     },
     {
         "id": "housing",
@@ -41,13 +46,40 @@
         ]
     },
     {
+        "id": "home",
+        "label": "Yönetim",
+        "icon": "home",
+        "text": "Anasayfa",
+        "key": "ViewDashboard",
+        "url": "admin.index",
+        "activePath": "admin/*"
+    },
+    {
+        "id": "menu",
+        "label": "Yönetim",
+        "icon": "list",
+        "text": "Menü",
+        "key": "Menus",
+        "url": "admin.menu_management",
+        "activePath": "admin/menus*"
+    },
+    {
         "id": "comment",
-        "label": "Yorumlar",
-        "icon": "message-circle",
+        "label": "Uygulama",
+        "icon": "comments",
         "text": "Yorumlar",
         "key": "GetHousingComments",
         "url": "admin.housings.comments",
         "activePath": "admin/housing/comments"
+    },
+    {
+        "id": "order",
+        "label": "Uygulama",
+        "icon": "shopping-bag",
+        "text": "Siparişler",
+        "key": "GetOrders",
+        "url": "admin.orders",
+        "activePath": "admin/orders"
     },
     {
         "id": "role",
@@ -166,7 +198,7 @@
     },
     {
         "id": "sliders",
-        "label": "Slider",
+        "label": "Yönetim",
         "icon": "image",
         "text": "Slider",
         "key": "Sliders",
@@ -189,7 +221,7 @@
     },
     {
         "id": "footerSlider",
-        "label": "Slider",
+        "label": "Yönetim",
         "icon": "image",
         "text": "Footer Slider",
         "key": "FooterSliders",
@@ -298,7 +330,7 @@
     },
     {
         "id": "general_settings",
-        "label": "Ayarlar",
+        "label": "Yönetim",
         "icon": "lock",
         "text": "Genel Ayarlar",
         "key": "GetSiteSettings",
@@ -307,8 +339,8 @@
     },
     {
         "id": "smtp_settings",
-        "label": "Ayarlar",
-        "icon": "send",
+        "label": "Yönetim",
+        "icon": "envelope",
         "text": "SMTP Ayarları",
         "key": "GetSmtpSettingById",
         "url": "admin.smtp.edit",
@@ -316,7 +348,7 @@
     },
     {
         "id": "contact_settings",
-        "label": "Ayarlar",
+        "label": "Yönetim",
         "icon": "phone",
         "text": "İletişim Ayarları",
         "key": "GetContactSettingById",
@@ -372,7 +404,7 @@
     {
         "id": "social_media_icons",
         "label": "Yönetim",
-        "icon": "instagram",
+        "icon": "share-square",
         "text": "Sosyal Medya İkonları",
         "key": "SocialMediaIcons",
         "url": "#nv-social-media-icons",
@@ -395,7 +427,7 @@
     {
         "id": "email_templates",
         "label": "E-posta Şablonları",
-        "icon": "mail",
+        "icon": "reply",
         "text": "E-posta Şablonları",
         "key": "EmailTemplates",
         "url": "#nv-email-templates",

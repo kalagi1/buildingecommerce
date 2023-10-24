@@ -3,11 +3,9 @@
 
 @section('content')
     <div class="content">
-        <form action="{{ route('institutional.verify-account') }}" enctype="multipart/form-data" method="POST"
-            style="position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 100000; background: rgba(0,0,0,.2); padding: 96px; -webkit-backdrop-filter: blur(5px);">
+        <form action="{{ route('institutional.verify-account') }}" enctype="multipart/form-data" method="POST">
             @csrf
-            <div class="p-5 bg-white border rounded-3 shadow-lg"
-                style="width: 75%; overflow-y: scroll; max-height: 520px; margin: 0 auto;">
+            <div class="p-5 bg-white border rounded-3 shadow-lg">
                 <div class="form-group">
                     <div class="text-success">
                         @if (!is_null(auth()->user()->tax_document) || !is_null(auth()->user()->record_document))
@@ -156,7 +154,7 @@
         .crossmark::after {
             content: '✗';
             /* Unicode character for the 'X' symbol */
-            color: red;
+            color: #EA2B2E;
             /* Color of the crossmark */
             font-size: 16px;
             /* Adjust the font size as needed */

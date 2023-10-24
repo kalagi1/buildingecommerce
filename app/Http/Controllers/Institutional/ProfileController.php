@@ -106,7 +106,7 @@ class ProfileController extends Controller
         return view('institutional.profile.edit', compact('user', "towns", "neighborhoods", "districts", 'taxOffices', 'cities', 'subscriptionPlans', 'counties'));
     }
 
-    public function update(UpdateProfileRequest $request)
+    public function update(Request $request)
     {
         $user = User::where("id", Auth::user()->id)->first();
 

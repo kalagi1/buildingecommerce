@@ -54,7 +54,7 @@
                                                     @endif
                                                 @endforeach
                                                 <li style="border:none !important">
-                                                    <a href="{{ route('client.logout') }}"><i
+                                                    <a href="{{ route('client.logout') }}" target="_blank"><i
                                                             class="fa fa-sign-out pl-3"></i>
                                                         Çıkış Yap</a>
                                                 </li>
@@ -68,170 +68,95 @@
                 </div>
             </div>
             <div class="col-lg-9">
-                <div class="ps-page__content">
-                    <div class="ps-page__dashboard">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul class="mb-0">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        @if (session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-
-                        <form action="{{ route('client.profile.update') }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <div class="mb-3">
-                                <label for="name" class="form-label">İsim</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    value="{{ $user->name }}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ $user->email }}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Telefon</label>
-                                <input type="number" class="form-control" id="phone" name="phone"
-                                    value="{{ $user->phone }}" required>
+                <div class="content">
+                    <form action="{{ route('client.verify-account') }}" enctype="multipart/form-data" method="POST"
+                        class="verify-form">
+                        @csrf
+                        <div class="p-5 bg-white border rounded-3 shadow-lg verify-modal">
+                            <div class="form-group">
+                                <div class="text-success">
+                                    @if (!is_null(auth()->user()->identity_document))
+                                        Belgeleriniz gönderildi ve şu anda incelemede. Dilerseniz gönderdiğiniz belgeleri
+                                        güncelleyebilirsiniz. <br>
+                                        @if ($user->corporate_account_note)
+                                            <div style="color: red">
+                                                <i class="fa fa-exclamation" aria-hidden="true"></i>
+                                                Admin Notu: {{ $user->corporate_account_note }}
+                                            </div>
+                                        @endif
+                                    @else
+                                        Sistemi kullanmaya devam edebilmeniz için hesabınızı doğrulamamız gerekiyor.<br />
+                                        Lütfen aşağıda istenen belgeleri bize gönderin.
+                                    @endif
+                                </div>
+                                @if (auth()->user()->identity_document_approve == 1)
+                                    <div class="text-warning mt-2">
+                                        Hesabınıza hala erişemiyorsanız lütfen <a
+                                            href="mailto:support@emlaksepeti.com">support@emlaksepeti.com</a> adresinden
+                                        site yönetici
+                                        ile iletişime geçin.
+                                    </div>
+                                @endif
                             </div>
 
-                            <div class="mb-3">
-                                <label for="birthday" class="form-label">Doğum Tarihi</label>
-                                <input type="date" class="form-control" id="birthday" name="birthday"
-                                    value="{{ $user->birthday }}" required>
+                            <div class="form-group">
+                                <label for="kimlik_belgesi" class="mb-2">Kimlik Belgesi:
+                                    @if (auth()->user()->identity_document)
+                                        @if (auth()->user()->identity_document_approve)
+                                            <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
+                                        @else
+                                            <span class="crossmark"></span> <span style="color:red">Onay Aşamasında</span>
+                                        @endif
+                                    @endif
+
+                                </label>
+                                <input type="file" name="kimlik_belgesi" id="kimlik_belgesi"
+                                    class="form-control important
+                                {{ auth()->user()->identity_document
+                                    ? (auth()->user()->identity_document_approve
+                                        ? 'green-border'
+                                        : 'red-border')
+                                    : '' }}"
+                                    accept=".png,.jpeg,.jpg"{{ auth()->user()->identity_document_approve == 0 ? ' required' : null }} />
+                                    @if (!is_null(auth()->user()->identity_document))
+                                    <div>
+                                        <a href="{{ route('client.get.identity-document') }}"
+                                            class="btn btn-primary mt-2">Görüntüle <i class="fa fa-eye"></i> </a>
+                                    </div>
+                                @endif
                             </div>
 
-                            <button type="submit" class="ps-btn">Kaydet</button>
-                        </form>
-                    </div>
+
+                            <div class="form-group btn-approve-group">
+                                @if (!is_null(auth()->user()->identity_document))
+                                    <button type="submit" class="ps-btn">GÜNCELLE</button>
+                                @else
+                                    <button type="submit" class="ps-btn">ONAYA GÖNDER</button>
+                                @endif
+                                <a href="{{ route('index') }}" class="backToHome">
+                                    <button type="button" class="ps-btn">Anasayfa'ya Dön <svg viewBox="0 0 24 24"
+                                            width="20" height="20" stroke="currentColor" stroke-width="2"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                            class="css-i6dzq1">
+                                            <polyline points="9 10 4 15 9 20"></polyline>
+                                            <path d="M20 4v7a4 4 0 0 1-4 4H4"></path>
+                                        </svg></button>
+                                </a>
+
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
 
         </div>
         </div>
     </section>
-    <div class="content">
-        <form action="{{ route('client.verify-account') }}" enctype="multipart/form-data" method="POST"
-            class="verify-form">
-            @csrf
-            <div class="p-5 bg-white border rounded-3 shadow-lg verify-modal">
-                <div class="form-group">
-                    <div class="text-success">
-                        @if (!is_null(auth()->user()->identity_document))
-                            Belgeleriniz gönderildi ve şu anda incelemede. Dilerseniz gönderdiğiniz belgeleri
-                            güncelleyebilirsiniz. <br>
-                            @if ($user->corporate_account_note)
-                                <div style="color: red">
-                                    <i class="fa fa-exclamation" aria-hidden="true"></i>
-                                    Admin Notu: {{ $user->corporate_account_note }}
-                                </div>
-                            @endif
-                        @else
-                            Sistemi kullanmaya devam edebilmeniz için hesabınızı doğrulamamız gerekiyor.<br />
-                            Lütfen aşağıda istenen belgeleri bize gönderin.
-                        @endif
-                    </div>
-                    @if (auth()->user()->identity_document_approve == 1)
-                        <div class="text-warning mt-2">
-                            Hesabınıza hala erişemiyorsanız lütfen <a
-                                href="mailto:support@emlaksepeti.com">support@emlaksepeti.com</a> adresinden site yönetici
-                            ile iletişime geçin.
-                        </div>
-                    @endif
-                </div>
-
-                <div class="form-group">
-                    <label for="kimlik_belgesi" class="mb-2">Kimlik Belgesi:
-                        @if (auth()->user()->identity_document_approve)
-                            <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                        @else
-                            <span class="crossmark"></span> <span style="color:red">Reddedildi</span>
-                        @endif
-
-                        @if (!is_null(auth()->user()->identity_document))
-                            <div>
-                                <a href="{{ route('client.get.identity-document') }}" class="btn btn-primary">Kimlik
-                                    Belgesini Gör</a>
-                            </div>
-                        @endif
-                    </label>
-                    <input type="file" name="kimlik_belgesi" id="kimlik_belgesi"
-                        class="form-control important {{ auth()->user()->identity_document_approve ? ' green-border' : 'red-border' }}"
-                        accept=".png,.jpeg,.jpg"{{ auth()->user()->identity_document_approve == 0 ? ' required' : null }} />
-                </div>
-
-
-                <div class="form-group">
-                    @if (!is_null(auth()->user()->identity_document))
-                        <button type="submit" class="ps-btn">GÜNCELLE</button>
-                    @else
-                        <button type="submit" class="ps-btn">ONAYA GÖNDER</button>
-                    @endif
-                    <a href="{{ route('index') }}" class="backToHome">
-                        <button type="button" class="ps-btn">Anasayfa'ya Dön <svg viewBox="0 0 24 24" width="20"
-                                height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
-                                stroke-linejoin="round" class="css-i6dzq1">
-                                <polyline points="9 10 4 15 9 20"></polyline>
-                                <path d="M20 4v7a4 4 0 0 1-4 4H4"></path>
-                            </svg></button>
-                    </a>
-
-                </div>
-            </div>
-        </form>
-    </div>
     <style>
-        .verify-form {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 100000;
-            background: rgb(0 0 0 / 60%);
-            padding: 96px;
-            -webkit-backdrop-filter: blur(5px);
+        .btn-approve-group{
+            position: absolute;
+            bottom: 0
         }
-
-        .verify-modal {
-            width: 75%;
-            max-height: 520px;
-            margin: 0 auto;
-            margin-top: 100px
-        }
-
-        @media (max-width:768px) {
-            .verify-modal {
-                width: 100%;
-                max-height: 520px;
-                margin: 0 auto;
-                margin-top: 150px
-            }
-
-            .verify-form {
-                position: fixed;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                z-index: 100000;
-                background: rgb(0 0 0 / 60%);
-                padding: 36px;
-                -webkit-backdrop-filter: blur(5px);
-            }
-
-        }
-
         /* Add this to your CSS file */
         .green-border {
             border: 2px solid green !important;
@@ -252,7 +177,7 @@
         .crossmark::after {
             content: '✗';
             /* Unicode character for the 'X' symbol */
-            color: red;
+            color: #EA2B2E;
             /* Color of the crossmark */
             font-size: 16px;
             /* Adjust the font size as needed */

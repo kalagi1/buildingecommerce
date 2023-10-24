@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\AdBanner;
 use App\Models\FooterLink;
 use App\Models\Menu;
+use App\Models\Page;
 use App\Models\SocialMediaIcon;
 use App\Models\User;
-use App\Models\Page;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
@@ -31,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
             $footerLinks = FooterLink::all();
             $socialMediaIcons = SocialMediaIcon::all();
             $menu = Menu::getMenuItems();
+            $adBanners = AdBanner::where("is_visible", "1")->get();
             $widgetGroups = FooterLink::select('widget')
                 ->distinct()
                 ->get();
@@ -42,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with("headerLinks", $headerLinks);
             $view->with("footerLinks", $footerLinks);
             $view->with("menu", $menu);
+            $view->with("adBanners", $adBanners);
         });
 
         View::composer(["admin*"], function ($view) {
@@ -88,7 +91,7 @@ class AppServiceProvider extends ServiceProvider
                     $view->with('user', $user);
                     $view->with('userPermissions', $permissions);
                 }
-            } 
+            }
         });
 
         View::composer(["client*"], function ($view) {

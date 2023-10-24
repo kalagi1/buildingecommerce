@@ -13,7 +13,7 @@
                                 {{ $project->user->name }}
                                 <style type="text/css">
                                     .st0 {
-                                        fill: #446BB6;
+                                        fill: #e54242;
                                     }
 
                                     .st1 {
@@ -50,6 +50,8 @@
                             <p class="brand-name">{{ $project->project_title }}</p>
                         </div>
                     </div>
+
+                
                 </div>
                 <div class="card-body">
                     <nav class="navbar" style="padding: 0 !important">
@@ -117,11 +119,10 @@
                                 }
                                 ?>
 
-                                <li><a href="#"><strong>Adres:</strong> {!! $project->address !!} </a></li>
-                                <li><a href="#"><strong>Proje Sayısı:</strong>
-                                        {{ count($project->user->projects) }}</a></li>
-                                <li><a href="#"><strong>Konut Sayısı:</strong> {{ $totalHousingCount }} </a></li>
-                                <li><a href="#"><strong>Konut Tipi:</strong> {{ $project->housingtype->title }} </a>
+                                <li><strong>İl-İlçe:</strong> {!! $project->city->title !!} {{ '/' }}
+                                    {!! $project->county->ilce_title !!} </li>
+                                <li><strong>Konut Sayısı:</strong> {{ $project->room_count }} </li>
+                                <li><strong>Konut Tipi:</strong> {{ $project->housingtype->title }}
                                 </li>
 
                             </ul>
@@ -515,11 +516,12 @@ out center;`;
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-        .mobile-hidden{
+        .mobile-hidden {
             display: flex;
         }
+
         @media (max-width: 768px) {
-            .mobile-hidden{
+            .mobile-hidden {
                 display: none
             }
         }

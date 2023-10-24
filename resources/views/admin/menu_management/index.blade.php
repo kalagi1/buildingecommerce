@@ -85,7 +85,7 @@
         var editor = new MenuEditor('myEditor', {
             listOptions: sortableListOptions,
             iconPicker: iconPickerOptions,
-            maxLevel: 2
+            maxLevel: 3
         });
         editor.setForm($('#frmEdit'));
         editor.setUpdateButton($('#btnUpdate'));

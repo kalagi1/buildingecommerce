@@ -17,6 +17,9 @@ class CheckAccountStatus
         'client.account-verification', 
         'client.verify-account',
         'client.get.identity-document',
+        'client.logout',
+        'client.profile.edit',
+        'client.profile.update',
     ];
 
     /**

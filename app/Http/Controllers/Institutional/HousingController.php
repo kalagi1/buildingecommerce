@@ -11,6 +11,7 @@ use App\Models\HousingStatus;
 use App\Models\HousingStatusConnection;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
+use App\Models\DocumentNotification;
 use App\Models\Log;
 use App\Models\SinglePrice;
 use App\Models\StandOutUser;
@@ -111,7 +112,7 @@ class HousingController extends Controller
                         'document' => $newDocument,
                         "status" => 2,
                         'housing_type_data' => json_encode($postData),
-                        'user_id' => auth()->user()->id,
+                        'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
                         'latitude' => $latitude,
                         'longitude' => $longitude,
                         "status" => 2,
@@ -120,7 +121,7 @@ class HousingController extends Controller
 
                 if(!$request->without_doping){
                     StandOutUser::create([
-                        "user_id" => auth()->user()->id,
+                        "user_id" => auth()->user()->parent_id ?? auth()->user()->id,
                         "project_id" => $project->id,
                         "item_order" => $tempOrder->doping_order,
                         "housing_status_id" => $tempOrder->doping_statuses,
@@ -128,6 +129,15 @@ class HousingController extends Controller
                         "end_date" => date('Y-m-d',strtotime($tempOrder->doping_end_date)),
                     ]);
                 }
+
+                UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->decrement('housing_limit');
+                DocumentNotification::create(
+                    [
+                        'user_id' => auth()->user()->id,
+                        'text' => 'Yeni bir konut eklendi. <a href="'.route('housing.show', ['id' => $project->id]).'">Linke git</a>',
+                        'item_id' => $project->id,
+                    ]
+                );
 
                 DB::commit();
                 
@@ -230,7 +240,7 @@ class HousingController extends Controller
                 'housing_type_id' => $housing_type,
                 'status_id' => $status,
                 'housing_type_data' => json_encode($postData),
-                'user_id' => auth()->user()->id,
+                'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
                 'latitude' => $latitude,
                 'longitude' => $longitude,
                 'brand_id' => $request->input('brand_id'),
@@ -242,7 +252,14 @@ class HousingController extends Controller
             ]
         )->id;
 
-        UserPlan::where('user_id', auth()->user()->id)->decrement('housing_limit');
+        UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->decrement('housing_limit');
+        DocumentNotification::create(
+            [
+                'user_id' => auth()->user()->id,
+                'text' => 'Yeni bir konut eklendi. <a href="'.route('housing.show', ['id' => $lastId]).'">Linke git</a>',
+                'item_id' => $lastId,
+            ]
+        );
 
         return redirect()->route('institutional.housing.list',["status" => "new_housing"]);
     }

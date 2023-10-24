@@ -28,7 +28,7 @@ class ProjectController extends Controller
     public function detail($slug)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->where('status', 1)->firstOrFail();
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         return view('client.projects.detail', compact('menu', 'project', 'offer'));
     }
@@ -42,7 +42,7 @@ class ProjectController extends Controller
 
     public function projectList(Request $request)
     {
-        $projects = Project::orderBy('view_count');
+        $projects = Project::where('status', 1)->orderBy('view_count');
         if ($request->input("search")) {
             $projects = $projects->where('project_title', 'LIKE', '%' . $request->input('search') . '%');
         }
@@ -78,7 +78,7 @@ class ProjectController extends Controller
                 abort(404); // Eğer HousingType bulunamazsa 404 hatası döndürün veya başka bir işlem yapabilirsiniz.
             }
             $title = $type->title;
-            $projects = Project::where("housing_type_id", $type->id)->get();
+            $projects = Project::with("city", "country")->where("housing_type_id", $type->id)->get();
 
         } else {
             if (!$status) {
@@ -89,12 +89,12 @@ class ProjectController extends Controller
                 $projects = Project::all();
             } elseif ($status->id == 4) {
                 $projects = [];
-                $secondhandHousings = Housing::with('images')->get();
+                $secondhandHousings = Housing::with('images', "city", "county")->get();
             } else {
                 $oncelikliProjeler = StandOutUser::where('housing_status_id', $status->id)->pluck('project_id')->toArray();
-                $firstProjects = Project::whereIn('id', $oncelikliProjeler)->get();
+                $firstProjects = Project::with("city", "country")->whereIn('id', $oncelikliProjeler)->get();
 
-                $anotherProjects = Project::whereNotIn('id', $oncelikliProjeler)
+                $anotherProjects = Project::with("city", "country")->whereNotIn('id', $oncelikliProjeler)
                     ->orderBy('created_at', 'desc') // Eklenme tarihine göre sırala (en son eklenenler en üstte olur)
                     ->get();
 
@@ -116,9 +116,9 @@ class ProjectController extends Controller
     public function projectHousingDetail($projectSlug, $housingOrder)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $projectSlug)->with("brand", "user.projects", "user.banners")->firstOrFail();
+        $project = Project::where('slug', $projectSlug)->with("brand", "user.projects", "user.banners")->where('status', 1)->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
-        $projectImages = ProjectImage::where('project_id',$project->id)->get();
+        $projectImages = ProjectImage::where('project_id', $project->id)->get();
 
         $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
         return view('client.projects.project_housing', compact('menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));

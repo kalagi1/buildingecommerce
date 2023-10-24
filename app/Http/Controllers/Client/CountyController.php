@@ -19,9 +19,15 @@ class CountyController extends Controller
         $counties = County::where('city_id', $city)->get();
         return response()->json($counties);
     }
-    public function getNeighborhoods($county) {
+    public function getNeighborhoods($county)
+    {
         $neighborhoods = Neighborhood::where('mahalle_ilcekey', $county)->get();
         return response()->json($neighborhoods);
-
+    }
+    public function getNeighborhoodsForClient($county)
+    {
+        $neighborhoods = Neighborhood::whereRaw("mahalle_ilcekey = (SELECT key_x FROM counties WHERE id = ?)", [$county])
+                                     ->get();
+        return response()->json($neighborhoods->map(fn($item) => ['id' => $item->mahalle_id, 'title' => $item->mahalle_title]));
     }
 }

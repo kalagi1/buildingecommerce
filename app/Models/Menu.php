@@ -23,7 +23,13 @@ class Menu extends Model
 
     public static function getMenuItems()
     {
-        $menus = self::whereNull('parent_id')->with('children')->get();
+        $menus = self::whereNull('parent_id')->with(['children' => function($query)
+        {
+            $query->with(['children' => function($query)
+            {
+                $query->with('children');
+            }]);
+        }])->get();
 
         $menus = $menus->map(function ($menu) {
             if ($menu->children->isEmpty()) {
