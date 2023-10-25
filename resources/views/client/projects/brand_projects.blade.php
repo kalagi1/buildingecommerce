@@ -163,7 +163,7 @@
                                             </div>
                                             <div class="button-effect">
                                                 <!-- Örneğin Kalp İkonu -->
-                                                <a href="#" class="btn toggle-favorite"
+                                                <a href="#" class="btn toggle-favorite bg-white"
                                                     data-housing-id="{{ $housing->id }}">
                                                     <i class="fa fa-heart"></i>
                                                 </a>
@@ -198,7 +198,7 @@
                                             </ul>
                                             <ul class="homes-list clearfix pb-0"
                                                 style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                <li style="font-size: large; font-weight: 700;">
+                                                <li style="font-size: 16px; font-weight: 700;">
                                                     {{ getData($housing, 'price') }}TL
                                                 </li>
 

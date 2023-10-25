@@ -66,7 +66,7 @@
 .btn.sApp-btn:before,
 .bg-overlay::after,
 .benifits-item:after {
-    background: linear-gradient(-47deg, black 0%, black 100%);
+    background: linear-gradient(-47deg, #274abb  0%, #274abb  100%);
 }
 
 a.btn.btn-yellow:hover {

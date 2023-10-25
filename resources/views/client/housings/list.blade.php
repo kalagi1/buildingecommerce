@@ -61,7 +61,8 @@
                                         <div class="form-group looking">
                                             <div class="first-select wide">
                                                 <div class="main-search-input-item">
-                                                    <input type="text" value="{{request('search')}}" name="search" placeholder="Ara..." value="" />
+                                                    <input type="text" value="{{ request('search') }}" name="search"
+                                                        placeholder="Ara..." value="" />
                                                 </div>
                                             </div>
                                         </div>
@@ -70,8 +71,9 @@
                                         <div class="form-group location" style="margin-top:40px;">
                                             <select name="city" class="form-control" id="">
                                                 <option value="">İl Seç</option>
-                                                @foreach($cities as $city)
-                                                    <option @if(request('city') && request('city') == $city->id) selected @endif value="{{$city->id}}">{{$city->title}}</option>
+                                                @foreach ($cities as $city)
+                                                    <option @if (request('city') && request('city') == $city->id) selected @endif
+                                                        value="{{ $city->id }}">{{ $city->title }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -79,8 +81,9 @@
                                         <div class="form-group location">
                                             <select name="housing_type" class="form-control" id="">
                                                 <option value="">Konut Tipi Seç</option>
-                                                @foreach($housingTypes as $housingType)
-                                                    <option @if(request('housing_type') && request('housing_type') == $housingType->id) selected @endif value="{{$housingType->id}}">{{$housingType->title}}</option>
+                                                @foreach ($housingTypes as $housingType)
+                                                    <option @if (request('housing_type') && request('housing_type') == $housingType->id) selected @endif
+                                                        value="{{ $housingType->id }}">{{ $housingType->title }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -89,18 +92,30 @@
                                             <select name="room_count" class="form-control" id="">
                                                 <option disabled="null" selected="null">Oda Sayısı</option>
                                                 <option>Hepsi</option>
-                                                <option @if(request('room_count') && request('room_count') == "1+0") selected @endif value="1+0">1+0</option>
-                                                <option @if(request('room_count') && request('room_count') == "1+1") selected @endif value="1+1">1+1</option>
-                                                <option @if(request('room_count') && request('room_count') == "2+1") selected @endif value="2+1">2+1</option>
-                                                <option @if(request('room_count') && request('room_count') == "2+2") selected @endif value="2+2">2+2</option>
-                                                <option @if(request('room_count') && request('room_count') == "3+1") selected @endif value="3+1">3+1</option>
-                                                <option @if(request('room_count') && request('room_count') == "3+2") selected @endif value="3+2">3+2</option>
-                                                <option @if(request('room_count') && request('room_count') == "4+0") selected @endif value="4+0">4+0</option>
-                                                <option @if(request('room_count') && request('room_count') == "4+1") selected @endif value="4+1">4+1</option>
-                                                <option @if(request('room_count') && request('room_count') == "4+2") selected @endif value="4+2">4+2</option>
-                                                <option @if(request('room_count') && request('room_count') == "5+0") selected @endif value="5+0">5+0</option>
-                                                <option @if(request('room_count') && request('room_count') == "5+1") selected @endif value="5+1">5+1</option>
-                                                <option @if(request('room_count') && request('room_count') == "5+2") selected @endif value="5+2">5+2</option>
+                                                <option @if (request('room_count') && request('room_count') == '1+0') selected @endif value="1+0">1+0
+                                                </option>
+                                                <option @if (request('room_count') && request('room_count') == '1+1') selected @endif value="1+1">1+1
+                                                </option>
+                                                <option @if (request('room_count') && request('room_count') == '2+1') selected @endif value="2+1">2+1
+                                                </option>
+                                                <option @if (request('room_count') && request('room_count') == '2+2') selected @endif value="2+2">2+2
+                                                </option>
+                                                <option @if (request('room_count') && request('room_count') == '3+1') selected @endif value="3+1">3+1
+                                                </option>
+                                                <option @if (request('room_count') && request('room_count') == '3+2') selected @endif value="3+2">3+2
+                                                </option>
+                                                <option @if (request('room_count') && request('room_count') == '4+0') selected @endif value="4+0">4+0
+                                                </option>
+                                                <option @if (request('room_count') && request('room_count') == '4+1') selected @endif value="4+1">4+1
+                                                </option>
+                                                <option @if (request('room_count') && request('room_count') == '4+2') selected @endif value="4+2">
+                                                    4+2</option>
+                                                <option @if (request('room_count') && request('room_count') == '5+0') selected @endif value="5+0">
+                                                    5+0</option>
+                                                <option @if (request('room_count') && request('room_count') == '5+1') selected @endif value="5+1">
+                                                    5+1</option>
+                                                <option @if (request('room_count') && request('room_count') == '5+2') selected @endif value="5+2">
+                                                    5+2</option>
                                             </select>
                                         </div>
 
@@ -109,14 +124,18 @@
                                             <!-- Area Range -->
                                             <div class="range-slider">
                                                 <label>Net Metrekare</label>
-                                                <div id="area-range" min-val="{{request('min-square-meters',"0")}}" max-val="{{request('max-square-meters',"1300")}}" data-min="0" data-max="1300"></div>
+                                                <div id="area-range" min-val="{{ request('min-square-meters', '0') }}"
+                                                    max-val="{{ request('max-square-meters', '1300') }}" data-min="0"
+                                                    data-max="1300"></div>
                                                 <div class="clearfix"></div>
                                             </div>
                                             <br>
                                             <!-- Price Range -->
                                             <div class="range-slider">
                                                 <label>Fiyat Aralığı</label>
-                                                <div id="price-range" min-val="{{request('min-price',"0")}}" max-val="{{request('max-price',"2600000")}}" data-min="0" data-max="2600000" data-unit="$"></div>
+                                                <div id="price-range" min-val="{{ request('min-price', '0') }}"
+                                                    max-val="{{ request('max-price', '2600000') }}" data-min="0"
+                                                    data-max="2600000" data-unit="$"></div>
                                                 <div class="clearfix"></div>
                                             </div>
                                         </div>
@@ -124,7 +143,8 @@
                                         <!-- More Search Options / End -->
                                         <div class="col-lg-12 no-pds">
                                             <div class="at-col-default-mar">
-                                                <button class="btn btn-default hvr-bounce-to-right" type="submit">Search</button>
+                                                <button class="btn btn-default hvr-bounce-to-right"
+                                                    type="submit">Search</button>
                                             </div>
                                         </div>
                                         <!--/ End Form Bathrooms -->
@@ -135,50 +155,50 @@
 
                             </div>
                             <!-- <div class="widget-boxed mt-5">
-                                            <div class="widget-boxed-header">
-                                                <h4>Recent Properties</h4>
-                                            </div>
-                                            <div class="widget-boxed-body">
-                                                <div class="recent-post">
-                                                    <div class="recent-main">
-                                                        <div class="recent-img">
-                                                            <a href="blog-details.html"><img
-                                                                    src="images/feature-properties/fp-1.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="info-img">
-                                                            <a href="blog-details.html">
-                                                                <h6>Family Modern Home</h6>
-                                                            </a>
-                                                            <p>$230,000</p>
+                                                    <div class="widget-boxed-header">
+                                                        <h4>Recent Properties</h4>
+                                                    </div>
+                                                    <div class="widget-boxed-body">
+                                                        <div class="recent-post">
+                                                            <div class="recent-main">
+                                                                <div class="recent-img">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="images/feature-properties/fp-1.jpg" alt=""></a>
+                                                                </div>
+                                                                <div class="info-img">
+                                                                    <a href="blog-details.html">
+                                                                        <h6>Family Modern Home</h6>
+                                                                    </a>
+                                                                    <p>$230,000</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="recent-main my-4">
+                                                                <div class="recent-img">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="images/feature-properties/fp-2.jpg" alt=""></a>
+                                                                </div>
+                                                                <div class="info-img">
+                                                                    <a href="blog-details.html">
+                                                                        <h6>Luxury Villa House</h6>
+                                                                    </a>
+                                                                    <p>$120,000</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="recent-main">
+                                                                <div class="recent-img">
+                                                                    <a href="blog-details.html"><img
+                                                                            src="images/feature-properties/fp-3.jpg" alt=""></a>
+                                                                </div>
+                                                                <div class="info-img">
+                                                                    <a href="blog-details.html">
+                                                                        <h6>Luxury Family Home</h6>
+                                                                    </a>
+                                                                    <p>$150,000</p>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="recent-main my-4">
-                                                        <div class="recent-img">
-                                                            <a href="blog-details.html"><img
-                                                                    src="images/feature-properties/fp-2.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="info-img">
-                                                            <a href="blog-details.html">
-                                                                <h6>Luxury Villa House</h6>
-                                                            </a>
-                                                            <p>$120,000</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="recent-main">
-                                                        <div class="recent-img">
-                                                            <a href="blog-details.html"><img
-                                                                    src="images/feature-properties/fp-3.jpg" alt=""></a>
-                                                        </div>
-                                                        <div class="info-img">
-                                                            <a href="blog-details.html">
-                                                                <h6>Luxury Family Home</h6>
-                                                            </a>
-                                                            <p>$150,000</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> -->
+                                                </div> -->
                         </div>
                     </aside>
                     <div class="col-lg-9 col-md-12 blog-pots">
@@ -223,7 +243,7 @@
                                                 </div>
                                                 <div class="button-effect">
                                                     <!-- Örneğin Kalp İkonu -->
-                                                    <a href="#" class="btn toggle-favorite"
+                                                    <a href="#" class="btn toggle-favorite bg-white"
                                                         data-housing-id="{{ $housing->id }}">
                                                         <i class="fa fa-heart"></i>
                                                     </a>
@@ -260,7 +280,7 @@
                                                 </ul>
                                                 <ul class="homes-list clearfix pb-0"
                                                     style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                    <li style="font-size: large; font-weight: 700;">
+                                                    <li style="font-size: 16px; font-weight: 700;">
                                                         {{ getData($housing, 'price') }}TL</li>
 
                                                     <li style="display: flex; justify-content: center;">
@@ -406,12 +426,21 @@
                         success: function(response) {
                             console.log(response);
                             if (response.is_favorite) {
-                                button.querySelector("i.fa-heart").classList.add("text-danger");
-                                button.classList.add("bg-white");
+                                
+                                     button.querySelector("i").classList.remove(
+                                "fa-heart-o");
+                            button.querySelector("i").classList.add(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "text-danger");
+                            button.classList.add("bg-white");
                             } else {
-                                button.querySelector("i.fa-heart").classList.remove(
-                                    "text-danger");
-                                button.classList.remove("bg-white");
+                               button.querySelector("i").classList.remove(
+                            "text-danger");
+                            button.querySelector("i").classList.remove(
+                            "fa-heart");
+                            button.querySelector("i").classList.add(
+                            "fa-heart-o");
                             }
                         },
                         error: function(error) {
@@ -440,17 +469,21 @@
                         success: function(response) {
                             if (response.status === 'added') {
                                 toastr.success("Konut Favorilere Eklendi");
-                                // Favorilere eklenmişse rengi kırmızı yap
-                                button.querySelector("i.fa-heart").classList.add(
-                                    "text-danger");
-                                button.classList.add(
-                                    "bg-white");
+                                    button.querySelector("i").classList.remove(
+                                "fa-heart-o");
+                            button.querySelector("i").classList.add(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "text-danger");
+                            button.classList.add("bg-white");
                             } else if (response.status === 'removed') {
                                 toastr.warning("Konut Favorilerden Kaldırıldı");
-                                button.querySelector("i.fa-heart").classList.remove(
-                                    "text-danger");
-                                button.classList.remove(
-                                    "bg-white");
+                             button.querySelector("i").classList.remove(
+                            "text-danger");
+                            button.querySelector("i").classList.remove(
+                            "fa-heart");
+                            button.querySelector("i").classList.add(
+                            "fa-heart-o");
                             }
                         },
                         error: function(error) {

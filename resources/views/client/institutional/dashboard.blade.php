@@ -297,10 +297,10 @@
                                             <a href="#" class="btn toggle-project-favorite"
                                                 data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                 style="color: white;" data-project-id="{{ $project->id }}">
-                                                <i class="fa fa-heart"></i>
+                                                <i class="fa fa-heart-o"></i>
                                             </a>
                                             <button class="addToCart mobile px-2"
-                                                style="width: 100%; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
                                                 data-type='project' data-project='{{ $project->id }}'
                                                 data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
                                                 <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
@@ -381,7 +381,7 @@
                                                                 <span class="btn toggle-project-favorite"
                                                                     data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                     data-project-id={{ $project->id }}>
-                                                                    <i class="fa fa-heart"></i>
+                                                                    <i class="fa fa-heart-o"></i>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -426,7 +426,7 @@
                                                             <ul class="homes-list clearfix pb-0"
                                                                 style="display: flex; justify-content: space-between;margin-top:20px !important;">
                                                                 <li
-                                                                    style="font-size: large; font-weight: 700;width:100%;white-space:nowrap">
+                                                                    style="font-size: 16px; font-weight: 700;width:100%;white-space:nowrap">
                                                                     {{ getHouse($project, 'price[]', $i + 1)->value - $discount_amount }}
                                                                     ₺
                                                                 </li>
@@ -516,10 +516,10 @@
                                             <a href="#" class="btn toggle-project-favorite"
                                                 data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                 style="color: white;" data-project-id="{{ $project->id }}">
-                                                <i class="fa fa-heart"></i>
+                                                <i class="fa fa-heart-o"></i>
                                             </a>
                                             <button class="addToCart mobile px-2"
-                                                style="width: 100%; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
                                                 data-type='project' data-project='{{ $project->id }}'
                                                 data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
                                                 <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
@@ -600,7 +600,7 @@
                                                                 <span class="btn toggle-project-favorite"
                                                                     data-project-housing-id="{{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                     data-project-id={{ $project->id }}>
-                                                                    <i class="fa fa-heart"></i>
+                                                                    <i class="fa fa-heart-o"></i>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -647,7 +647,7 @@
                                                             <ul class="homes-list clearfix pb-0"
                                                                 style="display: flex; justify-content: space-between;margin-top:20px !important;">
                                                                 <li
-                                                                    style="font-size: large; font-weight: 700;width:100%;white-space:nowrap">
+                                                                    style="font-size: 16px; font-weight: 700;width:100%;white-space:nowrap">
                                                                     {{ getHouse($project, 'price[]', $i + 1)->value - $discount_amount }}
                                                                     ₺
                                                                 </li>
@@ -729,12 +729,12 @@
                                 </a>
                                 <div class="d-flex">
                                     <div class="d-flex" style="gap: 8px;">
-                                        <a href="#" class="btn toggle-favorite"
+                                        <a href="#" class="btn toggle-favorite bg-white"
                                             data-housing-id="{{ $project->id }}" style="color: white;">
-                                            <i class="fa fa-heart"></i>
+                                            <i class="fa fa-heart-o"></i>
                                         </a>
                                         <button class="addToCart mobile px-2"
-                                            style="width: 100%; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                            style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
                                             data-type='housing' data-id='{{ $project->id }}'>
                                             <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
                                                 height="24px" style="width: 24px !important; height: 24px !important;" />
@@ -799,9 +799,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="button-effect">
-                                                            <span class="btn toggle-favorite"
+                                                            <span class="btn toggle-favorite bg-white"
                                                                 data-housing-id={{ $project->id }}>
-                                                                <i class="fa fa-heart"></i>
+                                                                <i class="fa fa-heart-o"></i>
                                                             </span>
                                                         </div>
                                                     </div>
@@ -841,7 +841,7 @@
                                                         <ul class="homes-list clearfix pb-0"
                                                             style="display: flex; justify-content: space-between;margin-top:20px !important;">
                                                             <li
-                                                                style="font-size: large; font-weight: 700;width:100%; white-space:nowrap">
+                                                                style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
                                                                 {{ json_decode($project->housing_type_data)->price[0] ?? null }}
                                                                 ₺
                                                             </li>
@@ -987,7 +987,7 @@
 
             .circleIcon {
                 font-size: 5px;
-                color: black;
+                color: #e54242;
                 padding-right: 5px
             }
 

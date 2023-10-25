@@ -324,7 +324,7 @@ Version      : 1.2
 
     .section-title h2 {
         font-size: 20px;
-        color: black;
+        color: #274abb;
         margin-bottom: 0 !important;
         text-transform: uppercase;
     }
@@ -5883,7 +5883,7 @@ Version      : 1.2
         width: 36px;
         height: 36px;
         line-height: 33px;
-        background: rgba(74, 74, 76, 0.7);
+        background: white;
         z-index: 99;
     }
 
@@ -16028,6 +16028,7 @@ Version      : 1.2
         padding: 15px;
         color: white;
         background-color: black;
+        font-weight: 600;
         border: none;
         right: 0;
         position: absolute;
@@ -16041,7 +16042,7 @@ Version      : 1.2
         right: 0;
         padding: 15px;
         color: white;
-        background-color: black;
+        background-color: #274abb;
         border: none;
         /* right: 0; */
         width: 90%;
@@ -17087,7 +17088,7 @@ Version      : 1.2
     .inner-pages .headings-2 .listing-title-bar h4 {
         font-size: 24px;
         font-weight: 600;
-        color: black;
+        color: #dc3545;
         text-transform: capitalize !important;
     }
 
@@ -17757,7 +17758,7 @@ Version      : 1.2
 
     .inner-pages .blog .homes-content .homes-list li {
         float: left;
-        font-size: 14px;
+        font-size: 13px;
         line-height: 36px;
         list-style: none;
         justify-content: center;
@@ -26060,6 +26061,7 @@ Version      : 1.2
     }
 
     .home-top-banner img {
+        margin: 0 auto;
         max-width: 100%;
         height: 65px;
     }
@@ -26836,9 +26838,8 @@ Version      : 1.2
         width: 100%;
         margin-top: 10px;
         height: 40px;
-        border-radius: 12px;
         border: none;
-        background-color: black;
+        background-color: #274abb;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -26895,4 +26896,30 @@ Version      : 1.2
     .CartBtn:active {
         transform: scale(0.95);
         transition-duration: .5s;
+    }
+
+    .toggle-project-favorite,
+    .toggle-favorite {
+        border: 1px solid gray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 33px;
+        height: 33px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.11);
+        border: solid 1px #f0f0f0;
+        background: #ffffff;
+        box-sizing: border-box;
+        border-radius: 100%;
+        font-size: 14px;
+    }
+
+    .toggle-project-favorite:hover i:before,
+    .toggle-favorite:hover i:before {
+        color: #dc3545 !important;
+    }
+
+    .toggle-project-favorite:focus i:before,
+    .toggle-favorite:focus i:before {
+        color: #dc3545 !important;
     }

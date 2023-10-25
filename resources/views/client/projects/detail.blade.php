@@ -92,14 +92,14 @@
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-8">
                     <!-- main slider carousel items -->
                     <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                         <!-- <h5 class="mb-4">Gallery</h5> -->
                         <div class="carousel-inner">
                             @foreach ($project->images as $key => $item)
                                 <div class="@if ($key == 0) active @endif item carousel-item"
-                                    data-slide-number="0">
+                                    data-slide-number="{{ $key }}">
                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $item->image) }}"
                                         class="img-fluid" alt="slider-listing">
                                 </div>
@@ -115,7 +115,7 @@
                         <ul class="carousel-indicators smail-listing list-inline">
                             @foreach ($project->images as $key => $item)
                                 <li class="list-inline-item @if ($key == 0) active @endif ">
-                                    <a id="carousel-selector-{{ $key }}"
+                                    <a id="carousel-selector-{{ $key }}" data-slide-to="{{ $key }}"
                                         @if ($key == 0) class="selected" @endif
                                         data-target="#listingDetailsSlider">
                                         <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $item->image) }}"
@@ -127,44 +127,71 @@
                     </div>
 
                 </div>
-                <div class="col-md-5">
-                    <div class="blog-section">
-                        <div class="news-item news-item-sm">
-                            <div class="news-item-text">
-                                <a href="{{ route('project.housing.detail', $project->slug) }}">
-                                    <h3>{{ $project->project_title }}</h3>
-                                </a>
-                                <div class="the-agents">
-                                    <ul class="the-agents-details">
-                                        <?php
-                                        $totalHousingCount = 0;
-                                        
-                                        foreach ($project->user->projects as $userProject) {
-                                            $totalHousingCount += count($userProject->housings);
-                                        }
-                                        ?>
-
-                                        <li><strong>İl-İlçe:</strong> {!! $project->city->title !!} {{ '/' }}
-                                            {!! $project->county->ilce_title !!} </li>
-                                        <li><strong>Konut Sayısı:</strong> {{ $project->room_count }} </li>
-                                        <li><strong>Konut Tipi:</strong> {{ $project->housingtype->title }}
-                                        </li>
-
-                                    </ul>
+                <div class="col-md-4">
+                    <div class="widget-boxed">
+                        <div class="widget-boxed-header">
+                            <h4>{{ $project->project_title }}</h4>
+                        </div>
+                        <div class="widget-boxed-body">
+                            <div class="sidebar-widget author-widget2">
+                                <div class="author-box clearfix">
+                                    <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
+                                        alt="author-image" class="author__img">
+                                    <h4 class="author__title">{!! $project->user->name !!}</h4>
+                                    <p class="author__meta">{{ $project->user->corporate_type }}</p>
                                 </div>
-                                <div class="news-item-bottom">
-                                    <a href="{{ route('project.housing.detail', $project->slug) }}" class="news-link">Proje
-                                        Detayı</a>
+                                <ul class="author__contact">
+                                    <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>
+                                        {!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}
+                                    </li>
+                                    <li><span class="la la-phone"><i class="fa fa-phone" aria-hidden="true"></i></span><a
+                                            style="text-decoration: none;color:inherit"
+                                            href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                    </li>
 
-                                    <div class="admin">
-                                        <p>{!! $project->user->name !!}</p>
-                                        <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                            alt="">
-                                    </div>
-                                </div>
+                                    <li><span class="la la-envelope-o"><i class="fa fa-envelope"
+                                                aria-hidden="true"></i></span><a
+                                            style="text-decoration: none;color:inherit"
+                                            href="mailto:{!! $project->user->email !!}">{!! $project->user->email !!}</a></li>
+                                    <li><span class="la la-home-o"><i class="fa fa-home" aria-hidden="true"></i></span>
+                                        {{ $project->room_count }} Adet Konut</li>
 
-
+                                    <li><span class="la la-info-o"><i class="fa fa-info" aria-hidden="true"></i></span>
+                                        {{ $project->housingtype->title }}</li>
+                                </ul>
                             </div>
+                            <hr>
+                            <div class="first-footer">
+                                <ul class="netsocials px-2">
+                                    @php
+                                        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+                                        $host = $_SERVER['HTTP_HOST'];
+                                        $uri = $_SERVER['REQUEST_URI'];
+                                        $shareUrl = $protocol . '://' . $host . $uri;
+                                    @endphp
+                                    <li>
+                                        <a href="https://twitter.com/share?url={{ $shareUrl }}">
+                                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.instagram.com/">
+                                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="whatsapp://send?text={{ $shareUrl }}">
+                                            <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
+                                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
                         </div>
                     </div>
 
@@ -211,9 +238,9 @@
 
 
                     @for ($i = 0; $i < $project->room_count; $i++)
-                    @php
-                        $sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]) ?? false;
-                    @endphp
+                        @php
+                            $sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]) ?? false;
+                        @endphp
 
                         <div class="col-md-12 col-12">
                             <div class="project-card mb-3">
@@ -223,7 +250,7 @@
                                             style="height: 100%">
                                             <div class="d-flex" style="height: 100%;">
                                                 <div
-                                                    style="background-color: black; border-radius: 0px 8px 0px 8px;height:100%">
+                                                    style="background-color: #dc3545 !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                     <p
                                                         style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
                                                         {{ $i + 1 }}</p>
@@ -234,7 +261,7 @@
 
                                                         <div class="button-effect">
                                                             <div href="javascript:void()"
-                                                                class="btn toggle-project-favorite"
+                                                                class="btn toggle-project-favorite bg-white"
                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                 data-project-id={{ $project->id }}>
                                                                 <i class="fa fa-heart"></i>
@@ -292,7 +319,7 @@
                                                         </li>
                                                         <li class="the-icons custom-width">
                                                             <i class="flaticon-bed mr-2" aria-hidden="true"></i>
-                                                            {{-- <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span> --}}
+                                                            <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
                                                         </li>
                                                         <li class="the-icons custom-width">
                                                             <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
@@ -308,17 +335,19 @@
                                                                 @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                                     <h6
                                                                         style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                        {{ getData($project, 'price[]', $i + 1)->value - (getData($project, 'price[]', $i + 1)->value * round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100)) / 100 }}
+                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - (getData($project, 'price[]', $i + 1)->value * round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100)) / 100, 2, ',', '.') }}
                                                                         ₺</h6>
                                                                     <h6
-                                                                        style="color: black;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
-                                                                        {{ getData($project, 'price[]', $i + 1)->value }} ₺
+                                                                        style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}
+                                                                        ₺
 
                                                                     </h6>
                                                                 @else
                                                                     <h6
-                                                                        style="color: black;position: relative;top:4px;font-weight:600">
-                                                                        {{ getData($project, 'price[]', $i + 1)->value }} ₺
+                                                                        style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}
+                                                                        ₺
                                                                     </h6>
                                                                 @endif
                                                             </span>
@@ -337,17 +366,19 @@
                                                     <span class="price-mobile">
                                                         @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                             <h6
-                                                                style="color: black;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
-                                                                {{ getData($project, 'price[]', $i + 1)->value }} ₺
+                                                                style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}
+                                                                ₺
                                                             </h6>
                                                             <h6
                                                                 style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:20px;">
-                                                                {{ getData($project, 'price[]', $i + 1)->value - (getData($project, 'price[]', $i + 1)->value * round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100)) / 100 }}
+                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - (getData($project, 'price[]', $i + 1)->value * round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100)) / 100, 2, ',', '.') }}
+
                                                                 ₺</h6>
                                                         @else
                                                             <h6
-                                                                style="color: black;position: relative;top:4px;font-weight:600">
-                                                                {{ getData($project, 'price[]', $i + 1)->value }} ₺
+                                                                style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}₺
                                                             </h6>
                                                         @endif
                                                     </span>
@@ -357,16 +388,25 @@
                                             <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
                                                 <div class="homes-button" style="width:100%;height:100%">
                                                     <button class="first-btn">
-                                                        Ödeme Detaylarını Gör </button>
+                                                        Ödeme Detayları </button>
                                                     @if ($sold)
-                                                        <button class="btn second-btn" style="background: red !important;"
+                                                        <button class="btn second-btn"
+                                                            style="background: red !important;">
                                                             <h6
-                                                            style="color: white;font-weight:600;top: calc(100% - 52px);position: relative;left: calc(100% - 192px);position: relative;">
-                                                            Rezerve Edildi
+                                                                style="color: white;font-weight:600;top: calc(100% - 52px);position: relative;left: calc(100% - 192px);position: relative;">
+                                                                Rezerve Edildi
                                                             </h6>
                                                         </button>
                                                     @else
-                                                        <button class="addToCart second-btn" data-type='project'
+                                                        <button class="CartBtn second-btn" data-type='project'
+                                                            data-project='{{ $project->id }}'
+                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                            <span class="IconContainer">
+                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                            </span>
+                                                            <span class="text">Add to Cart</span>
+                                                        </button>
+                                                        {{-- <button class="addToCart second-btn" data-type='project'
                                                             data-project='{{ $project->id }}'
                                                             data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
                                                             <h6
@@ -374,7 +414,7 @@
                                                                 Sepete Ekle
                                                             </h6>
 
-                                                        </button>
+                                                        </button> --}}
                                                     @endif
 
                                                 </div>

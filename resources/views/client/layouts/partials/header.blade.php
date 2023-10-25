@@ -70,15 +70,16 @@
 <body class="m0a homepage-2 the-search hd-white inner-pages">
     <!-- Wrapper -->
     <div id="wrapper">
-        <div class="slick-lancersl">
-            @foreach ($adBanners as $adBanner)
-                <div class="home-top-banner d-xl-block d-none d-lg-block"
-                    style="background-color: {{ $adBanner->background_color }}">
-                    <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
-                </div>
-            @endforeach
-        </div>
-
+        @if (request()->routeIs('index'))
+            <div class="slick-lancersl">
+                @foreach ($adBanners as $adBanner)
+                    <div class="home-top-banner d-xl-block d-none d-lg-block"
+                        style="background-color: {{ $adBanner->background_color }}">
+                        <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
+                    </div>
+                @endforeach
+            </div>
+        @endif
 
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
@@ -96,8 +97,8 @@
                                 </button>
                             </div>
                             <div id="logo">
-                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
-                                        alt=""></a>
+                                <a href="{{ route('index') }}"><img
+                                        src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt=""></a>
                             </div>
 
                         </div>
@@ -250,7 +251,7 @@
                                         @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
                                             <span class="caret"></span>
                                         @endif
-                                     
+
                                     </a>
                                     @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
                                         <ul>

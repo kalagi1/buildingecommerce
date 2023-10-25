@@ -38,7 +38,8 @@
                                     <div class="detail-wrapper-body">
                                         <div class="listing-title-bar">
                                             <h4 style="white-space: nowrap">
-                                                {{ getData($project, 'price[]', $housingOrder)->value }} TL</h4>
+                                                {{ number_format(getData($project, 'price[]', $housingOrder)->value, 2, ',', '.') }}
+                                                ₺</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -47,7 +48,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-md-2">
                             <div class="button-effect toggle-project-favorite"
                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $housingOrder)->room_order }}"
@@ -55,12 +56,14 @@
                                 <i class="fa fa-heart"></i>
                             </div>
                         </div>
-                        <div class="col-md-10">
-                            <button
-                                style="border: none;width:100%; background-color: black; border-radius: 10px; padding: 10px 50px; color: white;"
-                                class="addToCart" data-type='project' data-project='{{ $project->id }}'
-                                data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>Sepete
-                                Ekle</button>
+                        <div class="col-md-8">
+                            <button class="CartBtn"  data-type='project' data-project='{{ $project->id }}'
+                                data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>
+                                <span class="IconContainer">
+                                    <img src="{{ asset('sc.png') }}" alt="">
+                                </span>
+                                <span class="text">Add to Cart</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -76,7 +79,7 @@
 
                                     @foreach ($project->images as $key => $housingImage)
                                         <div class="@if ($key == 0) active @endif item carousel-item"
-                                            data-slide-number="0">
+                                            data-slide-number="{{ $key }}">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid" alt="slider-listing">
                                         </div>

@@ -299,7 +299,7 @@
                         @endforeach
                     </div>
                 @else
-                    <span>Bu konut için henüz yorum yapılmadı.</span>
+                    <span>Bu mağaza için henüz yorum yapılmadı.</span>
                 @endif
 
             </div>
@@ -315,7 +315,7 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- lightbox2 JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>  
     <script>
         'use strict';
         $('#search-project').on('input', function() {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\FooterSlider;
 use App\Models\Housing;
+use App\Models\HousingFavorite;
 use App\Models\HousingStatus;
 use App\Models\Menu;
 use App\Models\Offer;
@@ -13,6 +14,7 @@ use App\Models\Slider;
 use App\Models\StandOutUser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class HomeController extends Controller
@@ -272,18 +274,18 @@ class HomeController extends Controller
 
         return response()->json($obj->through(function ($item) use ($request) {
             $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
-
+            $isFavorite = HousingFavorite::where("housing_id", $item->id)->where("user_id", Auth::user()->id)->first();
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
                 'housing_type_title' => $item->housing_type_title,
                 'id' => $item->id,
                 'in_cart' => $request->session()->get('cart') && $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
+                'is_favorite' => $isFavorite ? 1 : 0,
                 'housing_url' => route('housing.show', $item->id),
                 'title' => $item->title,
                 'housing_address' => $item->address,
                 'city' => $item->city,
                 'county' => $item->county,
-
                 'created_at' => $item->created_at,
                 'housing_type' =>
                 [

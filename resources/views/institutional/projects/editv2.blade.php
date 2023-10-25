@@ -722,9 +722,7 @@
                         $('.tab-pane').eq(indexItem - 1).addClass('active');
                     })
                     function getOldData(roomOrder,inputName){
-                        console.log(oldData[3]);
                         for(var q = 0 ; q < oldData.length; q++){
-                            console.log(oldData[q]);
                             if(oldData[q].room_order == roomOrder && oldData[q].name == inputName){
                                 return oldData[q].value;
                             }
@@ -765,8 +763,8 @@
                                 $($('input[name="'+inputNamex[0]+[i]+'[][]"]')).map((key,item) => {
                                     if(getOldData(i,inputName)){
                                         JSON.parse(getOldData(i,inputName)).map((checkbox) => {
-                                        console.log(checkbox,$(item).attr("value"));
-                                            if(checkbox == $(item).attr("value")){
+                                        console.log();
+                                            if($(item).attr("value") != undefined && checkbox.trim() == $(item).attr("value").trim()){
                                                 $(item).attr('checked','checked')
                                             }
                                         })

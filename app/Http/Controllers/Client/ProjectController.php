@@ -79,7 +79,7 @@ class ProjectController extends Controller
                 abort(404); // Eğer HousingType bulunamazsa 404 hatası döndürün veya başka bir işlem yapabilirsiniz.
             }
             $title = $type->title;
-            $projects = Project::with("city", "country")->where("housing_type_id", $type->id)->get();
+            $projects = Project::with("city", "county")->where("housing_type_id", $type->id)->get();
 
         } else {
             if (!$status) {
@@ -93,9 +93,9 @@ class ProjectController extends Controller
                 $secondhandHousings = Housing::with('images', "city", "county")->get();
             } else {
                 $oncelikliProjeler = StandOutUser::where('housing_status_id', $status->id)->pluck('project_id')->toArray();
-                $firstProjects = Project::with("city", "country")->whereIn('id', $oncelikliProjeler)->get();
+                $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
 
-                $anotherProjects = Project::with("city", "country")->whereNotIn('id', $oncelikliProjeler)
+                $anotherProjects = Project::with("city", "county")->whereNotIn('id', $oncelikliProjeler)
                     ->orderBy('created_at', 'desc') // Eklenme tarihine göre sırala (en son eklenenler en üstte olur)
                     ->get();
 

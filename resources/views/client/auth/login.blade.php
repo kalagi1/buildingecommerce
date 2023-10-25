@@ -125,21 +125,21 @@
 
                                         <!-- E-Posta -->
                                         <div class="mt-3 ">
-                                                <label class="q-label">İsim</label>
-                                                <input type="text" name="name" class="form-control">
-                                            </div>
+                                            <label class="q-label">İsim</label>
+                                            <input type="text" name="name" class="form-control">
+                                        </div>
 
-                                            <!-- E-Posta -->
-                                            <div class="mt-3">
-                                                <label class="q-label">E-Posta</label>
-                                                <input type="email" name="email" class="form-control">
-                                            </div>
+                                        <!-- E-Posta -->
+                                        <div class="mt-3">
+                                            <label class="q-label">E-Posta</label>
+                                            <input type="email" name="email" class="form-control">
+                                        </div>
 
 
-                                            <!-- Şifre -->
-                                            <div class="mt-3">
-                                                <label class="q-label">Şifre</label>
-                                                <input type="password" name="password" class="form-control">
+                                        <!-- Şifre -->
+                                        <div class="mt-3">
+                                            <label class="q-label">Şifre</label>
+                                            <input type="password" name="password" class="form-control">
                                         </div>
 
                                         <div class="individual-form" id="individualForm">
@@ -471,12 +471,11 @@
 
 
 @section('scripts')
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
     <script>
         const individualForm = document.getElementById('individualForm');
@@ -640,5 +639,4 @@
             $(`.sub-plan-tab.${data[value]}`).removeClass('d-none');
         });
     </script>
-    
 @endsection

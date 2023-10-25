@@ -263,7 +263,7 @@
                                                 </div>
                                                 <div class="price pricing-item-inner">
                                                     @if($price->old_price)
-                                                        <span  class="old_price">{{$price->old_price}}₺</span>
+                                                        <span  class="old_price">{{$price->old_price}} ₺</span>
                                                     @endif
         
                                                     @if($price->price == 0)

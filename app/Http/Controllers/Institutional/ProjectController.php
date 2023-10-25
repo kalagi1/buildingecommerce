@@ -773,7 +773,7 @@ class ProjectController extends Controller
         }
 
         foreach($tempData->roomInfoKeys as $roomInfo){
-            ProjectHousing::where('name',$roomInfo->name)->where('room_order',$roomInfo->room_order)->update([
+            ProjectHousing::where('name',$roomInfo->name)->where('project_id',$tempData->id)->where('room_order',$roomInfo->room_order)->update([
                 "value" => $roomInfo->value
             ]);
         }

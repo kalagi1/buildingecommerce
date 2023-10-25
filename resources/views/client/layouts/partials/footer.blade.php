@@ -672,13 +672,20 @@
                     type: "GET",
                     success: function(response) {
                         if (response.is_favorite) {
-                            button.querySelector("i.fa-heart").classList.add(
+                            button.querySelector("i").classList.remove(
+                                "fa-heart-o");
+                            button.querySelector("i").classList.add(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
                                 "text-danger");
                             button.classList.add("bg-white");
                         } else {
-                            button.querySelector("i.fa-heart").classList.remove(
+                            button.querySelector("i").classList.remove(
                                 "text-danger");
-                            button.classList.remove("bg-white");
+                            button.querySelector("i").classList.remove(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "fa-heart-o");
                         }
                     },
                     error: function(error) {
@@ -689,35 +696,36 @@
         }
 
         function checkFavorites() {
-            // Favorileri sorgula ve uygun renk ve ikonları ayarla
             var favoriteButtons = document.querySelectorAll(".toggle-favorite");
 
-            document.addEventListener('click', function(event) {
-                if (event.target && event.target.classList.contains('toggle-favorite')) {
-                    var button = event.target;
-                    var housingId = button.getAttribute("data-housing-id");
-
-                    // AJAX isteği gönderme
-                    $.ajax({
-                        url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
-                            .replace(':id', housingId),
-                        type: "GET",
-                        success: function(response) {
-                            if (response.is_favorite) {
-                                button.querySelector("i.fa-heart").classList.add(
-                                    "text-danger");
-                                button.classList.add("bg-white");
-                            } else {
-                                button.querySelector("i.fa-heart").classList.remove(
-                                    "text-danger");
-                                button.classList.remove("bg-white");
-                            }
-                        },
-                        error: function(error) {
-                            console.error(error);
+            favoriteButtons.forEach(function(button) {
+                var housingId = button.getAttribute("data-housing-id");
+                $.ajax({
+                    url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
+                        .replace(':id', housingId),
+                    type: "GET",
+                    success: function(response) {
+                        if (response.is_favorite ) {
+                            button.querySelector("i").classList.remove(
+                                "fa-heart-o");
+                            button.querySelector("i").classList.add(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "text-danger");
+                            button.classList.add("bg-white");
+                        } else {
+                            button.querySelector("i").classList.remove(
+                                "text-danger");
+                            button.querySelector("i").classList.remove(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "fa-heart-o");
                         }
-                    });
-                }
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
             });
         }
 
@@ -741,17 +749,21 @@
                     success: function(response) {
                         if (response.status === 'added') {
                             toastr.success("Konut Favorilere Eklendi");
-                            // Favorilere eklenmişse rengi kırmızı yap
-                            button.querySelector("i.fa-heart").classList.add(
+                            button.querySelector("i").classList.remove(
+                                "fa-heart-o");
+                            button.querySelector("i").classList.add(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
                                 "text-danger");
-                            button.classList.add(
-                                "bg-white");
+                            button.classList.add("bg-white");
                         } else if (response.status === 'removed') {
                             toastr.warning("Konut Favorilerden Kaldırıldı");
-                            button.querySelector("i.fa-heart").classList.remove(
+                            button.querySelector("i").classList.remove(
                                 "text-danger");
-                            button.classList.remove(
-                                "bg-white");
+                            button.querySelector("i").classList.remove(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "fa-heart-o");
                         }
                     },
                     error: function(error) {
@@ -779,17 +791,21 @@
                 success: function(response) {
                     if (response.status === 'added') {
                         toastr.success("Konut Favorilere Eklendi");
-                        // Favorilere eklenmişse rengi kırmızı yap
-                        button.querySelector("i.fa-heart").classList.add(
+                        button.querySelector("i").classList.remove(
+                            "fa-heart-o");
+                        button.querySelector("i").classList.add(
+                            "fa-heart");
+                        button.querySelector("i").classList.add(
                             "text-danger");
-                        button.classList.add(
-                            "bg-white");
+                        button.classList.add("bg-white");
                     } else if (response.status === 'removed') {
                         toastr.warning("Konut Favorilerden Kaldırıldı");
-                        button.querySelector("i.fa-heart").classList.remove(
+                        button.querySelector("i").classList.remove(
                             "text-danger");
-                        button.classList.remove(
-                            "bg-white");
+                        button.querySelector("i").classList.remove(
+                            "fa-heart");
+                        button.querySelector("i").classList.add(
+                            "fa-heart-o");
                     }
                 },
                 error: function(error) {

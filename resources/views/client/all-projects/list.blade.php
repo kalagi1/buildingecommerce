@@ -638,6 +638,10 @@
         let last_page;
         let current_page = 1;
 
+        function numberFormat(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
         $('#city').on('change', function() {
             $.ajax({
                 method: "GET",
@@ -725,7 +729,6 @@
                         var assetPath = "{{ asset('images/sc.png') }}";
 
                         response.data.forEach((res) => {
-                            console.log(res);
                             @if (!$secondhandHousings)
                                 $('.pp-row').append(
                                     `
@@ -753,9 +756,9 @@
                                                     </div>
                                                     <div class="button-effect">
                                                         <!-- Örneğin Kalp İkonu -->
-                                                        <a href="" class="btn toggle-favorite ${res.in_favorites ? 'bg-white' : ''}"
+                                                        <a href="" class="btn toggle-favorite bg-white ${res.in_favorites ? 'bg-white' : ''}"
                                                            data-housing-id="${res.id}">
-                                                            <i class="fa fa-heart ${res.in_favorites ? 'text-danger' : ''}"></i>
+                                                            <i class="fa fa-heart-o ${res.in_favorites ? 'text-danger' : ''}"></i>
                                                         </a>
                                                     </div>
                                                 </div>
@@ -765,7 +768,7 @@
                                                     <h3><a href="${res.housing_url}">${res.title}</a></h3>
                                                     <p class="homes-address mb-3">
                                                         <a href="${res.housing_url}">
-                                                            <i class="fa fa-map-marker"></i><span>${res.housing_address}</span>
+                                                            <i class="fa fa-map-marker"></i><span>                ${res.city.title} ${"/"} ${res.county.ilce_title}</span>
                                                         </a>
                                                     </p>
                                                     <!-- homes List -->
@@ -784,8 +787,9 @@
                                                         </li>
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                        <li style="font-size: large; font-weight: 700;">
-                                                            ${res.housing_type.price}TL
+                                                        <li style="font-size: 16px; font-weight: 700;" class="priceFont">
+                                                            ${numberFormat(res.housing_type.price)} ₺
+
                                                         </li>
                                                         <li style="display: flex; justify-content: center;">
                                                             ${formatDate(res.created_at)}
@@ -795,14 +799,14 @@
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;margin-top:20px !important;">
                                                         ${res.sold ? 
                                                             `<button
-                                                                                            style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
-                                                                                        </button>`
+                                                                                                        style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
+                                                                                                    </button>`
                                                             : 
                                                             `<button class="addToCart ${res.in_cart ? 'bg-success' : ''}"
-                                                                                            style="width: 100%; border: none; background-color: black; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                                                            data-type='housing'
-                                                                                            data-id='${res.id}'>${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}
-                                                                                        </button>`
+                                                                                                        style="width: 100%; border: none; background-color: black; border-radius: 10px; padding: 5px 0px; color: white;"
+                                                                                                        data-type='housing'
+                                                                                                        data-id='${res.id}'>${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}
+                                                                                                    </button>`
                                                             }
                                                     </ul>
                                                 </div>
@@ -836,10 +840,10 @@
                 </a>
                 <div class="d-flex">
                     <div class="d-flex" style="gap: 8px;">
-                        <a href="#" class="btn toggle-favorite" data-housing-id="${res.id}" style="color: white;">
-                            <i class="fa fa-heart"></i>
+                        <a href="#" class="btn toggle-favorite bg-white" data-housing-id="${res.id}" style="color: white;">
+                            <i class="fa fa-heart-o"></i>
                         </a>
-                        <button class="addToCart mobile px-2" style="width: 100%; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
+                        <button class="addToCart mobile px-2" style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
                             data-type='housing' data-id='${res.id}'>
                             <img src="${res.in_cart ? assetPath : assetPath}" alt="sc" width="24px"
      height="24px" style="width: 24px !important; height: 24px !important;" />
@@ -847,7 +851,7 @@
                         </button>
                     </div>
                     <span class="ml-auto text-primary priceFont">
-                        ${res.housing_type.price  ?? '?' } ₺
+                        ${numberFormat(res.housing_type.price)} ₺
                     </span>
                 </div>
             </div>
@@ -1043,7 +1047,7 @@
 
             .circleIcon {
                 font-size: 5px;
-                color: black !important;
+                color: #e54242 !important;
                 padding-right: 5px
             }
 
@@ -1054,6 +1058,11 @@
 
             .car {
                 display: none;
+            }
+
+            .priceFont {
+                font-weight: 600;
+                font-size: 17px;
             }
         }
     </style>
