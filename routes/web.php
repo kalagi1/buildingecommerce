@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\BankAccountController;
 use App\Http\Controllers\Admin\AdBannerController;
+use App\Http\Controllers\Admin\BankAccountController;
 use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\EmailTemplateController;
 use App\Http\Controllers\Admin\FooterLinkController;
@@ -51,14 +51,14 @@ use App\Http\Controllers\Institutional\DashboardController;
 use App\Http\Controllers\Institutional\HousingController as InstitutionalHousingController;
 use App\Http\Controllers\Institutional\LoginController;
 use App\Http\Controllers\Institutional\OfferController as InstitutionalOfferController;
+use App\Http\Controllers\Institutional\PaymentTempController;
 use App\Http\Controllers\Institutional\ProfileController as InstitutionalProfileController;
 use App\Http\Controllers\Institutional\ProjectController as InstitutionalProjectController;
 use App\Http\Controllers\Institutional\RoleController as InstitutionalRoleController;
-use App\Http\Controllers\Institutional\StoreBannerController;
-use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
-use App\Http\Controllers\Institutional\PaymentTempController;
 use App\Http\Controllers\Institutional\SinglePriceController;
+use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\TempOrderController;
+use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -634,7 +634,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     });
 
     Route::middleware(['checkPermission:TempOrder'])->group(function () {
-        Route::post('/end_project_copy_item_image', [TempOrderController::class,"copyItemImage"])->name('copy.item.image');
+        Route::post('/end_project_copy_item_image', [TempOrderController::class, "copyItemImage"])->name('copy.item.image');
         Route::post('/update_image_order_temp_update', [TempOrderController::class, 'updateImageOrders'])->name('update.image.order.temp.update');
         Route::post('/delete_image_order_temp_update', [TempOrderController::class, 'deleteImageOrders'])->name('delete.image.order.temp.update');
         Route::post('/delete_temp_update', [TempOrderController::class, 'deleteTempUpdate'])->name('delete.temp.update');
@@ -726,18 +726,18 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
-    
-    Route::post('/end_extend_time', [PaymentTempController::class,"createPaymentTemp"])->name('create.payment.end.temp');
-    Route::post('/end_project_temp_order', [InstitutionalProjectController::class,"createProjectEnd"])->name('project.end.temp.order');
-    Route::post('/update_project_temp_order', [InstitutionalProjectController::class,"updateProjectEnd"])->name('project.update.temp.order');
-    Route::get('/create_project_v2', [InstitutionalProjectController::class,"createV2"])->name('project.create.v2');
-    Route::get('/get_bank_account/{id}', [InstitutionalBankAccountController::class,"getBankAccount"])->name('get.bank.account');
 
-    Route::post('/end_project_temp_order', [InstitutionalProjectController::class,"createProjectEnd"])->name('project.end.temp.order');
-    Route::post('/update_project_temp_order', [InstitutionalProjectController::class,"updateProjectEnd"])->name('project.update.temp.order');
-    Route::get('/create_project_v2', [InstitutionalProjectController::class,"createV2"])->name('project.create.v2');
-    Route::get('/edit_project_v2/{projectSlug}', [InstitutionalProjectController::class,"editV2"])->name('project.edit.v2');
-    Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class,"getHousingTypeChildren"])->name('get.housing.type.childrens');
+    Route::post('/end_extend_time', [PaymentTempController::class, "createPaymentTemp"])->name('create.payment.end.temp');
+    Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
+    Route::post('/update_project_temp_order', [InstitutionalProjectController::class, "updateProjectEnd"])->name('project.update.temp.order');
+    Route::get('/create_project_v2', [InstitutionalProjectController::class, "createV2"])->name('project.create.v2');
+    Route::get('/get_bank_account/{id}', [InstitutionalBankAccountController::class, "getBankAccount"])->name('get.bank.account');
+
+    Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
+    Route::post('/update_project_temp_order', [InstitutionalProjectController::class, "updateProjectEnd"])->name('project.update.temp.order');
+    Route::get('/create_project_v2', [InstitutionalProjectController::class, "createV2"])->name('project.create.v2');
+    Route::get('/edit_project_v2/{projectSlug}', [InstitutionalProjectController::class, "editV2"])->name('project.edit.v2');
+    Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
     Route::get('/projects/{project_id}/logs', [InstitutionalProjectController::class, 'logs'])->name('projects.logs');
     Route::get('/housings/{housing_id}/logs', [InstitutionalHousingController::class, 'logs'])->name('housing.logs');
     Route::get('/project_stand_out/{project_id}', [InstitutionalProjectController::class, "standOut"])->name('project.stand.out');
@@ -859,5 +859,8 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
 
 });
 
-Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
-    ->name('all.project.list');
+// Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
+//     ->name('all.project.list');
+
+Route::get('kategori/{slug?}/{type?}/{title?}/{optional?}', [ClientProjectController::class, "allMenuProjects"])
+    ->name('all.menu.project.list');

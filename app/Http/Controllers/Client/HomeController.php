@@ -7,6 +7,8 @@ use App\Models\FooterSlider;
 use App\Models\Housing;
 use App\Models\HousingFavorite;
 use App\Models\HousingStatus;
+use App\Models\HousingType;
+use App\Models\HousingTypeParent;
 use App\Models\Menu;
 use App\Models\Offer;
 use App\Models\Project;
@@ -60,6 +62,7 @@ class HomeController extends Controller
 
     public function getRenderedProjects(Request $request)
     {
+
         $query = Project::query()->where('status', 1);
 
         if ($request->input('city')) {
@@ -68,6 +71,23 @@ class HomeController extends Controller
 
         if ($request->input('county')) {
             $query->where('county_id', $request->input('county'));
+        }
+
+        if ($request->input("slug")) {
+            $status = HousingStatus::where('id', $request->input("slug"))->first();
+            $query->whereHas('housingTypes', function ($query) use ($status) {
+                $query->where('housing_type_id', $status->id);
+            });
+        }
+
+        if ($request->input("type")) {
+            $type = HousingTypeParent::where('id', $request->input("type"))->first();
+            $query->where('step1_slug', $type->slug);
+        }
+
+        if ($request->input("title")) {
+            $title = HousingType::where('id', $request->input("title"))->first();
+            $query->where('housing_type_id', $title->id);
         }
 
         if ($request->input('neighborhood')) {
@@ -93,12 +113,12 @@ class HomeController extends Controller
             return [
                 'image' => url(str_replace('public/', 'storage/', $item->image)),
                 'url' => route('project.detail', $item->slug),
-                // İlanın diğer özelliklerini burada ekleyebilirsiniz
             ];
         });
 
         return response()->json($renderedProjects);
     }
+
     public function getRenderedSecondhandHousings(Request $request)
     {
         function convertMonthToTurkishCharacter($date)

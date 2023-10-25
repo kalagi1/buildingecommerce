@@ -260,7 +260,6 @@
                                                     <a href="{{ $childItem['href'] }}">
                                                         @if (!empty($childItem['icon']))
                                                             <i class="{{ $childItem['icon'] }}"></i>
-                                                            <!-- İkonu eklemek için -->
                                                         @endif
                                                         {{ $childItem['text'] }}
                                                     </a>

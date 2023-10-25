@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
+use App\Models\HousingTypeParent;
 use App\Models\Menu;
 use App\Models\Offer;
 use App\Models\Project;
@@ -29,7 +30,7 @@ class ProjectController extends Controller
     {
         $menu = Menu::getMenuItems();
         $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
-        
+
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         return view('client.projects.detail', compact('menu', 'project', 'offer'));
     }
@@ -62,6 +63,58 @@ class ProjectController extends Controller
         $projects = $projects->get();
         $menu = Menu::getMenuItems();
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
+    }
+
+    public function allMenuProjects($slug = null, $type = null, $title = null, $optional = null)
+    {
+        $status = HousingStatus::where('slug', $slug)->first();
+        $secondhandHousings = [];
+        $projects = [];
+        $housingTypes = HousingType::where('active', 1)->get();
+        $housingTypeParent = HousingTypeParent::where('slug', $type)->first();
+        $housingType = HousingType::where('slug', $title)->first();
+        // HousingStatus bulunamazsa hata sayfasına yönlendirin
+        if (!$status) {
+            $title = HousingType::where('slug', $title)->first();
+            if (!$title) {
+                abort(404); // Eğer HousingType bulunamazsa 404 hatası döndürün veya başka bir işlem yapabilirsiniz.
+            }
+            $projects = Project::with("city", "county")->where("housing_type_id", $title->id)->get();
+
+        } else {
+            if (!$status) {
+                abort(404); // Eğer HousingType bulunamazsa 404 hatası döndürün veya başka bir işlem yapabilirsiniz.
+            } elseif ($status->id == 4) {
+                $projects = [];
+                $secondhandHousings = Housing::with('images', "city", "county")->get();
+            } else {
+                $oncelikliProjeler = StandOutUser::where('housing_status_id', $status->id)->pluck('project_id')->toArray();
+                $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
+
+                $query = Project::query()->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
+
+                if ($housingTypeParent) {
+                    $query->where("step1_slug", $housingTypeParent->slug);
+                }
+                if ($status) {
+                    $query->whereHas('housingTypes', function ($query) use ($status) {
+                        $query->where('housing_type_id', $status->id);
+                    });
+                }
+                $anotherProjects = $query->get();
+
+                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.project_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
+                    ->orderBy('item_order', 'asc') // Öne çıkarılma sırasına göre sırala
+                    ->get()
+                    ->concat($anotherProjects);
+            }
+        }
+
+        $housingStatuses = HousingStatus::get();
+        $cities = City::get();
+        $menu = Menu::getMenuItems();
+
+        return view('client.all-projects.menu-list', compact('menu', "housingTypeParent", "housingType", 'projects', "status", 'secondhandHousings', 'housingTypes', 'housingStatuses', 'cities', 'title', 'type'));
     }
 
     public function allProjects($slug)
