@@ -333,23 +333,24 @@
 
                 <div class="col-lg-9 col-md-12 blog-pots order-1">
                     <section class="headings-2 pt-0 d-md-flex" style="display: grid;">
-                        <div class="brand-head" style="padding-top:0">
-                            <div class="brands-square" style="position: relative;top:0;left:0">
-                                <p class="brand-name"><a href="{{ url('/') }}" style="color:black">Anasayfa</a></p>
-                                <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i> </p>
-                                <p class="brand-name" style="color: black">
-                                    {{ $status->name }}
-                                </p>
-                                <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i> </p>
-                                <p class="brand-name" style="color: black">
-                                    {{ $housingTypeParent->title }}
-                                </p>
-                                <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i> </p>
-                                <p class="brand-name" style="color: black">
-                                    {{ $housingType->title }}
-                                </p>
+                        <div class="brand-head" style="padding-top: 0">
+                            <div class="brands-square" style="position: relative; top: 0; left: 0">
+                                <p class="brand-name"><a href="{{ url('/') }}" style="color: black">Anasayfa</a></p>
+                                @if ($status)
+                                    <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
+                                    <p class="brand-name" style="color: black">{{ $status->name }}</p>
+                                @endif
+                                @if ($housingTypeParent)
+                                    <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
+                                    <p class="brand-name" style="color: black">{{ $housingTypeParent->title }}</p>
+                                @endif
+                                @if ($housingType)
+                                    <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
+                                    <p class="brand-name" style="color: black">{{ $housingType->title }}</p>
+                                @endif
                             </div>
                         </div>
+
 
                         <div id="sorting-options" class="d-flex align-items-center ml-0 ml-md-auto mr-md-0"
                             style="gap: 16px;">
@@ -638,7 +639,6 @@
 @section('scripts')
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        'use strict';
         let last_page;
         let current_page = 1;
 
@@ -692,9 +692,10 @@
                 return new Intl.DateTimeFormat('tr-TR', options).format(date);
             }
 
-            var slug = "{{ $status->id }}";
-            var type = "{{ $housingTypeParent->id }}";
-            var title = "{{ $housingType->id }}";
+            var slug = @json($status->id ?? null);
+            var type = @json($housingTypeParent->id ?? null);
+            var title = @json($housingType->id ?? null);
+            
             $.ajax({
                 method: "POST",
                 url: "{{ route($secondhandHousings ? 'get-rendered-secondhandhousings' : 'get-rendered-projects') }}",
@@ -809,20 +810,20 @@
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
                                                         ${res.sold ? 
                                                             `<button
-                                                                                                                        style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
-                                                                                                                    </button>`
+                                                                                                                            style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
+                                                                                                                        </button>`
                                                             : 
                                                             
                                                             `
-                                                                            <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                            data-id='${res.id}'>
-                                                                            <span class="IconContainer">
-                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                                <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                                data-id='${res.id}'>
+                                                                                <span class="IconContainer">
+                                                                                    <img src="{{ asset('sc.png') }}" alt="">
 
-                                                                            </span>
-                                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                        </button>
-                                                                            `
+                                                                                </span>
+                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                            </button>
+                                                                                `
                                                             }
                                                     </ul>
                                                 </div>
@@ -1078,7 +1079,7 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 16px;
+                font-size: 14px;
             }
         }
     </style>

@@ -211,7 +211,7 @@
         App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0    
 )
                         <div class="d-flex" style="flex-wrap: nowrap">
-                            <div class="align-items-center d-flex" style="padding-right:0; width: 130px;">
+                            <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                                 <div class="project-inner project-head">
                                     <a
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
@@ -445,7 +445,7 @@
         App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0    
 )
                         <div class="d-flex" style="flex-wrap: nowrap">
-                            <div class="align-items-center d-flex" style="padding-right:0; width: 130px;">
+                            <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                                 <div class="project-inner project-head">
                                     <a
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
@@ -677,7 +677,7 @@
 )
 
                     <div class="d-flex" style="flex-wrap: nowrap">
-                        <div class="align-items-center d-flex " style="padding-right:0; width: 130px;">
+                        <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                             <div class="project-inner project-head">
                                 <a href="{{ route('housing.show', [$project->id]) }}">
                                     <div class="homes">
@@ -1048,7 +1048,7 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 16px;
+                font-size: 14px;
             }
         }
     </style>
