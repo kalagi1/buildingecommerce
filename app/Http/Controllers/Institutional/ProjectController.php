@@ -56,12 +56,13 @@ class ProjectController extends Controller
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type',1)->get();
         $cities = City::get();
-        $housing_status = HousingStatus::all();
+        $housing_status = HousingStatus::where('is_project',1)->where('is_default',0)->get();
+        $housing_statusX = HousingStatus::where('is_project',1)->where('is_default',1)->first();
         $tempDataFull = TempOrder::where('item_type',1)->where('user_id',auth()->guard()->user()->id)->first();
         if($tempDataFull){
             $tempData = json_decode($tempDataFull->data);
         }else{
-            $tempData = json_decode("{}");
+            $tempData = json_decode('{}');
         }
 
         if($tempDataFull && isset($tempData->statuses)){
