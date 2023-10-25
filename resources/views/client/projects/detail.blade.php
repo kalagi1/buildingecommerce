@@ -335,7 +335,7 @@
                                                                 @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                                     <h6
                                                                         style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - (getData($project, 'price[]', $i + 1)->value * round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100)) / 100, 2, ',', '.') }}
+                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount , 2, ',', '.') }}
                                                                         ₺</h6>
                                                                     <h6
                                                                         style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
@@ -372,7 +372,7 @@
                                                             </h6>
                                                             <h6
                                                                 style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:20px;">
-                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - (getData($project, 'price[]', $i + 1)->value * round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100)) / 100, 2, ',', '.') }}
+                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 2, ',', '.') }}
 
                                                                 ₺</h6>
                                                         @else

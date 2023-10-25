@@ -168,7 +168,7 @@
                                                     ₺</span>
                                             @else
                                                 <span class="font-weight-bold mr-1">{{ $key }}:</span>
-                                                @if ($key == 'Metrekare')
+                                                @if ($key == 'm² (Net)')
                                                     <span class="det">{{ $val[0] }} m2</span>
                                                 @elseif ($key == 'Özellikler')
                                                     <ul>

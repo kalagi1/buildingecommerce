@@ -141,7 +141,7 @@
                                                     <li><a href="{{ route('institutional.projects.index') }}"><i
                                                                 class="fa fa-home"></i> İlanlarım</a>
                                                     </li>
-                                                    <li><a href="{{ route('institutional.projects.create') }}"> <i
+                                                    <li><a href="{{ url('institutional/create_project_v2') }}"> <i
                                                                 class="fa fa-plus"></i> İlan
                                                             Ekle</a></li>
                                                     <li><a href="{{ route('client.logout') }}"> <i

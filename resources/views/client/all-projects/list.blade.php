@@ -796,17 +796,23 @@
 
                                                         </li>
                                                     </ul>
-                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;margin-top:20px !important;">
+                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
                                                         ${res.sold ? 
                                                             `<button
                                                                                                         style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
                                                                                                     </button>`
                                                             : 
-                                                            `<button class="addToCart ${res.in_cart ? 'bg-success' : ''}"
-                                                                                                        style="width: 100%; border: none; background-color: black; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                                                                        data-type='housing'
-                                                                                                        data-id='${res.id}'>${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}
-                                                                                                    </button>`
+                                                            
+                                                            `
+                                                            <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                            data-id='${res.id}'>
+                                                            <span class="IconContainer">
+                                                                <img src="{{ asset('sc.png') }}" alt="">
+
+                                                            </span>
+                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                        </button>
+                                                            `
                                                             }
                                                     </ul>
                                                 </div>
@@ -1062,7 +1068,7 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 17px;
+                font-size: 16px;
             }
         }
     </style>
