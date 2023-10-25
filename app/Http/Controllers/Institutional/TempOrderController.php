@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
+use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\TempOrder;
 use Illuminate\Http\Request;
@@ -13,9 +14,16 @@ class TempOrderController extends Controller
 {
     public function dataChange(Request $request){
         $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        
+        if($request->input('item_type') == 1){
+            $housing_statusX = HousingStatus::where('is_project',1)->where('is_default',1)->first();
+        }else{
+            $housing_statusX = HousingStatus::where('is_housing',1)->where('is_default',1)->first();
+        }
         if(!$tempOrder){
             $tempData = [
-                "images" => []
+                "images" => [],
+                "statuses" => [$housing_statusX->id]
             ];
 
             $tempData = json_encode($tempData);
@@ -28,6 +36,7 @@ class TempOrderController extends Controller
         if($request->input('array_data')){
             if(isset($data->{$request->input('key')})){
                 $values = explode(',',$request->input('value'));
+                array_push($values,''.$housing_statusX->id.'');
                 $data->{$request->input('key')} = $values;
             }else{
                 $data->{$request->input('key')} = [$request->input('value')];

@@ -38,7 +38,7 @@ class HousingController extends Controller
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type',2)->get();
         $cities = City::get();
-        $housing_status = HousingStatus::all();
+        $housing_status = HousingStatus::where("is_housing",1)->where('is_default',0)->get();
         $tempDataFull = TempOrder::where('item_type',2)->where('user_id',auth()->guard()->user()->id)->first();
         if($tempDataFull){
             $tempData = json_decode($tempDataFull->data);
