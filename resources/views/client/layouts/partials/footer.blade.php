@@ -218,6 +218,8 @@
     </div>
 </div>
 
+
+
 <!-- ARCHIVES JS -->
 <script src="{{ URL::to('/') }}/js/jquery-3.5.1.min.js"></script>
 <script src="{{ URL::to('/') }}/js/rangeSlider.js"></script>

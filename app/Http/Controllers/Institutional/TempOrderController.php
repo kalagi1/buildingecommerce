@@ -115,18 +115,15 @@ class TempOrderController extends Controller
             $data = $tempData;
             if($request->input('checkbox')){
                 if(isset($data->roomInfoKeys)){
-                    if(strpos($request->input('key'), "payment-plan")){
-                        $data->roomInfoKeys[$this->returnOrder($request->input('key'),$request->input('order'),$data->roomInfoKeys)]->value = $request->input('value');
+                    
+                    $checkboxArr = json_decode($data->roomInfoKeys[$this->returnOrder(str_replace(intval($request->input('order')) + 1, "", $request->input('key')),$request->input('order'),$data->roomInfoKeys)]->value);
+                    if(in_array($request->input('value'),$checkboxArr)){
+                        $index = array_search($request->input('value'), $checkboxArr);
+                        unset($checkboxArr[$index]);
+                        $data->roomInfoKeys[$this->returnOrder(str_replace(intval($request->input('order')) + 1, "", $request->input('key')),$request->input('order'),$data->roomInfoKeys)]->value = json_encode(array_values($checkboxArr));
                     }else{
-                        $checkboxArr = json_decode($data->roomInfoKeys[$this->returnOrder(str_replace(intval($request->input('order')) + 1, "", $request->input('key')),$request->input('order'),$data->roomInfoKeys)]->value);
-                        if(in_array($request->input('value'),$checkboxArr)){
-                            $index = array_search($request->input('value'), $checkboxArr);
-                            unset($checkboxArr[$index]);
-                            $data->roomInfoKeys[$this->returnOrder(str_replace(intval($request->input('order')) + 1, "", $request->input('key')),$request->input('order'),$data->roomInfoKeys)]->value = json_encode(array_values($checkboxArr));
-                        }else{
-                            array_push($checkboxArr,$request->input('value'));
-                            $data->roomInfoKeys[$this->returnOrder(str_replace(intval($request->input('order')) + 1, "", $request->input('key')),$request->input('order'),$data->roomInfoKeys)]->value = json_encode($checkboxArr);
-                        }
+                        array_push($checkboxArr,$request->input('value'));
+                        $data->roomInfoKeys[$this->returnOrder(str_replace(intval($request->input('order')) + 1, "", $request->input('key')),$request->input('order'),$data->roomInfoKeys)]->value = json_encode($checkboxArr);
                     }
                     
                 }

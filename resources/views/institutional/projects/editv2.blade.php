@@ -762,6 +762,7 @@
                                 checkboxName = checkboxName.split('[]');
                                 checkboxName = checkboxName[0];
                                 $($('input[name="'+inputNamex[0]+[i]+'[][]"]')).map((key,item) => {
+                                    console.log(getOldData(i,inputName),inputName)
                                     if(getOldData(i,inputName)){
                                         JSON.parse(getOldData(i,inputName)).map((checkbox) => {
                                         console.log();
