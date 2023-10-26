@@ -65,56 +65,137 @@ class ProjectController extends Controller
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
     }
 
-    public function allMenuProjects($slug = null, $type = null, $title = null, $optional = null)
+    public function allMenuProjects($slug = null, $type = null, $optional = null, $title = null)
     {
-        $status = HousingStatus::where('slug', $slug)->first();
+        $parameters = [$slug, $type, $optional, $title];
         $secondhandHousings = [];
         $projects = [];
-        $housingTypes = HousingType::where('active', 1)->get();
-        $housingTypeParent = HousingTypeParent::where('slug', $type)->first();
-        $housingType = HousingType::where('slug', $title)->first();
-        // HousingStatus bulunamazsa hata sayfasına yönlendirin
-        if (!$status) {
-            $title = HousingType::where('slug', $title)->first();
-            if (!$title) {
-                abort(404); // Eğer HousingType bulunamazsa 404 hatası döndürün veya başka bir işlem yapabilirsiniz.
-            }
-            $projects = Project::with("city", "county")->where("housing_type_id", $title->id)->get();
+        $slug = [];
+        $slugName = [];
 
-        } else {
-            if (!$status) {
-                abort(404); // Eğer HousingType bulunamazsa 404 hatası döndürün veya başka bir işlem yapabilirsiniz.
-            } elseif ($status->id == 4) {
-                $projects = [];
-                $secondhandHousings = Housing::with('images', "city", "county")->get();
-            } else {
-                $oncelikliProjeler = StandOutUser::where('housing_status_id', $status->id)->pluck('project_id')->toArray();
+        $housingTypeSlug = [];
+        $housingTypeSlugName = [];
+
+        $housingType = [];
+        $housingTypeName = [];
+
+        $opt = null;
+        $is_project = null;
+
+        $optName = [];
+
+        foreach ($parameters as $paramValue) {
+            if ($paramValue) {
+
+                if ($paramValue == "satilik" || $paramValue == "kiralik") {
+                    $opt = $paramValue;
+
+                    if ($opt) {
+                        $opt = $opt;
+                        if ($opt = "satilik") {
+                            $optName = "Satılık";
+                        } else {
+                            $optName = "Kiralık";
+                        }
+                    }
+                } else {
+                    $item1 = HousingStatus::where('slug', $paramValue)->first();
+                    $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
+                    $housingType = HousingType::where('slug', $paramValue)->first();
+
+                    if ($item1) {
+                        $is_project = $item1->is_project;
+                        $slugName = $item1->name;
+                        $slug = $item1->id;
+                    }
+
+                    if ($housingTypeParent) {
+                        $housingTypeSlugName = $housingTypeParent->title;
+                        $housingTypeSlug = $housingTypeParent->slug;
+                    }
+
+                    if ($housingType) {
+                        $housingTypeName = $housingType->title;
+                        $housingType = $housingType->id;
+                    }
+                }
+
+            }
+        }
+
+
+        if ($slug) {
+            if ($is_project) {
+                $oncelikliProjeler = StandOutUser::where('housing_status_id', $slug)->pluck('project_id')->toArray();
                 $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
 
                 $query = Project::query()->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
 
-                if ($housingTypeParent) {
-                    $query->where("step1_slug", $housingTypeParent->slug);
+                if ($housingTypeSlug) {
+                    $query->where("step1_slug", $housingTypeSlug);
                 }
-                if ($status) {
-                    $query->whereHas('housingTypes', function ($query) use ($status) {
-                        $query->where('housing_type_id', $status->id);
-                    });
-                }
-                $anotherProjects = $query->get();
 
+                if ($opt) {
+                    $query->where("step2_slug", $opt);
+                }
+
+                if ($housingType) {
+                    $query->where('housing_type_id', $housingType);
+                }
+
+                $query->whereHas('housingTypes', function ($query) use ($slug) {
+                    $query->where('housing_type_id', $slug);
+                });
+
+                $anotherProjects = $query->get();
                 $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.project_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
-                    ->orderBy('item_order', 'asc') // Öne çıkarılma sırasına göre sırala
+                    ->orderBy('item_order', 'asc')
                     ->get()
                     ->concat($anotherProjects);
+
+            } else {
+                $query = Housing::with('images', "city", "county");
+
+                if ($housingTypeSlug) {
+                    $query->where("step1_slug", $housingTypeSlug);
+                }
+
+                if ($housingType) {
+                    $query->where('housing_type_id', $housingType);
+                }
+
+                if ($opt) {
+                    $query->where('step2_slug', $opt);
+                }
+
+                $query->whereHas('housingStatus', function ($query) use ($slug) {
+                    $query->where('housing_status_id', $slug);
+                });
+                $secondhandHousings = $query->get();
             }
+
+        } else {
+            $query = Housing::with('images', "city", "county");
+
+            if ($housingTypeSlug) {
+                $query->where("step1_slug", $housingTypeSlug);
+            }
+
+            if ($housingType) {
+                $query->where('housing_type_id', $housingType);
+            }
+
+            if ($opt) {
+                $query->where('step2_slug', $opt);
+            }
+            $secondhandHousings = $query->get();
         }
 
         $housingStatuses = HousingStatus::get();
         $cities = City::get();
         $menu = Menu::getMenuItems();
 
-        return view('client.all-projects.menu-list', compact('menu', "housingTypeParent", "housingType", 'projects', "status", 'secondhandHousings', 'housingTypes', 'housingStatuses', 'cities', 'title', 'type'));
+        return view('client.all-projects.menu-list', compact('menu', "opt", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
     }
 
     public function allProjects($slug)

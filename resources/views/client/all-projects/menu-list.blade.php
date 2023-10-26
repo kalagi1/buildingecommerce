@@ -336,17 +336,21 @@
                         <div class="brand-head" style="padding-top: 0">
                             <div class="brands-square" style="position: relative; top: 0; left: 0">
                                 <p class="brand-name"><a href="{{ url('/') }}" style="color: black">Anasayfa</a></p>
-                                @if ($status)
+                                @if ($slugName)
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
-                                    <p class="brand-name" style="color: black">{{ $status->name }}</p>
+                                    <p class="brand-name" style="color: black">{{ $slugName }}</p>
                                 @endif
-                                @if ($housingTypeParent)
+                                @if ($housingTypeSlugName)
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
-                                    <p class="brand-name" style="color: black">{{ $housingTypeParent->title }}</p>
+                                    <p class="brand-name" style="color: black">{{ $housingTypeSlugName }}</p>
                                 @endif
-                                @if ($housingType)
+                                @if ($optName)
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
-                                    <p class="brand-name" style="color: black">{{ $housingType->title }}</p>
+                                    <p class="brand-name" style="color: black">{{ $optName }}</p>
+                                @endif
+                                @if ($housingTypeName)
+                                    <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
+                                    <p class="brand-name" style="color: black">{{ $housingTypeName }}</p>
                                 @endif
                             </div>
                         </div>
@@ -692,18 +696,22 @@
                 return new Intl.DateTimeFormat('tr-TR', options).format(date);
             }
 
-            var slug = @json($status->id ?? null);
-            var type = @json($housingTypeParent->id ?? null);
-            var title = @json($housingType->id ?? null);
-            
+            var slug = @json($slug?? null);
+            var type = @json($housingTypeSlug ?? null);
+            var title = @json($housingType ?? null);
+            var optional = @json($opt ?? null);
+
+
             $.ajax({
                 method: "POST",
                 url: "{{ route($secondhandHousings ? 'get-rendered-secondhandhousings' : 'get-rendered-projects') }}",
-                data: Object.assign({}, filters, {
+                data: Object.assign({}, filters, {  
                     _token: "{{ csrf_token() }}",
                     slug: slug,
                     type: type,
-                    title: title
+                    title: title,
+                    optional: optional
+
                 }),
                 success: function(response) {
                     $('.pp-row').empty();
@@ -810,20 +818,20 @@
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
                                                         ${res.sold ? 
                                                             `<button
-                                                                                                                            style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
-                                                                                                                        </button>`
+                                                                                                                                            style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
+                                                                                                                                        </button>`
                                                             : 
                                                             
                                                             `
-                                                                                <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                data-id='${res.id}'>
-                                                                                <span class="IconContainer">
-                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                                                data-id='${res.id}'>
+                                                                                                <span class="IconContainer">
+                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
 
-                                                                                </span>
-                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                            </button>
-                                                                                `
+                                                                                                </span>
+                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                            </button>
+                                                                                                `
                                                             }
                                                     </ul>
                                                 </div>
