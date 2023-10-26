@@ -266,15 +266,15 @@
                                                 <ul class="homes-list clearfix pb-0"
                                                     style="display: flex;justify-content:space-between">
                                                     <li class="sude-the-icons" style="width:auto !important">
-                                                        <i class="flaticon-bed mr-2" aria-hidden="true"></i>
+                                                        <i class="fa fa-circle circleIcon mr-1"></i>
                                                         <span>{{ $housing->housing_type->title }} </span>
                                                     </li>
                                                     <li class="sude-the-icons" style="width:auto !important">
-                                                        <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
+                                                        <i class="fa fa-circle circleIcon mr-1"></i>
                                                         <span>{{ getData($housing, 'room_count') }}</span>
                                                     </li>
                                                     <li class="sude-the-icons" style="width:auto !important">
-                                                        <i class="flaticon-square mr-2" aria-hidden="true"></i>
+                                                        <i class="fa fa-circle circleIcon mr-1"></i>
                                                         <span>{{ getData($housing, 'squaremeters') }} m2</span>
                                                     </li>
                                                 </ul>

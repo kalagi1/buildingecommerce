@@ -684,6 +684,12 @@
             });
         });
 
+        function ucfirst(str) {
+            if (typeof str !== 'string') return '';
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+
 
 
         function drawList(filters = {}) {
@@ -696,7 +702,7 @@
                 return new Intl.DateTimeFormat('tr-TR', options).format(date);
             }
 
-            var slug = @json($slug?? null);
+            var slug = @json($slug ?? null);
             var type = @json($housingTypeSlug ?? null);
             var title = @json($housingTypeSlug ?? null);
             var optional = @json($opt ?? null);
@@ -705,7 +711,7 @@
             $.ajax({
                 method: "POST",
                 url: "{{ route($secondhandHousings ? 'get-rendered-secondhandhousings' : 'get-rendered-projects') }}",
-                data: Object.assign({}, filters, {  
+                data: Object.assign({}, filters, {
                     _token: "{{ csrf_token() }}",
                     slug: slug,
                     type: type,
@@ -784,7 +790,7 @@
                                                 <!-- homes content -->
                                                 <div class="homes-content p-3" style="padding:20px !important; ${res.sold ? 'background: #EEE !important;' : ''}">
                                                     <!-- homes address -->
-                                                    <h3><a href="${res.housing_url}">${res.title}</a></h3>
+                                                    <h4>${res.title}</h4>
                                                     <p class="homes-address mb-3">
                                                         <a href="${res.housing_url}">
                                                             <i class="fa fa-map-marker"></i><span>                ${res.city.title} ${"/"} ${res.county.ilce_title}</span>
@@ -793,15 +799,15 @@
                                                     <!-- homes List -->
                                                     <ul class="homes-list clearfix pb-0" style="display: flex;justify-content:space-between">
                                                         <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="flaticon-bed mr-2" aria-hidden="true"></i>
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>${res.housing_type.title} </span>
                                                         </li>
                                                         <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>${res.housing_type.room_count}</span>
                                                         </li>
                                                         <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="flaticon-square mr-2" aria-hidden="true"></i>
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>${res.housing_type.squaremeters} m2</span>
                                                         </li>
                                                     </ul>
@@ -818,20 +824,20 @@
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
                                                         ${res.sold ? 
                                                             `<button
-                                                                                                                                            style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
-                                                                                                                                        </button>`
+                                                                                                                                                        style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
+                                                                                                                                                    </button>`
                                                             : 
                                                             
                                                             `
-                                                                                                <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                data-id='${res.id}'>
-                                                                                                <span class="IconContainer">
-                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                            <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                                                            data-id='${res.id}'>
+                                                                                                            <span class="IconContainer">
+                                                                                                                <img src="{{ asset('sc.png') }}" alt="">
 
-                                                                                                </span>
-                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                            </button>
-                                                                                                `
+                                                                                                            </span>
+                                                                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                        </button>
+                                                                                                            `
                                                             }
                                                     </ul>
                                                 </div>
@@ -859,21 +865,23 @@
         <div class="w-100" style="padding-left:0;">
             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                 <a style="text-decoration: none;height:100%" href="${res.housing_url}">
-                    <h3>
+                    <h4>
                         ${res.title} ${' '}${res.housing_type.squaremeters ?? '?' }m2 ${res.housing_type.room_count ?? '?' }
-                    </h3>
+                    </h4>
                 </a>
                 <div class="d-flex">
                     <div class="d-flex" style="gap: 8px;">
                         <a href="#" class="btn toggle-favorite bg-white" data-housing-id="${res.id}" style="color: white;">
                             <i class="fa fa-heart-o"></i>
                         </a>
-                        <button class="addToCart mobile px-2" style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
-                            data-type='housing' data-id='${res.id}'>
-                            <img src="${res.in_cart ? assetPath : assetPath}" alt="sc" width="24px"
-     height="24px" style="width: 24px !important; height: 24px !important;" />
-
-                        </button>
+                        <button class="addToCart mobile px-2"
+                                                style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                data-type='housing' data-id='${res.id}'>
+                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
+                                                    height="24px"
+                                                    style="width: 24px !important; height: 24px !important;" />
+                                            </button>
+                 
                     </div>
                     <span class="ml-auto text-primary priceFont">
                         ${numberFormat(res.housing_type.price)} ₺
@@ -887,7 +895,7 @@
             style="list-style: none;padding:0;font-weight:600">
             <li class="d-flex align-items-center itemCircleFont">
                 <i class="fa fa-circle circleIcon"></i>
-                ${res.id} <span> No'lu Daire</span>
+               No: ${res.id}
             </li>
             <li class="d-flex align-items-center itemCircleFont">
                 <i class="fa fa-circle circleIcon"></i>
@@ -897,7 +905,7 @@
                 <i class="fa fa-circle circleIcon"></i>
                 ${res.housing_type.room_count ?? null }
             </li>
-            <li class="d-flex align-items-center" style="font-size:13px">
+            <li class="d-flex align-items-center itemCircleFont" >
                 <i class="fa fa-circle circleIcon"></i>
                 ${res.city.title} ${"/"} ${res.county.ilce_title}
             </li>
@@ -1046,6 +1054,10 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        .homes-content h4 {
+            height: 60px !important;
+        }
+
         .brand-head .brand-name {
             margin-left: 0 !important;
             margin-right: 10px !important

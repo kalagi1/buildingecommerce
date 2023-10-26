@@ -638,6 +638,11 @@
         let last_page;
         let current_page = 1;
 
+        function ucfirst(str) {
+            if (typeof str !== 'string') return '';
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
         function numberFormat(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
@@ -729,6 +734,7 @@
                         var assetPath = "{{ asset('images/sc.png') }}";
 
                         response.data.forEach((res) => {
+                            console.log(res);
                             @if (!$secondhandHousings)
                                 $('.pp-row').append(
                                     `
@@ -774,15 +780,15 @@
                                                     <!-- homes List -->
                                                     <ul class="homes-list clearfix pb-0" style="display: flex;justify-content:space-between">
                                                         <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="flaticon-bed mr-2" aria-hidden="true"></i>
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>${res.housing_type.title} </span>
                                                         </li>
                                                         <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>${res.housing_type.room_count}</span>
                                                         </li>
                                                         <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="flaticon-square mr-2" aria-hidden="true"></i>
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>${res.housing_type.squaremeters} m2</span>
                                                         </li>
                                                     </ul>
@@ -799,20 +805,20 @@
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
                                                         ${res.sold ? 
                                                             `<button
-                                                                                                        style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
-                                                                                                    </button>`
+                                                                                                            style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Rezerve Edildi
+                                                                                                        </button>`
                                                             : 
                                                             
                                                             `
-                                                            <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                            data-id='${res.id}'>
-                                                            <span class="IconContainer">
-                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                data-id='${res.id}'>
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('sc.png') }}" alt="">
 
-                                                            </span>
-                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                        </button>
-                                                            `
+                                                                </span>
+                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                            </button>
+                                                                `
                                                             }
                                                     </ul>
                                                 </div>
@@ -868,7 +874,7 @@
             style="list-style: none;padding:0;font-weight:600">
             <li class="d-flex align-items-center itemCircleFont">
                 <i class="fa fa-circle circleIcon"></i>
-                ${res.id} <span> No'lu Daire</span>
+              No: ${res.id}
             </li>
             <li class="d-flex align-items-center itemCircleFont">
                 <i class="fa fa-circle circleIcon"></i>
@@ -878,7 +884,7 @@
                 <i class="fa fa-circle circleIcon"></i>
                 ${res.housing_type.room_count ?? null }
             </li>
-            <li class="d-flex align-items-center" style="font-size:13px">
+            <li class="d-flex align-items-center itemCircleFont">
                 <i class="fa fa-circle circleIcon"></i>
                 ${res.city.title} ${"/"} ${res.county.ilce_title}
             </li>

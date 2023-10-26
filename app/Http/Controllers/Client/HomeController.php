@@ -29,6 +29,7 @@ class HomeController extends Controller
                 'housings.id',
                 'housings.title AS housing_title',
                 'housings.created_at',
+                'housings.step1_slug',
                 'housing_types.title as housing_type_title',
                 'housings.housing_type_data',
                 'housings.address',
@@ -57,7 +58,11 @@ class HomeController extends Controller
             $query->where('housing_type_id', '3');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
 
-        return view('client.home.index', compact('menu', 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
+
+        $soilProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
+            $query->where('housing_type_id', '5');
+        })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
+        return view('client.home.index', compact('menu',"soilProjects" ,'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 
     public function getRenderedProjects(Request $request)
@@ -435,6 +440,7 @@ class HomeController extends Controller
                 'is_favorite' => $isFavorite ? 1 : 0,
                 'housing_url' => route('housing.show', $item->id),
                 'title' => $item->title,
+                'step1_slug' => $item->step1_slug,
                 'housing_address' => $item->address,
                 'city' => $item->city,
                 'county' => $item->county,

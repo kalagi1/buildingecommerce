@@ -318,15 +318,20 @@
                                                             <span>{{ $project->housingType->title }}</span>
                                                         </li>
                                                         <li class="the-icons custom-width">
-                                                            <i class="flaticon-bed mr-2" aria-hidden="true"></i>
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
                                                         </li>
                                                         <li class="the-icons custom-width">
-                                                            <i class="flaticon-bathtub mr-2" aria-hidden="true"></i>
-                                                            <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}.Kat</span>
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
+                                                            <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
+                                                                @if ($project->step1_slug == "konut")
+                                                                .Kat
+                                                                @else
+                                                                ₺
+                                                                @endif</span>
                                                         </li>
                                                         <li class="the-icons custom-width ">
-                                                            <i class="flaticon-square mr-2" aria-hidden="true"></i>
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
                                                         </li>
 

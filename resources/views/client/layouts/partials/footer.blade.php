@@ -56,6 +56,16 @@
 <!-- END FOOTER -->
 
 <style>
+    .homes-content h4 {
+        height: 30px ;
+    }
+
+    .circleIcon {
+        font-size: 5px !important;
+        color: #e54242 !important;
+        padding-right: 5px
+    }
+
     .button-container {
         display: none;
     }
@@ -705,7 +715,7 @@
                         .replace(':id', housingId),
                     type: "GET",
                     success: function(response) {
-                        if (response.is_favorite ) {
+                        if (response.is_favorite) {
                             button.querySelector("i").classList.remove(
                                 "fa-heart-o");
                             button.querySelector("i").classList.add(

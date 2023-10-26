@@ -41,15 +41,11 @@
                             </ul>
                         </div>
                         <div class="area-list ">
-                            <ul>
-                                <li slug="satilik">Satılık</li>
-                                <li slug="kiralik">Kiralık</li>
+                            <ul>    
                             </ul>
                         </div>
                         <div class="area-list ">
                             <ul>
-                                <li slug="daire">Daire</li>
-                                <li slug="villa">Villa</li>
                             </ul>
                         </div>
                         <div class="area-list ">
@@ -2422,34 +2418,23 @@
         @if(isset($tempData->step1_slug))
             itemSlug = "{{$tempData->step1_slug}}";
             itemOrder = 0;
-            listChangex()
+            listChangex(0)
         @endif
 
-        
-        @if(isset($tempData->step2_slug))
-            itemSlug = "{{$tempData->step2_slug}}";
-            itemOrder = 1;
-            listChangex()
-        @endif
-
-        @if(isset($tempData->step3_slug))
-            itemSlug = "{{$tempData->step3_slug}}";
-            itemOrder = 2;
-            listChangex()
-        @endif
-
-        function listChangex(){
+        function listChangex(itemOrderx = null){
+            console.log(itemOrderx)
             $.ajax({
                 url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function (data) {
                     data = data.data;
+                    console.log(data);
                     var list = "";
                     for(var i = 0 ; i < data.length; i++){
                         list += "<li slug='"+data[i].slug+"'>"+data[i].title+"</li>"
                     }
-                    $('.area-list').eq(itemOrder + 1).children('ul').html(list)
+                    $('.area-list').eq(itemOrderx + 1).find('ul').html(list);
 
                     $('.area-list li').click(function(){
                         var clickItem = $(this).closest('.area-list');
@@ -2457,6 +2442,22 @@
                         itemSlug = $(this).attr('slug')
                         listChange();
                     })
+                    if(itemOrderx == 0){
+                        @if(isset($tempData->step2_slug))
+                            itemSlug = "{{$tempData->step2_slug}}";
+                            itemOrder = 1;
+                            listChangex(1)
+                        @endif
+                    }
+
+                    if(itemOrderx == 1){
+
+                        @if(isset($tempData->step3_slug))
+                            itemSlug = "{{$tempData->step3_slug}}";
+                            itemOrder = 2;
+                            listChangex(2)
+                        @endif
+                    }
 
                 },
                 error: function (xhr, status, error) {
@@ -2464,20 +2465,20 @@
                     console.error(xhr.statusText);
                 }
             });
-            if(areasSlugs.filter((slug) => {return slug.order == itemOrder}).length == 0){
+            if(areasSlugs.filter((slug) => {return slug.order == itemOrderx}).length == 0){
                 areasSlugs.push(
                     {
-                        order : itemOrder,
+                        order : itemOrderx,
                         slug : itemSlug,
                         label : $("li[slug='"+itemSlug+"']").html()
                     }
                 );
             }else{
-                if(areasSlugs.filter((slug) => {return slug.order == itemOrder})[0].slug != itemSlug){
-                    areasSlugs[itemOrder].slug = itemSlug;
+                if(areasSlugs.filter((slug) => {return slug.order == itemOrderx})[0].slug != itemSlug){
+                    areasSlugs[itemOrderx].slug = itemSlug;
                     var tempItems = [];
                     for(var i = 0 ; i < areasSlugs.length; i++ ){
-                        if(areasSlugs[i].order <= itemOrder){
+                        if(areasSlugs[i].order <= itemOrderx){
                             tempItems[i] = areasSlugs[i];
                         }
                     }
@@ -2486,13 +2487,11 @@
                 }
                 
             }
-
-            $('.area-list').find('li').removeClass('selected');
             $('.breadcrumb-after-item').remove();
             for(var i = 0 ; i < areasSlugs.length; i++){
+                console.log($("li[slug='"+areasSlugs[i].slug+"']"));
                 $('.area-list').eq(i).addClass('active');
                 $('.breadcrumb').append('<span class="breadcrumb-after-item">'+areasSlugs[i].label+'</span>')
-                $('.area-list').eq(i).find('li').removeClass('selected');
                 $("li[slug='"+areasSlugs[i].slug+"']").addClass('selected');
             }
 
