@@ -17,6 +17,7 @@ use App\Models\Log;
 use App\Models\DocumentNotification;
 use App\Models\Neighborhood;
 use App\Models\Neighbourhood;
+use App\Models\PaymentPlan;
 use App\Models\PricingStandOut;
 use App\Models\Project;
 use App\Models\ProjectHousing;
