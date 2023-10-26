@@ -35,6 +35,12 @@ class ProjectController extends Controller
         return view('client.projects.detail', compact('menu', 'project', 'offer'));
     }
 
+    public function projectPaymentPlan(Request $request){
+        $project = Project::with("roomInfo")->where('id',$request->input('project_id'))->first();
+
+        return $project;
+    }
+
     public function brandProjects($id)
     {
         $menu = Menu::getMenuItems();

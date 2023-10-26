@@ -26923,3 +26923,53 @@ Version      : 1.2
     .toggle-favorite:focus i:before {
         color: #dc3545 !important;
     }
+
+    .payment-plan-pop-up{
+        position:fixed;
+        width:100%;
+        height:100vh;
+        left:0;
+        top:0;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+    }
+    
+    .payment-plan-pop-back{
+        position:absolute;
+        width: 100%;
+        height: 100vh;
+        left:0;
+        top: 0;
+        background: #333;
+        opacity: .3;
+    }
+    
+    .payment-plan-pop-content{
+        width: 50%;
+        background-color: white;
+        padding: 15px;
+        z-index: 9999;
+        position: relative;
+    }
+
+    .payment-plan{
+        width: 100%;
+    }
+
+    .payment-plan-pop-close-icon{
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        width: 30px;
+        height: 30px;
+        background: #333;
+        color: #fff;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }

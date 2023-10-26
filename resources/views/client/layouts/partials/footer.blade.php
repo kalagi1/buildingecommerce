@@ -172,6 +172,42 @@
 
 </div>
 
+<div class="payment-plan-pop-up">
+    <div class="payment-plan-pop-back">
+
+    </div>
+    <div class="payment-plan-pop-content">
+        <div class="payment-plan-pop-close-icon"><i class="fa fa-times"></i></div>
+        <table class="payment-plan">
+            <thead>
+                <tr>
+                    <th>Ödeme Türü</th>
+                    <th>Fiyat</th>
+                    <th>Taksit Sayısı</th>
+                    <th>Peşin Ödenecek Tutar</th>
+                    <th>Aylık Ödenecek Tutar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Peşin</td>
+                    <td>1.000.000,00₺</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>Taksitli</td>
+                    <td>1.400.000,00₺</td>
+                    <td>14</td>
+                    <td>300.000,00₺</td>
+                    <td>78.571,42₺</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <!-- ARCHIVES JS -->
 <script src="{{ URL::to('/') }}/js/jquery-3.5.1.min.js"></script>
 <script src="{{ URL::to('/') }}/js/rangeSlider.js"></script>
@@ -221,6 +257,13 @@
             }
         });
     });
+    $('.payment-plan-pop-back').click(function(){
+        $('.payment-plan-pop-up').addClass('d-none')
+    })
+    
+    $('.payment-plan-pop-close-icon').click(function(){
+        $('.payment-plan-pop-up').addClass('d-none')
+    })
     $('.slick-agents').slick({
         infinite: true,
         slidesToShow: 4,
