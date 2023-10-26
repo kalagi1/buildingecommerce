@@ -37,10 +37,17 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <label class="form-label" for="image">Slider Görseli</label>
+                                        <label class="form-label" for="image">Slider Web Görseli</label>
                                         <input name="image" class="form-control" id="image" type="file"
                                             accept="image/*" required />
                                     </div>
+
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="image">Slider Mobil Görseli</label>
+                                        <input name="mobile_image" class="form-control" id="mobile_image" type="file"
+                                            accept="image/*" required />
+                                    </div>
+
 
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary">Oluştur</button>

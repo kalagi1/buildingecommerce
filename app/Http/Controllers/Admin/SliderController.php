@@ -37,15 +37,23 @@ class SliderController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'mobile_image' => 'required|image|mimes:jpeg,png,jpg,gif',
+
         ]);
 
         $image = $request->file('image');
         $fileName = 'slider_' . time() . '.' . $image->getClientOriginalExtension();
         $image->storeAs('sliders', $fileName, 'public');
 
+        $mobile_image = $request->file('mobile_image');
+        $fileNameMobile = 'slider_' . time() . '.' . $mobile_image->getClientOriginalExtension();
+        $mobile_image->storeAs('sliders', $fileNameMobile, 'public');
+
         $slider = new Slider();
         $slider->title = $request->input('title');
         $slider->image = $fileName;
+        $slider->mobile_image = $fileNameMobile;
+
         $slider->save();
 
         return redirect()->route('admin.sliders.index')->with('success', 'Slider başarıyla oluşturuldu.');
@@ -62,9 +70,14 @@ class SliderController extends Controller
         $fileName = 'slider_' . time() . '.' . $image->getClientOriginalExtension();
         $image->storeAs('footer-sliders', $fileName, 'public');
 
+        $mobile_image = $request->file('mobile_image');
+        $fileNameMobile = 'slider_' . time() . '.' . $mobile_image->getClientOriginalExtension();
+        $mobile_image->storeAs('footer-sliders', $fileNameMobile, 'public');
+
         $slider = new FooterSlider();
         $slider->title = $request->input('title');
         $slider->image = $fileName;
+        $slider->mobile_image = $fileNameMobile;
         $slider->save();
 
         return redirect()->route('admin.footer-sliders.index')->with('success', 'Slider başarıyla oluşturuldu.');
@@ -94,6 +107,14 @@ class SliderController extends Controller
             $slider->image = $imageFileName;
         }
 
+
+        if ($request->hasFile('mobile_image')) {
+            $mobile_image = $request->file('mobile_image');
+            $imageFileNameMobile = 'slider_' . time() . '.' . $mobile_image->getClientOriginalExtension();
+            $mobile_image->storeAs('public/sliders', $imageFileNameMobile);
+            $slider->mobile_image = $imageFileNameMobile;
+        }
+
         $slider->title = $request->input('title');
         $slider->save();
 
@@ -113,6 +134,15 @@ class SliderController extends Controller
             $image->storeAs('public/footer-sliders', $imageFileName);
             $slider->image = $imageFileName;
         }
+
+
+        if ($request->hasFile('mobile_image')) {
+            $mobile_image = $request->file('mobile_image');
+            $imageFileNameMobile = 'slider_' . time() . '.' . $mobile_image->getClientOriginalExtension();
+            $mobile_image->storeAs('public/footer-sliders', $imageFileNameMobile);
+            $slider->mobile_image = $imageFileNameMobile;
+        }
+
 
         $slider->title = $request->input('title');
         $slider->save();

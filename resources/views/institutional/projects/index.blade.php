@@ -410,7 +410,7 @@
       }
 
       .badge-info {
-        background-color: #0097eb
+        background-color: #e54242
       }
     </style>
   @endsection

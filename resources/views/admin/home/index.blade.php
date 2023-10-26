@@ -117,7 +117,6 @@
                                                     <p class="fs--1">by <a target="_blank" class="fw-semi-bold"
                                                             href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">{{ $project->user->name }}</a>
                                                     </p>
-                                                    <p class="fs--1 text-800 mb-5">{!! $project->description !!}</p>
                                                 </div>
                                             </div>
                                         </div>

@@ -38,7 +38,7 @@
                                         <div class="mt-0">
                                             <a href="#listing-location" class="listing-address">
                                                 <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
-                                                {!! $housing->address !!}
+                                                {!! $housing->city->title !!} {{ '/' }} {!! $housing->county->ilce_title !!}
                                             </a>
                                         </div>
                                     </div>
@@ -46,7 +46,7 @@
                                 <div class="single detail-wrapper mr-2">
                                     <div class="detail-wrapper-body">
                                         <div class="listing-title-bar">
-                                            <h4>{{ getData($housing, 'price') }} TL</h4>
+                                            <h4> {{ number_format(getData($housing, 'price'), 2, ',', '.') }} ₺</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -138,26 +138,37 @@
                                         $turkceKarsilik = [
                                             'price' => 'Fiyat',
                                             'numberoffloors' => 'Bulunduğu Kat',
-                                            'squaremeters' => 'Metrekare',
+                                            'squaremeters' => 'm² (Net)',
                                             'room_count' => 'Oda Sayısı',
                                             'front1' => 'Cephe',
-                                            'internal_features1' => 'Özellikler',
+                                            'm2gross' => 'm² (Brüt)',
+                                            'buildingage' => 'Bina Yaşı',
+                                            'heating' => 'Isıtma',
+                                            'balcony' => 'Balkon',
+                                            'numberofbathrooms' => 'Banyo Sayısı',
+                                            'usingstatus' => 'Kullanım Durumu',
+                                            'dues' => 'Aidat',
+                                            'titledeedstatus' => 'Tapu Durumu',
+                                            'external_features1' => 'Dış Özellikler',
+                                            'swap' => 'Takas',
+                                            'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
+                                            'internal_features1' => 'İç Özellikler',
                                         ];
 
                                         $key = $turkceKarsilik[$key] ?? $key;
                                     @endphp
 
-                                    @if ($key != 'image' && $key != 'images' && $key != 'Özellikler')
+                                    @if ($key != 'image' && $key != 'images' && $key != 'İç Özellikler' && $key != 'Dış Özellikler')
                                         <li style="border: none !important;">
                                             @if ($key == 'Fiyat')
                                                 <span class="font-weight-bold mr-1">{{ $key }}:</span>
 
                                                 <span class="det"
                                                     style="color: black; font-weight: bold;">{{ number_format($val[0], 2, ',', '.') }}
-                                                    TL</span>
+                                                    ₺</span>
                                             @else
                                                 <span class="font-weight-bold mr-1">{{ $key }}:</span>
-                                                @if ($key == 'Metrekare')
+                                                @if ($key == 'm² (Net)')
                                                     <span class="det">{{ $val[0] }} m2</span>
                                                 @elseif ($key == 'Özellikler')
                                                     <ul>
@@ -174,30 +185,41 @@
                                 @endforeach
                             </ul>
 
-                            <h5 class="mt-5">Özellikler</h5>
-                            <ul class="homes-list clearfix">
-                                @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
-                                    @php
-                                        $turkceKarsilik = [
-                                            'price' => 'Fiyat',
-                                            'numberoffloors' => 'Bulunduğu Kat',
-                                            'squaremeters' => 'Metrekare',
-                                            'room_count' => 'Oda Sayısı',
-                                            'front1' => 'Cephe',
-                                            'internal_features1' => 'Özellikler',
-                                        ];
+                            @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
+                                @php
+                                    $turkceKarsilik = [
+                                        'price' => 'Fiyat',
+                                        'numberoffloors' => 'Bulunduğu Kat',
+                                        'squaremeters' => 'm² (Net)',
+                                        'room_count' => 'Oda Sayısı',
+                                        'front1' => 'Cephe',
+                                        'm2gross' => 'm² (Brüt)',
+                                        'buildingage' => 'Bina Yaşı',
+                                        'heating' => 'Isıtma',
+                                        'balcony' => 'Balkon',
+                                        'numberofbathrooms' => 'Banyo Sayısı',
+                                        'usingstatus' => 'Kullanım Durumu',
+                                        'dues' => 'Aidat',
+                                        'titledeedstatus' => 'Tapu Durumu',
+                                        'external_features1' => 'Dış Özellikler',
+                                        'swap' => 'Takas',
+                                        'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
+                                        'internal_features1' => 'İç Özellikler',
+                                    ];
 
-                                        $key = $turkceKarsilik[$key] ?? $key;
-                                    @endphp
+                                    $key = $turkceKarsilik[$key] ?? $key;
+                                @endphp
 
-                                    @if ($key == 'Özellikler')
+                                @if ($key == 'İç Özellikler' || $key == 'Dış Özellikler')
+                                    <h5 class="mt-5">{{ $key }}</h5>
+                                    <ul class="homes-list clearfix">
                                         @foreach ($val as $ozellik)
                                             <li><i class="fa fa-check-square"
                                                     aria-hidden="true"></i><span>{{ $ozellik }}</span></li>
                                         @endforeach
-                                    @endif
-                                @endforeach
-                            </ul>
+                                    </ul>
+                                @endif
+                            @endforeach
                         </div>
                         <div class="single homes-content details mb-30">
                             <h5 class="mb-4">Yorumlar</h5>
@@ -352,7 +374,8 @@
                                     </div>
                                     <ul class="author__contact">
                                         <li><span class="la la-map-marker"><i
-                                                    class="fa fa-map-marker"></i></span>{!! $housing->address !!}</li>
+                                                    class="fa fa-map-marker"></i></span>{!! $housing->city->title !!}
+                                            {{ '/' }} {!! $housing->county->ilce_title !!}</li>
                                         <li><span class="la la-phone"><i class="fa fa-phone"
                                                     aria-hidden="true"></i></span><a
                                                 style="text-decoration: none;color:inherit"
@@ -371,7 +394,7 @@
                                     $uri = $_SERVER['REQUEST_URI'];
                                     $shareUrl = $protocol . '://' . $host . $uri;
                                 @endphp
-                              
+
                                 <div class="first-footer">
                                     <ul class="netsocials px-2">
 
@@ -521,10 +544,10 @@
             $('#rate').val($(this).index() + 1);
         });
     </script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 @endsection
 

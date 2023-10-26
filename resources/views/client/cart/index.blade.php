@@ -6,49 +6,68 @@
 
             <div class="row" style="justify-content: end">
                 <div class="col-md-8 mt-5">
-                <div class="my-properties">
-                <table class="table-responsive">
-                    <thead>
-                        <tr>
-                            <th class="pl-2">Konut</th>
-                            <th class="p-0"></th>
-                            <th class="pl-2">İl</th>
-                            <th class="pl-2">Fiyat</th>
-                            <th>Kaldır</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (!$cart || empty($cart['item']))
-                            <tr>
-                                <td colspan="5">Sepette Ürün Bulunmuyor</td>
+                    <div class="my-properties">
+                        <table class="table-responsive">
+                            <thead>
+                                <tr>
+                                    <th class="pl-2">Konut</th>
+                                    <th class="p-0"></th>
+                                    <th class="pl-2">Fiyat</th>
+                                    <th>Kaldır</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (!$cart || empty($cart['item']))
+                                
+                                    <tr>
+                                        <td colspan="5">Sepette Ürün Bulunmuyor</td>
 
-                            </tr>
-                        @else
-                            <tr>
-                                <td class="image myelist">
-                                    <a href="{{$cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? ''])}}"><img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                            class="img-fluid"></a>
-                                </td>
-                                <td>
-                                    <div class="inner">
-                                        <a href="{{$cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? ''])}}">
-                                            <h2 style="font-weight: 600">{{ $cart['item']['title'] }}</h2>
-                                            <figure><i class="lni-map-marker"></i> {{ $cart['item']['address'] }}</figure>
-                                        </a>
-                                    </div>
-                                </td>
-                                <td> {{ $cart['item']['city'] }}</td>
-                                <td> {{ $cart['item']['price'] - $cart['item']['discount_amount'] }}</td>
-                                <td class="actions">
-                                    <a href="#" class="remove-from-cart" style="float: left"><i
-                                            class="far fa-trash-alt"></i></a>
-                                </td>
-                            </tr>
-                        @endif
+                                    </tr>
+                                @else
+                                @php(
+                                    $discount_amount =
+                                        App\Models\Offer::where('type', 'housing')->where('housing_id',  $cart['item']['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                )
+                                    <tr>
+                                        <td class="image myelist">
+                                            <a
+                                                href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
+                                                    alt="my-properties-3" src="{{ $cart['item']['image'] }}"
+                                                    class="img-fluid"></a>
+                                        </td>
+                                        <td>
+                                            <div class="inner">
+                                                <a
+                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}">
+                                                    <h2 style="font-weight: 600">{{ $cart['item']['title'] }}</h2>
+                                                    <figure><i class="lni-map-marker"></i> {{ $cart['item']['city'] }}
+                                                    </figure>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span style="color:#e54242; font-weight:600">
+                                                @if ($discount_amount)
+                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                    stroke-width="2" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round" class="css-i6dzq1">
+                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                    <polyline points="17 18 23 18 23 12"></polyline>
+                                                </svg>
+                                            @endif
+                                                {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }}
+                                                ₺</span>
+                                        </td>
+                                        <td class="actions">
+                                            <a href="#" class="remove-from-cart" style="float: left"><i
+                                                    class="far fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                @endif
 
-                    </tbody>
-                </table>
-            </div>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="col-md-4 mt-5">
                     <div class="tr-single-box mb-0" style="background: white !important;">
@@ -74,9 +93,17 @@
                                 @endif
                                 <ul>
                                     <li>
+
                                         <form action="{{ route('client.pay.cart') }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-primary btn-lg btn-block">ÖDEME YAP</button>
+                                            <button type="submit" @if (Auth::user()->type == '2') disabled @endif
+                                                class="btn btn-primary btn-lg btn-block mb-3">ÖDEME
+                                                YAP</button>
+                                            @if (Auth::user()->type == '2')
+                                                <span class="text-danger">Şu an mağazalar için satın alma modülümüz
+                                                    kapalıdır.</span>
+                                            @endif
+
                                         </form>
                                     </li>
                                 </ul>

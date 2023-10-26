@@ -66,7 +66,7 @@
                         <p class="brand-name">Profil</p>
 
                     </div>
-                   
+
                 </div>
                 <div class="card-body">
                     <nav class="navbar" style="padding: 0 !important">
@@ -108,13 +108,7 @@
         <div class="container">
             <div class="seller-profile">
                 <div class="seller-info-container">
-                    <?php
-                    $totalHousingCount = 0;
-                    
-                    foreach ($institutional->projects as $userProject) {
-                        $totalHousingCount += count($userProject->housings);
-                    }
-                    ?>
+
                     <div class="seller-info-container__wrapper"><img
                             src="https://cdn.dsmcdn.com/seller-store/resources/activation-date-web-icon.svg" alt="icon"
                             class="seller-info-container__wrapper__img">
@@ -139,8 +133,8 @@
                             src="https://cdn.dsmcdn.com/seller-store/resources/corporate-invoice-web-icon.svg"
                             alt="icon" class="seller-info-container__wrapper__img">
                         <div class="seller-info-container__wrapper__text-container"><span
-                                class="seller-info-container__wrapper__text-container__title">Konut Sayısı</span><span
-                                class="seller-info-container__wrapper__text-container__value">{{ $totalHousingCount }}
+                                class="seller-info-container__wrapper__text-container__title">Proje Sayısı</span><span
+                                class="seller-info-container__wrapper__text-container__value">{{ count($institutional->projects) }}
                             </span></div>
                     </div>
                 </div>
@@ -299,7 +293,7 @@
                         @endforeach
                     </div>
                 @else
-                    <span>Bu konut için henüz yorum yapılmadı.</span>
+                    <span>Bu mağaza için henüz yorum yapılmadı.</span>
                 @endif
 
             </div>

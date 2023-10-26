@@ -77,11 +77,11 @@ class OfferController extends Controller
             CONCAT(
                 room_order,
                 ". ",
-                (SELECT value FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `key` = "Oda Sayısı"),
+                (SELECT value FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `name` = "room_count[]"),
                 " Odalı ",
-                (SELECT value FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `key` = "Metrekare"),
+                (SELECT value FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `name` = "squaremeters[]"),
                 " Metrekare ",
-                (SELECT value FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `key` = "Fiyat"),
+                (SELECT value FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `name` = "price[]"),
                 " Fiyatlı Daire"
             ) AS label
         FROM

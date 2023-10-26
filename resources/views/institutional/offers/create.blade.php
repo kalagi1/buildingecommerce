@@ -124,6 +124,7 @@
               data: { id: selectedProject }, // Şehir verisini isteğe ekle
               dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
               success: function(response) {
+                console.log(response);
                   // Yanıt başarılı olduğunda çalışacak kod
                   var countiesSelect = $('#project_housings'); // counties id'li select'i seç
                   countiesSelect.empty(); // Select içeriğini temizle
