@@ -392,7 +392,7 @@
 
                                             <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
                                                 <div class="homes-button" style="width:100%;height:100%">
-                                                    <button class="first-btn">
+                                                    <button class="first-btn payment-plan-button" project-id="{{$project->id}}" order="{{$i}}">
                                                         Ödeme Detayları </button>
                                                     @if ($sold)
                                                         <button class="btn second-btn"
@@ -449,6 +449,96 @@
 @section('scripts')
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
+        $('.payment-plan-button').click(function(){
+            var order = $(this).attr('order');
+            var cart = {
+                project_id:  $(this).attr('project-id'),
+                order: $(this).attr('order'),
+                _token: "{{ csrf_token() }}"
+            };
+
+            var paymentPlanDatax = {
+                "pesin" : "Peşin",
+                "taksitli" : "Taksitli"
+            }
+
+            function getDataJS(project, key, roomOrder)
+            {
+                var a = 0;
+                 project.room_info.forEach ((room) => {
+                    if (room.room_order == roomOrder && room.name == key) {
+                        a = room.value;
+                    }
+                }) 
+
+                return a;
+
+            }
+            // Ajax isteği gönderme
+            $.ajax({
+                url: "{{ route('get.housing.payment.plan') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+                type: "get", // Veriyi göndermek için POST kullanabilirsiniz
+                data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
+                success: function(response) {
+                    for(var i = 0; i < response.room_info.length; i++){
+                        if(response.room_info[i].name=="payment-plan[]" && response.room_info[i].room_order == parseInt(order) + 1){
+                            var paymentPlanData = JSON.parse(response.room_info[i].value);
+                           
+
+                            var html = "";
+                            function formatPrice(number) {
+                                number = parseFloat(number);
+                                // Sayıyı ondalık kısmı virgülle ayır
+                                const parts = number.toFixed(2).toString().split(".");
+                                
+                                // Virgül ile ayırmak için her üç haneli kısma nokta ekleyin
+                                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                                // Sonucu birleştirin ve virgül ile ayırın
+                                return parts.join(",");
+                            }
+                            var tempPlans = [];
+                            for(var j = 0; j < paymentPlanData.length; j++){
+
+                                if(!tempPlans.includes(paymentPlanData[j])){
+                                    if(paymentPlanData[j] == "pesin"){
+                                        var priceData = getDataJS(response,"price[]",response.room_info[i].room_order);
+                                        var installementData = "-";
+                                        var advanceData = "-";
+                                        var monhlyPrice = "-";
+                                    }else{
+                                        var priceData = getDataJS(response,"installments-price[]",response.room_info[i].room_order);
+                                        var installementData = getDataJS(response,"installments[]",response.room_info[i].room_order);
+                                        var advanceData = formatPrice(getDataJS(response,"advance[]",response.room_info[i].room_order))+"₺";
+                                        var monhlyPrice = (formatPrice((( parseFloat(priceData) - parseFloat(advanceData) ) / parseInt(installementData))))+'₺';
+                                    }
+                                    html += "<tr>"+
+                                        "<td>"+paymentPlanDatax[paymentPlanData[j]]+"</td>"+
+                                        "<td>"+formatPrice(priceData)+"₺</td>"+
+                                        "<td>"+installementData+"</td>"+
+                                        "<td>"+advanceData+"</td>"+
+                                        "<td>"+monhlyPrice+"</td>"+
+                                    "</tr>"
+                                }
+                                
+                                tempPlans.push(paymentPlanData[j])
+                                
+                            }
+
+                            $('.payment-plan tbody').html(html);
+                            
+                            $('.payment-plan-pop-up').removeClass('d-none')
+                        }
+                    }
+                },
+                error: function(error) {
+                    // Hata durumunda buraya gelir
+                    toast.error(error)
+                    console.error("Hata oluştu: " + error);
+                }
+            });
+        })
+
         @php
             $location = explode(',', $project->location);
             $location['latitude'] = $location[0];

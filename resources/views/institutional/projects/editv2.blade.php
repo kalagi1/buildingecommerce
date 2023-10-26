@@ -742,6 +742,7 @@
                                 var inputNamex = inputName;
                                 inputNamex = inputNamex.split('[]')
                                 $($('select[name="'+formInputs[j].name+'"]')[i-1]).children('option').map((key,item) => {
+                                    console.log(getOldData(i,inputName));
                                 if(getOldData(i,inputName) != undefined){
                                     if($(item).attr("value") == getOldData(i,inputName)){
                                         $(item).attr('selected','selected')
