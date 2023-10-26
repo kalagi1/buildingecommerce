@@ -78,6 +78,7 @@ class ProjectController extends Controller
 
         $housingType = [];
         $housingTypeName = [];
+        $housingTypeSlug = [];
 
         $opt = null;
         $is_project = null;
@@ -89,10 +90,9 @@ class ProjectController extends Controller
 
                 if ($paramValue == "satilik" || $paramValue == "kiralik") {
                     $opt = $paramValue;
-
                     if ($opt) {
                         $opt = $opt;
-                        if ($opt = "satilik") {
+                        if ($opt == "satilik") {
                             $optName = "Satılık";
                         } else {
                             $optName = "Kiralık";
@@ -116,13 +116,13 @@ class ProjectController extends Controller
 
                     if ($housingType) {
                         $housingTypeName = $housingType->title;
+                        $housingTypeSlug = $housingType->slug;
                         $housingType = $housingType->id;
                     }
                 }
 
             }
         }
-
 
         if ($slug) {
             if ($is_project) {
@@ -195,7 +195,7 @@ class ProjectController extends Controller
         $cities = City::get();
         $menu = Menu::getMenuItems();
 
-        return view('client.all-projects.menu-list', compact('menu', "opt", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
+        return view('client.all-projects.menu-list', compact('menu', "opt", "housingTypeSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
     }
 
     public function allProjects($slug)

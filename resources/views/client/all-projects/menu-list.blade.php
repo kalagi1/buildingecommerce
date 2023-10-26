@@ -698,7 +698,7 @@
 
             var slug = @json($slug?? null);
             var type = @json($housingTypeSlug ?? null);
-            var title = @json($housingType ?? null);
+            var title = @json($housingTypeSlug ?? null);
             var optional = @json($opt ?? null);
 
 

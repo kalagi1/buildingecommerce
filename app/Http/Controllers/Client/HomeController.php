@@ -67,6 +67,7 @@ class HomeController extends Controller
         $secondhandHousings = [];
         $projects = [];
         $slug = [];
+        $slugType = null;
         $slugName = [];
 
         $housingTypeSlug = [];
@@ -86,7 +87,7 @@ class HomeController extends Controller
                     $opt = $request->input($paramValue);
                     if ($opt) {
                         $opt = $opt;
-                        if ($opt = "satilik") {
+                        if ($opt == "satilik") {
                             $optName = "Satılık";
                         } else {
                             $optName = "Kiralık";
@@ -95,10 +96,9 @@ class HomeController extends Controller
                 } else {
                     $item1 = HousingStatus::where('id', $request->input($paramValue))->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $request->input($paramValue))->first();
-                    $housingType = HousingType::where('id', $request->input($paramValue))->first();
+                    $housingType = HousingType::where('slug', $request->input($paramValue))->first();
 
                     if ($item1) {
-                        $is_project = $item1->is_project;
                         $slugName = $item1->name;
                         $slug = $item1->id;
                     }
@@ -117,6 +117,7 @@ class HomeController extends Controller
             }
         }
 
+
         $query = Project::query()->where('status', 1);
 
         if ($request->input('city')) {
@@ -133,7 +134,7 @@ class HomeController extends Controller
             });
         }
 
-        if ($housingTypeSlug) {
+        if ($housingTypeSlug) { 
             $query->where("step1_slug", $housingTypeSlug);
         }
 
@@ -252,7 +253,7 @@ class HomeController extends Controller
                     $opt = $request->input($paramValue);
                     if ($opt) {
                         $opt = $opt;
-                        if ($opt = "satilik") {
+                        if ($opt == "satilik") {
                             $optName = "Satılık";
                         } else {
                             $optName = "Kiralık";
@@ -261,7 +262,7 @@ class HomeController extends Controller
                 } else {
                     $item1 = HousingStatus::where('id', $request->input($paramValue))->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $request->input($paramValue))->first();
-                    $housingType = HousingType::where('id', $request->input($paramValue))->first();
+                    $housingType = HousingType::where('slug', $request->input($paramValue))->first();
 
                     if ($item1) {
                         $is_project = $item1->is_project;
