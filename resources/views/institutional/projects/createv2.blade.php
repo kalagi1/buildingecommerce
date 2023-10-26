@@ -1871,6 +1871,17 @@
                             }
                         })
 
+                        $('.second-payment-plan').closest('div').addClass('d-none')
+                        $('.tab-pane select[multiple="false"]').removeAttr('multiple')
+
+                        $('input[value="taksitli"]').change(function(){
+                            if($(this).is(':checked')){
+                                $('.second-payment-plan').closest('div').removeClass('d-none');
+                            }else{
+                                $('.second-payment-plan').closest('div').addClass('d-none');
+                            }
+                        })
+
                         $('.rendered-form select').change(function(){
                             confirmHousings();
                             if($(this).val().length){

@@ -172,7 +172,7 @@
 
 </div>
 
-<div class="payment-plan-pop-up">
+<div class="payment-plan-pop-up d-none">
     <div class="payment-plan-pop-back">
 
     </div>

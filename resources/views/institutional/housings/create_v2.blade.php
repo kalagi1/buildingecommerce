@@ -808,6 +808,18 @@
                         $('.tab-pane.active').removeClass('active');
                         $('.tab-pane').eq(indexItem - 1).addClass('active');
                     })
+
+                    $('.second-payment-plan').closest('div').addClass('d-none')
+                    $('.tab-pane select[multiple="false"]').removeAttr('multiple')
+
+                    $('input[value="taksitli"]').change(function(){
+                        if($(this).is(':checked')){
+                            $('.second-payment-plan').closest('div').removeClass('d-none');
+                        }else{
+                            $('.second-payment-plan').closest('div').addClass('d-none');
+                        }
+                    })
+
                     for (let i = 1; i <= houseCount; i++) {
                         for(var j = 2 ; j < formInputs.length; j++){
                         if(formInputs[j].type == "number" || formInputs[j].type == "text"){

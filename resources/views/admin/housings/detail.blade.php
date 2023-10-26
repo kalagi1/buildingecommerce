@@ -54,15 +54,20 @@
                         <div class="tab-content py-3  h-100">
                             @for($i = 0; $i <1; $i++)
                             <div class="tab-pane fade show @if($i == 0) active @endif" id="TabContent{{$i}}" role="tabpanel">
-                                @foreach($housingTypeData as $housingType)
+                                @foreach($housingTypeData as $key => $housingType)
                                     @if($housingType->type != "file" && isset($housingType->name))
                                         @if($housingType->type == "checkbox-group")
-                                            <div class="view-form-json mt-4">
+                                          @if(isset($housingData->{str_replace("[]","",$housingType->name).($i + 1)}))
+                                            @if($housingData->{str_replace("[]","",$housingType->name).($i + 1)} != "payment-data")
+                                              <div class="view-form-json mt-4">
                                                 <label for="" style="font-weight: bold;">{{$housingType->label}}</label>
-                                                @foreach($housingData->{str_replace("[]","",$housingType->name)} as $checkboxItem)
+                                                @foreach($housingData->{str_replace("[]","",$housingType->name).($i + 1)} as $checkboxItem)
                                                 <p class="mb-1">{{$checkboxItem}}</p>
                                                 @endforeach
-                                            </div>
+                                              </div>
+                                            
+                                            @endif
+                                          @endif
                                         @else 
                                             <div class="view-form-json">
                                                 <label for="" style="font-weight: bold;">{{$housingType->label}}</label>
