@@ -16,7 +16,20 @@
         $a = json_encode($housing_type_data->{$key});
         return $a;
     }
+
+    $discountAmount = 0;
+
+    $offer = App\Models\Offer::where('type', 'housing')
+        ->where('housing_id', $housing->id)
+        ->where('start_date', '<=', now())
+        ->where('end_date', '>=', now())
+        ->first();
+
+    if ($offer) {
+        $discountAmount = $offer->discount_amount;
+    }
 @endphp
+
 
 @section('content')
     <style>
@@ -46,7 +59,13 @@
                                 <div class="single detail-wrapper mr-2">
                                     <div class="detail-wrapper-body">
                                         <div class="listing-title-bar">
-                                            <h4> {{ number_format(getData($housing, 'price'), 2, ',', '.') }} ₺</h4>
+                                            <h4>
+                                                @if ($discountAmount)
+                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
+                                                    
+                                                @endif
+                                                {{ number_format(getData($housing, 'price') - $discountAmount, 2, ',', '.') }}
+                                                ₺</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -74,10 +93,15 @@
                             </div>
                         </div>
                         <div class="col-md-10 col-10">
-                            <button
-                                style="border: none;width:100%; background-color: black; border-radius: 10px; padding: 10px 50px; color: white;"
-                                class="addToCart" data-type='housing' data-id='{{ $housing->id }}'>Sepete
-                                Ekle</button>
+
+                            <button class="CartBtn" data-type='housing' data-id='{{ $housing->id }}'>
+                                <span class="IconContainer">
+                                    <img src="{{ asset('sc.png') }}" alt="">
+                                </span>
+                                <span class="text">Sepete Ekle</span>
+                            </button>
+
+
                         </div>
                     </div>
                 </div>
@@ -344,7 +368,7 @@
                                         </svg>
                                     </div>
                                     <div class="ml-auto">
-                                        <input type="file" style="visibility: hidden;" id="fileinput" name="images[]"
+                                        <input type="hidden" style="visibility: hidden;" id="fileinput" name="images[]"
                                             multiple accept="image/*" />
                                         <button type="button" class="btn btn-primary q-button "
                                             onClick="jQuery('#fileinput').trigger('click');">Resimleri Seç</button>

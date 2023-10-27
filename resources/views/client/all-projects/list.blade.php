@@ -15,7 +15,7 @@
                 right: 0;
                 width: 90%;
                 height: 100%;
-                z-index: 1000;
+                z-index: 9999999999;
                 background-color: white;
                 padding: 16px;
                 box-shadow: 0 0 48px rgba(0, 0, 0, .3);

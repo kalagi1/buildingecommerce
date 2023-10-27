@@ -13,6 +13,21 @@
 
     @endphp
 
+    @php
+        $discountAmount = 0;
+
+        $offer = App\Models\Offer::where('type', 'project')
+            ->where('project_id', $project->id)
+            ->where('project_housings', 'LIKE', '%' . getData($project, 'price[]', $housingOrder)->room_order . '%')
+            ->where('start_date', '<=', date('Y-m-d H:i:s'))
+            ->where('end_date', '>=', date('Y-m-d H:i:s'))
+            ->first();
+
+        if ($offer) {
+            $discountAmount = $offer->discount_amount;
+        }
+    @endphp
+
     <section class="single-proper blog details bg-white">
         <div class="container">
             <div class="row mb-3">
@@ -38,7 +53,12 @@
                                     <div class="detail-wrapper-body">
                                         <div class="listing-title-bar">
                                             <h4 style="white-space: nowrap">
-                                                {{ number_format(getData($project, 'price[]', $housingOrder)->value, 2, ',', '.') }}
+
+                                                @if ($discountAmount)
+                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
+                                                    
+                                                @endif
+                                                {{ number_format(getData($project, 'price[]', $housingOrder)->value - $discountAmount, 2, ',', '.') }}
                                                 ₺</h4>
                                         </div>
                                     </div>
@@ -57,12 +77,12 @@
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <button class="CartBtn"  data-type='project' data-project='{{ $project->id }}'
+                            <button class="CartBtn" data-type='project' data-project='{{ $project->id }}'
                                 data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>
                                 <span class="IconContainer">
                                     <img src="{{ asset('sc.png') }}" alt="">
                                 </span>
-                                <span class="text">Add to Cart</span>
+                                <span class="text">Sepete Ekle</span>
                             </button>
                         </div>
                     </div>

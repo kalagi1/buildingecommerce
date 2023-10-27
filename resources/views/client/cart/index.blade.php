@@ -18,16 +18,15 @@
                             </thead>
                             <tbody>
                                 @if (!$cart || empty($cart['item']))
-                                
                                     <tr>
                                         <td colspan="5">Sepette Ürün Bulunmuyor</td>
 
                                     </tr>
                                 @else
-                                @php(
-                                    $discount_amount =
-                                        App\Models\Offer::where('type', 'housing')->where('housing_id',  $cart['item']['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-                                )
+                                    @php(
+    $discount_amount =
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $cart['item']['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+)
                                     <tr>
                                         <td class="image myelist">
                                             <a
@@ -48,15 +47,16 @@
                                         <td>
                                             <span style="color:#e54242; font-weight:600">
                                                 @if ($discount_amount)
-                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                                    stroke-width="2" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round" class="css-i6dzq1">
-                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                    <polyline points="17 18 23 18 23 12"></polyline>
-                                                </svg>
-                                            @endif
+                                                    <svg viewBox="0 0 24 24" width="24" height="24"
+                                                        stroke="currentColor" stroke-width="2" fill="none"
+                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                    </svg>
+                                                @endif
                                                 {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }}
-                                                ₺</span>
+                                                ₺
+                                            </span>
                                         </td>
                                         <td class="actions">
                                             <a href="#" class="remove-from-cart" style="float: left"><i
@@ -96,13 +96,15 @@
 
                                         <form action="{{ route('client.pay.cart') }}" method="POST">
                                             @csrf
-                                            <button type="submit" @if (Auth::user()->type == '2') disabled @endif
-                                                class="btn btn-primary btn-lg btn-block mb-3">ÖDEME
-                                                YAP</button>
-                                            @if (Auth::user()->type == '2')
-                                                <span class="text-danger">Şu an mağazalar için satın alma modülümüz
+                                            <button type="submit" @if (Auth::check() && Auth::user()->type == '2') disabled @endif
+                                                class="btn btn-primary btn-lg btn-block mb-3">ÖDEME YAP
+                                            </button>
+
+                                            @if (Auth::check() && Auth::user()->type == '2')
+                                                <span class="text-danger">Mağazalar için şu an satın alma modülümüz
                                                     kapalıdır.</span>
                                             @endif
+
 
                                         </form>
                                     </li>

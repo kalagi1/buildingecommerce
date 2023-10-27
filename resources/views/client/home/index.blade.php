@@ -408,7 +408,7 @@
                                                                 <span class="IconContainer">
                                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                                 </span>
-                                                                <span class="text">Add to Cart</span>
+                                                                <span class="text">Sepete Ekle</span>
                                                             </button>
 
                                                         </div>
@@ -646,7 +646,7 @@
                                                                 <span class="IconContainer">
                                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                                 </span>
-                                                                <span class="text">Add to Cart</span>
+                                                                <span class="text">Sepete Ekle</span>
                                                             </button>
 
                                                         </div>
@@ -885,7 +885,7 @@
                                                                 <span class="IconContainer">
                                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                                 </span>
-                                                                <span class="text">Add to Cart</span>
+                                                                <span class="text">Sepete Ekle</span>
                                                             </button>
 
                                                         </div>
@@ -1101,7 +1101,7 @@
                                                                 <img src="{{ asset('sc.png') }}" alt="">
 
                                                             </span>
-                                                            <span class="text">Add to Cart</span>
+                                                            <span class="text">Sepete Ekle</span>
                                                         </button>
                                                     </div>
                                                 </div>

@@ -155,50 +155,50 @@
 
                             </div>
                             <!-- <div class="widget-boxed mt-5">
-                                                    <div class="widget-boxed-header">
-                                                        <h4>Recent Properties</h4>
-                                                    </div>
-                                                    <div class="widget-boxed-body">
-                                                        <div class="recent-post">
-                                                            <div class="recent-main">
-                                                                <div class="recent-img">
-                                                                    <a href="blog-details.html"><img
-                                                                            src="images/feature-properties/fp-1.jpg" alt=""></a>
+                                                        <div class="widget-boxed-header">
+                                                            <h4>Recent Properties</h4>
+                                                        </div>
+                                                        <div class="widget-boxed-body">
+                                                            <div class="recent-post">
+                                                                <div class="recent-main">
+                                                                    <div class="recent-img">
+                                                                        <a href="blog-details.html"><img
+                                                                                src="images/feature-properties/fp-1.jpg" alt=""></a>
+                                                                    </div>
+                                                                    <div class="info-img">
+                                                                        <a href="blog-details.html">
+                                                                            <h6>Family Modern Home</h6>
+                                                                        </a>
+                                                                        <p>$230,000</p>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="info-img">
-                                                                    <a href="blog-details.html">
-                                                                        <h6>Family Modern Home</h6>
-                                                                    </a>
-                                                                    <p>$230,000</p>
+                                                                <div class="recent-main my-4">
+                                                                    <div class="recent-img">
+                                                                        <a href="blog-details.html"><img
+                                                                                src="images/feature-properties/fp-2.jpg" alt=""></a>
+                                                                    </div>
+                                                                    <div class="info-img">
+                                                                        <a href="blog-details.html">
+                                                                            <h6>Luxury Villa House</h6>
+                                                                        </a>
+                                                                        <p>$120,000</p>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="recent-main my-4">
-                                                                <div class="recent-img">
-                                                                    <a href="blog-details.html"><img
-                                                                            src="images/feature-properties/fp-2.jpg" alt=""></a>
-                                                                </div>
-                                                                <div class="info-img">
-                                                                    <a href="blog-details.html">
-                                                                        <h6>Luxury Villa House</h6>
-                                                                    </a>
-                                                                    <p>$120,000</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="recent-main">
-                                                                <div class="recent-img">
-                                                                    <a href="blog-details.html"><img
-                                                                            src="images/feature-properties/fp-3.jpg" alt=""></a>
-                                                                </div>
-                                                                <div class="info-img">
-                                                                    <a href="blog-details.html">
-                                                                        <h6>Luxury Family Home</h6>
-                                                                    </a>
-                                                                    <p>$150,000</p>
+                                                                <div class="recent-main">
+                                                                    <div class="recent-img">
+                                                                        <a href="blog-details.html"><img
+                                                                                src="images/feature-properties/fp-3.jpg" alt=""></a>
+                                                                    </div>
+                                                                    <div class="info-img">
+                                                                        <a href="blog-details.html">
+                                                                            <h6>Luxury Family Home</h6>
+                                                                        </a>
+                                                                        <p>$150,000</p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div> -->
+                                                    </div> -->
                         </div>
                     </aside>
                     <div class="col-lg-9 col-md-12 blog-pots">
@@ -289,10 +289,14 @@
                                                 </ul>
                                                 <ul class="homes-list clearfix pb-0"
                                                     style="display: flex; justify-content: center;margin-top:20px !important;">
-                                                    <button class="addToCart"
-                                                        style="width: 100%; border: none; background-color: black; border-radius: 10px; padding: 5px 0px; color: white;"
-                                                        data-type='housing' data-id='{{ $housing->id }}'>Sepete
-                                                        Ekle</button>
+
+                                                    <button class="CartBtn" data-type='housing'
+                                                        data-id='{{ $housing->id }}'>
+                                                        <span class="IconContainer">
+                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                        </span>
+                                                        <span class="text">Sepete Ekle</span>
+                                                    </button>
 
                                                 </ul>
                                             </div>
@@ -444,6 +448,12 @@
                             }
                         },
                         error: function(error) {
+                              button.querySelector("i").classList.remove(
+                            "text-danger");
+                            button.querySelector("i").classList.remove(
+                            "fa-heart");
+                            button.querySelector("i").classList.add(
+                            "fa-heart-o");
                             console.error(error);
                         }
                     });

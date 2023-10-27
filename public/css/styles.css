@@ -15817,6 +15817,10 @@ Version      : 1.2
         margin-top: 0px;
     }
 
+    .single.detail-wrapper {
+        width: 50%
+    }
+
     .inner-pages.hp-6.full .single.detail-wrapper {
         z-index: 8;
     }
@@ -15828,6 +15832,11 @@ Version      : 1.2
     }
 
     @media screen and (max-width: 768px) {
+
+        .single.detail-wrapper {
+            width: 100%
+        }
+
         .inner-pages.hp-6.full .dropdown-filter span {
             margin: 0px 15px 0 0;
         }
@@ -26618,6 +26627,12 @@ Version      : 1.2
     @media screen and (max-width: 992px) {}
 
     @media screen and (max-width: 768px) {
+        .loginItems .login-content {
+            background: #fff;
+            width: 100%;
+            padding: 0 1rem;
+        }
+
         .pro-wrapper {
             flex-wrap: wrap;
         }
@@ -26835,7 +26850,6 @@ Version      : 1.2
 
     .CartBtn {
         width: 100%;
-        margin-top: 10px;
         height: 40px;
         border: none;
         background-color: #274abb;
@@ -26923,30 +26937,30 @@ Version      : 1.2
         color: #dc3545 !important;
     }
 
-    .payment-plan-pop-up{
-        position:fixed;
-        width:100%;
-        height:100vh;
-        left:0;
-        top:0;
+    .payment-plan-pop-up {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        left: 0;
+        top: 0;
         z-index: 9999;
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 99999;
     }
-    
-    .payment-plan-pop-back{
-        position:absolute;
+
+    .payment-plan-pop-back {
+        position: absolute;
         width: 100%;
         height: 100vh;
-        left:0;
+        left: 0;
         top: 0;
         background: #333;
         opacity: .3;
     }
-    
-    .payment-plan-pop-content{
+
+    .payment-plan-pop-content {
         width: 50%;
         background-color: white;
         padding: 15px;
@@ -26954,11 +26968,11 @@ Version      : 1.2
         position: relative;
     }
 
-    .payment-plan{
+    .payment-plan {
         width: 100%;
     }
 
-    .payment-plan-pop-close-icon{
+    .payment-plan-pop-close-icon {
         position: absolute;
         top: -15px;
         right: -15px;

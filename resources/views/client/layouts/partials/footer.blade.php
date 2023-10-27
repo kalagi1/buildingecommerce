@@ -11,7 +11,7 @@
 
                 </div>
                 @foreach ($widgetGroups as $widgetGroup)
-                    <div class="col-sm-6 col-md-6 col-lg col-6">
+                    <div class="col-sm-6 col-md-6 col-lg col-12">
                         <div class="navigation">
                             <h3>{{ $widgetGroup->widget }}</h3>
                             <div class="nav-footer">
@@ -57,7 +57,7 @@
 
 <style>
     .homes-content h4 {
-        height: 30px ;
+        height: 30px;
     }
 
     .circleIcon {
@@ -71,6 +71,10 @@
     }
 
     @media (max-width: 768px) {
+        .pro-wrapper {
+            text-align: center
+        }
+
         .button-container {
             z-index: 9999999;
             position: fixed;
@@ -269,11 +273,11 @@
             }
         });
     });
-    $('.payment-plan-pop-back').click(function(){
+    $('.payment-plan-pop-back').click(function() {
         $('.payment-plan-pop-up').addClass('d-none')
     })
-    
-    $('.payment-plan-pop-close-icon').click(function(){
+
+    $('.payment-plan-pop-close-icon').click(function() {
         $('.payment-plan-pop-up').addClass('d-none')
     })
     $('.slick-agents').slick({
@@ -744,6 +748,12 @@
                         }
                     },
                     error: function(error) {
+                        button.querySelector("i").classList.remove(
+                            "text-danger");
+                        button.querySelector("i").classList.remove(
+                            "fa-heart");
+                        button.querySelector("i").classList.add(
+                            "fa-heart-o");
                         console.error(error);
                     }
                 });
@@ -778,6 +788,12 @@
                         }
                     },
                     error: function(error) {
+                        button.querySelector("i").classList.remove(
+                            "text-danger");
+                        button.querySelector("i").classList.remove(
+                            "fa-heart");
+                        button.querySelector("i").classList.add(
+                            "fa-heart-o");
                         console.error(error);
                     }
                 });
