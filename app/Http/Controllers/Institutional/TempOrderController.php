@@ -442,6 +442,14 @@ class TempOrderController extends Controller
         ]);
     }
 
+    public function deleteTempCreate(){
+        TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->delete();
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
+
     public function copyItemImage(Request $request){
         $tempOrder = TempOrder::where('user_id',auth()->user()->id)->where('item_type',$request->input('item_type'))->first();
         $data = json_decode($tempOrder->data);

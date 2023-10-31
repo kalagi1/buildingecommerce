@@ -61,9 +61,11 @@ class ProjectController extends Controller
         $housing_statusX = HousingStatus::where('is_project',1)->where('is_default',1)->first();
         $tempDataFull = TempOrder::where('item_type',1)->where('user_id',auth()->guard()->user()->id)->first();
         if($tempDataFull){
+            $hasTemp = true;
             $tempData = json_decode($tempDataFull->data);
         }else{
             $tempData = json_decode('{}');
+            $hasTemp = false;
         }
 
         if($tempDataFull && isset($tempData->statuses)){
@@ -78,7 +80,7 @@ class ProjectController extends Controller
         }
 
         $userPlan = UserPlan::where('user_id',auth()->user()->id)->first();
-        return view('institutional.projects.createv2',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan'));
+        return view('institutional.projects.createv2',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan','hasTemp'));
     }
 
     public function editV2($slug){

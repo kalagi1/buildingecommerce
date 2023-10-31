@@ -1,6 +1,26 @@
 @extends('institutional.layouts.master')
 
 @section('content')
+    @if($hasTemp)
+    <div class="pop-up-v2">
+        <div class="pop-back">
+
+        </div>
+        <div class="pop-content">
+            <div class="pop-content-inner">
+                <h2 class="text-center">Proje üzerinde önceden bir düzenleme yapmışsınız</h2>
+                <div class="choises">
+                    <div class="choise choise-1">
+                        Kaldığım Yerden Devam Et
+                    </div>
+                    <div class="choise choise-2">
+                        Yeni Proje Oluştur
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
     <div class="content">
         <h2 class="mb-2 lh-sm  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">Adım Adım Kategori Seç</h2>
         <div class="breadcrumb  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
@@ -375,293 +395,10 @@
         var descriptionText = @if(isset($tempData) && isset($tempData->description)) 'evet var' @else "" @endif;
         var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
         
-        function confirmHousings(){
-            for(var i = 0 ; i < $('.tab-pane').length; i++){
-                var confirm = 1;
-                $('.tab-pane').eq(i).find('input[required="required"]').map((key,item) => {
-                    if(!$(item).val()){
-                        confirm = 0;
-                    }
-                })
+        $('.choise-1').click(function(){
+            $('.pop-up-v2').addClass('d-none')
 
-                $('.tab-pane').eq(i).find('select[required="required"]').map((key,item) => {
-                    if(!$(item).val()){
-                        confirm = 0;
-                    }
-                })
-                if($('.tab-pane').eq(i).find('input[type="file"]').closest('.formbuilder-file').find('.project_imaget').length == 0){
-                    confirm = 0;
-                }
-
-
-                if(confirm){
-                    $('#tablist>.item-left-area').eq(i).addClass('confirm');
-                }
-            }
-            
-        }
-
-        $('#cities').change(function(){
-            if($(this).val() != ""){
-                $(this).removeClass('error-border');
-            }
-        })
-
-        $('#counties').change(function(){
-            if($(this).val() != ""){
-                $(this).removeClass('error-border');
-            }
-        })
-
-        $('#neighbourhood').change(function(){
-            if($(this).val() != ""){
-                $(this).removeClass('error-border');
-            }
-        })
-        
-        $('.progress-line li').click(function(e){
-            e.preventDefault();
-            var currentIndex = $('.progress-line li.current').index();
-
-            var clickIndex = $(this).index();
-                if(clickIndex == 0){
-                    toFirstArea();
-                }else if(clickIndex == 1){
-                    toSecondArea();
-                }
-                if(clickIndex == 2){
-                    toThirdArea();
-                }
-            
-        })
-
-        function toSecondArea(){
-            $.ajax({
-                method: "POST",
-                url: "{{route('institutional.change.step.order')}}",
-                data : {
-                    order : 2,
-                    item_type : 1,
-                    _token : csrfToken
-                },
-                success: function(response) {
-                    response = JSON.parse(response);
-                    if(response.status){
-                        $('.firt-area').addClass('d-none');
-                        $('.second-area').addClass('d-none');
-                        $('.third-area').addClass('d-none');
-                        $('.progress-line').removeClass('step1')
-                        $('.progress-line').removeClass('step2')
-                        $('.progress-line').removeClass('step3')
-                        $('.second-area').removeClass('d-none');
-                        $('.progress-line').addClass('step2')
-                        $('.progress-line li').eq(0).removeClass('current').addClass('done')
-                        $('.progress-line li').eq(1).addClass('current')
-                        $('.progress-line li').eq(2).removeClass('current').removeClass('done')
-                    }
-                    
-                }
-            })
-        }
-
-        function toThirdArea(){
-            $('.finish-button').trigger('click');
-
-            if(nextTemp){
-                $.ajax({
-                    method: "POST",
-                    url: "{{route('institutional.change.step.order')}}",
-                    data : {
-                        order : 3,
-                        item_type : 1,
-                        _token : csrfToken
-                    },
-                    success: function(response) {
-                        response = JSON.parse(response);
-                        if(response.status){
-                            $('.firt-area').addClass('d-none');
-                            $('.second-area').addClass('d-none');
-                            $('.third-area').addClass('d-none');
-                            $('.progress-line').removeClass('step1')
-                            $('.progress-line').removeClass('step2')
-                            $('.progress-line').removeClass('step3')
-                            $('.third-area').removeClass('d-none');
-                            $('.progress-line').addClass('step3')
-                            $('.progress-line li').eq(0).removeClass('current').addClass('done')
-                            $('.progress-line li').eq(1).removeClass('current').addClass('done')
-                            $('.progress-line li').eq(2).addClass('current')
-                        }
-                        
-                    }
-                })
-                
-            }
-            
-        }
-
-        function toFirstArea(){
-            $.ajax({
-                method: "POST",
-                url: "{{route('institutional.change.step.order')}}",
-                data : {
-                    order : 1,
-                    item_type : 1,
-                    _token : csrfToken
-                },
-                success: function(response) {
-                    response = JSON.parse(response);
-                    if(response.status){
-                        $('.second-area').addClass('d-none');
-                        $('.third-area').addClass('d-none');
-                        $('.progress-line').removeClass('step1')
-                        $('.progress-line').removeClass('step2')
-                        $('.progress-line').removeClass('step3')
-                        $('.firt-area').removeClass('d-none');
-                        $('.progress-line').addClass('step1')
-                        $('.progress-line li').eq(0).addClass('current').removeClass('done')
-                        $('.progress-line li').eq(1).removeClass('current').removeClass('done')
-                        $('.progress-line li').eq(2).removeClass('current').removeClass('donı')
-                    }
-                    
-                }
-            })
-        }
-
-        $('.finish-button-first').click(function(){
-            toSecondArea();
-        })
-
-        $('.doping_statuses').change(function(){
-            if($(this).val() != ""){
-                $('.doping_statuses').removeClass('error-border')
-            }
-        })
-
-        $('.doping_order').change(function(){
-            if($(this).val() != ""){
-                $('.doping_order').removeClass('error-border')
-            }
-        })
-
-
-        function datediff(first, second) {        
-            return Math.round((second - first) / (1000 * 60 * 60 * 24));
-        }
-        $('.list-dates').click(function(){
-            if($('.doping_statuses').val() == ""){
-                $('.doping_statuses').addClass('error-border')
-            }
-
-            if($('.doping_order').val() == ""){
-                $('.doping_order').addClass('error-border')
-            }
-
-            changeData($('.doping_statuses').val(),"doping_statuses");
-            changeData($('.doping_order').val(),"doping_order");
-            $.ajax({
-                method: "GET",
-                url: "{{ URL::to('/') }}/institutional/get_busy_housing_statuses/"+$('.doping_statuses').val(),
-                data : {
-                    order : $('.doping_order').val()
-                },
-                success: function(response) {
-                    response = JSON.parse(response);
-                    $('.daily-price').html(response.price.price+' ₺')
-                    $('.total-price').html('-')
-                    $('.date-range').removeClass('d-none');
-                    $('#date-range2').dateRangePicker({
-                        showShortcuts: false,
-                        beforeShowDay: function(t)
-                        {
-                            const now =  new Date(); 
-                            var valid = true;
-                            var birGun = 24 * 60 * 60 * 1000;
-                            for(var i = 0; i<response.busy_dates.length;i++){
-                                const startTime =  new Date(response.busy_dates[i].start_date); 
-                                const endTime =  new Date(response.busy_dates[i].end_date);
-                                if(t.getTime() < now.getTime() || t.getTime() < (endTime.getTime() + birGun) && t.getTime() > startTime.getTime()) {
-                                    valid = false;
-                                }
-                            }
-                            
-
-                            if(t.getTime() < now.getTime()) {
-                                valid = false;
-                            }
-                            var _class = '';
-                            var _tooltip = valid ? '' : 'Bu tarihler dolu';
-                            return [valid,_class,_tooltip];
-                        }
-                    }).on('datepicker-change',function(event,obj){
-                        /* This event will be triggered when second date is selected */
-                        var startTime = new Date(obj.date1);
-                        var endTime = new Date(obj.date2);
-                        var endTimeFull = endTime.getDate() + '-' + (endTime.getMonth() + 1) + '-' + endTime.getFullYear();
-                        var startTimeFull = startTime.getDate() + '-' + (startTime.getMonth() + 1) + '-' + startTime.getFullYear();
-                        var dateDiff = datediff(startTime.getTime(),endTime.getTime()) + 1;
-                        $('.total-price').html((response.price.price * dateDiff) + " ₺")
-                        changeData(startTimeFull,"doping_start_date")
-                        changeData(endTimeFull,"doping_end_date")
-                        changeData(dateDiff,"doping_date_count")
-                    })
-
-                }
-            })
-        })
-
-        var csrfToken = "{{ csrf_token() }}";
-        $('.finish-step-3').click(function(){
-            $.ajax({
-                method: "POST",
-                url: "{{route('institutional.project.end.temp.order')}}",
-                data : {
-                    _token : csrfToken,
-                    without_doping : 0
-                },
-                success: function(response) {
-                    response = JSON.parse(response);
-                    
-                    if(response.status){
-                        $('.third-area').addClass('d-none');
-                        $('.fourth-area').removeClass('d-none')
-                    }
-                }
-            })
-        })
-
-        $('.without-doping').click(function(){
-            $.ajax({
-                method: "POST",
-                url: "{{route('institutional.project.end.temp.order')}}",
-                data : {
-                    _token : csrfToken,
-                    without_doping : 1
-                },
-                success: function(response) {
-                    response = JSON.parse(response);
-                    
-                    if(response.status){
-                        $('.third-area').addClass('d-none');
-                        $('.fourth-area').removeClass('d-none')
-
-                        $('.firt-area').addClass('d-none');
-                        $('.second-area').addClass('d-none');
-                        $('.third-area').addClass('d-none');
-                        $('.progress-line').removeClass('step1')
-                        $('.progress-line').removeClass('step2')
-                        $('.progress-line').removeClass('step3')
-                        $('.fourth-area').removeClass('d-none');
-                        $('.progress-line').addClass('step4')
-                        $('.progress-line li').eq(0).removeClass('current').addClass('done')
-                        $('.progress-line li').eq(1).removeClass('current').addClass('done')
-                        $('.progress-line li').eq(2).removeClass('current').addClass('done')
-                        $('.progress-line li').eq(3).addClass('current')
-                    }
-                }
-            })
-        })
-        
-        var houseCount = {{isset($tempData->house_count) ? $tempData->house_count : 0}};
+            var houseCount = {{isset($tempData->house_count) ? $tempData->house_count : 0}};
         if(!isNaN(houseCount) && houseCount > 0){
             var houseType = {{isset($tempData->housing_type_id) ? $tempData->housing_type_id : 0}};
             if(houseType != 0){
@@ -710,7 +447,7 @@
                         renderedForm.formRender(formRenderOpts);
                         var renderHtml = renderedForm.html().toString();
                         renderHtml = renderHtml.toString().split('images[][]');
-                        renderHtml = renderHtml[0]+'images'+i+'[][]'+renderHtml[1];
+                        renderHtml = renderHtml[0];
                         var json = JSON.parse(response.form_json);
                         for(var lm = 0 ; lm < json.length; lm++){
                             if(json[lm].type == "checkbox-group"){
@@ -749,9 +486,9 @@
                                 $(item).addClass("error-border")
                             }
                         })
-
                         $('.tab-pane.active select[required="required"]').map((key,item) => {
-                            if(!$(item).val()){
+                            console.log($(item).val())
+                            if($(item).val() == "Seçiniz"){
                                 nextHousing = false;
                                 $(item).addClass("error-border")
                             }
@@ -1085,7 +822,7 @@
 
                     $('.price-only').keyup(function(){
                         $('.price-only .error-text').remove();
-                        if($('.price-only').val() != parseFloat($('.price-only').val())){
+                        if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
                             if($('.price-only').closest('.form-group').find('.error-text').length > 0){
                                 $('.price-only').val("");
                             }else{
@@ -1094,6 +831,15 @@
                             }
                             
                         }else{
+                            let inputValue = $(this).val();
+
+                            // Sadece sayı karakterlerine izin ver
+                            inputValue = inputValue.replace(/\D/g, '');
+
+                            // Her üç basamakta bir nokta ekleyin
+                            inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                            $(this).val(inputValue)
                             $(this).closest('.form-group').find('.error-text').remove();
                         }
                     })
@@ -1186,6 +932,313 @@
             }
             
         }
+        })
+
+        $('.choise-2').click(function(){
+            $.ajax({
+                method: "POST",
+                url: "{{route('institutional.delete.temp.create')}}",
+                data : {
+                    item_type : 3,
+                    _token : csrfToken
+                },
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if(response.status){
+                        window.location.href = window.location.href
+                    }
+                    
+                }
+            })
+        })
+
+        function confirmHousings(){
+            for(var i = 0 ; i < $('.tab-pane').length; i++){
+                var confirm = 1;
+                $('.tab-pane').eq(i).find('input[required="required"]').map((key,item) => {
+                    if(!$(item).val()){
+                        confirm = 0;
+                    }
+                })
+
+                $('.tab-pane').eq(i).find('select[required="required"]').map((key,item) => {
+                    if(!$(item).val()){
+                        confirm = 0;
+                    }
+                })
+                if($('.tab-pane').eq(i).find('input[type="file"]').closest('.formbuilder-file').find('.project_imaget').length == 0){
+                    confirm = 0;
+                }
+
+
+                if(confirm){
+                    $('#tablist>.item-left-area').eq(i).addClass('confirm');
+                }
+            }
+            
+        }
+
+        $('#cities').change(function(){
+            if($(this).val() != ""){
+                $(this).removeClass('error-border');
+            }
+        })
+
+        $('#counties').change(function(){
+            if($(this).val() != ""){
+                $(this).removeClass('error-border');
+            }
+        })
+
+        $('#neighbourhood').change(function(){
+            if($(this).val() != ""){
+                $(this).removeClass('error-border');
+            }
+        })
+        
+        $('.progress-line li').click(function(e){
+            e.preventDefault();
+            var currentIndex = $('.progress-line li.current').index();
+
+            var clickIndex = $(this).index();
+                if(clickIndex == 0){
+                    toFirstArea();
+                }else if(clickIndex == 1){
+                    toSecondArea();
+                }
+                if(clickIndex == 2){
+                    toThirdArea();
+                }
+            
+        })
+
+        function toSecondArea(){
+            $.ajax({
+                method: "POST",
+                url: "{{route('institutional.change.step.order')}}",
+                data : {
+                    order : 2,
+                    item_type : 1,
+                    _token : csrfToken
+                },
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if(response.status){
+                        $('.firt-area').addClass('d-none');
+                        $('.second-area').addClass('d-none');
+                        $('.third-area').addClass('d-none');
+                        $('.progress-line').removeClass('step1')
+                        $('.progress-line').removeClass('step2')
+                        $('.progress-line').removeClass('step3')
+                        $('.second-area').removeClass('d-none');
+                        $('.progress-line').addClass('step2')
+                        $('.progress-line li').eq(0).removeClass('current').addClass('done')
+                        $('.progress-line li').eq(1).addClass('current')
+                        $('.progress-line li').eq(2).removeClass('current').removeClass('done')
+                    }
+                    
+                }
+            })
+        }
+
+        function toThirdArea(){
+            $('.finish-button').trigger('click');
+
+            if(nextTemp){
+                $.ajax({
+                    method: "POST",
+                    url: "{{route('institutional.change.step.order')}}",
+                    data : {
+                        order : 3,
+                        item_type : 1,
+                        _token : csrfToken
+                    },
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        if(response.status){
+                            $('.firt-area').addClass('d-none');
+                            $('.second-area').addClass('d-none');
+                            $('.third-area').addClass('d-none');
+                            $('.progress-line').removeClass('step1')
+                            $('.progress-line').removeClass('step2')
+                            $('.progress-line').removeClass('step3')
+                            $('.third-area').removeClass('d-none');
+                            $('.progress-line').addClass('step3')
+                            $('.progress-line li').eq(0).removeClass('current').addClass('done')
+                            $('.progress-line li').eq(1).removeClass('current').addClass('done')
+                            $('.progress-line li').eq(2).addClass('current')
+                        }
+                        
+                    }
+                })
+                
+            }
+            
+        }
+
+        function toFirstArea(){
+            $.ajax({
+                method: "POST",
+                url: "{{route('institutional.change.step.order')}}",
+                data : {
+                    order : 1,
+                    item_type : 1,
+                    _token : csrfToken
+                },
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if(response.status){
+                        $('.second-area').addClass('d-none');
+                        $('.third-area').addClass('d-none');
+                        $('.progress-line').removeClass('step1')
+                        $('.progress-line').removeClass('step2')
+                        $('.progress-line').removeClass('step3')
+                        $('.firt-area').removeClass('d-none');
+                        $('.progress-line').addClass('step1')
+                        $('.progress-line li').eq(0).addClass('current').removeClass('done')
+                        $('.progress-line li').eq(1).removeClass('current').removeClass('done')
+                        $('.progress-line li').eq(2).removeClass('current').removeClass('donı')
+                    }
+                    
+                }
+            })
+        }
+
+        $('.finish-button-first').click(function(){
+            toSecondArea();
+        })
+
+        $('.doping_statuses').change(function(){
+            if($(this).val() != ""){
+                $('.doping_statuses').removeClass('error-border')
+            }
+        })
+
+        $('.doping_order').change(function(){
+            if($(this).val() != ""){
+                $('.doping_order').removeClass('error-border')
+            }
+        })
+
+
+        function datediff(first, second) {        
+            return Math.round((second - first) / (1000 * 60 * 60 * 24));
+        }
+        $('.list-dates').click(function(){
+            if($('.doping_statuses').val() == ""){
+                $('.doping_statuses').addClass('error-border')
+            }
+
+            if($('.doping_order').val() == ""){
+                $('.doping_order').addClass('error-border')
+            }
+
+            changeData($('.doping_statuses').val(),"doping_statuses");
+            changeData($('.doping_order').val(),"doping_order");
+            $.ajax({
+                method: "GET",
+                url: "{{ URL::to('/') }}/institutional/get_busy_housing_statuses/"+$('.doping_statuses').val(),
+                data : {
+                    order : $('.doping_order').val()
+                },
+                success: function(response) {
+                    response = JSON.parse(response);
+                    $('.daily-price').html(response.price.price+' ₺')
+                    $('.total-price').html('-')
+                    $('.date-range').removeClass('d-none');
+                    $('#date-range2').dateRangePicker({
+                        showShortcuts: false,
+                        beforeShowDay: function(t)
+                        {
+                            const now =  new Date(); 
+                            var valid = true;
+                            var birGun = 24 * 60 * 60 * 1000;
+                            for(var i = 0; i<response.busy_dates.length;i++){
+                                const startTime =  new Date(response.busy_dates[i].start_date); 
+                                const endTime =  new Date(response.busy_dates[i].end_date);
+                                if(t.getTime() < now.getTime() || t.getTime() < (endTime.getTime() + birGun) && t.getTime() > startTime.getTime()) {
+                                    valid = false;
+                                }
+                            }
+                            
+
+                            if(t.getTime() < now.getTime()) {
+                                valid = false;
+                            }
+                            var _class = '';
+                            var _tooltip = valid ? '' : 'Bu tarihler dolu';
+                            return [valid,_class,_tooltip];
+                        }
+                    }).on('datepicker-change',function(event,obj){
+                        /* This event will be triggered when second date is selected */
+                        var startTime = new Date(obj.date1);
+                        var endTime = new Date(obj.date2);
+                        var endTimeFull = endTime.getDate() + '-' + (endTime.getMonth() + 1) + '-' + endTime.getFullYear();
+                        var startTimeFull = startTime.getDate() + '-' + (startTime.getMonth() + 1) + '-' + startTime.getFullYear();
+                        var dateDiff = datediff(startTime.getTime(),endTime.getTime()) + 1;
+                        $('.total-price').html((response.price.price * dateDiff) + " ₺")
+                        changeData(startTimeFull,"doping_start_date")
+                        changeData(endTimeFull,"doping_end_date")
+                        changeData(dateDiff,"doping_date_count")
+                    })
+
+                }
+            })
+        })
+
+        var csrfToken = "{{ csrf_token() }}";
+        $('.finish-step-3').click(function(){
+            $.ajax({
+                method: "POST",
+                url: "{{route('institutional.project.end.temp.order')}}",
+                data : {
+                    _token : csrfToken,
+                    without_doping : 0
+                },
+                success: function(response) {
+                    response = JSON.parse(response);
+                    
+                    if(response.status){
+                        $('.third-area').addClass('d-none');
+                        $('.fourth-area').removeClass('d-none')
+                    }
+                }
+            })
+        })
+
+        $('.without-doping').click(function(){
+            $.ajax({
+                method: "POST",
+                url: "{{route('institutional.project.end.temp.order')}}",
+                data : {
+                    _token : csrfToken,
+                    without_doping : 1
+                },
+                success: function(response) {
+                    response = JSON.parse(response);
+                    
+                    if(response.status){
+                        $('.third-area').addClass('d-none');
+                        $('.fourth-area').removeClass('d-none')
+
+                        $('.firt-area').addClass('d-none');
+                        $('.second-area').addClass('d-none');
+                        $('.third-area').addClass('d-none');
+                        $('.progress-line').removeClass('step1')
+                        $('.progress-line').removeClass('step2')
+                        $('.progress-line').removeClass('step3')
+                        $('.fourth-area').removeClass('d-none');
+                        $('.progress-line').addClass('step4')
+                        $('.progress-line li').eq(0).removeClass('current').addClass('done')
+                        $('.progress-line li').eq(1).removeClass('current').addClass('done')
+                        $('.progress-line li').eq(2).removeClass('current').addClass('done')
+                        $('.progress-line li').eq(3).addClass('current')
+                    }
+                }
+            })
+        })
+        
+        
         function changeData(value,key,isArray = 0){
             var formData = new FormData();
             var csrfToken = $("meta[name='csrf-token']").attr("content");
@@ -1905,7 +1958,7 @@
 
                         $('.price-only').keyup(function(){
                             $('.price-only .error-text').remove();
-                            if($('.price-only').val() != parseFloat($('.price-only').val())){
+                            if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
                                 if($('.price-only').closest('.form-group').find('.error-text').length > 0){
                                     $('.price-only').val("");
                                 }else{
@@ -1914,6 +1967,15 @@
                                 }
                                 
                             }else{
+                                let inputValue = $(this).val();
+
+                                // Sadece sayı karakterlerine izin ver
+                                inputValue = inputValue.replace(/\D/g, '');
+
+                                // Her üç basamakta bir nokta ekleyin
+                                inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                                $(this).val(inputValue)
                                 $(this).closest('.form-group').find('.error-text').remove();
                             }
                         })
