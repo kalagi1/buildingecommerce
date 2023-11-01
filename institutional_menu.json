@@ -17,18 +17,10 @@
         "url": "institutional.profile.edit",
         "activePath": "institutional/profile/edit"
     },
-    {
-        "id": "upgrade",
-        "label": "Hesabım & Yardım",
-        "icon": "arrow-up",
-        "text": "Aboneliği Yükselt",
-        "key": "Upgrade",
-        "url": "institutional.profile.upgrade",
-        "activePath": "institutional/profile/upgrade"
-    },
+   
     {
         "id": "role",
-        "label": "Yetkilendirme",
+        "label": "Hesabım & Yardım",
         "icon": "user",
         "text": "Roller",
         "key": "Roles",
@@ -60,7 +52,7 @@
     },
     {
         "id": "user",
-        "label": "Yetkilendirme",
+        "label": "Hesabım & Yardım",
         "icon": "user",
         "text": "Alt Kullanıcılar",
         "key": "Users",
@@ -83,55 +75,27 @@
     },
     {
         "id": "projects",
-        "label": "Uygulama",
+        "label": "Emlak Sepette",
         "icon": "plus-square",
-        "text": "Projeler",
+        "text": "Proje İlanlarım",
         "key": "Projects",
-        "url": "#nv-projects",
-        "activePath": "institutional/projects*",
-        "subMenu": [
-            {
-                "text": "Oluştur",
-                "key": "CreateProject",
-                "url": "institutional.project.create.v2",
-                "activePath": "institutional/projects/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetProjects",
-                "url": "institutional.projects.index",
-                "activePath": "institutional/projects"
-            }
-        ]
+        "url": "institutional.projects.index",
+        "activePath": "institutional/projects"
     },
     {
-        "id": "housings",
-        "label": "Uygulama",
+        "id": "projects",
+        "label": "Emlak Sepette",
         "icon": "plus-square",
-        "text": "Emlaklar",
+        "text": "Emlak İlanlarım",
         "key": "Housings",
-        "url": "#nv-projects",
-        "activePath": "institutional/housings*",
-        "subMenu": [
-            {
-                "text": "Oluştur",
-                "key": "CreateHousing",
-                "url": "institutional.housing.create.v2",
-                "activePath": "institutional/create_housing"
-            },
-            {
-                "text": "Listele",
-                "key": "ListHousingInstitutional",
-                "url": "institutional.housing.list",
-                "activePath": "institutional/housings"
-            }
-        ]
+        "url": "institutional.housing.list",
+        "activePath": "institutional/housings"
     },
     {
         "id": "offers",
-        "label": "Uygulama",
-        "icon": "plus-square",
-        "text": "Kampanyalar",
+        "label": "Emlak Sepette",
+        "icon": "arrow-down",
+        "text": "İlanda Kampanya Yap",
         "key": "Offers",
         "url": "#nv-offers",
         "activePath": "institutional/offers*",
@@ -174,10 +138,19 @@
         ]
     },
     {
+        "id": "upgrade",
+        "label": "Emlak Sepette",
+        "icon": "arrow-up",
+        "text": "Aboneliği Yükselt",
+        "key": "Upgrade",
+        "url": "institutional.profile.upgrade",
+        "activePath": "institutional/profile/upgrade"
+    },
+    {
         "id": "store-banners",
-        "label": "Uygulama",
+        "label": "Hesabım & Yardım",
         "icon": "image",
-        "text": "Mağaza Bannerları",
+        "text": "Reklam Görselleri",
         "key": "StoreBanners",
         "url": "#nv-store-banners",
         "activePath": "institutional/store-banners*",

@@ -12,9 +12,9 @@
                         <div class="col-12 col-md-auto">
                             <div class="d-flex align-items-center"><span class="fa-stack"
                                     style="min-height: 46px;min-width: 46px;"><span
-                                        class="fa-solid fa-square fa-stack-2x text-success-300"
+                                        class="fa-solid fa-square text-success-300"
                                         data-fa-transform="down-4 rotate--10 left-4"></span><span
-                                        class="fa-solid fa-circle fa-stack-2x stack-circle text-success-100"
+                                        class="fa-solid fa-circle stack-circle text-success-100"
                                         data-fa-transform="up-4 right-3 grow-2"></span><span
                                         class="fa-stack-1x fa-solid fa-star text-success "
                                         data-fa-transform="shrink-2 up-8 right-6"></span></span>
@@ -27,9 +27,9 @@
                         <div class="col-12 col-md-auto">
                             <div class="d-flex align-items-center"><span class="fa-stack"
                                     style="min-height: 46px;min-width: 46px;"><span
-                                        class="fa-solid fa-square fa-stack-2x text-warning-300"
+                                        class="fa-solid fa-square text-warning-300"
                                         data-fa-transform="down-4 rotate--10 left-4"></span><span
-                                        class="fa-solid fa-circle fa-stack-2x stack-circle text-warning-100"
+                                        class="fa-solid fa-circle stack-circle text-warning-100"
                                         data-fa-transform="up-4 right-3 grow-2"></span><span
                                         class="fa-stack-1x fa-solid fa-pause text-warning "
                                         data-fa-transform="shrink-2 up-8 right-6"></span></span>
@@ -42,9 +42,9 @@
                         <div class="col-12 col-md-auto">
                             <div class="d-flex align-items-center"><span class="fa-stack"
                                     style="min-height: 46px;min-width: 46px;"><span
-                                        class="fa-solid fa-square fa-stack-2x text-danger-300"
+                                        class="fa-solid fa-square text-danger-300"
                                         data-fa-transform="down-4 rotate--10 left-4"></span><span
-                                        class="fa-solid fa-circle fa-stack-2x stack-circle text-danger-100"
+                                        class="fa-solid fa-circle stack-circle text-danger-100"
                                         data-fa-transform="up-4 right-3 grow-2"></span><span
                                         class="fa-stack-1x fa-solid fa-xmark text-danger "
                                         data-fa-transform="shrink-2 up-8 right-6"></span></span>

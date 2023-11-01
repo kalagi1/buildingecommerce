@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateProfileRequest;
 use App\Models\City;
 use App\Models\County;
 use App\Models\District;
@@ -23,7 +22,7 @@ class ProfileController extends Controller
 {
     public function upgrade()
     {
-        $plans = SubscriptionPlan::where('plan_type', auth()->user()->corporate_type)->orderBy("price","asc")->get();
+        $plans = SubscriptionPlan::where('plan_type', auth()->user()->corporate_type)->orderBy("price", "asc")->get();
         $current = UserPlan::with("subscriptionPlan")->where('user_id', auth()->user()->id)->first() ?? false;
         return view('institutional.profile.upgrade', compact('plans', 'current'));
     }
@@ -59,8 +58,8 @@ class ProfileController extends Controller
                 $data =
                     [
                     'subscription_plan_id' => $plan->id,
-                    'user_limit' => $before->user_limit + $plan->user_limit,
-                    'housing_limit' => $before->housing_limit + $plan->housing_limit,
+                    'user_limit' => $plan->user_limit,
+                    'housing_limit' => $plan->housing_limit,
                 ];
                 break;
 
@@ -69,9 +68,9 @@ class ProfileController extends Controller
                 $data =
                     [
                     'subscription_plan_id' => $plan->id,
-                    'user_limit' => $before->user_limit + $plan->user_limit,
-                    'project_limit' => $before->project_limit + $plan->project_limit,
-                    'housing_limit' => $before->housing_limit + $plan->housing_limit,
+                    'user_limit' => $plan->user_limit,
+                    'project_limit' => $plan->project_limit,
+                    'housing_limit' => $plan->housing_limit,
                 ];
                 break;
 
