@@ -702,7 +702,7 @@
                             }else if(json[lm].type == "select"){
                                 var value = $('select[name="'+(json[lm].name)+'"]').eq(order).val();
                                 $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option').removeAttr('selected')
-                                $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value[0]+'"]').prop('selected',true);
+                                $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value+'"]').prop('selected',true);
                                 var formData = new FormData();
                                 var csrfToken = $("meta[name='csrf-token']").attr("content");
                                 formData.append('_token', csrfToken);
@@ -1660,7 +1660,7 @@
                             var renderHtml = renderedForm.html().toString();
                             renderHtml = renderHtml.toString().split('images[][]');
                             var json = JSON.parse(response.form_json);
-                            renderHtml = renderHtml[0]+'images'+i+'[][]'+renderHtml[1];
+                            renderHtml = renderHtml[0];
                             for(var lm = 0 ; lm < json.length; lm++){
                                 if(json[lm].type == "checkbox-group"){
                                     var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
@@ -1828,7 +1828,7 @@
                             }else if(json[lm].type == "select"){
                                 var value = $('select[name="'+(json[lm].name)+'"]').eq(order).val();
                                 $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option').removeAttr('selected')
-                                $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value[0]+'"]').prop('selected',true);
+                                $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value+'"]').prop('selected',true);
                                 var formData = new FormData();
                                 var csrfToken = $("meta[name='csrf-token']").attr("content");
                                 formData.append('_token', csrfToken);
@@ -1965,7 +1965,6 @@
                                     $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
                                     $('.price-only').val("");
                                 }
-                                
                             }else{
                                 let inputValue = $(this).val();
 

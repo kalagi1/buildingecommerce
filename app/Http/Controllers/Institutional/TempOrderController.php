@@ -458,4 +458,8 @@ class TempOrderController extends Controller
             "data" => json_encode($data),
         ]);
     }
+
+    public function choiseAdvertiseType(){
+        return view('institutional.advertise.choise');
+    }
 }
