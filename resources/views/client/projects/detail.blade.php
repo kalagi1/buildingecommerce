@@ -233,10 +233,7 @@
     <section class="properties-right list featured portfolio blog pb-5 bg-white">
         <div class="mobile-hidden">
             <div class="container">
-
                 <div class="row project-filter-reverse blog-pots">
-
-
                     @for ($i = 0; $i < $project->room_count; $i++)
                         @php
                             $sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]) ?? false;
@@ -324,11 +321,12 @@
                                                         <li class="the-icons custom-width">
                                                             <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                @if ($project->step1_slug == "konut")
-                                                                .Kat
+                                                                @if ($project->step1_slug == 'konut')
+                                                                    .Kat
                                                                 @else
-                                                                ₺
-                                                                @endif</span>
+                                                                    ₺
+                                                                @endif
+                                                            </span>
                                                         </li>
                                                         <li class="the-icons custom-width ">
                                                             <i class="fa fa-circle circleIcon mr-1"></i>
@@ -340,7 +338,7 @@
                                                                 @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                                     <h6
                                                                         style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount , 2, ',', '.') }}
+                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 2, ',', '.') }}
                                                                         ₺</h6>
                                                                     <h6
                                                                         style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
@@ -392,7 +390,8 @@
 
                                             <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
                                                 <div class="homes-button" style="width:100%;height:100%">
-                                                    <button class="first-btn payment-plan-button" project-id="{{$project->id}}" order="{{$i}}">
+                                                    <button class="first-btn payment-plan-button"
+                                                        project-id="{{ $project->id }}" order="{{ $i }}">
                                                         Ödeme Detayları </button>
                                                     @if ($sold)
                                                         <button class="btn second-btn"
@@ -435,41 +434,132 @@
                             </div>
                         </div>
                     @endfor
-
-
-
-
                 </div>
-
             </div>
         </div>
+        <div class="mobile-show">
+            <div class="container">
+                @for ($i = 0; $i < $project->room_count; $i++)
+                    @php
+                        $room_order = getData($project, 'squaremeters[]', $i + 1)->room_order;
+                        $discount_amount =
+                            App\Models\Offer::where('type', 'project')
+                                ->where('project_id', $project->id)
+                                ->where('project_housings', 'LIKE', "%\"{$room_order}\"%")
+                                ->where('start_date', '<=', date('Y-m-d H:i:s'))
+                                ->where('end_date', '>=', date('Y-m-d H:i:s'))
+                                ->first()->discount_amount ?? 0;
+                    @endphp
+                    <div class="d-flex" style="flex-wrap: nowrap">
+                        <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
+                            <div class="project-inner project-head">
+                                <a href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
+                                    <div class="homes">
+                                        <!-- homes img -->
+                                        <div class="homes-img h-100 d-flex align-items-center"
+                                            style="width: 130px; height: 128px;">
+                                            <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
+                                                alt="{{ $project->housingType->title }}" class="img-responsive"
+                                                style="height: 100px !important;">
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="w-100" style="padding-left:0;">
+                            <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
+                                <a style="text-decoration: none; height: 100%"
+                                    href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
+                                    <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                        {{ getData($project, 'squaremeters[]', $i + 1)->value }}m2
+                                        {{ getData($project, 'room_count[]', $i + 1)->value }}
+                                    </h3>
+                                </a>
+                                <div class="d-flex align-items-center">
+                                    <div class="d-flex" style="gap: 8px;">
+                                        <a href="#" class="btn toggle-project-favorite bg-white"
+                                            data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                            style="color: white;" data-project-id="{{ $project->id }}">
+                                            <i class="fa fa-heart-o"></i>
+                                        </a>
+                                        <button class="addToCart mobile px-2"
+                                            style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                            data-type='project' data-project='{{ $project->id }}'
+                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                            <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
+                                                height="24px" style="width: 24px !important; height: 24px !important;" />
+                                        </button>
+                                    </div>
+                                    <span class="ml-auto text-primary priceFont">
+                                        @if ($discount_amount)
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                stroke-width="2" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round" class="css-i6dzq1">
+                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                <polyline points="17 18 23 18 23 12"></polyline>
+                                            </svg>
+                                        @endif
+                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                        ₺
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100" style="height: 40px; background-color: #8080802e; margin-top: 20px">
+                        <ul class="d-flex justify-content-around align-items-center h-100"
+                            style="list-style: none; padding: 0; font-weight: 600">
+                            <li class="d-flex align-items-center itemCircleFont">
+                                <i class="fa fa-circle circleIcon"></i>
+                                {{ $room_order }} <span> No'lu</span>
+                            </li>
+                            <li class="d-flex align-items-center itemCircleFont">
+                                <i class="fa fa-circle circleIcon"></i>
+                                {{ getData($project, 'squaremeters[]', $i + 1)->value }} m2
+                            </li>
+                            <li class="d-flex align-items-center itemCircleFont">
+                                <i class="fa fa-circle circleIcon"></i>
+                                {{ getData($project, 'room_count[]', $i + 1)->value }}
+                            </li>
+                            <li class="d-flex align-items-center itemCircleFont">
+                                <i class="fa fa-circle circleIcon"></i>
+                                {{ $project->city->title }} {{ '/' }} {{ $project->county->ilce_title }}
+                            </li>
+                        </ul>
+                    </div>
+                    <hr>
+                @endfor
+            </div>
+        </div>
+
+
+
     </section>
 @endsection
 
 @section('scripts')
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        $('.payment-plan-button').click(function(){
+        $('.payment-plan-button').click(function() {
             var order = $(this).attr('order');
             var cart = {
-                project_id:  $(this).attr('project-id'),
+                project_id: $(this).attr('project-id'),
                 order: $(this).attr('order'),
                 _token: "{{ csrf_token() }}"
             };
 
             var paymentPlanDatax = {
-                "pesin" : "Peşin",
-                "taksitli" : "Taksitli"
+                "pesin": "Peşin",
+                "taksitli": "Taksitli"
             }
 
-            function getDataJS(project, key, roomOrder)
-            {
+            function getDataJS(project, key, roomOrder) {
                 var a = 0;
-                 project.room_info.forEach ((room) => {
+                project.room_info.forEach((room) => {
                     if (room.room_order == roomOrder && room.name == key) {
                         a = room.value;
                     }
-                }) 
+                })
 
                 return a;
 
@@ -480,17 +570,19 @@
                 type: "get", // Veriyi göndermek için POST kullanabilirsiniz
                 data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
                 success: function(response) {
-                    for(var i = 0; i < response.room_info.length; i++){
-                        if(response.room_info[i].name=="payment-plan[]" && response.room_info[i].room_order == parseInt(order) + 1){
+                    for (var i = 0; i < response.room_info.length; i++) {
+                        if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
+                            .room_order == parseInt(order) + 1) {
                             var paymentPlanData = JSON.parse(response.room_info[i].value);
-                           
+
 
                             var html = "";
+
                             function formatPrice(number) {
                                 number = parseFloat(number);
                                 // Sayıyı ondalık kısmı virgülle ayır
                                 const parts = number.toFixed(2).toString().split(".");
-                                
+
                                 // Virgül ile ayırmak için her üç haneli kısma nokta ekleyin
                                 parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
@@ -498,35 +590,41 @@
                                 return parts.join(",");
                             }
                             var tempPlans = [];
-                            for(var j = 0; j < paymentPlanData.length; j++){
+                            for (var j = 0; j < paymentPlanData.length; j++) {
 
-                                if(!tempPlans.includes(paymentPlanData[j])){
-                                    if(paymentPlanData[j] == "pesin"){
-                                        var priceData = getDataJS(response,"price[]",response.room_info[i].room_order);
+                                if (!tempPlans.includes(paymentPlanData[j])) {
+                                    if (paymentPlanData[j] == "pesin") {
+                                        var priceData = getDataJS(response, "price[]", response
+                                            .room_info[i].room_order);
                                         var installementData = "-";
                                         var advanceData = "-";
                                         var monhlyPrice = "-";
-                                    }else{
-                                        var priceData = getDataJS(response,"installments-price[]",response.room_info[i].room_order);
-                                        var installementData = getDataJS(response,"installments[]",response.room_info[i].room_order);
-                                        var advanceData = formatPrice(getDataJS(response,"advance[]",response.room_info[i].room_order))+"₺";
-                                        var monhlyPrice = (formatPrice((( parseFloat(priceData) - parseFloat(advanceData) ) / parseInt(installementData))))+'₺';
+                                    } else {
+                                        var priceData = getDataJS(response, "installments-price[]",
+                                            response.room_info[i].room_order);
+                                        var installementData = getDataJS(response, "installments[]",
+                                            response.room_info[i].room_order);
+                                        var advanceData = formatPrice(getDataJS(response, "advance[]",
+                                            response.room_info[i].room_order)) + "₺";
+                                        var monhlyPrice = (formatPrice(((parseFloat(priceData) -
+                                            parseFloat(advanceData)) / parseInt(
+                                            installementData)))) + '₺';
                                     }
-                                    html += "<tr>"+
-                                        "<td>"+paymentPlanDatax[paymentPlanData[j]]+"</td>"+
-                                        "<td>"+formatPrice(priceData)+"₺</td>"+
-                                        "<td>"+installementData+"</td>"+
-                                        "<td>"+advanceData+"</td>"+
-                                        "<td>"+monhlyPrice+"</td>"+
-                                    "</tr>"
+                                    html += "<tr>" +
+                                        "<td>" + paymentPlanDatax[paymentPlanData[j]] + "</td>" +
+                                        "<td>" + formatPrice(priceData) + "₺</td>" +
+                                        "<td>" + installementData + "</td>" +
+                                        "<td>" + advanceData + "</td>" +
+                                        "<td>" + monhlyPrice + "</td>" +
+                                        "</tr>"
                                 }
-                                
+
                                 tempPlans.push(paymentPlanData[j])
-                                
+
                             }
 
                             $('.payment-plan tbody').html(html);
-                            
+
                             $('.payment-plan-pop-up').removeClass('d-none')
                         }
                     }
