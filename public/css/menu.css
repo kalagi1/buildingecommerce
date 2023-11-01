@@ -894,9 +894,11 @@ a.button {
 @media (min-width: 992px) and (max-width: 1239px) {
     .header-widget {
         height: auto;
-        position: absolute;
         right: 0;
-        width: 150%;
+    }
+
+    .input-group.search {
+        width: 91% !important
     }
 
     .header-style-2 .header-widget {
@@ -1501,7 +1503,7 @@ html.mm-opening .mm-menu.mm-opened~.mm-slideout {
     }
 }
 
-.mm-counter{
+.mm-counter {
     display: none !important;
 }
 
