@@ -399,6 +399,12 @@
                             position: 'top-right',
                             stack: false
                         })
+                        var list = "";
+                        for(var i = 0 ; i < response.connections.length; i++){
+                            list += "<li slug='"+response.connections[i].housing_type.slug+"'><span>"+response.connections[i].housing_type.title+"</span></li>"
+                        }
+
+                        $('.area-list').eq(2).children('ul').html(list);
                     }
                 },
                 error: function(xhr, status, error) {
