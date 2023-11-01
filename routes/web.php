@@ -634,6 +634,10 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::put('/offers/{offer}', [InstitutionalOfferController::class, 'update'])->name('offers.update');
     });
 
+    Route::middleware(['checkPermission:ChoiseAdvertiseType'])->group(function () {
+        Route::get('/choise-advertise-type',[TempOrderController::class,"choiseAdvertiseType"])->name('choise.advertise.type');
+    });
+
     Route::middleware(['checkPermission:TempOrder'])->group(function () {
         Route::post('/end_project_copy_item_image', [TempOrderController::class, "copyItemImage"])->name('copy.item.image');
         Route::post('/update_image_order_temp_update', [TempOrderController::class, 'updateImageOrders'])->name('update.image.order.temp.update');
@@ -737,7 +741,6 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
     Route::post('/update_project_temp_order', [InstitutionalProjectController::class, "updateProjectEnd"])->name('project.update.temp.order');
-    Route::get('/create_project_v2', [InstitutionalProjectController::class, "createV2"])->name('project.create.v2');
     Route::get('/edit_project_v2/{projectSlug}', [InstitutionalProjectController::class, "editV2"])->name('project.edit.v2');
     Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
     Route::get('/projects/{project_id}/logs', [InstitutionalProjectController::class, 'logs'])->name('projects.logs');

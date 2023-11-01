@@ -207,7 +207,7 @@
 
                                 @if (Auth::check())
                                     @if (Auth::user()->type == 2)
-                                        <a href="{{ url('institutional/create_project_v2') }}">
+                                        <a href="{{ url('institutional/choise-advertise-type') }}">
                                             <button type="button" class="buyUserRequest ml-3">
                                                 <span class="buyUserRequest__text"> İlan Ekle</span>
                                                 <span class="buyUserRequest__icon">
