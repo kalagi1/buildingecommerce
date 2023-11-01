@@ -186,6 +186,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
         Route::get('housing_status_parent_management', [HousingStatusParentController::class, 'index'])->name('housing.status.parent.management');
         Route::post('new_housing_status_parent', [HousingStatusParentController::class, 'store'])->name('new.housing.type.parent');
+        Route::post('delete_housing_status_parent', [HousingStatusParentController::class, 'destroy'])->name('delete.housing.type.parent');
+        Route::get('get_housing_type_parent_connections', [HousingStatusParentController::class, 'getHousingParentConnections'])->name('get.housing.type.parent.connections');
+        Route::post('add_housing_parent_connection', [HousingStatusParentController::class, 'addHousingParentConnection'])->name('add.housing.parent.connection');
     });
 
     Route::middleware(['checkPermission:CreateAdBanner'])->group(function () {
