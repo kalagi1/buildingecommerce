@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\FooterLinkController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\HousingController;
 use App\Http\Controllers\Admin\HousingStatusController;
+use App\Http\Controllers\Admin\HousingStatusParentController;
 use App\Http\Controllers\Admin\HousingTypeController;
 use App\Http\Controllers\Admin\InfoController;
 use App\Http\Controllers\Admin\LoginController as AdminLoginController;
@@ -178,6 +179,13 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::get('get/company-document/{user}', [UserController::class, 'getCompanyDocument'])->name('get.company-document');
         Route::post('update-corporate-status/{user}', [UserController::class, 'updateCorporateStatus'])->name('update-corporate-status');
         Route::get('show-corporate-account/{user}', [UserController::class, 'showCorporateAccount'])->name('user.show-corporate-account');
+    });
+
+    Route::middleware(['checkPermission:HousingStatusParent'])->group(function () {
+        
+        Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
+        Route::get('housing_status_parent_management', [HousingStatusParentController::class, 'index'])->name('housing.status.parent.management');
+        Route::post('new_housing_status_parent', [HousingStatusParentController::class, 'store'])->name('new.housing.type.parent');
     });
 
     Route::middleware(['checkPermission:CreateAdBanner'])->group(function () {
