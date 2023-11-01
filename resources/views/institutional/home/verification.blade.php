@@ -33,8 +33,6 @@
                 <div class="form-group">
                     <label for="vergi_levhasi" class="mb-2">Vergi Levhası: @if (auth()->user()->tax_document_approve)
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                        @else
-                            <span class="crossmark"></span> <span style="color:red">Reddedildi</span>
                         @endif
 
                         @if (!is_null(auth()->user()->tax_document))
@@ -53,8 +51,6 @@
                     <label for="sicil_belgesi" class="mb-2">Sicil Belgesi:
                         @if (auth()->user()->record_document_approve)
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                        @else
-                            <span class="crossmark"></span> <span style="color:red">Reddedildi</span>
                         @endif
 
                         @if (!is_null(auth()->user()->record_document))
@@ -71,8 +67,6 @@
                     <label for="kimlik_belgesi" class="mb-2">Kimlik Belgesi:
                         @if (auth()->user()->identity_document_approve)
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                        @else
-                            <span class="crossmark"></span> <span style="color:red">Reddedildi</span>
                         @endif
 
                         @if (!is_null(auth()->user()->identity_document))
@@ -92,8 +86,6 @@
                         <label for="insaat_belgesi" class="mb-2">İnşaat Belgesi:
                             @if (auth()->user()->company_document_approve)
                                 <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                            @else
-                                <span class="crossmark"></span> <span style="color:red">Reddedildi</span>
                             @endif
                         </label>
                         @if (!is_null(auth()->user()->company_document))

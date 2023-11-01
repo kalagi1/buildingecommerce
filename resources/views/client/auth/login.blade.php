@@ -313,32 +313,15 @@
                                                 <label for="" class="q-label">Faaliyet Alanınız</label>
                                                 <select class="form-control" name="activity">
                                                     <option value="">Seçiniz</option>
-                                                    <option for="Alışveriş" value="200003" data-title="Alışveriş">
-                                                        Alışveriş</option>
-                                                    <option for="Emlak" value="200002" data-title="Emlak">
-                                                        Emlak</option>
-                                                    <option for="Günlük Kiralık " value="200020"
-                                                        data-title="Günlük Kiralık ">
-                                                        Günlük Kiralık </option>
-                                                    <option for="Hayvanlar Alemi" value="200004"
-                                                        data-title="Hayvanlar Alemi">
-                                                        Hayvanlar Alemi</option>
-                                                    <option for="İş Makinesi &amp; Sanayi" value="200013"
-                                                        data-title="İş Makinesi &amp; Sanayi">
-                                                        İş Makinesi &amp; Sanayi</option>
-                                                    <option for="Kiralık Araç" value="200010" data-title="Kiralık Araç">
-                                                        Kiralık Araç</option>
-                                                    <option for="Kiralık Deniz Araçları" value="200021"
-                                                        data-title="Kiralık Deniz Araçları">
-                                                        Kiralık Deniz Araçları</option>
-                                                    <option for="Motosiklet" value="200012" data-title="Motosiklet">
-                                                        Motosiklet</option>
-                                                    <option for="Vasıta" value="200011" data-title="Vasıta">
-                                                        Vasıta</option>
-                                                    <option for="Yedek Parça, Aksesuar, Donanım &amp; Tuning"
-                                                        value="200009"
-                                                        data-title="Yedek Parça, Aksesuar, Donanım &amp; Tuning">
-                                                        Yedek Parça, Aksesuar, Donanım &amp; Tuning</option>
+                                                    <option for="İnşaat" value="İnşaat" data-title="İnşaat">
+                                                        İnşaat</option>
+                                                    <option for="Gayrimenkul" value="Gayrimenkul"
+                                                        data-title="Gayrimenkul">
+                                                        Gayrimenkul</option>
+                                                    <option for="Turizm" value="Turizm" data-title="Turizm">Turizm
+                                                    </option>
+                                                    <option for="Banka" value="Banka" data-title="Banka">
+                                                        Banka</option>
                                                 </select>
                                             </div>
 
@@ -477,6 +460,9 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
         const individualForm = document.getElementById('individualForm');
         const corporateForm = document.getElementById('corporateForm');

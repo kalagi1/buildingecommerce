@@ -721,6 +721,7 @@
                 }),
                 success: function(response) {
                     $('.pp-row').empty();
+                    $('.pp-col').empty();
                     $('#pages').empty();
 
                     last_page = response.last_page;
@@ -756,6 +757,16 @@
                         response.data.forEach((res) => {
                             @if (!$secondhandHousings)
                                 $('.pp-row').append(
+                                    `
+                                    <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
+                                        <!-- Image Box -->
+                                        <a href="${res.url}" class="img-box hover-effect">
+                                            <img src="${res.image}" class="img-fluid w100" alt="">
+                                        </a>
+                                    </div>
+                                    `
+                                );
+                                $('.pp-col').append(
                                     `
                                     <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
                                         <!-- Image Box -->
@@ -923,6 +934,9 @@
                         });
                     } else {
                         $('.pp-row').html(`
+                        <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
+                        `);
+                        $('.pp-col').html(`
                         <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
                         `);
                     }
