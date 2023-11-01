@@ -5130,8 +5130,8 @@ section.counterup {
         margin-bottom: 1.6rem;
     }
 
-    .second-footer span {
-        margin-bottom: 30px;
+    .second-footer .container {
+        margin-bottom: 80px;
     }
 
     .homepage-2 .second-footer .container-fluid {
@@ -5174,7 +5174,7 @@ section.counterup {
 
 @media screen and (max-width: 767px) {
     .first-footer .top-footer {
-        padding-bottom: 6rem;
+        padding-bottom: 3rem;
     }
 }
 
@@ -5278,7 +5278,7 @@ section.counterup {
 }
 
 .navigation ul li a:hover {
-    color: #fff;
+    color: white;
 }
 
 .navigation a {

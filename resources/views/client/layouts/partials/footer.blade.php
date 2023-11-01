@@ -11,8 +11,8 @@
 
                 </div>
                 @foreach ($widgetGroups as $widgetGroup)
-                    <div class="col-sm-6 col-md-6 col-lg col-12">
-                        <div class="navigation">
+                <div class="col-sm-12 col-md-12 col-lg col-xl">
+                    <div class="navigation">
                             <h3>{{ $widgetGroup->widget }}</h3>
                             <div class="nav-footer">
                                 <ul>
@@ -22,7 +22,7 @@
                                         @endif
                                     @endforeach
                                     @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
-                                        <li><a href="{{ $p->slug }}">{{ $p->title }}</a></li>
+                                        <li><a href="{{ url('sayfa/' . $p->slug) }}">{{ $p->title }}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -30,6 +30,28 @@
                         </div>
                     </div>
                 @endforeach
+
+                {{-- <div class="col-sm-6 col-md-6 col-lg col-12">
+                    <div class="navigation">
+                        <h3>Politikalar</h3>
+                        <div class="nav-footer">
+                            <ul>
+                                @foreach ($footerLinks as $footerLink)
+                                    @if ($footerLink->widget === $widgetGroup->widget)
+                                        <li><a href="{{ $footerLink->url }}">{!! $footerLink->title !!}</a></li>
+                                    @endif
+                                @endforeach
+                                @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
+                                    <li><a href="{{ $p->slug }}">{{ $p->title }}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                    </div>
+                    @foreach ($fl as $link)
+                        <a href="{{ url('sayfa/' . $link->slug) }}" style="color: white;">{{ $link->meta_title }}</a>
+                    @endforeach
+                </div> --}}
             </div>
         </div>
     </div>
@@ -37,9 +59,7 @@
         <div class="container">
             <p class="d-flex align-items-center" style="gap: 16px;">
                 <span>2023 © Copyright - All Rights Reserved. @innovaticacode</span>
-                @foreach ($fl as $link)
-                    <a href="{{ url('sayfa/' . $link->slug) }}" style="color: white;">{{ $link->meta_title }}</a>
-                @endforeach
+
             </p>
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
@@ -435,25 +455,36 @@
         responsive: {
             0: {
                 items: 1,
-                center: false
+                center: false,
+                nav: false,
             },
             480: {
                 items: 1,
-                center: false
+                center: false,
+                nav: false,
+
             },
             520: {
                 items: 1,
-                center: false
+                center: false,
+                nav: false,
+
             },
             600: {
                 items: 1,
-                center: false
+                center: false,
+                nav: false,
+
             },
             768: {
-                items: 2
+                items: 1,
+                nav: false,
+
             },
             992: {
-                items: 1
+                items: 1,
+                nav: false,
+
             },
             1200: {
                 items: 1
