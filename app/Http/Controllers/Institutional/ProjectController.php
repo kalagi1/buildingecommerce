@@ -158,7 +158,6 @@ class ProjectController extends Controller
     }
 
     public function createProjectEnd(Request $request){
-        try{
             DB::beginTransaction();
             $tempOrderFull = TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->first();
             $tempOrder = json_decode($tempOrderFull->data);
@@ -238,7 +237,7 @@ class ProjectController extends Controller
                 for ($i = 0; $i < $tempOrder->house_count; $i++) {
                     for ($j = 0; $j < count($housingTypeInputs); $j++) {
                         if ($housingTypeInputs[$j]->type != "checkbox-group" && $housingTypeInputs[$j]->type != "file") {
-                            if (isset($housingTypeInputs[$j]->name) && $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i] != null) {
+                            if (isset($housingTypeInputs[$j]->name) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]) && $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i] != null) {
                                 ProjectHousing::create([
                                     "key" => $housingTypeInputs[$j]->label,
                                     "name" => $housingTypeInputs[$j]->name,
@@ -311,15 +310,7 @@ class ProjectController extends Controller
                     "message" => "Son aşamada değilsiniz"
                 ]);
             }
-        }catch(Throwable $e){
-            DB::rollback();
-
-            
-            return json_encode([
-                "status" => false,
-                "message" => $e->getMessage()
-            ]); 
-        }
+        
     }
 
     public function store(Request $request)

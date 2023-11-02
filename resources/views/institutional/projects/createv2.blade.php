@@ -960,13 +960,14 @@
             for(var i = 0 ; i < $('.tab-pane').length; i++){
                 var confirm = 1;
                 $('.tab-pane').eq(i).find('input[required="required"]').map((key,item) => {
-                    if(!$(item).val()){
+                    if(!$(item).val() && $(item).attr('type') != "file"){
                         confirm = 0;
                     }
                 })
 
                 $('.tab-pane').eq(i).find('select[required="required"]').map((key,item) => {
-                    if(!$(item).val()){
+                    console.log($(item).val());
+                    if(!$(item).val() || $(item).val() == "Seçiniz"){
                         confirm = 0;
                     }
                 })
@@ -974,6 +975,7 @@
                     confirm = 0;
                 }
 
+                console.log(confirm);
 
                 if(confirm){
                     $('#tablist>.item-left-area').eq(i).addClass('confirm');
