@@ -15,14 +15,14 @@
                                     @endforeach
                                 </ul>
                             </div>
-                            <div class="area-list ">
+                            <div class="area-list area-list1 ">
                                 <div class="create"><i class="fa fa-plus"></i></div>
                                 <ul>
                                     <li slug="satilik">Satılık</li>
                                     <li slug="kiralik">Kiralık</li>
                                 </ul>
                             </div>
-                            <div class="area-list ">
+                            <div class="area-list area-list2">
                                 <div class="create"><i class="fa fa-edit"></i></div>
                                 <ul>
                                     <li slug="daire">Daire</li>
@@ -105,7 +105,7 @@
         $('.pop-back-housing').click(function(){
             $('.pop-up-housing').addClass('d-none')
         })
-        function listChange(order){
+        function listChange(order = 0){
             $.ajax({
                 url: "{{URL::to('/')}}/admin/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
@@ -157,23 +157,110 @@
                             }
                         });
                     })
-
-                    $('.area-list li span').click(function(){
+                    
+                    $('.area-list1 li span').click(function(){
                         var clickItem = $(this).closest('.area-list');
                         itemOrder = clickItem.index();
                         itemSlug = $(this).parent('li').attr('slug')
-                        if(itemOrder == 2){
                             $.ajax({
-                                url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
+                                url: "{{URL::to('/')}}/admin/get_housing_type_childrens/"+itemSlug+'?parent_slug='+(areasSlugs[0] ? areasSlugs[0].slug : ''), // AJAX isteği yapılacak URL
                                 type: "GET", // GET isteği
                                 dataType: "json", // Gelen veri tipi JSON
                                 success: function (data) {
-                                    selectedid = data;
+                                    data = data.data;
+                                    var list = "";
+                                    for(var i = 0 ; i < data.length; i++){
+                                        if(itemOrder != 1){
+                                            list += "<li slug='"+data[i].slug+"'><div class='li-icon'><i class='fa fa-trash'></i></div><span>"+data[i].title+"</span></li>"
+                                        }else{
+                                            list += "<li slug='"+data[i].slug+"'><span>"+data[i].title+"</span></li>"
+                                        }
+                                    }
+                                    $('.area-list').eq(itemOrder + 1).children('ul').html(list)
+
+                                    $('.area-list li .li-icon').click(function(e){
+                            
+                                        itemOrder = $(this).closest('.area-list').index();
+                                        var parentItem = $(this).closest('li');
+                                        itemSlug = $(this).parent('li').attr('slug')
+                                        var veri = {
+                                            _token: csrfToken,
+                                            slug : itemSlug,
+                                            parentSlug : areasSlugs[0] ? areasSlugs[0].slug : null,
+                                            itemIndex : itemOrder
+                                        };
+
+                                        $.ajax({
+                                            url: "{{route('admin.delete.housing.type.parent')}}", // İstek gönderilecek URL
+                                            type: "POST", // POST isteği
+                                            data: JSON.stringify(veri), // Veriyi JSON formatına dönüştürün
+                                            contentType: "application/json; charset=utf-8", // İçerik türü JSON
+                                            dataType: "json", // Gelen yanıtın JSON olduğunu belirtin
+                                            success: function(response) {
+                                                if(response.success == true){
+                                                    parentItem.remove();
+                                                    $.toast({
+                                                        heading: 'Başarılı',
+                                                        text: 'Başarıyla listeleme verisini sildiniz',
+                                                        position: 'top-right',
+                                                        stack: false
+                                                    })
+                                                }
+                                            },
+                                            error: function(xhr, status, error) {
+                                                // İstek başarısızsa bu fonksiyon çalışır
+                                                $("#sonuc").text("İşlem başarısız: " + error);
+                                            }
+                                        });
+                                    })
+                                    
+                                },
+                                error: function (xhr, status, error) {
+                                    // İstek hata verdiğinde çalışacak fonksiyon
+                                    console.error(xhr.statusText);
                                 }
-                            })
-                        }
-                        listChange($(this).closest('.area-list').index());
+                            });
+                            if(areasSlugs.filter((slug) => {return slug.order == itemOrder}).length == 0){
+                                areasSlugs.push(
+                                    {
+                                        order : itemOrder,
+                                        slug : itemSlug,
+                                        label : $("li[slug='"+itemSlug+"'] span").html()
+                                    }
+                                );
+                            }else{
+                                if(areasSlugs.filter((slug) => {return slug.order == itemOrder})[0].slug != itemSlug){
+                                    areasSlugs[itemOrder].slug = itemSlug;
+                                    var tempItems = [];
+                                    for(var i = 0 ; i < areasSlugs.length; i++ ){
+                                        if(areasSlugs[i].order <= itemOrder){
+                                            tempItems[i] = areasSlugs[i];
+                                        }
+                                    }
+
+                                    areasSlugs = tempItems;
+                                }
+                                
+                            }
+
+                            $('.area-list').find('li').removeClass('selected');
+                            $('.breadcrumb-after-item').remove();
+                            for(var i = 0 ; i < areasSlugs.length; i++){
+                                $('.area-list').eq(i).addClass('active');
+                                $('.breadcrumb').append('<span class="breadcrumb-after-item">'+areasSlugs[i].label+'</span>')
+                                $('.area-list').eq(i).find('li').removeClass('selected');
+                                $("li[slug='"+areasSlugs[i].slug+"']").addClass('selected');
+                            }
+
+                            for(var i = 0; i < $('.area-list').length; i++){
+                                if(i  > areasSlugs.length){
+                                    $('.area-list').eq(i).removeClass('active');
+                                }else{
+                                    $('.area-list').eq(i).addClass('active');
+                                }
+                            }
                     })
+                    
                 },
                 error: function (xhr, status, error) {
                     // İstek hata verdiğinde çalışacak fonksiyon
@@ -224,11 +311,254 @@
         var selectedSlug = "";
         var itemIndex = 0;
 
-        $('.area-list span').click(function(){
+        function listChange2(order = 0){
+            $.ajax({
+                url: "{{URL::to('/')}}/admin/get_housing_type_childrens/"+itemSlug+'?parent_slug='+(areasSlugs[0] ? areasSlugs[0].slug : ''), // AJAX isteği yapılacak URL
+                type: "GET", // GET isteği
+                dataType: "json", // Gelen veri tipi JSON
+                success: function (data) {
+                    data = data.data;
+                    var list = "";
+                    for(var i = 0 ; i < data.length; i++){
+                        if(itemOrder != 1){
+                            list += "<li slug='"+data[i].slug+"'><div class='li-icon'><i class='fa fa-trash'></i></div><span>"+data[i].title+"</span></li>"
+                        }else{
+                            list += "<li slug='"+data[i].slug+"'><span>"+data[i].title+"</span></li>"
+                        }
+                    }
+                    $('.area-list').eq(itemOrder + 1).children('ul').html(list)
+
+                    $('.area-list li .li-icon').click(function(e){
+            
+                        itemOrder = $(this).closest('.area-list').index();
+                        var parentItem = $(this).closest('li');
+                        itemSlug = $(this).parent('li').attr('slug')
+                        var veri = {
+                            _token: csrfToken,
+                            slug : itemSlug,
+                            parentSlug : areasSlugs[0] ? areasSlugs[0].slug : null,
+                            itemIndex : itemOrder
+                        };
+
+                        $.ajax({
+                            url: "{{route('admin.delete.housing.type.parent')}}", // İstek gönderilecek URL
+                            type: "POST", // POST isteği
+                            data: JSON.stringify(veri), // Veriyi JSON formatına dönüştürün
+                            contentType: "application/json; charset=utf-8", // İçerik türü JSON
+                            dataType: "json", // Gelen yanıtın JSON olduğunu belirtin
+                            success: function(response) {
+                                if(response.success == true){
+                                    parentItem.remove();
+                                    $.toast({
+                                        heading: 'Başarılı',
+                                        text: 'Başarıyla listeleme verisini sildiniz',
+                                        position: 'top-right',
+                                        stack: false
+                                    })
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                // İstek başarısızsa bu fonksiyon çalışır
+                                $("#sonuc").text("İşlem başarısız: " + error);
+                            }
+                        });
+                    })
+                    
+                    $('.area-list1 li span').click(function(){
+                        var clickItem = $(this).closest('.area-list');
+                        itemOrder = clickItem.index();
+                        itemSlug = $(this).parent('li').attr('slug')
+                            $.ajax({
+                                url: "{{URL::to('/')}}/admin/get_housing_type_childrens/"+itemSlug+'?parent_slug='+(areasSlugs[0] ? areasSlugs[0].slug : ''), // AJAX isteği yapılacak URL
+                                type: "GET", // GET isteği
+                                dataType: "json", // Gelen veri tipi JSON
+                                success: function (data) {
+                                    data = data.data;
+                                    var list = "";
+                                    for(var i = 0 ; i < data.length; i++){
+                                        if(itemOrder != 1){
+                                            list += "<li slug='"+data[i].slug+"'><div class='li-icon'><i class='fa fa-trash'></i></div><span>"+data[i].title+"</span></li>"
+                                        }else{
+                                            list += "<li slug='"+data[i].slug+"'><span>"+data[i].title+"</span></li>"
+                                        }
+                                    }
+                                    $('.area-list').eq(itemOrder + 1).children('ul').html(list)
+
+                                    $('.area-list li .li-icon').click(function(e){
+                            
+                                        itemOrder = $(this).closest('.area-list').index();
+                                        var parentItem = $(this).closest('li');
+                                        itemSlug = $(this).parent('li').attr('slug')
+                                        var veri = {
+                                            _token: csrfToken,
+                                            slug : itemSlug,
+                                            parentSlug : areasSlugs[0] ? areasSlugs[0].slug : null,
+                                            itemIndex : itemOrder
+                                        };
+
+                                        $.ajax({
+                                            url: "{{route('admin.delete.housing.type.parent')}}", // İstek gönderilecek URL
+                                            type: "POST", // POST isteği
+                                            data: JSON.stringify(veri), // Veriyi JSON formatına dönüştürün
+                                            contentType: "application/json; charset=utf-8", // İçerik türü JSON
+                                            dataType: "json", // Gelen yanıtın JSON olduğunu belirtin
+                                            success: function(response) {
+                                                if(response.success == true){
+                                                    parentItem.remove();
+                                                    $.toast({
+                                                        heading: 'Başarılı',
+                                                        text: 'Başarıyla listeleme verisini sildiniz',
+                                                        position: 'top-right',
+                                                        stack: false
+                                                    })
+                                                }
+                                            },
+                                            error: function(xhr, status, error) {
+                                                // İstek başarısızsa bu fonksiyon çalışır
+                                                $("#sonuc").text("İşlem başarısız: " + error);
+                                            }
+                                        });
+                                    })
+                                    
+                                    $('.area-list1 li span').click(function(){
+                                        var clickItem = $(this).closest('.area-list');
+                                        itemOrder = clickItem.index();
+                                        itemSlug = $(this).parent('li').attr('slug')
+                                        if(itemOrder == 2){
+                                            $.ajax({
+                                                url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
+                                                type: "GET", // GET isteği
+                                                dataType: "json", // Gelen veri tipi JSON
+                                                success: function (data) {
+                                                    selectedid = data;
+                                                }
+                                            })
+                                        }
+                                    })
+                                    
+                                },
+                                error: function (xhr, status, error) {
+                                    // İstek hata verdiğinde çalışacak fonksiyon
+                                    console.error(xhr.statusText);
+                                }
+                            });
+                            if(areasSlugs.filter((slug) => {return slug.order == itemOrder}).length == 0){
+                                areasSlugs.push(
+                                    {
+                                        order : itemOrder,
+                                        slug : itemSlug,
+                                        label : $("li[slug='"+itemSlug+"'] span").html()
+                                    }
+                                );
+                            }else{
+                                if(areasSlugs.filter((slug) => {return slug.order == itemOrder})[0].slug != itemSlug){
+                                    areasSlugs[itemOrder].slug = itemSlug;
+                                    var tempItems = [];
+                                    for(var i = 0 ; i < areasSlugs.length; i++ ){
+                                        if(areasSlugs[i].order <= itemOrder){
+                                            tempItems[i] = areasSlugs[i];
+                                        }
+                                    }
+
+                                    areasSlugs = tempItems;
+                                }
+                                
+                            }
+
+                            $('.area-list').find('li').removeClass('selected');
+                            $('.breadcrumb-after-item').remove();
+                            for(var i = 0 ; i < areasSlugs.length; i++){
+                                $('.area-list').eq(i).addClass('active');
+                                $('.breadcrumb').append('<span class="breadcrumb-after-item">'+areasSlugs[i].label+'</span>')
+                                $('.area-list').eq(i).find('li').removeClass('selected');
+                                $("li[slug='"+areasSlugs[i].slug+"']").addClass('selected');
+                            }
+
+                            for(var i = 0; i < $('.area-list').length; i++){
+                                if(i  > areasSlugs.length){
+                                    $('.area-list').eq(i).removeClass('active');
+                                }else{
+                                    $('.area-list').eq(i).addClass('active');
+                                }
+                            }
+                    })
+                    
+                },
+                error: function (xhr, status, error) {
+                    // İstek hata verdiğinde çalışacak fonksiyon
+                    console.error(xhr.statusText);
+                }
+            });
+            if(areasSlugs.filter((slug) => {return slug.order == itemOrder}).length == 0){
+                areasSlugs.push(
+                    {
+                        order : itemOrder,
+                        slug : itemSlug,
+                        label : $("li[slug='"+itemSlug+"'] span").html()
+                    }
+                );
+            }else{
+                if(areasSlugs.filter((slug) => {return slug.order == itemOrder})[0].slug != itemSlug){
+                    areasSlugs[itemOrder].slug = itemSlug;
+                    var tempItems = [];
+                    for(var i = 0 ; i < areasSlugs.length; i++ ){
+                        if(areasSlugs[i].order <= itemOrder){
+                            tempItems[i] = areasSlugs[i];
+                        }
+                    }
+
+                    areasSlugs = tempItems;
+                }
+                
+            }
+
+            $('.area-list').find('li').removeClass('selected');
+            $('.breadcrumb-after-item').remove();
+            for(var i = 0 ; i < areasSlugs.length; i++){
+                $('.area-list').eq(i).addClass('active');
+                $('.breadcrumb').append('<span class="breadcrumb-after-item">'+areasSlugs[i].label+'</span>')
+                $('.area-list').eq(i).find('li').removeClass('selected');
+                $("li[slug='"+areasSlugs[i].slug+"']").addClass('selected');
+            }
+
+            for(var i = 0; i < $('.area-list').length; i++){
+                if(i  > areasSlugs.length){
+                    $('.area-list').eq(i).removeClass('active');
+                }else{
+                    $('.area-list').eq(i).addClass('active');
+                }
+            }
+        }
+
+        $('.area-list1 span').click(function(){
             var clickItem = $(this).closest('.area-list');
             itemOrder = clickItem.index();
             itemSlug = $(this).parent('li').attr('slug')
             listChange(0);
+        })
+
+        $('.area-list2 span').click(function(){
+            var clickItem = $(this).closest('.area-list');
+            itemOrder = clickItem.index();
+            itemSlug = $(this).parent('li').attr('slug')
+            listChange2(0);
+        })
+
+        $('.area-list li span').click(function(){
+            var clickItem = $(this).closest('.area-list');
+            itemOrder = clickItem.index();
+            itemSlug = $(this).parent('li').attr('slug')
+            if(itemOrder == 2){
+                $.ajax({
+                    url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
+                    type: "GET", // GET isteği
+                    dataType: "json", // Gelen veri tipi JSON
+                    success: function (data) {
+                        selectedid = data;
+                    }
+                })
+            }
+            listChange(1);
         })
         
         $('.area-list .create').click(function(){
