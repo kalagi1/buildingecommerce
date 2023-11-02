@@ -41,7 +41,7 @@ class ProjectController extends Controller
     public function index()
     {
         $bankAccounts = BankAccount::all();
-        $projects = Project::where('user_id', Auth::user()->id)->get();
+        $projects = Project::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
         return view('institutional.projects.index', compact('projects','bankAccounts'));
     }
 

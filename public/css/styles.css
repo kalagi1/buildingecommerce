@@ -648,7 +648,7 @@ img {
 }
 
 .brand-head .navbar-item.active {
-    border-bottom: 3px solid #f27a1a;
+    border-bottom: 3px solid #e54242;
 }
 
 .brand-head .search-form {
@@ -5284,6 +5284,9 @@ section.counterup {
 .navigation a {
     display: block;
     margin-bottom: .6rem;
+}
+.navigation a:hover {
+    color: white !important;
 }
 
 .navigation .nav-right {
@@ -11686,6 +11689,7 @@ a.button {
 .brand-head .card .brand-logo {
     height: 100px;
     object-fit: cover;
+    background-color:white;
     width: 100%;
 }
 

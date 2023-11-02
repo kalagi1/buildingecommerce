@@ -123,38 +123,49 @@
                                             <input type="hidden" name="type" id="user-type-input" value="1">
                                         </div>
 
-                                        <!-- E-Posta -->
+
+                                        <div class="individual-form" id="individualForm">
+                                            
+                                            <!-- E-Posta -->
+                                            <div class="mt-3 ">
+                                                <label class="q-label">İsim</label>
+                                                <input type="text" name="name1" class="form-control">
+                                            </div>
+
+                                      
+                                        </div>
+
+                                              <!-- E-Posta -->
+                                              <div class="mt-3">
+                                                <label class="q-label">E-Posta</label>
+                                                <input type="email" name="email" class="form-control">
+                                            </div>
+
+
+                                            <!-- Şifre -->
+                                            <div class="mt-3">
+                                                <label class="q-label">Şifre</label>
+                                                <input type="password" name="password" class="form-control">
+                                            </div>
+
+                                        <div class="corporate-form" id="corporateForm">
+                                              <!-- E-Posta -->
                                         <div class="mt-3 ">
-                                            <label class="q-label">İsim</label>
+                                            <label class="q-label">Yetkili İsim Soyisim</label>
+                                            <input type="text" name="username" class="form-control">
+                                        </div>
+
+                                        <div class="mt-3 ">
+                                            <label class="q-label">Firma Adı</label>
                                             <input type="text" name="name" class="form-control">
                                         </div>
 
-                                        <!-- E-Posta -->
-                                        <div class="mt-3">
-                                            <label class="q-label">E-Posta</label>
-                                            <input type="email" name="email" class="form-control">
+                                         <div class="mt-3 ">
+                                            <label class="q-label">Sabit Telefon</label>
+                                            <input type="tel" name="phone" class="form-control">
                                         </div>
 
-
-                                        <!-- Şifre -->
-                                        <div class="mt-3">
-                                            <label class="q-label">Şifre</label>
-                                            <input type="password" name="password" class="form-control">
-                                        </div>
-
-                                        <div class="individual-form" id="individualForm">
-                                            {{--
-                                            <div class="form-group custom-control custom-checkbox mt-3">
-                                                <input type="checkbox" name="check" class="custom-control-input" id="exampleCheck3"
-                                                    required>
-                                                <label class="custom-control-label" for="exampleCheck3">Kişisel
-                                                    verilerimin
-                                                    işlenmesine yönelik aydınlatma metnini okudum anladım.</label>
-                                            </div> --}}
-                                        </div>
-
-
-                                        <div class="corporate-form" id="corporateForm">
+                          
                                             <!-- E-Posta -->
                                             <div class="mt-3">
                                                 <label for="corporate-account-type" class="q-label">Kurumsal Hesap
@@ -165,6 +176,8 @@
                                                     <option value="Emlakçı">Emlakçı</option>
                                                     <option value="Banka">Banka</option>
                                                     <option value="İnşaat">İnşaat</option>
+                                                    <option value="Turizm">Turizm</option>
+
                                                 </select>
                                             </div>
                                             <div class="mt-3 sub-plan-tab tab-emlakci d-none">

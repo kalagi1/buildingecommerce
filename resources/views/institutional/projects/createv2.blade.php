@@ -22,7 +22,12 @@
     </div>
     @endif
     <div class="content">
-        <h2 class="mb-2 lh-sm  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">Adım Adım Kategori Seç</h2>
+        <h2 class="mb-2 lh-sm  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
+            Kalan Proje Oluşturma Hakkınız :
+            {{ $user->plan->project_limit }} Adet
+            @if ($user->plan->project_limit === 0)
+                - Hakkınız Kalmadı
+            @endif</h2>
         <div class="breadcrumb  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
             <span>Emlak</span>
         </div>
@@ -81,7 +86,7 @@
                                     <p>Kategori Seçimi Tamanlanmıştır</p>
                                 </div>
                                 <div class="finish-button-first">
-                                    <button class="btn btn-info">
+                                    <button class="btn btn-info" @if ($user->plan->project_limit === 0) disabled @endif>
                                         Devam
                                     </button>
                                 </div>
@@ -243,7 +248,7 @@
                                 <div class="col-md-6">
                                     <div class="pricing-item-first" style="width: 100%;">
                                         <div class="pricing-item-inner" onclick="changeData(1,'pricing-type')">
-                                            <span class="btn btn-primary remaining_projects">Kalan Proje Adedi : {{$userPlan->project_limit}}</span>
+                                            <span class="btn btn-primary remaining_projects">Kalan Proje Adedi :  {{ $user->plan->project_limit }} Adet </span>
                                             <div style="margin-right: 20px">
                                                 <input type="radio" style="display: none;margin:0 auto;">
                                                 <div class="price-radio @if(isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1) select @endif" >
@@ -1129,9 +1134,18 @@
             })
         }
 
-        $('.finish-button-first').click(function(){
-            toSecondArea();
-        })
+        $('.finish-button-first').click(function() {
+            if ({{ $user->plan->project_limit }} !== 0) {
+                toSecondArea();
+            } else {
+                $.toast({
+                    heading: 'Hata',
+                    text: 'Hakkınız kalmadığı için bu işlemi gerçekleştiremezsiniz.',
+                    position: 'top-right',
+                    stack: false
+                })
+            }
+        });
 
         $('.doping_statuses').change(function(){
             if($(this).val() != ""){

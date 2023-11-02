@@ -55,11 +55,16 @@
                                             <h4 style="white-space: nowrap">
 
                                                 @if ($discountAmount)
-                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
-                                                    
+                                                    <svg viewBox="0 0 24 24" width="24" height="24"
+                                                        stroke="currentColor" stroke-width="2" fill="none"
+                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                    </svg>
                                                 @endif
                                                 {{ number_format(getData($project, 'price[]', $housingOrder)->value - $discountAmount, 2, ',', '.') }}
-                                                ₺</h4>
+                                                ₺
+                                            </h4>
                                         </div>
                                     </div>
                                 </div>
@@ -172,7 +177,7 @@
                                                 if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
                                                     if ($roomInfo['value'] == '["on"]') {
                                                         $value = 'Evet';
-                                                    } elseif ($roomInfo['value'] == '["off"]') {
+                                                    } elseif ($roomInfo['value'] == '[]') {
                                                         $value = 'Hayır';
                                                     } else {
                                                         $value = $roomInfo['value'];
@@ -258,11 +263,14 @@
                                         <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>
                                             {!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}
                                         </li>
-                                        <li><span class="la la-phone"><i class="fa fa-phone"
-                                                    aria-hidden="true"></i></span><a
-                                                style="text-decoration: none;color:inherit"
-                                                href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
-                                        </li>
+                                        @if ($project->user->phone)
+                                            <li><span class="la la-phone"><i class="fa fa-phone"
+                                                        aria-hidden="true"></i></span><a
+                                                    style="text-decoration: none;color:inherit"
+                                                    href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                            </li>
+                                        @endif
+
                                         <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                     aria-hidden="true"></i></span><a
                                                 style="text-decoration: none;color:inherit"

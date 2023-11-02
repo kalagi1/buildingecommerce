@@ -144,10 +144,14 @@
                                     <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>
                                         {!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}
                                     </li>
+                                    
+                                    @if($project->user->phone)
                                     <li><span class="la la-phone"><i class="fa fa-phone" aria-hidden="true"></i></span><a
-                                            style="text-decoration: none;color:inherit"
-                                            href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
-                                    </li>
+                                        style="text-decoration: none;color:inherit"
+                                        href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                </li>
+                                    @endif
+                                  
 
                                     <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                 aria-hidden="true"></i></span><a
