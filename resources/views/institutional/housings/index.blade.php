@@ -11,7 +11,7 @@
                             <div class="card-body p-0">
                                 <div class="p-4 code-to-copy">
                                     <div class="d-flex align-items-center justify-content-end my-3">
-                                        <div id="bulk-select-replace-element"><a href="{{ route('institutional.housing.create') }}"
+                                        <div id="bulk-select-replace-element"><a href="{{ route('institutional.housing.create.v2') }}"
                                                 class="btn btn-phoenix-success btn-sm" type="button"><span
                                                     class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span
                                                     class="ms-1">Yeni</span></a></div>
