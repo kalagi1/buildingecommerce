@@ -249,7 +249,7 @@
                     <div class="single widget">
                         <div class="widget-boxed">
                             <div class="widget-boxed-header">
-                                <h4>Satıcı Bilgileri</h4>
+                                <h4>Mağaza Bilgileri</h4>
                             </div>
                             <div class="widget-boxed-body">
                                 <div class="sidebar-widget author-widget2">
@@ -313,7 +313,7 @@
                         </div>
                         <div class="widget-boxed popular mt-5">
                             <div class="widget-boxed-header">
-                                <h4>Satıcının Diğer Projeleri</h4>
+                                <h4>Mağazanın Diğer Projeleri</h4>
                             </div>
                             <div class="widget-boxed-body">
                                 <div class="recent-post">
