@@ -8,13 +8,13 @@
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
                             <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">
-                                Kalan Kullanıcı Oluşturma Hakkınız : 
+                                Kalan Kullanıcı Oluşturma Hakkınız :
                                 {{ $user->plan->user_limit }} Adet
                                 @if ($user->plan->user_limit === 0)
                                     - Hakkınız Kalmadı
                                 @endif
                             </h4>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,8 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary" type="submit">Kaydet</button>
+                                <button class="btn btn-primary" type="submit"
+                                    @if ($user->plan->user_limit === 0) disabled @endif>Kaydet</button>
                             </div>
                         </form>
 

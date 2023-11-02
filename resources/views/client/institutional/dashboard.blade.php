@@ -139,9 +139,14 @@
                         </div> --}}
                         @if (Auth::check())
                             @if ($store->id == Auth::user()->id)
-                                <a href="{{ url('institutional/create_project_v2') }}" target="_blank"
-                                    class="btn btn-primary ml-auto mr-5"> <i class="fa fa-plus"></i> İlan
-                                    Ekle</a>
+                            <a href="{{ url('institutional/choise-advertise-type') }}"
+                            style="margin-left: auto; margin-right:30px">
+                                <button type="button" class="buyUserRequest ml-3">
+                                    <span class="buyUserRequest__text"> İlan Ekle</span>
+                                    <span class="buyUserRequest__icon">
+                                        <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                    </span>
+                                </button></a>
                             @endif
                         @endif
 
@@ -192,13 +197,14 @@
             <div class="portfolio col-xl-12 bannerResize">
                 <div class="banner-agents">
                     @foreach ($store->banners as $banner)
+                    
                         <div class="agents-grid bannerResizeGrid" data-aos="fade-up" data-aos-delay="150">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
                                         <div class="homes">
                                             <!-- homes img -->
-                                            <a href="javascript:void()" class="homes-img">
+                                            <a href="{{ asset('storage/store_banners/' . $banner->image) }}" data-lightbox="gallery">
                                                 <img src="{{ asset('storage/store_banners/' . $banner->image) }}"
                                                     alt="{{ $banner->title }}" class="img-responsive">
                                             </a>
@@ -214,7 +220,7 @@
             </div>
         </div>
     </section>
-
+ 
 
     @if (count($projects))
         <section class="popular-places home18">
@@ -329,7 +335,7 @@
                                 style="list-style: none;padding:0;font-weight:600">
                                 <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
-                                    No: {{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }} 
+                                    No: {{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }}
                                 </li>
                                 <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
@@ -964,6 +970,12 @@
 @endsection
 
 @section('scripts')
+   <!-- lightbox2 CSS -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+   <!-- jQuery -->
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <!-- lightbox2 JavaScript -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -978,6 +990,7 @@
                 autoplay: true,
                 arrows: true,
                 nav: true,
+                margin: 0,
                 adaptiveHeight: true,
                 responsive: [{
                     breakpoint: 1292,
@@ -1059,6 +1072,10 @@
             background-color: black !important
         }
 
+        .bannerResize,
+        .bannerResizeGrid {
+            padding: 0 !important;
+        }
 
         @media (max-width: 768px) {
 

@@ -275,7 +275,7 @@
                                     <div class="pricing-item-first" style="width: 100%;">
                                         <div class="pricing-item-inner" onclick="changeData(1,'pricing-type')">
                                             <span class="btn btn-primary remaining_projects">Kalan Proje Adedi :
-                                                {{ $userPlan->project_limit }}</span>
+                                                {{ $user->plan->project_limit }}</span>
                                             <div style="margin-right: 20px">
                                                 <input type="radio" style="display: none;margin:0 auto;">
                                                 <div class="price-radio @if (isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1) select @endif">

@@ -51,6 +51,11 @@
 
     @yield('styles')
     <style>
+        .buyUserRequest img {
+            width: 30px;
+            stroke: #fff;
+        }
+
         .swal2-container.swal2-center {
             z-index: 9999999;
         }

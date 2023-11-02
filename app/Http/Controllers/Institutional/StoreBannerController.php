@@ -11,7 +11,7 @@ class StoreBannerController extends Controller
 {
     public function index()
     {
-        $storeBanners = StoreBanner::all();
+        $storeBanners = StoreBanner::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
         return view('institutional.store_banners.index', compact('storeBanners'));
     }
 

@@ -27,6 +27,7 @@ use App\Models\SinglePrice;
 use App\Models\StandOutUser;
 use App\Models\TempOrder;
 use App\Models\UserPlan;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -192,6 +193,7 @@ class ProjectController extends Controller
                     $month = 2;
                 }
 
+                $instUser = User::where("id", Auth::user()->id)->first();
                 $project = Project::create([
                     "housing_type_id" => $housingType->id,
                     "step1_slug" => $tempOrder->step1_slug,
@@ -204,7 +206,7 @@ class ProjectController extends Controller
                     "room_count" => $tempOrder->house_count,
                     "city_id" => $tempOrder->city_id,
                     "county_id" => $tempOrder->county_id,
-                    "user_id" => Auth::user()->id,
+                    "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
                     "status_id" => 1,
                     "image" => 'public/project_images/'.$newCoverImage,
                     'document' => $newDocument,
@@ -212,8 +214,9 @@ class ProjectController extends Controller
                     "status" => 2
                 ]);
 
+
                 foreach($tempOrder->statuses as $status){
-                    ProjectHousingType::create([
+                ProjectHousingType::create([
                         "project_id" => $project->id,
                         "housing_type_id" => $status
                     ]);
@@ -280,7 +283,7 @@ class ProjectController extends Controller
 
                 if(!$request->without_doping){
                     StandOutUser::create([
-                        "user_id" => auth()->user()->id,
+                        "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
                         "project_id" => $project->id,
                         "item_order" => $tempOrder->doping_order,
                         "housing_status_id" => $tempOrder->doping_statuses,
@@ -291,7 +294,7 @@ class ProjectController extends Controller
 
                 DocumentNotification::create(
                     [
-                        'user_id' => auth()->user()->id,
+                        'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
                         'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
                         'item_id' => $project->id,
                     ]
@@ -300,7 +303,7 @@ class ProjectController extends Controller
                 DB::commit();
                 
                 TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->delete();
-                UserPlan::where('user_id', auth()->user()->id)->decrement('project_limit');
+                UserPlan::where('user_id', $instUser->parent_id ? $instUser->parent_id : $instUser->id)->decrement('project_limit');
                 dispatch(new AdvertTimeJob($project))->delay(now()->addMonths($month));
                 return json_encode([
                     "status" => true

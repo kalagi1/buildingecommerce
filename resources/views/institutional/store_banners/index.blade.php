@@ -34,7 +34,7 @@
                                                             #
                                                         </th>
                                                         <th>Banner Resmi</th>
-                                                        <th>İşlemler</th>
+                                                        <th style="width: 200px">İşlemler</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="list" id="bulk-select-body">
@@ -48,24 +48,67 @@
                                                                     alt="Banner Resmi" width="100">
                                                             </td>
                                                             <td>
-                                                                <div
-                                                                    class="font-sans-serif btn-reveal-trigger position-static">
-                                                                    <button
-                                                                        class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2"
-                                                                        type="button" data-bs-toggle="dropdown"
-                                                                        data-bs-boundary="window" aria-haspopup="true"
-                                                                        aria-expanded="false" data-bs-reference="parent">
-                                                                        <span class="fas fa-ellipsis-h fs--2"></span>
-                                                                    </button>
-                                                                    <div class="dropdown-menu dropdown-menu py-2">
-                                                                        <a class="dropdown-item"
-                                                                            href="{{ route('institutional.storeBanners.edit', $banner->id) }}">Düzenle</a>
-                                                                        <div class="dropdown-divider"></div>
-                                                                        <a class="dropdown-item text-danger delete-banner"
-                                                                            href="#"
-                                                                            data-banner-id="{{ $banner->id }}">Sil</a>
+                                                                <a href="{{ route('institutional.storeBanners.edit', $banner->id) }}"
+                                                                    class="btn btn-sm btn-primary">Güncelle</a>
+
+                                                                <!-- Silme işlemi için modal -->
+                                                                <button type="button" class="btn btn-sm btn-danger"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#deleteModal{{ $banner->id }}">
+                                                                    Sil
+                                                                </button>
+
+                                                                <!-- Silme işlemi için modal -->
+                                                                <div class="modal fade" id="deleteModal{{ $banner->id }}"
+                                                                    tabindex="-1"
+                                                                    aria-labelledby="deleteModalLabel{{ $banner->id }}"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="deleteModalLabel{{ $banner->id }}">
+                                                                                    Sil
+                                                                                </h5>
+                                                                                <button type="button" class="btn p-1"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <svg class="svg-inline--fa fa-xmark fs--1"
+                                                                                        aria-hidden="true" focusable="false"
+                                                                                        data-prefix="fas" data-icon="xmark"
+                                                                                        banner="img"
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        viewBox="0 0 320 512"
+                                                                                        data-fa-i2svg="">
+                                                                                        <path fill="currentColor"
+                                                                                            d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z">
+                                                                                        </path>
+                                                                                    </svg><!-- <span class="fas fa-times fs--1"></span> Font Awesome fontawesome.com -->
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <p class="text-700 lh-lg mb-0">Silmek
+                                                                                    istediğinize emin
+                                                                                    misiniz ?</p>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <form
+                                                                                    action="{{ route('institutional.storeBanners.destroy', $banner->id) }}"
+                                                                                    method="POST" class="d-inline">
+                                                                                    @csrf
+                                                                                    @method('DELETE')
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-danger">Evet,
+                                                                                        Sil</button>
+                                                                                </form>
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">İptal</button>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+                                                                <!-- Silme işlemi için modal -->
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -103,7 +146,7 @@
             </div>
         </div>
         <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
-            <div class="toast align-items-center text-white bg-dark border-0 light" id="icon-copied-toast" role="alert"
+            <div class="toast align-items-center text-white bg-dark border-0 light" id="icon-copied-toast" banner="alert"
                 aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
                     <div class="toast-body p-3"></div>

@@ -11683,7 +11683,7 @@ a.button {
     font-size: 14px;
 }
 
-.brand-head .card img {
+.brand-head .card .brand-logo {
     height: 100px;
     object-fit: cover;
     width: 100%;
