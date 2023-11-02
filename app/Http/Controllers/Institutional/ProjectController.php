@@ -252,13 +252,24 @@ class ProjectController extends Controller
                             }
                             
                         } else if($housingTypeInputs[$j]->type != "file") {
-                            ProjectHousing::create([
-                                "key" => $housingTypeInputs[$j]->label,
-                                "name" => $housingTypeInputs[$j]->name,
-                                "value" => isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2).($i+1)}) ? json_encode($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2).($i+1)}) : json_encode([]),
-                                "project_id" => $project->id,
-                                "room_order" => $i + 1,
-                            ]);
+                            if($housingTypeInputs[$j]->name == "price[]"){
+                                ProjectHousing::create([
+                                    "key" => $housingTypeInputs[$j]->label,
+                                    "name" => $housingTypeInputs[$j]->name,
+                                    "value" => isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2).($i+1)}) ? str_replace('.','',json_encode($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2).($i+1)})) : json_encode([]),
+                                    "project_id" => $project->id,
+                                    "room_order" => $i + 1,
+                                ]);
+                            }else{
+                                ProjectHousing::create([
+                                    "key" => $housingTypeInputs[$j]->label,
+                                    "name" => $housingTypeInputs[$j]->name,
+                                    "value" => isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2).($i+1)}) ? json_encode($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2).($i+1)}) : json_encode([]),
+                                    "project_id" => $project->id,
+                                    "room_order" => $i + 1,
+                                ]);
+                            }
+                            
                         } else if($housingTypeInputs[$j]->type == "file"){
                             if(!$housingTypeInputs[$j]->multiple){
                                 $eskiDosyaAdi = public_path('storage/project_images/'.$tempOrder->roomInfoKeys->image[$i]); // Mevcut dosyanın yolu

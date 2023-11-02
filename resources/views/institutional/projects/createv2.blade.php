@@ -1498,6 +1498,7 @@
         }
 
         jQuery($ => {
+            var houseCount = {{old('house_count') ? old('house_count') : 0}};
             if(!isNaN(houseCount) && houseCount > 0){
                 var houseType = {{old('housing_type') ? old('housing_type') : 0}};
                 if(houseType != 0){
@@ -1543,33 +1544,34 @@
                             var json = JSON.parse(response.form_json);
                             for(var lm = 0 ; lm < json.length; lm++){
                                 if(json[lm].type == "checkbox-group"){
-                                var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
-                                renderHtmlx = "";
-                                var json = JSON.parse(response.form_json);
-                                for(var t = 0 ; t < renderHtml.length ; t++){
-                                    if(t != renderHtml.length - 1){
-                                    renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
-                                    }else{
-                                    renderHtmlx += renderHtml[t];
-                                    }
-                                }
-
-                                renderHtml = renderHtmlx;
-
-                                var renderHtml = renderHtml.toString().split(json[lm].name+'[][]-');
-                                console.log(renderHtml);
-                                    renderHtmlx = "";
                                     var json = JSON.parse(response.form_json);
+                                        console.log(json[lm].name+'-');
+                                    var renderHtml = renderHtml.toString().split(json[lm].name+'-');
+                                    renderHtmlx = "";
+                                    console.log(renderHtml);
                                     for(var t = 0 ; t < renderHtml.length ; t++){
                                         if(t != renderHtml.length - 1){
-                                            renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]-'+t;
+                                            renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[]-'+i;
+                                            console.log(renderHtmlx);
                                         }else{
                                             renderHtmlx += renderHtml[t];
                                         }
                                     }
 
                                     renderHtml = renderHtmlx;
+                                    var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
+                                    renderHtmlx = "";
+                                    var json = JSON.parse(response.form_json);
+                                    for(var t = 0 ; t < renderHtml.length ; t++){
+                                        if(t != renderHtml.length - 1){
+                                        renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
+                                        }else{
+                                        renderHtmlx += renderHtml[t];
+                                        }
+                                    }   
                                 }
+
+                                
                             }
                             $('#renderForm'+(i)).html(renderHtmlx);
 
@@ -1700,31 +1702,32 @@
                             renderHtml = renderHtml[0];
                             for(var lm = 0 ; lm < json.length; lm++){
                                 if(json[lm].type == "checkbox-group"){
-                                    var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
-                                    renderHtmlx = "";
                                     var json = JSON.parse(response.form_json);
-                                    for(var t = 0 ; t < renderHtml.length ; t++){
-                                        if(t != renderHtml.length - 1){
-                                            renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
-                                        }else{
-                                            renderHtmlx += renderHtml[t];
-                                        }
+                                var renderHtml = renderHtml.toString().split(json[lm].name+'-');
+                                renderHtmlx = "";
+                                console.log(renderHtml);
+                                for(var t = 0 ; t < renderHtml.length ; t++){
+                                    if(t != renderHtml.length - 1){
+                                        renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[]-'+i;
+                                        console.log(renderHtmlx);
+                                    }else{
+                                        renderHtmlx += renderHtml[t];
                                     }
+                                }
 
-                                    renderHtml = renderHtmlx;
-
-                                    var renderHtml = renderHtml.toString().split(json[lm].name+'[][]-');
-                                    renderHtmlx = "";
-                                    var json = JSON.parse(response.form_json);
-                                    for(var t = 0 ; t < renderHtml.length ; t++){
-                                        if(t != renderHtml.length - 1){
-                                            renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]-'+t;
-                                        }else{
-                                            renderHtmlx += renderHtml[t];
-                                        }
+                                renderHtml = renderHtmlx;
+                                var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
+                                renderHtmlx = "";
+                                var json = JSON.parse(response.form_json);
+                                for(var t = 0 ; t < renderHtml.length ; t++){
+                                    if(t != renderHtml.length - 1){
+                                    renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
+                                    }else{
+                                    renderHtmlx += renderHtml[t];
                                     }
+                                }
 
-                                    renderHtml = renderHtmlx;
+                                    
                                 }
                                 
                                 $('.checkbox-item').closest('.checkbox-group').addClass('d-flex')
