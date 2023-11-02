@@ -140,8 +140,13 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function getHousingTypeChildren($slug){
-        $housingTypeParent = HousingTypeParent::where('slug',$slug)->first();
+    public function getHousingTypeChildren(Request $request,$slug){
+        if($request->input('parent_slug')){
+            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$request->input('parent_slug'))->first();
+            $housingTypeParent = HousingTypeParent::where('slug',$slug)->where('parent_id',$topParent->id)->first();
+        }else{
+            $housingTypeParent = HousingTypeParent::where('slug',$slug)->first();
+        }
 
         if($housingTypeParent->is_end){
             $housingTypes = HousingTypeParentConnection::where("parent_id",$housingTypeParent->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->get();
