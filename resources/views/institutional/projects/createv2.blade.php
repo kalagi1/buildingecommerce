@@ -979,13 +979,14 @@
                 var confirm = 1;
                 $('.tab-pane').eq(i).find('input[required="required"]').map((key,item) => {
                     if(!$(item).val() && $(item).attr('type') != "file"){
+
                         confirm = 0;
                     }
                 })
-
                 $('.tab-pane').eq(i).find('select[required="required"]').map((key,item) => {
                     console.log($(item).val());
                     if(!$(item).val() || $(item).val() == "Seçiniz"){
+
                         confirm = 0;
                     }
                 })
@@ -2767,7 +2768,12 @@
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.css"/>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
+        integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.css" />
+
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/daterangepicker.css">
     <link rel="stylesheet" href="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/content/default/content.min.css">
 @endsection
