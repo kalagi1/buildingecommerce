@@ -275,6 +275,12 @@
         "activePath": "admin/housing_types*",
         "subMenu": [
             {
+                "text": "Yönetim",
+                "key": "HousingStatusParent",
+                "url": "admin.housing.status.parent.management",
+                "activePath": "admin/housing_status_parent_management"
+            },
+            {
                 "text": "Yeni Ekle",
                 "key": "CreateHousingType",
                 "url": "admin.housing_types.create",

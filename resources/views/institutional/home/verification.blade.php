@@ -25,7 +25,7 @@
 
                     @if (auth()->user()->identity_document_approve == 1 && auth()->user()->record_document_approve == 1 && auth()->user()->tax_document_approve == 1)
                     <div class="text-warning mt-2">
-                        Hesabınıza hala erişemiyorsanız lütfen <a href="mailto:support@emlaksepeti.com">support@emlaksepeti.com</a> adresinden site yönetici ile iletişime geçin.
+                        Hesabınıza hala erişemiyorsanız lütfen <a href="mailto:support@emlaksepette.com">support@emlaksepette.com</a> adresinden site yönetici ile iletişime geçin.
                     </div>
                     @endif
                 </div>

@@ -52,9 +52,9 @@
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="subscription-plans-list-table-body">
-                                    @foreach ($subscriptionPlans as $plan)
+                                    @foreach ($subscriptionPlans as $key => $plan)
                                         <tr class="position-static">
-                                            <td>{{ $plan->id }}</td>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $plan->name }}</td>
                                             <td>{{ $plan->price }}</td>
                                             <td>{{ $plan->project_limit }}</td>

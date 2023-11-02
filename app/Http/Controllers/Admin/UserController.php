@@ -166,7 +166,7 @@ class UserController extends Controller
                 'status' => 'required|in:0,1',
             ],
             [
-                'note.required' => 'Not alanı gereklidir.',
+                'note.required' => 'Kullanıcıya açıklayıcı bir not yazmalısınız.',
             ]
         );
 

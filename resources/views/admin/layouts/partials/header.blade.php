@@ -402,7 +402,7 @@
                             @endphp
                             
                             @if ($unreadCount > 0)
-                                <span class="badge bg-danger position-absolute" style="bottom: 0; right: 0;">{{ $unreadCount }}</span>
+                                <span class="badge bg-danger position-absolute" style="bottom: 31px; right: 0;">{{ $unreadCount }}</span>
                             @endif
                             </a>
                         <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu py-0 shadow border border-300 navbar-dropdown-caret" id="navbarDropdownNotfication" aria-labelledby="navbarDropdownNotfication">
