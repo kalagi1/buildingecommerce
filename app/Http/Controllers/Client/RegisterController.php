@@ -37,12 +37,12 @@ class RegisterController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:3',
             'phone' => [
-                'required',
+                'required_if:type,2',
                 'regex:/^05[0-9]{9}$/',
             ],
             'type' => 'required|in:1,2',
             'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
-            'activity' => 'required_if:type,2|in:Gayrimenkul,Turizm,Banka,İnşaat',
+            'activity' => 'required_if:type,2',
             'county_id' => "required_if:type,2",
             'city_id' => "required_if:type,2",
             'neighborhood_id' => "required_if:type,2",
@@ -55,7 +55,7 @@ class RegisterController extends Controller
 
         $msgs = [
             'email.required' => 'E-posta adresi alanı zorunludur.',
-            'phone.required' => 'Telefon numarası zorunludur.',
+            'phone.required_if' => 'Telefon numarası zorunludur.',
             'phone.regex' => 'Geçerli bir telefon numarası giriniz',
             'email.email' => 'Geçerli bir e-posta adresi giriniz.',
             'email.unique' => 'Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor.',
@@ -66,7 +66,6 @@ class RegisterController extends Controller
             'corporate-account-type.required_if' => 'Kurumsal hesap türü seçimi zorunludur.',
             'corporate-account-type.in' => 'Geçerli bir kurumsal hesap türü seçiniz.',
             'activity.required_if' => 'Kurumsal hesap aktivitesi seçimi zorunludur.',
-            'activity.in' => 'Geçerli bir kurumsal hesap aktivitesi seçiniz.',
             'county_id.required_if' => 'İlçe seçimi zorunludur.',
             'city_id.required_if' => 'Şehir seçimi zorunludur.',
             'neighborhood_id.required_if' => 'Mahalle seçimi zorunludur.',

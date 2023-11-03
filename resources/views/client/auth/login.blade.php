@@ -124,15 +124,7 @@
                                 <!-- Kurumsal Hesap Girişi Sekmesi -->
                                 <div class="tab-pane fade @if ($errors->any() && !$errors->has('login_error')) active show @endif"
                                     id="corporate" role="tabpanel" aria-labelledby="corporate-tab">
-                                    @if ($errors->any() && !$errors->has('login_error'))
-                                        <div class="alert alert-danger active show">
-                                            <ul class="mb-0">
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    @endif
+                                
 
                                     <form method="POST" class="form w-100" action="{{ route('client.submit.register') }}">
                                         @csrf
@@ -151,14 +143,18 @@
                                         </div>
 
 
-                                        <div class="individual-form {{ old('type') == 1 ? 'd-show' : '' }} {{ old('type') == 2 ? 'hide' : '' }} "
+                                        <div class="individual-form {{ old('type') == 1 ? 'd-show' : '' }} {{ old('type') == 2 ? 'hidden' : '' }} "
                                             id="individualForm">
 
                                             <!-- İsim -->
                                             <div class="mt-3">
                                                 <label class="q-label">İsim</label>
-                                                <input type="text" name="name1" class="form-control"
+                                                <input type="text" name="name1"
+                                                    class="form-control {{ $errors->has('name1') ? 'error-border' : '' }}"
                                                     value="{{ old('name1') }}">
+                                                @if ($errors->has('name1'))
+                                                    <span class="error-message">{{ $errors->first('name1') }}</span>
+                                                @endif
                                             </div>
                                         </div>
 
@@ -247,7 +243,9 @@
                                             <!-- Faaliyet Alanı -->
                                             <div class="mt-3">
                                                 <label for="" class="q-label">Faaliyet Alanınız</label>
-                                                <select class="form-control" name="activity">
+                                                <select
+                                                    class="form-control {{ $errors->has('activity') ? 'error-border' : '' }}"
+                                                    name="activity">
                                                     <option value="">Seçiniz</option>
                                                     <option value="İnşaat"
                                                         {{ old('activity') == 'İnşaat' ? 'selected' : '' }}>İnşaat</option>
@@ -259,12 +257,17 @@
                                                     <option value="Banka"
                                                         {{ old('activity') == 'Banka' ? 'selected' : '' }}>Banka</option>
                                                 </select>
+                                                @if ($errors->has('activity'))
+                                                    <span class="error-message">{{ $errors->first('activity') }}</span>
+                                                @endif
                                             </div>
 
                                             <!-- İl -->
                                             <div class="mt-3">
                                                 <label for="" class="q-label">İl</label>
-                                                <select class="form-control" id="citySelect" name="city_id">
+                                                <select
+                                                    class="form-control {{ $errors->has('city_id') ? 'error-border' : '' }}"
+                                                    id="citySelect" name="city_id">
                                                     <option value="">Seçiniz</option>
                                                     @foreach ($towns as $item)
                                                         <option for="{{ $item->sehir_title }}"
@@ -274,19 +277,32 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                @if ($errors->has('city_id'))
+                                                    <span class="error-message">{{ $errors->first('city_id') }}</span>
+                                                @endif
                                             </div>
                                             <div class="mt-3">
                                                 <label for="" class="q-label">İlçe</label>
-                                                <select class="form-control" name="county_id" id="countySelect">
+                                                <select
+                                                    class="form-control {{ $errors->has('county_id') ? 'error-border' : '' }}"
+                                                    name="county_id" id="countySelect">
                                                     <option value="">Seçiniz</option>
                                                 </select>
+                                                @if ($errors->has('county_id'))
+                                                    <span class="error-message">{{ $errors->first('county_id') }}</span>
+                                                @endif
                                             </div>
                                             <div class="mt-3">
                                                 <label for="" class="q-label">Mahalle</label>
-                                                <select class="form-control" name="neighborhood_id"
-                                                    id="neighborhoodSelect">
+                                                <select
+                                                    class="form-control {{ $errors->has('neighborhood_id') ? 'error-border' : '' }}"
+                                                    name="neighborhood_id" id="neighborhoodSelect">
                                                     <option value="">Seçiniz</option>
                                                 </select>
+                                                @if ($errors->has('neighborhood_id'))
+                                                    <span
+                                                        class="error-message">{{ $errors->first('neighborhood_id') }}</span>
+                                                @endif
                                             </div>
 
                                             <!-- İşletme Türü -->
@@ -310,7 +326,7 @@
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">Vergi Dairesi
                                                                 İli</label>
-                                                            <select id="taxOfficeCity" class="form-control"
+                                                            <select id="taxOfficeCity" class="form-control {{ $errors->has('taxOfficeCity') ? 'error-border' : '' }}"
                                                                 name="taxOfficeCity">
                                                                 <option value="">Seçiniz</option>
                                                                 @foreach ($cities as $item)
@@ -321,6 +337,10 @@
                                                                     </option>
                                                                 @endforeach
                                                             </select>
+                                                            @if ($errors->has('taxOfficeCity'))
+                                                                <span
+                                                                    class="error-message">{{ $errors->first('taxOfficeCity') }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -333,9 +353,13 @@
                                                             <label for="" class="q-label">Vergi Dairesi
                                                             </label>
 
-                                                            <select id="taxOffice" class="form-control" name="taxOffice">
+                                                            <select id="taxOffice" class="form-control {{ $errors->has('taxOffice') ? 'error-border' : '' }}" name="taxOffice">
                                                                 <option value="">Seçiniz</option>
                                                             </select>
+                                                            @if ($errors->has('taxOffice'))
+                                                                <span
+                                                                    class="error-message">{{ $errors->first('taxOffice') }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -348,7 +372,11 @@
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">Vergi No</label>
                                                             <input type="text" id="taxNumber" name="taxNumber"
-                                                                class="form-control" value="{{ old('taxNumber') }}">
+                                                                class="form-control {{ $errors->has('taxNumber') ? 'error-border' : '' }}" value="{{ old('taxNumber') }}">
+                                                                @if ($errors->has('taxNumber'))
+                                                                <span
+                                                                    class="error-message">{{ $errors->first('taxNumber') }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -572,7 +600,7 @@
 
 @section('styles')
     <style>
-        .hide {
+        .hidden {
             display: none !important;
         }
 
