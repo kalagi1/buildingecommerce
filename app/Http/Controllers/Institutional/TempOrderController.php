@@ -84,11 +84,22 @@ class TempOrderController extends Controller
             $data = $tempData;
             if($request->input('checkbox')){
                 if(isset($data->roomInfoKeys)){
-                    isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[count($data->roomInfoKeys->{$request->input('key')})] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                    if(isset($data->roomInfoKeys->{$request->input('key')})){
+                        if(in_array($request->input('value'),$data->roomInfoKeys->{$request->input('key')})){
+                            $newArray = array_filter($data->roomInfoKeys->{$request->input('key')}, function ($eleman) use($request) { return $eleman != $request->input('value'); });
+                            $newArray = array_values($newArray);
+                            $data->roomInfoKeys->{$request->input('key')} = $newArray;
+                        }else{
+                            $data->roomInfoKeys->{$request->input('key')}[count($data->roomInfoKeys->{$request->input('key')})] = $request->input('value');
+                        }
+                    }else{
+                        $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                    }
                 }else{
                     $data->roomInfoKeys = json_decode('{}');
-                    isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[count($data->roomInfoKeys->{$request->input('key')})] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                    isset($data->roomInfoKeys->{$request->input('key')}) ? (in_array($request->input('value'),$data->roomInfoKeys->{$request->input('key')}) ? array_filter($data->roomInfoKeys->{$request->input('key')}, function ($eleman,$request) { return $eleman != $request->input('value'); }) : $data->roomInfoKeys->{$request->input('key')}[count($data->roomInfoKeys->{$request->input('key')})] = $request->input('value')) : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
                 }
+                
             }else{
                 if(isset($data->roomInfoKeys)){
                     isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[$request->input('order')] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
@@ -97,6 +108,7 @@ class TempOrderController extends Controller
                     isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[$request->input('order')] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
                 }
             }
+            
             if(!$tempOrder){
                 TempOrder::create([
                     "user_id" => auth()->guard()->user()->id,

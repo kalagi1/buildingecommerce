@@ -121,7 +121,7 @@
                         </div>
                         <h4 class="mb-3">Kaç Adet Konutunuz Var</h4><input value="{{isset($tempData->house_count) ? $tempData->house_count : ''}}" onkeyup="changeData(this.value,'house_count')" class="form-control mb-5" type="text" id="house_count" name="house_count" value="{{old('house_count')}}" placeholder="Kaç Adet Konutunuz Var" />
                         <span id="generate_tabs" class=" btn btn-primary mb-5">Daireleri Oluştur</span>
-                        <div class="row">
+                        <div class="row full-area">
                             <div class="col-sm-3">
                                 <div id="tablist" class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab h-100" role="tablist" aria-orientation="vertical">
         
@@ -745,6 +745,8 @@
 
                     
                     $('.copy-item').change(function(){
+                        var transactionIndex = 0;
+                        $('.tab-pane').prepend('<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>');
                         var order = parseInt($(this).val()) - 1;
                         var currentOrder = parseInt($(this).closest('.item-left-area').index());
                         for(var lm = 0 ; lm < json.length; lm++){
@@ -767,10 +769,16 @@
                                         processData: false,
                                         contentType: false,
                                         success: function(response) {
+                                            if(transactionIndex+1 == json.length){
+                                                $('.loading-icon-right').remove();
+                                            }
+
+                                            transactionIndex++;
                                         },
                                     });
                                     $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',true)
                                 }else{
+                                    transactionIndex++;
                                     $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',false)
                                 }
                             }
@@ -792,6 +800,10 @@
                                     processData: false,
                                     contentType: false,
                                     success: function(response) {
+                                        if(transactionIndex+1 == json.length){
+                                            $('.loading-icon-right').remove();
+                                        }
+                                        transactionIndex++;
                                     },
                                 });
 
@@ -811,9 +823,14 @@
                                     processData: false,
                                     contentType: false,
                                     success: function(response) {
+                                        if(transactionIndex+1 == json.length){
+                                            $('.loading-icon-right').remove();
+                                        }
+                                        transactionIndex++;
                                     },
                                 });
                                 var cloneImage = $('.tab-pane').eq(order).find('.project_imaget').clone();
+                                $('.tab-pane.active').find('.cover-image-by-housing-type').parent('div').find('.project_imaget').remove();
                                 $('.tab-pane.active').find('.cover-image-by-housing-type').parent('div').append(cloneImage)
                             }else if(json[lm].type != "file"){
                                 if(json[lm].name){
@@ -832,6 +849,10 @@
                                         processData: false,
                                         contentType: false,
                                         success: function(response) {
+                                            if(transactionIndex+1 == json.length){
+                                                $('.loading-icon-right').remove();
+                                            }
+                                        transactionIndex++;
                                         },
                                     });
 
@@ -841,6 +862,7 @@
                                 
                             }
                         }
+                        console.log(transactionIndex);
                     })
                     
                     $('.rendered-form input').change(function(){
@@ -984,7 +1006,7 @@
                                 // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
                                 $('.cover-photo').html(imageDiv);
 
-                                $('.tab-pane.active .cover-image-by-housing-type img').remove()
+                                $('.tab-pane.active .cover-image-by-housing-type').parent('div').find('.project_imaget').remove()
                                 $('.tab-pane.active .cover-image-by-housing-type').closest('.formbuilder-file').append(imageDiv)
                             };
 
@@ -1762,30 +1784,28 @@
                             for(var lm = 0 ; lm < json.length; lm++){
                                 if(json[lm].type == "checkbox-group"){
                                     var json = JSON.parse(response.form_json);
-                                var renderHtml = renderHtml.toString().split(json[lm].name+'-');
-                                renderHtmlx = "";
-                                console.log(renderHtml);
-                                for(var t = 0 ; t < renderHtml.length ; t++){
-                                    if(t != renderHtml.length - 1){
-                                        renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[]-'+i;
-                                        console.log(renderHtmlx);
-                                    }else{
+                                    var renderHtml = renderHtml.toString().split(json[lm].name+'-');
+                                    renderHtmlx = "";
+                                    for(var t = 0 ; t < renderHtml.length ; t++){
+                                        if(t != renderHtml.length - 1){
+                                            renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[]-'+i;
+                                        }else{
+                                            renderHtmlx += renderHtml[t];
+                                        }
+                                    }
+                                    renderHtml = renderHtmlx;
+
+                                    var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
+                                    renderHtmlx = "";
+                                    var json = JSON.parse(response.form_json);
+                                    for(var t = 0 ; t < renderHtml.length ; t++){
+                                        if(t != renderHtml.length - 1){
+                                        renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
+                                        }else{
                                         renderHtmlx += renderHtml[t];
+                                        }
                                     }
-                                }
-
-                                renderHtml = renderHtmlx;
-                                var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
-                                renderHtmlx = "";
-                                var json = JSON.parse(response.form_json);
-                                for(var t = 0 ; t < renderHtml.length ; t++){
-                                    if(t != renderHtml.length - 1){
-                                    renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
-                                    }else{
-                                    renderHtmlx += renderHtml[t];
-                                    }
-                                }
-
+                                    renderHtml = renderHtmlx;
                                     
                                 }
                                 
@@ -1908,6 +1928,8 @@
                         })
 
                         $('.copy-item').change(function(){
+                        var transactionIndex = 0;
+                        $('.tab-pane').prepend('<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>');
                         var order = parseInt($(this).val()) - 1;
                         var currentOrder = parseInt($(this).closest('.item-left-area').index());
                         for(var lm = 0 ; lm < json.length; lm++){
@@ -1930,10 +1952,16 @@
                                         processData: false,
                                         contentType: false,
                                         success: function(response) {
+                                            if(transactionIndex+1 == json.length){
+                                                $('.loading-icon-right').remove();
+                                            }
+
+                                            transactionIndex++;
                                         },
                                     });
                                     $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',true)
                                 }else{
+                                    transactionIndex++;
                                     $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',false)
                                 }
                             }
@@ -1955,6 +1983,11 @@
                                     processData: false,
                                     contentType: false,
                                     success: function(response) {
+                                        if(transactionIndex+1 == json.length){
+                                            $('.loading-icon-right').remove();
+                                        }
+
+                                        transactionIndex++;
                                     },
                                 });
 
@@ -1974,6 +2007,11 @@
                                     processData: false,
                                     contentType: false,
                                     success: function(response) {
+                                        if(transactionIndex+1 == json.length){
+                                            $('.loading-icon-right').remove();
+                                        }
+
+                                        transactionIndex++;
                                     },
                                 });
                                 var cloneImage = $('.tab-pane').eq(order).find('.project_imaget').clone();
@@ -1995,6 +2033,11 @@
                                         processData: false,
                                         contentType: false,
                                         success: function(response) {
+                                            if(transactionIndex+1 == json.length){
+                                                $('.loading-icon-right').remove();
+                                            }
+
+                                            transactionIndex++;
                                         },
                                     });
 
@@ -2154,7 +2197,7 @@
                                     // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
                                     $('.cover-photo').html(imageDiv);
 
-                                    $('.tab-pane.active .cover-image-by-housing-type img').remove()
+                                    $('.tab-pane.active .cover-image-by-housing-type').parent('div').find('.project_imaget').remove()
                                     $('.tab-pane.active .cover-image-by-housing-type').closest('.formbuilder-file').append(imageDiv)
                                 };
 

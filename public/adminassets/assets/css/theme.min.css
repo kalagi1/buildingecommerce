@@ -41351,3 +41351,30 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
     width: 100%;
 }
 
+.loading-icon-right{
+    width: 102%;
+    height: 102%;
+    left: -1%;
+    top: -1%;
+    position: absolute;
+    background: #e542422e;
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+    z-index: 9999;
+}
+
+.loading-icon-right svg{
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite; /* Sürekli animasyon, 2 saniyede bir dönüş yapar */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+.full-area{
+    position: relative;
+}
