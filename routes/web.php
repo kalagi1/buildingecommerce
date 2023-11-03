@@ -736,10 +736,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/password/update', [InstitutionalChangePasswordController::class, "update"])->name('password.update');
     });
 
-    // AdminHomeController Rotalarının İzinleri
-    Route::middleware(['checkPermission:ViewDashboard'])->group(function () {
-        Route::get('/', [DashboardController::class, "index"])->name("index");
-    });
+    Route::get('/', [DashboardController::class, "index"])->name("index");
 
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);

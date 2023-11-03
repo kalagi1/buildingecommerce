@@ -14,7 +14,7 @@ class RoleController extends Controller
 
     public function index()
     {
-        $roles = Role::where("parent_id", Auth::user()->id)->get();
+        $roles = Role::where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
         return view('institutional.roles.index', compact('roles'));
     }
 
@@ -22,15 +22,22 @@ class RoleController extends Controller
     {
         $role = Role::where("id", "2")->with("rolePermissions.permissions")->first();
         $permissions = $role->rolePermissions->pluck('permissions')->flatten();
-        return view('institutional.roles.create', compact('permissions'));
+        
+        // İzinleri 'permission_group_id' değerine göre gruplayın
+        $groupedPermissions = $permissions->groupBy('permission_group_id');
+    
+        return view('institutional.roles.create', compact('groupedPermissions'));
     }
+    
+    
 
     public function edit(Role $role)
     {
         $role = Role::where("id", $role->id)->with("rolePermissions.permissions")->first();
         $mainRole = Role::where("id", "2")->with("rolePermissions.permissions")->first();
         $permissions = $mainRole->rolePermissions->pluck('permissions')->flatten();
-        return view('institutional.roles.edit', compact('role', 'permissions'));
+         $groupedPermissions = $permissions->groupBy('permission_group_id');
+        return view('institutional.roles.edit', compact('role', 'groupedPermissions'));
     }
 
     public function store(CreateRoleRequest $request)

@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with("role")->where("parent_id", Auth::user()->id)->get();
+        $users = User::with("role")->where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
         return view('institutional.users.index', compact('users'));
     }
 
@@ -87,7 +87,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::where("parent_id", Auth::user()->id)->get();
+        $roles = Role::where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
         return view('institutional.users.create', compact("roles"));
     }
 
@@ -102,7 +102,7 @@ class UserController extends Controller
 
         // Form doğrulama işlemini gerçekleştirin
         $validatedData = $request->validate($rules);
-        $mainUser = User::where("id", Auth::user()->id)->with("plan")->first();
+        $mainUser = User::where("id", auth()->user()->parent_id ?? auth()->user()->id)->with("plan")->first();
         $countUser = UserPlan::where("user_id", $mainUser->id)->first();
 
         // Yeni kullanıcıyı oluşturun
@@ -133,7 +133,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $roles = Role::where("parent_id", Auth::user()->id)->get();
+        $roles = Role::where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
         $subUser = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
         return view('institutional.users.edit', compact('subUser', 'roles'));
     }
