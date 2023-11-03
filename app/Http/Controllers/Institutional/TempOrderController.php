@@ -269,16 +269,17 @@ class TempOrderController extends Controller
             }
             
             $newOrder = $tempData->images ? count($tempData->images) + 1 : 1;
-            if($request->hasFile('image')){
-                $image = $request->file('image');
-                $imageName = 'temp_order_image'.auth()->guard()->user()->id.$newOrder . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('project_images'), $imageName);
-            }else{
-                $imageName = "";
+            $uploadedFiles = $request->file();
+            $imageNames = [];
+            foreach ($uploadedFiles as $fileKey => $file) {
+                $imageName = 'temp_order_image'.auth()->guard()->user()->id.(intval($newOrder) + intval(str_replace('file','',$fileKey))) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('project_images'), $imageName);
+
+                $data = $tempData;
+                array_push($data->images,$imageName);
+                array_push($imageNames,$imageName);
             }
-    
-            $data = $tempData;
-            array_push($data->images,$imageName);
+
             if(!$tempOrder){
                 TempOrder::create([
                     "user_id" => auth()->guard()->user()->id,
@@ -289,9 +290,10 @@ class TempOrderController extends Controller
                 TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
                     "data" => json_encode($data),
                 ]);
-            }    
+            }
+            
 
-            return $imageName;
+            return $imageNames;
         }else{
             $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
             
@@ -319,38 +321,70 @@ class TempOrderController extends Controller
     }
 
     public function deleteImageOrders(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
-        $tempData = json_decode($tempOrder->data);
-
-        $data = $tempData;
-        $newImages = [];
-        foreach($data->images as $image){
-            if($image->image != $request->input('image')){
-                array_push($newImages,$image);
+        if($request->input('item_type') != "3"){
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempData = json_decode($tempOrder->data);
+            $data = $tempData;
+            $newImages = [];
+            foreach($data->images as $image){
+                if($image != $request->input('image')){
+                    array_push($newImages,$image);
+                }
             }
-        }
 
-        $data->images = $newImages;
-        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
-            "data" => json_encode($data),
-        ]);
+            $data->images = $newImages;
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                "data" => json_encode($data),
+            ]);
+        }else{
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempData = json_decode($tempOrder->data);
+            $data = $tempData;
+            $newImages = [];
+            foreach($data->images as $image){
+                if($image->image != $request->input('image')){
+                    array_push($newImages,$image);
+                }
+            }
+
+            $data->images = $newImages;
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                "data" => json_encode($data),
+            ]);
+        }
     }
 
     public function updateImageOrders(Request $request){
-        
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
-        $tempData = json_decode($tempOrder->data);
-
-        $data = $tempData;
-        $data->images = [];
-
-        foreach($request->input('images') as $image){
-            array_push($data->images,["image" => $image]);
+        if($request->input('item_type') != 3){
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempData = json_decode($tempOrder->data);
+    
+            $data = $tempData;
+            $data->images = [];
+    
+            foreach($request->input('images') as $image){
+                array_push($data->images,$image);
+            }
+    
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                "data" => json_encode($data),
+            ]);
+        }else{
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempData = json_decode($tempOrder->data);
+    
+            $data = $tempData;
+            $data->images = [];
+    
+            foreach($request->input('images') as $image){
+                array_push($data->images,["image" => $image]);
+            }
+    
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                "data" => json_encode($data),
+            ]);
         }
-
-        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
-            "data" => json_encode($data),
-        ]);
+        
     }
 
     public function changeStepOrder(Request $request){

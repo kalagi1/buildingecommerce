@@ -219,7 +219,7 @@
                         </div>
                         <span class="section-title mt-4">Fotoğraf</span>
                         <div class="photo card py-2 px-5">
-                            <input type="file" name="project-images" class="project_image d-none">
+                            <input type="file" multiple name="project-images" class="project_image d-none">
                             <div class="photo-area">
                                 <div class="icon">
                                     <i class="fa fa-camera"></i>
@@ -229,8 +229,11 @@
                             <div class="photos">
                                 @if(isset($tempData->images) && $tempData->images)
                                     @foreach($tempData->images as $image)
-                                        <div class="project_imagex">
+                                        <div class="project_imagex"  order="{{$image}}">
                                             <img src="{{URL::to('/')}}/project_images/{{$image}}" alt="">
+                                            <div class="image-buttons">
+                                                <i class="fa fa-trash"></i>
+                                            </div>
                                         </div>
                                     @endforeach
                                 @endif
@@ -399,6 +402,56 @@
         var descriptionText = @if(isset($tempData) && isset($tempData->description)) 'evet var' @else "" @endif;
         var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
         
+        $('.project_imagex .image-buttons').click(function(){
+            var thisx = $(this);
+            $.ajax({
+                url: '{{route("institutional.delete.image.order.temp.update")}}',
+                type: 'POST',
+                data: { 
+                    image: $(this).closest('.project_imagex').attr('order') ,
+                    item_type : 1,
+                    _token : csrfToken
+                },
+                success: function(response) {
+                    thisx.closest('.project_imagex').remove()
+                },
+                error: function(xhr, status, error) {
+                    console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                }
+            });
+        })
+
+        $('.photos').sortable({
+            revert: true,
+            update: function(event, ui) {
+                var ids = [];
+                for(var i = 0; i < $('.photos .project_imagex').length; i++){
+                    ids.push($('.photos .project_imagex').eq(i).attr('order'));
+                }
+                console.log(ids);
+                // Sıralama değiştiğinde bir Ajax POST isteği gönder
+                $.ajax({
+                    url: '{{route("institutional.update.image.order.temp.update")}}',
+                    type: 'POST',
+                    data: { 
+                        images: ids ,
+                        item_type : 1,
+                        _token : csrfToken
+                    },
+                    success: function(response) {
+                        console.log("Sıralama güncellendi.");
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                    }
+                });
+            }
+        });
+
+        $('.project_imagex').draggable({
+            connectToSortable: ".photos",
+        });
+
         $('.choise-1').click(function(){
             $('.pop-up-v2').addClass('d-none')
 
@@ -1402,16 +1455,17 @@
 
         $('.project_image').change(function() {
             var input = this;
-
+            console.log(input.files)
             if (input.files && input.files[0]) {
                 $('.photo-area').removeClass('error-border')
-                var reader = new FileReader();
 
                 var formData = new FormData();
                 var csrfToken = $("meta[name='csrf-token']").attr("content");
                 formData.append('_token', csrfToken);
-                formData.append('image',this.files[0]);
                 formData.append('item_type',1);
+                for (let i = 0; i < this.files.length; i++) {
+                    formData.append(`file${i}`, this.files[i]);
+                }
                 $.ajax({
                     type: "POST",
                     url: "{{route('institutional.temp.order.image.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
@@ -1419,40 +1473,44 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        // Dosya yükleme başarılı ise sunucudan gelen yanıtı görüntüle
-                        $("#sonuc").html(response);
+                        console.log(response);
+                        for (let i = 0; i < response.length; i++) {
+                            var imageDiv = $('<div class="project_imagex" order="'+response[i]+'"></div>');
+                            var image = $('<img>').attr('src', '{{URL::to('/')}}/project_images/'+response[i]);
+                            var imageButtons = $('<div>').attr('class','image-buttons');
+                            var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
+                            imageButtons.append(imageButtonsIcon)
+                            imageDiv.append(image);
+                            imageDiv.append(imageButtons);
+                            $('.photos').append(imageDiv);
+
+                            $('.project_imagex .image-buttons').click(function(){
+                                var thisx = $(this);
+                                $.ajax({
+                                    url: '{{route("institutional.delete.image.order.temp.update")}}',
+                                    type: 'POST',
+                                    data: { 
+                                        image: $(this).closest('.project_imagex').attr('order') ,
+                                        item_type : 1,
+                                        _token : csrfToken
+                                    },
+                                    success: function(response) {
+                                        thisx.closest('.project_imagex').remove()
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                                    }
+                                });
+                            })
+                        }
                     },
                     error: function() {
                         // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
                         alert("Dosya yüklenemedi.");
                     }
                 });
-                reader.onload = function(e) {
-                    // Resmi görüntülemek için bir div oluşturun
-                    var imageDiv = $('<div class="project_imagex"></div>');
+                
 
-                    // Resmi oluşturun ve div içine ekleyin
-                    var image = $('<img>').attr('src', e.target.result);
-                    imageDiv.append(image);
-                    var deleteIcon = $('<span class="fa fa-trash">Sil</span>');
-                    imageDiv.append(deleteIcon);
-                    // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
-                    $('.photos').append(imageDiv);
-
-                    $('.photos').on('click', '.fa-trash', function() {
-                        var imageDiv = $(this).parent(); // Tıklanan resmin üst öğesini al
-
-                        // Kullanıcıdan resmi silmek istediğine emin misiniz diye sorabilirsiniz
-                        var confirmation = confirm("Bu resmi silmek istediğinizden emin misiniz?");
-                        
-                        if (confirmation) {
-                            imageDiv.remove(); // Resmi kaldır
-                        }
-                    });
-                };
-
-                // Resmi okuyun
-                reader.readAsDataURL(input.files[0]);
             }
         });
 
