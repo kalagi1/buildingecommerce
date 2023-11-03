@@ -50,12 +50,12 @@
                     </label>
                     <input type="file" name="vergi_levhasi" id="vergi_levhasi"
                         class="form-control {{ auth()->user()->tax_document_approve ? ' green-border' : 'red-border' }}"
-                        accept=".png,.jpeg,.jpg"{{ auth()->user()->tax_document_approve ? ' required' : null }} />
+                        accept=".png,.jpeg,.jpg"{{ auth()->user()->tax_document_approve ? ' ' : null }} />
 
                 </div>
 
                 <div class="form-group">
-                    <label for="sicil_belgesi" class="mb-2">Müteahhitlik Belgesi:
+                    <label for="sicil_belgesi" class="mb-2">Vergi Levhası:
                         @if (auth()->user()->record_document_approve)
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
                         @endif
@@ -63,13 +63,13 @@
                         @if (!is_null(auth()->user()->record_document))
                             <div>
                                 <a target="_blank" href="{{ route('institutional.get.record-document') }}"
-                                    class="btn btn-blue">Müteahhitlik Belgesini Gör</a>
+                                    class="btn btn-blue">Vergi Levhasını Gör</a>
                             </div>
                         @endif
                     </label>
                     <input type="file" name="sicil_belgesi" id="sicil_belgesi"
                         class="form-control {{ auth()->user()->record_document_approve ? ' green-border' : 'red-border' }}"
-                        accept=".png,.jpeg,.jpg"{{ auth()->user()->record_document_approve == 0 ? ' required' : null }} />
+                        accept=".png,.jpeg,.jpg"{{ auth()->user()->record_document_approve == 0 ? ' ' : null }} />
                 </div>
                 <div class="form-group">
                     <label for="kimlik_belgesi" class="mb-2">Yetkilinin Kimlik Belgesi:
@@ -86,12 +86,12 @@
                     </label>
                     <input type="file" name="kimlik_belgesi" id="kimlik_belgesi"
                         class="form-control {{ auth()->user()->identity_document_approve ? ' green-border' : 'red-border' }}"
-                        accept=".png,.jpeg,.jpg"{{ auth()->user()->identity_document_approve == 0 ? ' required' : null }} />
+                        accept=".png,.jpeg,.jpg"{{ auth()->user()->identity_document_approve == 0 ? ' ' : null }} />
                 </div>
 
                 @if (auth()->user()->type == 2 && auth()->user()->corporate_type == 'İnşaat')
                     <div class="form-group">
-                        <label for="insaat_belgesi" class="mb-2">İnşaat Belgesi:
+                        <label for="insaat_belgesi" class="mb-2">Müteahhitlik Belgesi:
                             @if (auth()->user()->company_document_approve)
                                 <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
                             @endif
@@ -99,12 +99,12 @@
                         @if (!is_null(auth()->user()->company_document))
                             <div>
                                 <a target="_blank" href="{{ route('institutional.get.company-document') }}"
-                                    class="btn btn-blue mb-2">İnşaat Belgesini Gör</a>
+                                    class="btn btn-blue mb-2">Müteahhitlik Belgesini Gör</a>
                             </div>
                         @endif
                         <input type="file" name="insaat_belgesi" id="insaat_belgesi"
                             class="form-control {{ auth()->user()->company_document_approve ? ' green-border' : 'red-border' }}"
-                            accept=".png,.jpeg,.jpg"{{ auth()->user()->company_document_approve == 0 ? ' required' : null }} />
+                            accept=".png,.jpeg,.jpg"{{ auth()->user()->company_document_approve == 0 ? ' ' : null }} />
                     </div>
                 @endif
 

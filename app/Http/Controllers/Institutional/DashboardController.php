@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Models\DocumentNotification;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -29,39 +29,36 @@ class DashboardController extends Controller
 
         $array = [];
 
-        if ($request->hasFile('vergi_levhasi'))
-        {
+        if ($request->hasFile('vergi_levhasi')) {
             $file1 = $request->vergi_levhasi->store('tax_documents');
             $array = array_merge($array, ['tax_document' => $file1]);
         }
 
-        if ($request->hasFile('sicil_belgesi'))
-        {
+        if ($request->hasFile('sicil_belgesi')) {
             $file2 = $request->sicil_belgesi->store('record_documents');
             $array = array_merge($array, ['record_document' => $file2]);
         }
 
-        if ($request->hasFile('kimlik_belgesi'))
-        {
+        if ($request->hasFile('kimlik_belgesi')) {
             $file3 = $request->kimlik_belgesi->store('identity_documents');
             $array = array_merge($array, ['identity_document' => $file3]);
         }
 
-        if ($request->hasFile('insaat_belgesi'))
-        {
+        if ($request->hasFile('insaat_belgesi')) {
             $file4 = $request->insaat_belgesi->store('company_documents');
             $array = array_merge($array, ['company_document' => $file4]);
         }
 
         auth()->user()->update($array);
 
-        DocumentNotification::create(
-            [
-                'user_id' => auth()->user()->id,
-                'text' => 'Yeni belge gönderildi. Kullanıcı : '.auth()->user()->email,
-                'item_id' => auth()->user()->id,
-            ]
-        );
+        DocumentNotification::create([
+            'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
+            'text' => 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: ' . auth()->user()->email,
+            'item_id' => auth()->user()->parent_id ?? auth()->user()->id,
+            'link' => route('admin.user.show-corporate-account', ['user' => auth()->user()->parent_id ?? auth()->user()->id]),
+            'owner_id' => 4,
+            'is_visible' => true,
+        ]);
 
         return redirect()->back();
     }
@@ -99,7 +96,6 @@ class DashboardController extends Controller
 
         }
         DB::commit();
-        
 
         return view('institutional.home.index', compact("user", "stats1_data", "stats2_data"));
     }

@@ -134,11 +134,15 @@ class HousingController extends Controller
                 }
 
                 UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id)->decrement('housing_limit');
+
                 DocumentNotification::create(
                     [
                         'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
-                        'text' => 'Yeni bir konut eklendi. <a href="' . route('housing.show', ['id' => $project->id]) . '">Linke git</a>',
-                        'item_id' => $project->id,
+                        'text' => 'Yeni bir konut eklendi. Detayları incelemek için <a href="' . route('housing.show', ['id' => $project->id]) . '">buraya tıklayın</a>',
+                        'item_id' => auth()->user()->parent_id ?? auth()->user()->id,
+                        'link' => route('admin.housings.detail', ['housing' => $project->id]), // Rota adını ve parametreyi uygun şekilde ayarlayın
+                        'owner_id' => 4,
+                        'is_visible' => true,
                     ]
                 );
 
@@ -256,11 +260,15 @@ class HousingController extends Controller
         )->id;
 
         UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id)->decrement('housing_limit');
+
         DocumentNotification::create(
             [
                 'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
-                'text' => 'Yeni bir konut eklendi. <a href="' . route('housing.show', ['id' => $lastId]) . '">Linke git</a>',
-                'item_id' => $lastId,
+                'text' => 'Yeni bir konut eklendi. Detayları incelemek için <a href="' . route('housing.show', ['id' => $project->id]) . '">buraya tıklayın</a>',
+                'item_id' => auth()->user()->parent_id ?? auth()->user()->id,
+                'link' => route('admin.housings.detail', ['housing' => $lastId]), // Rota adını ve parametreyi uygun şekilde ayarlayın
+                'owner_id' => 4,
+                'is_visible' => true,
             ]
         );
 
