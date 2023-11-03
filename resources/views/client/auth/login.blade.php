@@ -115,229 +115,104 @@
                                         <div class="user-type-selection">
                                             <label class="q-label">Kullanıcı Türü</label>
                                             <div class="button-group">
-                                                <button class="user-type-button individual active" data-user-type="1"
-                                                    type="button">Bireysel</button>
-                                                <button class="user-type-button institutional" data-user-type="2"
-                                                    type="button">Kurumsal</button>
+                                                <button
+                                                    class="user-type-button individual {{ old('type') == 1 ? 'active' : '' }}"
+                                                    data-user-type="1" type="button">Bireysel</button>
+                                                <button
+                                                    class="user-type-button institutional {{ old('type') == 2 ? 'active' : '' }}"
+                                                    data-user-type="2" type="button">Kurumsal</button>
                                             </div>
-                                            <input type="hidden" name="type" id="user-type-input" value="1">
+                                            <input type="hidden" name="type" id="user-type-input"
+                                                value="{{ old('type', 1) }}">
                                         </div>
 
 
                                         <div class="individual-form" id="individualForm">
-                                            
-                                            <!-- E-Posta -->
-                                            <div class="mt-3 ">
-                                                <label class="q-label">İsim</label>
-                                                <input type="text" name="name1" class="form-control">
-                                            </div>
 
-                                      
+                                            <!-- İsim -->
+                                            <div class="mt-3">
+                                                <label class="q-label">İsim</label>
+                                                <input type="text" name="name1" class="form-control"
+                                                    value="{{ old('name1') }}">
+                                            </div>
                                         </div>
 
-                                              <!-- E-Posta -->
-                                              <div class="mt-3">
-                                                <label class="q-label">E-Posta</label>
-                                                <input type="email" name="email" class="form-control">
-                                            </div>
 
+                                        <!-- E-Posta -->
+                                        <div class="mt-3">
+                                            <label class="q-label">E-Posta</label>
+                                            <input type="email" name="email" class="form-control"
+                                                value="{{ old('email') }}">
+                                        </div>
 
-                                            <!-- Şifre -->
-                                            <div class="mt-3">
-                                                <label class="q-label">Şifre</label>
-                                                <input type="password" name="password" class="form-control">
-                                            </div>
+                                        <!-- Şifre -->
+                                        <div class="mt-3">
+                                            <label class="q-label">Şifre</label>
+                                            <input type="password" name="password" class="form-control">
+                                        </div>
 
                                         <div class="corporate-form" id="corporateForm">
-                                              <!-- E-Posta -->
-                                        <div class="mt-3 ">
-                                            <label class="q-label">Yetkili İsim Soyisim</label>
-                                            <input type="text" name="username" class="form-control">
-                                        </div>
-
-                                        <div class="mt-3 ">
-                                            <label class="q-label">Firma Adı</label>
-                                            <input type="text" name="name" class="form-control">
-                                        </div>
-
-                                         <div class="mt-3 ">
-                                            <label class="q-label">Sabit Telefon</label>
-                                            <input type="tel" name="phone" class="form-control">
-                                        </div>
-
-                          
                                             <!-- E-Posta -->
+                                            <div class="mt-3">
+                                                <label class="q-label">Yetkili İsim Soyisim</label>
+                                                <input type="text" name="username" class="form-control"
+                                                    value="{{ old('username') }}">
+                                            </div>
+
+                                            <!-- Firma Adı -->
+                                            <div class="mt-3">
+                                                <label class="q-label">Firma Adı</label>
+                                                <input type="text" name="name" class="form-control"
+                                                    value="{{ old('name') }}">
+                                            </div>
+
+                                            <!-- Sabit Telefon -->
+                                            <div class="mt-3">
+                                                <label class="q-label">Sabit Telefon</label>
+                                                <input type="tel" name="phone" class="form-control"
+                                                    value="{{ old('phone') }}">
+                                            </div>
+
+                                            <!-- Kurumsal Hesap Türü -->
                                             <div class="mt-3">
                                                 <label for="corporate-account-type" class="q-label">Kurumsal Hesap
                                                     Türü</label>
                                                 <select name="corporate-account-type" id="corporate-account-type"
                                                     class="form-control">
                                                     <option value="" disabled selected>Seçiniz</option>
-                                                    <option value="Emlakçı">Emlakçı</option>
-                                                    <option value="Banka">Banka</option>
-                                                    <option value="İnşaat">İnşaat</option>
-                                                    <option value="Turizm">Turizm</option>
-
+                                                    <option value="Emlakçı"
+                                                        {{ old('corporate-account-type') == 'Emlakçı' ? 'selected' : '' }}>
+                                                        Emlakçı</option>
+                                                    <option value="Banka"
+                                                        {{ old('corporate-account-type') == 'Banka' ? 'selected' : '' }}>
+                                                        Banka</option>
+                                                    <option value="İnşaat"
+                                                        {{ old('corporate-account-type') == 'İnşaat' ? 'selected' : '' }}>
+                                                        İnşaat</option>
+                                                    <option value="Turizm"
+                                                        {{ old('corporate-account-type') == 'Turizm' ? 'selected' : '' }}>
+                                                        Turizm</option>
                                                 </select>
                                             </div>
-                                            <div class="mt-3 sub-plan-tab tab-emlakci d-none">
-                                                <label for="" class="q-label">Abonelik Planı</label>
-                                                <div class="owl-carousel">
-                                                    @foreach ($subscriptionPlans_emlakci as $plan)
-                                                        <div class="item">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <label for=""
-                                                                        class="q-label">{{ $plan->name }}</label>
 
-                                                                    <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:black">{{ $plan->price }}
-                                                                            TL</span></label>
-
-                                                                    <label for="" class="q-label">Proje Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->project_limit }}
-                                                                        </span></label>
-
-                                                                    <label for="" class="q-label">Kullanıcı
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->user_limit }}</span></label>
-
-                                                                    <label for="" class="q-label">Konut Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->housing_limit }}
-                                                                        </span></label>
-
-                                                                </div>
-                                                                <div class="card-footer">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-block plan-button"
-                                                                        data-plan-id="{{ $plan->id }}"
-                                                                        data-plan-name="{{ $plan->name }}"
-                                                                        data-plan-price="{{ $plan->price }}"
-                                                                        onclick="selectPlan(this)">
-                                                                        Seç
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            <div class="mt-3 sub-plan-tab tab-banka d-none">
-                                                <label for="" class="q-label">Abonelik Planı</label>
-                                                <div class="owl-carousel">
-                                                    @foreach ($subscriptionPlans_banka as $plan)
-                                                        <div class="item">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <label for=""
-                                                                        class="q-label">{{ $plan->name }}</label>
-
-                                                                    <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:black">{{ $plan->price }}
-                                                                            TL</span></label>
-
-                                                                    <label for="" class="q-label">Proje Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->project_limit }}
-                                                                        </span></label>
-
-                                                                    <label for="" class="q-label">Kullanıcı
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->user_limit }}</span></label>
-
-                                                                    <label for="" class="q-label">Konut Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->housing_limit }}
-                                                                        </span></label>
-
-                                                                </div>
-                                                                <div class="card-footer">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-block plan-button"
-                                                                        data-plan-id="{{ $plan->id }}"
-                                                                        data-plan-name="{{ $plan->name }}"
-                                                                        data-plan-price="{{ $plan->price }}"
-                                                                        onclick="selectPlan(this)">
-                                                                        Seç
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            <div class="mt-3 sub-plan-tab tab-insaat d-none">
-                                                <label for="" class="q-label">Abonelik Planı</label>
-                                                <div class="owl-carousel">
-                                                    @foreach ($subscriptionPlans_insaat as $plan)
-                                                        <div class="item">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <label for=""
-                                                                        class="q-label">{{ $plan->name }}</label>
-
-                                                                    <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:black">{{ $plan->price }}
-                                                                            TL</span></label>
-
-                                                                    <label for="" class="q-label">Proje Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->project_limit }}
-                                                                        </span></label>
-
-                                                                    <label for="" class="q-label">Kullanıcı
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->user_limit }}</span></label>
-
-                                                                    <label for="" class="q-label">Konut Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->housing_limit }}
-                                                                        </span></label>
-
-                                                                </div>
-                                                                <div class="card-footer">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-block plan-button"
-                                                                        data-plan-id="{{ $plan->id }}"
-                                                                        data-plan-name="{{ $plan->name }}"
-                                                                        data-plan-price="{{ $plan->price }}"
-                                                                        onclick="selectPlan(this)">
-                                                                        Seç
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-
+                                            <!-- Faaliyet Alanı -->
                                             <div class="mt-3">
                                                 <label for="" class="q-label">Faaliyet Alanınız</label>
                                                 <select class="form-control" name="activity">
                                                     <option value="">Seçiniz</option>
-                                                    <option for="İnşaat" value="İnşaat" data-title="İnşaat">
-                                                        İnşaat</option>
-                                                    <option for="Gayrimenkul" value="Gayrimenkul"
-                                                        data-title="Gayrimenkul">
+                                                    <option value="İnşaat"
+                                                        {{ old('activity') == 'İnşaat' ? 'selected' : '' }}>İnşaat</option>
+                                                    <option value="Gayrimenkul"
+                                                        {{ old('activity') == 'Gayrimenkul' ? 'selected' : '' }}>
                                                         Gayrimenkul</option>
-                                                    <option for="Turizm" value="Turizm" data-title="Turizm">Turizm
-                                                    </option>
-                                                    <option for="Banka" value="Banka" data-title="Banka">
-                                                        Banka</option>
+                                                    <option value="Turizm"
+                                                        {{ old('activity') == 'Turizm' ? 'selected' : '' }}>Turizm</option>
+                                                    <option value="Banka"
+                                                        {{ old('activity') == 'Banka' ? 'selected' : '' }}>Banka</option>
                                                 </select>
                                             </div>
 
+                                            <!-- İl -->
                                             <div class="mt-3">
                                                 <label for="" class="q-label">İl</label>
                                                 <select class="form-control" id="citySelect" name="city_id">
@@ -345,10 +220,10 @@
                                                     @foreach ($towns as $item)
                                                         <option for="{{ $item->sehir_title }}"
                                                             value="{{ $item->sehir_key }}"
-                                                            data-title="{{ $item->sehir_title }}">
-                                                            {{ $item->sehir_title }}</option>
+                                                            {{ old('city_id') == $item->sehir_key ? 'selected' : '' }}>
+                                                            {{ $item->sehir_title }}
+                                                        </option>
                                                     @endforeach
-
                                                 </select>
                                             </div>
                                             <div class="mt-3">
@@ -365,35 +240,36 @@
                                                 </select>
                                             </div>
 
+                                            <!-- İşletme Türü -->
                                             <div class="mt-3">
                                                 <label for="" class="q-label">İşletme Türü</label>
                                                 <div class="companyType">
                                                     <label for="of"><input type="radio" class="input-radio off"
-                                                            id="of" name="account_type" value="1" checked>
-                                                        Şahıs
+                                                            id="of" name="account_type" value="1"
+                                                            {{ old('account_type') == 1 ? 'checked' : '' }}> Şahıs
                                                         Şirketi</label>
                                                     <label for="on"><input type="radio" class="input-radio off"
-                                                            id="on" name="account_type" value="2"> Limited
-                                                        veya
+                                                            id="on" name="account_type" value="2"
+                                                            {{ old('account_type') == 2 ? 'checked' : '' }}> Limited veya
                                                         Anonim Şirketi</label>
                                                 </div>
                                             </div>
-
+                                            <!-- Vergi Dairesi İli -->
                                             <div class="split-form corporate-input mt-3">
                                                 <div class="corporate-input input-city">
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">Vergi Dairesi
                                                                 İli</label>
-
                                                             <select id="taxOfficeCity" class="form-control"
                                                                 name="taxOfficeCity">
                                                                 <option value="">Seçiniz</option>
                                                                 @foreach ($cities as $item)
                                                                     <option for="{{ $item->title }}"
                                                                         value="{{ $item->title }}"
-                                                                        data-title="{{ $item->title }}">
-                                                                        {{ $item->title }}</option>
+                                                                        {{ old('taxOfficeCity') == $item->title ? 'selected' : '' }}>
+                                                                        {{ $item->title }}
+                                                                    </option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -416,32 +292,34 @@
                                                 </div>
                                             </div>
 
+                                            <!-- Vergi No -->
                                             <div class="split-form corporate-input mt-3">
                                                 <div class="corporate-input input-city">
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
-                                                            <label for="" class="q-label">Vergi No
-                                                            </label>
+                                                            <label for="" class="q-label">Vergi No</label>
                                                             <input type="text" id="taxNumber" name="taxNumber"
-                                                                class="form-control">
+                                                                class="form-control" value="{{ old('taxNumber') }}">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
 
-                                            <div class="split-form corporate-input mt-3" id="idNumberDiv">
+                                            <!-- TC Kimlik No -->
+                                            <div class="split-form corporate-input mt-3 {{ old('account_type') == 2 ? 'd-none' : '' }}"
+                                                id="idNumberDiv">
                                                 <div class="corporate-input input-city">
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
-                                                            <label for="" class="q-label">TC Kimlik No
-                                                            </label>
+                                                            <label for="" class="q-label">TC Kimlik No</label>
                                                             <input type="text" id="idNumber" name="idNumber"
-                                                                class="form-control">
+                                                                class="form-control" value="{{ old('idNumber') }}">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
 
 
                                         </div>

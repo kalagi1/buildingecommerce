@@ -23,57 +23,69 @@
                     </svg>
                     <div class="ms-2">
                         <div class="d-flex align-items-end">
-                            <span class="fs-1 fw-semi-bold text-900"
-                                style="font-size: 16px !important;">{{ $user->plan->subscriptionPlan->name }} Paketi</span>
+                            @if ($user->plan)
+                                <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">
+                                    {{ $user->plan->subscriptionPlan->name }} Paketi
+                                </span>
+                            @else
+                                <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">
+                                    Henüz paket almadınız
+                                </span>
+                            @endif
                         </div>
+
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 col-12 mb-3">
-                <div class="d-flex align-items-center bg-white border rounded-sm p-2">
-                    <svg viewBox="0 0 24 24" width="30" height="30" stroke="blue" stroke-width="2" fill="blue"
-                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    <div class="ms-2">
-                        <div class="d-flex align-items-end">
-                            <h2 class="mb-0 me-2">{{ $user->plan->project_limit }}</h2>
-                            <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Proje Limiti</span>
+            @if ($user->plan)
+                <div class="col-md-3 col-12 mb-3">
+                    <div class="d-flex align-items-center bg-white border rounded-sm p-2">
+                        <svg viewBox="0 0 24 24" width="30" height="30" stroke="blue" stroke-width="2"
+                            fill="blue" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        <div class="ms-2">
+                            <div class="d-flex align-items-end">
+                                <h2 class="mb-0 me-2">{{ $user->plan->project_limit }}</h2>
+                                <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Proje
+                                    Limiti</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-12 mb-3">
-                <div class="d-flex align-items-center bg-white border rounded-sm p-2">
-                    <svg viewBox="0 0 24 24" width="30" height="30" stroke="green" stroke-width="2" fill="green"
-                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                    <div class="ms-2">
-                        <div class="d-flex align-items-end">
-                            <h2 class="mb-0 me-2">{{ $user->plan->user_limit }}</h2>
-                            <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Alt Kullanıcı
-                                Limiti</span>
+                <div class="col-md-3 col-12 mb-3">
+                    <div class="d-flex align-items-center bg-white border rounded-sm p-2">
+                        <svg viewBox="0 0 24 24" width="30" height="30" stroke="green" stroke-width="2"
+                            fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <div class="ms-2">
+                            <div class="d-flex align-items-end">
+                                <h2 class="mb-0 me-2">{{ $user->plan->user_limit }}</h2>
+                                <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Alt Kullanıcı
+                                    Limiti</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-12 mb-3">
-                <div class="d-flex align-items-center bg-white border rounded-sm p-2">
-                    <svg viewBox="0 0 24 24" width="30" height="30" stroke="currentColor" stroke-width="2"
-                        fill="orange" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
-                    <div class="ms-2">
-                        <div class="d-flex align-items-end">
-                            <h2 class="mb-0 me-2">{{ $user->plan->housing_limit }}</h2>
-                            <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Konut Limiti</span>
+                <div class="col-md-3 col-12 mb-3">
+                    <div class="d-flex align-items-center bg-white border rounded-sm p-2">
+                        <svg viewBox="0 0 24 24" width="30" height="30" stroke="currentColor" stroke-width="2"
+                            fill="orange" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <div class="ms-2">
+                            <div class="d-flex align-items-end">
+                                <h2 class="mb-0 me-2">{{ $user->plan->housing_limit }}</h2>
+                                <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Konut
+                                    Limiti</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
         <div class="row">
             <div class="col-md-6">

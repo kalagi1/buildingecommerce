@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
-use App\Rules\SubscriptionPlanToRegister;
 
 class RegisterController extends Controller
 {
@@ -25,14 +24,17 @@ class RegisterController extends Controller
             'password' => 'required|min:3',
             'type' => 'required|in:1,2',
             'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
-            'subscription_plan_id' => [
-                'nullable',
-                new SubscriptionPlanToRegister,
-            ],
+            'activity' => 'required_if:type,2|in:Gayrimenkul,Turizm,Banka,İnşaat',
+            'county_id' => "required_if:type,2",
+            'city_id' => "required_if:type,2",
+            'neighborhood_id' => "required_if:type,2",
+            'username' => "required_if:type,2",
+            'taxOffice' => "required_if:type,2",
+            'taxNumber' => "required_if:type,2",
+            'idNumber' => "required_if:account_type,1",
         ];
-        
+
         $msgs = [
-            'name.required' => 'İsim alanı zorunludur.',
             'email.required' => 'E-posta adresi alanı zorunludur.',
             'email.email' => 'Geçerli bir e-posta adresi giriniz.',
             'email.unique' => 'Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor.',
@@ -42,10 +44,17 @@ class RegisterController extends Controller
             'type.in' => 'Geçerli bir kullanıcı türü seçiniz.',
             'corporate-account-type.required_if' => 'Kurumsal hesap türü seçimi zorunludur.',
             'corporate-account-type.in' => 'Geçerli bir kurumsal hesap türü seçiniz.',
+            'activity.required_if' => 'Kurumsal hesap aktivitesi seçimi zorunludur.',
+            'activity.in' => 'Geçerli bir kurumsal hesap aktivitesi seçiniz.',
+            'county_id.required_if' => 'İlçe seçimi zorunludur.',
+            'city_id.required_if' => 'Şehir seçimi zorunludur.',
+            'neighborhood_id.required_if' => 'Mahalle seçimi zorunludur.',
+            'username.required_if' => 'Kullanıcı adı zorunludur.',
+            'taxOffice.required_if' => 'Vergi dairesi adı zorunludur.',
+            'taxNumber.required_if' => 'Vergi numarası zorunludur.',
+            'idNumber.required_if' => 'T.C. kimlik numarası zorunludur.',
             'subscription_plan_id.nullable' => 'Abonelik planı seçimi yapılmışsa geçerli bir abonelik planı seçiniz.',
         ];
-        
-        
 
         $city = City::where("title", $request->input("taxOfficeCity"))->first();
 
@@ -67,7 +76,7 @@ class RegisterController extends Controller
         $user->name = $request->input("name") ? $request->input("name") : $request->input("name1");
         $user->profile_image = "indir.png";
         $user->banner_hex_code = "black";
-        $user->password = bcrypt($request->input("password") );
+        $user->password = bcrypt($request->input("password"));
         $user->type = $validatedData['type'];
         $user->activity = $request->input("activity");
         $user->county_id = $request->input("county_id");
@@ -84,17 +93,16 @@ class RegisterController extends Controller
         $user->corporate_type = $request->input("corporate-account-type");
         $user->save();
 
-        if($subscriptionPlan){
+        if ($user->type == 2) {
             UserPlan::create([
                 "user_id" => $user->id,
-                "subscription_plan_id" => $subscriptionPlan ? $subscriptionPlan->id : NULL,
-                "project_limit" => $subscriptionPlan->project_limit,
-                "user_limit" => $subscriptionPlan->user_limit,
-                "housing_limit" => $subscriptionPlan->housing_limit,
+                "subscription_plan_id" => NULL,
+                "project_limit" => 0,
+                "user_limit" => 0,
+                "housing_limit" => 0,
             ]);
         }
 
-       
         $emailTemplate = EmailTemplate::where('slug', "account-verify")->first();
 
         if (!$emailTemplate) {
@@ -123,12 +131,10 @@ class RegisterController extends Controller
         {
             Mail::to($request->input("email"))->send(new CustomMail($emailTemplate->subject, $content));
             session()->flash('success', 'Hesabınız oluşturuldu. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return redirect()->back()->withErrors(['status' => 'Onay e-postası gönderilemedi.']);
         }
-        
+
         return redirect()->route('client.login');
 
     }

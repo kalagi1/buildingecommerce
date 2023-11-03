@@ -23,7 +23,7 @@ class ProfileController extends Controller
     public function upgrade()
     {
         $plans = SubscriptionPlan::where('plan_type', auth()->user()->corporate_type)->orderBy("price", "asc")->get();
-        $current = UserPlan::with("subscriptionPlan")->where('user_id', auth()->user()->id)->first() ?? false;
+        $current = UserPlan::with("subscriptionPlan")->where('user_id', auth()->user()->id)->first();
         return view('institutional.profile.upgrade', compact('plans', 'current'));
     }
 
@@ -45,13 +45,6 @@ class ProfileController extends Controller
         $user->update([
             'subscription_plan_id' => $plan->id,
         ]);
-
-        if (!$before) {
-            $before = new \stdClass();
-            $before->user_limit = 0;
-            $before->housing_limit = 0;
-            $before->project_limit = 0;
-        }
 
         switch (auth()->user()->corporate_type) {
             case 'Emlakçı':
@@ -87,6 +80,7 @@ class ProfileController extends Controller
             ]
         );
         UserPlan::where('user_id', auth()->user()->id)->update($data);
+
         DB::commit();
 
         return redirect()->back()->with('success', 'Plan başarıyla eklendi.');

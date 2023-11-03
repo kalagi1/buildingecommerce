@@ -27,12 +27,13 @@
                                 <div class="p-4">
 
                                     <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                        action="{{ route('institutional.storeBanners.store') }}" enctype="multipart/form-data">
+                                        action="{{ route('institutional.storeBanners.store') }}"
+                                        enctype="multipart/form-data">
                                         @csrf
                                         <div class="col-md-12">
-                                            <label class="form-label" for="image">Banner Resmi</label>
-                                            <input name="image" class="form-control" id="image"
-                                                type="file" accept="image/*" required="">
+                                            <label class="form-label" for="image">Banner Resmi (350 × 184)</label>
+                                            <input name="images[]" class="form-control" id="image" type="file"
+                                                accept="image/*" required="" multiple>
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-12">

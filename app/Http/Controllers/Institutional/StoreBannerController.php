@@ -6,6 +6,7 @@ use App\Models\StoreBanner; // Eğer kullanılacaksa StoreBanner modelini ekleyi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class StoreBannerController extends Controller
 {
@@ -22,20 +23,26 @@ class StoreBannerController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image',
-        ]);
+        $imagePaths = [];
 
-        $image = $request->file('image');
-        $fileName = 'store_banner_' . time() . '.' . $image->getClientOriginalExtension();
-        $image->storeAs('store_banners', $fileName, 'public');
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $fileName = 'store_banner_' . Str::uuid(). '.' . $image->getClientOriginalExtension();
+                $image->storeAs('store_banners', $fileName, 'public');
+                $imagePaths[] = $fileName;
+            }
+        }
 
-        $storeBanner = new StoreBanner();
-        $storeBanner->image = $fileName;
-        $storeBanner->user_id = auth()->user()->parent_id ?? auth()->user()->id;
-        $storeBanner->save();
+        $parentUser = auth()->user()->parent_id ?? auth()->user()->id;
 
-        return redirect()->route('institutional.storeBanners.index')->with('success', 'Mağaza bannerı başarıyla oluşturuldu.');
+        foreach ($imagePaths as $imagePath) {
+            $storeBanner = new StoreBanner();
+            $storeBanner->image = $imagePath;
+            $storeBanner->user_id = $parentUser;
+            $storeBanner->save();
+        }
+
+        return redirect()->route('institutional.storeBanners.index')->with('success', 'Mağaza bannerları başarıyla oluşturuldu.');
     }
 
     public function edit(StoreBanner $storeBanner)
@@ -51,7 +58,7 @@ class StoreBannerController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageFileName = 'store_banner_' . time() . '.' . $image->getClientOriginalExtension();
+            $imageFileName = 'store_banner_' .Str::uuid(). '.' . $image->getClientOriginalExtension();
             $image->storeAs('store_banners', $imageFileName, 'public');
             $storeBanner->image = $imageFileName;
         }

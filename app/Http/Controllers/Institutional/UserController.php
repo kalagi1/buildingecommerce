@@ -134,8 +134,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $roles = Role::where("parent_id", Auth::user()->id)->get();
-        $user = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
-        return view('institutional.users.edit', compact('user', 'roles'));
+        $subUser = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
+        return view('institutional.users.edit', compact('subUser', 'roles'));
     }
 
     public function update(Request $request, $id)
@@ -143,8 +143,8 @@ class UserController extends Controller
         // Form doğrulama kurallarını tanımlayın
         $rules = [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'type' => 'required|in:1,2',
+            'email' => 'required|email',
+            'type' => 'required',
             'is_active' => 'nullable',
         ];
 

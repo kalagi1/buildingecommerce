@@ -7,7 +7,7 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Rol Güncelle</h4>
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Departman Güncelle</h4>
                         </div>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
-                                <label class="form-label" for="name">Rol</label>
+                                <label class="form-label" for="name">Departman</label>
                                 <input class="form-control" id="name" name="name" type="text" placeholder="Rol"
                                     value="{{ $role->name }}">
                             </div>

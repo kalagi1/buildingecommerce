@@ -22,7 +22,7 @@
         "id": "role",
         "label": "Hesabım & Yardım",
         "icon": "user",
-        "text": "Roller",
+        "text": "Departman Oluştur",
         "key": "Roles",
         "url": "#nv-role",
         "activePath": "institutional/roles*",

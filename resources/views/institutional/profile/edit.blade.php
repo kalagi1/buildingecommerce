@@ -36,7 +36,7 @@
                                 <div class="mt-3">
                                     <img src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
                                         alt="Profil Resmi" width="100"><br>
-                                    <label class="q-label">Profil Resmi</label>
+                                    <label class="q-label">Profil Fotoğrafı Seç</label>
                                     <input type="file" name="profile_image" class="form-control"
                                         accept=".jpeg, .jpg, .png">
                                 </div>

@@ -8,7 +8,8 @@
                     data-list='{"valueNames":["projectName","assigness","start","deadline","task","projectprogress","status","action"],"page":12,"pagination":true}'>
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
-                            <h2 class="mb-0">Roller<span class="fw-normal text-700 ms-3">({{ count($roles) }})</span>
+                            <h2 class="mb-0">Departman Listele<span
+                                    class="fw-normal text-700 ms-3">({{ count($roles) }})</span>
                             </h2>
                         </div>
                         <div class="col-auto">
@@ -39,8 +40,8 @@
                                     <tr>
                                         <th style="width:15%;">ID</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="projectName" style="width:60%;">ROL</th>
-                                        <th>İŞLEMLER</th>
+                                            data-sort="projectName" style="width:60%;">Departman</th>
+                                        <th>İşlemler</th>
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="project-list-table-body">

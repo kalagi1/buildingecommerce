@@ -32,20 +32,20 @@
                         <div class="card-body p-0">
                             <div class="p-4">
                                 <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                    action="{{ route('institutional.users.update', $user->id) }}">
+                                    action="{{ route('institutional.users.update', $subUser->id) }}">
                                     @csrf
                                     @method('PUT') <!-- HTTP PUT kullanarak güncelleme işlemi yapılacak -->
 
                                     <div class="col-md-12">
                                         <label class="form-label" for="name">İsim Soyisim</label>
                                         <input name="name" class="form-control" id="name" type="text"
-                                            value="{{ old('name', $user->name) }}" required="">
+                                            value="{{ old('name', $subUser->name) }}" required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="email">Email</label>
                                         <input name="email" class="form-control" id="email" type="email"
-                                            value="{{ old('email', $user->email) }}" required="">
+                                            value="{{ old('email', $subUser->email) }}" required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
@@ -60,7 +60,7 @@
                                         <select name="type" class="form-select" id="validationCustom04" required="">
                                             @foreach ($roles as $item)
                                                 <option value={{ $item->id }}
-                                                    {{ old('type', $user->type) == $item->id ? 'selected' : '' }}>
+                                                    {{ old('type', $subUser->type) == $item->id ? 'selected' : '' }}>
                                                     {{ $item->name }}</option>
                                             @endforeach
                                         </select>
@@ -69,7 +69,7 @@
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" name="is_active"
                                                 id="flexSwitchCheckCheckedDisabled" type="checkbox"
-                                                {{ old('is_active', $user->status) ? 'checked' : '' }} />
+                                                {{ old('is_active', $subUser->status) ? 'checked' : '' }} />
                                             <label class="form-check-label"
                                                 for="flexSwitchCheckCheckedDisabled">Aktif</label>
                                         </div>
