@@ -112,7 +112,7 @@ class UserController extends Controller
         $user->profile_image = "indir.png";
         $user->password = bcrypt($validatedData['password']); // Şifreyi şifreleyin
         $user->type = $validatedData['type'];
-        $user->status = $request->has('is_active');
+        $user->status = $request->has('is_active') ? 1 : 5;
         $user->parent_id = (auth()->user()->parent_id ?? auth()->user()->id) != 3 ? (auth()->user()->parent_id ?? auth()->user()->id) : null;
         $user->subscription_plan_id = $mainUser->subscription_plan_id;
 
@@ -156,7 +156,7 @@ class UserController extends Controller
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
         $user->type = $validatedData['type'];
-        $user->status = $request->has('is_active') ? 1 : 0;
+        $user->status = $request->has('is_active') ? 1 : 5;
 
         // Şifre güncelleme işlemini kontrol edin
         if ($request->filled('password')) {

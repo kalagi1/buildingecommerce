@@ -37,9 +37,14 @@ class LoginController extends Controller
         $user = User::where("email", $request->email)->first();
 
         if ($user) {
+
             if ($user->status == 0) {
                 $this->sendVerificationEmail($user);
-                session()->flash('success', 'Giriş Başarısız. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
+                session()->flash('warning', 'Giriş Başarısız. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
+                return redirect()->route('client.login');
+            } elseif ($user->status == 5) {
+                // $this->sendVerificationEmail($user);
+                session()->flash('warning', 'Bu kullanıcının hesabı geçici olarak askıya alınmıştır. Hesabınızın yeniden etkinleştirilmesi için lütfen yöneticinizle iletişime geçin.');
                 return redirect()->route('client.login');
             } elseif ($user->status == 1) {
                 if (Auth::attempt($credentials)) {
@@ -101,7 +106,8 @@ class LoginController extends Controller
             session()->flash('error', 'Hata');
             return redirect()->route('client.login');
 
-        }}
+        }
+    }
     public function logout()
     {
         Auth::logout();

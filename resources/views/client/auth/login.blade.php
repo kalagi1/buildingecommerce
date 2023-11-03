@@ -39,6 +39,10 @@
                                         <div class="alert alert-danger">
                                             {{ session()->get('error') }}
                                         </div>
+                                    @elseif (session()->has('warning'))
+                                        <div class="alert alert-warning">
+                                            {{ session()->get('warning') }}
+                                        </div>
                                     @endif
 
                                     <form method="POST"class="form w-100" action="{{ route('client.submit.login') }}">

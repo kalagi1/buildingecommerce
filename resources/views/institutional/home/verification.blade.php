@@ -9,7 +9,9 @@
                 <div class="form-group">
                     <div class="text-success">
                         @if (!is_null(auth()->user()->tax_document) || !is_null(auth()->user()->record_document))
-                            Belgeleriniz gönderildi ve şu anda incelemede. Dilerseniz gönderdiğiniz belgeleri
+                            Belgeleriniz gönderildi. En geç 12 saat içerisinde inceleme sonucu tarafınıza
+                            iletilecektir.
+                            Dilerseniz gönderdiğiniz belgeleri
                             güncelleyebilirsiniz. <br>
                             @if ($user->corporate_account_note)
                                 <div style="color: red">
@@ -35,14 +37,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="vergi_levhasi" class="mb-2">Vergi Levhası: @if (auth()->user()->tax_document_approve)
+                    <label for="vergi_levhasi" class="mb-2">İmza Sirküsü: @if (auth()->user()->tax_document_approve)
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
                         @endif
 
                         @if (!is_null(auth()->user()->tax_document))
                             <div>
                                 <a target="_blank" href="{{ route('institutional.get.tax-document') }}"
-                                    class="btn btn-primary">Vergi Levhasını Gör</a>
+                                    class="btn btn-blue">İmza Sirküsünü Gör</a>
                             </div>
                         @endif
                     </label>
@@ -53,7 +55,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="sicil_belgesi" class="mb-2">Sicil Belgesi:
+                    <label for="sicil_belgesi" class="mb-2">Müteahhitlik Belgesi:
                         @if (auth()->user()->record_document_approve)
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
                         @endif
@@ -61,7 +63,7 @@
                         @if (!is_null(auth()->user()->record_document))
                             <div>
                                 <a target="_blank" href="{{ route('institutional.get.record-document') }}"
-                                    class="btn btn-primary">Sicil Belgesini Gör</a>
+                                    class="btn btn-blue">Müteahhitlik Belgesini Gör</a>
                             </div>
                         @endif
                     </label>
@@ -70,7 +72,7 @@
                         accept=".png,.jpeg,.jpg"{{ auth()->user()->record_document_approve == 0 ? ' required' : null }} />
                 </div>
                 <div class="form-group">
-                    <label for="kimlik_belgesi" class="mb-2">Kimlik Belgesi:
+                    <label for="kimlik_belgesi" class="mb-2">Yetkilinin Kimlik Belgesi:
                         @if (auth()->user()->identity_document_approve)
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
                         @endif
@@ -78,7 +80,7 @@
                         @if (!is_null(auth()->user()->identity_document))
                             <div>
                                 <a target="_blank" href="{{ route('institutional.get.identity-document') }}"
-                                    class="btn btn-primary">Kimlik Belgesini Gör</a>
+                                    class="btn btn-blue">Yetkilinin Kimlik Belgesini Gör</a>
                             </div>
                         @endif
                     </label>
@@ -97,7 +99,7 @@
                         @if (!is_null(auth()->user()->company_document))
                             <div>
                                 <a target="_blank" href="{{ route('institutional.get.company-document') }}"
-                                    class="btn btn-primary mb-2">İnşaat Belgesini Gör</a>
+                                    class="btn btn-blue mb-2">İnşaat Belgesini Gör</a>
                             </div>
                         @endif
                         <input type="file" name="insaat_belgesi" id="insaat_belgesi"
@@ -112,17 +114,12 @@
                         !is_null(auth()->user()->tax_document) ||
                             !is_null(auth()->user()->record_document) ||
                             !is_null(auth()->user()->identity_document))
-                        <button type="submit" class="btn btn-primary btn-lg">GÜNCELLE</button>
+                        <button type="submit" class="btn btn-primary">GÜNCELLE</button>
                     @else
-                        <button type="submit" class="btn btn-primary btn-lg">ONAYA GÖNDER</button>
+                        <button type="submit" class="btn btn-primary">ONAYA GÖNDER</button>
                     @endif
                     <a href="{{ route('index') }}" class="backToHome">
-                        <button type="button" class="btn btn-primary btn-lg">Anasayfa'ya Dön <svg viewBox="0 0 24 24"
-                                width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                <polyline points="9 10 4 15 9 20"></polyline>
-                                <path d="M20 4v7a4 4 0 0 1-4 4H4"></path>
-                            </svg></button>
+                        <button type="button" class="btn btn-primary">Anasayfa'ya Dön </button>
                     </a>
                 </div>
             </div>
@@ -133,6 +130,11 @@
 
 @section('css')
     <style>
+        .btn-blue {
+            background-color: #0080c7 !important;
+            color: white
+        }
+
         /* Add this to your CSS file */
         .green-border {
             border: 2px solid green;

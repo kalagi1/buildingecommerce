@@ -35,26 +35,26 @@
                                     <div class="col-12">
                                         @if ($user_e->type == 2)
                                         <div class="form-group">
-                                            <a  target="_blank"  href="{{ route('admin.get.tax-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Vergi Levhasını Gör</a>
+                                            <a  target="_blank"  href="{{ route('admin.get.tax-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">İmza Sirküsünı Gör</a>
                                             <select name="tax_document_approve" class="form-control">
-                                                <option value="0"{{$user_e->tax_document_approve == 0 ? ' selected' : null}}>Vergi Levhasını Onaylamıyorum</option>
-                                                <option value="1"{{$user_e->tax_document_approve == 1 ? ' selected' : null}}>Vergi Levhasını Onaylıyorum</option>
+                                                <option value="0"{{$user_e->tax_document_approve == 0 ? ' selected' : null}}>İmza Sirküsünı Onaylamıyorum</option>
+                                                <option value="1"{{$user_e->tax_document_approve == 1 ? ' selected' : null}}>İmza Sirküsünı Onaylıyorum</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <a  target="_blank"  href="{{ route('admin.get.record-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Sicil Belgesini Gör</a>
+                                            <a  target="_blank"  href="{{ route('admin.get.record-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Müteahhitlik Belgesini Gör</a>
                                             <select name="record_document_approve" class="form-control">
-                                                <option value="0"{{$user_e->record_document_approve == 0 ? ' selected' : null}}>Sicil Belgesini Onaylamıyorum</option>
-                                                <option value="1"{{$user_e->record_document_approve == 1 ? ' selected' : null}}>Sicil Belgesini Onaylıyorum</option>
+                                                <option value="0"{{$user_e->record_document_approve == 0 ? ' selected' : null}}>Müteahhitlik Belgesini Onaylamıyorum</option>
+                                                <option value="1"{{$user_e->record_document_approve == 1 ? ' selected' : null}}>Müteahhitlik Belgesini Onaylıyorum</option>
                                             </select>
                                         </div>
                                         @endif 
                                         <div class="form-group">
-                                            <a  target="_blank"  href="{{ route('admin.get.identity-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Kimlik Belgesini Gör</a>
+                                            <a  target="_blank"  href="{{ route('admin.get.identity-document', ['user' => $user_e->id]) }}" class="btn btn-primary mb-2">Yetkilinin Kimlik Belgesini Gör</a>
                                             @csrf
                                             <select name="identity_document_approve" class="form-control">
-                                                <option value="0"{{$user_e->identity_document_approve == 0 ? ' selected' : null}}>Kimlik Belgesini Onaylamıyorum</option>
-                                                <option value="1"{{$user_e->identity_document_approve == 1 ? ' selected' : null}}>Kimlik Belgesini Onaylıyorum</option>
+                                                <option value="0"{{$user_e->identity_document_approve == 0 ? ' selected' : null}}>Yetkilinin Kimlik Belgesini Onaylamıyorum</option>
+                                                <option value="1"{{$user_e->identity_document_approve == 1 ? ' selected' : null}}>Yetkilinin Kimlik Belgesini Onaylıyorum</option>
                                             </select>
                                         </div>
                                         @if ($user_e->type == 2)

@@ -8,7 +8,7 @@
                     data-list='{"valueNames":["projectName","assigness","start","deadline","task","projectprogress","status","action"],"page":12,"pagination":true}'>
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
-                            <h2 class="mb-0">Departman Listele<span
+                            <h2 class="mb-0">Kullanıcı Tipi Listele<span
                                     class="fw-normal text-700 ms-3">({{ count($roles) }})</span>
                             </h2>
                         </div>
@@ -40,7 +40,7 @@
                                     <tr>
                                         <th style="width:15%;">ID</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="projectName" style="width:60%;">Departman</th>
+                                            data-sort="projectName" style="width:60%;">Kullanıcı Tipi</th>
                                         <th>İşlemler</th>
                                     </tr>
                                 </thead>

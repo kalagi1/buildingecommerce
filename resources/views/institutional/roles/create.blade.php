@@ -7,7 +7,7 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Departman Oluştur</h4>
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Kullanıcı Tipi Oluştur</h4>
                         </div>
                     </div>
                 </div>
@@ -16,7 +16,7 @@
                         <form action="{{ route('institutional.roles.store') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label" for="name">Departman</label>
+                                <label class="form-label" for="name">Kullanıcı Tipi</label>
                                 <input class="form-control" id="name" name="name" type="text" placeholder="Rol">
                             </div>
                             <div class="mb-3">
