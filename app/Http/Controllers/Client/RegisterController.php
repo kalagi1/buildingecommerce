@@ -20,8 +20,26 @@ class RegisterController extends Controller
     {
 
         $rules = [
+            'name1' => [
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->input('type') == 1 && empty($value)) {
+                        $fail('İsim alanı zorunludur.');
+                    }
+                },
+            ],
+            'name' => [
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->input('type') == 2 && empty($value)) {
+                        $fail('İsim alanı zorunludur.');
+                    }
+                },
+            ],
             'email' => 'required|email|unique:users',
             'password' => 'required|min:3',
+            'phone' => [
+                'required',
+                'regex:/^05[0-9]{9}$/',
+            ],
             'type' => 'required|in:1,2',
             'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
             'activity' => 'required_if:type,2|in:Gayrimenkul,Turizm,Banka,İnşaat',
@@ -30,12 +48,15 @@ class RegisterController extends Controller
             'neighborhood_id' => "required_if:type,2",
             'username' => "required_if:type,2",
             'taxOffice' => "required_if:type,2",
+            "taxOfficeCity" => "required_if:type,2",
             'taxNumber' => "required_if:type,2",
             'idNumber' => "required_if:account_type,1",
         ];
 
         $msgs = [
             'email.required' => 'E-posta adresi alanı zorunludur.',
+            'phone.required' => 'Telefon numarası zorunludur.',
+            'phone.regex' => 'Geçerli bir telefon numarası giriniz',
             'email.email' => 'Geçerli bir e-posta adresi giriniz.',
             'email.unique' => 'Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor.',
             'password.required' => 'Şifre alanı zorunludur.',
@@ -51,6 +72,7 @@ class RegisterController extends Controller
             'neighborhood_id.required_if' => 'Mahalle seçimi zorunludur.',
             'username.required_if' => 'Kullanıcı adı zorunludur.',
             'taxOffice.required_if' => 'Vergi dairesi adı zorunludur.',
+            'taxOfficeCity.required_if' => 'Vergi dairesi ili zorunludur.',
             'taxNumber.required_if' => 'Vergi numarası zorunludur.',
             'idNumber.required_if' => 'T.C. kimlik numarası zorunludur.',
             'subscription_plan_id.nullable' => 'Abonelik planı seçimi yapılmışsa geçerli bir abonelik planı seçiniz.',
@@ -96,7 +118,7 @@ class RegisterController extends Controller
         if ($user->type == 2) {
             UserPlan::create([
                 "user_id" => $user->id,
-                "subscription_plan_id" => NULL,
+                "subscription_plan_id" => null,
                 "project_limit" => 0,
                 "user_limit" => 0,
                 "housing_limit" => 0,

@@ -9,14 +9,16 @@
                         <!-- Sekme Seçenekleri -->
                         <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="normal-tab" data-toggle="tab" href="#normal" role="tab"
-                                    aria-controls="normal" aria-selected="true">
+                                <a class="nav-link @if ($errors->has('login_error') || !$errors->any()) active show @else hide @endif "
+                                    id="normal-tab" data-toggle="tab" href="#normal" role="tab" aria-controls="normal"
+                                    aria-selected="true">
                                     <h3 class="text-center font-weight-bold">Giriş Yap</h3>
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="corporate-tab" data-toggle="tab" href="#corporate" role="tab"
-                                    aria-controls="corporate" aria-selected="false">
+                                <a class="nav-link @if ($errors->any() && !$errors->has('login_error')) active show @endif" id="corporate-tab"
+                                    data-toggle="tab" href="#corporate" role="tab" aria-controls="corporate"
+                                    aria-selected="false">
                                     <h3 class="text-center font-weight-bold">Kayıt Ol</h3>
                                 </a>
                             </li>
@@ -26,8 +28,9 @@
                             <!-- Sekme İçeriği -->
                             <div class="tab-content" id="myTabContent">
                                 <!-- Normal Hesap Girişi Sekmesi -->
-                                <div class="tab-pane fade show active" id="normal" role="tabpanel"
-                                    aria-labelledby="normal-tab">
+                                <div class="tab-pane fade @if ($errors->has('login_error') || !$errors->any()) active show @else hide @endif "
+                                    id="normal" role="tabpanel" aria-labelledby="normal-tab">
+
                                     @if (session()->has('success'))
                                         <div class="alert alert-success">
                                             {{ session()->get('success') }}
@@ -39,25 +42,35 @@
                                     @endif
 
                                     <form method="POST"class="form w-100" action="{{ route('client.submit.login') }}">
-
                                         @csrf
-                                        @if ($errors->any())
+
+                                        @if ($errors->has('login_error'))
                                             <div class="alert alert-danger">
-                                                <ul class="mb-0">
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
+                                                {{ $errors->first('login_error') }}
                                             </div>
                                         @endif
+
+
+                                        <!-- E-Posta -->
                                         <div class="mt-3">
                                             <label class="q-label">E-Posta</label>
-                                            <input type="email" name="email" class="form-control">
+                                            <input type="email" name="email"
+                                                class="form-control {{ $errors->has('email') ? 'error-border' : '' }}"
+                                                value="{{ old('email') }}">
+                                            @if ($errors->has('email'))
+                                                <span class="error-message">{{ $errors->first('email') }}</span>
+                                            @endif
+
                                         </div>
+
 
                                         <div class="mt-3">
                                             <label class="q-label">Şifre</label>
-                                            <input type="password" name="password" class="form-control">
+                                            <input type="password" name="password"
+                                                class="form-control {{ $errors->has('password') ? 'error-border' : '' }}">
+                                            @if ($errors->has('password'))
+                                                <span class="error-message">{{ $errors->first('password') }}</span>
+                                            @endif
                                         </div>
 
                                         <div class="forgot-password d-flex justify-content-between">
@@ -109,7 +122,18 @@
                                 </div>
 
                                 <!-- Kurumsal Hesap Girişi Sekmesi -->
-                                <div class="tab-pane fade" id="corporate" role="tabpanel" aria-labelledby="corporate-tab">
+                                <div class="tab-pane fade @if ($errors->any() && !$errors->has('login_error')) active show @endif"
+                                    id="corporate" role="tabpanel" aria-labelledby="corporate-tab">
+                                    @if ($errors->any() && !$errors->has('login_error'))
+                                        <div class="alert alert-danger active show">
+                                            <ul class="mb-0">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+
                                     <form method="POST" class="form w-100" action="{{ route('client.submit.register') }}">
                                         @csrf
                                         <div class="user-type-selection">
@@ -127,7 +151,8 @@
                                         </div>
 
 
-                                        <div class="individual-form" id="individualForm">
+                                        <div class="individual-form {{ old('type') == 1 ? 'd-show' : '' }} {{ old('type') == 2 ? 'hide' : '' }} "
+                                            id="individualForm">
 
                                             <!-- İsim -->
                                             <div class="mt-3">
@@ -141,36 +166,56 @@
                                         <!-- E-Posta -->
                                         <div class="mt-3">
                                             <label class="q-label">E-Posta</label>
-                                            <input type="email" name="email" class="form-control"
+                                            <input type="email" name="email"
+                                                class="form-control {{ $errors->has('email') ? 'error-border' : '' }}"
                                                 value="{{ old('email') }}">
+                                            @if ($errors->has('email'))
+                                                <span class="error-message">{{ $errors->first('email') }}</span>
+                                            @endif
                                         </div>
 
-                                        <!-- Şifre -->
                                         <div class="mt-3">
                                             <label class="q-label">Şifre</label>
-                                            <input type="password" name="password" class="form-control">
+                                            <input type="password" name="password"
+                                                class="form-control {{ $errors->has('password') ? 'error-border' : '' }}">
+                                            @if ($errors->has('password'))
+                                                <span class="error-message">{{ $errors->first('password') }}</span>
+                                            @endif
                                         </div>
 
-                                        <div class="corporate-form" id="corporateForm">
+                                        <div class="corporate-form {{ old('type') == 2 ? 'd-show' : '' }} "
+                                            id="corporateForm">
                                             <!-- E-Posta -->
                                             <div class="mt-3">
                                                 <label class="q-label">Yetkili İsim Soyisim</label>
-                                                <input type="text" name="username" class="form-control"
+                                                <input type="text" name="username"
+                                                    class="form-control {{ $errors->has('username') ? 'error-border' : '' }}"
                                                     value="{{ old('username') }}">
+                                                @if ($errors->has('username'))
+                                                    <span class="error-message">{{ $errors->first('username') }}</span>
+                                                @endif
                                             </div>
 
                                             <!-- Firma Adı -->
                                             <div class="mt-3">
                                                 <label class="q-label">Firma Adı</label>
-                                                <input type="text" name="name" class="form-control"
+                                                <input type="text" name="name"
+                                                    class="form-control {{ $errors->has('name') ? 'error-border' : '' }}"
                                                     value="{{ old('name') }}">
+                                                @if ($errors->has('name'))
+                                                    <span class="error-message">{{ $errors->first('name') }}</span>
+                                                @endif
                                             </div>
 
                                             <!-- Sabit Telefon -->
                                             <div class="mt-3">
                                                 <label class="q-label">Sabit Telefon</label>
-                                                <input type="tel" name="phone" class="form-control"
+                                                <input type="number" name="phone"
+                                                    class="form-control {{ $errors->has('phone') ? 'error-border' : '' }}"
                                                     value="{{ old('phone') }}">
+                                                @if ($errors->has('phone'))
+                                                    <span class="error-message">{{ $errors->first('phone') }}</span>
+                                                @endif
                                             </div>
 
                                             <!-- Kurumsal Hesap Türü -->
@@ -178,7 +223,7 @@
                                                 <label for="corporate-account-type" class="q-label">Kurumsal Hesap
                                                     Türü</label>
                                                 <select name="corporate-account-type" id="corporate-account-type"
-                                                    class="form-control">
+                                                    class="form-control {{ $errors->has('corporate-account-type') ? 'error-border' : '' }}">
                                                     <option value="" disabled selected>Seçiniz</option>
                                                     <option value="Emlakçı"
                                                         {{ old('corporate-account-type') == 'Emlakçı' ? 'selected' : '' }}>
@@ -193,6 +238,10 @@
                                                         {{ old('corporate-account-type') == 'Turizm' ? 'selected' : '' }}>
                                                         Turizm</option>
                                                 </select>
+                                                @if ($errors->has('corporate-account-type'))
+                                                    <span
+                                                        class="error-message">{{ $errors->first('corporate-account-type') }}</span>
+                                                @endif
                                             </div>
 
                                             <!-- Faaliyet Alanı -->
@@ -376,8 +425,11 @@
 
                 if (userType === '1') {
                     individualForm.style.display = 'block';
+                    corporateForm.classList.remove('d-show');
                 } else if (userType === '2') {
                     corporateForm.style.display = 'block';
+                    individualForm.classList.remove('hide');
+
                 }
             });
         });
@@ -516,4 +568,25 @@
             $(`.sub-plan-tab.${data[value]}`).removeClass('d-none');
         });
     </script>
+@endsection
+
+@section('styles')
+    <style>
+        .hide {
+            display: none !important;
+        }
+
+        .d-show {
+            display: block !important;
+        }
+
+        .error-border {
+            border: 1px solid red !important;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
 @endsection
