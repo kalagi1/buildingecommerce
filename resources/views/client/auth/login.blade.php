@@ -54,23 +54,16 @@
                                         <!-- E-Posta -->
                                         <div class="mt-3">
                                             <label class="q-label">E-Posta</label>
-                                            <input type="email" name="email"
-                                                class="form-control {{ $errors->has('email') ? 'error-border' : '' }}"
+                                            <input type="email" name="email" class="form-control"
                                                 value="{{ old('email') }}">
-                                            @if ($errors->has('email'))
-                                                <span class="error-message">{{ $errors->first('email') }}</span>
-                                            @endif
 
                                         </div>
 
 
                                         <div class="mt-3">
                                             <label class="q-label">Şifre</label>
-                                            <input type="password" name="password"
-                                                class="form-control {{ $errors->has('password') ? 'error-border' : '' }}">
-                                            @if ($errors->has('password'))
-                                                <span class="error-message">{{ $errors->first('password') }}</span>
-                                            @endif
+                                            <input type="password" name="password" class="form-control">
+
                                         </div>
 
                                         <div class="forgot-password d-flex justify-content-between">
@@ -124,7 +117,7 @@
                                 <!-- Kurumsal Hesap Girişi Sekmesi -->
                                 <div class="tab-pane fade @if ($errors->any() && !$errors->has('login_error')) active show @endif"
                                     id="corporate" role="tabpanel" aria-labelledby="corporate-tab">
-                                
+
 
                                     <form method="POST" class="form w-100" action="{{ route('client.submit.register') }}">
                                         @csrf
@@ -326,7 +319,8 @@
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">Vergi Dairesi
                                                                 İli</label>
-                                                            <select id="taxOfficeCity" class="form-control {{ $errors->has('taxOfficeCity') ? 'error-border' : '' }}"
+                                                            <select id="taxOfficeCity"
+                                                                class="form-control {{ $errors->has('taxOfficeCity') ? 'error-border' : '' }}"
                                                                 name="taxOfficeCity">
                                                                 <option value="">Seçiniz</option>
                                                                 @foreach ($cities as $item)
@@ -353,7 +347,9 @@
                                                             <label for="" class="q-label">Vergi Dairesi
                                                             </label>
 
-                                                            <select id="taxOffice" class="form-control {{ $errors->has('taxOffice') ? 'error-border' : '' }}" name="taxOffice">
+                                                            <select id="taxOffice"
+                                                                class="form-control {{ $errors->has('taxOffice') ? 'error-border' : '' }}"
+                                                                name="taxOffice">
                                                                 <option value="">Seçiniz</option>
                                                             </select>
                                                             @if ($errors->has('taxOffice'))
@@ -372,8 +368,9 @@
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">Vergi No</label>
                                                             <input type="text" id="taxNumber" name="taxNumber"
-                                                                class="form-control {{ $errors->has('taxNumber') ? 'error-border' : '' }}" value="{{ old('taxNumber') }}">
-                                                                @if ($errors->has('taxNumber'))
+                                                                class="form-control {{ $errors->has('taxNumber') ? 'error-border' : '' }}"
+                                                                value="{{ old('taxNumber') }}">
+                                                            @if ($errors->has('taxNumber'))
                                                                 <span
                                                                     class="error-message">{{ $errors->first('taxNumber') }}</span>
                                                             @endif
