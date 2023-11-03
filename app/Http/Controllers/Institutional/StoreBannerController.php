@@ -12,7 +12,7 @@ class StoreBannerController extends Controller
 {
     public function index()
     {
-        $storeBanners = StoreBanner::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
+        $storeBanners = StoreBanner::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->orderBy("order", "asc")->get();
         return view('institutional.store_banners.index', compact('storeBanners'));
     }
 
@@ -27,7 +27,7 @@ class StoreBannerController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $fileName = 'store_banner_' . Str::uuid(). '.' . $image->getClientOriginalExtension();
+                $fileName = 'store_banner_' . Str::uuid() . '.' . $image->getClientOriginalExtension();
                 $image->storeAs('store_banners', $fileName, 'public');
                 $imagePaths[] = $fileName;
             }
@@ -58,7 +58,7 @@ class StoreBannerController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageFileName = 'store_banner_' .Str::uuid(). '.' . $image->getClientOriginalExtension();
+            $imageFileName = 'store_banner_' . Str::uuid() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('store_banners', $imageFileName, 'public');
             $storeBanner->image = $imageFileName;
         }
@@ -77,6 +77,20 @@ class StoreBannerController extends Controller
         $storeBanner->delete();
 
         return redirect()->route('institutional.storeBanners.index')->with('success', 'Mağaza bannerı başarıyla silindi.');
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $user = auth()->user()->parent_id ?? auth()->user()->id;
+        $order = $request->input('order');
+
+        foreach ($order as $key => $bannerId) {
+            StoreBanner::where('id', $bannerId)
+                ->where('user_id', $user)
+                ->update(['order' => $key]);
+        }
+
+        return response()->json(['success' => true]);
     }
 
 }

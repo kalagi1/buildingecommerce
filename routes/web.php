@@ -182,7 +182,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     });
 
     Route::middleware(['checkPermission:HousingStatusParent'])->group(function () {
-        
+
         Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
         Route::get('housing_status_parent_management', [HousingStatusParentController::class, 'index'])->name('housing.status.parent.management');
         Route::post('new_housing_status_parent', [HousingStatusParentController::class, 'store'])->name('new.housing.type.parent');
@@ -646,7 +646,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     });
 
     Route::middleware(['checkPermission:ChoiseAdvertiseType'])->group(function () {
-        Route::get('/choise-advertise-type',[TempOrderController::class,"choiseAdvertiseType"])->name('choise.advertise.type');
+        Route::get('/choise-advertise-type', [TempOrderController::class, "choiseAdvertiseType"])->name('choise.advertise.type');
     });
 
     Route::middleware(['checkPermission:TempOrder'])->group(function () {
@@ -789,6 +789,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::middleware(['checkPermission:GetStoreBanners'])->group(function () {
         Route::get('/store-banners', [StoreBannerController::class, 'index'])->name('storeBanners.index');
+        Route::post('/store-banners/update-order', [StoreBannerController::class, 'updateOrder'])
+            ->name('storeBanners.updateOrder');
     });
 
     Route::middleware(['checkPermission:DeleteStoreBanner'])->group(function () {
