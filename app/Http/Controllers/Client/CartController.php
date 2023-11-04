@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankAccount;
 use App\Models\CartOrder;
 use App\Models\Housing;
 use App\Models\Offer;
@@ -89,6 +90,7 @@ class CartController extends Controller
         $order->cart = json_encode($request->session()->get('cart'));
         $order->status = '1';
         $order->save();
+        session()->forget('cart');
 
         return redirect()->route('client.pay.success', ['cart_order' => $order->id]);
     }
@@ -181,8 +183,9 @@ class CartController extends Controller
 
     public function index(Request $request)
     {
+        $bankAccounts = BankAccount::all();
         $cart = $request->session()->get('cart', []);
-        return view('client.cart.index', compact('cart'));
+        return view('client.cart.index', compact('cart', "bankAccounts"));
     }
 
     public function removeFromCart(Request $request)

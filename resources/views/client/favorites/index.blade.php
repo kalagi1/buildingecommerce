@@ -96,6 +96,8 @@
     $discount_amount =
         App\Models\Offer::where('type', 'project')->where('project_id', $item->project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
+                                @php($sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($item->project, 'price[]', $key + 1)->room_order, $item->project->id]) ?? false)
+
                                 <tr>
                                     <td class="image myelist">
                                         <a
@@ -120,13 +122,22 @@
                                         {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 2, ',', '.') }}
                                         ₺</td>
                                     <td>
-                                        <button class="CartBtn" data-type='project' data-project='{{ $item->project_id }}'
-                                            data-id='{{ getHouse($item->project, 'price[]', $item->housing_id)->room_order }}'>
-                                            <span class="IconContainer">
-                                                <img src="{{ asset('sc.png') }}" alt="">
-                                            </span>
-                                            <span class="text">Sepete Ekle</span>
-                                        </button>
+                                        @if ($sold)
+                                            <button class="btn second-btn soldBtn" disabled
+                                                style="background: red !important;width:100%;color:White">
+                                                <span class="text">Rezerve Edildi</span>
+                                            </button>
+                                        @else
+                                            <button class="CartBtn" data-type='project'
+                                                data-project='{{ $item->project_id }}'
+                                                data-id='{{ getHouse($item->project, 'price[]', $item->housing_id)->room_order }}'>
+                                                <span class="IconContainer">
+                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                </span>
+                                                <span class="text">Sepete Ekle</span>
+                                            </button>
+                                        @endif
+
                                     </td>
                                     <td class="actions">
                                         <a href="#" class="remove-from-project-cart"

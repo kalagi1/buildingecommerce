@@ -27,7 +27,9 @@
             $discountAmount = $offer->discount_amount;
         }
     @endphp
-
+@php
+$sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $housingOrder)->room_order, $project->id]) ?? false;
+@endphp
     <section class="single-proper blog details bg-white">
         <div class="container">
             <div class="row mb-3">
@@ -81,14 +83,23 @@
                                 <i class="fa fa-heart"></i>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <button class="CartBtn" data-type='project' data-project='{{ $project->id }}'
-                                data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>
-                                <span class="IconContainer">
-                                    <img src="{{ asset('sc.png') }}" alt="">
-                                </span>
-                                <span class="text">Sepete Ekle</span>
+                        <div class="col-md-10">
+                            @if ($sold)
+                            <button class="btn second-btn soldBtn"
+                            disabled
+                                style="background: red !important;width:100%;color:white">
+                                <span class="text">Rezerve Edildi</span>
                             </button>
+                        @else
+                        <button class="CartBtn" data-type='project' data-project='{{ $project->id }}'
+                            data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>
+                            <span class="IconContainer">
+                                <img src="{{ asset('sc.png') }}" alt="">
+                            </span>
+                            <span class="text">Sepete Ekle</span>
+                        </button>
+                        @endif
+                         
                         </div>
                     </div>
                 </div>

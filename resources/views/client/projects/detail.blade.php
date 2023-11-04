@@ -398,12 +398,10 @@
                                                         project-id="{{ $project->id }}" order="{{ $i }}">
                                                         Ödeme Detayları </button>
                                                     @if ($sold)
-                                                        <button class="btn second-btn"
+                                                        <button class="btn second-btn soldBtn"
+                                                        disabled
                                                             style="background: red !important;">
-                                                            <h6
-                                                                style="color: white;font-weight:600;top: calc(100% - 52px);position: relative;left: calc(100% - 192px);position: relative;">
-                                                                Rezerve Edildi
-                                                            </h6>
+                                                                <span class="text">Rezerve Edildi</span>
                                                         </button>
                                                     @else
                                                         <button class="CartBtn second-btn" data-type='project'
@@ -414,15 +412,6 @@
                                                             </span>
                                                             <span class="text">Sepete Ekle</span>
                                                         </button>
-                                                        {{-- <button class="addToCart second-btn" data-type='project'
-                                                            data-project='{{ $project->id }}'
-                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                            <h6
-                                                                style="color: black;font-weight:600;top:3px;position: relative;">
-                                                                Sepete Ekle
-                                                            </h6>
-
-                                                        </button> --}}
                                                     @endif
 
                                                 </div>
