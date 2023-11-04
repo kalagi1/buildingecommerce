@@ -13,14 +13,15 @@ class HomeController extends Controller
 {
     public function index()
     {
-
+        $countUser = User::where("status", "1")->get()->count();
         $comments = HousingComment::with("user", "housing")->get();
         $clients = User::where("type", "1")->get();
         $institutionals = User::where("type", "2")->get();
-        $projects = Project::all();
+        $projects = Project::where("status", "1")->get();
+        $passiveProjects = Project::where("status", "0")->get();
         $descProjects = Project::orderBy("id", "desc")->with("user", "city", "county")->limit(4)->get();
         $secondhandHousings = Housing::all();
-        return view('admin.home.index', compact("comments", "clients", "institutionals", "projects", "secondhandHousings", 'descProjects'));
+        return view('admin.home.index', compact("comments", "countUser","passiveProjects", "clients", "institutionals", "projects", "secondhandHousings", 'descProjects'));
     }
 
     public function getOrders()
