@@ -16,7 +16,7 @@
           <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Projeyi Güncelle</button></div>
       </div>
       @if ($errors->any())
-        <div class="alert alert-danger">
+        <div class="alert alert-danger text-white">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>

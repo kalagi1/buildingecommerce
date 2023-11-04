@@ -391,7 +391,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         @php
-                        $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->limit(10)->get();
+                        $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->where("owner_id","4")->limit(10)->get();
                         @endphp
 
                         <a class="nav-link" href="#" style="min-width: 2.5rem" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside">
@@ -429,42 +429,27 @@
                                           <h4 class="fs--1 text-black">{{$notification->user->name}}</h4>
                                           <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">  {!! $notification->text !!}</p>
                                           @php
-                                          // Örnek bir tarih zamanı, notificcaiton->created_At'ı buraya ekleyin
+                                          // Örnek bir tarih zamanı, notification->created_at'ı buraya ekleyin
                                           $notificationCreatedAt = $notification->created_at;
+                                          
+                                          // Saat dilimini ayarlayın
+                                          date_default_timezone_set('Europe/Istanbul');
                                           
                                           // Tarih formatını Türkiye biçimine dönüştürme
                                           $notificationCreatedAtDate = date("d.m.Y", strtotime($notificationCreatedAt));
-                                          $notificationCreatedAtTime = date("h:i A", strtotime($notificationCreatedAt));
-
-                                          switch (true)
-                                          {
-                                              case preg_match('@konut@', $notification->text):
-                                                  $url = route('admin.housings.detail', ['housing' => $notification->item_id]);
-                                                  break;
-
-                                              case preg_match('@proje@', $notification->text):
-                                                  $url = route('admin.projects.detail', ['projectId' => $notification->item_id]);
-                                                  break;
-
-                                              case preg_match('@belge@', $notification->text):
-                                                  $url = route('admin.user.show-corporate-account', ['user' => $notification->item_id]);
-                                                  break;
-
-                                              default:
-                                                  $url = '#';
-                                                  break;
-                                          }
+                                          $notificationCreatedAtTime = date("H:i", strtotime($notificationCreatedAt)); // 24 saatlik saat biçimi
+                                          
+                                          // Saati 12 saatlik biçime dönüştürme (AM/PM eklemek için)
+                                          $notificationCreatedAtTime12Hour = date("h:i A", strtotime($notificationCreatedAt));
                                           @endphp
                                           
-                                          <p class="text-800 fs--1 mb-0">
-                                              <span class="me-1 fas fa-clock"></span>
-                                              <span class="fw-bold"><?php echo $notificationCreatedAtTime; ?></span>
-                                              <?php echo $notificationCreatedAtDate; ?>
-                                          </p>
+                                        
+                                          
+                                          
                                                                                   </div>
                                       </div>
                                       <div class="font-sans-serif d-none d-sm-block"><button class="btn fs--2 btn-sm dropdown-toggle dropdown-caret-none transition-none notification-dropdown-toggle" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2 text-900"></span></button>
-                                        <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item" href="{{ $url }}">Görüntüle</a></div>
+                                        <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item notification-click" href="{!! $notification->link !!}" data-id="{{ $notification->id }}"  data-link="{{ $notification->link }}">Görüntüle</a></div>
                                       </div>
                                     </div>
                                   </div>
@@ -8023,7 +8008,37 @@
             if (navbarVerticalStyle === 'darker') {
                 navbarVertical.classList.add('navbar-darker');
             }
+
         </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+    $(document).ready(function () {
+        // Bildirimlere tıklama işlemi
+        $('.notification-click').on('click', function (e) {
+            e.preventDefault();
+            var notificationId = $(this).data('id');
+            var notificationLink = $(this).data('link');
+            
+            // AJAX isteği ile bildirimin "readed" değerini güncelleyin
+            $.ajax({
+                url: "{{route('notification.read')}}", // Bildirim güncelleme rotası, bu rotayı belirlemeniz gerekiyor
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', // CSRF koruması için gereken token
+                    id: notificationId, // Güncellenecek bildirimin kimliği
+                    link : notificationLink
+                },
+                success: function (response) {
+                    window.location.href = notificationLink; // Kullanıcıyı ilgili sayfaya yönlendirin
+
+                 
+                }
+            });
+        });
+    });
+</script>
+
 
 
 <style>

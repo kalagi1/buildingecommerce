@@ -22,8 +22,9 @@ class ProfileController extends Controller
 {
     public function upgrade()
     {
-        $plans = SubscriptionPlan::where('plan_type', auth()->user()->corporate_type)->orderBy("price", "asc")->get();
-        $current = UserPlan::with("subscriptionPlan")->where('user_id', auth()->user()->id)->first() ?? false;
+        $user = User::where("id", auth()->user()->parent_id ?? auth()->user()->id)->first();
+        $plans = SubscriptionPlan::where('plan_type', $user->corporate_type)->orderBy("price", "asc")->get();
+        $current = UserPlan::with("subscriptionPlan")->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->first();
         return view('institutional.profile.upgrade', compact('plans', 'current'));
     }
 
@@ -40,20 +41,24 @@ class ProfileController extends Controller
         );
 
         $plan = SubscriptionPlan::find($id);
-        $before = UserPlan::where('user_id', auth()->user()->id)->first();
-        $user = User::where('id', auth()->user()->id)->first();
+        $before = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->first();
+        $user = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->first();
         $user->update([
             'subscription_plan_id' => $plan->id,
         ]);
 
-        if (!$before) {
-            $before = new \stdClass();
-            $before->user_limit = 0;
-            $before->housing_limit = 0;
-            $before->project_limit = 0;
+        $childrens = User::where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
+
+
+        if ($childrens) {
+            foreach ($childrens as $key => $children) {
+                $children->update([
+                    "subscription_plan_id" => $plan->id,
+                ]);
+            }
         }
 
-        switch (auth()->user()->corporate_type) {
+        switch ($user->corporate_type) {
             case 'Emlakçı':
                 $data =
                     [
@@ -82,11 +87,12 @@ class ProfileController extends Controller
         DB::beginTransaction();
         UpgradeLog::create(
             [
-                'user_id' => auth()->user()->id,
+                'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
                 'plan_id' => $plan->id,
             ]
         );
-        UserPlan::where('user_id', auth()->user()->id)->update($data);
+        UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->update($data);
+
         DB::commit();
 
         return redirect()->back()->with('success', 'Plan başarıyla eklendi.');

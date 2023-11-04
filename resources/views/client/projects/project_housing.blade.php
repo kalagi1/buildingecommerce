@@ -27,7 +27,9 @@
             $discountAmount = $offer->discount_amount;
         }
     @endphp
-
+@php
+$sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $housingOrder)->room_order, $project->id]) ?? false;
+@endphp
     <section class="single-proper blog details bg-white">
         <div class="container">
             <div class="row mb-3">
@@ -55,11 +57,16 @@
                                             <h4 style="white-space: nowrap">
 
                                                 @if ($discountAmount)
-                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
-                                                    
+                                                    <svg viewBox="0 0 24 24" width="24" height="24"
+                                                        stroke="currentColor" stroke-width="2" fill="none"
+                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                    </svg>
                                                 @endif
                                                 {{ number_format(getData($project, 'price[]', $housingOrder)->value - $discountAmount, 2, ',', '.') }}
-                                                ₺</h4>
+                                                ₺
+                                            </h4>
                                         </div>
                                     </div>
                                 </div>
@@ -76,14 +83,23 @@
                                 <i class="fa fa-heart"></i>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <button class="CartBtn" data-type='project' data-project='{{ $project->id }}'
-                                data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>
-                                <span class="IconContainer">
-                                    <img src="{{ asset('sc.png') }}" alt="">
-                                </span>
-                                <span class="text">Sepete Ekle</span>
+                        <div class="col-md-10">
+                            @if ($sold)
+                            <button class="btn second-btn soldBtn"
+                            disabled
+                                style="background: red !important;width:100%;color:white">
+                                <span class="text">Rezerve Edildi</span>
                             </button>
+                        @else
+                        <button class="CartBtn" data-type='project' data-project='{{ $project->id }}'
+                            data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>
+                            <span class="IconContainer">
+                                <img src="{{ asset('sc.png') }}" alt="">
+                            </span>
+                            <span class="text">Sepete Ekle</span>
+                        </button>
+                        @endif
+                         
                         </div>
                     </div>
                 </div>
@@ -172,7 +188,7 @@
                                                 if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
                                                     if ($roomInfo['value'] == '["on"]') {
                                                         $value = 'Evet';
-                                                    } elseif ($roomInfo['value'] == '["off"]') {
+                                                    } elseif ($roomInfo['value'] == '[]') {
                                                         $value = 'Hayır';
                                                     } else {
                                                         $value = $roomInfo['value'];
@@ -244,7 +260,7 @@
                     <div class="single widget">
                         <div class="widget-boxed">
                             <div class="widget-boxed-header">
-                                <h4>Satıcı Bilgileri</h4>
+                                <h4>Mağaza Bilgileri</h4>
                             </div>
                             <div class="widget-boxed-body">
                                 <div class="sidebar-widget author-widget2">
@@ -258,11 +274,14 @@
                                         <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>
                                             {!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}
                                         </li>
-                                        <li><span class="la la-phone"><i class="fa fa-phone"
-                                                    aria-hidden="true"></i></span><a
-                                                style="text-decoration: none;color:inherit"
-                                                href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
-                                        </li>
+                                        @if ($project->user->phone)
+                                            <li><span class="la la-phone"><i class="fa fa-phone"
+                                                        aria-hidden="true"></i></span><a
+                                                    style="text-decoration: none;color:inherit"
+                                                    href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                            </li>
+                                        @endif
+
                                         <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                     aria-hidden="true"></i></span><a
                                                 style="text-decoration: none;color:inherit"
@@ -305,7 +324,7 @@
                         </div>
                         <div class="widget-boxed popular mt-5">
                             <div class="widget-boxed-header">
-                                <h4>Satıcının Diğer Projeleri</h4>
+                                <h4>Mağazanın Diğer Projeleri</h4>
                             </div>
                             <div class="widget-boxed-body">
                                 <div class="recent-post">

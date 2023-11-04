@@ -139,14 +139,14 @@
                         </div> --}}
                         @if (Auth::check())
                             @if ($store->id == Auth::user()->id)
-                            <a href="{{ url('institutional/choise-advertise-type') }}"
-                            style="margin-left: auto; margin-right:30px">
-                                <button type="button" class="buyUserRequest ml-3">
-                                    <span class="buyUserRequest__text"> İlan Ekle</span>
-                                    <span class="buyUserRequest__icon">
-                                        <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                    </span>
-                                </button></a>
+                                <a href="{{ url('institutional/choise-advertise-type') }}"
+                                    style="margin-left: auto; margin-right:30px">
+                                    <button type="button" class="buyUserRequest ml-3">
+                                        <span class="buyUserRequest__text"> İlan Ekle</span>
+                                        <span class="buyUserRequest__icon">
+                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                        </span>
+                                    </button></a>
                             @endif
                         @endif
 
@@ -163,7 +163,7 @@
                                 href="{{ route('instituional.projects.detail', Str::slug($store->name)) }}">Tüm
                                 Projeler</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.profile', Str::slug($store->name)) }}">Satıcı
+                                href="{{ route('instituional.profile', Str::slug($store->name)) }}">Mağaza
                                 Profili</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
@@ -197,14 +197,14 @@
             <div class="portfolio col-xl-12 bannerResize">
                 <div class="banner-agents">
                     @foreach ($store->banners as $banner)
-                    
                         <div class="agents-grid bannerResizeGrid" data-aos="fade-up" data-aos-delay="150">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
                                         <div class="homes">
                                             <!-- homes img -->
-                                            <a href="{{ asset('storage/store_banners/' . $banner->image) }}" data-lightbox="gallery">
+                                            <a href="{{ asset('storage/store_banners/' . $banner->image) }}"
+                                                data-lightbox="gallery">
                                                 <img src="{{ asset('storage/store_banners/' . $banner->image) }}"
                                                     alt="{{ $banner->title }}" class="img-responsive">
                                             </a>
@@ -220,7 +220,7 @@
             </div>
         </div>
     </section>
- 
+
 
     @if (count($projects))
         <section class="popular-places home18">
@@ -371,6 +371,8 @@
     $discount_amount =
         App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
+
+                                        @php($sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]) ?? false)
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <a class="text-decoration-none"
                                                 href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
@@ -472,14 +474,22 @@
                                                                     {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
                                                                 </li>
                                                             </ul>
-                                                            <button class="CartBtn" data-type='project'
-                                                                data-project='{{ $project->id }}'
-                                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
-                                                                <span class="IconContainer">
-                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                </span>
-                                                                <span class="text">Sepete Ekle</span>
-                                                            </button>
+                                                            @if ($sold)
+                                                                <button class="btn second-btn soldBtn" disabled
+                                                                    style="background: red !important;width:100%;color:White">
+                                                                    <span class="text">Rezerve Edildi</span>
+                                                                </button>
+                                                            @else
+                                                                <button class="CartBtn" data-type='project'
+                                                                    data-project='{{ $project->id }}'
+                                                                    data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                    </span>
+                                                                    <span class="text">Sepete Ekle</span>
+                                                                </button>
+                                                            @endif
+
 
                                                         </div>
                                                     </div>
@@ -516,6 +526,7 @@
     $discount_amount =
         App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
+
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex" style="padding-right:0; width: 130px;">
                                 <div class="project-inner project-head">
@@ -619,6 +630,7 @@
     $discount_amount =
         App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
+                                        @php($sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]) ?? false)
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <a class="text-decoration-none"
                                                 href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
@@ -720,14 +732,22 @@
                                                                     {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
                                                                 </li>
                                                             </ul>
-                                                            <button class="CartBtn" data-type='project'
-                                                                data-project='{{ $project->id }}'
-                                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
-                                                                <span class="IconContainer">
-                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                </span>
-                                                                <span class="text">Sepete Ekle</span>
-                                                            </button>
+                                                            @if ($sold)
+                                                            <button class="btn second-btn soldBtn" disabled
+                                                            style="background: red !important;width:100%;color:White">
+                                                            <span class="text">Rezerve Edildi</span>
+                                                        </button>
+                                                            @else
+                                                                <button class="CartBtn" data-type='project'
+                                                                    data-project='{{ $project->id }}'
+                                                                    data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                    </span>
+                                                                    <span class="text">Sepete Ekle</span>
+                                                                </button>
+                                                            @endif
+
 
                                                         </div>
                                                     </div>
@@ -970,12 +990,12 @@
 @endsection
 
 @section('scripts')
-   <!-- lightbox2 CSS -->
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
-   <!-- jQuery -->
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   <!-- lightbox2 JavaScript -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <!-- lightbox2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- lightbox2 JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

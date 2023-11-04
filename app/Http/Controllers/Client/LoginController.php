@@ -23,12 +23,11 @@ class LoginController extends Controller
         $towns = Town::all();
         $subscriptionPlans = SubscriptionPlan::all();
 
-
         $subscriptionPlans_bireysel = SubscriptionPlan::where('plan_type', 'Bireysel')->get();
         $subscriptionPlans_emlakci = SubscriptionPlan::where('plan_type', 'Emlakçı')->get();
         $subscriptionPlans_banka = SubscriptionPlan::where('plan_type', 'Banka')->get();
         $subscriptionPlans_insaat = SubscriptionPlan::where('plan_type', 'İnşaat')->get();
-        return view('client.auth.login', compact("cities", 'subscriptionPlans_bireysel',"towns", 'subscriptionPlans','subscriptionPlans_emlakci', 'subscriptionPlans_banka', 'subscriptionPlans_insaat'));
+        return view('client.auth.login', compact("cities", 'subscriptionPlans_bireysel', "towns", 'subscriptionPlans', 'subscriptionPlans_emlakci', 'subscriptionPlans_banka', 'subscriptionPlans_insaat'));
 
     }
 
@@ -37,32 +36,39 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
         $user = User::where("email", $request->email)->first();
 
-        if ($user->status == 0) {
-            $this->sendVerificationEmail($user);
-            session()->flash('success', 'Giriş Başarısız. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
-            return redirect()->route('client.login');
-        } elseif ($user->status == 1) {
-            if (Auth::attempt($credentials)) {
-                $user = Auth::user();
-                if ($user->type == 3) {
-                    // Giriş başarılı
-                    return redirect()->intended('/admin'); // Admin paneline yönlendir
-                } elseif ($user->type != 1 && $user->type != "3") {
-                    // Giriş başarılı
-                    return redirect()->intended('/institutional'); // Admin paneline yönlendir
-                } else {
-                    // Oturumda saklanan sepeti kontrol et
-                    $cart = session('cart', []);
-                    if (count($cart) != 0) {
-                        session(['cart' => $cart]);
-                    }
-                    return redirect()->intended('/hesabim');
-                }
-            }
+        if ($user) {
 
+            if ($user->status == 0) {
+                $this->sendVerificationEmail($user);
+                session()->flash('warning', 'Giriş Başarısız. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
+                return redirect()->route('client.login');
+            } elseif ($user->status == 5) {
+                // $this->sendVerificationEmail($user);
+                session()->flash('warning', 'Bu kullanıcının hesabı geçici olarak askıya alınmıştır. Hesabınızın yeniden etkinleştirilmesi için lütfen yöneticinizle iletişime geçin.');
+                return redirect()->route('client.login');
+            } elseif ($user->status == 1) {
+                if (Auth::attempt($credentials)) {
+                    $user = Auth::user();
+                    if ($user->type == 3) {
+                        // Giriş başarılı
+                        return redirect()->intended('/admin'); // Admin paneline yönlendir
+                    } elseif ($user->type != 1 && $user->type != "3") {
+                        // Giriş başarılı
+                        return redirect()->intended('/institutional'); // Admin paneline yönlendir
+                    } else {
+                        // Oturumda saklanan sepeti kontrol et
+                        $cart = session('cart', []);
+                        if (count($cart) != 0) {
+                            session(['cart' => $cart]);
+                        }
+                        return redirect()->intended('/hesabim');
+                    }
+                }
+
+            }
         }
 
-        return redirect()->back()->withInput()->withErrors(['email' => 'Giriş başarısız. Lütfen tekrar deneyin.']);
+        return redirect()->back()->withInput()->withErrors(['login_error' => "Giriş başarısız. Lütfen bilgilerinizi kontrol edin."]);
     }
 
     private function sendVerificationEmail(User $user)
@@ -100,10 +106,13 @@ class LoginController extends Controller
             session()->flash('error', 'Hata');
             return redirect()->route('client.login');
 
-        }}
+        }
+    }
     public function logout()
     {
         Auth::logout();
+        session()->forget('cart');
+
         return redirect('/giris-yap');
     }
 }

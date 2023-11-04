@@ -62,7 +62,7 @@
                                 href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Tüm
                                 Projeler</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">Satıcı
+                                href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">Mağaza
                                 Profili</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
@@ -144,10 +144,14 @@
                                     <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>
                                         {!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}
                                     </li>
+                                    
+                                    @if($project->user->phone)
                                     <li><span class="la la-phone"><i class="fa fa-phone" aria-hidden="true"></i></span><a
-                                            style="text-decoration: none;color:inherit"
-                                            href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
-                                    </li>
+                                        style="text-decoration: none;color:inherit"
+                                        href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                </li>
+                                    @endif
+                                  
 
                                     <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                 aria-hidden="true"></i></span><a
@@ -394,12 +398,10 @@
                                                         project-id="{{ $project->id }}" order="{{ $i }}">
                                                         Ödeme Detayları </button>
                                                     @if ($sold)
-                                                        <button class="btn second-btn"
+                                                        <button class="btn second-btn soldBtn"
+                                                        disabled
                                                             style="background: red !important;">
-                                                            <h6
-                                                                style="color: white;font-weight:600;top: calc(100% - 52px);position: relative;left: calc(100% - 192px);position: relative;">
-                                                                Rezerve Edildi
-                                                            </h6>
+                                                                <span class="text">Rezerve Edildi</span>
                                                         </button>
                                                     @else
                                                         <button class="CartBtn second-btn" data-type='project'
@@ -410,15 +412,6 @@
                                                             </span>
                                                             <span class="text">Sepete Ekle</span>
                                                         </button>
-                                                        {{-- <button class="addToCart second-btn" data-type='project'
-                                                            data-project='{{ $project->id }}'
-                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                            <h6
-                                                                style="color: black;font-weight:600;top:3px;position: relative;">
-                                                                Sepete Ekle
-                                                            </h6>
-
-                                                        </button> --}}
                                                     @endif
 
                                                 </div>

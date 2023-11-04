@@ -25,7 +25,7 @@
                                 @else
                                     @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $cart['item']['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $cart['item']['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
 )
                                     <tr>
                                         <td class="image myelist">
@@ -93,20 +93,11 @@
                                 @endif
                                 <ul>
                                     <li>
+                                        <button type="button" class="btn btn-primary btn-lg btn-block mb-3"
+                                            data-toggle="modal" data-target="#paymentModal">
+                                            Satın Al
+                                        </button>
 
-                                        <form action="{{ route('client.pay.cart') }}" method="POST">
-                                            @csrf
-                                            <button type="submit" @if (Auth::check() && Auth::user()->type == '2') disabled @endif
-                                                class="btn btn-primary btn-lg btn-block mb-3">ÖDEME YAP
-                                            </button>
-
-                                            @if (Auth::check() && Auth::user()->type == '2')
-                                                <span class="text-danger">Mağazalar için şu an satın alma modülümüz
-                                                    kapalıdır.</span>
-                                            @endif
-
-
-                                        </form>
                                     </li>
                                 </ul>
                             </div>
@@ -116,6 +107,74 @@
             </div>
 
 
+        </div>
+
+        <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Ödeme Adımı</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Fatura / Sipariş Bilgileri -->
+                        <div class="invoice">
+                            <div class="invoice-header">
+                                <h3>Fatura Detayları</h3>
+                                <p>Fatura Tarihi: {{ date('d.m.Y') }}</p>
+                            </div>
+
+                            <div class="invoice-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Ürün Adı</th>
+                                            <th>Miktar</th>
+                                            <th>Fiyat</th>
+                                            <th>Toplam</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ $cart['item']['title'] }}</td>
+                                            <td>1</td>
+                                            <td>{{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }}
+                                                ₺</td>
+                                            <td>{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 2, ',', '.') }}
+                                                ₺</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="invoice-total">
+                                <span>EFT/Havale yapacağınız bankayı seçiniz</span>
+
+                                @foreach ($bankAccounts as $bankAccount)
+                                    <div class="col-md-3 bank-account" bank_id="{{ $bankAccount->id }}">
+                                        <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt="">
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- Ödeme işlemi düğmesi burada bulunuyor -->
+                        <button type="submit" @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
+                            class="btn btn-primary btn-lg btn-block mb-3">Satın Al
+                        </button>
+
+                        @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id))
+                            <span class="text-danger">Mağazalar için şu an satın alma modülümüz
+                                kapalıdır.</span>
+                        @endif
+                    </div>
+                </div>
+
+
+            </div>
         </div>
 
 

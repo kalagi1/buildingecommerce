@@ -61,11 +61,16 @@
                                         <div class="listing-title-bar">
                                             <h4>
                                                 @if ($discountAmount)
-                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
-                                                    
+                                                    <svg viewBox="0 0 24 24" width="24" height="24"
+                                                        stroke="currentColor" stroke-width="2" fill="none"
+                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                    </svg>
                                                 @endif
                                                 {{ number_format(getData($housing, 'price') - $discountAmount, 2, ',', '.') }}
-                                                ₺</h4>
+                                                ₺
+                                            </h4>
                                         </div>
                                     </div>
                                 </div>
@@ -260,9 +265,10 @@
                                                 </div>
                                                 <div class="ml-auto order-2">
                                                     @for ($i = 0; $i < $comment->rate; ++$i)
-                                                        <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1"
-                                                            version="1.1" viewBox="0 0 50 50" width="24px"
-                                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                        <svg enable-background="new 0 0 50 50" height="24px"
+                                                            id="Layer_1" version="1.1" viewBox="0 0 50 50"
+                                                            width="24px" xml:space="preserve"
+                                                            xmlns="http://www.w3.org/2000/svg"
                                                             xmlns:xlink="http://www.w3.org/1999/xlink">
                                                             <rect fill="none" height="50" width="50" />
                                                             <polygon fill="gold"
@@ -313,7 +319,7 @@
                                 <input type="hidden" name="rate" id="rate" />
                                 <h5 class="mb-4">Yeni Yorum Ekle</h5>
                                 @if ($errors->any())
-                                    <div class="alert alert-danger">
+                                    <div class="alert alert-danger text-white">
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
                                         @endforeach
@@ -386,7 +392,7 @@
                     <div class="single widget">
                         <div class="widget-boxed">
                             <div class="widget-boxed-header">
-                                <h4>Satıcı Bilgileri</h4>
+                                <h4>Mağaza Bilgileri</h4>
                             </div>
                             <div class="widget-boxed-body">
                                 <div class="sidebar-widget author-widget2">
@@ -400,11 +406,14 @@
                                         <li><span class="la la-map-marker"><i
                                                     class="fa fa-map-marker"></i></span>{!! $housing->city->title !!}
                                             {{ '/' }} {!! $housing->county->ilce_title !!}</li>
-                                        <li><span class="la la-phone"><i class="fa fa-phone"
-                                                    aria-hidden="true"></i></span><a
-                                                style="text-decoration: none;color:inherit"
-                                                href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
-                                        </li>
+                                        @if ($housing->user->phone)
+                                            <li><span class="la la-phone"><i class="fa fa-phone"
+                                                        aria-hidden="true"></i></span><a
+                                                    style="text-decoration: none;color:inherit"
+                                                    href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                            </li>
+                                        @endif
+
                                         <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                     aria-hidden="true"></i></span><a
                                                 style="text-decoration: none;color:inherit"
@@ -449,7 +458,7 @@
                         </div>
                         <div class="widget-boxed popular mt-5">
                             <div class="widget-boxed-header">
-                                <h4>Satıcının Diğer Konutları</h4>
+                                <h4>Mağazanın Diğer Konutları</h4>
                             </div>
                             <div class="widget-boxed-body">
                                 <div class="recent-post">

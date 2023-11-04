@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with("role")->where("parent_id", Auth::user()->id)->get();
+        $users = User::with("role")->where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
         return view('institutional.users.index', compact('users'));
     }
 
@@ -87,7 +87,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::where("parent_id", Auth::user()->id)->get();
+        $roles = Role::where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
         return view('institutional.users.create', compact("roles"));
     }
 
@@ -102,7 +102,7 @@ class UserController extends Controller
 
         // Form doğrulama işlemini gerçekleştirin
         $validatedData = $request->validate($rules);
-        $mainUser = User::where("id", Auth::user()->id)->with("plan")->first();
+        $mainUser = User::where("id", auth()->user()->parent_id ?? auth()->user()->id)->with("plan")->first();
         $countUser = UserPlan::where("user_id", $mainUser->id)->first();
 
         // Yeni kullanıcıyı oluşturun
@@ -112,7 +112,8 @@ class UserController extends Controller
         $user->profile_image = "indir.png";
         $user->password = bcrypt($validatedData['password']); // Şifreyi şifreleyin
         $user->type = $validatedData['type'];
-        $user->status = $request->has('is_active');
+        $user->status = $request->has('is_active') ? 1 : 5;
+        $user->corporate_account_status = 1;
         $user->parent_id = (auth()->user()->parent_id ?? auth()->user()->id) != 3 ? (auth()->user()->parent_id ?? auth()->user()->id) : null;
         $user->subscription_plan_id = $mainUser->subscription_plan_id;
 
@@ -133,9 +134,9 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $roles = Role::where("parent_id", Auth::user()->id)->get();
-        $user = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
-        return view('institutional.users.edit', compact('user', 'roles'));
+        $roles = Role::where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
+        $subUser = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
+        return view('institutional.users.edit', compact('subUser', 'roles'));
     }
 
     public function update(Request $request, $id)
@@ -143,8 +144,8 @@ class UserController extends Controller
         // Form doğrulama kurallarını tanımlayın
         $rules = [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'type' => 'required|in:1,2',
+            'email' => 'required|email',
+            'type' => 'required',
             'is_active' => 'nullable',
         ];
 
@@ -156,7 +157,7 @@ class UserController extends Controller
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
         $user->type = $validatedData['type'];
-        $user->status = $request->has('is_active') ? 1 : 0;
+        $user->status = $request->has('is_active') ? 1 : 5;
 
         // Şifre güncelleme işlemini kontrol edin
         if ($request->filled('password')) {
