@@ -32,11 +32,11 @@
                                     id="normal" role="tabpanel" aria-labelledby="normal-tab">
 
                                     @if (session()->has('success'))
-                                        <div class="alert alert-success">
+                                        <div class="alert alert-success text-white">
                                             {{ session()->get('success') }}
                                         </div>
                                     @elseif (session()->has('error'))
-                                        <div class="alert alert-danger">
+                                        <div class="alert alert-danger text-white">
                                             {{ session()->get('error') }}
                                         </div>
                                     @elseif (session()->has('warning'))
@@ -49,7 +49,7 @@
                                         @csrf
 
                                         @if ($errors->has('login_error'))
-                                            <div class="alert alert-danger">
+                                            <div class="alert alert-danger text-white">
                                                 {{ $errors->first('login_error') }}
                                             </div>
                                         @endif

@@ -21,7 +21,7 @@
                             <div class="card-body p-0">
                                 <div class="p-4 code-to-copy">
                                     @if (session()->has('success'))
-                                        <div class="alert alert-success text-white">
+                                        <div class="alert alert-success text-white text-white">
                                             {{ session()->get('success') }}
                                         </div>
                                     @endif

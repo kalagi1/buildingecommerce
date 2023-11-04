@@ -22,7 +22,7 @@
             <div class="table-responsive">
 
                 @if (session()->has('alertSuccessMessage'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-success text-white">
                         {{ session()->get('alertSuccessMessage') }}
                     </div>
                 @endif

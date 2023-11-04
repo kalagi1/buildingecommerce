@@ -17,7 +17,7 @@ class ProjectFavorite extends Model
 
     public function projectHousing()
     {
-        return $this->hasMany(ProjectHousing::class, 'project_id', 'project_id');
+        return $this->hasMany(ProjectHousing::class, 'room_order', 'housing_id');
     }
 
 }

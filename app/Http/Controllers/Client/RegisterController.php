@@ -37,7 +37,7 @@ class RegisterController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:3',
             'phone' => [
-                'required_if:type,2&regex:/^05[0-9]{9}$/'
+                'required_if:type,2&regex:/^05[0-9]{9}$/',
             ],
             'type' => 'required|in:1,2',
             'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
@@ -111,7 +111,6 @@ class RegisterController extends Controller
         $user->status = 0;
         $user->email_verification_token = Str::random(40);
         $user->corporate_type = $request->input("corporate-account-type");
-        $user->save();
 
         if ($user->type == 2) {
             UserPlan::create([
@@ -121,8 +120,11 @@ class RegisterController extends Controller
                 "user_limit" => 0,
                 "housing_limit" => 0,
             ]);
+        } else {
+            $user->corporate_account_status = 1;
         }
 
+        $user->save();
         $emailTemplate = EmailTemplate::where('slug', "account-verify")->first();
 
         if (!$emailTemplate) {

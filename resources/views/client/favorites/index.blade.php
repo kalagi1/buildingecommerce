@@ -99,17 +99,17 @@
                                 <tr>
                                     <td class="image myelist">
                                         <a
-                                            href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $key + 1)->room_order]) }}"><img
+                                            href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $item->housing_id)->room_order]) }}"><img
                                                 alt="my-properties-3"
-                                                src="{{ URL::to('/') . '/project_housing_images/' . getHouse($item->project, 'image[]', $key + 1)->value }}"
+                                                src="{{ URL::to('/') . '/project_housing_images/' . getHouse($item->project, 'image[]', $item->housing_id)->value }}"
                                                 class="img-fluid"></a>
                                     </td>
                                     <td>
                                         <div class="inner">
                                             <a
-                                                href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $key + 1)->room_order]) }}">
+                                                href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $item->housing_id)->room_order]) }}">
                                                 <h2 style="font-weight: 600">
-                                                    {{ getHouse($item->project, 'squaremeters[]', $key + 1)->value . ' metrekare ' . getHouse($item->project, 'room_count[]', $key + 1)->value }}
+                                                    {{ getHouse($item->project, 'squaremeters[]', $item->housing_id)->value . ' metrekare ' . getHouse($item->project, 'room_count[]', $item->housing_id)->value }}
                                                 </h2>
                                                 <h2> {{ $item->project->project_title }}</h2>
                                             </a>
@@ -117,11 +117,11 @@
                                         </div>
                                     </td>
                                     <td>
-                                        {{ number_format(getHouse($item->project, 'price[]', $key + 1)->value - $discount_amount, 2, ',', '.') }}
+                                        {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 2, ',', '.') }}
                                         ₺</td>
                                     <td>
-                                        <button class="CartBtn" data-type='project' data-project='{{  $item->project_id }}'
-                                            data-id='{{ getHouse($item->project, 'price[]', $key + 1)->room_order }}'>
+                                        <button class="CartBtn" data-type='project' data-project='{{ $item->project_id }}'
+                                            data-id='{{ getHouse($item->project, 'price[]', $item->housing_id)->room_order }}'>
                                             <span class="IconContainer">
                                                 <img src="{{ asset('sc.png') }}" alt="">
                                             </span>

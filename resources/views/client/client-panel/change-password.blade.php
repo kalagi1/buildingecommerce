@@ -74,7 +74,7 @@
                     <div class="ps-page__content">
                         <div class="ps-page__dashboard">
                             @if ($errors->any())
-                            <div class="alert alert-danger">
+                            <div class="alert alert-danger text-white">
                                 <ul class="mb-0">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -83,7 +83,7 @@
                             </div>
                         @endif
                         @if (session('success'))
-                            <div class="alert alert-success">
+                            <div class="alert alert-success text-white">
                                 {{ session('success') }}
                             </div>
                         @endif

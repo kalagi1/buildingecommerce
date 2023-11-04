@@ -605,12 +605,12 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::post('/bank_account/create', [BankAccountController::class, 'store'])->name('bank_account.store');
     });
 
-    Route::middleware(['checkPermission:UpdateBankAccounts'])->group(function () {
+    Route::middleware(['checkPermission:UpdateBankAccount'])->group(function () {
         Route::get('/bank_account/{id}/edit', [BankAccountController::class, 'edit'])->name('bank_account.edit');
         Route::post('/bank_account/{id}/update', [BankAccountController::class, 'update'])->name('bank_account.update');
     });
 
-    Route::middleware(['checkPermission:DeleteBankAccounts'])->group(function () {
+    Route::middleware(['checkPermission:DeleteBankAccount'])->group(function () {
         Route::delete('/bank_account/{id}/delete', [BankAccountController::class, 'destroy'])->name('bank_account.destroy');
     });
 

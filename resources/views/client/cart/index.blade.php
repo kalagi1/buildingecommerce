@@ -96,11 +96,11 @@
 
                                         <form action="{{ route('client.pay.cart') }}" method="POST">
                                             @csrf
-                                            <button type="submit" @if (Auth::check() && Auth::user()->type == '2') disabled @endif
+                                            <button type="submit" @if (Auth::check() && Auth::user()->type == '2' || (Auth::check() && Auth::user()->parent_id)) disabled @endif
                                                 class="btn btn-primary btn-lg btn-block mb-3">ÖDEME YAP
                                             </button>
 
-                                            @if (Auth::check() && Auth::user()->type == '2')
+                                            @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id))
                                                 <span class="text-danger">Mağazalar için şu an satın alma modülümüz
                                                     kapalıdır.</span>
                                             @endif

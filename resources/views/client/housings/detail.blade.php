@@ -319,7 +319,7 @@
                                 <input type="hidden" name="rate" id="rate" />
                                 <h5 class="mb-4">Yeni Yorum Ekle</h5>
                                 @if ($errors->any())
-                                    <div class="alert alert-danger">
+                                    <div class="alert alert-danger text-white">
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
                                         @endforeach
