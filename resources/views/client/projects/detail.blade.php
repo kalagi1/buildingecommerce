@@ -606,9 +606,8 @@
                                             response.room_info[i].room_order);
                                         var advanceData = formatPrice(getDataJS(response, "advance[]",
                                             response.room_info[i].room_order)) + "₺";
-                                        var monhlyPrice = (formatPrice(((parseFloat(priceData) -
-                                            parseFloat(advanceData)) / parseInt(
-                                            installementData)))) + '₺';
+                                            console.log((parseFloat(getDataJS(response, "installments-price[]", response.room_info[i].room_order)) - parseFloat(getDataJS(response, "advance[]",response.room_info[i].room_order))));
+                                        var monhlyPrice = (formatPrice(((parseFloat(getDataJS(response, "installments-price[]", response.room_info[i].room_order)) - parseFloat(getDataJS(response, "advance[]",response.room_info[i].room_order))) / parseInt(installementData)))) + '₺';
                                     }
                                     html += "<tr>" +
                                         "<td>" + paymentPlanDatax[paymentPlanData[j]] + "</td>" +
