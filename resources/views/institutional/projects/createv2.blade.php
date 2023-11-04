@@ -1020,6 +1020,7 @@
                     confirmHousings();
                     
 
+                    $('#tablist').attr('style','height:'+$('.tab-content').css('height')+' !important;flex-wrap:nowrap;overflow:scroll;')
 
                 },
                 error: function(error) {
@@ -2206,6 +2207,9 @@
                                 
                             }
                         })
+
+                        
+                        $('#tablist').attr('style','height:'+$('.tab-content').css('height')+' !important;flex-wrap:nowrap;overflow:scroll;')
                     },
                     error: function(error) {
                         console.log(error)

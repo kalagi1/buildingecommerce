@@ -102,7 +102,9 @@ class TempOrderController extends Controller
                 
             }else{
                 if(isset($data->roomInfoKeys)){
-                    isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[$request->input('order')] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                    if($request->input('value') != -999 && $request->input('value') != "null" && $request->input('value')){
+                        isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[$request->input('order')] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                    }
                 }else{
                     $data->roomInfoKeys = json_decode('{}');
                     isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[$request->input('order')] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
