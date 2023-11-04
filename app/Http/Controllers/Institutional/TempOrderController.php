@@ -84,19 +84,37 @@ class TempOrderController extends Controller
             $data = $tempData;
             if($request->input('checkbox')){
                 if(isset($data->roomInfoKeys)){
-                    isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[count($data->roomInfoKeys->{$request->input('key')})] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                    if(isset($data->roomInfoKeys->{$request->input('key')})){
+                        if(in_array($request->input('value'),$data->roomInfoKeys->{$request->input('key')})){
+                            $newArray = array_filter($data->roomInfoKeys->{$request->input('key')}, function ($eleman) use($request) { return $eleman != $request->input('value'); });
+                            $newArray = array_values($newArray);
+                            $data->roomInfoKeys->{$request->input('key')} = $newArray;
+                        }else{
+                            $data->roomInfoKeys->{$request->input('key')}[count($data->roomInfoKeys->{$request->input('key')})] = $request->input('value');
+                        }
+                    }else{
+                        $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                    }
                 }else{
                     $data->roomInfoKeys = json_decode('{}');
-                    isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[count($data->roomInfoKeys->{$request->input('key')})] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                    isset($data->roomInfoKeys->{$request->input('key')}) ? (in_array($request->input('value'),$data->roomInfoKeys->{$request->input('key')}) ? array_filter($data->roomInfoKeys->{$request->input('key')}, function ($eleman,$request) { return $eleman != $request->input('value'); }) : $data->roomInfoKeys->{$request->input('key')}[count($data->roomInfoKeys->{$request->input('key')})] = $request->input('value')) : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
                 }
+                
             }else{
                 if(isset($data->roomInfoKeys)){
-                    isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[$request->input('order')] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                    if($request->input('key') == "installments" || $request->input('key') == "advance" || $request->input('key') == "installments-price"){
+                        if($request->input('value') != -999 && $request->input('value') != "null" && $request->input('value')){
+                            isset($data->roomInfoKeys->{$request->input('key')}) ? array_push($data->roomInfoKeys->{$request->input('key')},$request->input('value')) : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                        }
+                    }else{
+                        isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[$request->input('order')] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                    }
                 }else{
                     $data->roomInfoKeys = json_decode('{}');
                     isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[$request->input('order')] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
                 }
             }
+            
             if(!$tempOrder){
                 TempOrder::create([
                     "user_id" => auth()->guard()->user()->id,
@@ -269,16 +287,17 @@ class TempOrderController extends Controller
             }
             
             $newOrder = $tempData->images ? count($tempData->images) + 1 : 1;
-            if($request->hasFile('image')){
-                $image = $request->file('image');
-                $imageName = 'temp_order_image'.auth()->guard()->user()->id.$newOrder . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('project_images'), $imageName);
-            }else{
-                $imageName = "";
+            $uploadedFiles = $request->file();
+            $imageNames = [];
+            foreach ($uploadedFiles as $fileKey => $file) {
+                $imageName = 'temp_order_image'.auth()->guard()->user()->id.(intval($newOrder) + intval(str_replace('file','',$fileKey))) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('project_images'), $imageName);
+
+                $data = $tempData;
+                array_push($data->images,$imageName);
+                array_push($imageNames,$imageName);
             }
-    
-            $data = $tempData;
-            array_push($data->images,$imageName);
+
             if(!$tempOrder){
                 TempOrder::create([
                     "user_id" => auth()->guard()->user()->id,
@@ -289,9 +308,10 @@ class TempOrderController extends Controller
                 TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
                     "data" => json_encode($data),
                 ]);
-            }    
+            }
+            
 
-            return $imageName;
+            return $imageNames;
         }else{
             $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
             
@@ -319,38 +339,70 @@ class TempOrderController extends Controller
     }
 
     public function deleteImageOrders(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
-        $tempData = json_decode($tempOrder->data);
-
-        $data = $tempData;
-        $newImages = [];
-        foreach($data->images as $image){
-            if($image->image != $request->input('image')){
-                array_push($newImages,$image);
+        if($request->input('item_type') != "3"){
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempData = json_decode($tempOrder->data);
+            $data = $tempData;
+            $newImages = [];
+            foreach($data->images as $image){
+                if($image != $request->input('image')){
+                    array_push($newImages,$image);
+                }
             }
-        }
 
-        $data->images = $newImages;
-        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
-            "data" => json_encode($data),
-        ]);
+            $data->images = $newImages;
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                "data" => json_encode($data),
+            ]);
+        }else{
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempData = json_decode($tempOrder->data);
+            $data = $tempData;
+            $newImages = [];
+            foreach($data->images as $image){
+                if($image->image != $request->input('image')){
+                    array_push($newImages,$image);
+                }
+            }
+
+            $data->images = $newImages;
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                "data" => json_encode($data),
+            ]);
+        }
     }
 
     public function updateImageOrders(Request $request){
-        
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
-        $tempData = json_decode($tempOrder->data);
-
-        $data = $tempData;
-        $data->images = [];
-
-        foreach($request->input('images') as $image){
-            array_push($data->images,["image" => $image]);
+        if($request->input('item_type') != 3){
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempData = json_decode($tempOrder->data);
+    
+            $data = $tempData;
+            $data->images = [];
+    
+            foreach($request->input('images') as $image){
+                array_push($data->images,$image);
+            }
+    
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                "data" => json_encode($data),
+            ]);
+        }else{
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempData = json_decode($tempOrder->data);
+    
+            $data = $tempData;
+            $data->images = [];
+    
+            foreach($request->input('images') as $image){
+                array_push($data->images,["image" => $image]);
+            }
+    
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                "data" => json_encode($data),
+            ]);
         }
-
-        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
-            "data" => json_encode($data),
-        ]);
+        
     }
 
     public function changeStepOrder(Request $request){
@@ -380,7 +432,7 @@ class TempOrderController extends Controller
                     $imageCount = count($tempData->roomInfoKeys->image);
                 }
                 $image = $request->file('file');
-                $imageName = 'cover_temp_image'.auth()->guard()->user()->id. $imageCount . '.' . $image->getClientOriginalExtension();
+                $imageName = 'cover_temp_image'.auth()->guard()->user()->id. (intval($request->input('order'))) . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/project_images'), $imageName);
             }else{
                 $imageName = "";
@@ -389,7 +441,7 @@ class TempOrderController extends Controller
             $data = $tempData;
             if(isset($data->roomInfoKeys) ){
                 if(isset($data->roomInfoKeys->image)){
-                    array_push($data->roomInfoKeys->image,$imageName);
+                    $data->roomInfoKeys->image[$request->input('order')] = $imageName;
                 }else{
                     $data->roomInfoKeys->image = [$imageName];
                 }
@@ -397,7 +449,6 @@ class TempOrderController extends Controller
                 $data->roomInfoKeys = json_decode("{}");
                 $data->roomInfoKeys->image = [$imageName];
             }
-
             if(!$tempOrder){
                 TempOrder::create([
                     "user_id" => auth()->guard()->user()->id,
