@@ -25,7 +25,7 @@
                                 @else
                                     @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $cart['item']['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $cart['item']['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                                     <tr>
                                         <td class="image myelist">
@@ -94,10 +94,15 @@
                                 <ul>
                                     <li>
                                         <button type="button" class="btn btn-primary btn-lg btn-block mb-3"
-                                            data-toggle="modal" data-target="#paymentModal">
+                                            @if (!Auth::check()) disabled @endif
+                                            @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif data-toggle="modal"
+                                            data-target="#paymentModal">
                                             Satın Al
                                         </button>
-
+                                        @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id))
+                                            <span class="text-danger">Mağazalar için şu an satın alma modülümüz
+                                                kapalıdır.</span>
+                                        @endif
                                     </li>
                                 </ul>
                             </div>
@@ -109,73 +114,108 @@
 
         </div>
 
-        <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Ödeme Adımı</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Fatura / Sipariş Bilgileri -->
-                        <div class="invoice">
-                            <div class="invoice-header">
-                                <h3>Fatura Detayları</h3>
-                                <p>Fatura Tarihi: {{ date('d.m.Y') }}</p>
-                            </div>
+        @if ($cart || !empty($cart['item']))
+            <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Ödeme Adımı</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="invoice">
+                                <div class="invoice-header mb-3">
+                                    <strong>Fatura Tarihi: {{ date('d.m.Y') }}</strong>
+                                </div>
 
-                            <div class="invoice-body">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Ürün Adı</th>
-                                            <th>Miktar</th>
-                                            <th>Fiyat</th>
-                                            <th>Toplam</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{{ $cart['item']['title'] }}</td>
-                                            <td>1</td>
-                                            <td>{{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }}
-                                                ₺</td>
-                                            <td>{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 2, ',', '.') }}
-                                                ₺</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="invoice-total">
-                                <span>EFT/Havale yapacağınız bankayı seçiniz</span>
-
-                                @foreach ($bankAccounts as $bankAccount)
-                                    <div class="col-md-3 bank-account" bank_id="{{ $bankAccount->id }}">
-                                        <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt="">
+                                <div class="invoice-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Ürün Adı</th>
+                                                <th>Miktar</th>
+                                                <th>Fiyat</th>
+                                                <th>Toplam</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{ $cart['item']['title'] }}</td>
+                                                <td>1</td>
+                                                <td>{{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }}
+                                                    ₺</td>
+                                                <td>{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 2, ',', '.') }}
+                                                    ₺</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="invoice-total">
+                                    <strong>EFT/Havale yapacağınız bankayı seçiniz</strong>
+                                    <div class="row mb-3">
+                                        @foreach ($bankAccounts as $bankAccount)
+                                            <div class="col-md-4 bank-account" bank_id="{{ $bankAccount->id }}"
+                                                data-iban="{{ $bankAccount->iban }}"
+                                                data-title="{{ $bankAccount->receipent_full_name }}">
+                                                <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
+                                                    style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
+                                            </div>
+                                        @endforeach
                                     </div>
-                                @endforeach
+                                    <div id="ibanInfo"></div>
+                                    <strong>Ödeme işlemini tamamlamak için, lütfen bu
+                                        <span style="color:red" id="uniqueCode"></span> kodu kullanarak ödemenizi
+                                        yapın. IBAN açıklama
+                                        alanına
+                                        bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak işlemi
+                                        bitirin.</strong>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <!-- Ödeme işlemi düğmesi burada bulunuyor -->
-                        <button type="submit" @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
-                            class="btn btn-primary btn-lg btn-block mb-3">Satın Al
-                        </button>
-
-                        @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id))
-                            <span class="text-danger">Mağazalar için şu an satın alma modülümüz
-                                kapalıdır.</span>
-                        @endif
+                        <div class="modal-footer">
+                            <button type="button" @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
+                                class="btn btn-primary btn-lg btn-block mb-3" id="completePaymentButton">Satın Al
+                            </button>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
-        </div>
+
+            <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
+                aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="finalConfirmationModalLabel">Ödeme Onayı</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</p>
+                            <ol>
+                                <li>
+                                    <strong style="color:red" id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
+                                    alanına yazdığınızdan emin olun.
+                                </li>
+                                <li>
+                                    Son olarak, işlemi bitirmek için aşağıdaki butona tıklayın: <br>
+                                    <form action="{{ route('client.pay.cart') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="key" id="orderKey">
+                                        <button type="submit" class="btn btn-primary mt-3">Ödemeyi Tamamla</button>
+                                    </form>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
 
 
     </section>
@@ -183,6 +223,54 @@
 @section('scripts')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Başlangıçta ödeme düğmesini devre dışı bırak
+            $('#completePaymentButton').prop('disabled', true);
+
+
+            $('.bank-account').on('click', function() {
+                // Tüm banka görsellerini seçim olmadı olarak ayarla
+                $('.bank-account').removeClass('selected');
+
+                // Seçilen banka görselini işaretle
+                $(this).addClass('selected');
+
+                // İlgili IBAN bilgisini al
+                var selectedBankIban = $(this).data('iban');
+                var selectedBankTitle = $(this).data('title');
+
+
+                // IBAN bilgisini ekranda göster
+                $('#ibanInfo').text(selectedBankTitle + " : " + selectedBankIban);
+                // Ödeme düğmesini etkinleştir
+                $('#completePaymentButton').prop('disabled', false);
+            });
+
+            $('#completePaymentButton').on('click', function() {
+                $('#paymentModal').modal('hide');
+                $('#finalConfirmationModal').modal('show');
+            });
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('#paymentModal').on('show.bs.modal', function(e) {
+                var uniqueCode = generateUniqueCode();
+                $('#uniqueCode').text(uniqueCode);
+                $('#uniqueCodeRetry').text(uniqueCode);
+                $("#orderKey").val(uniqueCode);
+            });
+
+            // Rastgele bir benzersiz kod oluşturan fonksiyon
+            function generateUniqueCode() {
+                return Math.random().toString(36).substring(2, 10).toUpperCase();
+            }
+        });
+    </script>
 
     <script>
         $("#createOrder").click(function() {

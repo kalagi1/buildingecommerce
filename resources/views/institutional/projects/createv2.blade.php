@@ -100,7 +100,6 @@
                                     <button class="btn btn-info" @if (!$user->plan || $user->plan->project_limit === 0) disabled @endif>
                                         Devam
                                     </button>
-
                                 </div>
                             </div>
                         </div>
@@ -263,14 +262,14 @@
                                 <label for="">Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></label>
                             </div>
                             <div class="photos">
-                                @if(isset($tempData->images) && $tempData->images)
-                                    @foreach($tempData->images as $image)
-                                        <div class="project_imagex"  order="{{$image}}">
-                                            <img src="{{URL::to('/')}}/project_images/{{$image}}" alt="">
+                                @if (isset($tempData->images) && $tempData->images)
+                                    @foreach ($tempData->images as $image)
+                                        <div class="project_imagex" order="{{ $image }}">
+                                            <img src="{{ URL::to('/') }}/project_images/{{ $image }}"
+                                                alt="">
                                             <div class="image-buttons">
                                                 <i class="fa fa-trash"></i>
                                             </div>
-
                                         </div>
                                     @endforeach
                                 @endif
@@ -298,12 +297,6 @@
                                                     Proje eklemek için bir paket satın almanız gerekiyor.
                                                 @endif
                                             </span>
-                                            <div style="margin-right: 20px">
-                                                <input type="radio" style="display: none;margin:0 auto;">
-                                                <div class="price-radio @if (isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1) select @endif">
-                                                    <div class="inside"></div>
-                                                </div>
-                                            </div>
                                             <div>
                                                 <h3>Paket Sayımdan Öde</h3>
                                                 <span>Paketinde ki mevcut proje sayısından düş</span>
@@ -464,18 +457,28 @@
     <script>
         var nextTemp = false;
         var housingImages = [];
-        var descriptionText = @if(isset($tempData) && isset($tempData->description)) 'evet var' @else "" @endif;
-        var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
-        
-        $('.project_imagex .image-buttons').click(function(){
+        var descriptionText =
+            @if (isset($tempData) && isset($tempData->description))
+                'evet var'
+            @else
+                ""
+            @endif ;
+        var selectedid =
+            @if (isset($tempData) && isset($tempData->housing_type_id))
+                {{ $tempData->housing_type_id }}
+            @else
+                0
+            @endif ;
+
+        $('.project_imagex .image-buttons').click(function() {
             var thisx = $(this);
             $.ajax({
-                url: '{{route("institutional.delete.image.order.temp.update")}}',
+                url: '{{ route('institutional.delete.image.order.temp.update') }}',
                 type: 'POST',
-                data: { 
-                    image: $(this).closest('.project_imagex').attr('order') ,
-                    item_type : 1,
-                    _token : csrfToken
+                data: {
+                    image: $(this).closest('.project_imagex').attr('order'),
+                    item_type: 1,
+                    _token: csrfToken
                 },
                 success: function(response) {
                     thisx.closest('.project_imagex').remove()
@@ -490,18 +493,18 @@
             revert: true,
             update: function(event, ui) {
                 var ids = [];
-                for(var i = 0; i < $('.photos .project_imagex').length; i++){
+                for (var i = 0; i < $('.photos .project_imagex').length; i++) {
                     ids.push($('.photos .project_imagex').eq(i).attr('order'));
                 }
                 console.log(ids);
                 // Sıralama değiştiğinde bir Ajax POST isteği gönder
                 $.ajax({
-                    url: '{{route("institutional.update.image.order.temp.update")}}',
+                    url: '{{ route('institutional.update.image.order.temp.update') }}',
                     type: 'POST',
-                    data: { 
-                        images: ids ,
-                        item_type : 1,
-                        _token : csrfToken
+                    data: {
+                        images: ids,
+                        item_type: 1,
+                        _token: csrfToken
                     },
                     success: function(response) {
                         console.log("Sıralama güncellendi.");
@@ -517,8 +520,7 @@
             connectToSortable: ".photos",
         });
 
-        $('.choise-1').click(function(){
-
+        $('.choise-1').click(function() {
             $('.pop-up-v2').addClass('d-none')
 
             var houseCount = {{ isset($tempData->house_count) ? $tempData->house_count : 0 }};
@@ -626,15 +628,15 @@
                                 if (i > 1 && i != $('.tab-pane').length) {
                                     $('.rendered-form').eq(i - 1).append(
                                         '<div class="housing_buttons"><button class="prev_house btn btn-primary">Önceki Ev</button><button class="next_house btn btn-primary">Sonraki Konut</button></div>'
-                                    )
+                                        )
                                 } else if (i == $('.tab-pane').length) {
                                     $('.rendered-form').eq(i - 1).append(
                                         '<div class="housing_buttons"><button class="prev_house btn btn-primary">Önceki Ev</button></div>'
-                                    )
+                                        )
                                 } else {
                                     $('.rendered-form').eq(i - 1).append(
                                         '<div class="housing_buttons"><button class="next_house btn btn-primary">Sonraki Konut</button></div>'
-                                    )
+                                        )
                                 }
 
 
@@ -644,12 +646,12 @@
                                 var nextHousing = true;
                                 $('.tab-pane.active input[required="required"]').map((key,
                                     item) => {
-                                    if (!$(item).val() && $(item).attr('type') !=
-                                        "file") {
-                                        nextHousing = false;
-                                        $(item).addClass("error-border")
-                                    }
-                                })
+                                        if (!$(item).val() && $(item).attr('type') !=
+                                            "file") {
+                                            nextHousing = false;
+                                            $(item).addClass("error-border")
+                                        }
+                                    })
                                 $('.tab-pane.active select[required="required"]').map((key,
                                     item) => {
                                     console.log($(item).val())
@@ -829,20 +831,212 @@
                                     })
 
 
-                    
-                    $('.copy-item').change(function(){
-                        var transactionIndex = 0;
-                        $('.tab-pane').prepend('<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>');
-                        var order = parseInt($(this).val()) - 1;
-                        var currentOrder = parseInt($(this).closest('.item-left-area').index());
-                        for(var lm = 0 ; lm < json.length; lm++){
-                            if(json[lm].type == "checkbox-group"){
-                            for(var i = 0 ; i < json[lm].values.length; i++){
-                                var isChecked = $('input[name="'+(json[lm].name.replace('[]',''))+(order+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').is(':checked')
-                                if(isChecked){
+                                    $('.tab-pane.active input[type="file"]').map((key,
+                                    item) => {
+                                        if ($(item).parent('div').find(
+                                                '.project_imaget').length == 0) {
+                                            nextHousing = false;
+                                            $(item).addClass("error-border")
+                                        }
+                                    })
+
+                                    var indexItem = $('.tab-pane.active').index();
+                                    if (nextHousing) {
+                                        $('.tab-pane.active').removeClass('active');
+                                        $('.tab-pane').eq(indexItem + 1).addClass('active');
+                                        $('.item-left-area p').removeClass('active')
+                                        $(this).children('p').addClass('active');
+                                    } else {
+                                        $('html, body').animate({
+                                            scrollTop: $('.tab-pane.active').offset()
+                                                .top - parseFloat($('.navbar-top').css(
+                                                    'height'))
+                                        }, 100);
+                                    }
+
+
+
+                                } else {
+
+                                    $('.item-left-area p').removeClass('active')
+                                    $(this).children('p').addClass('active');
+                                    $('.tab-pane.active').removeClass('active');
+                                    $('.tab-pane').eq(clickIndex).addClass('active');
+                                }
+
+                            })
+
+
+                            $('.copy-item').change(function() {
+                                var transactionIndex = 0;
+                                $('.tab-pane').prepend(
+                                    '<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>'
+                                    );
+                                var order = parseInt($(this).val()) - 1;
+                                var currentOrder = parseInt($(this).closest('.item-left-area')
+                                    .index());
+                                for (var lm = 0; lm < json.length; lm++) {
+                                    if (json[lm].type == "checkbox-group") {
+                                        for (var i = 0; i < json[lm].values.length; i++) {
+                                            var isChecked = $('input[name="' + (json[lm].name
+                                                    .replace('[]', '')) + (order + 1) +
+                                                '[][]"][value="' + json[lm].values[i]
+                                                .value + '"]' + '').is(':checked')
+                                            if (isChecked) {
+                                                var formData = new FormData();
+                                                var csrfToken = $("meta[name='csrf-token']")
+                                                    .attr("content");
+                                                formData.append('_token', csrfToken);
+                                                formData.append('value', json[lm].values[i]
+                                                    .value);
+                                                formData.append('order', currentOrder);
+                                                formData.append('key', json[lm].name.replace(
+                                                    "[]", "").replace("[]", "") + (
+                                                    currentOrder + 1));
+                                                formData.append('item_type', 1);
+                                                formData.append('checkbox', "1");
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "{{ route('institutional.temp.order.project.housing.change') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                                    data: formData,
+                                                    processData: false,
+                                                    contentType: false,
+                                                    success: function(response) {
+                                                        if (transactionIndex + 1 ==
+                                                            json.length) {
+                                                            $('.loading-icon-right')
+                                                                .remove();
+                                                        }
+
+                                                        transactionIndex++;
+                                                    },
+                                                });
+                                                $('input[name="' + (json[lm].name.replace('[]',
+                                                        '')) + (currentOrder + 1) +
+                                                    '[][]"][value="' + json[lm].values[i]
+                                                    .value + '"]' + '').prop('checked',
+                                                    true)
+                                            } else {
+                                                transactionIndex++;
+                                                $('input[name="' + (json[lm].name.replace('[]',
+                                                        '')) + (currentOrder + 1) +
+                                                    '[][]"][value="' + json[lm].values[i]
+                                                    .value + '"]' + '').prop('checked',
+                                                    false)
+                                            }
+                                        }
+                                    } else if (json[lm].type == "select") {
+                                        var value = $('select[name="' + (json[lm].name) + '"]')
+                                            .eq(order).val();
+                                        $('select[name="' + (json[lm].name) + '"]').eq(
+                                            currentOrder).children('option').removeAttr(
+                                            'selected')
+                                        $('select[name="' + (json[lm].name) + '"]').eq(
+                                            currentOrder).children('option[value="' +
+                                            value + '"]').prop('selected', true);
+                                        var formData = new FormData();
+                                        var csrfToken = $("meta[name='csrf-token']").attr(
+                                            "content");
+                                        formData.append('_token', csrfToken);
+                                        formData.append('value', value);
+                                        formData.append('order', currentOrder);
+                                        formData.append('key', json[lm].name.replace("[]", "")
+                                            .replace("[]", ""));
+                                        formData.append('item_type', 1);
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "{{ route('institutional.temp.order.project.housing.change') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                            data: formData,
+                                            processData: false,
+                                            contentType: false,
+                                            success: function(response) {
+                                                if (transactionIndex + 1 == json
+                                                    .length) {
+                                                    $('.loading-icon-right')
+                                                    .remove();
+                                                }
+                                                transactionIndex++;
+                                            },
+                                        });
+
+                                        confirmHousings();
+                                    } else if (json[lm].type == "file" && json[lm].name ==
+                                        "image[]") {
+
+                                        var formData = new FormData();
+                                        var csrfToken = $("meta[name='csrf-token']").attr(
+                                            "content");
+                                        formData.append('_token', csrfToken);
+                                        formData.append('lastorder', order);
+                                        formData.append('order', currentOrder);
+                                        formData.append('item_type', 1);
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "{{ route('institutional.copy.item.image') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                            data: formData,
+                                            processData: false,
+                                            contentType: false,
+                                            success: function(response) {
+                                                if (transactionIndex + 1 == json
+                                                    .length) {
+                                                    $('.loading-icon-right')
+                                                    .remove();
+                                                }
+                                                transactionIndex++;
+                                            },
+                                        });
+                                        var cloneImage = $('.tab-pane').eq(order).find(
+                                            '.project_imaget').clone();
+                                        $('.tab-pane.active').find(
+                                                '.cover-image-by-housing-type').parent('div')
+                                            .find('.project_imaget').remove();
+                                        $('.tab-pane.active').find(
+                                                '.cover-image-by-housing-type').parent('div')
+                                            .append(cloneImage)
+                                    } else if (json[lm].type != "file") {
+                                        if (json[lm].name) {
+                                            var value = $('input[name="' + (json[lm].name) +
+                                                '"]').eq(order).val();
+                                            var formData = new FormData();
+                                            var csrfToken = $("meta[name='csrf-token']").attr(
+                                                "content");
+                                            formData.append('_token', csrfToken);
+                                            formData.append('value', value);
+                                            formData.append('order', currentOrder);
+                                            formData.append('key', json[lm].name.replace("[]",
+                                                "").replace("[]", ""));
+                                            formData.append('item_type', 1);
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "{{ route('institutional.temp.order.project.housing.change') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                                data: formData,
+                                                processData: false,
+                                                contentType: false,
+                                                success: function(response) {
+                                                    if (transactionIndex + 1 == json
+                                                        .length) {
+                                                        $('.loading-icon-right')
+                                                            .remove();
+                                                    }
+                                                    transactionIndex++;
+                                                },
+                                            });
+
+                                            confirmHousings();
+                                            $('input[name="' + (json[lm].name) + '"]').eq(
+                                                currentOrder).val(value);
+                                        }
+
+                                    }
+                                }
+                                console.log(transactionIndex);
+                            })
+
+                            $('.rendered-form input').change(function() {
+                                if ($(this).attr('type') != "file") {
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr(
-                                        "content");
+                                    "content");
                                     formData.append('_token', csrfToken);
                                     formData.append('value', $(this).val());
 
@@ -862,19 +1056,16 @@
                                         data: formData,
                                         processData: false,
                                         contentType: false,
-                                        success: function(response) {
-                                            if(transactionIndex+1 == json.length){
-                                                $('.loading-icon-right').remove();
-                                            }
-
-                                            transactionIndex++;
-                                        },
+                                        success: function(response) {},
                                     });
-                                    $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',true)
-                                }else{
-                                    transactionIndex++;
-                                    $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',false)
 
+                                    confirmHousings();
+                                }
+                            })
+
+                            $('.rendered-form select').change(function() {
+                                if ($(this).val().length) {
+                                    $(this).removeClass('error-border')
                                 }
                                 var formData = new FormData();
                                 var csrfToken = $("meta[name='csrf-token']").attr("content");
@@ -890,63 +1081,11 @@
                                     data: formData,
                                     processData: false,
                                     contentType: false,
-                                    success: function(response) {
-                                        if(transactionIndex+1 == json.length){
-                                            $('.loading-icon-right').remove();
-                                        }
-                                        transactionIndex++;
-                                    },
+                                    success: function(response) {},
                                 });
 
                                 confirmHousings();
-                            }else if(json[lm].type == "file" && json[lm].name == "image[]"){
-                                
-                                var formData = new FormData();
-                                var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                formData.append('_token', csrfToken);
-                                formData.append('lastorder',order);
-                                formData.append('order',currentOrder);
-                                formData.append('item_type',1);
-                                $.ajax({
-                                    type: "POST",
-                                    url: "{{route('institutional.copy.item.image')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                    data: formData,
-                                    processData: false,
-                                    contentType: false,
-                                    success: function(response) {
-                                        if(transactionIndex+1 == json.length){
-                                            $('.loading-icon-right').remove();
-                                        }
-                                        transactionIndex++;
-                                    },
-                                });
-                                var cloneImage = $('.tab-pane').eq(order).find('.project_imaget').clone();
-                                $('.tab-pane.active').find('.cover-image-by-housing-type').parent('div').find('.project_imaget').remove();
-                                $('.tab-pane.active').find('.cover-image-by-housing-type').parent('div').append(cloneImage)
-                            }else if(json[lm].type != "file"){
-                                if(json[lm].name){
-                                    var value = $('input[name="'+(json[lm].name)+'"]').eq(order).val();
-                                    var formData = new FormData();
-                                    var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                    formData.append('_token', csrfToken);
-                                    formData.append('value', value);
-                                    formData.append('order',currentOrder);
-                                    formData.append('key',json[lm].name.replace("[]", "").replace("[]", ""));
-                                    formData.append('item_type',1);
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                        data: formData,
-                                        processData: false,
-                                        contentType: false,
-                                        success: function(response) {
-                                            if(transactionIndex+1 == json.length){
-                                                $('.loading-icon-right').remove();
-                                            }
-                                        transactionIndex++;
-                                        },
-                                    });
-
+                            })
 
                             $('.price-only').keyup(function() {
                                 $('.price-only .error-text').remove();
@@ -961,7 +1100,7 @@
                                     } else {
                                         $(this).closest('.form-group').append(
                                             '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                        )
+                                            )
                                         $('.price-only').val("");
                                     }
 
@@ -978,36 +1117,7 @@
                                     $(this).val(inputValue)
                                     $(this).closest('.form-group').find('.error-text').remove();
                                 }
-                                
-                            }
-                        }
-                        console.log(transactionIndex);
-                    })
-                    
-                    $('.rendered-form input').change(function(){
-                        if($(this).attr('type') != "file"){
-                            var formData = new FormData();
-                            var csrfToken = $("meta[name='csrf-token']").attr("content");
-                            formData.append('_token', csrfToken);
-                            formData.append('value',$(this).val());
-                            
-                            console.log($(this).attr('name'))
-                            formData.append('order',parseInt($(this).closest('.tab-pane').attr('id').replace('TabContent',"")) - 1);
-                            formData.append('key',$(this).attr('name').replace("[]", "").replace("[]", ""));
-                            formData.append('item_type',1);
-                            if($(this).attr('type') == "checkbox"){
-                                formData.append('checkbox',"1");
-                            }
-                            $.ajax({
-                                type: "POST",
-                                url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                data: formData,
-                                processData: false,
-                                contentType: false,
-                                success: function(response) {
-                                },
-                            });
-
+                            })
 
                             $('.number-only').keyup(function() {
                                 $('.number-only .error-text').remove();
@@ -1018,7 +1128,7 @@
                                     } else {
                                         $(this).closest('.form-group').append(
                                             '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                        )
+                                            )
                                         $(this).val("");
                                     }
 
@@ -1050,7 +1160,10 @@
 
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr(
-                                        "content");
+                                    "content");
+
+                                    formData.append('order', $(this).closest('.tab-pane')
+                                    .index());
                                     formData.append('_token', csrfToken);
                                     formData.append('file', this.files[0]);
                                     formData.append('item_type', 1);
@@ -1078,8 +1191,8 @@
                                         // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
                                         $('.cover-photo').html(imageDiv);
 
-                                        $('.tab-pane.active .cover-image-by-housing-type img')
-                                            .remove()
+                                        $('.tab-pane.active .cover-image-by-housing-type')
+                                            .parent('div').find('.project_imaget').remove()
                                         $('.tab-pane.active .cover-image-by-housing-type')
                                             .closest('.formbuilder-file').append(imageDiv)
                                     };
@@ -1087,50 +1200,21 @@
                                     // Resmi okuyun
                                     reader.readAsDataURL(input.files[0]);
 
-                            var formData = new FormData();
-                            var csrfToken = $("meta[name='csrf-token']").attr("content");
-                            
-                            formData.append('order',$(this).closest('.tab-pane').index());
-                            formData.append('_token', csrfToken);
-                            formData.append('file',this.files[0]);
-                            formData.append('item_type',1);
-                            $.ajax({
-                                type: "POST",
-                                url: "{{route('institutional.temp.order.project.add.image')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                data: formData,
-                                processData: false,
-                                contentType: false,
-                                success: function(response) {
-                                },
-                                error: function() {
-                                    // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
-                                    alert("Dosya yüklenemedi.");
-
                                 }
                             })
 
 
                             confirmHousings();
-                                $('.tab-pane.active .cover-image-by-housing-type').parent('div').find('.project_imaget').remove()
-                                $('.tab-pane.active .cover-image-by-housing-type').closest('.formbuilder-file').append(imageDiv)
-                            };
 
+
+                            $('#tablist').attr('style', 'height:' + $('.tab-content').css('height') +
+                                ' !important;flex-wrap:nowrap;overflow:scroll;')
 
                         },
                         error: function(error) {
                             console.log(error)
                         }
                     })
-                    
-                    confirmHousings();
-                    
-
-                    $('#tablist').attr('style','height:'+$('.tab-content').css('height')+' !important;flex-wrap:nowrap;overflow:scroll;')
-
-                },
-                error: function(error) {
-                    console.log(error)
-
                 }
 
             }
@@ -1311,25 +1395,8 @@
         }
 
         $('.finish-button-first').click(function() {
-            @if ($user->plan && $user->plan->project_limit === 0)
-                $.toast({
-                    heading: 'Hata',
-                    text: 'Hakkınız kalmadığı için bu işlemi gerçekleştiremezsiniz.',
-                    position: 'top-right',
-                    stack: false
-                });
-            @elseif (!$user->plan)
-                $.toast({
-                    heading: 'Hata',
-                    text: 'Proje eklemek için paket satın almalısınız.',
-                    position: 'top-right',
-                    stack: false
-                });
-            @else
-                toSecondArea();
-            @endif
-        });
-
+            toSecondArea();
+        })
 
         $('.doping_statuses').change(function() {
             if ($(this).val() != "") {
@@ -1613,7 +1680,7 @@
                 var formData = new FormData();
                 var csrfToken = $("meta[name='csrf-token']").attr("content");
                 formData.append('_token', csrfToken);
-                formData.append('item_type',1);
+                formData.append('item_type', 1);
                 for (let i = 0; i < this.files.length; i++) {
                     formData.append(`file${i}`, this.files[i]);
                 }
@@ -1626,30 +1693,35 @@
                     success: function(response) {
                         console.log(response);
                         for (let i = 0; i < response.length; i++) {
-                            var imageDiv = $('<div class="project_imagex" order="'+response[i]+'"></div>');
-                            var image = $('<img>').attr('src', '{{URL::to('/')}}/project_images/'+response[i]);
-                            var imageButtons = $('<div>').attr('class','image-buttons');
-                            var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
+                            var imageDiv = $('<div class="project_imagex" order="' + response[i] +
+                                '"></div>');
+                            var image = $('<img>').attr('src', '{{ URL::to('/') }}/project_images/' +
+                                response[i]);
+                            var imageButtons = $('<div>').attr('class', 'image-buttons');
+                            var imageButtonsIcon = $('<i>').attr('class', 'fa fa-trash');
                             imageButtons.append(imageButtonsIcon)
                             imageDiv.append(image);
                             imageDiv.append(imageButtons);
                             $('.photos').append(imageDiv);
 
-                            $('.project_imagex .image-buttons').click(function(){
+                            $('.project_imagex .image-buttons').click(function() {
                                 var thisx = $(this);
                                 $.ajax({
-                                    url: '{{route("institutional.delete.image.order.temp.update")}}',
+                                    url: '{{ route('institutional.delete.image.order.temp.update') }}',
                                     type: 'POST',
-                                    data: { 
-                                        image: $(this).closest('.project_imagex').attr('order') ,
-                                        item_type : 1,
-                                        _token : csrfToken
+                                    data: {
+                                        image: $(this).closest('.project_imagex').attr(
+                                            'order'),
+                                        item_type: 1,
+                                        _token: csrfToken
                                     },
                                     success: function(response) {
                                         thisx.closest('.project_imagex').remove()
                                     },
                                     error: function(xhr, status, error) {
-                                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                                        console.error(
+                                            "Ajax isteği sırasında bir hata oluştu: " +
+                                            error);
                                     }
                                 });
                             })
@@ -1835,7 +1907,7 @@
                                             item) => {
                                             oldData[(checkboxName + i)].map((checkbox) => {
                                                 if (checkbox[0] == $(item).attr(
-                                                        "value")) {
+                                                    "value")) {
                                                     $(item).attr('checked', 'checked')
                                                 }
                                             })
@@ -1944,29 +2016,32 @@
                             for (var lm = 0; lm < json.length; lm++) {
                                 if (json[lm].type == "checkbox-group") {
                                     var json = JSON.parse(response.form_json);
-                                    var renderHtml = renderHtml.toString().split(json[lm].name+'-');
+                                    var renderHtml = renderHtml.toString().split(json[lm].name +
+                                        '-');
                                     renderHtmlx = "";
-                                    for(var t = 0 ; t < renderHtml.length ; t++){
-                                        if(t != renderHtml.length - 1){
-                                            renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[]-'+i;
-                                        }else{
+                                    for (var t = 0; t < renderHtml.length; t++) {
+                                        if (t != renderHtml.length - 1) {
+                                            renderHtmlx += renderHtml[t] + (json[lm].name.split(
+                                                '[]')[0]) + i + '[]-' + i;
+                                        } else {
                                             renderHtmlx += renderHtml[t];
                                         }
                                     }
                                     renderHtml = renderHtmlx;
 
-                                    var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
+                                    var renderHtml = renderHtml.toString().split(json[lm].name +
+                                        '[]');
                                     renderHtmlx = "";
                                     var json = JSON.parse(response.form_json);
-                                    for(var t = 0 ; t < renderHtml.length ; t++){
-                                        if(t != renderHtml.length - 1){
-                                        renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
-                                        }else{
-                                        renderHtmlx += renderHtml[t];
+                                    for (var t = 0; t < renderHtml.length; t++) {
+                                        if (t != renderHtml.length - 1) {
+                                            renderHtmlx += renderHtml[t] + (json[lm].name.split(
+                                                '[]')[0]) + i + '[][]';
+                                        } else {
+                                            renderHtmlx += renderHtml[t];
                                         }
                                     }
                                     renderHtml = renderHtmlx;
-                                    
 
                                 }
 
@@ -1981,15 +2056,15 @@
                             if (i > 1 && i != $('.tab-pane').length) {
                                 $('.rendered-form').eq(i - 1).append(
                                     '<div class="housing_buttons"><button class="prev_house btn btn-primary">Önceki Ev</button><button class="next_house btn btn-primary">Sonraki Konut</button></div>'
-                                )
+                                    )
                             } else if (i == $('.tab-pane').length) {
                                 $('.rendered-form').eq(i - 1).append(
                                     '<div class="housing_buttons"><button class="prev_house btn btn-primary">Önceki Ev</button></div>'
-                                )
+                                    )
                             } else {
                                 $('.rendered-form').eq(i - 1).append(
                                     '<div class="housing_buttons"><button class="next_house btn btn-primary">Sonraki Konut</button></div>'
-                                )
+                                    )
                             }
                         }
 
@@ -2011,7 +2086,7 @@
                                 }
                             })
                             if ($('.tab-pane.active input[required="required"]')
-                                .val() == "") {
+                            .val() == "") {
                                 nextHousing = false;
                                 $('.tab-pane.active input[name="price[]"]').addClass(
                                     'error-border')
@@ -2083,12 +2158,12 @@
 
                                 $('.tab-pane.active input[type="file"]').map((key,
                                     item) => {
-                                    if ($(item).parent('div').find(
-                                            '.project_imaget').length == 0) {
-                                        nextHousing = false;
-                                        $(item).addClass("error-border")
-                                    }
-                                })
+                                        if ($(item).parent('div').find(
+                                                '.project_imaget').length == 0) {
+                                            nextHousing = false;
+                                            $(item).addClass("error-border")
+                                        }
+                                    })
 
                                 var indexItem = $('.tab-pane.active').index();
                                 if (nextHousing) {
@@ -2099,9 +2174,9 @@
                                 } else {
                                     $('html, body').animate({
                                         scrollTop: $('.tab-pane.active')
-                                            .offset().top - parseFloat($(
+                                        .offset().top - parseFloat($(
                                                 '.navbar-top').css(
-                                                'height'))
+                                            'height'))
                                     }, 100);
                                 }
 
@@ -2117,17 +2192,74 @@
 
                         })
 
-                        $('.copy-item').change(function(){
-                        var transactionIndex = 0;
-                        $('.tab-pane').prepend('<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>');
-                        var order = parseInt($(this).val()) - 1;
-                        var currentOrder = parseInt($(this).closest('.item-left-area').index());
-                        for(var lm = 0 ; lm < json.length; lm++){
-                            if(json[lm].type == "checkbox-group"){
-                            for(var i = 0 ; i < json[lm].values.length; i++){
-                                var isChecked = $('input[name="'+(json[lm].name.replace('[]',''))+(order+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').is(':checked')
-                                if(isChecked){
+                        $('.copy-item').change(function() {
+                            var transactionIndex = 0;
+                            $('.tab-pane').prepend(
+                                '<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>'
+                                );
+                            var order = parseInt($(this).val()) - 1;
+                            var currentOrder = parseInt($(this).closest(
+                                '.item-left-area').index());
+                            for (var lm = 0; lm < json.length; lm++) {
+                                if (json[lm].type == "checkbox-group") {
+                                    for (var i = 0; i < json[lm].values.length; i++) {
+                                        var isChecked = $('input[name="' + (json[lm]
+                                                .name.replace('[]', '')) + (order +
+                                                1) + '[][]"][value="' + json[lm]
+                                            .values[i].value + '"]' + '').is(
+                                            ':checked')
+                                        if (isChecked) {
+                                            var formData = new FormData();
+                                            var csrfToken = $("meta[name='csrf-token']")
+                                                .attr("content");
+                                            formData.append('_token', csrfToken);
+                                            formData.append('value', json[lm].values[i]
+                                                .value);
+                                            formData.append('order', currentOrder);
+                                            formData.append('key', json[lm].name
+                                                .replace("[]", "").replace("[]",
+                                                "") + (currentOrder + 1));
+                                            formData.append('item_type', 1);
+                                            formData.append('checkbox', "1");
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "{{ route('institutional.temp.order.project.housing.change') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                                data: formData,
+                                                processData: false,
+                                                contentType: false,
+                                                success: function(response) {
+                                                    if (transactionIndex +
+                                                        1 == json.length) {
+                                                        $('.loading-icon-right')
+                                                            .remove();
+                                                    }
 
+                                                    transactionIndex++;
+                                                },
+                                            });
+                                            $('input[name="' + (json[lm].name.replace(
+                                                    '[]', '')) + (currentOrder +
+                                                1) + '[][]"][value="' + json[lm]
+                                                .values[i].value + '"]' + '').prop(
+                                                'checked', true)
+                                        } else {
+                                            transactionIndex++;
+                                            $('input[name="' + (json[lm].name.replace(
+                                                    '[]', '')) + (currentOrder +
+                                                1) + '[][]"][value="' + json[lm]
+                                                .values[i].value + '"]' + '').prop(
+                                                'checked', false)
+                                        }
+                                    }
+                                } else if (json[lm].type == "select") {
+                                    var value = $('select[name="' + (json[lm].name) +
+                                        '"]').eq(order).val();
+                                    $('select[name="' + (json[lm].name) + '"]').eq(
+                                        currentOrder).children('option').removeAttr(
+                                        'selected')
+                                    $('select[name="' + (json[lm].name) + '"]').eq(
+                                        currentOrder).children('option[value="' +
+                                        value + '"]').prop('selected', true);
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr(
                                         "content");
@@ -2144,73 +2276,19 @@
                                         processData: false,
                                         contentType: false,
                                         success: function(response) {
-                                            if(transactionIndex+1 == json.length){
-                                                $('.loading-icon-right').remove();
+                                            if (transactionIndex + 1 == json
+                                                .length) {
+                                                $('.loading-icon-right')
+                                                    .remove();
                                             }
 
                                             transactionIndex++;
                                         },
                                     });
-                                    $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',true)
-                                }else{
-                                    transactionIndex++;
-                                    $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',false)
-                                }
-                            }
-                            }else if(json[lm].type == "select"){
-                                var value = $('select[name="'+(json[lm].name)+'"]').eq(order).val();
-                                $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option').removeAttr('selected')
-                                $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value+'"]').prop('selected',true);
-                                var formData = new FormData();
-                                var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                formData.append('_token', csrfToken);
-                                formData.append('value', value);
-                                formData.append('order',currentOrder);
-                                formData.append('key',json[lm].name.replace("[]", "").replace("[]", ""));
-                                formData.append('item_type',1);
-                                $.ajax({
-                                    type: "POST",
-                                    url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                    data: formData,
-                                    processData: false,
-                                    contentType: false,
-                                    success: function(response) {
-                                        if(transactionIndex+1 == json.length){
-                                            $('.loading-icon-right').remove();
-                                        }
 
-                                        transactionIndex++;
-                                    },
-                                });
-
-                                confirmHousings();
-                            }else if(json[lm].type == "file" && json[lm].name == "image[]"){
-                                
-                                var formData = new FormData();
-                                var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                formData.append('_token', csrfToken);
-                                formData.append('lastorder',order);
-                                formData.append('order',currentOrder);
-                                formData.append('item_type',1);
-                                $.ajax({
-                                    type: "POST",
-                                    url: "{{route('institutional.copy.item.image')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                    data: formData,
-                                    processData: false,
-                                    contentType: false,
-                                    success: function(response) {
-                                        if(transactionIndex+1 == json.length){
-                                            $('.loading-icon-right').remove();
-                                        }
-
-                                        transactionIndex++;
-                                    },
-                                });
-                                var cloneImage = $('.tab-pane').eq(order).find('.project_imaget').clone();
-                                $('.tab-pane.active').find('.cover-image-by-housing-type').parent('div').append(cloneImage)
-                            }else if(json[lm].type != "file"){
-                                if(json[lm].name){
-                                    var value = $('input[name="'+(json[lm].name)+'"]').eq(order).val();
+                                    confirmHousings();
+                                } else if (json[lm].type == "file" && json[lm].name ==
+                                    "image[]") {
 
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr(
@@ -2226,13 +2304,14 @@
                                         processData: false,
                                         contentType: false,
                                         success: function(response) {
-                                            if(transactionIndex+1 == json.length){
-                                                $('.loading-icon-right').remove();
+                                            if (transactionIndex + 1 == json
+                                                .length) {
+                                                $('.loading-icon-right')
+                                                    .remove();
                                             }
 
                                             transactionIndex++;
                                         },
-
                                     });
                                     var cloneImage = $('.tab-pane').eq(order).find(
                                         '.project_imaget').clone();
@@ -2258,7 +2337,15 @@
                                             data: formData,
                                             processData: false,
                                             contentType: false,
-                                            success: function(response) {},
+                                            success: function(response) {
+                                                if (transactionIndex + 1 ==
+                                                    json.length) {
+                                                    $('.loading-icon-right')
+                                                        .remove();
+                                                }
+
+                                                transactionIndex++;
+                                            },
                                         });
 
                                         confirmHousings();
@@ -2319,7 +2406,7 @@
                             }
                             var formData = new FormData();
                             var csrfToken = $("meta[name='csrf-token']").attr(
-                                "content");
+                            "content");
                             formData.append('_token', csrfToken);
                             formData.append('value', $(this).val());
                             formData.append('order', parseInt($(this).closest(
@@ -2353,7 +2440,7 @@
                                 } else {
                                     $(this).closest('.form-group').append(
                                         '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                    )
+                                        )
                                     $('.price-only').val("");
                                 }
                             } else {
@@ -2381,7 +2468,7 @@
                                 } else {
                                     $(this).closest('.form-group').append(
                                         '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                    )
+                                        )
                                     $(this).val("");
                                 }
 
@@ -2414,10 +2501,9 @@
                                 var csrfToken = $("meta[name='csrf-token']").attr(
                                     "content");
                                 formData.append('_token', csrfToken);
-                                formData.append('file',this.files[0]);
-                                formData.append('order',$('.tab-pane').index());
-                                formData.append('item_type',1);
-
+                                formData.append('file', this.files[0]);
+                                formData.append('order', $('.tab-pane').index());
+                                formData.append('item_type', 1);
                                 $.ajax({
                                     type: "POST",
                                     url: "{{ route('institutional.temp.order.project.add.image') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
@@ -2443,9 +2529,12 @@
                                     // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
                                     $('.cover-photo').html(imageDiv);
 
-                                    $('.tab-pane.active .cover-image-by-housing-type').parent('div').find('.project_imaget').remove()
-                                    $('.tab-pane.active .cover-image-by-housing-type').closest('.formbuilder-file').append(imageDiv)
-
+                                    $('.tab-pane.active .cover-image-by-housing-type')
+                                        .parent('div').find('.project_imaget')
+                                        .remove()
+                                    $('.tab-pane.active .cover-image-by-housing-type')
+                                        .closest('.formbuilder-file').append(
+                                            imageDiv)
                                 };
 
                                 // Resmi okuyun
@@ -2454,8 +2543,9 @@
                             }
                         })
 
-                        
-                        $('#tablist').attr('style','height:'+$('.tab-content').css('height')+' !important;flex-wrap:nowrap;overflow:scroll;')
+
+                        $('#tablist').attr('style', 'height:' + $('.tab-content').css(
+                            'height') + ' !important;flex-wrap:nowrap;overflow:scroll;')
                     },
                     error: function(error) {
                         console.log(error)
@@ -2513,7 +2603,7 @@
                             success: function(response) {
                                 // Yanıt başarılı olduğunda çalışacak kod
                                 var countiesSelect = $(
-                                    '#neighbourhood'); // counties id'li select'i seç
+                                '#neighbourhood'); // counties id'li select'i seç
                                 countiesSelect.empty(); // Select içeriğini temizle
                                 var countyId =
                                     @if (isset($tempData->neighbourhood_id))
@@ -2683,7 +2773,7 @@
                     if ($('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
                         topError) {
                         topError = $('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) -
-                            100;
+                        100;
                     }
                 } else {
                     topError = $('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
@@ -2717,7 +2807,7 @@
                     if ($('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
                         topError) {
                         topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) -
-                            100;
+                        100;
                     }
                 } else {
                     topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
@@ -2812,7 +2902,7 @@
                     if ($('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
                         topError) {
                         topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) -
-                            100;
+                        100;
                     }
                 } else {
                     topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
@@ -2972,7 +3062,7 @@
         function listChangex() {
             $.ajax({
                 url: "{{ URL::to('/') }}/institutional/get_housing_type_childrens/" +
-                    itemSlug, // AJAX isteği yapılacak URL
+                itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function(data) {
@@ -3044,7 +3134,7 @@
             changeData(itemSlug, 'step' + (itemOrder + 1) + '_slug')
             $.ajax({
                 url: "{{ URL::to('/') }}/institutional/get_housing_type_childrens/" +
-                    itemSlug, // AJAX isteği yapılacak URL
+                itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function(data) {

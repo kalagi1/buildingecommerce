@@ -21,12 +21,13 @@ class HomeController extends Controller
         $passiveProjects = Project::where("status", "0")->get();
         $descProjects = Project::orderBy("id", "desc")->with("user", "city", "county")->limit(4)->get();
         $secondhandHousings = Housing::all();
-        return view('admin.home.index', compact("comments", "countUser","passiveProjects", "clients", "institutionals", "projects", "secondhandHousings", 'descProjects'));
+        return view('admin.home.index', compact("comments", "countUser", "passiveProjects", "clients", "institutionals", "projects", "secondhandHousings", 'descProjects'));
     }
 
     public function getOrders()
     {
         $cartOrders = CartOrder::with('user')->get();
+
         return view('admin.orders.index', compact('cartOrders'));
     }
 

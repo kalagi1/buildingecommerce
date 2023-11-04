@@ -97,7 +97,7 @@ class RegisterController extends Controller
         $user->profile_image = "indir.png";
         $user->banner_hex_code = "black";
         $user->password = bcrypt($request->input("password"));
-        $user->type = $validatedData['type'];
+        $user->type = $request->input("type");
         $user->activity = $request->input("activity");
         $user->county_id = $request->input("county_id");
         $user->city_id = $request->input("city_id");
@@ -111,8 +111,9 @@ class RegisterController extends Controller
         $user->status = 0;
         $user->email_verification_token = Str::random(40);
         $user->corporate_type = $request->input("corporate-account-type");
+        $user->save();
 
-        if ($user->type == 2) {
+        if ($request->input("type") == 2) {
             UserPlan::create([
                 "user_id" => $user->id,
                 "subscription_plan_id" => null,
@@ -121,10 +122,11 @@ class RegisterController extends Controller
                 "housing_limit" => 0,
             ]);
         } else {
-            $user->corporate_account_status = 1;
+            $user->update([
+                "corporate_account_status" => 1,
+            ]);
         }
 
-        $user->save();
         $emailTemplate = EmailTemplate::where('slug', "account-verify")->first();
 
         if (!$emailTemplate) {

@@ -28,7 +28,7 @@
         }
     @endphp
 @php
-$sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $housingOrder)->room_order, $project->id]) ?? false;
+$sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND status = "1" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $housingOrder)->room_order, $project->id]) ?? false;
 @endphp
     <section class="single-proper blog details bg-white">
         <div class="container">
