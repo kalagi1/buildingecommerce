@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            @if ($user->plan)
+            @if ($remainingPackage)
                 <div class="col-md-3 col-12 mb-3">
                     <div class="d-flex align-items-center bg-white border rounded-sm p-2">
                         <svg viewBox="0 0 24 24" width="30" height="30" stroke="blue" stroke-width="2"
@@ -46,7 +46,7 @@
                         </svg>
                         <div class="ms-2">
                             <div class="d-flex align-items-end">
-                                <h2 class="mb-0 me-2">{{ $user->plan->project_limit }}</h2>
+                                <h2 class="mb-0 me-2">{{ $remainingPackage->project_limit }}</h2>
                                 <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Proje
                                     Limiti</span>
                             </div>
@@ -62,7 +62,7 @@
                         </svg>
                         <div class="ms-2">
                             <div class="d-flex align-items-end">
-                                <h2 class="mb-0 me-2">{{ $user->plan->user_limit }}</h2>
+                                <h2 class="mb-0 me-2">{{ $remainingPackage->user_limit }}</h2>
                                 <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Alt Kullanıcı
                                     Limiti</span>
                             </div>
@@ -78,7 +78,7 @@
                         </svg>
                         <div class="ms-2">
                             <div class="d-flex align-items-end">
-                                <h2 class="mb-0 me-2">{{ $user->plan->housing_limit }}</h2>
+                                <h2 class="mb-0 me-2">{{ $remainingPackage->housing_limit }}</h2>
                                 <span class="fs-1 fw-semi-bold text-900" style="font-size: 16px !important;">Konut
                                     Limiti</span>
                             </div>

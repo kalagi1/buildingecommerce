@@ -9,13 +9,13 @@
                         <div class="col-12 col-md">
                             <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">
                                 @if ($user->plan)
-                                    Kalan Kullanıcı Oluşturma Hakkınız :
+                                    Kalan Alt Kullanıcı Oluşturma Hakkınız :
                                     {{ $user->plan->user_limit }} Adet
                                     @if ($user->plan->user_limit === 0)
                                         - Hakkınız Kalmadı
                                     @endif
                                 @else
-                                    Kullanıcı eklemek için bir paket satın almanız gerekiyor.
+                                Alt Kullanıcı eklemek için bir paket satın almanız gerekiyor.
                                 @endif
                             </h4>
 

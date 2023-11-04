@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Institutional;
 use App\Http\Controllers\Controller;
 use App\Models\DocumentNotification;
 use App\Models\User;
+use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -66,9 +67,8 @@ class DashboardController extends Controller
     public function index()
     {
         $user = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan", "parent")->first();
-        if (isset($user->parent)) {
-            $user = User::where("id", $user->parent_id)->with("plan.subscriptionPlan", "parent")->first();
-        }
+        $hasPlan = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->with("subscriptionPlan")->first();
+        $remainingPackage = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->first();
         $stats1_data = [];
 
         DB::beginTransaction();
@@ -97,6 +97,6 @@ class DashboardController extends Controller
         }
         DB::commit();
 
-        return view('institutional.home.index', compact("user", "stats1_data", "stats2_data"));
+        return view('institutional.home.index', compact("user", "remainingPackage", "stats1_data", "stats2_data"));
     }
 }

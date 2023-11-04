@@ -44,7 +44,7 @@
         "id": "user",
         "label": "Hesabım & Yardım",
         "icon": "user",
-        "text": "Kullanıcı Oluştur",
+        "text": "Alt Kullanıcı Oluştur",
         "key": "Users",
         "url": "#nv-users",
         "activePath": "institutional/users*",

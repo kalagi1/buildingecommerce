@@ -35,10 +35,13 @@ class StoreBannerController extends Controller
 
         $parentUser = auth()->user()->parent_id ?? auth()->user()->id;
 
-        foreach ($imagePaths as $imagePath) {
+        $banners = StoreBanner::where("user_id", Auth::user()->parent_id ?? Auth::user()->id)->count();
+
+        foreach ($imagePaths as $key => $imagePath) {
             $storeBanner = new StoreBanner();
             $storeBanner->image = $imagePath;
             $storeBanner->user_id = $parentUser;
+            $storeBanner->order = $key + $banners;
             $storeBanner->save();
         }
 
