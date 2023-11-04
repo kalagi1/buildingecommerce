@@ -979,6 +979,8 @@
 
                             var formData = new FormData();
                             var csrfToken = $("meta[name='csrf-token']").attr("content");
+                            
+                            formData.append('order',$(this).closest('.tab-pane').index());
                             formData.append('_token', csrfToken);
                             formData.append('file',this.files[0]);
                             formData.append('item_type',1);
@@ -2173,6 +2175,7 @@
                                 var csrfToken = $("meta[name='csrf-token']").attr("content");
                                 formData.append('_token', csrfToken);
                                 formData.append('file',this.files[0]);
+                                formData.append('order',$('.tab-pane').index());
                                 formData.append('item_type',1);
                                 $.ajax({
                                     type: "POST",

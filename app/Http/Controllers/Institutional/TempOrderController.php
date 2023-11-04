@@ -432,7 +432,7 @@ class TempOrderController extends Controller
                     $imageCount = count($tempData->roomInfoKeys->image);
                 }
                 $image = $request->file('file');
-                $imageName = 'cover_temp_image'.auth()->guard()->user()->id. $imageCount . '.' . $image->getClientOriginalExtension();
+                $imageName = 'cover_temp_image'.auth()->guard()->user()->id. (intval($request->input('order'))) . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/project_images'), $imageName);
             }else{
                 $imageName = "";
@@ -441,7 +441,7 @@ class TempOrderController extends Controller
             $data = $tempData;
             if(isset($data->roomInfoKeys) ){
                 if(isset($data->roomInfoKeys->image)){
-                    array_push($data->roomInfoKeys->image,$imageName);
+                    $data->roomInfoKeys->image[$request->input('order')] = $imageName;
                 }else{
                     $data->roomInfoKeys->image = [$imageName];
                 }
@@ -449,7 +449,6 @@ class TempOrderController extends Controller
                 $data->roomInfoKeys = json_decode("{}");
                 $data->roomInfoKeys->image = [$imageName];
             }
-
             if(!$tempOrder){
                 TempOrder::create([
                     "user_id" => auth()->guard()->user()->id,
