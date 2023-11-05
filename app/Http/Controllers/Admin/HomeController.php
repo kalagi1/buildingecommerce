@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CartOrder;
 use App\Models\Housing;
 use App\Models\HousingComment;
+use App\Models\Order;
 use App\Models\Project;
 use App\Models\User;
 
@@ -29,6 +30,18 @@ class HomeController extends Controller
         $cartOrders = CartOrder::with('user')->get();
 
         return view('admin.orders.index', compact('cartOrders'));
+    }
+
+    function approveOrder(CartOrder $cartOrder)
+    {
+        $cartOrder->update(['status' => '1']);
+        return redirect()->back();
+    }
+
+    function unapproveOrder(CartOrder $cartOrder)
+    {
+        $cartOrder->update(['status' => '0']);
+        return redirect()->back();
     }
 
 }

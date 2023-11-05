@@ -81,7 +81,7 @@
             <div class="col-lg-9">
                 <div class="my-properties">
                     <table class="table-responsive">
-                        <thead class="mobile-hidden">
+                        <thead>
                             <tr>
                                 <th> No.</th>
                                 <th>Görsel</th>
