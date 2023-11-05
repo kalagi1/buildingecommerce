@@ -45,6 +45,12 @@ class Project extends Model
     {
         return $this->hasOne(HousingType::class, "id", "housing_type_id");
     }
+
+    public function housingTypes()
+    {
+        return $this->hasMany(ProjectHousingType::class, "project_id", "id");
+    }
+    
     public static function listForMarketing()
     {
 

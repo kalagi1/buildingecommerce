@@ -6,49 +6,68 @@
 
             <div class="row" style="justify-content: end">
                 <div class="col-md-8 mt-5">
-                <div class="my-properties">
-                <table class="table-responsive">
-                    <thead>
-                        <tr>
-                            <th class="pl-2">Konut</th>
-                            <th class="p-0"></th>
-                            <th class="pl-2">İl</th>
-                            <th class="pl-2">Fiyat</th>
-                            <th>Kaldır</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (!$cart || empty($cart['item']))
-                            <tr>
-                                <td colspan="5">Sepette Ürün Bulunmuyor</td>
+                    <div class="my-properties">
+                        <table class="table-responsive">
+                            <thead class="mobile-hidden">
+                                <tr>
+                                    <th class="pl-2">Konut</th>
+                                    <th class="p-0"></th>
+                                    <th class="pl-2">Fiyat</th>
+                                    <th>Kaldır</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (!$cart || empty($cart['item']))
+                                    <tr>
+                                        <td colspan="5">Sepette Ürün Bulunmuyor</td>
 
-                            </tr>
-                        @else
-                            <tr>
-                                <td class="image myelist">
-                                    <a href="{{$cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? ''])}}"><img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                            class="img-fluid"></a>
-                                </td>
-                                <td>
-                                    <div class="inner">
-                                        <a href="{{$cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? ''])}}">
-                                            <h2 style="font-weight: 600">{{ $cart['item']['title'] }}</h2>
-                                            <figure><i class="lni-map-marker"></i> {{ $cart['item']['address'] }}</figure>
-                                        </a>
-                                    </div>
-                                </td>
-                                <td> {{ $cart['item']['city'] }}</td>
-                                <td> {{ $cart['item']['price'] - $cart['item']['discount_amount'] }}</td>
-                                <td class="actions">
-                                    <a href="#" class="remove-from-cart" style="float: left"><i
-                                            class="far fa-trash-alt"></i></a>
-                                </td>
-                            </tr>
-                        @endif
+                                    </tr>
+                                @else
+                                    @php(
+    $discount_amount =
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $cart['item']['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+)
+                                    <tr>
+                                        <td class="image myelist">
+                                            <a
+                                                href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
+                                                    alt="my-properties-3" src="{{ $cart['item']['image'] }}"
+                                                    class="img-fluid"></a>
+                                        </td>
+                                        <td>
+                                            <div class="inner">
+                                                <a
+                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}">
+                                                    <h2 style="font-weight: 600">{{ $cart['item']['title'] }}</h2>
+                                                    <figure><i class="lni-map-marker"></i> {{ $cart['item']['city'] }}
+                                                    </figure>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span style="color:#e54242; font-weight:600">
+                                                @if ($discount_amount)
+                                                    <svg viewBox="0 0 24 24" width="24" height="24"
+                                                        stroke="currentColor" stroke-width="2" fill="none"
+                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                    </svg>
+                                                @endif
+                                                {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }}
+                                                ₺
+                                            </span>
+                                        </td>
+                                        <td class="actions">
+                                            <a href="#" class="remove-from-cart" style="float: left"><i
+                                                    class="far fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                @endif
 
-                    </tbody>
-                </table>
-            </div>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="col-md-4 mt-5">
                     <div class="tr-single-box mb-0" style="background: white !important;">
@@ -74,10 +93,16 @@
                                 @endif
                                 <ul>
                                     <li>
-                                        <form action="{{ route('client.pay.cart') }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-primary btn-lg btn-block">ÖDEME YAP</button>
-                                        </form>
+                                        <button type="button" class="btn btn-primary btn-lg btn-block mb-3"
+                                            @if (!Auth::check()) disabled @endif
+                                            @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif data-toggle="modal"
+                                            data-target="#paymentModal">
+                                            Satın Al
+                                        </button>
+                                        @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id))
+                                            <span class="text-danger">Mağazalar için şu an satın alma modülümüz
+                                                kapalıdır.</span>
+                                        @endif
                                     </li>
                                 </ul>
                             </div>
@@ -89,12 +114,199 @@
 
         </div>
 
+        @if ($cart || !empty($cart['item']))
+            <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Ödeme Adımı</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="invoice">
+                                <div class="invoice-header mb-3">
+                                    <strong>Fatura Tarihi: {{ date('d.m.Y') }}</strong>
+                                </div>
+
+                                <div class="invoice-body">
+                                    <table class="table table-bordered d-none d-md-table"> <!-- Tabloyu sadece tablet ve daha büyük ekranlarda göster -->
+                                        <thead>
+                                            <tr>
+                                                <th>Ürün Görseli</th>
+                                                <th>Ürün Adı</th>
+                                                <th>Miktar</th>
+                                                <th>Fiyat</th>
+                                                <th>Toplam</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a
+                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
+                                                        alt="my-properties-3" src="{{ $cart['item']['image'] }}"
+                                                        class="img-fluid"></a>
+                                                </td>
+                                                <td>{{ $cart['item']['title'] }}</td>
+                                                <td>1</td>
+                                                <td>{{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }} ₺</td>
+                                                <td>{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 2, ',', '.') }} ₺</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                        
+                                    <!-- Mobilde sadece alt alta liste göster -->
+                                    <div class="d-md-none">
+                                        <ul class="list-group">
+                                         
+                                                <li class="list-group-item">
+                                                    <strong>Ürün Görseli:</strong> 
+                                                    <a
+                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
+                                                        alt="my-properties-3" src="{{ $cart['item']['image'] }}"
+                                                        class="img-fluid"></a>
+                                                </li>
+                                            <li class="list-group-item">
+                                                <strong>Ürün Adı:</strong> {{ $cart['item']['title'] }}
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Miktar:</strong> 1
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Fiyat:</strong> {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }} ₺
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Toplam:</strong> {{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 2, ',', '.') }} ₺
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="invoice-total mt-3">
+                                    <strong class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</strong>
+                                    <div class="row mb-3 px-5 mt-3">
+                                        @foreach ($bankAccounts as $bankAccount)
+                                            <div class="col-md-4 bank-account" bank_id="{{ $bankAccount->id }}"
+                                                data-iban="{{ $bankAccount->iban }}"
+                                                data-title="{{ $bankAccount->receipent_full_name }}">
+                                                <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
+                                                    style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div id="ibanInfo"></div>
+                                    <strong>Ödeme işlemini tamamlamak için, lütfen bu
+                                        <span style="color:red" id="uniqueCode"></span> kodu kullanarak ödemenizi
+                                        yapın. IBAN açıklama
+                                        alanına
+                                        bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak işlemi
+                                        bitirin.</strong>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
+                                class="btn btn-primary btn-lg btn-block mb-3" id="completePaymentButton">Satın Al
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
+                aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="finalConfirmationModalLabel">Ödeme Onayı</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</p>
+                            <ol>
+                                <li>
+                                    <strong style="color:red" id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
+                                    alanına yazdığınızdan emin olun.
+                                </li>
+                                <li>
+                                    Son olarak, işlemi bitirmek için aşağıdaki butona tıklayın: <br>
+                                    <form action="{{ route('client.pay.cart') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="key" id="orderKey">
+                                        <button type="submit" class="btn btn-primary paySuccess mt-3">Ödemeyi Tamamla
+                                            <svg viewBox="0 0 576 512" class="svgIcon">
+                                                <path
+                                                    d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                                </path>
+                                            </svg></button>
+                                    </form>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
 
     </section>
 @endsection
 @section('scripts')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Başlangıçta ödeme düğmesini devre dışı bırak
+            $('#completePaymentButton').prop('disabled', true);
+
+
+            $('.bank-account').on('click', function() {
+                // Tüm banka görsellerini seçim olmadı olarak ayarla
+                $('.bank-account').removeClass('selected');
+
+                // Seçilen banka görselini işaretle
+                $(this).addClass('selected');
+
+                // İlgili IBAN bilgisini al
+                var selectedBankIban = $(this).data('iban');
+                var selectedBankTitle = $(this).data('title');
+
+
+                // IBAN bilgisini ekranda göster
+                $('#ibanInfo').text(selectedBankTitle + " : " + selectedBankIban);
+                // Ödeme düğmesini etkinleştir
+                $('#completePaymentButton').prop('disabled', false);
+            });
+
+            $('#completePaymentButton').on('click', function() {
+                $('#paymentModal').modal('hide');
+                $('#finalConfirmationModal').modal('show');
+            });
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('#paymentModal').on('show.bs.modal', function(e) {
+                var uniqueCode = generateUniqueCode();
+                $('#uniqueCode').text(uniqueCode);
+                $('#uniqueCodeRetry').text(uniqueCode);
+                $("#orderKey").val(uniqueCode);
+            });
+
+            // Rastgele bir benzersiz kod oluşturan fonksiyon
+            function generateUniqueCode() {
+                return Math.random().toString(36).substring(2, 10).toUpperCase();
+            }
+        });
+    </script>
 
     <script>
         $("#createOrder").click(function() {
@@ -154,3 +366,4 @@
         });
     </script>
 @endsection
+

@@ -20,13 +20,13 @@
                     </div>
 
                     @if (session('success'))
-                        <div class="alert alert-success text-white">
+                        <div class="alert alert-success text-white text-white">
                             {{ session('success') }}
                         </div>
                     @endif
 
                     @if (session('error'))
-                        <div class="alert alert-danger text-white">
+                        <div class="alert alert-danger text-white text-white">
                             {{ session('error') }}
                         </div>
                     @endif
@@ -52,9 +52,9 @@
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="subscription-plans-list-table-body">
-                                    @foreach ($subscriptionPlans as $plan)
+                                    @foreach ($subscriptionPlans as $key => $plan)
                                         <tr class="position-static">
-                                            <td>{{ $plan->id }}</td>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $plan->name }}</td>
                                             <td>{{ $plan->price }}</td>
                                             <td>{{ $plan->project_limit }}</td>

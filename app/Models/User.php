@@ -130,8 +130,9 @@ class User extends Authenticatable
 
     public function banners()
     {
-        return $this->hasMany(StoreBanner::class, 'user_id');
+        return $this->hasMany(StoreBanner::class, 'user_id')->orderBy('order', 'asc');
     }
+    
 
     public function housingFavorites()
     {

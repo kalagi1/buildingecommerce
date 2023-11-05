@@ -9,14 +9,16 @@
                         <!-- Sekme Seçenekleri -->
                         <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="normal-tab" data-toggle="tab" href="#normal" role="tab"
-                                    aria-controls="normal" aria-selected="true">
+                                <a class="nav-link @if ($errors->has('login_error') || !$errors->any()) active show @else hide @endif "
+                                    id="normal-tab" data-toggle="tab" href="#normal" role="tab" aria-controls="normal"
+                                    aria-selected="true">
                                     <h3 class="text-center font-weight-bold">Giriş Yap</h3>
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="corporate-tab" data-toggle="tab" href="#corporate" role="tab"
-                                    aria-controls="corporate" aria-selected="false">
+                                <a class="nav-link @if ($errors->any() && !$errors->has('login_error')) active show @endif" id="corporate-tab"
+                                    data-toggle="tab" href="#corporate" role="tab" aria-controls="corporate"
+                                    aria-selected="false">
                                     <h3 class="text-center font-weight-bold">Kayıt Ol</h3>
                                 </a>
                             </li>
@@ -26,38 +28,46 @@
                             <!-- Sekme İçeriği -->
                             <div class="tab-content" id="myTabContent">
                                 <!-- Normal Hesap Girişi Sekmesi -->
-                                <div class="tab-pane fade show active" id="normal" role="tabpanel"
-                                    aria-labelledby="normal-tab">
+                                <div class="tab-pane fade @if ($errors->has('login_error') || !$errors->any()) active show @else hide @endif "
+                                    id="normal" role="tabpanel" aria-labelledby="normal-tab">
+
                                     @if (session()->has('success'))
-                                        <div class="alert alert-success">
+                                        <div class="alert alert-success text-white">
                                             {{ session()->get('success') }}
                                         </div>
                                     @elseif (session()->has('error'))
-                                        <div class="alert alert-danger">
+                                        <div class="alert alert-danger text-white">
                                             {{ session()->get('error') }}
+                                        </div>
+                                    @elseif (session()->has('warning'))
+                                        <div class="alert alert-warning">
+                                            {{ session()->get('warning') }}
                                         </div>
                                     @endif
 
                                     <form method="POST"class="form w-100" action="{{ route('client.submit.login') }}">
-
                                         @csrf
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                <ul class="mb-0">
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
+
+                                        @if ($errors->has('login_error'))
+                                            <div class="alert alert-danger text-white">
+                                                {{ $errors->first('login_error') }}
                                             </div>
                                         @endif
+
+
+                                        <!-- E-Posta -->
                                         <div class="mt-3">
                                             <label class="q-label">E-Posta</label>
-                                            <input type="email" name="email" class="form-control">
+                                            <input type="email" name="email" class="form-control"
+                                                value="{{ old('email') }}">
+
                                         </div>
+
 
                                         <div class="mt-3">
                                             <label class="q-label">Şifre</label>
                                             <input type="password" name="password" class="form-control">
+
                                         </div>
 
                                         <div class="forgot-password d-flex justify-content-between">
@@ -109,297 +119,226 @@
                                 </div>
 
                                 <!-- Kurumsal Hesap Girişi Sekmesi -->
-                                <div class="tab-pane fade" id="corporate" role="tabpanel" aria-labelledby="corporate-tab">
+                                <div class="tab-pane fade @if ($errors->any() && !$errors->has('login_error')) active show @endif"
+                                    id="corporate" role="tabpanel" aria-labelledby="corporate-tab">
+
+
                                     <form method="POST" class="form w-100" action="{{ route('client.submit.register') }}">
                                         @csrf
                                         <div class="user-type-selection">
                                             <label class="q-label">Kullanıcı Türü</label>
                                             <div class="button-group">
-                                                <button class="user-type-button individual active" data-user-type="1"
-                                                    type="button">Bireysel</button>
-                                                <button class="user-type-button institutional" data-user-type="2"
-                                                    type="button">Kurumsal</button>
+                                                <button
+                                                    class="user-type-button individual {{ old('type') == 1 ? 'active' : '' }}"
+                                                    data-user-type="1" type="button">Bireysel</button>
+                                                <button
+                                                    class="user-type-button institutional {{ old('type') == 2 ? 'active' : '' }}"
+                                                    data-user-type="2" type="button">Kurumsal</button>
                                             </div>
-                                            <input type="hidden" name="type" id="user-type-input" value="1">
+                                            <input type="hidden" name="type" id="user-type-input"
+                                                value="{{ old('type', 1) }}">
                                         </div>
+
+
+                                        <div class="individual-form {{ old('type') == 1 ? 'd-show' : '' }} {{ old('type') == 2 ? 'hidden' : '' }} "
+                                            id="individualForm">
+
+                                            <!-- İsim -->
+                                            <div class="mt-3">
+                                                <label class="q-label">İsim</label>
+                                                <input type="text" name="name1"
+                                                    class="form-control {{ $errors->has('name1') ? 'error-border' : '' }}"
+                                                    value="{{ old('name1') }}">
+                                                @if ($errors->has('name1'))
+                                                    <span class="error-message">{{ $errors->first('name1') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+
 
                                         <!-- E-Posta -->
-                                        <div class="mt-3 ">
-                                                <label class="q-label">İsim</label>
-                                                <input type="text" name="name" class="form-control">
-                                            </div>
-
-                                            <!-- E-Posta -->
-                                            <div class="mt-3">
-                                                <label class="q-label">E-Posta</label>
-                                                <input type="email" name="email" class="form-control">
-                                            </div>
-
-
-                                            <!-- Şifre -->
-                                            <div class="mt-3">
-                                                <label class="q-label">Şifre</label>
-                                                <input type="password" name="password" class="form-control">
+                                        <div class="mt-3">
+                                            <label class="q-label">E-Posta</label>
+                                            <input type="email" name="email"
+                                                class="form-control {{ $errors->has('email') ? 'error-border' : '' }}"
+                                                value="{{ old('email') }}">
+                                            @if ($errors->has('email'))
+                                                <span class="error-message">{{ $errors->first('email') }}</span>
+                                            @endif
                                         </div>
 
-                                        <div class="individual-form" id="individualForm">
-                                            {{--
-                                            <div class="form-group custom-control custom-checkbox mt-3">
-                                                <input type="checkbox" name="check" class="custom-control-input" id="exampleCheck3"
-                                                    required>
-                                                <label class="custom-control-label" for="exampleCheck3">Kişisel
-                                                    verilerimin
-                                                    işlenmesine yönelik aydınlatma metnini okudum anladım.</label>
-                                            </div> --}}
+                                        <div class="mt-3">
+                                            <label class="q-label">Şifre</label>
+                                            <input type="password" name="password"
+                                                class="form-control {{ $errors->has('password') ? 'error-border' : '' }}">
+                                            @if ($errors->has('password'))
+                                                <span class="error-message">{{ $errors->first('password') }}</span>
+                                            @endif
                                         </div>
 
-
-                                        <div class="corporate-form" id="corporateForm">
+                                        <div class="corporate-form {{ old('type') == 2 ? 'd-show' : '' }} "
+                                            id="corporateForm">
                                             <!-- E-Posta -->
+                                            <div class="mt-3">
+                                                <label class="q-label">Yetkili İsim Soyisim</label>
+                                                <input type="text" name="username"
+                                                    class="form-control {{ $errors->has('username') ? 'error-border' : '' }}"
+                                                    value="{{ old('username') }}">
+                                                @if ($errors->has('username'))
+                                                    <span class="error-message">{{ $errors->first('username') }}</span>
+                                                @endif
+                                            </div>
+
+                                            <!-- Firma Adı -->
+                                            <div class="mt-3">
+                                                <label class="q-label">Firma Adı</label>
+                                                <input type="text" name="name"
+                                                    class="form-control {{ $errors->has('name') ? 'error-border' : '' }}"
+                                                    value="{{ old('name') }}">
+                                                @if ($errors->has('name'))
+                                                    <span class="error-message">{{ $errors->first('name') }}</span>
+                                                @endif
+                                            </div>
+
+                                            <!-- Sabit Telefon -->
+                                            <div class="mt-3">
+                                                <label class="q-label">Sabit Telefon</label>
+                                                <input type="number" name="phone"
+                                                    class="form-control {{ $errors->has('phone') ? 'error-border' : '' }}"
+                                                    value="{{ old('phone') }}">
+                                                @if ($errors->has('phone'))
+                                                    <span class="error-message">{{ $errors->first('phone') }}</span>
+                                                @endif
+                                            </div>
+
+                                            <!-- Kurumsal Hesap Türü -->
                                             <div class="mt-3">
                                                 <label for="corporate-account-type" class="q-label">Kurumsal Hesap
                                                     Türü</label>
                                                 <select name="corporate-account-type" id="corporate-account-type"
-                                                    class="form-control">
+                                                    class="form-control {{ $errors->has('corporate-account-type') ? 'error-border' : '' }}">
                                                     <option value="" disabled selected>Seçiniz</option>
-                                                    <option value="Emlakçı">Emlakçı</option>
-                                                    <option value="Banka">Banka</option>
-                                                    <option value="İnşaat">İnşaat</option>
+                                                    <option value="Emlakçı"
+                                                        {{ old('corporate-account-type') == 'Emlakçı' ? 'selected' : '' }}>
+                                                        Emlakçı</option>
+                                                    <option value="Banka"
+                                                        {{ old('corporate-account-type') == 'Banka' ? 'selected' : '' }}>
+                                                        Banka</option>
+                                                    <option value="İnşaat"
+                                                        {{ old('corporate-account-type') == 'İnşaat' ? 'selected' : '' }}>
+                                                        İnşaat</option>
+                                                    <option value="Turizm"
+                                                        {{ old('corporate-account-type') == 'Turizm' ? 'selected' : '' }}>
+                                                        Turizm</option>
                                                 </select>
-                                            </div>
-                                            <div class="mt-3 sub-plan-tab tab-emlakci d-none">
-                                                <label for="" class="q-label">Abonelik Planı</label>
-                                                <div class="owl-carousel">
-                                                    @foreach ($subscriptionPlans_emlakci as $plan)
-                                                        <div class="item">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <label for=""
-                                                                        class="q-label">{{ $plan->name }}</label>
-
-                                                                    <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:black">{{ $plan->price }}
-                                                                            TL</span></label>
-
-                                                                    <label for="" class="q-label">Proje Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->project_limit }}
-                                                                        </span></label>
-
-                                                                    <label for="" class="q-label">Kullanıcı
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->user_limit }}</span></label>
-
-                                                                    <label for="" class="q-label">Konut Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->housing_limit }}
-                                                                        </span></label>
-
-                                                                </div>
-                                                                <div class="card-footer">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-block plan-button"
-                                                                        data-plan-id="{{ $plan->id }}"
-                                                                        data-plan-name="{{ $plan->name }}"
-                                                                        data-plan-price="{{ $plan->price }}"
-                                                                        onclick="selectPlan(this)">
-                                                                        Seç
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            <div class="mt-3 sub-plan-tab tab-banka d-none">
-                                                <label for="" class="q-label">Abonelik Planı</label>
-                                                <div class="owl-carousel">
-                                                    @foreach ($subscriptionPlans_banka as $plan)
-                                                        <div class="item">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <label for=""
-                                                                        class="q-label">{{ $plan->name }}</label>
-
-                                                                    <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:black">{{ $plan->price }}
-                                                                            TL</span></label>
-
-                                                                    <label for="" class="q-label">Proje Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->project_limit }}
-                                                                        </span></label>
-
-                                                                    <label for="" class="q-label">Kullanıcı
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->user_limit }}</span></label>
-
-                                                                    <label for="" class="q-label">Konut Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->housing_limit }}
-                                                                        </span></label>
-
-                                                                </div>
-                                                                <div class="card-footer">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-block plan-button"
-                                                                        data-plan-id="{{ $plan->id }}"
-                                                                        data-plan-name="{{ $plan->name }}"
-                                                                        data-plan-price="{{ $plan->price }}"
-                                                                        onclick="selectPlan(this)">
-                                                                        Seç
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            <div class="mt-3 sub-plan-tab tab-insaat d-none">
-                                                <label for="" class="q-label">Abonelik Planı</label>
-                                                <div class="owl-carousel">
-                                                    @foreach ($subscriptionPlans_insaat as $plan)
-                                                        <div class="item">
-                                                            <div class="card mb-4">
-                                                                <div class="card-body">
-                                                                    <label for=""
-                                                                        class="q-label">{{ $plan->name }}</label>
-
-                                                                    <label for="" class="q-label">Fiyat:
-                                                                        <span style="color:black">{{ $plan->price }}
-                                                                            TL</span></label>
-
-                                                                    <label for="" class="q-label">Proje Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->project_limit }}
-                                                                        </span></label>
-
-                                                                    <label for="" class="q-label">Kullanıcı
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->user_limit }}</span></label>
-
-                                                                    <label for="" class="q-label">Konut Ekleme
-                                                                        Limiti:
-                                                                        <span
-                                                                            style="color:black">{{ $plan->housing_limit }}
-                                                                        </span></label>
-
-                                                                </div>
-                                                                <div class="card-footer">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-block plan-button"
-                                                                        data-plan-id="{{ $plan->id }}"
-                                                                        data-plan-name="{{ $plan->name }}"
-                                                                        data-plan-price="{{ $plan->price }}"
-                                                                        onclick="selectPlan(this)">
-                                                                        Seç
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
+                                                @if ($errors->has('corporate-account-type'))
+                                                    <span
+                                                        class="error-message">{{ $errors->first('corporate-account-type') }}</span>
+                                                @endif
                                             </div>
 
+                                            <!-- Faaliyet Alanı -->
                                             <div class="mt-3">
                                                 <label for="" class="q-label">Faaliyet Alanınız</label>
-                                                <select class="form-control" name="activity">
+                                                <select
+                                                    class="form-control {{ $errors->has('activity') ? 'error-border' : '' }}"
+                                                    name="activity">
                                                     <option value="">Seçiniz</option>
-                                                    <option for="Alışveriş" value="200003" data-title="Alışveriş">
-                                                        Alışveriş</option>
-                                                    <option for="Emlak" value="200002" data-title="Emlak">
-                                                        Emlak</option>
-                                                    <option for="Günlük Kiralık " value="200020"
-                                                        data-title="Günlük Kiralık ">
-                                                        Günlük Kiralık </option>
-                                                    <option for="Hayvanlar Alemi" value="200004"
-                                                        data-title="Hayvanlar Alemi">
-                                                        Hayvanlar Alemi</option>
-                                                    <option for="İş Makinesi &amp; Sanayi" value="200013"
-                                                        data-title="İş Makinesi &amp; Sanayi">
-                                                        İş Makinesi &amp; Sanayi</option>
-                                                    <option for="Kiralık Araç" value="200010" data-title="Kiralık Araç">
-                                                        Kiralık Araç</option>
-                                                    <option for="Kiralık Deniz Araçları" value="200021"
-                                                        data-title="Kiralık Deniz Araçları">
-                                                        Kiralık Deniz Araçları</option>
-                                                    <option for="Motosiklet" value="200012" data-title="Motosiklet">
-                                                        Motosiklet</option>
-                                                    <option for="Vasıta" value="200011" data-title="Vasıta">
-                                                        Vasıta</option>
-                                                    <option for="Yedek Parça, Aksesuar, Donanım &amp; Tuning"
-                                                        value="200009"
-                                                        data-title="Yedek Parça, Aksesuar, Donanım &amp; Tuning">
-                                                        Yedek Parça, Aksesuar, Donanım &amp; Tuning</option>
+                                                    <option value="İnşaat"
+                                                        {{ old('activity') == 'İnşaat' ? 'selected' : '' }}>İnşaat</option>
+                                                    <option value="Gayrimenkul"
+                                                        {{ old('activity') == 'Gayrimenkul' ? 'selected' : '' }}>
+                                                        Gayrimenkul</option>
+                                                    <option value="Turizm"
+                                                        {{ old('activity') == 'Turizm' ? 'selected' : '' }}>Turizm</option>
+                                                    <option value="Banka"
+                                                        {{ old('activity') == 'Banka' ? 'selected' : '' }}>Banka</option>
                                                 </select>
+                                                @if ($errors->has('activity'))
+                                                    <span class="error-message">{{ $errors->first('activity') }}</span>
+                                                @endif
                                             </div>
 
+                                            <!-- İl -->
                                             <div class="mt-3">
                                                 <label for="" class="q-label">İl</label>
-                                                <select class="form-control" id="citySelect" name="city_id">
+                                                <select
+                                                    class="form-control {{ $errors->has('city_id') ? 'error-border' : '' }}"
+                                                    id="citySelect" name="city_id">
                                                     <option value="">Seçiniz</option>
                                                     @foreach ($towns as $item)
                                                         <option for="{{ $item->sehir_title }}"
                                                             value="{{ $item->sehir_key }}"
-                                                            data-title="{{ $item->sehir_title }}">
-                                                            {{ $item->sehir_title }}</option>
+                                                            {{ old('city_id') == $item->sehir_key ? 'selected' : '' }}>
+                                                            {{ $item->sehir_title }}
+                                                        </option>
                                                     @endforeach
-
                                                 </select>
+                                                @if ($errors->has('city_id'))
+                                                    <span class="error-message">{{ $errors->first('city_id') }}</span>
+                                                @endif
                                             </div>
                                             <div class="mt-3">
                                                 <label for="" class="q-label">İlçe</label>
-                                                <select class="form-control" name="county_id" id="countySelect">
+                                                <select
+                                                    class="form-control {{ $errors->has('county_id') ? 'error-border' : '' }}"
+                                                    name="county_id" id="countySelect">
                                                     <option value="">Seçiniz</option>
                                                 </select>
+                                                @if ($errors->has('county_id'))
+                                                    <span class="error-message">{{ $errors->first('county_id') }}</span>
+                                                @endif
                                             </div>
                                             <div class="mt-3">
                                                 <label for="" class="q-label">Mahalle</label>
-                                                <select class="form-control" name="neighborhood_id"
-                                                    id="neighborhoodSelect">
+                                                <select
+                                                    class="form-control {{ $errors->has('neighborhood_id') ? 'error-border' : '' }}"
+                                                    name="neighborhood_id" id="neighborhoodSelect">
                                                     <option value="">Seçiniz</option>
                                                 </select>
+                                                @if ($errors->has('neighborhood_id'))
+                                                    <span
+                                                        class="error-message">{{ $errors->first('neighborhood_id') }}</span>
+                                                @endif
                                             </div>
 
+                                            <!-- İşletme Türü -->
                                             <div class="mt-3">
                                                 <label for="" class="q-label">İşletme Türü</label>
                                                 <div class="companyType">
                                                     <label for="of"><input type="radio" class="input-radio off"
-                                                            id="of" name="account_type" value="1" checked>
-                                                        Şahıs
+                                                            id="of" name="account_type" value="1"
+                                                            {{ old('account_type') == 1 ? 'checked' : '' }}> Şahıs
                                                         Şirketi</label>
                                                     <label for="on"><input type="radio" class="input-radio off"
-                                                            id="on" name="account_type" value="2"> Limited
-                                                        veya
+                                                            id="on" name="account_type" value="2"
+                                                            {{ old('account_type') == 2 ? 'checked' : '' }}> Limited veya
                                                         Anonim Şirketi</label>
                                                 </div>
                                             </div>
-
+                                            <!-- Vergi Dairesi İli -->
                                             <div class="split-form corporate-input mt-3">
                                                 <div class="corporate-input input-city">
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">Vergi Dairesi
                                                                 İli</label>
-
-                                                            <select id="taxOfficeCity" class="form-control"
+                                                            <select id="taxOfficeCity"
+                                                                class="form-control {{ $errors->has('taxOfficeCity') ? 'error-border' : '' }}"
                                                                 name="taxOfficeCity">
                                                                 <option value="">Seçiniz</option>
                                                                 @foreach ($cities as $item)
                                                                     <option for="{{ $item->title }}"
                                                                         value="{{ $item->title }}"
-                                                                        data-title="{{ $item->title }}">
-                                                                        {{ $item->title }}</option>
+                                                                        {{ old('taxOfficeCity') == $item->title ? 'selected' : '' }}>
+                                                                        {{ $item->title }}
+                                                                    </option>
                                                                 @endforeach
                                                             </select>
+                                                            @if ($errors->has('taxOfficeCity'))
+                                                                <span
+                                                                    class="error-message">{{ $errors->first('taxOfficeCity') }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -412,40 +351,53 @@
                                                             <label for="" class="q-label">Vergi Dairesi
                                                             </label>
 
-                                                            <select id="taxOffice" class="form-control" name="taxOffice">
+                                                            <select id="taxOffice"
+                                                                class="form-control {{ $errors->has('taxOffice') ? 'error-border' : '' }}"
+                                                                name="taxOffice">
                                                                 <option value="">Seçiniz</option>
                                                             </select>
+                                                            @if ($errors->has('taxOffice'))
+                                                                <span
+                                                                    class="error-message">{{ $errors->first('taxOffice') }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
+                                            <!-- Vergi No -->
                                             <div class="split-form corporate-input mt-3">
                                                 <div class="corporate-input input-city">
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
-                                                            <label for="" class="q-label">Vergi No
-                                                            </label>
+                                                            <label for="" class="q-label">Vergi No</label>
                                                             <input type="text" id="taxNumber" name="taxNumber"
-                                                                class="form-control">
+                                                                class="form-control {{ $errors->has('taxNumber') ? 'error-border' : '' }}"
+                                                                value="{{ old('taxNumber') }}">
+                                                            @if ($errors->has('taxNumber'))
+                                                                <span
+                                                                    class="error-message">{{ $errors->first('taxNumber') }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
 
-                                            <div class="split-form corporate-input mt-3" id="idNumberDiv">
+                                            <!-- TC Kimlik No -->
+                                            <div class="split-form corporate-input mt-3 {{ old('account_type') == 2 ? 'd-none' : '' }}"
+                                                id="idNumberDiv">
                                                 <div class="corporate-input input-city">
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
-                                                            <label for="" class="q-label">TC Kimlik No
-                                                            </label>
+                                                            <label for="" class="q-label">TC Kimlik No</label>
                                                             <input type="text" id="idNumber" name="idNumber"
-                                                                class="form-control">
+                                                                class="form-control" value="{{ old('idNumber') }}">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
 
 
                                         </div>
@@ -471,13 +423,15 @@
 
 
 @section('scripts')
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
         const individualForm = document.getElementById('individualForm');
         const corporateForm = document.getElementById('corporateForm');
@@ -500,8 +454,11 @@
 
                 if (userType === '1') {
                     individualForm.style.display = 'block';
+                    corporateForm.classList.remove('d-show');
                 } else if (userType === '2') {
                     corporateForm.style.display = 'block';
+                    individualForm.classList.remove('hide');
+
                 }
             });
         });
@@ -640,5 +597,25 @@
             $(`.sub-plan-tab.${data[value]}`).removeClass('d-none');
         });
     </script>
-    
+@endsection
+
+@section('styles')
+    <style>
+        .hidden {
+            display: none !important;
+        }
+
+        .d-show {
+            display: block !important;
+        }
+
+        .error-border {
+            border: 1px solid red !important;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
 @endsection

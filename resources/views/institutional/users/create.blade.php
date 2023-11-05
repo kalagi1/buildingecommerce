@@ -7,19 +7,29 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Kullanıcı Oluştur
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">
+                                @if ($user->plan)
+                                    Kalan Alt Kullanıcı Oluşturma Hakkınız :
+                                    {{ $user->plan->user_limit }} Adet
+                                    @if ($user->plan->user_limit === 0)
+                                        - Hakkınız Kalmadı
+                                    @endif
+                                @else
+                                Alt Kullanıcı eklemek için bir paket satın almanız gerekiyor.
+                                @endif
                             </h4>
+
                         </div>
                     </div>
                 </div>
                 @if (session()->has('success'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-success text-white">
                         {{ session()->get('success') }}
                     </div>
                 @endif
 
                 @if ($errors->any())
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger text-white">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -70,7 +80,8 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary" type="submit">Kaydet</button>
+                                <button class="btn btn-primary" type="submit"
+                                    @if (!$user->plan || $user->plan->user_limit === 0) disabled @endif>Kaydet</button>
                             </div>
                         </form>
 

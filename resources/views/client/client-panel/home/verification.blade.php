@@ -76,7 +76,9 @@
                             <div class="form-group">
                                 <div class="text-success">
                                     @if (!is_null(auth()->user()->identity_document))
-                                        Belgeleriniz gönderildi ve şu anda incelemede. Dilerseniz gönderdiğiniz belgeleri
+                                        Belgeleriniz gönderildi. En geç 12 saat içerisinde inceleme sonucu tarafınıza
+                                        iletilecektir.
+                                        Dilerseniz gönderdiğiniz belgeleri
                                         güncelleyebilirsiniz. <br>
                                         @if ($user->corporate_account_note)
                                             <div style="color: red">
@@ -92,7 +94,7 @@
                                 @if (auth()->user()->identity_document_approve == 1)
                                     <div class="text-warning mt-2">
                                         Hesabınıza hala erişemiyorsanız lütfen <a
-                                            href="mailto:support@emlaksepeti.com">support@emlaksepeti.com</a> adresinden
+                                            href="mailto:support@emlaksepette.com">support@emlaksepette.com</a> adresinden
                                         site yönetici
                                         ile iletişime geçin.
                                     </div>
@@ -100,7 +102,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="kimlik_belgesi" class="mb-2">Kimlik Belgesi:
+                                <label for="kimlik_belgesi" class="mb-2">Yetkilinin Kimlik Belgesi:
                                     @if (auth()->user()->identity_document)
                                         @if (auth()->user()->identity_document_approve)
                                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
@@ -118,7 +120,7 @@
                                         : 'red-border')
                                     : '' }}"
                                     accept=".png,.jpeg,.jpg"{{ auth()->user()->identity_document_approve == 0 ? ' required' : null }} />
-                                    @if (!is_null(auth()->user()->identity_document))
+                                @if (!is_null(auth()->user()->identity_document))
                                     <div>
                                         <a href="{{ route('client.get.identity-document') }}"
                                             class="btn btn-primary mt-2">Görüntüle <i class="fa fa-eye"></i> </a>
@@ -153,10 +155,11 @@
         </div>
     </section>
     <style>
-        .btn-approve-group{
+        .btn-approve-group {
             position: absolute;
             bottom: 0
         }
+
         /* Add this to your CSS file */
         .green-border {
             border: 2px solid green !important;

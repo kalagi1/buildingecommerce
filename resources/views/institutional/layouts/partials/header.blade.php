@@ -384,6 +384,89 @@
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
                                 title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
                     </li>
+                    <li class="nav-item dropdown">
+                        @php
+                        $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->where("owner_id",Auth::user()->id)->limit(10)->get();
+                        @endphp
+
+                        <a class="nav-link" href="#" style="min-width: 2.5rem" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell" style="height:20px;width:20px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            @php
+                            $unreadNotifications = $notifications->where('readed', 0);
+                            $unreadCount = $unreadNotifications->count();
+                            @endphp
+                            
+                            @if ($unreadCount > 0)
+                                <span class="badge bg-danger position-absolute" style="bottom: 31px; right: 0;">{{ $unreadCount }}</span>
+                            @endif
+                            </a>
+                        <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu py-0 shadow border border-300 navbar-dropdown-caret" id="navbarDropdownNotfication" aria-labelledby="navbarDropdownNotfication">
+                          <div class="card position-relative border-0">
+                            <div class="card-header p-2">
+                              <div class="d-flex justify-content-between">
+                                <h5 class="text-black mb-0">Bildirimler</h5>
+                              </div>
+                            </div>
+                            <div class="card-body p-0">
+                              <div class="scrollbar-overlay" style="height: 27rem;">
+                                <div class="border-300">
+                                    @if (count($notifications) == 0)
+                                    <div class="p-3 text-center">Bildirim Yok</div>
+                                @else
+                                   @foreach ($notifications as $notification)
+                                   <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{$notification->readed == 0 ? "unread":"read" }} border-bottom">
+                                    <div class="d-flex align-items-center justify-content-between position-relative">
+                                      <div class="d-flex">
+                                        <div class="avatar avatar-m status-online me-3">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                        </div>
+                                        <div class="flex-1 me-sm-3">
+                                          <h4 class="fs--1 text-black">
+
+                                            @if($notification->user_id == "4")
+                                            Emlak Sepette Yönetimi
+                                            @else
+                                            {{$notification->user->name}}
+                                            @endif
+                                            </h4>
+                                          <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">  {!! $notification->text !!}</p>
+                                          @php
+                                          // Örnek bir tarih zamanı, notification->created_at'ı buraya ekleyin
+                                          $notificationCreatedAt = $notification->created_at;
+                                          
+                                          // Saat dilimini ayarlayın
+                                          date_default_timezone_set('Europe/Istanbul');
+                                          
+                                          // Tarih formatını Türkiye biçimine dönüştürme
+                                          $notificationCreatedAtDate = date("d.m.Y", strtotime($notificationCreatedAt));
+                                          $notificationCreatedAtTime = date("H:i", strtotime($notificationCreatedAt)); // 24 saatlik saat biçimi
+                                          
+                                          // Saati 12 saatlik biçime dönüştürme (AM/PM eklemek için)
+                                          $notificationCreatedAtTime12Hour = date("h:i A", strtotime($notificationCreatedAt));
+                                          @endphp
+                                          
+                                          
+                                          
+                                                                                  </div>
+                                      </div>
+                                      <div class="font-sans-serif d-none d-sm-block"><button class="btn fs--2 btn-sm dropdown-toggle dropdown-caret-none transition-none notification-dropdown-toggle" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2 text-900"></span></button>
+                                        <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item notification-click" href="{!! $notification->link !!}" data-id="{{ $notification->id }}"  data-link="{{ $notification->link }}">Görüntüle</a></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                    @endforeach
+
+                                        {{-- <div class="bg-white border-top p-3 text-center">
+                                            <a href="{{ route('institutional.notification-history') }}">Bildirim Geçmişi</a>
+                                        </div> --}}
+                                @endif
+                               
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
                     <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser"
                             href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-haspopup="true" aria-expanded="false">
@@ -7928,7 +8011,34 @@
             }
         </script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+        <script>
+    $(document).ready(function () {
+        // Bildirimlere tıklama işlemi
+        $('.notification-click').on('click', function (e) {
+            e.preventDefault();
+            var notificationId = $(this).data('id');
+            var notificationLink = $(this).data('link');
+            
+            // AJAX isteği ile bildirimin "readed" değerini güncelleyin
+            $.ajax({
+                url: "{{route('notification.read')}}", // Bildirim güncelleme rotası, bu rotayı belirlemeniz gerekiyor
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', // CSRF koruması için gereken token
+                    id: notificationId, // Güncellenecek bildirimin kimliği
+                    link : notificationLink
+                },
+                success: function (response) {
+                    window.location.href = notificationLink; // Kullanıcıyı ilgili sayfaya yönlendirin
+
+                 
+                }
+            });
+        });
+    });
+</script>
         <style>
             .navbar-logo .logo {
                 height: 45px !important;

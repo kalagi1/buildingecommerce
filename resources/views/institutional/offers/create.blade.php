@@ -9,13 +9,13 @@
                     <div class="mb-9">
                         <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
                             @if (session()->has('success'))
-                                <div class="alert alert-success text-white">
+                                <div class="alert alert-success text-white text-white">
                                     {{ session()->get('success') }}
                                 </div>
                             @endif
 
                             @if ($errors->any())
-                                <div class="alert alert-danger">
+                                <div class="alert alert-danger text-white">
                                     <ul>
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
@@ -124,6 +124,7 @@
               data: { id: selectedProject }, // Şehir verisini isteğe ekle
               dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
               success: function(response) {
+                console.log(response);
                   // Yanıt başarılı olduğunda çalışacak kod
                   var countiesSelect = $('#project_housings'); // counties id'li select'i seç
                   countiesSelect.empty(); // Select içeriğini temizle

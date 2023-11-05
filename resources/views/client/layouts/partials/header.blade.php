@@ -51,6 +51,11 @@
 
     @yield('styles')
     <style>
+        .buyUserRequest img {
+            width: 30px;
+            stroke: #fff;
+        }
+
         .swal2-container.swal2-center {
             z-index: 9999999;
         }
@@ -70,15 +75,16 @@
 <body class="m0a homepage-2 the-search hd-white inner-pages">
     <!-- Wrapper -->
     <div id="wrapper">
-        <div class="slick-lancersl">
-            @foreach ($adBanners as $adBanner)
-                <div class="home-top-banner d-xl-block d-none d-lg-block"
-                    style="background-color: {{ $adBanner->background_color }}">
-                    <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
-                </div>
-            @endforeach
-        </div>
-
+        @if (request()->routeIs('index'))
+            <div class="slick-lancersl">
+                @foreach ($adBanners as $adBanner)
+                    <div class="home-top-banner d-xl-block d-none d-lg-block"
+                        style="background-color: {{ $adBanner->background_color }}">
+                        <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
+                    </div>
+                @endforeach
+            </div>
+        @endif
 
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
@@ -96,8 +102,8 @@
                                 </button>
                             </div>
                             <div id="logo">
-                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
-                                        alt=""></a>
+                                <a href="{{ route('index') }}"><img
+                                        src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt=""></a>
                             </div>
 
                         </div>
@@ -140,7 +146,7 @@
                                                     <li><a href="{{ route('institutional.projects.index') }}"><i
                                                                 class="fa fa-home"></i> İlanlarım</a>
                                                     </li>
-                                                    <li><a href="{{ route('institutional.projects.create') }}"> <i
+                                                    <li><a href="{{ url('institutional/create_project_v2') }}"> <i
                                                                 class="fa fa-plus"></i> İlan
                                                             Ekle</a></li>
                                                     <li><a href="{{ route('client.logout') }}"> <i
@@ -157,6 +163,13 @@
                                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                             </svg>
                                             <span class="d-xl-block d-none d-lg-block rightNavText">Admin</span> </a>
+                                        <a href="{{ url('admin/') }}">
+                                            <button type="button" class="buyUserRequest ml-3">
+                                                <span class="buyUserRequest__text"> Yönetim</span>
+                                                <span class="buyUserRequest__icon">
+                                                    <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                                </span>
+                                            </button></a>
                                     @endif
                                 @else
                                     <a href="{{ route('client.login') }}" class="userIcon"><svg viewBox="0 0 24 24"
@@ -182,7 +195,7 @@
                                 @endif
 
 
-                                @if (Auth::check())
+                                @if (Auth::check() && Auth::user()->type != '3')
                                     <a href="{{ route('favorites') }}" class="heartIcon">
                                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
                                             stroke-width="2" fill="none" stroke-linecap="round"
@@ -206,7 +219,7 @@
 
                                 @if (Auth::check())
                                     @if (Auth::user()->type == 2)
-                                        <a href="{{ url('institutional/create_project_v2') }}">
+                                        <a href="{{ url('institutional/choise-advertise-type') }}">
                                             <button type="button" class="buyUserRequest ml-3">
                                                 <span class="buyUserRequest__text"> İlan Ekle</span>
                                                 <span class="buyUserRequest__icon">
@@ -250,7 +263,7 @@
                                         @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
                                             <span class="caret"></span>
                                         @endif
-                                     
+
                                     </a>
                                     @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
                                         <ul>
@@ -259,7 +272,6 @@
                                                     <a href="{{ $childItem['href'] }}">
                                                         @if (!empty($childItem['icon']))
                                                             <i class="{{ $childItem['icon'] }}"></i>
-                                                            <!-- İkonu eklemek için -->
                                                         @endif
                                                         {{ $childItem['text'] }}
                                                     </a>

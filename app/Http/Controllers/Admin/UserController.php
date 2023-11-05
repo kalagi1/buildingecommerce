@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DocumentNotification;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -166,7 +167,7 @@ class UserController extends Controller
                 'status' => 'required|in:0,1',
             ],
             [
-                'note.required' => 'Not alanı gereklidir.',
+                'note.required' => 'Kullanıcıya açıklayıcı bir not yazmalısınız.',
             ]
         );
 
@@ -176,6 +177,26 @@ class UserController extends Controller
                 [
                 'company_document_approve' => $request->input('company_document_approve'),
             ];
+        }
+
+        if ($request->input("status") == "1") {
+            DocumentNotification::create([
+                'user_id' => 4,
+                'text' => "Hesabınız başarıyla onaylandı. Artık platformumuzu kullanmaya başlayabilirsiniz. İyi günler dileriz!",
+                'item_id' => $user->parent_id ?? $user->id,
+                'link' => route('institutional.index'),
+                'owner_id' => $user->parent_id ?? $user->id,
+                'is_visible' => true,
+            ]);
+        } else {
+            DocumentNotification::create([
+                'user_id' => 4,
+                'text' => "Üzgünüz, hesabınız onaylanamadı. Lütfen belgelerinizi kontrol ederek tekrar deneyin. Yardıma ihtiyacınız olursa bizimle iletişime geçebilirsiniz.",
+                'item_id' => $user->parent_id ?? $user->id,
+                'link' => route('institutional.index'),
+                'owner_id' => $user->parent_id ?? $user->id,
+                'is_visible' => true,
+            ]);
         }
 
         $user->update(

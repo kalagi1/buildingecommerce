@@ -9,13 +9,13 @@
                 <div class="mb-9">
                     <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
                         @if (session()->has('success'))
-                            <div class="alert alert-success">
+                            <div class="alert alert-success text-white">
                                 {{ session()->get('success') }}
                             </div>
                         @endif
 
                         @if ($errors->any())
-                            <div class="alert alert-danger">
+                            <div class="alert alert-danger text-white">
                                 <ul>
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -37,10 +37,17 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <label class="form-label" for="image">Slider Görseli</label>
+                                        <label class="form-label" for="image">Slider Web Görseli</label>
                                         <input name="image" class="form-control" id="image" type="file"
                                             accept="image/*" required />
                                     </div>
+
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="image">Slider Mobil Görseli</label>
+                                        <input name="mobile_image" class="form-control" id="mobile_image" type="file"
+                                            accept="image/*" required />
+                                    </div>
+
 
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary">Oluştur</button>

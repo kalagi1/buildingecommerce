@@ -11,8 +11,8 @@
 
                 </div>
                 @foreach ($widgetGroups as $widgetGroup)
-                    <div class="col-sm-6 col-md-6 col-lg col-6">
-                        <div class="navigation">
+                <div class="col-sm-12 col-md-12 col-lg col-xl">
+                    <div class="navigation">
                             <h3>{{ $widgetGroup->widget }}</h3>
                             <div class="nav-footer">
                                 <ul>
@@ -22,7 +22,7 @@
                                         @endif
                                     @endforeach
                                     @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
-                                        <li><a href="{{ $p->slug }}">{{ $p->title }}</a></li>
+                                        <li><a href="{{ url('sayfa/' . $p->slug) }}">{{ $p->title }}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -30,6 +30,28 @@
                         </div>
                     </div>
                 @endforeach
+
+                {{-- <div class="col-sm-6 col-md-6 col-lg col-12">
+                    <div class="navigation">
+                        <h3>Politikalar</h3>
+                        <div class="nav-footer">
+                            <ul>
+                                @foreach ($footerLinks as $footerLink)
+                                    @if ($footerLink->widget === $widgetGroup->widget)
+                                        <li><a href="{{ $footerLink->url }}">{!! $footerLink->title !!}</a></li>
+                                    @endif
+                                @endforeach
+                                @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
+                                    <li><a href="{{ $p->slug }}">{{ $p->title }}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                    </div>
+                    @foreach ($fl as $link)
+                        <a href="{{ url('sayfa/' . $link->slug) }}" style="color: white;">{{ $link->meta_title }}</a>
+                    @endforeach
+                </div> --}}
             </div>
         </div>
     </div>
@@ -37,9 +59,7 @@
         <div class="container">
             <p class="d-flex align-items-center" style="gap: 16px;">
                 <span>2023 © Copyright - All Rights Reserved. @innovaticacode</span>
-                @foreach ($fl as $link)
-                    <a href="{{ url('sayfa/' . $link->slug) }}" style="color: white;">{{ $link->meta_title }}</a>
-                @endforeach
+
             </p>
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
@@ -56,11 +76,25 @@
 <!-- END FOOTER -->
 
 <style>
+    .homes-content h4 {
+        height: 30px;
+    }
+
+    .circleIcon {
+        font-size: 5px !important;
+        color: #e54242 !important;
+        padding-right: 5px
+    }
+
     .button-container {
         display: none;
     }
 
     @media (max-width: 768px) {
+        .pro-wrapper {
+            text-align: center
+        }
+
         .button-container {
             z-index: 9999999;
             position: fixed;
@@ -172,6 +206,44 @@
 
 </div>
 
+<div class="payment-plan-pop-up d-none">
+    <div class="payment-plan-pop-back">
+
+    </div>
+    <div class="payment-plan-pop-content">
+        <div class="payment-plan-pop-close-icon"><i class="fa fa-times"></i></div>
+        <table class="payment-plan">
+            <thead>
+                <tr>
+                    <th>Ödeme Türü</th>
+                    <th>Fiyat</th>
+                    <th>Taksit Sayısı</th>
+                    <th>Peşin Ödenecek Tutar</th>
+                    <th>Aylık Ödenecek Tutar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Peşin</td>
+                    <td>1.000.000,00₺</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>Taksitli</td>
+                    <td>1.400.000,00₺</td>
+                    <td>14</td>
+                    <td>300.000,00₺</td>
+                    <td>78.571,42₺</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
 <!-- ARCHIVES JS -->
 <script src="{{ URL::to('/') }}/js/jquery-3.5.1.min.js"></script>
 <script src="{{ URL::to('/') }}/js/rangeSlider.js"></script>
@@ -221,6 +293,13 @@
             }
         });
     });
+    $('.payment-plan-pop-back').click(function() {
+        $('.payment-plan-pop-up').addClass('d-none')
+    })
+
+    $('.payment-plan-pop-close-icon').click(function() {
+        $('.payment-plan-pop-up').addClass('d-none')
+    })
     $('.slick-agents').slick({
         infinite: true,
         slidesToShow: 4,
@@ -376,25 +455,36 @@
         responsive: {
             0: {
                 items: 1,
-                center: false
+                center: false,
+                nav: false,
             },
             480: {
                 items: 1,
-                center: false
+                center: false,
+                nav: false,
+
             },
             520: {
                 items: 1,
-                center: false
+                center: false,
+                nav: false,
+
             },
             600: {
                 items: 1,
-                center: false
+                center: false,
+                nav: false,
+
             },
             768: {
-                items: 2
+                items: 1,
+                nav: false,
+
             },
             992: {
-                items: 1
+                items: 1,
+                nav: false,
+
             },
             1200: {
                 items: 1
@@ -672,16 +762,29 @@
                     type: "GET",
                     success: function(response) {
                         if (response.is_favorite) {
-                            button.querySelector("i.fa-heart").classList.add(
+                            button.querySelector("i").classList.remove(
+                                "fa-heart-o");
+                            button.querySelector("i").classList.add(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
                                 "text-danger");
                             button.classList.add("bg-white");
                         } else {
-                            button.querySelector("i.fa-heart").classList.remove(
+                            button.querySelector("i").classList.remove(
                                 "text-danger");
-                            button.classList.remove("bg-white");
+                            button.querySelector("i").classList.remove(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "fa-heart-o");
                         }
                     },
                     error: function(error) {
+                        button.querySelector("i").classList.remove(
+                            "text-danger");
+                        button.querySelector("i").classList.remove(
+                            "fa-heart");
+                        button.querySelector("i").classList.add(
+                            "fa-heart-o");
                         console.error(error);
                     }
                 });
@@ -689,35 +792,42 @@
         }
 
         function checkFavorites() {
-            // Favorileri sorgula ve uygun renk ve ikonları ayarla
             var favoriteButtons = document.querySelectorAll(".toggle-favorite");
 
-            document.addEventListener('click', function(event) {
-                if (event.target && event.target.classList.contains('toggle-favorite')) {
-                    var button = event.target;
-                    var housingId = button.getAttribute("data-housing-id");
-
-                    // AJAX isteği gönderme
-                    $.ajax({
-                        url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
-                            .replace(':id', housingId),
-                        type: "GET",
-                        success: function(response) {
-                            if (response.is_favorite) {
-                                button.querySelector("i.fa-heart").classList.add(
-                                    "text-danger");
-                                button.classList.add("bg-white");
-                            } else {
-                                button.querySelector("i.fa-heart").classList.remove(
-                                    "text-danger");
-                                button.classList.remove("bg-white");
-                            }
-                        },
-                        error: function(error) {
-                            console.error(error);
+            favoriteButtons.forEach(function(button) {
+                var housingId = button.getAttribute("data-housing-id");
+                $.ajax({
+                    url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
+                        .replace(':id', housingId),
+                    type: "GET",
+                    success: function(response) {
+                        if (response.is_favorite) {
+                            button.querySelector("i").classList.remove(
+                                "fa-heart-o");
+                            button.querySelector("i").classList.add(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "text-danger");
+                            button.classList.add("bg-white");
+                        } else {
+                            button.querySelector("i").classList.remove(
+                                "text-danger");
+                            button.querySelector("i").classList.remove(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "fa-heart-o");
                         }
-                    });
-                }
+                    },
+                    error: function(error) {
+                        button.querySelector("i").classList.remove(
+                            "text-danger");
+                        button.querySelector("i").classList.remove(
+                            "fa-heart");
+                        button.querySelector("i").classList.add(
+                            "fa-heart-o");
+                        console.error(error);
+                    }
+                });
             });
         }
 
@@ -741,17 +851,21 @@
                     success: function(response) {
                         if (response.status === 'added') {
                             toastr.success("Konut Favorilere Eklendi");
-                            // Favorilere eklenmişse rengi kırmızı yap
-                            button.querySelector("i.fa-heart").classList.add(
+                            button.querySelector("i").classList.remove(
+                                "fa-heart-o");
+                            button.querySelector("i").classList.add(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
                                 "text-danger");
-                            button.classList.add(
-                                "bg-white");
+                            button.classList.add("bg-white");
                         } else if (response.status === 'removed') {
                             toastr.warning("Konut Favorilerden Kaldırıldı");
-                            button.querySelector("i.fa-heart").classList.remove(
+                            button.querySelector("i").classList.remove(
                                 "text-danger");
-                            button.classList.remove(
-                                "bg-white");
+                            button.querySelector("i").classList.remove(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "fa-heart-o");
                         }
                     },
                     error: function(error) {
@@ -779,17 +893,21 @@
                 success: function(response) {
                     if (response.status === 'added') {
                         toastr.success("Konut Favorilere Eklendi");
-                        // Favorilere eklenmişse rengi kırmızı yap
-                        button.querySelector("i.fa-heart").classList.add(
+                        button.querySelector("i").classList.remove(
+                            "fa-heart-o");
+                        button.querySelector("i").classList.add(
+                            "fa-heart");
+                        button.querySelector("i").classList.add(
                             "text-danger");
-                        button.classList.add(
-                            "bg-white");
+                        button.classList.add("bg-white");
                     } else if (response.status === 'removed') {
                         toastr.warning("Konut Favorilerden Kaldırıldı");
-                        button.querySelector("i.fa-heart").classList.remove(
+                        button.querySelector("i").classList.remove(
                             "text-danger");
-                        button.classList.remove(
-                            "bg-white");
+                        button.querySelector("i").classList.remove(
+                            "fa-heart");
+                        button.querySelector("i").classList.add(
+                            "fa-heart-o");
                     }
                 },
                 error: function(error) {
@@ -930,8 +1048,8 @@
         });
     });
 
-
     $(document).click(function(event) {
+        
         if (
             $('.toggle > input').is(':checked') &&
             !$(event.target).parents('.toggle').is('.toggle')

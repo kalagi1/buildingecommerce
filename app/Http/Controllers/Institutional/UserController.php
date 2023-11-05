@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Institutional;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +13,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with("role")->where("parent_id", Auth::user()->id)->get();
+        $users = User::with("role")->where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
         return view('institutional.users.index', compact('users'));
     }
 
@@ -21,14 +22,15 @@ class UserController extends Controller
         $user = auth()->user();
         $tax_document = $user->tax_document;
 
-        if (is_null($tax_document))
+        if (is_null($tax_document)) {
             die('Belge yok.');
+        }
 
         $file = file_get_contents(storage_path("/app/{$tax_document}"));
         preg_match('@\.(\w+)$@', $tax_document, $match);
         $extension = $match[1] ?? 'png';
 
-        header('Content-Type: image/'.$extension);
+        header('Content-Type: image/' . $extension);
         echo $file;
     }
 
@@ -37,14 +39,15 @@ class UserController extends Controller
         $user = auth()->user();
         $record_document = $user->record_document;
 
-        if (is_null($record_document))
+        if (is_null($record_document)) {
             die('Belge yok.');
+        }
 
         $file = file_get_contents(storage_path("/app/{$record_document}"));
         preg_match('@\.(\w+)$@', $record_document, $match);
         $extension = $match[1] ?? 'png';
 
-        header('Content-Type: image/'.$extension);
+        header('Content-Type: image/' . $extension);
         echo $file;
     }
 
@@ -53,14 +56,15 @@ class UserController extends Controller
         $user = auth()->user();
         $identity_document = $user->identity_document;
 
-        if (is_null($identity_document))
+        if (is_null($identity_document)) {
             die('Belge yok.');
+        }
 
         $file = file_get_contents(storage_path("/app/{$identity_document}"));
         preg_match('@\.(\w+)$@', $identity_document, $match);
         $extension = $match[1] ?? 'png';
 
-        header('Content-Type: image/'.$extension);
+        header('Content-Type: image/' . $extension);
         echo $file;
     }
 
@@ -69,20 +73,21 @@ class UserController extends Controller
         $user = auth()->user();
         $company_document = $user->company_document;
 
-        if (is_null($company_document))
+        if (is_null($company_document)) {
             die('Belge yok.');
+        }
 
         $file = file_get_contents(storage_path("/app/{$company_document}"));
         preg_match('@\.(\w+)$@', $company_document, $match);
         $extension = $match[1] ?? 'png';
 
-        header('Content-Type: image/'.$extension);
+        header('Content-Type: image/' . $extension);
         echo $file;
     }
 
     public function create()
     {
-        $roles = Role::where("parent_id", Auth::user()->id)->get();
+        $roles = Role::where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
         return view('institutional.users.create', compact("roles"));
     }
 
@@ -97,20 +102,28 @@ class UserController extends Controller
 
         // Form doğrulama işlemini gerçekleştirin
         $validatedData = $request->validate($rules);
-        $mainUser = User::where("id", Auth::user()->id)->first();
+        $mainUser = User::where("id", auth()->user()->parent_id ?? auth()->user()->id)->with("plan")->first();
+        $countUser = UserPlan::where("user_id", $mainUser->id)->first();
 
         // Yeni kullanıcıyı oluşturun
         $user = new User();
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
+        $user->profile_image = "indir.png";
         $user->password = bcrypt($validatedData['password']); // Şifreyi şifreleyin
         $user->type = $validatedData['type'];
-        $user->status = $request->has('is_active');
+        $user->status = $request->has('is_active') ? 1 : 5;
+        $user->corporate_account_status = 1;
         $user->parent_id = (auth()->user()->parent_id ?? auth()->user()->id) != 3 ? (auth()->user()->parent_id ?? auth()->user()->id) : null;
         $user->subscription_plan_id = $mainUser->subscription_plan_id;
 
         // Kullanıcıyı veritabanına kaydedin
         $user->save();
+
+        if ($user->save()) {
+            $countUser->user_limit = $countUser->user_limit - 1;
+            $countUser->save();
+        }
 
         // Başarılı bir işlem sonrası mesajı ayarlayın
         session()->flash('success', 'Kullanıcı başarıyla oluşturuldu.');
@@ -121,9 +134,9 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $roles = Role::where("parent_id", Auth::user()->id)->get();
-        $user = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
-        return view('institutional.users.edit', compact('user', 'roles'));
+        $roles = Role::where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
+        $subUser = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
+        return view('institutional.users.edit', compact('subUser', 'roles'));
     }
 
     public function update(Request $request, $id)
@@ -131,8 +144,8 @@ class UserController extends Controller
         // Form doğrulama kurallarını tanımlayın
         $rules = [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'type' => 'required|in:1,2',
+            'email' => 'required|email',
+            'type' => 'required',
             'is_active' => 'nullable',
         ];
 
@@ -144,7 +157,7 @@ class UserController extends Controller
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
         $user->type = $validatedData['type'];
-        $user->status = $request->has('is_active') ? 1 : 0;
+        $user->status = $request->has('is_active') ? 1 : 5;
 
         // Şifre güncelleme işlemini kontrol edin
         if ($request->filled('password')) {

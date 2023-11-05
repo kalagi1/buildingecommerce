@@ -95,7 +95,7 @@
                         </div>
                         <div class="form-group description-field">
                             <label for="">İlan Açıklaması <span class="required">*</span></label>
-                            <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')" class="form-control">{{isset($tempData->description) ? $tempData->description : ''}}</textarea>
+                            <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')" class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea>
                         </div>
                         <h4 class="mb-3 d-none">Kaç Adet Konutunuz Var</h4><input value="{{isset($tempData->room_count) ? $tempData->room_count : ''}}" onkeyup="changeData(this.value,'house_count')" class="form-control mb-5 d-none" type="text" id="house_count" name="house_count" value="{{old('house_count')}}" placeholder="Kaç Adet Konutunuz Var" />
                         <span id="generate_tabs" class=" d-none btn btn-primary mb-5">Daireleri Oluştur</span>
@@ -228,7 +228,7 @@
     <script>
         var nextTemp = false;
         var housingImages = [];
-        var descriptionText = @if(isset($tempData) && isset($tempData->description)) '{!! $tempData->description !!}' @else "" @endif;
+        var descriptionText = @if(isset($tempData) && isset($tempData->description)) 'evet var' @else "" @endif;
         var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
         
         $('.choise-1').click(function(){
@@ -686,7 +686,7 @@
                             }
 
                         $('.tab-pane.active select[required="required"]').map((key,item) => {
-                            if(!$(item).val().length){
+                            if(!$(item).val()){
                                 nextHousing = false;
                                 $(item).addClass("error-border")
                             }
@@ -722,9 +722,7 @@
                         $('.tab-pane').eq(indexItem - 1).addClass('active');
                     })
                     function getOldData(roomOrder,inputName){
-                        console.log(oldData[3]);
                         for(var q = 0 ; q < oldData.length; q++){
-                            console.log(oldData[q]);
                             if(oldData[q].room_order == roomOrder && oldData[q].name == inputName){
                                 return oldData[q].value;
                             }
@@ -744,6 +742,7 @@
                                 var inputNamex = inputName;
                                 inputNamex = inputNamex.split('[]')
                                 $($('select[name="'+formInputs[j].name+'"]')[i-1]).children('option').map((key,item) => {
+                                    console.log(getOldData(i,inputName));
                                 if(getOldData(i,inputName) != undefined){
                                     if($(item).attr("value") == getOldData(i,inputName)){
                                         $(item).attr('selected','selected')
@@ -763,10 +762,11 @@
                                 checkboxName = checkboxName.split('[]');
                                 checkboxName = checkboxName[0];
                                 $($('input[name="'+inputNamex[0]+[i]+'[][]"]')).map((key,item) => {
+                                    console.log(getOldData(i,inputName),inputName)
                                     if(getOldData(i,inputName)){
                                         JSON.parse(getOldData(i,inputName)).map((checkbox) => {
-                                        console.log(checkbox,$(item).attr("value"));
-                                            if(checkbox == $(item).attr("value")){
+                                        console.log();
+                                            if($(item).attr("value") != undefined && checkbox.trim() == $(item).attr("value").trim()){
                                                 $(item).attr('checked','checked')
                                             }
                                         })
@@ -823,7 +823,7 @@
                             })
 
                             $('.tab-pane.active select[required="required"]').map((key,item) => {
-                                if(!$(item).val().length){
+                                if(!$(item).val()){
                                     nextHousing = false;
                                     $(item).addClass("error-border")
                                 }
@@ -980,7 +980,7 @@
                     })
 
                     $('.rendered-form select').change(function(){
-                        if($(this).val().length){
+                        if($(this).val()){
                             $(this).removeClass('error-border')
                         }
                         var formData = new FormData();
@@ -1585,7 +1585,7 @@
                             })
 
                             $('.tab-pane.active select[required="required"]').map((key,item) => {
-                                if(!$(item).val().length){
+                                if(!$(item).val()){
                                     nextHousing = false;
                                     $(item).addClass("error-border")
                                 }
@@ -1729,7 +1729,7 @@
 
                         $('.rendered-form select').change(function(){
                             confirmHousings();
-                            if($(this).val().length){
+                            if($(this).val()){
                                 $(this).removeClass('error-border')
                             }
                             var formData = new FormData();
@@ -1998,6 +1998,10 @@
                         // Editör içeriği değiştiğinde yapılacak işlemi burada tanımlayabilirsiniz.
                         console.log("Editör içeriği değişti.");
                         const editorContent = editor.getContent();
+                        if (editorContent != "") {
+                            descriptionText = "evet var";
+                        
+                        }
                         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
                         
                         
@@ -2121,7 +2125,7 @@
                 })
 
                 $('.tab-pane.active select[required="required"]').map((key,item) => {
-                    if(!$(item).val().length){
+                    if(!$(item).val()){
                         next = false;
                         if(topError){
                             if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){

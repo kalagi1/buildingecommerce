@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\FooterSlider;
 use App\Models\Housing;
+use App\Models\HousingFavorite;
 use App\Models\HousingStatus;
+use App\Models\HousingType;
+use App\Models\HousingTypeParent;
 use App\Models\Menu;
 use App\Models\Offer;
 use App\Models\Project;
@@ -13,6 +16,7 @@ use App\Models\Slider;
 use App\Models\StandOutUser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class HomeController extends Controller
@@ -25,6 +29,7 @@ class HomeController extends Controller
                 'housings.id',
                 'housings.title AS housing_title',
                 'housings.created_at',
+                'housings.step1_slug',
                 'housing_types.title as housing_type_title',
                 'housings.housing_type_data',
                 'housings.address',
@@ -53,11 +58,71 @@ class HomeController extends Controller
             $query->where('housing_type_id', '3');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
 
-        return view('client.home.index', compact('menu', 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
+
+        $soilProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
+            $query->where('housing_type_id', '5');
+        })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
+        return view('client.home.index', compact('menu',"soilProjects" ,'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 
     public function getRenderedProjects(Request $request)
     {
+
+        $parameters = ["slug", "type", "optional", "title"];
+        $secondhandHousings = [];
+        $projects = [];
+        $slug = [];
+        $slugType = null;
+        $slugName = [];
+
+        $housingTypeSlug = [];
+        $housingTypeSlugName = [];
+
+        $housingType = [];
+        $housingTypeName = [];
+
+        $opt = null;
+        $is_project = null;
+
+        $optName = [];
+
+        foreach ($parameters as $paramValue) {
+            if ($paramValue) {
+                if ($request->input($paramValue) == "satilik" || $request->input($paramValue) == "kiralik") {
+                    $opt = $request->input($paramValue);
+                    if ($opt) {
+                        $opt = $opt;
+                        if ($opt == "satilik") {
+                            $optName = "Satılık";
+                        } else {
+                            $optName = "Kiralık";
+                        }
+                    }
+                } else {
+                    $item1 = HousingStatus::where('id', $request->input($paramValue))->first();
+                    $housingTypeParent = HousingTypeParent::where('slug', $request->input($paramValue))->first();
+                    $housingType = HousingType::where('slug', $request->input($paramValue))->first();
+
+                    if ($item1) {
+                        $slugName = $item1->name;
+                        $slug = $item1->id;
+                    }
+
+                    if ($housingTypeParent) {
+                        $housingTypeSlugName = $housingTypeParent->title;
+                        $housingTypeSlug = $housingTypeParent->slug;
+                    }
+
+                    if ($housingType) {
+                        $housingTypeName = $housingType->title;
+                        $housingType = $housingType->id;
+                    }
+                }
+
+            }
+        }
+
+
         $query = Project::query()->where('status', 1);
 
         if ($request->input('city')) {
@@ -66,6 +131,24 @@ class HomeController extends Controller
 
         if ($request->input('county')) {
             $query->where('county_id', $request->input('county'));
+        }
+
+        if ($slug) {
+            $query->whereHas('housingTypes', function ($query) use ($slug) {
+                $query->where('housing_type_id', $slug);
+            });
+        }
+
+        if ($housingTypeSlug) { 
+            $query->where("step1_slug", $housingTypeSlug);
+        }
+
+        if ($opt) {
+            $query->where("step2_slug", $opt);
+        }
+
+        if ($housingType) {
+            $query->where('housing_type_id', $housingType);
         }
 
         if ($request->input('neighborhood')) {
@@ -91,14 +174,15 @@ class HomeController extends Controller
             return [
                 'image' => url(str_replace('public/', 'storage/', $item->image)),
                 'url' => route('project.detail', $item->slug),
-                // İlanın diğer özelliklerini burada ekleyebilirsiniz
             ];
         });
 
         return response()->json($renderedProjects);
     }
+
     public function getRenderedSecondhandHousings(Request $request)
     {
+
         function convertMonthToTurkishCharacter($date)
         {
             $aylar = [
@@ -151,7 +235,79 @@ class HomeController extends Controller
             return $a;
         }
 
+        $parameters = ["slug", "type", "optional", "title"];
+        $secondhandHousings = [];
+        $projects = [];
+        $slug = [];
+        $slugName = [];
+
+        $housingTypeSlug = [];
+        $housingTypeSlugName = [];
+
+        $housingType = [];
+        $housingTypeName = [];
+
+        $opt = null;
+        $is_project = null;
+
+        $optName = [];
+
+        foreach ($parameters as $paramValue) {
+            if ($paramValue) {
+                if ($request->input($paramValue) == "satilik" || $request->input($paramValue) == "kiralik") {
+                    $opt = $request->input($paramValue);
+                    if ($opt) {
+                        $opt = $opt;
+                        if ($opt == "satilik") {
+                            $optName = "Satılık";
+                        } else {
+                            $optName = "Kiralık";
+                        }
+                    }
+                } else {
+                    $item1 = HousingStatus::where('id', $request->input($paramValue))->first();
+                    $housingTypeParent = HousingTypeParent::where('slug', $request->input($paramValue))->first();
+                    $housingType = HousingType::where('slug', $request->input($paramValue))->first();
+
+                    if ($item1) {
+                        $is_project = $item1->is_project;
+                        $slugName = $item1->name;
+                        $slug = $item1->id;
+                    }
+
+                    if ($housingTypeParent) {
+                        $housingTypeSlugName = $housingTypeParent->title;
+                        $housingTypeSlug = $housingTypeParent->slug;
+                    }
+
+                    if ($housingType) {
+                        $housingTypeName = $housingType->title;
+                        $housingType = $housingType->id;
+                    }
+                }
+
+            }
+        }
+
         $obj = Housing::select('housings.*')->with('images', "city", "county")->where('housings.status', 1)->whereRaw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) IS NULL');
+
+        if ($housingTypeSlug) {
+            $obj->where("step1_slug", $housingTypeSlug);
+        }
+
+        if ($housingType) {
+            $obj->where('housing_type_id', $housingType);
+        }
+
+        if ($opt) {
+            $obj->where('step2_slug', $opt);
+        }
+
+        if ($slug) {
+            $obj->whereHas('housingStatus', function ($query) use ($slug) {
+                $query->where('housing_status_id', $slug);
+            });
+        }
 
         if ($request->input('from_owner')) {
             switch ($request->input('from_owner')) {
@@ -272,18 +428,22 @@ class HomeController extends Controller
 
         return response()->json($obj->through(function ($item) use ($request) {
             $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
-
+            $isFavorite = 0;
+            if (Auth::check()) {
+                $isFavorite = HousingFavorite::where("housing_id", $item->id)->where("user_id", Auth::user()->id)->first();
+            }
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
                 'housing_type_title' => $item->housing_type_title,
                 'id' => $item->id,
                 'in_cart' => $request->session()->get('cart') && $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
+                'is_favorite' => $isFavorite ? 1 : 0,
                 'housing_url' => route('housing.show', $item->id),
                 'title' => $item->title,
+                'step1_slug' => $item->step1_slug,
                 'housing_address' => $item->address,
                 'city' => $item->city,
                 'county' => $item->county,
-
                 'created_at' => $item->created_at,
                 'housing_type' =>
                 [

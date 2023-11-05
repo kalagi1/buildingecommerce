@@ -16,7 +16,20 @@
         $a = json_encode($housing_type_data->{$key});
         return $a;
     }
+
+    $discountAmount = 0;
+
+    $offer = App\Models\Offer::where('type', 'housing')
+        ->where('housing_id', $housing->id)
+        ->where('start_date', '<=', now())
+        ->where('end_date', '>=', now())
+        ->first();
+
+    if ($offer) {
+        $discountAmount = $offer->discount_amount;
+    }
 @endphp
+
 
 @section('content')
     <style>
@@ -38,7 +51,7 @@
                                         <div class="mt-0">
                                             <a href="#listing-location" class="listing-address">
                                                 <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
-                                                {!! $housing->address !!}
+                                                {!! $housing->city->title !!} {{ '/' }} {!! $housing->county->ilce_title !!}
                                             </a>
                                         </div>
                                     </div>
@@ -46,7 +59,18 @@
                                 <div class="single detail-wrapper mr-2">
                                     <div class="detail-wrapper-body">
                                         <div class="listing-title-bar">
-                                            <h4>{{ getData($housing, 'price') }} TL</h4>
+                                            <h4>
+                                                @if ($discountAmount)
+                                                    <svg viewBox="0 0 24 24" width="24" height="24"
+                                                        stroke="currentColor" stroke-width="2" fill="none"
+                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                    </svg>
+                                                @endif
+                                                {{ number_format(getData($housing, 'price') - $discountAmount, 2, ',', '.') }}
+                                                ₺
+                                            </h4>
                                         </div>
                                     </div>
                                 </div>
@@ -74,10 +98,15 @@
                             </div>
                         </div>
                         <div class="col-md-10 col-10">
-                            <button
-                                style="border: none;width:100%; background-color: black; border-radius: 10px; padding: 10px 50px; color: white;"
-                                class="addToCart" data-type='housing' data-id='{{ $housing->id }}'>Sepete
-                                Ekle</button>
+
+                            <button class="CartBtn" data-type='housing' data-id='{{ $housing->id }}'>
+                                <span class="IconContainer">
+                                    <img src="{{ asset('sc.png') }}" alt="">
+                                </span>
+                                <span class="text">Sepete Ekle</span>
+                            </button>
+
+
                         </div>
                     </div>
                 </div>
@@ -138,26 +167,37 @@
                                         $turkceKarsilik = [
                                             'price' => 'Fiyat',
                                             'numberoffloors' => 'Bulunduğu Kat',
-                                            'squaremeters' => 'Metrekare',
+                                            'squaremeters' => 'm² (Net)',
                                             'room_count' => 'Oda Sayısı',
                                             'front1' => 'Cephe',
-                                            'internal_features1' => 'Özellikler',
+                                            'm2gross' => 'm² (Brüt)',
+                                            'buildingage' => 'Bina Yaşı',
+                                            'heating' => 'Isıtma',
+                                            'balcony' => 'Balkon',
+                                            'numberofbathrooms' => 'Banyo Sayısı',
+                                            'usingstatus' => 'Kullanım Durumu',
+                                            'dues' => 'Aidat',
+                                            'titledeedstatus' => 'Tapu Durumu',
+                                            'external_features1' => 'Dış Özellikler',
+                                            'swap' => 'Takas',
+                                            'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
+                                            'internal_features1' => 'İç Özellikler',
                                         ];
 
                                         $key = $turkceKarsilik[$key] ?? $key;
                                     @endphp
 
-                                    @if ($key != 'image' && $key != 'images' && $key != 'Özellikler')
+                                    @if ($key != 'image' && $key != 'images' && $key != 'İç Özellikler' && $key != 'Dış Özellikler')
                                         <li style="border: none !important;">
                                             @if ($key == 'Fiyat')
                                                 <span class="font-weight-bold mr-1">{{ $key }}:</span>
 
                                                 <span class="det"
                                                     style="color: black; font-weight: bold;">{{ number_format($val[0], 2, ',', '.') }}
-                                                    TL</span>
+                                                    ₺</span>
                                             @else
                                                 <span class="font-weight-bold mr-1">{{ $key }}:</span>
-                                                @if ($key == 'Metrekare')
+                                                @if ($key == 'm² (Net)')
                                                     <span class="det">{{ $val[0] }} m2</span>
                                                 @elseif ($key == 'Özellikler')
                                                     <ul>
@@ -174,30 +214,41 @@
                                 @endforeach
                             </ul>
 
-                            <h5 class="mt-5">Özellikler</h5>
-                            <ul class="homes-list clearfix">
-                                @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
-                                    @php
-                                        $turkceKarsilik = [
-                                            'price' => 'Fiyat',
-                                            'numberoffloors' => 'Bulunduğu Kat',
-                                            'squaremeters' => 'Metrekare',
-                                            'room_count' => 'Oda Sayısı',
-                                            'front1' => 'Cephe',
-                                            'internal_features1' => 'Özellikler',
-                                        ];
+                            @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
+                                @php
+                                    $turkceKarsilik = [
+                                        'price' => 'Fiyat',
+                                        'numberoffloors' => 'Bulunduğu Kat',
+                                        'squaremeters' => 'm² (Net)',
+                                        'room_count' => 'Oda Sayısı',
+                                        'front1' => 'Cephe',
+                                        'm2gross' => 'm² (Brüt)',
+                                        'buildingage' => 'Bina Yaşı',
+                                        'heating' => 'Isıtma',
+                                        'balcony' => 'Balkon',
+                                        'numberofbathrooms' => 'Banyo Sayısı',
+                                        'usingstatus' => 'Kullanım Durumu',
+                                        'dues' => 'Aidat',
+                                        'titledeedstatus' => 'Tapu Durumu',
+                                        'external_features1' => 'Dış Özellikler',
+                                        'swap' => 'Takas',
+                                        'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
+                                        'internal_features1' => 'İç Özellikler',
+                                    ];
 
-                                        $key = $turkceKarsilik[$key] ?? $key;
-                                    @endphp
+                                    $key = $turkceKarsilik[$key] ?? $key;
+                                @endphp
 
-                                    @if ($key == 'Özellikler')
+                                @if ($key == 'İç Özellikler' || $key == 'Dış Özellikler')
+                                    <h5 class="mt-5">{{ $key }}</h5>
+                                    <ul class="homes-list clearfix">
                                         @foreach ($val as $ozellik)
                                             <li><i class="fa fa-check-square"
                                                     aria-hidden="true"></i><span>{{ $ozellik }}</span></li>
                                         @endforeach
-                                    @endif
-                                @endforeach
-                            </ul>
+                                    </ul>
+                                @endif
+                            @endforeach
                         </div>
                         <div class="single homes-content details mb-30">
                             <h5 class="mb-4">Yorumlar</h5>
@@ -214,9 +265,10 @@
                                                 </div>
                                                 <div class="ml-auto order-2">
                                                     @for ($i = 0; $i < $comment->rate; ++$i)
-                                                        <svg enable-background="new 0 0 50 50" height="24px" id="Layer_1"
-                                                            version="1.1" viewBox="0 0 50 50" width="24px"
-                                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                                        <svg enable-background="new 0 0 50 50" height="24px"
+                                                            id="Layer_1" version="1.1" viewBox="0 0 50 50"
+                                                            width="24px" xml:space="preserve"
+                                                            xmlns="http://www.w3.org/2000/svg"
                                                             xmlns:xlink="http://www.w3.org/1999/xlink">
                                                             <rect fill="none" height="50" width="50" />
                                                             <polygon fill="gold"
@@ -267,7 +319,7 @@
                                 <input type="hidden" name="rate" id="rate" />
                                 <h5 class="mb-4">Yeni Yorum Ekle</h5>
                                 @if ($errors->any())
-                                    <div class="alert alert-danger">
+                                    <div class="alert alert-danger text-white">
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
                                         @endforeach
@@ -322,7 +374,7 @@
                                         </svg>
                                     </div>
                                     <div class="ml-auto">
-                                        <input type="file" style="visibility: hidden;" id="fileinput" name="images[]"
+                                        <input type="hidden" style="visibility: hidden;" id="fileinput" name="images[]"
                                             multiple accept="image/*" />
                                         <button type="button" class="btn btn-primary q-button "
                                             onClick="jQuery('#fileinput').trigger('click');">Resimleri Seç</button>
@@ -340,7 +392,7 @@
                     <div class="single widget">
                         <div class="widget-boxed">
                             <div class="widget-boxed-header">
-                                <h4>Satıcı Bilgileri</h4>
+                                <h4>Mağaza Bilgileri</h4>
                             </div>
                             <div class="widget-boxed-body">
                                 <div class="sidebar-widget author-widget2">
@@ -352,12 +404,16 @@
                                     </div>
                                     <ul class="author__contact">
                                         <li><span class="la la-map-marker"><i
-                                                    class="fa fa-map-marker"></i></span>{!! $housing->address !!}</li>
-                                        <li><span class="la la-phone"><i class="fa fa-phone"
-                                                    aria-hidden="true"></i></span><a
-                                                style="text-decoration: none;color:inherit"
-                                                href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
-                                        </li>
+                                                    class="fa fa-map-marker"></i></span>{!! $housing->city->title !!}
+                                            {{ '/' }} {!! $housing->county->ilce_title !!}</li>
+                                        @if ($housing->user->phone)
+                                            <li><span class="la la-phone"><i class="fa fa-phone"
+                                                        aria-hidden="true"></i></span><a
+                                                    style="text-decoration: none;color:inherit"
+                                                    href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                            </li>
+                                        @endif
+
                                         <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                     aria-hidden="true"></i></span><a
                                                 style="text-decoration: none;color:inherit"
@@ -371,7 +427,7 @@
                                     $uri = $_SERVER['REQUEST_URI'];
                                     $shareUrl = $protocol . '://' . $host . $uri;
                                 @endphp
-                              
+
                                 <div class="first-footer">
                                     <ul class="netsocials px-2">
 
@@ -402,7 +458,7 @@
                         </div>
                         <div class="widget-boxed popular mt-5">
                             <div class="widget-boxed-header">
-                                <h4>Satıcının Diğer Konutları</h4>
+                                <h4>Mağazanın Diğer Konutları</h4>
                             </div>
                             <div class="widget-boxed-body">
                                 <div class="recent-post">
@@ -521,10 +577,10 @@
             $('#rate').val($(this).index() + 1);
         });
     </script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 @endsection
 

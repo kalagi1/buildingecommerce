@@ -894,9 +894,11 @@ a.button {
 @media (min-width: 992px) and (max-width: 1239px) {
     .header-widget {
         height: auto;
-        position: absolute;
         right: 0;
-        width: 150%;
+    }
+
+    .input-group.search {
+        width: 91% !important
     }
 
     .header-style-2 .header-widget {
@@ -1454,7 +1456,7 @@ html.mm-blocking #mm-blocker {
 }
 
 .mm-menu.mm-offcanvas {
-    z-index: 0;
+    z-index: 999999;
     display: none;
     position: fixed
 }
@@ -1468,7 +1470,7 @@ html.mm-blocking #mm-blocker {
 }
 
 .mm-menu.mm-offcanvas {
-    width: 80%;
+    width: 100%;
     min-width: 140px;
     max-width: 440px
 }
@@ -1476,9 +1478,8 @@ html.mm-blocking #mm-blocker {
 html.mm-opening .mm-menu.mm-opened~.mm-slideout {
     -webkit-transform: translate(80%, 0);
     -ms-transform: translate(80%, 0);
-    transform: translate(80%, 0);
+    transform: translate(-80%, 0);
     -webkit-transform: translate3d(80%, 0, 0);
-    transform: translate3d(80%, 0, 0)
 }
 
 @media all and (max-width:175px) {
@@ -1501,7 +1502,7 @@ html.mm-opening .mm-menu.mm-opened~.mm-slideout {
     }
 }
 
-.mm-counter{
+.mm-counter {
     display: none !important;
 }
 

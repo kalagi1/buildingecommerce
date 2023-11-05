@@ -9,13 +9,13 @@
                     <div class="mb-9">
                         <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
                             @if (session()->has('success'))
-                                <div class="alert alert-success">
+                                <div class="alert alert-success text-white">
                                     {{ session()->get('success') }}
                                 </div>
                             @endif
 
                             @if ($errors->any())
-                                <div class="alert alert-danger">
+                                <div class="alert alert-danger text-white">
                                     <ul>
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
@@ -27,12 +27,13 @@
                                 <div class="p-4">
 
                                     <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                        action="{{ route('institutional.storeBanners.store') }}" enctype="multipart/form-data">
+                                        action="{{ route('institutional.storeBanners.store') }}"
+                                        enctype="multipart/form-data">
                                         @csrf
                                         <div class="col-md-12">
-                                            <label class="form-label" for="image">Banner Resmi</label>
-                                            <input name="image" class="form-control" id="image"
-                                                type="file" accept="image/*" required="">
+                                            <label class="form-label" for="image">Banner Resmi (350 × 184)</label>
+                                            <input name="images[]" class="form-control" id="image" type="file"
+                                                accept="image/*" required="" multiple>
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-12">

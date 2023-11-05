@@ -1,18 +1,21 @@
 <?php
 
-use App\Http\Controllers\Admin\BankAccountController;
 use App\Http\Controllers\Admin\AdBannerController;
+use App\Http\Controllers\Admin\BankAccountController;
 use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\EmailTemplateController;
 use App\Http\Controllers\Admin\FooterLinkController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\HousingController;
 use App\Http\Controllers\Admin\HousingStatusController;
+use App\Http\Controllers\Admin\HousingStatusParentController;
 use App\Http\Controllers\Admin\HousingTypeController;
 use App\Http\Controllers\Admin\InfoController;
 use App\Http\Controllers\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\MarketingController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PaymentTempController as AdminPaymentTempController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -51,14 +54,14 @@ use App\Http\Controllers\Institutional\DashboardController;
 use App\Http\Controllers\Institutional\HousingController as InstitutionalHousingController;
 use App\Http\Controllers\Institutional\LoginController;
 use App\Http\Controllers\Institutional\OfferController as InstitutionalOfferController;
+use App\Http\Controllers\Institutional\PaymentTempController;
 use App\Http\Controllers\Institutional\ProfileController as InstitutionalProfileController;
 use App\Http\Controllers\Institutional\ProjectController as InstitutionalProjectController;
 use App\Http\Controllers\Institutional\RoleController as InstitutionalRoleController;
-use App\Http\Controllers\Institutional\StoreBannerController;
-use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
-use App\Http\Controllers\Institutional\PaymentTempController;
 use App\Http\Controllers\Institutional\SinglePriceController;
+use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\TempOrderController;
+use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -78,6 +81,7 @@ Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
+Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
 
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
 Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");
@@ -88,6 +92,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/proje/{slug}', [ClientProjectController::class, "index"])->name('project.detail');
+Route::get('/project_payment_plan', [ClientProjectController::class, "projectPaymentPlan"])->name('get.housing.payment.plan');
 Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->name('project.housing.detail');
 Route::get('/magaza/{slug}', [InstitutionalController::class, "dashboard"])->name('instituional.dashboard');
 
@@ -177,6 +182,16 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::get('get/company-document/{user}', [UserController::class, 'getCompanyDocument'])->name('get.company-document');
         Route::post('update-corporate-status/{user}', [UserController::class, 'updateCorporateStatus'])->name('update-corporate-status');
         Route::get('show-corporate-account/{user}', [UserController::class, 'showCorporateAccount'])->name('user.show-corporate-account');
+    });
+
+    Route::middleware(['checkPermission:HousingStatusParent'])->group(function () {
+
+        Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
+        Route::get('housing_status_parent_management', [HousingStatusParentController::class, 'index'])->name('housing.status.parent.management');
+        Route::post('new_housing_status_parent', [HousingStatusParentController::class, 'store'])->name('new.housing.type.parent');
+        Route::post('delete_housing_status_parent', [HousingStatusParentController::class, 'destroy'])->name('delete.housing.type.parent');
+        Route::get('get_housing_type_parent_connections', [HousingStatusParentController::class, 'getHousingParentConnections'])->name('get.housing.type.parent.connections');
+        Route::post('add_housing_parent_connection', [HousingStatusParentController::class, 'addHousingParentConnection'])->name('add.housing.parent.connection');
     });
 
     Route::middleware(['checkPermission:CreateAdBanner'])->group(function () {
@@ -589,12 +604,12 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::post('/bank_account/create', [BankAccountController::class, 'store'])->name('bank_account.store');
     });
 
-    Route::middleware(['checkPermission:UpdateBankAccounts'])->group(function () {
+    Route::middleware(['checkPermission:UpdateBankAccount'])->group(function () {
         Route::get('/bank_account/{id}/edit', [BankAccountController::class, 'edit'])->name('bank_account.edit');
         Route::post('/bank_account/{id}/update', [BankAccountController::class, 'update'])->name('bank_account.update');
     });
 
-    Route::middleware(['checkPermission:DeleteBankAccounts'])->group(function () {
+    Route::middleware(['checkPermission:DeleteBankAccount'])->group(function () {
         Route::delete('/bank_account/{id}/delete', [BankAccountController::class, 'destroy'])->name('bank_account.destroy');
     });
 
@@ -633,10 +648,16 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::put('/offers/{offer}', [InstitutionalOfferController::class, 'update'])->name('offers.update');
     });
 
+    Route::middleware(['checkPermission:ChoiseAdvertiseType'])->group(function () {
+        Route::get('/choise-advertise-type', [TempOrderController::class, "choiseAdvertiseType"])->name('choise.advertise.type');
+    });
+
     Route::middleware(['checkPermission:TempOrder'])->group(function () {
+        Route::post('/end_project_copy_item_image', [TempOrderController::class, "copyItemImage"])->name('copy.item.image');
         Route::post('/update_image_order_temp_update', [TempOrderController::class, 'updateImageOrders'])->name('update.image.order.temp.update');
         Route::post('/delete_image_order_temp_update', [TempOrderController::class, 'deleteImageOrders'])->name('delete.image.order.temp.update');
         Route::post('/delete_temp_update', [TempOrderController::class, 'deleteTempUpdate'])->name('delete.temp.update');
+        Route::post('/delete_temp_create', [TempOrderController::class, 'deleteTempCreate'])->name('delete.temp.create');
         Route::get('/get_busy_housing_statuses/{id}', [InstitutionalProjectController::class, 'getBusyDatesByStatusType'])->name('get.busy.housing.statuses');
         Route::post('/change_step_order', [TempOrderController::class, 'changeStepOrder'])->name('change.step.order');
         Route::get('/get_housing_type_id/{slug}', [TempOrderController::class, 'getHousingTypeId'])->name('get.housing.type.id');
@@ -718,25 +739,21 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/password/update', [InstitutionalChangePasswordController::class, "update"])->name('password.update');
     });
 
-    // AdminHomeController Rotalarının İzinleri
-    Route::middleware(['checkPermission:ViewDashboard'])->group(function () {
-        Route::get('/', [DashboardController::class, "index"])->name("index");
-    });
+    Route::get('/', [DashboardController::class, "index"])->name("index");
 
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
-    
-    Route::post('/end_extend_time', [PaymentTempController::class,"createPaymentTemp"])->name('create.payment.end.temp');
-    Route::post('/end_project_temp_order', [InstitutionalProjectController::class,"createProjectEnd"])->name('project.end.temp.order');
-    Route::post('/update_project_temp_order', [InstitutionalProjectController::class,"updateProjectEnd"])->name('project.update.temp.order');
-    Route::get('/create_project_v2', [InstitutionalProjectController::class,"createV2"])->name('project.create.v2');
-    Route::get('/get_bank_account/{id}', [InstitutionalBankAccountController::class,"getBankAccount"])->name('get.bank.account');
 
-    Route::post('/end_project_temp_order', [InstitutionalProjectController::class,"createProjectEnd"])->name('project.end.temp.order');
-    Route::post('/update_project_temp_order', [InstitutionalProjectController::class,"updateProjectEnd"])->name('project.update.temp.order');
-    Route::get('/create_project_v2', [InstitutionalProjectController::class,"createV2"])->name('project.create.v2');
-    Route::get('/edit_project_v2/{projectSlug}', [InstitutionalProjectController::class,"editV2"])->name('project.edit.v2');
-    Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class,"getHousingTypeChildren"])->name('get.housing.type.childrens');
+    Route::post('/end_extend_time', [PaymentTempController::class, "createPaymentTemp"])->name('create.payment.end.temp');
+    Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
+    Route::post('/update_project_temp_order', [InstitutionalProjectController::class, "updateProjectEnd"])->name('project.update.temp.order');
+    Route::get('/create_project_v2', [InstitutionalProjectController::class, "createV2"])->name('project.create.v2');
+    Route::get('/get_bank_account/{id}', [InstitutionalBankAccountController::class, "getBankAccount"])->name('get.bank.account');
+
+    Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
+    Route::post('/update_project_temp_order', [InstitutionalProjectController::class, "updateProjectEnd"])->name('project.update.temp.order');
+    Route::get('/edit_project_v2/{projectSlug}', [InstitutionalProjectController::class, "editV2"])->name('project.edit.v2');
+    Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
     Route::get('/projects/{project_id}/logs', [InstitutionalProjectController::class, 'logs'])->name('projects.logs');
     Route::get('/housings/{housing_id}/logs', [InstitutionalHousingController::class, 'logs'])->name('housing.logs');
     Route::get('/project_stand_out/{project_id}', [InstitutionalProjectController::class, "standOut"])->name('project.stand.out');
@@ -772,6 +789,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::middleware(['checkPermission:GetStoreBanners'])->group(function () {
         Route::get('/store-banners', [StoreBannerController::class, 'index'])->name('storeBanners.index');
+        Route::post('/store-banners/update-order', [StoreBannerController::class, 'updateOrder'])
+            ->name('storeBanners.updateOrder');
     });
 
     Route::middleware(['checkPermission:DeleteStoreBanner'])->group(function () {
@@ -858,5 +877,8 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
 
 });
 
-Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
-    ->name('all.project.list');
+// Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
+//     ->name('all.project.list');
+
+Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}', [ClientProjectController::class, "allMenuProjects"])
+    ->name('all.menu.project.list');

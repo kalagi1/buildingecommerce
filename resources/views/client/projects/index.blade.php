@@ -62,7 +62,7 @@
                                 href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Tüm
                                 Projeler</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">Satıcı
+                                href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">Mağaza
                                 Profili</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">

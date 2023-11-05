@@ -275,6 +275,12 @@
         "activePath": "admin/housing_types*",
         "subMenu": [
             {
+                "text": "Yönetim",
+                "key": "HousingStatusParent",
+                "url": "admin.housing.status.parent.management",
+                "activePath": "admin/housing_status_parent_management"
+            },
+            {
                 "text": "Yeni Ekle",
                 "key": "CreateHousingType",
                 "url": "admin.housing_types.create",
@@ -336,6 +342,15 @@
         "key": "GetSiteSettings",
         "url": "admin.site-settings.index",
         "activePath": "admin/site-settings*"
+    },
+    {
+        "id": "bank_accounts",
+        "label": "Yönetim",
+        "icon": "credit-card",
+        "text": "Banka Hesapları",
+        "key": "GetBankAccounts",
+        "url": "admin.bank_account.index",
+        "activePath": "admin/bank_accounts*"
     },
     {
         "id": "smtp_settings",

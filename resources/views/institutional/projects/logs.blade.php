@@ -40,7 +40,7 @@
             </div>
             @endforeach
           @else 
-            <div class="alert alert-danger">Bu projeye ait kayıt bulunamadı</div>
+            <div class="alert alert-danger text-white">Bu projeye ait kayıt bulunamadı</div>
           @endif
         </div>
       </div>

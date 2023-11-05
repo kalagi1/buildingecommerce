@@ -34,19 +34,27 @@
                                     </span>
                                 </div>
                                 <div class="py-2 px-3">
-                             
-                                    <button type="button" class="btn btn-primary btn-lg btn-block w-100"
-                                        data-toggle="modal" data-target="#paymentModal{{$plan->id}}"
-                                        {{ $current->subscriptionPlan->id == $plan->id ? 'disabled' : '' }}>
-                                        {{ $current->subscriptionPlan->id == $plan->id ? 'AKTİF' : ($current->subscriptionPlan->price >= $plan->price ? 'SATIN AL' : 'YÜKSELT') }}
-                                        @if ($current->subscriptionPlan->price < $plan->price)
-                                            <i class="fas fa-angle-double-up ml-3"></i>
-                                        @endif
-                                    </button>
+
+                                    @if (Auth::user()->subscription_plan_id != null)
+                                        <button type="button" class="btn btn-primary btn-lg btn-block w-100"
+                                            data-toggle="modal" data-target="#paymentModal{{ $plan->id }}"
+                                            {{ $current->subscriptionPlan->id == $plan->id ? 'disabled' : '' }}>
+                                            {{ $current->subscriptionPlan->id == $plan->id ? 'AKTİF' : ($current->subscriptionPlan->price >= $plan->price ? 'SATIN AL' : 'YÜKSELT') }}
+                                            @if ($current->subscriptionPlan->price < $plan->price)
+                                                <i class="fas fa-angle-double-up ml-3"></i>
+                                            @endif
+                                        </button>
+                                    @else
+                                        <button type="button" class="btn btn-primary btn-lg btn-block w-100"
+                                            data-toggle="modal" data-target="#paymentModal{{ $plan->id }}">
+                                            SEPETE EKLE
+                                        </button>
+                                    @endif
+
 
                                     <!-- Ödeme Modalı -->
-                                    <div class="modal fade" id="paymentModal{{$plan->id}}" tabindex="-1" role="dialog"
-                                        aria-labelledby="paymentModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="paymentModal{{ $plan->id }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -90,23 +98,32 @@
                                     <b>Fiyat:</b>
                                     <span class="text-primary"
                                         style="margin-left: auto; font-weight: bold; font-size: 20px;">
-                                        {{ $plan->price }}TL 
+                                        {{ $plan->price }}TL
                                     </span>
                                 </div>
                                 <div class="py-2 px-3">
 
-                                    <button type="button" class="btn btn-primary btn-lg btn-block w-100"
-                                        data-toggle="modal" data-target="#paymentModal{{$plan->id}}"
-                                        {{ $current->subscriptionPlan->id == $plan->id ? 'disabled' : '' }}>
-                                        {{ $current->subscriptionPlan->id == $plan->id ? 'AKTİF' : ($current->subscriptionPlan->price >= $plan->price ? 'SATIN AL' : 'YÜKSELT') }}
-                                        @if ($current->subscriptionPlan->price < $plan->price)
-                                            <i class="fas fa-angle-double-up ml-3"></i>
-                                        @endif
-                                    </button>
+                                    @if (Auth::user()->subscription_plan_id != null)
+                                        <button type="button" class="btn btn-primary btn-lg btn-block w-100"
+                                            data-toggle="modal" data-target="#paymentModal{{ $plan->id }}"
+                                            {{ $current->subscriptionPlan->id == $plan->id ? 'disabled' : '' }}>
+                                            {{ $current->subscriptionPlan->id == $plan->id ? 'AKTİF' : ($current->subscriptionPlan->price >= $plan->price ? 'SATIN AL' : 'YÜKSELT') }}
+                                            @if ($current->subscriptionPlan->price < $plan->price)
+                                                <i class="fas fa-angle-double-up ml-3"></i>
+                                            @endif
+                                        </button>
+                                    @else
+                                        <button type="button" class="btn btn-primary btn-lg btn-block w-100"
+                                            data-toggle="modal" data-target="#paymentModal{{ $plan->id }}">
+                                            SEPETE EKLE
+                                        </button>
+                                    @endif
+
+
 
                                     <!-- Ödeme Modalı -->
-                                    <div class="modal fade" id="paymentModal{{$plan->id}}" tabindex="-1" role="dialog"
-                                        aria-labelledby="paymentModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="paymentModal{{ $plan->id }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
