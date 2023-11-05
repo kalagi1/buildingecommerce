@@ -1,8 +1,10 @@
 @extends('client.layouts.master')
 
 @section('content')
-    @php
+@php
 
+    if (!function_exists('getHouse'))
+    {
         function getHouse($project, $key, $roomOrder)
         {
             foreach ($project->roomInfo as $room) {
@@ -11,8 +13,9 @@
                 }
             }
         }
+    }
 
-    @endphp
+@endphp
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
 
@@ -21,16 +24,16 @@
                 <a href="{{ url('/') }}" class="btn btn-primary float-left mb-4">
                     <i class="fas fa-arrow-left"></i> Geri Dön
                 </a>
-
+                
                 <table class="table-responsive">
-                    <thead class="mobile-hidden">
+                    <thead>
                         <tr>
                             <th class="pl-2">Konut</th>
                             <th class="p-0"></th>
+                            <th class="pl-2">İl</th>
                             <th class="pl-2">Fiyat</th>
                             <th>Sepete Ekle</th>
                             <th>Kaldır</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,10 +43,6 @@
                             </tr>
                         @else
                             @foreach ($favorites as $key => $item)
-                                @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $item->housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
                                 <tr>
                                     <td class="image myelist">
                                         <a href="{{ route('housing.show', $item->housing->id) }}"><img alt="my-properties-3"
@@ -54,106 +53,56 @@
                                         <div class="inner">
                                             <a href="{{ route('housing.show', $item->housing->id) }}">
                                                 <h2 style="font-weight: 600">{{ $item->housing->title }}</h2>
-                                                <figure><i class="lni-map-marker"></i> {{ $item->housing->city->title }}
+                                                <figure><i class="lni-map-marker"></i> {{ $item->housing->address }}
                                                 </figure>
                                             </a>
                                         </div>
                                     </td>
+                                    <td> {{ $item->housing->city->title }}</td>
+                                    <td> {{ json_decode($item->housing->housing_type_data)->price[0] }}₺</td>
                                     <td>
-                                        <span style="color:#e54242; font-weight:600">
-                                            @if ($discount_amount)
-                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                                    stroke-width="2" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round" class="css-i6dzq1">
-                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                    <polyline points="17 18 23 18 23 12"></polyline>
-                                                </svg>
-                                            @endif
-                                            {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 2, ',', '.') }}
-                                            ₺
-                                        </span>
+                                        <button class="addToCart"
+                                            style="width: 120px; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                            data-type='housing' data-id='{{ $item->id }}'>
+                                        </button>
                                     </td>
                                     <td class="actions">
                                         <a href="#" class="remove-from-cart"
                                             data-housing-id="{{ $item->housing->id }}" style="float: left"><i
                                                 class="far fa-trash-alt"></i></a>
                                     </td>
-                                    <td>
-                                        <button class="CartBtn" data-type='housing' data-id='{{ $item->housing->id }}'>
-                                            <span class="IconContainer">
-                                                <img src="{{ asset('sc.png') }}" alt="">
-
-                                            </span>
-                                            <span class="text">Sepete Ekle</span>
-                                        </button>
-                                    </td>
-
                                 </tr>
                             @endforeach
                             @foreach ($projectFavorites as $key => $item)
                                 @php($data = $item->projectHousing->pluck('value', 'key')->toArray())
-
-                                @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $item->project->id)->where('project_housings', 'LIKE', "%\"{$item->project->housing_type_id}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
-
-                                @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, "$.type")) = "project" AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.housing")) = ? AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) = ? LIMIT 1', [getHouse($item->project, 'price[]', $item->housing_id)->room_order, $item->project->id]))
-
+                                @php($discount_amount = App\Models\Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
                                 <tr>
                                     <td class="image myelist">
                                         <a
-                                            href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $item->housing_id)->room_order]) }}"><img
+                                            href="{{ route('project.housings.detail', [$item->project->slug,  getHouse($item->project, 'squaremeters[]', $key + 1)->room_order]) }}"><img
                                                 alt="my-properties-3"
-                                                src="{{ URL::to('/') . '/project_housing_images/' . getHouse($item->project, 'image[]', $item->housing_id)->value }}"
+                                                src="{{ asset('project_housing_images/') . '/' . $data['Kapak Resmi'] }}"
                                                 class="img-fluid"></a>
                                     </td>
                                     <td>
                                         <div class="inner">
                                             <a
-                                                href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $item->housing_id)->room_order]) }}">
+                                                href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $key + 1)->room_order]) }}">
                                                 <h2 style="font-weight: 600">
-                                                    {{ getHouse($item->project, 'squaremeters[]', $item->housing_id)->value . ' metrekare ' . getHouse($item->project, 'room_count[]', $item->housing_id)->value }}
-                                                </h2>
+                                                    {{ $data['Metrekare'] . ' metrekare ' . $data['Oda Sayısı'] }}</h2>
                                                 <h2> {{ $item->project->project_title }}</h2>
                                             </a>
 
                                         </div>
                                     </td>
+                                    <td> {{ $item->project->address }}</td>
+                                    <td> {{ $data['Fiyat'] - $discount_amount }}₺</td>
                                     <td>
-                                        @if ($sold)
-                                            @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 2, ',', '.') }}
-                                                ₺
-                                            @endif
-                                        @else
-                                            {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 2, ',', '.') }}
-                                            ₺
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($sold && $sold[0]->status != '2')
-                                            <button class="btn second-btn soldBtn" disabled
-                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
-                                            @else 
-                                            style="background: red !important;width:100%;color:White" @endif>
-                                                @if ($sold[0]->status == '0')
-                                                    <span class="text">Onay Bekleniyor</span>
-                                                @else
-                                                    <span class="text">Satıldı</span>
-                                                @endif
-                                            </button>
-                                        @else
-                                            <button class="CartBtn" data-type='project'
-                                                data-project='{{ $item->project_id }}'
-                                                data-id='{{ getHouse($item->project, 'price[]', $item->housing_id)->room_order }}'>
-                                                <span class="IconContainer">
-                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                </span>
-                                                <span class="text">Sepete Ekle</span>
-                                            </button>
-                                        @endif
-
+                                        <button class="addToCart"
+                                            style="width: 120px; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                            data-type='project' data-project='{{ $item->project_id }}'
+                                            data-id={{ $item->housing_id }}>
+                                        </button>
                                     </td>
                                     <td class="actions">
                                         <a href="#" class="remove-from-project-cart"
