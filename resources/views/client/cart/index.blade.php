@@ -8,7 +8,7 @@
                 <div class="col-md-8 mt-5">
                     <div class="my-properties">
                         <table class="table-responsive">
-                            <thead>
+                            <thead class="mobile-hidden">
                                 <tr>
                                     <th class="pl-2">Konut</th>
                                     <th class="p-0"></th>
@@ -132,9 +132,10 @@
                                 </div>
 
                                 <div class="invoice-body">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered d-none d-md-table"> <!-- Tabloyu sadece tablet ve daha büyük ekranlarda göster -->
                                         <thead>
                                             <tr>
+                                                <th>Ürün Görseli</th>
                                                 <th>Ürün Adı</th>
                                                 <th>Miktar</th>
                                                 <th>Fiyat</th>
@@ -143,19 +144,49 @@
                                         </thead>
                                         <tbody>
                                             <tr>
+                                                <td>
+                                                    <a
+                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
+                                                        alt="my-properties-3" src="{{ $cart['item']['image'] }}"
+                                                        class="img-fluid"></a>
+                                                </td>
                                                 <td>{{ $cart['item']['title'] }}</td>
                                                 <td>1</td>
-                                                <td>{{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }}
-                                                    ₺</td>
-                                                <td>{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 2, ',', '.') }}
-                                                    ₺</td>
+                                                <td>{{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }} ₺</td>
+                                                <td>{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 2, ',', '.') }} ₺</td>
                                             </tr>
                                         </tbody>
                                     </table>
+                        
+                                    <!-- Mobilde sadece alt alta liste göster -->
+                                    <div class="d-md-none">
+                                        <ul class="list-group">
+                                         
+                                                <li class="list-group-item">
+                                                    <strong>Ürün Görseli:</strong> 
+                                                    <a
+                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
+                                                        alt="my-properties-3" src="{{ $cart['item']['image'] }}"
+                                                        class="img-fluid"></a>
+                                                </li>
+                                            <li class="list-group-item">
+                                                <strong>Ürün Adı:</strong> {{ $cart['item']['title'] }}
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Miktar:</strong> 1
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Fiyat:</strong> {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }} ₺
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Toplam:</strong> {{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 2, ',', '.') }} ₺
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="invoice-total">
-                                    <strong>EFT/Havale yapacağınız bankayı seçiniz</strong>
-                                    <div class="row mb-3">
+                                <div class="invoice-total mt-3">
+                                    <strong class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</strong>
+                                    <div class="row mb-3 px-5 mt-3">
                                         @foreach ($bankAccounts as $bankAccount)
                                             <div class="col-md-4 bank-account" bank_id="{{ $bankAccount->id }}"
                                                 data-iban="{{ $bankAccount->iban }}"
@@ -207,7 +238,12 @@
                                     <form action="{{ route('client.pay.cart') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="key" id="orderKey">
-                                        <button type="submit" class="btn btn-primary mt-3">Ödemeyi Tamamla</button>
+                                        <button type="submit" class="btn btn-primary paySuccess mt-3">Ödemeyi Tamamla
+                                            <svg viewBox="0 0 576 512" class="svgIcon">
+                                                <path
+                                                    d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                                </path>
+                                            </svg></button>
                                     </form>
                                 </li>
                             </ol>
@@ -330,3 +366,4 @@
         });
     </script>
 @endsection
+

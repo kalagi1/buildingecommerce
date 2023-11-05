@@ -23,7 +23,7 @@
                 </a>
 
                 <table class="table-responsive">
-                    <thead>
+                    <thead class="mobile-hidden">
                         <tr>
                             <th class="pl-2">Konut</th>
                             <th class="p-0"></th>
@@ -42,7 +42,7 @@
                             @foreach ($favorites as $key => $item)
                                 @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $item->housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $item->housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                                 <tr>
                                     <td class="image myelist">
@@ -94,7 +94,7 @@
                                 @php($data = $item->projectHousing->pluck('value', 'key')->toArray())
                                 @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $item->project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'project')->where('project_id', $item->project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                                 @php($sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND status = "1"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($item->project, 'price[]', $key + 1)->room_order, $item->project->id]) ?? false)
 
