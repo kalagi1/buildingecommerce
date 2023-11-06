@@ -44,7 +44,7 @@
             </div>
             @endforeach
           @else 
-            <div class="alert alert-danger">Bu emlağa ait kayıt bulunamadı</div>
+            <div class="alert alert-danger text-white">Bu emlağa ait kayıt bulunamadı</div>
           @endif
         </div>
       </div>

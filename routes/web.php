@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
@@ -79,6 +80,7 @@ Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
+Route::post('notification/read', [NotificationController::class,"markAsRead"])->name('notification.read');
 
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
 Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");
@@ -181,8 +183,10 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::get('show-corporate-account/{user}', [UserController::class, 'showCorporateAccount'])->name('user.show-corporate-account');
     });
 
+
+
     Route::middleware(['checkPermission:HousingStatusParent'])->group(function () {
-        
+
         Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
         Route::get('housing_status_parent_management', [HousingStatusParentController::class, 'index'])->name('housing.status.parent.management');
         Route::post('new_housing_status_parent', [HousingStatusParentController::class, 'store'])->name('new.housing.type.parent');
@@ -601,12 +605,12 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::post('/bank_account/create', [BankAccountController::class, 'store'])->name('bank_account.store');
     });
 
-    Route::middleware(['checkPermission:UpdateBankAccounts'])->group(function () {
+    Route::middleware(['checkPermission:UpdateBankAccount'])->group(function () {
         Route::get('/bank_account/{id}/edit', [BankAccountController::class, 'edit'])->name('bank_account.edit');
         Route::post('/bank_account/{id}/update', [BankAccountController::class, 'update'])->name('bank_account.update');
     });
 
-    Route::middleware(['checkPermission:DeleteBankAccounts'])->group(function () {
+    Route::middleware(['checkPermission:DeleteBankAccount'])->group(function () {
         Route::delete('/bank_account/{id}/delete', [BankAccountController::class, 'destroy'])->name('bank_account.destroy');
     });
 
@@ -646,7 +650,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     });
 
     Route::middleware(['checkPermission:ChoiseAdvertiseType'])->group(function () {
-        Route::get('/choise-advertise-type',[TempOrderController::class,"choiseAdvertiseType"])->name('choise.advertise.type');
+        Route::get('/choise-advertise-type', [TempOrderController::class, "choiseAdvertiseType"])->name('choise.advertise.type');
     });
 
     Route::middleware(['checkPermission:TempOrder'])->group(function () {
@@ -737,10 +741,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/password/update', [InstitutionalChangePasswordController::class, "update"])->name('password.update');
     });
 
-    // AdminHomeController Rotalarının İzinleri
-    Route::middleware(['checkPermission:ViewDashboard'])->group(function () {
-        Route::get('/', [DashboardController::class, "index"])->name("index");
-    });
+    Route::get('/', [DashboardController::class, "index"])->name("index");
 
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
@@ -790,6 +791,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::middleware(['checkPermission:GetStoreBanners'])->group(function () {
         Route::get('/store-banners', [StoreBannerController::class, 'index'])->name('storeBanners.index');
+        Route::post('/store-banners/update-order', [StoreBannerController::class, 'updateOrder'])
+            ->name('storeBanners.updateOrder');
     });
 
     Route::middleware(['checkPermission:DeleteStoreBanner'])->group(function () {

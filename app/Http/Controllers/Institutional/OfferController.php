@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateOfferRequest;
-use App\Http\Requests\UpdateOfferRequest;
+use App\Models\Housing;
 use App\Models\Offer;
 use App\Models\Project;
-use App\Models\Housing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,31 +14,31 @@ class OfferController extends Controller
 
     public function index()
     {
-        $offers = Offer::where("user_id", auth()->user()->id)->get();
+        $offers = Offer::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
         return view('institutional.offers.index', compact('offers'));
     }
 
     public function create()
     {
-        $projects = Project::where('user_id', auth()->user()->id)->get();
-        $housings = Housing::where('user_id', auth()->user()->id)->get();
+        $projects = Project::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
+        $housings = Housing::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
         return view('institutional.offers.create', compact('projects', 'housings'));
     }
 
     public function edit(Request $request, $id)
     {
-        $projects = Project::where('user_id', auth()->user()->id)->get();
-        $housings = Housing::where('user_id', auth()->user()->id)->get();
+        $projects = Project::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
+        $housings = Housing::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
         $offer = Offer::find($id);
         return view('institutional.offers.edit', compact('projects', 'housings', 'id', 'offer'));
     }
 
-    public function store(CreateOfferRequest $request)
+    public function store(Request $request)
     {
         Offer::create(
             array_merge($request->all(),
                 [
-                    'user_id' => auth()->user()->id,
+                    'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
                     'project_housings' => json_encode($request->input('project_housings', [])),
                 ]
             )
@@ -48,7 +46,7 @@ class OfferController extends Controller
         return redirect()->route('institutional.offers.index')->with('success', 'Kampanya Başarıyla Oluşturuldu');
     }
 
-    public function update(UpdateOfferRequest $request, Offer $offer)
+    public function update(Request $request, Offer $offer)
     {
         $offer->update(
             [

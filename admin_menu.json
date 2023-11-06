@@ -344,6 +344,15 @@
         "activePath": "admin/site-settings*"
     },
     {
+        "id": "bank_accounts",
+        "label": "Yönetim",
+        "icon": "credit-card",
+        "text": "Banka Hesapları",
+        "key": "GetBankAccounts",
+        "url": "admin.bank_account.index",
+        "activePath": "admin/bank_accounts*"
+    },
+    {
         "id": "smtp_settings",
         "label": "Yönetim",
         "icon": "envelope",

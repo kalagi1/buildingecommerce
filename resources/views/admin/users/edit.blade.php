@@ -160,13 +160,13 @@
 
                             <div class="p-4">
                                 @if (session()->has('success'))
-                                    <div class="alert alert-success text-white">
+                                    <div class="alert alert-success text-white text-white">
                                         {{ session()->get('success') }}
                                     </div>
                                 @endif
 
                                 @if ($errors->any())
-                                    <div class="alert alert-danger">
+                                    <div class="alert alert-danger text-white">
                                         <ul>
                                             @foreach ($errors->all() as $error)
                                                 <li>{{ $error }}</li>

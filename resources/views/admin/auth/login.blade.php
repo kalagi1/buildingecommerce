@@ -113,7 +113,7 @@
                                                         class="fas fa-key text-900 fs--1 form-icon"></span></div>
                                             </div>
                                             @if ($errors->any())
-                                                <div class="alert alert-danger">
+                                                <div class="alert alert-danger text-white">
                                                     <ul>
                                                         @foreach ($errors->all() as $error)
                                                             <li>{{ $error }}</li>

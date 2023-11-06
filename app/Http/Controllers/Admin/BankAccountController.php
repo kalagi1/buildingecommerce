@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\BankAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 class BankAccountController extends Controller
 {
@@ -16,20 +15,30 @@ class BankAccountController extends Controller
         return view('admin.bank_account.index', compact('bankAccounts'));
     }
 
-    public function create(){
+    public function create()
+    {
         return view('admin.bank_account.create');
     }
 
     public function store(Request $request)
     {
+        $messages = [
+            'image.required' => 'Resim alanı gereklidir.',
+            'image.image' => 'Resim alanı geçerli bir resim dosyası olmalıdır.',
+            'image.mimes' => 'Resim dosyası sadece jpeg, png, jpg veya gif formatında olmalıdır.',
+            'iban.required' => 'IBAN alanı gereklidir.',
+            'iban.unique' => 'Bu IBAN zaten kullanılıyor.',
+            'recipient_full_name.required' => 'Alıcı adı alanı gereklidir.',
+        ];
+
         $validatedData = $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif',
             'iban' => 'required|unique:bank_accounts',
             'recipient_full_name' => 'required',
-        ]);
+        ], $messages);
 
         $image = $request->file('image');
-        $imageName = uniqid().'.'.$image->getClientOriginalExtension();
+        $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('bank_accounts'), $imageName);
 
         $bankAccount = new BankAccount;
@@ -41,24 +50,40 @@ class BankAccountController extends Controller
         return redirect()->route('admin.bank_account.index')->with('success', 'Başarıyla banka hesabı oluşturdunuz');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $bankAccount = BankAccount::findOrFail($id);
-        return view('admin.bank_account.edit',compact('bankAccount'));
+        return view('admin.bank_account.edit', compact('bankAccount'));
     }
 
     public function update(Request $request, $id)
     {
+        $messages = [
+            'image.image' => 'Resim alanı geçerli bir resim dosyası olmalıdır.',
+            'image.mimes' => 'Resim dosyası sadece jpeg, png, jpg veya gif formatında olmalıdır.',
+            'iban.required' => 'IBAN alanı gereklidir.',
+            'iban.unique' => 'Bu IBAN zaten kullanılıyor.',
+            'recipient_full_name.required' => 'Alıcı adı alanı gereklidir.',
+        ];
+        
+        $attributes = [
+            'image' => 'Resim',
+            'iban' => 'IBAN',
+            'recipient_full_name' => 'Alıcı Adı',
+        ];
+        
         $validatedData = $request->validate([
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'iban' => 'required|unique:bank_accounts,iban,' . $id,
             'recipient_full_name' => 'required',
-        ]);
+        ], $messages, $attributes);
+        
 
         $bankAccount = BankAccount::findOrFail($id);
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = uniqid().'.'.$image->getClientOriginalExtension();
+            $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('bank_accounts'), $imageName);
 
             // Eski resmi sil (isteğe bağlı)

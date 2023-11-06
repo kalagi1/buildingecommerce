@@ -4,30 +4,30 @@ namespace App\Http\Controllers\ClientPanel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\CartOrder;
+use App\Models\DocumentNotification;
 use App\Models\SubscriptionPlan;
 use App\Models\UpgradeLog;
 use App\Models\User;
 use App\Models\UserPlan;
-use App\Models\CartOrder;
-use App\Models\DocumentNotification;
 use App\Rules\SubscriptionPlanToUpgradeBireysel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
-    function cartOrders()
+    public function cartOrders()
     {
         $cartOrders = CartOrder::where('user_id', auth()->user()->id)->get();
         return view('client.client-panel.profile.orders', compact('cartOrders'));
     }
 
-    function verify()
+    public function verify()
     {
         return view('client.client-panel.home.verification');
     }
 
-    function verifyAccount(Request $request)
+    public function verifyAccount(Request $request)
     {
         $request->validate(
             [
@@ -36,19 +36,21 @@ class ProfileController extends Controller
         );
 
         $array = [];
- 
+
         $file = $request->kimlik_belgesi->store('individual_identity_documents');
         $array = array_merge($array, ['identity_document' => $file]);
 
         auth()->user()->update($array);
 
-        DocumentNotification::create(
-            [
-                'user_id' => auth()->user()->id,
-                'text' => 'Yeni belge gönderildi. Kullanıcı : '.auth()->user()->email,
-                'item_id' => auth()->user()->id,
-            ]
-        );
+        DocumentNotification::create([
+            'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
+            'text' => 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: ' . auth()->user()->email,
+            'item_id' => auth()->user()->parent_id ?? auth()->user()->id,
+            'link' => route('admin.user.show-corporate-account', ['user' => auth()->user()->parent_id ?? auth()->user()->id]),
+            'owner_id' => 4,
+            'is_visible' => true,
+        ]);
+        
 
         return redirect()->back();
     }
@@ -58,14 +60,15 @@ class ProfileController extends Controller
         $user = auth()->user();
         $identity_document = $user->identity_document;
 
-        if (is_null($identity_document))
+        if (is_null($identity_document)) {
             die('Belge yok.');
+        }
 
         $file = file_get_contents(storage_path("/app/{$identity_document}"));
         preg_match('@\.(\w+)$@', $identity_document, $match);
         $extension = $match[1] ?? 'png';
 
-        header('Content-Type: image/'.$extension);
+        header('Content-Type: image/' . $extension);
         echo $file;
     }
 

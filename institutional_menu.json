@@ -17,12 +17,11 @@
         "url": "institutional.profile.edit",
         "activePath": "institutional/profile/edit"
     },
-   
     {
         "id": "role",
         "label": "Hesabım & Yardım",
         "icon": "user",
-        "text": "Roller",
+        "text": "Kullanıcı Tipi Oluştur",
         "key": "Roles",
         "url": "#nv-role",
         "activePath": "institutional/roles*",
@@ -42,19 +41,10 @@
         ]
     },
     {
-        "id": "ChangePassword",
-        "label": "Hesabım & Yardım",
-        "icon": "lock",
-        "text": "Şifreyi Değiştir",
-        "key": "ChangePassword",
-        "url": "institutional.password.edit",
-        "activePath": "institutional/password/edit"
-    },
-    {
         "id": "user",
         "label": "Hesabım & Yardım",
         "icon": "user",
-        "text": "Alt Kullanıcılar",
+        "text": "Alt Kullanıcı Oluştur",
         "key": "Users",
         "url": "#nv-users",
         "activePath": "institutional/users*",
@@ -73,6 +63,16 @@
             }
         ]
     },
+    {
+        "id": "ChangePassword",
+        "label": "Hesabım & Yardım",
+        "icon": "lock",
+        "text": "Şifreyi Değiştir",
+        "key": "ChangePassword",
+        "url": "institutional.password.edit",
+        "activePath": "institutional/password/edit"
+    },
+  
     {
         "id": "projects",
         "label": "Emlak Sepette",

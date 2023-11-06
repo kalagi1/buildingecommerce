@@ -28,6 +28,7 @@
                             <th class="pl-2">Konut</th>
                             <th class="p-0"></th>
                             <th class="pl-2">Fiyat</th>
+                            <th>Sepete Ekle</th>
                             <th>Kaldır</th>
                             <th></th>
                         </tr>
@@ -89,36 +90,54 @@
 
                                 </tr>
                             @endforeach
-                            {{-- @foreach ($projectFavorites as $key => $item)
+                            @foreach ($projectFavorites as $key => $item)
                                 @php($data = $item->projectHousing->pluck('value', 'key')->toArray())
-                                @php($discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
+                                @php(
+    $discount_amount =
+        App\Models\Offer::where('type', 'project')->where('project_id', $item->project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+)
+                                @php($sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($item->project, 'price[]', $key + 1)->room_order, $item->project->id]) ?? false)
+
                                 <tr>
                                     <td class="image myelist">
                                         <a
-                                            href="{{ route('project.housings.detail', [$item->project->slug,  getHouse($item->project, 'squaremeters[]', $key + 1)->room_order]) }}"><img
+                                            href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $item->housing_id)->room_order]) }}"><img
                                                 alt="my-properties-3"
-                                                src="{{ asset('project_housing_images/') . '/' . $data['Kapak Resmi'] }}"
+                                                src="{{ URL::to('/') . '/project_housing_images/' . getHouse($item->project, 'image[]', $item->housing_id)->value }}"
                                                 class="img-fluid"></a>
                                     </td>
                                     <td>
                                         <div class="inner">
                                             <a
-                                                href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $key + 1)->room_order]) }}">
+                                                href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $item->housing_id)->room_order]) }}">
                                                 <h2 style="font-weight: 600">
-                                                    {{ $data['m² (Net)'] . ' metrekare ' . $data['Oda Sayısı'] }}</h2>
+                                                    {{ getHouse($item->project, 'squaremeters[]', $item->housing_id)->value . ' metrekare ' . getHouse($item->project, 'room_count[]', $item->housing_id)->value }}
+                                                </h2>
                                                 <h2> {{ $item->project->project_title }}</h2>
                                             </a>
 
                                         </div>
                                     </td>
-                                    <td> {{ $item->project->address }}</td>
-                                    <td> {{ $data['Fiyat'] - $discount_amount }}₺</td>
                                     <td>
-                                        <button class="addToCart"
-                                            style="width: 120px; border: none; background-color: black; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                            data-type='project' data-project='{{ $item->project_id }}'
-                                            data-id={{ $item->housing_id }}>
-                                        </button>
+                                        {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 2, ',', '.') }}
+                                        ₺</td>
+                                    <td>
+                                        @if ($sold)
+                                            <button class="btn second-btn soldBtn" disabled
+                                                style="background: red !important;width:100%;color:White">
+                                                <span class="text">Rezerve Edildi</span>
+                                            </button>
+                                        @else
+                                            <button class="CartBtn" data-type='project'
+                                                data-project='{{ $item->project_id }}'
+                                                data-id='{{ getHouse($item->project, 'price[]', $item->housing_id)->room_order }}'>
+                                                <span class="IconContainer">
+                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                </span>
+                                                <span class="text">Sepete Ekle</span>
+                                            </button>
+                                        @endif
+
                                     </td>
                                     <td class="actions">
                                         <a href="#" class="remove-from-project-cart"
@@ -127,7 +146,7 @@
                                                 class="far fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         @endif
 
                     </tbody>
