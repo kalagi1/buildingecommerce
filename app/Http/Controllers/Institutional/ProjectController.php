@@ -68,6 +68,29 @@ class ProjectController extends Controller
             $tempData = json_decode('{}');
             $hasTemp = false;
         }
+        $areaSlugs = [];
+        if(isset($tempDataFull) && $tempData->step1_slug){
+            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
+            array_push($areaSlugs,$topParent->title);
+            $secondAreaList = HousingTypeParent::where('parent_id',$topParent->id)->get();
+        }else{
+            $secondAreaList = null;
+        }
+
+        if(isset($tempDataFull) && $tempData->step2_slug){
+            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
+            $topParentSecond = HousingTypeParent::where('parent_id',$topParent->id)->where('slug',$tempData->step2_slug)->first();
+            array_push($areaSlugs,$topParentSecond->title);
+            $housingTypes = HousingTypeParentConnection::where("parent_id",$topParentSecond->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->get();
+        }else{
+            $housingTypes = null;
+        }
+        
+        if(isset($tempDataFull) && $tempData->step3_slug){
+            $housingTypeTemp = HousingTypeParentConnection::where('slug',$tempData->step3_slug)->where("parent_id",$topParentSecond->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->first();
+            
+            array_push($areaSlugs,$housingTypeTemp->title);
+        }
 
         if($tempDataFull && isset($tempData->statuses)){
             $selectedStatuses = HousingStatus::whereIn("id",$tempData->statuses)->get();
@@ -81,7 +104,7 @@ class ProjectController extends Controller
         }
 
         $userPlan = UserPlan::where('user_id',auth()->user()->id)->first();
-        return view('institutional.projects.createv2',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan','hasTemp'));
+        return view('institutional.projects.createv2',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan','hasTemp','secondAreaList','housingTypes','areaSlugs'));
     }
 
     public function editV2($slug){
@@ -102,6 +125,7 @@ class ProjectController extends Controller
             $tempData = json_decode($tempDataFull->data);
             $tempData->step3_slug = $housingType->slug;
         }else{
+            TempOrder::where('item_type',3)->where('user_id',auth()->user()->id)->delete();
             if($tempDataFull){
                 $tempData = $tempDataFull;
                 $tempData->roomInfoKeys = $tempDataFull->roomInfo;
@@ -795,14 +819,6 @@ class ProjectController extends Controller
             "status" => "2"
         ]);
 
-        ProjectHousingType::where('project_id',$tempData->id)->delete();
-        foreach($tempData->statuses as $status){
-            ProjectHousingType::create([
-                "project_id" => $tempData->id,
-                "housing_type_id" => $status
-            ]);
-        }
-
         ProjectImage::where('project_id',$tempData->id)->delete();
         foreach($tempData->images as $key => $image){
             $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
@@ -812,9 +828,31 @@ class ProjectController extends Controller
         }
 
         foreach($tempData->roomInfoKeys as $roomInfo){
-            ProjectHousing::where('name',$roomInfo->name)->where('project_id',$tempData->id)->where('room_order',$roomInfo->room_order)->update([
-                "value" => $roomInfo->value
-            ]);
+            if(isset($roomInfo->new_value) && $roomInfo->new_value == 1){
+                if($roomInfo->name == "price[]" || $roomInfo->name == "installments-price[]" || $roomInfo->name == "installments[]"){
+                    ProjectHousing::create([
+                        "key" => $roomInfo->key,
+                        "name" => $roomInfo->name,
+                        "value" => str_replace('.','',$roomInfo->value),
+                        "project_id" => $tempData->id,
+                        "room_order" => $roomInfo->room_order,
+                    ]);
+                }else{
+                    ProjectHousing::create([
+                        "key" => $roomInfo->key,
+                        "name" => $roomInfo->name,
+                        "value" => $roomInfo->value,
+                        "project_id" => $tempData->id,
+                        "room_order" => $roomInfo->room_order,
+                    ]);
+                }
+                
+            }else{
+                ProjectHousing::where('name',$roomInfo->name)->where('project_id',$tempData->id)->where('room_order',$roomInfo->room_order)->update([
+                    "value" => $roomInfo->value
+                ]);
+            }
+            
         }
 
         $tempOrder->delete();

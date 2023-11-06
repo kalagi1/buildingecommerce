@@ -101,7 +101,7 @@
                         <span id="generate_tabs" class=" d-none btn btn-primary mb-5">Daireleri Oluştur</span>
                         <div class="row">
                             <div class="col-sm-3">
-                                <div id="tablist" class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab h-100 justify-content-between" role="tablist" aria-orientation="vertical">
+                                <div id="tablist" class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab h-100" role="tablist" aria-orientation="vertical">
         
                                 </div>
                             </div>
@@ -144,32 +144,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="address mt-4">
-                            <span class="section-title">Konut Statü Bilgileri</span>
-                            <div class="card">
-                                <div class="row px-5 py-4">
-                                    <div class="col-md-12 statue-text">
-                                        <label for="">Proje Konutlarının Statüsü Nedir? <span class="required">*</span></label>
-                                        <select multiple name="housing_status" id="housing_status" aria-label="category">
-                                            
-                                            <option value="" selected="">Tİp Seç:</option>
-                                            @foreach ($housing_status as $status)
-                                                <option @if(isset($tempData->statuses) && in_array($status->id,$tempData->statuses)) selected @endif value="{{ $status->id }}">{{ $status->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <span class="section-title mt-4">Kapak Fotoğrafı</span>
                         <div class="cover-photo-full card py-2 px-5">
                             <input type="file" name="cover-image" class="cover_image d-none">
-                            <div class="cover-photo-area">
-                                <div class="icon">
-                                    <i class="fa fa-camera"></i>
+                            <div class="upload-container col-md-2 cover-photo-area">
+                                <div class="border-container">
+                                  <div class="icons fa-4x">
+                                    <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
+                                  </div>
+                                  <!--<input type="file" id="file-upload">-->
+                                  <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
                                 </div>
-                                <label for="">Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></label>
-                            </div>
+                              </div>
                             <div class="cover-photo">
                                 @if(isset($tempData->image) &&$tempData->image)
                                     <div class="project_imagex">
@@ -178,14 +164,17 @@
                                 @endif
                             </div>
                         </div>
-                        <span class="section-title mt-4">Fotoğraf</span>
+                        <span class="section-title mt-4">Proje Galerisi</span>
                         <div class="photo card py-2 px-5">
                             <input type="file" name="project-images" class="project_image d-none">
-                            <div class="photo-area">
-                                <div class="icon">
-                                    <i class="fa fa-camera"></i>
+                            <div class="upload-container col-md-2 photo-area">
+                                <div class="border-container">
+                                  <div class="icons fa-4x">
+                                    <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
+                                  </div>
+                                  <!--<input type="file" id="file-upload">-->
+                                  <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
                                 </div>
-                                <label for="">Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></label>
                             </div>
                             <div class="photos">
                                 @if(isset($tempData->images) && $tempData->images)
@@ -302,32 +291,33 @@
                 }
             })
         })
+        
 
         function confirmHousings(){
-            for(var i = 0 ; i < $('.tab-pane').length; i++){
-                var confirm = 1;
-                $('.tab-pane').eq(i).find('input[required="required"]').map((key,item) => {
-                    if(!$(item).val()){
+                for(var i = 0 ; i < $('.tab-pane').length; i++){
+                    var confirm = 1;
+                    $('.tab-pane').eq(i).find('input[required="required"]').map((key,item) => {
+                        if(!$(item).val() && $(item).attr('type') != "file"){
+
+                            confirm = 0;
+                        }
+                    })
+                    $('.tab-pane').eq(i).find('select[required="required"]').map((key,item) => {
+                        if(!$(item).val() || $(item).val() == "Seçiniz"){
+
+                            confirm = 0;
+                        }
+                    })
+                    if($('.tab-pane').eq(i).find('input[type="file"]').closest('.formbuilder-file').find('.project_imaget').length == 0){
                         confirm = 0;
                     }
-                })
 
-                $('.tab-pane').eq(i).find('select[required="required"]').map((key,item) => {
-                    if(!$(item).val()){
-                        confirm = 0;
+                    if(confirm){
+                        $('#tablist>.item-left-area').eq(i).addClass('confirm');
                     }
-                })
-
-                if(!$('.tab-pane').eq(i).find('input[type="file"]').val()){
-                    confirm = 0;
                 }
-
-                if(confirm){
-                    $('#tablist>a').eq(i).addClass('confirm');
-                }
+                
             }
-            
-        }
 
         $('#cities').change(function(){
             if($(this).val() != ""){
@@ -640,25 +630,39 @@
                         renderedForm.formRender(formRenderOpts);
                         var renderHtml = renderedForm.html().toString();
                         renderHtml = renderHtml.toString().split('images[][]');
-                        renderHtml = renderHtml[0]+'images'+i+'[][]'+renderHtml[1];
+                        renderHtml = renderHtml[0];
                         var json = JSON.parse(response.form_json);
                         for(var lm = 0 ; lm < json.length; lm++){
                             if(json[lm].type == "checkbox-group"){
-                            var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
-                            renderHtmlx = "";
-                            var json = JSON.parse(response.form_json);
-                            for(var t = 0 ; t < renderHtml.length ; t++){
-                                if(t != renderHtml.length - 1){
-                                renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
-                                }else{
-                                renderHtmlx += renderHtml[t];
+                                var json = JSON.parse(response.form_json);
+                                var renderHtml = renderHtml.toString().split(json[lm].name+'-');
+                                renderHtmlx = "";
+                                for(var t = 0 ; t < renderHtml.length ; t++){
+                                    if(t != renderHtml.length - 1){
+                                        renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[]-'+i;
+                                    }else{
+                                        renderHtmlx += renderHtml[t];
+                                    }
                                 }
-                            }
 
-                            renderHtml = renderHtmlx;
+                                renderHtml = renderHtmlx;
+                                var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
+                                renderHtmlx = "";
+                                var json = JSON.parse(response.form_json);
+                                for(var t = 0 ; t < renderHtml.length ; t++){
+                                    if(t != renderHtml.length - 1){
+                                    renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
+                                    }else{
+                                    renderHtmlx += renderHtml[t];
+                                    }
+                                }
+
+
+                                renderHtml = renderHtmlx;
+
+                            
                             }
                         }
-                        console.log(renderHtmlx);
                         $('#renderForm'+(i)).html(renderHtmlx);
 
                         if(i > 1 && i != $('.tab-pane').length){
@@ -675,18 +679,13 @@
                     $('.next_house').click(function(){
                         var nextHousing = true;
                         $('.tab-pane.active input[required="required"]').map((key,item) => {
-                            if(!$(item).val()){
+                            if(!$(item).val() && $(item).attr('type') != "file"){
                                 nextHousing = false;
                                 $(item).addClass("error-border")
                             }
                         })
-                        if($('.tab-pane.active input[required="required"]').val() == ""){
-                                nextHousing = false;
-                                $('.tab-pane.active input[name="price[]"]').addClass('error-border')
-                            }
-
                         $('.tab-pane.active select[required="required"]').map((key,item) => {
-                            if(!$(item).val()){
+                            if(!$(item).val() || $(item).val() == "Seçiniz"){
                                 nextHousing = false;
                                 $(item).addClass("error-border")
                             }
@@ -700,20 +699,22 @@
                             }
                         })
 
-                        if($('.tab-pane.active input[required="required"]').val() == ""){
-                            nextHousing = false;
-                            $('.tab-pane.active input[name="price[]"]').addClass('error-border')
-                        }
                         var indexItem = $('.tab-pane.active').index();
                         if(nextHousing){
+                            $('html, body').animate({
+                                scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
+                            }, 100);
                             $('.tab-pane.active').removeClass('active');
                             $('.tab-pane').eq(indexItem + 1).addClass('active');
+                            $('.item-left-area p').removeClass('active');
+                            $('.item-left-area').eq(indexItem + 1).find('p').addClass('active');
                         }else{
                             $('html, body').animate({
                                 scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
                             }, 100);
                         }
                     })
+
 
                     $('.prev_house').click(function(){
                         
@@ -765,9 +766,18 @@
                                     console.log(getOldData(i,inputName),inputName)
                                     if(getOldData(i,inputName)){
                                         JSON.parse(getOldData(i,inputName)).map((checkbox) => {
-                                        console.log();
-                                            if($(item).attr("value") != undefined && checkbox.trim() == $(item).attr("value").trim()){
-                                                $(item).attr('checked','checked')
+                                            
+                                            if($(item).attr("value").trim() == "taksitli"){
+                                                if($(item).attr("value") != undefined && checkbox.trim() == $(item).attr("value").trim()){
+                                                    $(item).closest('.tab-pane').find('second-payment-plan').closest('div').removeClass('d-none')
+                                                    $(item).attr('checked','checked')
+                                                }else{
+                                                    $(item).closest('.tab-pane').find('second-payment-plan').closest('div').addClass('d-none')
+                                                }
+                                            }else{ 
+                                                if($(item).attr("value") != undefined && checkbox.trim() == $(item).attr("value").trim()){
+                                                    $(item).attr('checked','checked')
+                                                }
                                             }
                                         })
                                     }
@@ -864,70 +874,61 @@
                         
                     })
 
+                    $('.tab-pane select[multiple="false"]').removeAttr('multiple')
+                    $('input[value="taksitli"]').change(function(){
+                        if($(this).is(':checked')){
+                            $('.second-payment-plan').closest('div').removeClass('d-none');
+                        }else{
+                            $('.second-payment-plan').closest('div').addClass('d-none');
+                        }
+                    })
                     
                     $('.copy-item').change(function(){
-                        var order = parseInt($(this).val()) - 1;
-                        var currentOrder = parseInt($(this).closest('.item-left-area').index());
-                        for(var lm = 0 ; lm < json.length; lm++){
-                            if(json[lm].type == "checkbox-group"){
-                            for(var i = 0 ; i < json[lm].values.length; i++){
-                                var isChecked = $('input[name="'+(json[lm].name.replace('[]',''))+(order+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').is(':checked')
-                                if(isChecked){
+                            var transactionIndex = 0;
+                            $('.tab-pane').prepend('<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>');
+                            var order = parseInt($(this).val()) - 1;
+                            var currentOrder = parseInt($(this).closest('.item-left-area').index());
+                            var arrayValues = {};
+                            for(var lm = 0 ; lm < json.length; lm++){
+                                if(json[lm].type == "checkbox-group"){
+                                    arrayValues[json[lm].name.replace("[]", "").replace("[]", "")+(currentOrder + 1)] = [];
+                                    for(var i = 0 ; i < json[lm].values.length; i++){
+                                        var isChecked = $('input[name="'+(json[lm].name.replace('[]',''))+(order+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').is(':checked')
+                                        if(isChecked){
+                                                $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',true)
+                                            
+                                            arrayValues[json[lm].name.replace("[]", "").replace("[]", "")+(currentOrder + 1)].push(json[lm].values[i].value)
+                                        }else{
+                                            transactionIndex++;
+                                            $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',false)
+                                        }
+                                    }
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr("content");
                                     formData.append('_token', csrfToken);
-                                    formData.append('value', json[lm].values[i].value);
+                                    formData.append('value', JSON.stringify(arrayValues));
                                     formData.append('order',currentOrder);
                                     formData.append('key',json[lm].name.replace("[]", "").replace("[]", "")+(currentOrder + 1));
                                     formData.append('item_type',3);
                                     formData.append('checkbox',"1");
                                     $.ajax({
                                         type: "POST",
-                                        url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                        url: "{{route('institutional.temp.order.copy.checkbox')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                                         data: formData,
                                         processData: false,
                                         contentType: false,
                                         success: function(response) {
+                                            if(transactionIndex+1 == json.length){
+                                                $('.loading-icon-right').remove();
+                                            }
+
+                                            transactionIndex++;
                                         },
                                     });
-                                    $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',true)
-                                }else{
-                                    $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',false)
-                                }
-                            }
-                            }else if(json[lm].type == "select"){
-                                var value = $('select[name="'+(json[lm].name)+'"]').eq(order).val();
-                                $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option').removeAttr('selected')
-                                $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value[0]+'"]').prop('selected',true);
-                                var formData = new FormData();
-                                var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                console.log(value);
-                                formData.append('_token', csrfToken);
-                                formData.append('value', value);
-                                formData.append('order',currentOrder);
-                                formData.append('key',json[lm].name.replace("[]", "").replace("[]", ""));
-                                formData.append('item_type',3);
-                                $.ajax({
-                                    type: "POST",
-                                    url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                    data: formData,
-                                    processData: false,
-                                    contentType: false,
-                                    success: function(response) {
-                                    },
-                                });
-
-                                confirmHousings();
-                            }else if(json[lm].type == "file" && json[lm].name == "image[]"){
-                                var files = $('input[name="'+(json[lm].name)+'"]').eq(order)[0].files;
-                                var input2 = $('input[name="'+(json[lm].name)+'"]').eq(currentOrder);
-                                for (var i = 0; i < files.length; i++) {
-                                    var file = files[i];
-                                    input2.prop("files",files);
-                                }
-                            }else if(json[lm].type != "file"){
-                                if(json[lm].name){
-                                    var value = $('input[name="'+(json[lm].name)+'"]').eq(order).val();
+                                }else if(json[lm].type == "select"){
+                                    var value = $('select[name="'+(json[lm].name)+'"]').eq(order).val();
+                                    $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option').removeAttr('selected')
+                                    $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value+'"]').prop('selected',true);
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr("content");
                                     formData.append('_token', csrfToken);
@@ -942,16 +943,70 @@
                                         processData: false,
                                         contentType: false,
                                         success: function(response) {
+                                            if(transactionIndex+1 == json.length){
+                                                $('.loading-icon-right').remove();
+                                            }
+                                            transactionIndex++;
                                         },
                                     });
 
                                     confirmHousings();
-                                    $('input[name="'+(json[lm].name)+'"]').eq(currentOrder).val(value);
+                                }else if(json[lm].type == "file" && json[lm].name == "image[]"){
+                                    
+                                    var formData = new FormData();
+                                    var csrfToken = $("meta[name='csrf-token']").attr("content");
+                                    formData.append('_token', csrfToken);
+                                    formData.append('lastorder',order);
+                                    formData.append('order',currentOrder);
+                                    formData.append('item_type',3);
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{route('institutional.copy.item.image')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                        data: formData,
+                                        processData: false,
+                                        contentType: false,
+                                        success: function(response) {
+                                            if(transactionIndex+1 == json.length){
+                                                $('.loading-icon-right').remove();
+                                            }
+                                            transactionIndex++;
+                                        },
+                                    });
+                                    var cloneImage = $('.tab-pane').eq(order).find('.project_imaget').clone();
+                                    $('.tab-pane.active').find('.cover-image-by-housing-type').parent('div').find('.project_imaget').remove();
+                                    $('.tab-pane.active').find('.cover-image-by-housing-type').parent('div').append(cloneImage)
+                                }else if(json[lm].type != "file"){
+                                    if(json[lm].name){
+                                        var value = $('input[name="'+(json[lm].name)+'"]').eq(order).val();
+                                        var formData = new FormData();
+                                        var csrfToken = $("meta[name='csrf-token']").attr("content");
+                                        formData.append('_token', csrfToken);
+                                        formData.append('value', value);
+                                        formData.append('order',currentOrder);
+                                        formData.append('key',json[lm].name.replace("[]", "").replace("[]", ""));
+                                        formData.append('item_type',3);
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                            data: formData,
+                                            processData: false,
+                                            contentType: false,
+                                            success: function(response) {
+                                                if(transactionIndex+1 == json.length){
+                                                    $('.loading-icon-right').remove();
+                                                }
+                                            transactionIndex++;
+                                            },
+                                        });
+
+                                        confirmHousings();
+                                        $('input[name="'+(json[lm].name)+'"]').eq(currentOrder).val(value);
+                                    }
+                                    
                                 }
-                                
                             }
-                        }
-                    })
+                            console.log(transactionIndex);
+                        })
                     
                     $('.rendered-form input').change(function(){
                         if($(this).attr('type') != "file"){
@@ -1614,68 +1669,51 @@
                         })
 
                         $('.copy-item').change(function(){
-                        var order = parseInt($(this).val()) - 1;
-                        var currentOrder = parseInt($(this).closest('.item-left-area').index());
-                        for(var lm = 0 ; lm < json.length; lm++){
-                            if(json[lm].type == "checkbox-group"){
-                            for(var i = 0 ; i < json[lm].values.length; i++){
-                                var isChecked = $('input[name="'+(json[lm].name.replace('[]',''))+(order+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').is(':checked')
-                                if(isChecked){
+                            var transactionIndex = 0;
+                            $('.tab-pane').prepend('<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>');
+                            var order = parseInt($(this).val()) - 1;
+                            var currentOrder = parseInt($(this).closest('.item-left-area').index());
+                            var arrayValues = {};
+                            for(var lm = 0 ; lm < json.length; lm++){
+                                if(json[lm].type == "checkbox-group"){
+                                    arrayValues[json[lm].name.replace("[]", "").replace("[]", "")+(currentOrder + 1)] = [];
+                                    for(var i = 0 ; i < json[lm].values.length; i++){
+                                        var isChecked = $('input[name="'+(json[lm].name.replace('[]',''))+(order+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').is(':checked')
+                                        if(isChecked){
+                                                $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',true)
+                                            
+                                            arrayValues[json[lm].name.replace("[]", "").replace("[]", "")+(currentOrder + 1)].push(json[lm].values[i].value)
+                                        }else{
+                                            transactionIndex++;
+                                            $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',false)
+                                        }
+                                    }
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr("content");
                                     formData.append('_token', csrfToken);
-                                    formData.append('value', json[lm].values[i].value);
+                                    formData.append('value', JSON.stringify(arrayValues));
                                     formData.append('order',currentOrder);
                                     formData.append('key',json[lm].name.replace("[]", "").replace("[]", "")+(currentOrder + 1));
                                     formData.append('item_type',3);
                                     formData.append('checkbox',"1");
                                     $.ajax({
                                         type: "POST",
-                                        url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                        url: "{{route('institutional.temp.order.copy.checkbox')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                                         data: formData,
                                         processData: false,
                                         contentType: false,
                                         success: function(response) {
+                                            if(transactionIndex+1 == json.length){
+                                                $('.loading-icon-right').remove();
+                                            }
+
+                                            transactionIndex++;
                                         },
                                     });
-                                    $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',true)
-                                }else{
-                                    $('input[name="'+(json[lm].name.replace('[]',''))+(currentOrder+1  )+'[][]"][value="'+json[lm].values[i].value+'"]'+'').prop('checked',false)
-                                }
-                            }
-                            }else if(json[lm].type == "select"){
-                                var value = $('select[name="'+(json[lm].name)+'"]').eq(order).val();
-                                $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option').removeAttr('selected')
-                                $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value[0]+'"]').prop('selected',true);
-                                var formData = new FormData();
-                                var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                console.log(value);
-                                formData.append('_token', csrfToken);
-                                formData.append('value', value);
-                                formData.append('order',currentOrder);
-                                formData.append('key',json[lm].name.replace("[]", "").replace("[]", ""));
-                                formData.append('item_type',3);
-                                $.ajax({
-                                    type: "POST",
-                                    url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                    data: formData,
-                                    processData: false,
-                                    contentType: false,
-                                    success: function(response) {
-                                    },
-                                });
-
-                                confirmHousings();
-                            }else if(json[lm].type == "file" && json[lm].name == "image[]"){
-                                var files = $('input[name="'+(json[lm].name)+'"]').eq(order)[0].files;
-                                var input2 = $('input[name="'+(json[lm].name)+'"]').eq(currentOrder);
-                                for (var i = 0; i < files.length; i++) {
-                                    var file = files[i];
-                                    input2.prop("files",files);
-                                }
-                            }else if(json[lm].type != "file"){
-                                if(json[lm].name){
-                                    var value = $('input[name="'+(json[lm].name)+'"]').eq(order).val();
+                                }else if(json[lm].type == "select"){
+                                    var value = $('select[name="'+(json[lm].name)+'"]').eq(order).val();
+                                    $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option').removeAttr('selected')
+                                    $('select[name="'+(json[lm].name)+'"]').eq(currentOrder).children('option[value="'+value+'"]').prop('selected',true);
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr("content");
                                     formData.append('_token', csrfToken);
@@ -1690,16 +1728,70 @@
                                         processData: false,
                                         contentType: false,
                                         success: function(response) {
+                                            if(transactionIndex+1 == json.length){
+                                                $('.loading-icon-right').remove();
+                                            }
+                                            transactionIndex++;
                                         },
                                     });
 
                                     confirmHousings();
-                                    $('input[name="'+(json[lm].name)+'"]').eq(currentOrder).val(value);
+                                }else if(json[lm].type == "file" && json[lm].name == "image[]"){
+                                    
+                                    var formData = new FormData();
+                                    var csrfToken = $("meta[name='csrf-token']").attr("content");
+                                    formData.append('_token', csrfToken);
+                                    formData.append('lastorder',order);
+                                    formData.append('order',currentOrder);
+                                    formData.append('item_type',3);
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{route('institutional.copy.item.image')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                        data: formData,
+                                        processData: false,
+                                        contentType: false,
+                                        success: function(response) {
+                                            if(transactionIndex+1 == json.length){
+                                                $('.loading-icon-right').remove();
+                                            }
+                                            transactionIndex++;
+                                        },
+                                    });
+                                    var cloneImage = $('.tab-pane').eq(order).find('.project_imaget').clone();
+                                    $('.tab-pane.active').find('.cover-image-by-housing-type').parent('div').find('.project_imaget').remove();
+                                    $('.tab-pane.active').find('.cover-image-by-housing-type').parent('div').append(cloneImage)
+                                }else if(json[lm].type != "file"){
+                                    if(json[lm].name){
+                                        var value = $('input[name="'+(json[lm].name)+'"]').eq(order).val();
+                                        var formData = new FormData();
+                                        var csrfToken = $("meta[name='csrf-token']").attr("content");
+                                        formData.append('_token', csrfToken);
+                                        formData.append('value', value);
+                                        formData.append('order',currentOrder);
+                                        formData.append('key',json[lm].name.replace("[]", "").replace("[]", ""));
+                                        formData.append('item_type',3);
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                            data: formData,
+                                            processData: false,
+                                            contentType: false,
+                                            success: function(response) {
+                                                if(transactionIndex+1 == json.length){
+                                                    $('.loading-icon-right').remove();
+                                                }
+                                            transactionIndex++;
+                                            },
+                                        });
+
+                                        confirmHousings();
+                                        $('input[name="'+(json[lm].name)+'"]').eq(currentOrder).val(value);
+                                    }
+                                    
                                 }
-                                
                             }
-                        }
-                    })
+                            console.log(transactionIndex);
+                        })
 
                         $('.rendered-form input').change(function(){
                             if($(this).attr('type') != "file"){
@@ -1982,6 +2074,8 @@
                 plugins: 'advlist autolink lists link image charmap print preview anchor',
                 toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | forecolor backcolor ',
                 menubar: false, // Menü çubuğunu tamamen devre dışı bırakır
+                contextmenu: "paste | link image inserttable | cell row column deletetable",
+                language : "tr",
 
                 // Görünümleri devre dışı bırakmak için aşağıdaki yapılandırmaları kullanın
                 file_browser_callback_types: 'image media',
@@ -2040,20 +2134,6 @@
                 topError = $('input[name="name"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
             }
 
-            if(!$('#housing_status').val()){
-                console.log("deneme")
-                next = false;
-                if(topError){
-                    if($('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                        topError = $('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                }else{
-                    topError = $('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                }
-                $('.statue-text .error-text').remove();
-                $('.statue-text').append('<span class="error-text">Konut statüsü seçmek zorunludur</span>')
-            }
-
 
             if(!$('#location').val()){
                 next = false;
@@ -2095,48 +2175,48 @@
             }
 
             $('.tab-pane.active input[required="required"]').map((key,item) => {
-                    if(!$(item).val()){
-                        next = false;
+                if(!$(item).val() && $(item).attr('type') != 'file'){
+                    next = false;
 
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
+                    if(topError){
+                        if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                             topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                         }
-                        $(item).addClass("error-border")
+                    }else{
+                        topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
-                })
+                    $(item).addClass("error-border")
+                }
+            })
 
-                $('.tab-pane.active input[type="file"]').map((key,item) => {
-                    if($(item).parent('div').find('.project_imaget').length == 0){
-                        next = false;
+            $('.tab-pane.active input[type="file"]').map((key,item) => {
+                if($(item).parent('div').find('.project_imaget').length == 0){
+                    next = false;
 
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
+                    if(topError){
+                        if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                             topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                         }
-                        $(item).addClass("error-border")
+                    }else{
+                        topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
-                })
+                    $(item).addClass("error-border")
+                }
+            })
 
-                $('.tab-pane.active select[required="required"]').map((key,item) => {
-                    if(!$(item).val()){
-                        next = false;
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
+            $('.tab-pane.active select[required="required"]').map((key,item) => {
+                if(!$(item).val() || $(item).val() == "Seçiniz"){
+                    next = false;
+                    if(topError){
+                        if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                             topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                         }
-                        $(item).addClass("error-border")
+                    }else{
+                        topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
-                })
+                    $(item).addClass("error-border")
+                }
+            })
 
             
 

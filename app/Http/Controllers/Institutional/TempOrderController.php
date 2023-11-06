@@ -99,7 +99,7 @@ class TempOrderController extends Controller
                     $data->roomInfoKeys = json_decode('{}');
                     isset($data->roomInfoKeys->{$request->input('key')}) ? (in_array($request->input('value'),$data->roomInfoKeys->{$request->input('key')}) ? array_filter($data->roomInfoKeys->{$request->input('key')}, function ($eleman,$request) { return $eleman != $request->input('value'); }) : $data->roomInfoKeys->{$request->input('key')}[count($data->roomInfoKeys->{$request->input('key')})] = $request->input('value')) : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
                 }
-                
+                echo json_encode($data->roomInfoKeys->{$request->input('key')});
             }else{
                 if(isset($data->roomInfoKeys)){
                     if($request->input('key') == "installments" || $request->input('key') == "advance" || $request->input('key') == "installments-price"){
@@ -107,7 +107,13 @@ class TempOrderController extends Controller
                             isset($data->roomInfoKeys->{$request->input('key')}) ? array_push($data->roomInfoKeys->{$request->input('key')},$request->input('value')) : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
                         }
                     }else{
-                        isset($data->roomInfoKeys->{$request->input('key')}) ? $data->roomInfoKeys->{$request->input('key')}[$request->input('order')] = $request->input('value') : $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                        if(isset($data->roomInfoKeys->{$request->input('key')})){
+                            $data->roomInfoKeys->{$request->input('key')}[$request->input('order')] = $request->input('value');
+                            $newArray = array_values($data->roomInfoKeys->{$request->input('key')});
+                            $data->roomInfoKeys->{$request->input('key')} = $newArray;
+                        }else{
+                            $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                        }
                     }
                 }else{
                     $data->roomInfoKeys = json_decode('{}');
@@ -147,7 +153,17 @@ class TempOrderController extends Controller
                 }
             }else{
                 if(isset($data->roomInfoKeys)){
-                    $data->roomInfoKeys[$this->returnOrder($request->input('key'),$request->input('order'),$data->roomInfoKeys)]->value = $request->input('value');
+                    if($this->returnOrder($request->input('key'),$request->input('order'),$data->roomInfoKeys)){
+                        $data->roomInfoKeys[$this->returnOrder($request->input('key'),$request->input('order'),$data->roomInfoKeys)]->value = $request->input('value');
+                    }else{
+                        array_push($data->roomInfoKeys,[
+                            "key" => "Yeni Veri",
+                            "name" => $request->input('key').'[]',
+                            "value" => $request->input('value'),
+                            "room_order" => $request->input('order') + 1,
+                            "new_value" => 1
+                        ]);
+                    }
                 }
             }
             if(!$tempOrder){
@@ -413,6 +429,28 @@ class TempOrderController extends Controller
         return json_encode([
             "status" => true
         ]);
+    }
+
+    public function copyCheckbox(Request $request){
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempData = json_decode($tempOrder->data);
+        $data = $tempData;
+        $items = json_decode($request->input('value'));
+        foreach($items as $key => $item){
+            $data->roomInfoKeys->{$key} = $item;
+        }
+        if(!$tempOrder){
+            TempOrder::create([
+                "user_id" => auth()->guard()->user()->id,
+                "data" => json_encode($data),
+                "item_type" => $request->input('item_type')
+            ]);
+        }else{
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                "data" => json_encode($data),
+            ]);
+        }
+        return $data;
     }
 
     public function getHousingTypeId($slug){
