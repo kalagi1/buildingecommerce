@@ -28,13 +28,12 @@
                     </path>
                 </svg><!-- <i class="fa-inverse fa-stack-1x text-primary-soft fas fa-percentage"></i> Font Awesome fontawesome.com --></span>
             <div class="col">
-                <h3
-                    class="mb-0 text-primary position-relative fw-bold">
+                <h3 class="mb-0 text-primary position-relative fw-bold">
                     <span class="bg-soft pe-2">
-                        @if ($userLog->plan && $userLog->plan->status != 2)
+                        @if ($userLog->plan && $userLog->plan->status != 2 && $userLog->plan->subscription_plan_id != null)
                             @if ($userLog->plan->status == 0)
-                                <span class="bg-soft pe-2 @if ($userLog->plan->status == 0)  text-orange @endif">
-                                   Ödeme site yöneticisi tarafından onaylandığında paketiniz aktif olacaktır.
+                                <span class="bg-soft pe-2 @if ($userLog->plan->status == 0) text-orange @endif">
+                                    Ödeme site yöneticisi tarafından onaylandığında paketiniz aktif olacaktır.
                                 </span>
                             @else
                                 <span class="bg-soft pe-2">
@@ -225,5 +224,4 @@
 @endsection
 
 @section('css')
-    
 @endsection

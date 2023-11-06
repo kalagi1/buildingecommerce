@@ -16,6 +16,7 @@ use App\Models\Log;
 use App\Models\SinglePrice;
 use App\Models\StandOutUser;
 use App\Models\TempOrder;
+use App\Models\User;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,7 @@ class HousingController extends Controller
 
     public function createV2()
     {
+        $userLog = User::where("id", auth()->user()->id)->with("plan.subscriptionPlan", "parent")->first();
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type', 2)->get();
         $cities = City::get();
@@ -60,7 +62,7 @@ class HousingController extends Controller
         }
 
         $userPlan = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where("status","1")->first();
-        return view('institutional.housings.create_v2', compact('housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan'));
+        return view('institutional.housings.create_v2', compact('housingTypeParent',"userLog", 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan'));
     }
 
     public function finishByTemp(Request $request)

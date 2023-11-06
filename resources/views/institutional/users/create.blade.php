@@ -8,13 +8,13 @@
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
                             <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">
-                                @if ($user->plan)
-                                    @if ($user->plan->status == '0')
+                                @if ($userLog->plan && $userLog->plan->status != 2 && $userLog->plan->subscription_plan_id != null)
+                                    @if ($userLog->plan->status == '0')
                                         Ödeme site yöneticisi tarafından onaylandığında paketiniz aktif olacaktır.
                                     @else
                                         Kalan Alt Kullanıcı Oluşturma Hakkınız :
-                                        {{ $user->plan->user_limit }} Adet
-                                        @if ($user->plan->user_limit === 0)
+                                        {{ $userLog->plan->user_limit }} Adet
+                                        @if ($userLog->plan->user_limit === 0)
                                             - Hakkınız Kalmadı
                                         @endif
                                     @endif
@@ -85,7 +85,7 @@
                             </div>
                             <div class="col-12">
                                 <button class="btn btn-primary" type="submit"
-                                    @if (!$user->plan || $user->plan->user_limit === 0 || $user->plan->status == '0') disabled @endif>Kaydet</button>
+                                    @if (!$userLog->plan || $userLog->plan->user_limit === 0 || $userLog->plan->status == '0') disabled @endif>Kaydet</button>
                             </div>
                         </form>
 

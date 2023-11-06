@@ -23,7 +23,7 @@
     @endif
     <div class="content">
         <h4 class="mb-2 lh-sm  @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
-            @if ($userLog->plan)
+            @if ($userLog->plan && $userLog->plan->status != 2 && $userLog->plan->subscription_plan_id != null)
                 @if ($userLog->plan->status == '0')
                     Ödeme site yöneticisi tarafından onaylandığında paketiniz aktif olacaktır.
                 @else
