@@ -3,24 +3,24 @@
 @section('content')
     <div class="content">
         <h4 class="mb-2 lh-sm @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
+        
 
-            @if ($userLog->plan && $userLog->plan->status != 2 && $userLog->plan->subscription_plan_id != null)
-                @if ($userLog->plan->status == '0' )
-                    Ödeme site yöneticisi tarafından onaylandığında paketiniz aktif olacaktır.
-                @else
-                    Kalan Konut Oluşturma Hakkınız :
-                    {{ $userLog->plan->housing_limit }} Adet
-                    @if ($userLog->plan->housing_limit === 0)
-                        - Hakkınız Kalmadı
-                    @endif
+            @if ($user->plan)
+                Kalan Konut Oluşturma Hakkınız :
+                {{ $user->plan->housing_limit }} Adet
+                @if ($user->plan->housing_limit === 0)
+                    - Hakkınız Kalmadı
                 @endif
             @else
                 Konut eklemek için bir paket satın almanız gerekiyor.
             @endif
         </h4>
 
-        <div class="breadcrumb  @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
+        <div class="breadcrumb  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
             <span>Emlak</span>
+            @foreach($areaSlugs as $slug)
+                <span class="breadcrumb-after-item">{{$slug}}</span>
+            @endforeach
         </div>
         <div class="mt-4">
             <div class="progress-area">
@@ -49,30 +49,42 @@
                 </div>
             </div>
             <div class="clear-both"></div>
-            <div class="firt-area @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
+            <div class="firt-area @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
                 <div class="row">
                     <div class="area-lists">
-                        <div class="area-list active">
-                            <ul>
-                                @foreach ($housingTypeParent as $parent)
-                                    <li @if (isset($tempData->step1_slug) && $tempData->step1_slug == $parent->slug) class="selected" @endif
-                                        slug="{{ $parent->slug }}">{{ $parent->title }}</li>
+                        <div class="area-listx">
+                            <ul >
+                                @foreach($housing_status as $status)
+                                    <li @if(isset($tempData->statuses) && in_array($status->id,$tempData->statuses)) class="selected" @endif attr-id="{{$status->id}}">{{$status->name}}</li>
                                 @endforeach
                             </ul>
                         </div>
-                        <div class="area-list ">
+                        <div class="area-list @if(isset($tempData->statuses) && count($tempData->statuses) > 1) active @endif">
                             <ul>
-                                <li slug="satilik">Satılık</li>
-                                <li slug="kiralik">Kiralık</li>
+                                @foreach($housingTypeParent as $parent)
+                                <li @if(isset($tempData->step1_slug) && $tempData->step1_slug == $parent->slug) class="selected" @endif slug="{{$parent->slug}}">{{$parent->title}}</li>
+                                @endforeach
                             </ul>
                         </div>
-                        <div class="area-list ">
+                        <div class="area-list @if(isset($tempDataFull->data) && $tempData->step1_slug) active @endif">
                             <ul>
-                                <li slug="daire">Daire</li>
-                                <li slug="villa">Villa</li>
+                                @if(isset($tempDataFull->data) && $tempData->step1_slug)
+                                    @foreach($secondAreaList as $secondAreaItem)
+                                        <li @if($tempData->step2_slug == $secondAreaItem->slug) class="selected" @endif slug="{{$secondAreaItem->slug}}">{{$secondAreaItem->title}}</li>
+                                    @endforeach
+                                @endif
                             </ul>
                         </div>
-                        <div class="area-list ">
+                        <div class="area-list @if(isset($tempDataFull->data) && $tempData->step2_slug) active @endif">
+                            <ul>
+                                @if(isset($tempDataFull->data) && $tempData->step1_slug && $tempData->step2_slug)
+                                    @foreach($housingTypes as $housingType)
+                                        <li @if($tempData->step3_slug == $housingType->slug) class="selected" @endif slug="{{$housingType->slug}}">{{$housingType->title}}</li>
+                                    @endforeach
+                                @endif
+                            </ul>
+                        </div>
+                        <div class="area-list @if(isset($tempDataFull->data) && $tempData->step3_slug) active @endif">
                             <div class="finish-category-select">
                                 <div class="finish-icon-area">
                                     <i class="fa fa-check"></i>
@@ -81,7 +93,7 @@
                                     <p>Kategori Seçimi Tamanlanmıştır</p>
                                 </div>
                                 <div class="finish-button-first">
-                                    <button class="btn btn-info" @if (!$userLog->plan || $userLog->plan->housing_limit === 0 || $userLog->plan->status == '0') disabled @endif>
+                                    <button class="btn btn-info">
                                         Devam
                                     </button>
                                 </div>
@@ -96,6 +108,9 @@
                         <span class="section-title">Kategori</span>
                         <div class="card px-5 py-2 breadcrumb breadcrumb-v2" style="display: flex;flex-direction:row;">
                             <div class="icon"><i class="fa fa-house"></i></div> Emlak
+                            @foreach($areaSlugs as $slug)
+                                <span class="breadcrumb-after-item">{{$slug}}</span>
+                            @endforeach
                         </div>
                     </div>
                     <div class="form-area mt-4">
@@ -158,174 +173,72 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="address mt-4">
-                            <span class="section-title">Konut Statü Bilgileri</span>
-                            <div class="card">
-                                <div class="row px-5 py-4">
-                                    <div class="col-md-12 statue-text">
-                                        <label for="">Proje Konutlarının Statüsü Nedir? <span
-                                                class="required">*</span></label>
-                                        <select multiple name="housing_status" id="housing_status" aria-label="category">
-                                            <option value="" selected="">Tİp Seç:</option>
-                                            @foreach ($housing_status as $status)
-                                                <option @if (isset($tempData->statuses) && in_array($status->id, $tempData->statuses)) selected @endif
-                                                    value="{{ $status->id }}">{{ $status->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="section-title mt-4">Vekalet Belgesi</span>
-                        <div class="cover-photo-full card py-2 px-5">
-                            <input type="file" name="cover-image" class="document d-none">
-                            <div class="cover-document-area">
-                                <div class="icon">
-                                    <i class="fa fa-file"></i>
-                                </div>
-                                <label for="">Bilgisayardan Dosya Ekle</label>
-                            </div>
-                            <div class="cover-document">
-                                @if (isset($tempData->document) && $tempData->document)
-                                    <div class="has_file">
-                                        <span class="d-block">Dosya Eklediniz</span>
-                                        <a class="btn btn-info"
-                                            href="{{ URL::to('/') }}/housing_documents/{{ $tempData->document }}"
-                                            download="">Mevcut Dosyayı İndir</a>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
                         <span class="section-title mt-4">Kapak Fotoğrafı</span>
                         <div class="cover-photo-full card py-2 px-5">
                             <input type="file" name="cover-image" class="cover_image d-none">
-                            <div class="cover-photo-area">
-                                <div class="icon">
-                                    <i class="fa fa-camera"></i>
+                            <div class="upload-container col-md-2 cover-photo-area">
+                                <div class="border-container">
+                                  <div class="icons fa-4x">
+                                    <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
+                                  </div>
+                                  <!--<input type="file" id="file-upload">-->
+                                  <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
                                 </div>
-                                <label for="">Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></label>
-                            </div>
+                              </div>
                             <div class="cover-photo">
-                                @if (isset($tempData->cover_image) && $tempData->cover_image)
+                                @if(isset($tempData->cover_image) && $tempData->cover_image)
                                     <div class="project_imagex">
-                                        <img src="{{ URL::to('/') }}/project_images/{{ $tempData->cover_image }}"
-                                            alt="">
+                                        <img src="{{URL::to('/')}}/project_images/{{$tempData->cover_image}}" alt="">
                                     </div>
                                 @endif
                             </div>
                         </div>
-                        <span class="section-title mt-4">Fotoğraf</span>
+                        <span class="section-title mt-4">Proje Galerisi</span>
                         <div class="photo card py-2 px-5">
-                            <input type="file" name="project-images" class="project_image d-none">
-                            <div class="photo-area">
-                                <div class="icon">
-                                    <i class="fa fa-camera"></i>
+                            <input type="file" multiple name="project-images" class="project_image d-none">
+                            <div class="upload-container col-md-2 photo-area">
+                                <div class="border-container">
+                                  <div class="icons fa-4x">
+                                    <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
+                                  </div>
+                                  <!--<input type="file" id="file-upload">-->
+                                  <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
                                 </div>
-                                <label for="">Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></label>
                             </div>
                             <div class="photos">
-                                @if (isset($tempData->images) && $tempData->images)
-                                    @foreach ($tempData->images as $image)
-                                        <div class="project_imagex">
-                                            <img src="{{ URL::to('/') }}/project_images/{{ $image }}"
-                                                alt="">
+                                @if(isset($tempData->images) && $tempData->images)
+                                    @foreach($tempData->images as $image)
+                                        <div class="project_imagex"  order="{{$image}}">
+                                            <img src="{{URL::to('/')}}/project_images/{{$image}}" alt="">
+                                            <div class="image-buttons">
+                                                <i class="fa fa-trash"></i>
+                                            </div>
                                         </div>
                                     @endforeach
                                 @endif
                             </div>
                         </div>
-                        <span class="section-title mt-4">İlan Süresi</span>
-                        <div class="pricing card py-2 px-5">
-
-                            <div class="row pricing-select-first @if (
-                                (isset($userLogPlan) &&
-                                    $userLogPlan->housing_limit > 0 &&
-                                    (isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1)) ||
-                                    !isset($tempData->{"pricing-type"})) @else d-none @endif">
-                                <div class="col-md-6">
-                                    <div class="pricing-item-first" style="width: 100%;">
-                                        <div class="pricing-item-inner" onclick="changeData(1,'pricing-type')">
-                                            <span class="btn btn-primary remaining_projects">
-                                                @if ($userLog->plan)
-                                                    Kalan Konut Oluşturma Hakkınız :
-                                                    {{ $userLog->plan->housing_limit }} Adet
-                                                    @if ($userLog->plan->housing_limit === 0)
-                                                        - Hakkınız Kalmadı
-                                                    @endif
-                                                @else
-                                                    Konut eklemek için bir paket satın almanız gerekiyor.
-                                                @endif
-                                            </span>
-                                            <div style="margin-right: 20px">
-                                                <input type="radio" style="display: none;margin:0 auto;">
-                                                <div class="price-radio @if (isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1) select @endif">
-                                                    <div class="inside"></div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <h3>Paket Sayımdan Düş</h3>
-                                                <span>Paketinizde ki ilanların yayın süresi 2 aydır</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="pricing-item-first" style="width: 100%;">
-                                        <div class="pricing-item-inner" onclick="changeData(2,'pricing-type')">
-                                            <div style="margin-right: 20px">
-                                                <input type="radio" style="display: none;margin:0 auto;">
-                                                <div class="price-radio @if (isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 2) select @endif">
-                                                    <div class="inside"></div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <h3>Tekil Fiyat</h3>
-                                                <span>Bir proje fiyatı üzerinden öde</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <span class="section-title mt-4">Ruhsat Belgesi / Tapu Belgesi</span>
+                        <div class="cover-photo-full card py-2 px-5">
+                            <input type="file" name="cover-image" class="document d-none">
+                            <div class="upload-container col-md-2 cover-document-area">
+                                <div class="border-container">
+                                  <div class="icons fa-4x mb-4">
+                                    <i class="fas fa-file-image" data-fa-transform="shrink-3 down-2 left-6 rotate--45"></i>
+                                    <i class="fas fa-file-alt" data-fa-transform="shrink-2 up-4"></i>
+                                    <i class="fas fa-file-pdf" data-fa-transform="shrink-3 down-2 right-6 rotate-45"></i>
+                                  </div>
+                                  <!--<input type="file" id="file-upload">-->
+                                  <p>Bilgisayardan Dosya Ekle <span>veya sürükle bırak</span></p>
                                 </div>
                             </div>
-
-                            <div class="row single-price-project-area @if (
-                                (isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1) ||
-                                    !isset($userLogPlan) ||
-                                    (isset($userLogPlan) && $userLogPlan->housing_limit == 0) ||
-                                    !isset($tempData->{"pricing-type"})) d-none @endif">
-                                <div>
-                                    <label for="" class="c-pointer redirect-back-pricing"><i
-                                            class="fa fa-chevron-left"></i> Seçime geri dön</label>
-                                </div>
-                                @foreach ($prices as $price)
-                                    <div class="col-md-4">
-                                        <div class="pricing-item" onclick="changeData({{ $price->id }},'price_id')">
-                                            <div class="pricing-item-inner">
-                                                <div style="margin-right: 20px">
-                                                    <input type="radio" style="display: none;margin:0 auto;">
-                                                    <div
-                                                        class="price-radio @if (isset($tempData->price_id) && $price->id == $tempData->price_id) select @endif">
-                                                        <div class="inside"></div>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <h3>{{ $price->month }} Aylık İlan</h3>
-                                                    <span>({{ $price->month * 30 }} Gün Yayın Süresi)</span>
-                                                </div>
-                                            </div>
-                                            <div class="price pricing-item-inner">
-                                                @if ($price->old_price)
-                                                    <span class="old_price">{{ $price->old_price }}₺</span>
-                                                @endif
-
-                                                @if ($price->price == 0)
-                                                    <span class="new_price">Ücretsiz</span>
-                                                @else
-                                                    <span class="new_price">{{ $price->price }}₺</span>
-                                                @endif
-                                            </div>
-                                        </div>
+                            <div class="cover-document">
+                                @if(isset($tempData->document) && $tempData->document)
+                                    <div class="has_file">
+                                        <span class="d-block">Dosya Eklediniz</span>
+                                        <a class="btn btn-info" href="{{URL::to('/')}}/housing_documents/{{$tempData->document}}" download="">Mevcut Dosyayı İndir</a>
                                     </div>
-                                @endforeach
+                                @endif
                             </div>
                         </div>
                         <div class="second-area-finish">
@@ -334,7 +247,7 @@
                                 <span class="rulesOpen">İlan verme kurallarını</span>
                                 <span>okudum, kabul ediyorum</span>
                             </div>
-                            <div class="finish-button" style="float:right;margin:0;">
+                            <div class="finish-buttonx" style="float:right;margin:0;">
                                 <button class="btn btn-info">
                                     Devam
                                 </button>
@@ -437,6 +350,56 @@
                 0
             @endif ;
 
+
+        $('.project_imagex .image-buttons').click(function(){
+            var thisx = $(this);
+            $.ajax({
+                url: '{{route("institutional.delete.image.order.temp.update")}}',
+                type: 'POST',
+                data: { 
+                    image: $(this).closest('.project_imagex').attr('order') ,
+                    item_type : 2,
+                    _token : csrfToken
+                },
+                success: function(response) {
+                    thisx.closest('.project_imagex').remove()
+                },
+                error: function(xhr, status, error) {
+                    console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                }
+            });
+        })
+
+        $('.photos').sortable({
+            revert: true,
+            update: function(event, ui) {
+                var ids = [];
+                for(var i = 0; i < $('.photos .project_imagex').length; i++){
+                    ids.push($('.photos .project_imagex').eq(i).attr('order'));
+                }
+                console.log(ids);
+                // Sıralama değiştiğinde bir Ajax POST isteği gönder
+                $.ajax({
+                    url: '{{route("institutional.update.image.order.temp.update")}}',
+                    type: 'POST',
+                    data: { 
+                        images: ids ,
+                        item_type : 2,
+                        _token : csrfToken
+                    },
+                    success: function(response) {
+                        console.log("Sıralama güncellendi.");
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                    }
+                });
+            }
+        });
+
+        $('.project_imagex').draggable({
+            connectToSortable: ".photos",
+        });
 
         $('input[name="name"]').keyup(function() {
             console.log("asd");
@@ -575,14 +538,14 @@
 
 
         $('.finish-button-first').click(function() {
-            @if ($userLog->plan && $userLog->plan->housing_limit === 0)
+            @if ($user->plan && $user->plan->housing_limit === 0)
                 $.toast({
                     heading: 'Hata',
                     text: 'Hakkınız kalmadığı için bu işlemi gerçekleştiremezsiniz.',
                     position: 'top-right',
                     stack: false
                 });
-            @elseif (!$userLog->plan || $userLog->plan->status == '0')
+            @elseif (!$user->plan)
                 $.toast({
                     heading: 'Hata',
                     text: 'Konut eklemek için paket satın almalısınız.',
@@ -842,7 +805,7 @@
                             renderedForm.formRender(formRenderOpts);
                             var renderHtml = renderedForm.html().toString();
                             renderHtml = renderHtml.toString().split('images[][]');
-                            renderHtml = renderHtml[0] + 'images' + i + '[][]' + renderHtml[1];
+                            renderHtml = renderHtml[0];
                             var json = JSON.parse(response.form_json);
                             for (var lm = 0; lm < json.length; lm++) {
                                 if (json[lm].type == "checkbox-group") {
@@ -932,12 +895,14 @@
                         })
 
                         for (let i = 1; i <= houseCount; i++) {
-                            for (var j = 2; j < formInputs.length; j++) {
+                            for (var j = 0; j < formInputs.length; j++) {
                                 if (formInputs[j].type == "number" || formInputs[j].type == "text") {
                                     var inputName = formInputs[j].name;
                                     var inputNamex = inputName;
                                     inputNamex = inputNamex.split('[]')
                                     if (oldData[inputNamex[0]] != undefined) {
+                                        console.log(oldData[
+                                            inputNamex[0]][i - 1])
                                         $($('input[name="' + formInputs[j].name + '"]')[i - 1]).val(oldData[
                                             inputNamex[0]][i - 1]);
                                     }
@@ -960,23 +925,23 @@
                                             }
 
                                         });
-                                } else if (formInputs[j].type == 'checkbox-group') {
+                                } else if(formInputs[j].type == 'checkbox-group'){
                                     var inputName = formInputs[j].name;
                                     var inputNamex = inputName;
                                     inputNamex = inputNamex.split('[]')
                                     var checkboxName = inputName;
                                     checkboxName = checkboxName.split('[]');
                                     checkboxName = checkboxName[0];
-                                    $($('input[name="' + checkboxName + [i] + '[][]"]')).map((key, item) => {
-                                        if (oldData[inputNamex[0] + (i)]) {
-                                            oldData[inputNamex[0] + (i)].map((checkbox) => {
-                                                console.log(checkbox, $(item).attr("value"));
-                                                if (checkbox == $(item).attr("value")) {
-                                                    $(item).attr('checked', 'checked')
-                                                }
-                                            })
-                                        }
-
+                                    $($('input[name="'+checkboxName+[i]+'[][]"]')).map((key,item) => {
+                                        
+                                    if(oldData[inputNamex[0]+(i)]){
+                                        oldData[inputNamex[0]+(i)].map((checkbox) => {
+                                            if(checkbox.trim() == $(item).attr("value").trim()){
+                                                $(item).attr('checked','checked')
+                                            }
+                                        })
+                                    }
+                                    
                                     });
                                 }
 
@@ -1111,20 +1076,26 @@
                             });
                         })
 
-                        $('.price-only').keyup(function() {
+                        $('.price-only').keyup(function(){
                             $('.price-only .error-text').remove();
-                            if ($('.price-only').val() != parseFloat($('.price-only').val())) {
-                                if ($('.price-only').closest('.form-group').find('.error-text').length >
-                                    0) {
+                            if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                                if($('.price-only').closest('.form-group').find('.error-text').length > 0){
                                     $('.price-only').val("");
-                                } else {
-                                    $(this).closest('.form-group').append(
-                                        '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                    )
+                                }else{
+                                    $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
                                     $('.price-only').val("");
                                 }
+                                
+                            }else{
+                                let inputValue = $(this).val();
 
-                            } else {
+                                // Sadece sayı karakterlerine izin ver
+                                inputValue = inputValue.replace(/\D/g, '');
+
+                                // Her üç basamakta bir nokta ekleyin
+                                inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                                $(this).val(inputValue)
                                 $(this).closest('.form-group').find('.error-text').remove();
                             }
                         })
@@ -1310,54 +1281,59 @@
 
             if (input.files && input.files[0]) {
                 $('.photo-area').removeClass('error-border')
-                var reader = new FileReader();
 
                 var formData = new FormData();
                 var csrfToken = $("meta[name='csrf-token']").attr("content");
                 formData.append('_token', csrfToken);
-                formData.append('image', this.files[0]);
-                formData.append('item_type', 2);
+                formData.append('item_type',2);
+                for (let i = 0; i < this.files.length; i++) {
+                    formData.append(`file${i}`, this.files[i]);
+                }
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('institutional.temp.order.image.add') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    url: "{{route('institutional.temp.order.image.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
                     data: formData,
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        // Dosya yükleme başarılı ise sunucudan gelen yanıtı görüntüle
-                        $("#sonuc").html(response);
+                        console.log(response);
+                        for (let i = 0; i < response.length; i++) {
+                            var imageDiv = $('<div class="project_imagex" order="'+response[i]+'"></div>');
+                            var image = $('<img>').attr('src', '{{URL::to('/')}}/project_images/'+response[i]);
+                            var imageButtons = $('<div>').attr('class','image-buttons');
+                            var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
+                            imageButtons.append(imageButtonsIcon)
+                            imageDiv.append(image);
+                            imageDiv.append(imageButtons);
+                            $('.photos').append(imageDiv);
+
+                            $('.project_imagex .image-buttons').click(function(){
+                                var thisx = $(this);
+                                $.ajax({
+                                    url: '{{route("institutional.delete.image.order.temp.update")}}',
+                                    type: 'POST',
+                                    data: { 
+                                        image: $(this).closest('.project_imagex').attr('order') ,
+                                        item_type : 2,
+                                        _token : csrfToken
+                                    },
+                                    success: function(response) {
+                                        thisx.closest('.project_imagex').remove()
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                                    }
+                                });
+                            })
+                        }
                     },
                     error: function() {
                         // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
                         alert("Dosya yüklenemedi.");
                     }
                 });
-                reader.onload = function(e) {
-                    // Resmi görüntülemek için bir div oluşturun
-                    var imageDiv = $('<div class="project_imagex"></div>');
+                
 
-                    // Resmi oluşturun ve div içine ekleyin
-                    var image = $('<img>').attr('src', e.target.result);
-                    imageDiv.append(image);
-                    var deleteIcon = $('<span class="fa fa-trash">Sil</span>');
-                    imageDiv.append(deleteIcon);
-                    // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
-                    $('.photos').append(imageDiv);
-
-                    $('.photos').on('click', '.fa-trash', function() {
-                        var imageDiv = $(this).parent(); // Tıklanan resmin üst öğesini al
-
-                        // Kullanıcıdan resmi silmek istediğine emin misiniz diye sorabilirsiniz
-                        var confirmation = confirm("Bu resmi silmek istediğinizden emin misiniz?");
-
-                        if (confirmation) {
-                            imageDiv.remove(); // Resmi kaldır
-                        }
-                    });
-                };
-
-                // Resmi okuyun
-                reader.readAsDataURL(input.files[0]);
             }
         });
 
@@ -1844,23 +1820,27 @@
 
                             $('.dropzonearea').closest('.formbuilder-file').remove();
 
-                            $('.price-only').keyup(function() {
+                            $('.price-only').keyup(function(){
                                 $('.price-only .error-text').remove();
-                                if ($('.price-only').val() != parseFloat($(
-                                        '.price-only').val())) {
-                                    if ($('.price-only').closest('.form-group').find(
-                                            '.error-text').length > 0) {
+                                if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                                    if($('.price-only').closest('.form-group').find('.error-text').length > 0){
                                         $('.price-only').val("");
-                                    } else {
-                                        $(this).closest('.form-group').append(
-                                            '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                        )
+                                    }else{
+                                        $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
                                         $('.price-only').val("");
                                     }
+                                    
+                                }else{
+                                    let inputValue = $(this).val();
 
-                                } else {
-                                    $(this).closest('.form-group').find('.error-text')
-                                        .remove();
+                                    // Sadece sayı karakterlerine izin ver
+                                    inputValue = inputValue.replace(/\D/g, '');
+
+                                    // Her üç basamakta bir nokta ekleyin
+                                    inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                                    $(this).val(inputValue)
+                                    $(this).closest('.form-group').find('.error-text').remove();
                                 }
                             })
 
@@ -2085,7 +2065,7 @@
 
 
 
-        $('.finish-button').click(function(e) {
+        $('.finish-buttonx').click(function(e) {
             e.preventDefault();
             var next = true;
             var topError = 0;
@@ -2095,20 +2075,6 @@
                 topError = $('input[name="name"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
             }
 
-            if (!$('#housing_status').val()) {
-                next = false;
-                if (topError) {
-                    if ($('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
-                        topError) {
-                        topError = $('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) -
-                            100;
-                    }
-                } else {
-                    topError = $('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
-                }
-                $('.statue-text .error-text').remove();
-                $('.statue-text').append('<span class="error-text">Konut statüsü seçmek zorunludur</span>')
-            }
 
             if (!$('#location').val()) {
                 next = false;
@@ -2277,39 +2243,6 @@
                 }
                 $('select[name="neighbourhood_id"]').addClass('error-border')
             }
-            if ($('.pricing-item-first .price-radio.select').length == 0) {
-                next = false;
-                if (topError) {
-                    if ($('.pricing-select-first').offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
-                        topError) {
-                        topError = $('.pricing-select-first').offset().top - parseFloat($('.navbar-top').css(
-                            'height')) - 100;
-                    }
-                } else {
-                    topError = $('.pricing-select-first').offset().top - parseFloat($('.navbar-top').css(
-                        'height')) - 100;
-                }
-                $('.pricing-select-first .error-text').remove();
-                $('.pricing-select-first').append("<p class='error-text'>İlan süresini seçmeniz gerekmektedir</p>")
-            }
-
-            if ($('.pricing-item-first .price-radio.select').length > 0) {
-                if ($('.single-price-project-area .pricing-item .price-radio.select').length == 0) {
-                    if (topError) {
-                        if ($('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css(
-                                'height')) - 100 < topError) {
-                            topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top')
-                                .css('height')) - 100;
-                        }
-                    } else {
-                        topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css(
-                            'height')) - 100;
-                    }
-                    $('.single-price-project-area .error-text').remove();
-                    $('.single-price-project-area').append(
-                        "<p class='error-text'>İlan süresini seçmeniz gerekmektedir</p>")
-                }
-            }
 
             if (next) {
                 nextTemp = true;
@@ -2349,1449 +2282,202 @@
         var itemOrder = 0;
         var itemSlug = "";
         var areasSlugs = [];
-        @if (isset($tempData->step1_slug))
-            itemSlug = "{{ $tempData->step1_slug }}";
-            itemOrder = 0;
-            listChangex()
-        @endif
-
-
-        @if (isset($tempData->step2_slug))
-            itemSlug = "{{ $tempData->step2_slug }}";
-            itemOrder = 1;
-            listChangex()
-        @endif
-
-        @if (isset($tempData->step3_slug))
-            itemSlug = "{{ $tempData->step3_slug }}";
-            itemOrder = 2;
-            listChangex()
-        @endif
-
-        function listChangex() {
+        $('.area-listx li').click(function(){
+            $('.area-listx li').removeClass('selected');
+            var thisx = $(this);
+            var value = $(this).attr('attr-id');
+            var key = "statuses";
+            var isArray = 1; 
+            var formData = new FormData();
+            var csrfToken = $("meta[name='csrf-token']").attr("content");
+            formData.append('_token', csrfToken);
+            formData.append('value',value);
+            formData.append('key',key);
+            formData.append('item_type',1);
+            formData.append('array_data',isArray);
             $.ajax({
-                url: "{{ URL::to('/') }}/institutional/get_housing_type_childrens/" +
-                    itemSlug, // AJAX isteği yapılacak URL
+                type: "POST",
+                url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    changeData("",'step3_slug')
+                    changeData("",'step2_slug')
+                    changeData("",'step1_slug')
+                    thisx.addClass('selected')
+                    $('.area-list').removeClass('active');
+                    $('.area-list').eq(0).addClass('active')
+                    $('.area-list').eq(0).find('li').removeClass('selected');
+                },
+            });
+        })
+
+        $('.area-list').eq(0).find('li').click(function(){
+            itemSlug = $(this).attr('slug');
+            var thisx = $(this);
+            changeData(itemSlug,'step1_slug')
+            changeData("",'step3_slug')
+            changeData("",'step2_slug')
+            $('.breadcrumb').find('.breadcrumb-after-item').remove()
+            $('.breadcrumb').find('.breadcrumb-after-item').remove()
+            $('.breadcrumb').find('.breadcrumb-after-item').remove()
+            $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+            $.ajax({
+                url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
-                success: function(data) {
+                success: function (data) {
+                    console.log(data);
+                    $('.area-list').eq(0).find('li').removeClass('selected');
                     data = data.data;
                     var list = "";
-                    for (var i = 0; i < data.length; i++) {
-                        list += "<li slug='" + data[i].slug + "'>" + data[i].title + "</li>"
+                    for(var i = 0 ; i < data.length; i++){
+                        list += "<li slug='"+data[i].slug+"'>"+data[i].title+"</li>"
                     }
-                    $('.area-list').eq(itemOrder + 1).children('ul').html(list)
+                    $('.area-list').eq(1).children('ul').html(list)
 
-                    $('.area-list li').click(function() {
-                        var clickItem = $(this).closest('.area-list');
-                        itemOrder = clickItem.index();
-                        itemSlug = $(this).attr('slug')
-                        listChange();
-                        $('.area-list li').click(function() {
-                            var clickItem = $(this).closest('.area-list');
-                            var itemOrderx = clickItem.index();
-                            if (itemOrderx == 2) {
-                                if (selectedid) {
-                                    $('.rendered-area').removeClass('d-none')
-                                } else {
-                                    $.toast({
-                                        heading: 'Hata',
-                                        text: 'Proje Hangi Tipte Konutlardan Oluşuyor Seçeneğini Lütfen Seçiniz',
-                                        position: 'top-right',
-                                        stack: false
+                    $('.area-list').eq(1).addClass('active');
+                    thisx.addClass('selected');
+
+                    $('.area-list').eq(2).removeClass('active');
+                    $('.area-list').eq(3).removeClass('active');
+
+                    $('.area-list').eq(1).find('li').click(function(){
+                        itemSlug = $(this).attr('slug');
+                        var thisx = $(this);
+                        changeData(itemSlug,'step2_slug')
+                        changeData("",'step3_slug')
+                        $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
+                        $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
+                        $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                        $.ajax({
+                            url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug+'?parent_slug='+$('.area-list').eq(0).find('li.selected').attr('slug'), // AJAX isteği yapılacak URL
+                            type: "GET", // GET isteği
+                            dataType: "json", // Gelen veri tipi JSON
+                            success: function (data) {
+                                $('.area-list').eq(1).find('li').removeClass('selected');
+                                $('.area-list').eq(3).removeClass('active');
+                                data = data.data;
+                                var list = "";
+                                for(var i = 0 ; i < data.length; i++){
+                                    list += "<li slug='"+data[i].slug+"'>"+data[i].title+"</li>"
+                                }
+                                $('.area-list').eq(2).children('ul').html(list)
+
+                                $('.area-list').eq(2).addClass('active');
+                                thisx.addClass('selected');
+
+                                $('.area-list').eq(2).find('li').click(function(){
+                                    itemSlug = $(this).attr('slug');
+                                    var thisx = $(this);
+                                    changeData(itemSlug,'step3_slug')
+                                    $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
+                                    $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                                    $.ajax({
+                                        url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
+                                        type: "GET", // GET isteği
+                                        dataType: "json", // Gelen veri tipi JSON
+                                        success: function (data) {
+                                            $('.area-list').eq(2).find('li').removeClass('selected');
+                                            changeData(data,'housing_type_id');
+                                            selectedid = data;
+                                            
+                                            thisx.addClass('selected');
+                                            $('.area-list').eq(3).addClass('active');
+                                        }
                                     })
-                                }
-                                const houseCount = 1;
-
-                                if (isNaN(houseCount) || houseCount <= 0) {
-                                    alert('Lütfen geçerli bir sayı girin.');
-                                    return;
-                                }
-
-
-                                $.ajax({
-                                    method: "GET",
-                                    url: "{{ route('institutional.ht.getform') }}",
-                                    data: {
-                                        id: selectedid
-                                    },
-                                    success: function(response) {
-                                        var html = "";
-                                        var htmlContent = "";
-                                        for (var i = 0; i < houseCount; i++) {
-
-                                            htmlContent +=
-                                                '<div class="tab-pane fade show ' +
-                                                (i == 0 ? 'active' : '') +
-                                                '" id="TabContent' + (i + 1) +
-                                                '" role="tabpanel">' +
-                                                '<div id="renderForm' + (i + 1) +
-                                                '" class="card p-4"></div>' +
-                                                '</div>';
-                                        }
-
-                                        $('#tablist').html(html);
-                                        $('.tab-content').html(htmlContent)
-                                        for (let i = 1; i <= houseCount; i++) {
-                                            console.log(i);
-                                            formRenderOpts = {
-                                                dataType: 'json',
-                                                formData: response.form_json
-                                            };
-
-                                            var renderedForm = $('<div>');
-                                            renderedForm.formRender(formRenderOpts);
-                                            var renderHtml = renderedForm.html()
-                                                .toString();
-                                            renderHtml = renderHtml.toString()
-                                                .split('images[][]');
-                                            var json = JSON.parse(response
-                                                .form_json);
-                                            renderHtml = renderHtml[0] + 'images' +
-                                                i + '[][]' + renderHtml[1];
-                                            for (var lm = 0; lm < json
-                                                .length; lm++) {
-                                                if (json[lm].type ==
-                                                    "checkbox-group") {
-                                                    console.log();
-                                                    var renderHtml = renderHtml
-                                                        .toString().split(json[lm]
-                                                            .name + '[]');
-                                                    renderHtmlx = "";
-                                                    var json = JSON.parse(response
-                                                        .form_json);
-                                                    for (var t = 0; t < renderHtml
-                                                        .length; t++) {
-                                                        if (t != renderHtml.length -
-                                                            1) {
-                                                            renderHtmlx +=
-                                                                renderHtml[t] + (
-                                                                    json[lm].name
-                                                                    .split('[]')[0]
-                                                                ) + i + '[][]';
-                                                        } else {
-                                                            renderHtmlx +=
-                                                                renderHtml[t];
-                                                        }
-                                                    }
-
-                                                    renderHtml = renderHtmlx;
-                                                }
-
-                                                $('.checkbox-item').closest(
-                                                    '.checkbox-group').addClass(
-                                                    'd-flex')
-                                                $('.checkbox-item').closest(
-                                                    '.checkbox-group').addClass(
-                                                    'checkbox-items')
-                                            }
-
-                                            $('#renderForm' + (i)).html(renderHtml);
-                                            $('#tablist a.nav-link').click(function(
-                                                e) {
-                                                e
-                                                    .preventDefault(); // Linki tıklamayı engelleyin
-
-                                                // Tüm sekmeleri gizleyin
-                                                $('.tab-content .tab-pane')
-                                                    .removeClass(
-                                                        'show active');
-
-                                                // Tıklanan tab linkine ait tabın kimliğini alın
-                                                var tabId = $(this).attr(
-                                                    'data-bs-target');
-
-                                                // İlgili tabı gösterin
-                                                $(tabId).addClass(
-                                                    'show active');
-                                            });
-                                        }
-
-                                        $('.next_house').click(function() {
-                                            var nextHousing = true;
-                                            $('.tab-pane.active input[required="required"]')
-                                                .map((key, item) => {
-                                                    if (!$(item)
-                                                        .val()) {
-                                                        nextHousing =
-                                                            false;
-                                                        $(item)
-                                                            .addClass(
-                                                                "error-border"
-                                                            )
-                                                    }
-                                                })
-
-                                            $('.tab-pane.active select[required="required"]')
-                                                .map((key, item) => {
-                                                    if (!$(item)
-                                                        .val()) {
-                                                        nextHousing =
-                                                            false;
-                                                        $(item)
-                                                            .addClass(
-                                                                "error-border"
-                                                            )
-                                                    }
-                                                })
-                                            if ($(
-                                                    '.tab-pane.active input[required="required"]'
-                                                )
-                                                .val() == "") {
-                                                nextHousing = false;
-                                                $('.tab-pane.active input[name="price[]"]')
-                                                    .addClass(
-                                                        'error-border')
-                                            }
-                                            var indexItem = $(
-                                                    '.tab-pane.active')
-                                                .index();
-                                            if (nextHousing) {
-                                                $('.tab-pane.active')
-                                                    .removeClass('active');
-                                                $('.tab-pane').eq(
-                                                        indexItem + 1)
-                                                    .addClass('active');
-                                            } else {
-                                                $('html, body').animate({
-                                                    scrollTop: $(
-                                                            '.tab-pane.active'
-                                                        )
-                                                        .offset()
-                                                        .top -
-                                                        parseFloat(
-                                                            $(
-                                                                '.navbar-top'
-                                                            )
-                                                            .css(
-                                                                'height'
-                                                            ))
-                                                }, 100);
-                                            }
-                                        })
-
-                                        $('.prev_house').click(function() {
-
-                                            var indexItem = $(
-                                                    '.tab-pane.active')
-                                                .index();
-                                            console.log(indexItem);
-                                            $('.tab-pane.active')
-                                                .removeClass('active');
-                                            $('.tab-pane').eq(indexItem - 1)
-                                                .addClass('active');
-                                        })
-
-                                        $('.copy-item').change(function() {
-                                            var order = parseInt($(this)
-                                                .val()) - 1;
-                                            var currentOrder = parseInt($(
-                                                    this).closest('a')
-                                                .attr('data-bs-target')
-                                                .replace('#TabContent',
-                                                    '')) - 1;
-                                            for (var lm = 0; lm < json
-                                                .length; lm++) {
-                                                if (json[lm].type ==
-                                                    "checkbox-group") {
-                                                    for (var i = 0; i <
-                                                        json[lm].values
-                                                        .length; i++) {
-                                                        var isChecked = $(
-                                                                'input[name="' +
-                                                                (json[lm]
-                                                                    .name
-                                                                    .replace(
-                                                                        '[]',
-                                                                        '')
-                                                                ) + (
-                                                                    order +
-                                                                    1) +
-                                                                '[][]"][value="' +
-                                                                json[lm]
-                                                                .values[i]
-                                                                .value +
-                                                                '"]' + '')
-                                                            .is(':checked')
-                                                        if (isChecked) {
-                                                            $('input[name="' +
-                                                                    (json[
-                                                                            lm
-                                                                        ]
-                                                                        .name
-                                                                        .replace(
-                                                                            '[]',
-                                                                            ''
-                                                                        )
-                                                                    ) +
-                                                                    (currentOrder +
-                                                                        1) +
-                                                                    '[][]"][value="' +
-                                                                    json[lm]
-                                                                    .values[
-                                                                        i]
-                                                                    .value +
-                                                                    '"]' +
-                                                                    '')
-                                                                .attr(
-                                                                    'checked',
-                                                                    'checked'
-                                                                )
-                                                        } else {
-                                                            $('input[name="' +
-                                                                    (json[
-                                                                            lm
-                                                                        ]
-                                                                        .name
-                                                                        .replace(
-                                                                            '[]',
-                                                                            ''
-                                                                        )
-                                                                    ) +
-                                                                    (currentOrder +
-                                                                        1) +
-                                                                    '[][]"][value="' +
-                                                                    json[lm]
-                                                                    .values[
-                                                                        i]
-                                                                    .value +
-                                                                    '"]' +
-                                                                    '')
-                                                                .removeAttr(
-                                                                    'checked'
-                                                                )
-                                                        }
-                                                    }
-                                                } else if (json[lm].type ==
-                                                    "select") {
-                                                    var value = $(
-                                                            'select[name="' +
-                                                            (json[lm]
-                                                                .name) +
-                                                            '"]')
-                                                        .eq(order).val();
-                                                    $('select[name="' + (
-                                                                json[lm]
-                                                                .name) +
-                                                            '"]').eq(
-                                                            currentOrder)
-                                                        .children('option')
-                                                        .removeAttr(
-                                                            'selected')
-                                                    $('select[name="' + (
-                                                                json[lm]
-                                                                .name) +
-                                                            '"]').eq(
-                                                            currentOrder)
-                                                        .children(
-                                                            'option[value="' +
-                                                            value[0] + '"]')
-                                                        .attr('selected',
-                                                            'selected');
-                                                } else if (json[lm].type ==
-                                                    "file" && json[lm]
-                                                    .name == "image[]") {
-                                                    var files = $(
-                                                            'input[name="' +
-                                                            (json[lm]
-                                                                .name) +
-                                                            '"]')
-                                                        .eq(order)[0].files;
-                                                    var input2 = $(
-                                                            'input[name="' +
-                                                            (json[lm]
-                                                                .name) +
-                                                            '"]')
-                                                        .eq(currentOrder);
-                                                    for (var i = 0; i <
-                                                        files.length; i++) {
-                                                        var file = files[i];
-                                                        input2.prop("files",
-                                                            files);
-                                                    }
-                                                } else if (json[lm].type ==
-                                                    "file" && json[lm]
-                                                    .name != "image[]") {
-                                                    var files = $(
-                                                            'input[name="' +
-                                                            (json[lm].name
-                                                                .replace(
-                                                                    '[]', ''
-                                                                )) + (
-                                                                order + 1) +
-                                                            '[][]"]')[0]
-                                                        .files;
-                                                    var input2 = $(
-                                                        'input[name="' +
-                                                        (json[lm].name
-                                                            .replace(
-                                                                '[]', ''
-                                                            )) + (
-                                                            currentOrder +
-                                                            1) +
-                                                        '[][]"]');
-                                                    for (var i = 0; i <
-                                                        files.length; i++) {
-                                                        var file = files[i];
-                                                        input2.prop("files",
-                                                            files);
-                                                    }
-                                                } else if (json[lm].type !=
-                                                    "file") {
-                                                    var value = $(
-                                                            'input[name="' +
-                                                            (json[lm]
-                                                                .name) +
-                                                            '"]')
-                                                        .eq(order).val();
-                                                    console.log($(
-                                                        'input[name="' +
-                                                        (json[lm]
-                                                            .name) +
-                                                        '"]').eq(
-                                                        currentOrder
-                                                    ));
-                                                    $('input[name="' + (
-                                                                json[lm]
-                                                                .name) +
-                                                            '"]').eq(
-                                                            currentOrder)
-                                                        .attr("value",
-                                                            value);
-                                                }
-                                            }
-                                        })
-
-                                        $('.rendered-form input').change(
-                                            function() {
-                                                console.log("asd");
-                                                var formData = new FormData();
-                                                var csrfToken = $(
-                                                    "meta[name='csrf-token']"
-                                                ).attr("content");
-                                                formData.append('_token',
-                                                    csrfToken);
-                                                formData.append('value', $(this)
-                                                    .val());
-                                                formData.append('order',
-                                                    parseInt($(this)
-                                                        .closest(
-                                                            '.tab-pane')
-                                                        .attr('id').replace(
-                                                            'TabContent', ""
-                                                        )) - 1);
-                                                formData.append('key', $(this)
-                                                    .attr('name').replace(
-                                                        "[]", "").replace(
-                                                        "[]", ""));
-                                                formData.append('item_type', 2);
-                                                if ($(this).attr('type') ==
-                                                    "checkbox") {
-                                                    formData.append('checkbox',
-                                                        "1");
-                                                }
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: "{{ route('institutional.temp.order.project.housing.change') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                                    data: formData,
-                                                    processData: false,
-                                                    contentType: false,
-                                                    success: function(
-                                                        response
-                                                    ) {},
-                                                });
-                                            })
-
-                                        $('.rendered-form select').change(
-                                            function() {
-                                                console.log("asd");
-                                                var formData = new FormData();
-                                                var csrfToken = $(
-                                                    "meta[name='csrf-token']"
-                                                ).attr("content");
-                                                formData.append('_token',
-                                                    csrfToken);
-                                                formData.append('value', $(this)
-                                                    .val());
-                                                console.log($(this).closest(
-                                                    '.tab-pane').attr(
-                                                    'id'))
-                                                formData.append('order',
-                                                    parseInt($(this)
-                                                        .closest(
-                                                            '.tab-pane')
-                                                        .attr('id').replace(
-                                                            'TabContent', ""
-                                                        )) - 1);
-                                                formData.append('key', $(this)
-                                                    .attr('name').replace(
-                                                        "[]", ""));
-                                                formData.append('item_type', 2);
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: "{{ route('institutional.temp.order.project.housing.change') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                                    data: formData,
-                                                    processData: false,
-                                                    contentType: false,
-                                                    success: function(
-                                                        response
-                                                    ) {},
-                                                });
-                                            })
-
-                                        $('.dropzonearea').closest(
-                                            '.formbuilder-file').remove();
-
-                                        $('.price-only').keyup(function() {
-                                            $('.price-only .error-text')
-                                                .remove();
-                                            if ($('.price-only').val() !=
-                                                parseFloat($('.price-only')
-                                                    .val())) {
-                                                if ($('.price-only')
-                                                    .closest('.form-group')
-                                                    .find('.error-text')
-                                                    .length > 0) {
-                                                    $('.price-only').val(
-                                                        "");
-                                                } else {
-                                                    $(this).closest(
-                                                            '.form-group')
-                                                        .append(
-                                                            '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                                        )
-                                                    $('.price-only').val(
-                                                        "");
-                                                }
-
-                                            } else {
-                                                $(this).closest(
-                                                        '.form-group').find(
-                                                        '.error-text')
-                                                    .remove();
-                                            }
-                                        })
-
-                                        $('.number-only').keyup(function() {
-                                            $('.number-only .error-text')
-                                                .remove();
-                                            if ($(this).val() != parseInt($(
-                                                    this).val())) {
-                                                if ($(this).closest(
-                                                        '.form-group').find(
-                                                        '.error-text')
-                                                    .length > 0) {
-                                                    $(this).val("");
-                                                } else {
-                                                    $(this).closest(
-                                                            '.form-group')
-                                                        .append(
-                                                            '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                                        )
-                                                    $(this).val("");
-                                                }
-
-                                            } else {
-                                                $(this).closest(
-                                                        '.form-group').find(
-                                                        '.error-text')
-                                                    .remove();
-                                            }
-                                        })
-
-                                        $('.formbuilder-text input').change(
-                                            function() {
-                                                if ($(this).val() != "") {
-                                                    $(this).removeClass(
-                                                        'error-border')
-                                                }
-                                            })
-
-                                        $('.formbuilder-number input').change(
-                                            function() {
-                                                if ($(this).val() != "") {
-                                                    $(this).removeClass(
-                                                        'error-border')
-                                                }
-                                            })
-                                    },
-                                    error: function(error) {
-                                        console.log(error)
-                                    }
                                 })
+                            },
+                            error: function (xhr, status, error) {
+                                // İstek hata verdiğinde çalışacak fonksiyon
+                                console.error(xhr.statusText);
                             }
-
-                            // Belirtilen sayıda sekme oluştur
-
                         });
                     })
 
+                    
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     // İstek hata verdiğinde çalışacak fonksiyon
                     console.error(xhr.statusText);
                 }
             });
-            if (areasSlugs.filter((slug) => {
-                    return slug.order == itemOrder
-                }).length == 0) {
-                areasSlugs.push({
-                    order: itemOrder,
-                    slug: itemSlug,
-                    label: $("li[slug='" + itemSlug + "']").html()
-                });
-            } else {
-                if (areasSlugs.filter((slug) => {
-                        return slug.order == itemOrder
-                    })[0].slug != itemSlug) {
-                    areasSlugs[itemOrder].slug = itemSlug;
-                    var tempItems = [];
-                    for (var i = 0; i < areasSlugs.length; i++) {
-                        if (areasSlugs[i].order <= itemOrder) {
-                            tempItems[i] = areasSlugs[i];
-                        }
-                    }
+        })
 
-                    areasSlugs = tempItems;
-                }
-
-            }
-
-            $('.area-list').find('li').removeClass('selected');
-            $('.breadcrumb-after-item').remove();
-            for (var i = 0; i < areasSlugs.length; i++) {
-                $('.area-list').eq(i).addClass('active');
-                $('.breadcrumb').append('<span class="breadcrumb-after-item">' + areasSlugs[i].label + '</span>')
-                $('.area-list').eq(i).find('li').removeClass('selected');
-                $("li[slug='" + areasSlugs[i].slug + "']").addClass('selected');
-            }
-
-            for (var i = 0; i < $('.area-list').length; i++) {
-                if (i > areasSlugs.length) {
-                    $('.area-list').eq(i).removeClass('active');
-                } else {
-                    $('.area-list').eq(i).addClass('active');
-                }
-            }
-        }
-
-        function listChange() {
-
-            changeData(itemSlug, 'step' + (itemOrder + 1) + '_slug')
+        $('.area-list').eq(1).find('li').click(function(){
+            itemSlug = $(this).attr('slug');
+            var thisx = $(this);
+            console.log("asd");
+            changeData(itemSlug,'step2_slug')
+            changeData("",'step3_slug')
+            $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
+            $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
+            $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
             $.ajax({
-                url: "{{ URL::to('/') }}/institutional/get_housing_type_childrens/" +
-                    itemSlug, // AJAX isteği yapılacak URL
+                url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug+'?parent_slug='+$('.area-list').eq(0).find('li.selected').attr('slug'), // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
-                success: function(data) {
+                success: function (data) {
+                    console.log(data);
+                    $('.area-list').eq(1).find('li').removeClass('selected');
                     data = data.data;
                     var list = "";
-                    for (var i = 0; i < data.length; i++) {
-                        list += "<li slug='" + data[i].slug + "'>" + data[i].title + "</li>"
+                    for(var i = 0 ; i < data.length; i++){
+                        list += "<li slug='"+data[i].slug+"'>"+data[i].title+"</li>"
                     }
-                    $('.area-list').eq(itemOrder + 1).children('ul').html(list)
+                    $('.area-list').eq(2).children('ul').html(list)
 
-                    $('.area-list li').click(function() {
-                        var clickItem = $(this).closest('.area-list');
-                        itemOrder = clickItem.index();
-                        itemSlug = $(this).attr('slug')
-                        if (itemOrder == 2) {
-                            $.ajax({
-                                url: "{{ URL::to('/') }}/institutional/get_housing_type_id/" +
-                                    itemSlug, // AJAX isteği yapılacak URL
-                                type: "GET", // GET isteği
-                                dataType: "json", // Gelen veri tipi JSON
-                                success: function(data) {
-                                    changeData(data, 'housing_type_id');
-                                    selectedid = data;
+                    $('.area-list').eq(2).addClass('active');
+                    thisx.addClass('selected');
 
-                                    const houseCount = 1;
-
-                                    if (isNaN(houseCount) || houseCount <= 0) {
-                                        alert('Lütfen geçerli bir sayı girin.');
-                                        return;
-                                    }
-
-                                    $.ajax({
-                                        method: "GET",
-                                        url: "{{ route('institutional.ht.getform') }}",
-                                        data: {
-                                            id: selectedid
-                                        },
-                                        success: function(response) {
-                                            var html = "";
-                                            var htmlContent = "";
-                                            for (var i = 0; i <
-                                                houseCount; i++) {
-
-                                                htmlContent +=
-                                                    '<div class="tab-pane fade show ' +
-                                                    (i == 0 ? 'active' : '') +
-                                                    '" id="TabContent' + (i +
-                                                        1) +
-                                                    '" role="tabpanel">' +
-                                                    '<div id="renderForm' + (i +
-                                                        1) +
-                                                    '" class="card p-4"></div>' +
-                                                    '</div>';
-                                            }
-
-                                            $('#tablist').html(html);
-                                            $('.tab-content').html(htmlContent)
-                                            for (let i = 1; i <=
-                                                houseCount; i++) {
-                                                console.log(i);
-                                                formRenderOpts = {
-                                                    dataType: 'json',
-                                                    formData: response
-                                                        .form_json
-                                                };
-
-                                                var renderedForm = $('<div>');
-                                                renderedForm.formRender(
-                                                    formRenderOpts);
-                                                var renderHtml = renderedForm
-                                                    .html().toString();
-                                                renderHtml = renderHtml
-                                                    .toString().split(
-                                                        'images[][]');
-                                                var json = JSON.parse(response
-                                                    .form_json);
-                                                renderHtml = renderHtml[0] +
-                                                    'images' + i + '[][]' +
-                                                    renderHtml[1];
-                                                for (var lm = 0; lm < json
-                                                    .length; lm++) {
-                                                    if (json[lm].type ==
-                                                        "checkbox-group") {
-                                                        console.log();
-                                                        var renderHtml =
-                                                            renderHtml
-                                                            .toString().split(
-                                                                json[lm].name +
-                                                                '[]');
-                                                        renderHtmlx = "";
-                                                        var json = JSON.parse(
-                                                            response
-                                                            .form_json);
-                                                        for (var t = 0; t <
-                                                            renderHtml
-                                                            .length; t++) {
-                                                            if (t != renderHtml
-                                                                .length - 1) {
-                                                                renderHtmlx +=
-                                                                    renderHtml[
-                                                                        t] + (
-                                                                        json[lm]
-                                                                        .name
-                                                                        .split(
-                                                                            '[]'
-                                                                        )[0]
-                                                                    ) + i +
-                                                                    '[][]';
-                                                            } else {
-                                                                renderHtmlx +=
-                                                                    renderHtml[
-                                                                        t];
-                                                            }
-                                                        }
-
-                                                        renderHtml =
-                                                            renderHtmlx;
-                                                    }
-
-                                                    $('.checkbox-item').closest(
-                                                            '.checkbox-group')
-                                                        .addClass('d-flex')
-                                                    $('.checkbox-item').closest(
-                                                            '.checkbox-group')
-                                                        .addClass(
-                                                            'checkbox-items')
-                                                }
-
-                                                $('#renderForm' + (i)).html(
-                                                    renderHtml);
-                                                $('#tablist a.nav-link').click(
-                                                    function(e) {
-                                                        e
-                                                            .preventDefault(); // Linki tıklamayı engelleyin
-
-                                                        // Tüm sekmeleri gizleyin
-                                                        $('.tab-content .tab-pane')
-                                                            .removeClass(
-                                                                'show active'
-                                                            );
-
-                                                        // Tıklanan tab linkine ait tabın kimliğini alın
-                                                        var tabId = $(this)
-                                                            .attr(
-                                                                'data-bs-target'
-                                                            );
-
-                                                        // İlgili tabı gösterin
-                                                        $(tabId).addClass(
-                                                            'show active'
-                                                        );
-                                                    });
-                                            }
-
-                                            $('.next_house').click(function() {
-                                                var nextHousing = true;
-                                                $('.tab-pane.active input[required="required"]')
-                                                    .map((key,
-                                                        item) => {
-                                                        if (!$(item)
-                                                            .val()
-                                                        ) {
-                                                            nextHousing
-                                                                =
-                                                                false;
-                                                            $(item)
-                                                                .addClass(
-                                                                    "error-border"
-                                                                )
-                                                        }
-                                                    })
-
-                                                $('.tab-pane.active select[required="required"]')
-                                                    .map((key,
-                                                        item) => {
-                                                        if (!$(item)
-                                                            .val()
-                                                        ) {
-                                                            nextHousing
-                                                                =
-                                                                false;
-                                                            $(item)
-                                                                .addClass(
-                                                                    "error-border"
-                                                                )
-                                                        }
-                                                    })
-                                                if ($(
-                                                        '.tab-pane.active input[required="required"]'
-                                                    )
-                                                    .val() == "") {
-                                                    nextHousing = false;
-                                                    $('.tab-pane.active input[name="price[]"]')
-                                                        .addClass(
-                                                            'error-border'
-                                                        )
-                                                }
-                                                var indexItem = $(
-                                                    '.tab-pane.active'
-                                                ).index();
-                                                if (nextHousing) {
-                                                    $('.tab-pane.active')
-                                                        .removeClass(
-                                                            'active');
-                                                    $('.tab-pane').eq(
-                                                        indexItem +
-                                                        1).addClass(
-                                                        'active');
-                                                } else {
-                                                    $('html, body')
-                                                        .animate({
-                                                            scrollTop: $(
-                                                                    '.tab-pane.active'
-                                                                )
-                                                                .offset()
-                                                                .top -
-                                                                parseFloat(
-                                                                    $(
-                                                                        '.navbar-top'
-                                                                    )
-                                                                    .css(
-                                                                        'height'
-                                                                    )
-                                                                )
-                                                        }, 100);
-                                                }
-                                            })
-
-                                            $('.prev_house').click(function() {
-
-                                                var indexItem = $(
-                                                    '.tab-pane.active'
-                                                ).index();
-                                                console.log(indexItem);
-                                                $('.tab-pane.active')
-                                                    .removeClass(
-                                                        'active');
-                                                $('.tab-pane').eq(
-                                                        indexItem - 1)
-                                                    .addClass('active');
-                                            })
-
-                                            $('.copy-item').change(function() {
-                                                var order = parseInt($(
-                                                    this).val()) - 1;
-                                                var currentOrder =
-                                                    parseInt($(this)
-                                                        .closest('a')
-                                                        .attr(
-                                                            'data-bs-target'
-                                                        ).replace(
-                                                            '#TabContent',
-                                                            '')) - 1;
-                                                for (var lm = 0; lm <
-                                                    json.length; lm++) {
-                                                    if (json[lm].type ==
-                                                        "checkbox-group"
-                                                    ) {
-                                                        for (var i =
-                                                                0; i <
-                                                            json[
-                                                                lm]
-                                                            .values
-                                                            .length; i++
-                                                        ) {
-                                                            var isChecked =
-                                                                $('input[name="' +
-                                                                    (json[
-                                                                            lm
-                                                                        ]
-                                                                        .name
-                                                                        .replace(
-                                                                            '[]',
-                                                                            ''
-                                                                        )
-                                                                    ) +
-                                                                    (order +
-                                                                        1
-                                                                    ) +
-                                                                    '[][]"][value="' +
-                                                                    json[
-                                                                        lm
-                                                                    ]
-                                                                    .values[
-                                                                        i
-                                                                    ]
-                                                                    .value +
-                                                                    '"]' +
-                                                                    '')
-                                                                .is(
-                                                                    ':checked'
-                                                                )
-                                                            if (
-                                                                isChecked
-                                                            ) {
-                                                                $('input[name="' +
-                                                                        (json[
-                                                                                lm
-                                                                            ]
-                                                                            .name
-                                                                            .replace(
-                                                                                '[]',
-                                                                                ''
-                                                                            )
-                                                                        ) +
-                                                                        (currentOrder +
-                                                                            1
-                                                                        ) +
-                                                                        '[][]"][value="' +
-                                                                        json[
-                                                                            lm
-                                                                        ]
-                                                                        .values[
-                                                                            i
-                                                                        ]
-                                                                        .value +
-                                                                        '"]' +
-                                                                        ''
-                                                                    )
-                                                                    .attr(
-                                                                        'checked',
-                                                                        'checked'
-                                                                    )
-                                                            } else {
-                                                                $('input[name="' +
-                                                                        (json[
-                                                                                lm
-                                                                            ]
-                                                                            .name
-                                                                            .replace(
-                                                                                '[]',
-                                                                                ''
-                                                                            )
-                                                                        ) +
-                                                                        (currentOrder +
-                                                                            1
-                                                                        ) +
-                                                                        '[][]"][value="' +
-                                                                        json[
-                                                                            lm
-                                                                        ]
-                                                                        .values[
-                                                                            i
-                                                                        ]
-                                                                        .value +
-                                                                        '"]' +
-                                                                        ''
-                                                                    )
-                                                                    .removeAttr(
-                                                                        'checked'
-                                                                    )
-                                                            }
-                                                        }
-                                                    } else if (json[lm]
-                                                        .type ==
-                                                        "select") {
-                                                        var value = $(
-                                                                'select[name="' +
-                                                                (json[
-                                                                        lm
-                                                                    ]
-                                                                    .name
-                                                                ) +
-                                                                '"]')
-                                                            .eq(order)
-                                                            .val();
-                                                        $('select[name="' +
-                                                                (json[
-                                                                        lm
-                                                                    ]
-                                                                    .name
-                                                                ) +
-                                                                '"]')
-                                                            .eq(
-                                                                currentOrder
-                                                            )
-                                                            .children(
-                                                                'option'
-                                                            )
-                                                            .removeAttr(
-                                                                'selected'
-                                                            )
-                                                        $('select[name="' +
-                                                                (json[
-                                                                        lm
-                                                                    ]
-                                                                    .name
-                                                                ) +
-                                                                '"]')
-                                                            .eq(
-                                                                currentOrder
-                                                            )
-                                                            .children(
-                                                                'option[value="' +
-                                                                value[
-                                                                    0] +
-                                                                '"]')
-                                                            .attr(
-                                                                'selected',
-                                                                'selected'
-                                                            );
-                                                    } else if (json[lm]
-                                                        .type ==
-                                                        "file" && json[
-                                                            lm].name ==
-                                                        "image[]") {
-                                                        var files = $(
-                                                                'input[name="' +
-                                                                (json[
-                                                                        lm
-                                                                    ]
-                                                                    .name
-                                                                ) +
-                                                                '"]')
-                                                            .eq(order)[
-                                                                0]
-                                                            .files;
-                                                        var input2 = $(
-                                                                'input[name="' +
-                                                                (json[
-                                                                        lm
-                                                                    ]
-                                                                    .name
-                                                                ) +
-                                                                '"]')
-                                                            .eq(
-                                                                currentOrder
-                                                            );
-                                                        for (var i =
-                                                                0; i <
-                                                            files
-                                                            .length; i++
-                                                        ) {
-                                                            var file =
-                                                                files[
-                                                                    i];
-                                                            input2.prop(
-                                                                "files",
-                                                                files
-                                                            );
-                                                        }
-                                                    } else if (json[lm]
-                                                        .type ==
-                                                        "file" && json[
-                                                            lm].name !=
-                                                        "image[]") {
-                                                        var files = $(
-                                                                'input[name="' +
-                                                                (json[
-                                                                        lm
-                                                                    ]
-                                                                    .name
-                                                                    .replace(
-                                                                        '[]',
-                                                                        ''
-                                                                    )
-                                                                ) +
-                                                                (order +
-                                                                    1) +
-                                                                '[][]"]'
-                                                            )[0]
-                                                            .files;
-                                                        var input2 = $(
-                                                            'input[name="' +
-                                                            (json[
-                                                                    lm
-                                                                ]
-                                                                .name
-                                                                .replace(
-                                                                    '[]',
-                                                                    ''
-                                                                )
-                                                            ) +
-                                                            (currentOrder +
-                                                                1) +
-                                                            '[][]"]'
-                                                        );
-                                                        for (var i =
-                                                                0; i <
-                                                            files
-                                                            .length; i++
-                                                        ) {
-                                                            var file =
-                                                                files[
-                                                                    i];
-                                                            input2.prop(
-                                                                "files",
-                                                                files
-                                                            );
-                                                        }
-                                                    } else if (json[lm]
-                                                        .type != "file"
-                                                    ) {
-                                                        var value = $(
-                                                                'input[name="' +
-                                                                (json[
-                                                                        lm
-                                                                    ]
-                                                                    .name
-                                                                ) +
-                                                                '"]')
-                                                            .eq(order)
-                                                            .val();
-                                                        console.log($(
-                                                                'input[name="' +
-                                                                (json[
-                                                                        lm
-                                                                    ]
-                                                                    .name
-                                                                ) +
-                                                                '"]'
-                                                            )
-                                                            .eq(
-                                                                currentOrder
-                                                            )
-                                                        );
-                                                        $('input[name="' +
-                                                                (json[
-                                                                        lm
-                                                                    ]
-                                                                    .name
-                                                                ) +
-                                                                '"]')
-                                                            .eq(
-                                                                currentOrder
-                                                            )
-                                                            .attr(
-                                                                "value",
-                                                                value);
-                                                    }
-                                                }
-                                            })
-
-                                            $('.rendered-form input').change(
-                                                function() {
-                                                    console.log("asd");
-                                                    var formData =
-                                                        new FormData();
-                                                    var csrfToken = $(
-                                                        "meta[name='csrf-token']"
-                                                    ).attr(
-                                                        "content");
-                                                    formData.append(
-                                                        '_token',
-                                                        csrfToken);
-                                                    formData.append('value',
-                                                        $(this).val());
-                                                    formData.append('order',
-                                                        parseInt($(this)
-                                                            .closest(
-                                                                '.tab-pane'
-                                                            ).attr(
-                                                                'id')
-                                                            .replace(
-                                                                'TabContent',
-                                                                "")) - 1
-                                                    );
-                                                    formData.append('key',
-                                                        $(this).attr(
-                                                            'name')
-                                                        .replace("[]",
-                                                            "").replace(
-                                                            "[]", ""));
-                                                    formData.append(
-                                                        'item_type', 2);
-                                                    if ($(this).attr(
-                                                            'type') ==
-                                                        "checkbox") {
-                                                        formData.append(
-                                                            'checkbox',
-                                                            "1");
-                                                    }
-                                                    $.ajax({
-                                                        type: "POST",
-                                                        url: "{{ route('institutional.temp.order.project.housing.change') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                                        data: formData,
-                                                        processData: false,
-                                                        contentType: false,
-                                                        success: function(
-                                                            response
-                                                        ) {},
-                                                    });
-                                                })
-
-                                            $('.rendered-form select').change(
-                                                function() {
-                                                    console.log("asd");
-                                                    var formData =
-                                                        new FormData();
-                                                    var csrfToken = $(
-                                                        "meta[name='csrf-token']"
-                                                    ).attr(
-                                                        "content");
-                                                    formData.append(
-                                                        '_token',
-                                                        csrfToken);
-                                                    formData.append('value',
-                                                        $(this).val());
-                                                    console.log($(this)
-                                                        .closest(
-                                                            '.tab-pane')
-                                                        .attr('id'))
-                                                    formData.append('order',
-                                                        parseInt($(this)
-                                                            .closest(
-                                                                '.tab-pane'
-                                                            ).attr(
-                                                                'id')
-                                                            .replace(
-                                                                'TabContent',
-                                                                "")) - 1
-                                                    );
-                                                    formData.append('key',
-                                                        $(this).attr(
-                                                            'name')
-                                                        .replace("[]",
-                                                            ""));
-                                                    formData.append(
-                                                        'item_type', 2);
-                                                    $.ajax({
-                                                        type: "POST",
-                                                        url: "{{ route('institutional.temp.order.project.housing.change') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                                        data: formData,
-                                                        processData: false,
-                                                        contentType: false,
-                                                        success: function(
-                                                            response
-                                                        ) {},
-                                                    });
-                                                })
-
-                                            $('.dropzonearea').closest(
-                                                    '.formbuilder-file')
-                                                .remove();
-                                            $('.cover-image-by-housing-type')
-                                                .closest('.formbuilder-file')
-                                                .remove();
-
-                                            $('.price-only').keyup(function() {
-                                                $('.price-only .error-text')
-                                                    .remove();
-                                                if ($('.price-only')
-                                                    .val() !=
-                                                    parseFloat($(
-                                                        '.price-only'
-                                                    ).val())) {
-                                                    if ($('.price-only')
-                                                        .closest(
-                                                            '.form-group'
-                                                        ).find(
-                                                            '.error-text'
-                                                        ).length > 0
-                                                    ) {
-                                                        $('.price-only')
-                                                            .val("");
-                                                    } else {
-                                                        $(this).closest(
-                                                                '.form-group'
-                                                            )
-                                                            .append(
-                                                                '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                                            )
-                                                        $('.price-only')
-                                                            .val("");
-                                                    }
-
-                                                } else {
-                                                    $(this).closest(
-                                                        '.form-group'
-                                                    ).find(
-                                                        '.error-text'
-                                                    ).remove();
-                                                }
-                                            })
-
-                                            $('.number-only').keyup(function() {
-                                                $('.number-only .error-text')
-                                                    .remove();
-                                                if ($(this).val() !=
-                                                    parseInt($(this)
-                                                        .val())) {
-                                                    if ($(this).closest(
-                                                            '.form-group'
-                                                        ).find(
-                                                            '.error-text'
-                                                        ).length >
-                                                        0) {
-                                                        $(this).val("");
-                                                    } else {
-                                                        $(this).closest(
-                                                                '.form-group'
-                                                            )
-                                                            .append(
-                                                                '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                                            )
-                                                        $(this).val("");
-                                                    }
-
-                                                } else {
-                                                    $(this).closest(
-                                                        '.form-group'
-                                                    ).find(
-                                                        '.error-text'
-                                                    ).remove();
-                                                }
-                                            })
-
-                                            $('.formbuilder-text input').change(
-                                                function() {
-                                                    if ($(this).val() !=
-                                                        "") {
-                                                        $(this).removeClass(
-                                                            'error-border'
-                                                        )
-                                                    }
-                                                })
-
-                                            $('.formbuilder-number input')
-                                                .change(function() {
-                                                    if ($(this).val() !=
-                                                        "") {
-                                                        $(this).removeClass(
-                                                            'error-border'
-                                                        )
-                                                    }
-                                                })
-                                        },
-                                        error: function(error) {
-                                            console.log(error)
-                                        }
-                                    })
-                                }
-                            })
-
-
-                            var clickItem = $(this).closest('.area-list');
-                            var itemOrderx = clickItem.index();
-                            if (itemOrderx == 2) {
-                                if (selectedid) {
-                                    $('.rendered-area').removeClass('d-none')
-                                } else {
-                                    $.toast({
-                                        heading: 'Hata',
-                                        text: 'Proje Hangi Tipte Konutlardan Oluşuyor Seçeneğini Lütfen Seçiniz',
-                                        position: 'top-right',
-                                        stack: false
-                                    })
-                                }
-
+                    $('.area-list').eq(2).find('li').click(function(){
+                        itemSlug = $(this).attr('slug');
+                        var thisx = $(this);
+                        changeData(itemSlug,'step3_slug')
+                        $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
+                        $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                        $.ajax({
+                            url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
+                            type: "GET", // GET isteği
+                            dataType: "json", // Gelen veri tipi JSON
+                            success: function (data) {
+                                $('.area-list').eq(2).find('li').removeClass('selected');
+                                changeData(data,'housing_type_id');
+                                selectedid = data;
+                                
+                                thisx.addClass('selected');
+                                $('.area-list').eq(3).addClass('active');
                             }
-
-                            // Belirtilen sayıda sekme oluştur
-
-
-                        }
-                        listChange();
+                        })
                     })
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     // İstek hata verdiğinde çalışacak fonksiyon
                     console.error(xhr.statusText);
                 }
             });
-            if (areasSlugs.filter((slug) => {
-                    return slug.order == itemOrder
-                }).length == 0) {
-                areasSlugs.push({
-                    order: itemOrder,
-                    slug: itemSlug,
-                    label: $("li[slug='" + itemSlug + "']").html()
-                });
-            } else {
-                if (areasSlugs.filter((slug) => {
-                        return slug.order == itemOrder
-                    })[0].slug != itemSlug) {
-                    areasSlugs[itemOrder].slug = itemSlug;
-                    var tempItems = [];
-                    for (var i = 0; i < areasSlugs.length; i++) {
-                        if (areasSlugs[i].order <= itemOrder) {
-                            tempItems[i] = areasSlugs[i];
-                        }
-                    }
+        })
 
-                    areasSlugs = tempItems;
+        $('.area-list').eq(2).find('li').click(function(){
+            itemSlug = $(this).attr('slug');
+            var thisx = $(this);
+            changeData(itemSlug,'step3_slug')
+            $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
+            $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+            $.ajax({
+                url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
+                type: "GET", // GET isteği
+                dataType: "json", // Gelen veri tipi JSON
+                success: function (data) {
+                    $('.area-list').eq(2).find('li').removeClass('selected');
+                    changeData(data,'housing_type_id');
+                    selectedid = data;
+                    
+                    thisx.addClass('selected');
+                    $('.area-list').eq(3).addClass('active');
                 }
-
-            }
-
-            $('.area-list').find('li').removeClass('selected');
-            $('.breadcrumb-after-item').remove();
-            for (var i = 0; i < areasSlugs.length; i++) {
-                $('.area-list').eq(i).addClass('active');
-                $('.breadcrumb').append('<span class="breadcrumb-after-item">' + areasSlugs[i].label + '</span>')
-                $('.area-list').eq(i).find('li').removeClass('selected');
-                $("li[slug='" + areasSlugs[i].slug + "']").addClass('selected');
-            }
-
-            for (var i = 0; i < $('.area-list').length; i++) {
-                if (i > areasSlugs.length) {
-                    $('.area-list').eq(i).removeClass('active');
-                } else {
-                    $('.area-list').eq(i).addClass('active');
-                }
-            }
-        }
-
-        $('.area-list li').click(function() {
-            var clickItem = $(this).closest('.area-list');
-            itemOrder = clickItem.index();
-            itemSlug = $(this).attr('slug')
-            listChange();
+            })
         })
     </script>
     <script>

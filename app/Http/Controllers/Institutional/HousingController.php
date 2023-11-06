@@ -12,11 +12,11 @@ use App\Models\HousingStatus;
 use App\Models\HousingStatusConnection;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
+use App\Models\HousingTypeParentConnection;
 use App\Models\Log;
 use App\Models\SinglePrice;
 use App\Models\StandOutUser;
 use App\Models\TempOrder;
-use App\Models\User;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +38,6 @@ class HousingController extends Controller
 
     public function createV2()
     {
-        $userLog = User::where("id", auth()->user()->id)->with("plan.subscriptionPlan", "parent")->first();
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type', 2)->get();
         $cities = City::get();
@@ -50,6 +49,29 @@ class HousingController extends Controller
             $tempData = json_decode("{}");
         }
 
+        $areaSlugs = [];
+        if(isset($tempDataFull) && $tempData->step1_slug){
+            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
+            array_push($areaSlugs,$topParent->title);
+            $secondAreaList = HousingTypeParent::where('parent_id',$topParent->id)->get();
+        }else{
+            $secondAreaList = null;
+        }
+
+        if(isset($tempDataFull) && $tempData->step2_slug){
+            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
+            $topParentSecond = HousingTypeParent::where('parent_id',$topParent->id)->where('slug',$tempData->step2_slug)->first();
+            array_push($areaSlugs,$topParentSecond->title);
+            $housingTypes = HousingTypeParentConnection::where("parent_id",$topParentSecond->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->get();
+        }else{
+            $housingTypes = null;
+        }
+        
+        if(isset($tempDataFull) && $tempData->step3_slug){
+            $housingTypeTemp = HousingTypeParentConnection::where('slug',$tempData->step3_slug)->where("parent_id",$topParentSecond->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->first();
+            
+            array_push($areaSlugs,$housingTypeTemp->title);
+        }
         if ($tempDataFull && isset($tempData->statuses)) {
             $selectedStatuses = HousingStatus::whereIn("id", $tempData->statuses)->get();
         } else {
@@ -61,13 +83,12 @@ class HousingController extends Controller
             $tempDataFull = json_decode('{"step_order" : 1}');
         }
 
-        $userPlan = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where("status","1")->first();
-        return view('institutional.housings.create_v2', compact('housingTypeParent',"userLog", 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan'));
+        $userPlan = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->first();
+        return view('institutional.housings.create_v2', compact('housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan','secondAreaList','housingTypes','areaSlugs'));
     }
 
     public function finishByTemp(Request $request)
     {
-        try {
             DB::beginTransaction();
             $tempOrderFull = TempOrder::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where('item_type', 2)->first();
             $tempOrder = json_decode($tempOrderFull->data);
@@ -112,6 +133,8 @@ class HousingController extends Controller
                         "address" => "asd",
                         "description" => $tempOrder->description,
                         "city_id" => $tempOrder->city_id,
+                        "step1_slug" => $tempOrder->step1_slug,
+                        "step2_slug" => $tempOrder->step2_slug,
                         "county_id" => $tempOrder->county_id,
                         "status_id" => 1,
                         'document' => $newDocument,
@@ -161,121 +184,10 @@ class HousingController extends Controller
                     "message" => "Son aşamada değilsiniz",
                 ]);
             }
-        } catch (Throwable $e) {
-            DB::rollback();
-
-            return json_encode([
-                "status" => false,
-                "message" => $e->getMessage(),
-            ]);
-        }
+        
     }
 
-    public function store(Request $request)
-    {
-        $postData = $request->all();
-        $vData = $request->validate([
-            'title' => 'required|string',
-            'address' => 'required|string|max:128',
-            'housing_type' => 'required|integer',
-            'status' => 'required|in:1,2,3',
-            'location' => 'required|string',
-            "brand_id" => "required",
-            "city_id" => "required",
-            "county_id" => "required",
-            "document" => "required|file|max:2048",
-        ]);
-
-        if (UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->sum('housing_limit') <= 0) {
-            return redirect()->back()->withErrors(['not_enough_limit' => 'Konut oluşturma hakkınız doldu.']);
-        }
-
-        if ($request->hasFile('document')) {
-            $document = $request->file('document');
-            $documentName = $request->title . ' emlak belgesi.' . $document->getClientOriginalExtension();
-
-            // Dosyayı public/housing_documents klasörüne taşı
-            $document->move(public_path('/housing_documents'), $documentName);
-        }
-
-        $title = $vData['title'];
-        $address = $vData['address'];
-        $housing_type = $vData['housing_type'];
-        $status = $vData['status'];
-        $location = explode(',', $vData['location']);
-        $latitude = $location[0];
-        $longitude = $location[1];
-
-        $unsetKeys = [
-            //Housing type için gelen form inputlarını ayırt etmek için
-            '_token',
-            'housing_type',
-            'address',
-            'title',
-            'status',
-            'location',
-            'description',
-            'brand_id',
-            'city_id',
-            "county_id",
-        ];
-
-        $files = [];
-
-        for ($k = 0; $k < count($request->file('images')); $k++) {
-            $image = $request->file('images')[$k][0];
-            $imageName = Str::slug(Str::slug($request->input('title'))) . '-' . $k . '-' . time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('/housing_images'), $imageName);
-            array_push($files, $imageName);
-        }
-
-        if ($request->hasFile('image')) {
-            $image = $request->file('image')[0];
-            $imageName = Str::slug($request->input('title')) . '-' . time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('/housing_images'), $imageName);
-        }
-
-        $postData['images'] = json_encode($files);
-        $postData['image'] = $imageName;
-
-        foreach ($unsetKeys as $key) {
-            unset($postData[$key]);
-        }
-
-        $lastId = Housing::create(
-            [
-                'address' => $address,
-                'title' => $title,
-                'housing_type_id' => $housing_type,
-                'status_id' => $status,
-                'housing_type_data' => json_encode($postData),
-                'user_id' => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
-                'latitude' => $latitude,
-                'longitude' => $longitude,
-                'brand_id' => $request->input('brand_id'),
-                'city_id' => $request->input('city_id'),
-                'county_id' => $request->input('county_id'),
-                'description' => $request->input('description'),
-                "status" => 2,
-                'document' => $documentName,
-            ]
-        )->id;
-
-        UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id)->decrement('housing_limit');
-
-        DocumentNotification::create(
-            [
-                'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
-                'text' => 'Yeni bir konut eklendi. Detayları incelemek için <a href="' . route('housing.show', ['id' => $project->id]) . '">buraya tıklayın</a>',
-                'item_id' => auth()->user()->parent_id ?? auth()->user()->id,
-                'link' => route('admin.housings.detail', ['housing' => $lastId]), // Rota adını ve parametreyi uygun şekilde ayarlayın
-                'owner_id' => 4,
-                'is_visible' => true,
-            ]
-        );
-
-        return redirect()->route('institutional.housing.list', ["status" => "new_housing"]);
-    }
+    
 
     public function index()
     {
