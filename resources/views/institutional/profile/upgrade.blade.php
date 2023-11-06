@@ -13,140 +13,167 @@
                             {{ $plan->name }}
                         </div>
                         <div class="card-body p-0">
-                            @if (auth()->user()->corporate_type == 'Emlakçı')
-                                <div class="py-2 px-3 border-bottom d-flex">
-                                    <b>Konut Limiti:</b>
-                                    <span style="margin-left: auto;">
-                                        {{ $plan->housing_limit }}
-                                    </span>
-                                </div>
-                                <div class="py-2 px-3 border-bottom d-flex">
-                                    <b>Kullanıcı Limiti:</b>
-                                    <span style="margin-left: auto;">
-                                        {{ $plan->user_limit }}
-                                    </span>
-                                </div>
-                                <div class="py-2 px-3 border-bottom d-flex w-100">
-                                    <b>Fiyat:</b>
-                                    <span class="text-primary"
-                                        style="margin-left: auto; font-weight: bold; font-size: 20px;">
-                                        {{ $plan->price }}TL
-                                    </span>
-                                </div>
-                                <div class="py-2 px-3">
-
-                                    @if (Auth::user()->subscription_plan_id != null)
-                                        <button type="button" class="btn btn-primary btn-lg btn-block w-100"
-                                            data-toggle="modal" data-target="#paymentModal{{ $plan->id }}"
-                                            {{ $current->subscriptionPlan->id == $plan->id ? 'disabled' : '' }}>
-                                            {{ $current->subscriptionPlan->id == $plan->id ? 'AKTİF' : ($current->subscriptionPlan->price >= $plan->price ? 'SATIN AL' : 'YÜKSELT') }}
-                                            @if ($current->subscriptionPlan->price < $plan->price)
-                                                <i class="fas fa-angle-double-up ml-3"></i>
-                                            @endif
-                                        </button>
-                                    @else
-                                        <button type="button" class="btn btn-primary btn-lg btn-block w-100"
-                                            data-toggle="modal" data-target="#paymentModal{{ $plan->id }}">
-                                            SEPETE EKLE
-                                        </button>
-                                    @endif
-
-
-                                    <!-- Ödeme Modalı -->
-                                    <div class="modal fade" id="paymentModal{{ $plan->id }}" tabindex="-1"
-                                        role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="paymentModalLabel">Ödeme Formu</h5>
-
-                                                </div>
-                                                <div class="modal-body">
-                                                    <!-- Ödeme Formu Alanları Buraya Gelecek -->
-                                                    <form method="POST"
-                                                        action="{{ route('institutional.profile.upgrade.action', [$plan->id]) }}">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-primary">Ödeme
-                                                            Yap</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            @else
+                            @if (!auth()->user()->corporate_type == 'Emlakçı')
                                 <div class="py-2 px-3 border-bottom d-flex">
                                     <b>Proje Limiti:</b>
                                     <span style="margin-left: auto;">
                                         {{ $plan->project_limit }}
                                     </span>
                                 </div>
-                                <div class="py-2 px-3 border-bottom d-flex">
-                                    <b>Konut Limiti:</b>
-                                    <span style="margin-left: auto;">
-                                        {{ $plan->housing_limit }}
-                                    </span>
-                                </div>
-                                <div class="py-2 px-3 border-bottom d-flex">
-                                    <b>Alt Kullanıcı Limiti:</b>
-                                    <span style="margin-left: auto;">
-                                        {{ $plan->user_limit }}
-                                    </span>
-                                </div>
-                                <div class="py-2 px-3 border-bottom d-flex w-100">
-                                    <b>Fiyat:</b>
-                                    <span class="text-primary"
-                                        style="margin-left: auto; font-weight: bold; font-size: 20px;">
-                                        {{ $plan->price }}TL
-                                    </span>
-                                </div>
-                                <div class="py-2 px-3">
+                            @endif
+                            <div class="py-2 px-3 border-bottom d-flex">
+                                <b>Konut Limiti:</b>
+                                <span style="margin-left: auto;">
+                                    {{ $plan->housing_limit }}
+                                </span>
+                            </div>
+                            <div class="py-2 px-3 border-bottom d-flex">
+                                <b>Alt Kullanıcı Limiti:</b>
+                                <span style="margin-left: auto;">
+                                    {{ $plan->user_limit }}
+                                </span>
+                            </div>
+                            <div class="py-2 px-3 border-bottom d-flex w-100">
+                                <b>Fiyat:</b>
+                                <span class="text-primary" style="margin-left: auto; font-weight: bold; font-size: 20px;">
+                                    {{ $plan->price }}TL
+                                </span>
+                            </div>
+                            <div class="py-2 px-3">
 
-                                    @if (Auth::user()->subscription_plan_id != null)
-                                        <button type="button" class="btn btn-primary btn-lg btn-block w-100"
-                                            data-toggle="modal" data-target="#paymentModal{{ $plan->id }}"
-                                            {{ $current->subscriptionPlan->id == $plan->id ? 'disabled' : '' }}>
-                                            {{ $current->subscriptionPlan->id == $plan->id ? 'AKTİF' : ($current->subscriptionPlan->price >= $plan->price ? 'SATIN AL' : 'YÜKSELT') }}
-                                            @if ($current->subscriptionPlan->price < $plan->price)
-                                                <i class="fas fa-angle-double-up ml-3"></i>
-                                            @endif
-                                        </button>
+                                @if (Auth::user()->subscription_plan_id != null)
+                                <button type="button"
+                                class="btn @if ($current->subscriptionPlan->id == $plan->id && $current->status == 0) btn-warning @else btn-primary @endif paymentClick btn-lg btn-block w-100"
+                                data-toggle="modal" data-target="#paymentModal{{ $plan->id }}"
+                                {{ $current->subscriptionPlan->id == $plan->id && $current->status != 2 ? 'disabled' : '' }}>
+                                @if ($current->subscriptionPlan->id == $plan->id && $current->status != 2)
+                                    @if ($current->status == 0)
+                                        Onay Bekleniyor
                                     @else
-                                        <button type="button" class="btn btn-primary btn-lg btn-block w-100"
-                                            data-toggle="modal" data-target="#paymentModal{{ $plan->id }}">
-                                            SEPETE EKLE
-                                        </button>
+                                        AKTİF
                                     @endif
+                                @else
+                                    @if ($current->subscriptionPlan->price >= $plan->price)
+                                        SATIN AL
+                                    @else
+                                        YÜKSELT
+                                    @endif
+                                @endif
+                                @if ($current->subscriptionPlan->price < $plan->price)
+                                    <i class="fas fa-angle-double-up ml-3"></i>
+                                @endif
+                            </button>
+                            
+                                @else
+                                    <button type="button" class="btn btn-primary paymentClick btn-lg btn-block w-100"
+                                        data-toggle="modal" data-target="#paymentModal{{ $plan->id }}">
+                                        SEPETE EKLE
+                                    </button>
+                                @endif
 
 
 
-                                    <!-- Ödeme Modalı -->
-                                    <div class="modal fade" id="paymentModal{{ $plan->id }}" tabindex="-1"
-                                        role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="paymentModalLabel">Ödeme Formu</h5>
+                                <!-- Ödeme Modalı -->
+                                <div class="modal fade paymentModalStart" id="paymentModal{{ $plan->id }}"
+                                    tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Ödeme Adımı
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="invoice">
+                                                    <div class="invoice-header mb-3">
+                                                        <strong>Fatura Tarihi: {{ date('d.m.Y') }}</strong>
+                                                    </div>
+                                                    <p>Seçtiğiniz Plan: {{ $plan->name }}</p>
+                                                    <p>Plan Fiyatı: {{ $plan->price }} ₺</p>
+                                                    <div class="invoice-total mt-3">
+                                                        <strong class="mt-3">EFT/Havale yapacağınız bankayı
+                                                            seçiniz</strong>
+                                                        <div class="row mb-3 px-5 mt-3">
+                                                            @foreach ($bankAccounts as $bankAccount)
+                                                                <div class="col-md-4 bank-account"
+                                                                    bank_id="{{ $bankAccount->id }}"
+                                                                    data-iban="{{ $bankAccount->iban }}"
+                                                                    data-title="{{ $bankAccount->receipent_full_name }}">
+                                                                    <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
+                                                                        alt=""
+                                                                        style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                        <div id="ibanInfo"></div>
+                                                        <strong>Ödeme işlemini tamamlamak için, lütfen bu
+                                                            <span style="color:red" class="uniqueCode"></span> kodu
+                                                            kullanarak ödemenizi
+                                                            yapın. IBAN açıklama
+                                                            alanına
+                                                            bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla"
+                                                            düğmesine tıklayarak işlemi
+                                                            bitirin.</strong>
 
-                                                </div>
-                                                <div class="modal-body">
-                                                    <!-- Ödeme Formu Alanları Buraya Gelecek -->
-                                                    <form method="POST"
-                                                        action="{{ route('institutional.profile.upgrade.action', [$plan->id]) }}">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-primary">Ödeme
-                                                            Yap</button>
-                                                    </form>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary completePaymentButton"
+                                                        data-toggle="modal"
+                                                        data-target="#finalConfirmationModal{{ $plan->id }}">Ödeme
+
+                                                        Yap</button>
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-
-
                                 </div>
-                            @endif
+                                <div class="modal fade" id="finalConfirmationModal{{ $plan->id }}" tabindex="-1"
+                                    role="dialog" aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="finalConfirmationModalLabel">Ödeme Onayı</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:
+                                                </p>
+                                                <ol>
+                                                    <li>
+                                                        <strong style="color:red" class="uniqueCodeRetry"></strong> kodunu
+                                                        EFT/Havale açıklama
+                                                        alanına yazdığınızdan emin olun.
+                                                    </li>
+                                                    <li>
+                                                        Son olarak, işlemi bitirmek için aşağıdaki butona tıklayın: <br>
+
+                                                        <form
+                                                            action="{{ route('institutional.profile.upgrade.action', [$plan->id]) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="key" class="orderKey">
+                                                            <button type="submit"
+                                                                class="btn btn-primary paySuccess mt-3">Ödemeyi Tamamla
+                                                                <svg viewBox="0 0 576 512" class="svgIcon">
+                                                                    <path
+                                                                        d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                                                    </path>
+                                                                </svg></button>
+                                                        </form>
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -171,6 +198,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     <script>
         const accountTypeRadios = document.querySelectorAll('input[name="account_type"]');
         const idNumberDiv = document.getElementById('idNumberDiv');
@@ -296,11 +327,72 @@
         }
     </script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Başlangıçta ödeme düğmesini devre dışı bırak
+            $('.completePaymentButton').prop('disabled', true);
+
+            $(".paymentClick").on("click", function() {
+                var uniqueCode = generateUniqueCode();
+                console.log(uniqueCode);
+                $('.uniqueCode').text(uniqueCode);
+                $('.uniqueCodeRetry').text(uniqueCode);
+                $(".orderKey").val(uniqueCode);
+            });
+
+
+            // Rastgele bir benzersiz kod oluşturan fonksiyon
+            function generateUniqueCode() {
+                return Math.random().toString(36).substring(2, 10).toUpperCase();
+            }
+            $('.bank-account').on('click', function() {
+                // Tüm banka görsellerini seçim olmadı olarak ayarla
+                $('.bank-account').removeClass('selected');
+
+                // Seçilen banka görselini işaretle
+                $(this).addClass('selected');
+
+                // İlgili IBAN bilgisini al
+                var selectedBankIban = $(this).data('iban');
+                var selectedBankTitle = $(this).data('title');
+
+
+                // IBAN bilgisini ekranda göster
+                $('#ibanInfo').text(selectedBankTitle + " : " + selectedBankIban);
+                // Ödeme düğmesini etkinleştir
+                $('.completePaymentButton').prop('disabled', false);
+            });
+
+            $('.completePaymentButton').on('click', function() {
+                $('.paymentModalStart').css({
+                    display: "none"
+                });
+                $('#finalConfirmationModal').modal('show');
+            });
+        });
+    </script>
+
+
     <style>
         .companyType {
             display: flex;
             align-items: center;
             justify-content: start
+        }
+
+        .selected {
+            border: 2px solid red;
+        }
+
+        .svgIcon {
+            width: 16px;
+        }
+
+        .svgIcon path {
+            fill: white;
         }
     </style>
 @endsection

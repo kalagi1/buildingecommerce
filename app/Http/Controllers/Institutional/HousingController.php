@@ -59,7 +59,7 @@ class HousingController extends Controller
             $tempDataFull = json_decode('{"step_order" : 1}');
         }
 
-        $userPlan = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->first();
+        $userPlan = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where("status","1")->first();
         return view('institutional.housings.create_v2', compact('housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan'));
     }
 

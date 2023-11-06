@@ -66,9 +66,9 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $user = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan", "parent")->first();
+        $userLog = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan", "parent")->first();
         $hasPlan = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->with("subscriptionPlan")->first();
-        $remainingPackage = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->first();
+        $remainingPackage = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->where("status", "1")->first();
         $stats1_data = [];
 
         DB::beginTransaction();
@@ -96,7 +96,6 @@ class DashboardController extends Controller
 
         }
         DB::commit();
-
-        return view('institutional.home.index', compact("user", "remainingPackage", "stats1_data", "stats2_data"));
+        return view('institutional.home.index', compact("userLog", "remainingPackage", "stats1_data", "stats2_data"));
     }
 }

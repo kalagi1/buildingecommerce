@@ -23,11 +23,10 @@
     @endif
     <div class="content">
         <h4 class="mb-2 lh-sm  @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
-
-            @if ($user->plan)
+            @if ($userLog->plan)
                 Kalan Proje Oluşturma Hakkınız :
-                {{ $user->plan->project_limit }} Adet
-                @if ($user->plan->project_limit === 0)
+                {{ $userLog->plan->project_limit }} Adet
+                @if ($userLog->plan->project_limit === 0)
                     - Hakkınız Kalmadı
                 @endif
             @else
@@ -97,7 +96,7 @@
                                     <p>Kategori Seçimi Tamanlanmıştır</p>
                                 </div>
                                 <div class="finish-button-first">
-                                    <button class="btn btn-info" @if (!$user->plan || $user->plan->project_limit === 0) disabled @endif>
+                                    <button class="btn btn-info" @if (!$userLog->plan || $userLog->plan->project_limit === 0) disabled @endif>
                                         Devam
                                     </button>
                                 </div>
@@ -279,18 +278,18 @@
                         <div class="pricing card py-2 px-5">
 
                             <div class="row pricing-select-first @if (
-                                (isset($userPlan) &&
-                                    $userPlan->project_limit > 0 &&
+                                (isset($userLogPlan) &&
+                                    $userLogPlan->project_limit > 0 &&
                                     (isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1)) ||
                                     !isset($tempData->{"pricing-type"})) @else d-none @endif">
                                 <div class="col-md-6">
                                     <div class="pricing-item-first" style="width: 100%;">
                                         <div class="pricing-item-inner" onclick="changeData(1,'pricing-type')">
                                             <span class="btn btn-primary remaining_projects">
-                                                @if ($user->plan)
+                                                @if ($userLog->plan)
                                                     Kalan Proje Oluşturma Hakkınız :
-                                                    {{ $user->plan->project_limit }} Adet
-                                                    @if ($user->plan->project_limit === 0)
+                                                    {{ $userLog->plan->project_limit }} Adet
+                                                    @if ($userLog->plan->project_limit === 0)
                                                         - Hakkınız Kalmadı
                                                     @endif
                                                 @else
@@ -324,8 +323,8 @@
 
                             <div class="row single-price-project-area @if (
                                 (isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1) ||
-                                    !isset($userPlan) ||
-                                    (isset($userPlan) && $userPlan->project_limit == 0) ||
+                                    !isset($userLogPlan) ||
+                                    (isset($userLogPlan) && $userLogPlan->project_limit == 0) ||
                                     !isset($tempData->{"pricing-type"})) d-none @endif">
                                 <div>
                                     <label for="" class="c-pointer redirect-back-pricing"><i
@@ -628,15 +627,15 @@
                                 if (i > 1 && i != $('.tab-pane').length) {
                                     $('.rendered-form').eq(i - 1).append(
                                         '<div class="housing_buttons"><button class="prev_house btn btn-primary">Önceki Ev</button><button class="next_house btn btn-primary">Sonraki Konut</button></div>'
-                                        )
+                                    )
                                 } else if (i == $('.tab-pane').length) {
                                     $('.rendered-form').eq(i - 1).append(
                                         '<div class="housing_buttons"><button class="prev_house btn btn-primary">Önceki Ev</button></div>'
-                                        )
+                                    )
                                 } else {
                                     $('.rendered-form').eq(i - 1).append(
                                         '<div class="housing_buttons"><button class="next_house btn btn-primary">Sonraki Konut</button></div>'
-                                        )
+                                    )
                                 }
 
 
@@ -646,12 +645,12 @@
                                 var nextHousing = true;
                                 $('.tab-pane.active input[required="required"]').map((key,
                                     item) => {
-                                        if (!$(item).val() && $(item).attr('type') !=
-                                            "file") {
-                                            nextHousing = false;
-                                            $(item).addClass("error-border")
-                                        }
-                                    })
+                                    if (!$(item).val() && $(item).attr('type') !=
+                                        "file") {
+                                        nextHousing = false;
+                                        $(item).addClass("error-border")
+                                    }
+                                })
                                 $('.tab-pane.active select[required="required"]').map((key,
                                     item) => {
                                     console.log($(item).val())
@@ -832,7 +831,7 @@
 
 
                                     $('.tab-pane.active input[type="file"]').map((key,
-                                    item) => {
+                                        item) => {
                                         if ($(item).parent('div').find(
                                                 '.project_imaget').length == 0) {
                                             nextHousing = false;
@@ -871,7 +870,7 @@
                                 var transactionIndex = 0;
                                 $('.tab-pane').prepend(
                                     '<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>'
-                                    );
+                                );
                                 var order = parseInt($(this).val()) - 1;
                                 var currentOrder = parseInt($(this).closest('.item-left-area')
                                     .index());
@@ -953,7 +952,7 @@
                                                 if (transactionIndex + 1 == json
                                                     .length) {
                                                     $('.loading-icon-right')
-                                                    .remove();
+                                                        .remove();
                                                 }
                                                 transactionIndex++;
                                             },
@@ -980,7 +979,7 @@
                                                 if (transactionIndex + 1 == json
                                                     .length) {
                                                     $('.loading-icon-right')
-                                                    .remove();
+                                                        .remove();
                                                 }
                                                 transactionIndex++;
                                             },
@@ -1036,7 +1035,7 @@
                                 if ($(this).attr('type') != "file") {
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr(
-                                    "content");
+                                        "content");
                                     formData.append('_token', csrfToken);
                                     formData.append('value', $(this).val());
 
@@ -1100,7 +1099,7 @@
                                     } else {
                                         $(this).closest('.form-group').append(
                                             '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                            )
+                                        )
                                         $('.price-only').val("");
                                     }
 
@@ -1128,7 +1127,7 @@
                                     } else {
                                         $(this).closest('.form-group').append(
                                             '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                            )
+                                        )
                                         $(this).val("");
                                     }
 
@@ -1160,10 +1159,10 @@
 
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr(
-                                    "content");
+                                        "content");
 
                                     formData.append('order', $(this).closest('.tab-pane')
-                                    .index());
+                                        .index());
                                     formData.append('_token', csrfToken);
                                     formData.append('file', this.files[0]);
                                     formData.append('item_type', 1);
@@ -1907,7 +1906,7 @@
                                             item) => {
                                             oldData[(checkboxName + i)].map((checkbox) => {
                                                 if (checkbox[0] == $(item).attr(
-                                                    "value")) {
+                                                        "value")) {
                                                     $(item).attr('checked', 'checked')
                                                 }
                                             })
@@ -2056,15 +2055,15 @@
                             if (i > 1 && i != $('.tab-pane').length) {
                                 $('.rendered-form').eq(i - 1).append(
                                     '<div class="housing_buttons"><button class="prev_house btn btn-primary">Önceki Ev</button><button class="next_house btn btn-primary">Sonraki Konut</button></div>'
-                                    )
+                                )
                             } else if (i == $('.tab-pane').length) {
                                 $('.rendered-form').eq(i - 1).append(
                                     '<div class="housing_buttons"><button class="prev_house btn btn-primary">Önceki Ev</button></div>'
-                                    )
+                                )
                             } else {
                                 $('.rendered-form').eq(i - 1).append(
                                     '<div class="housing_buttons"><button class="next_house btn btn-primary">Sonraki Konut</button></div>'
-                                    )
+                                )
                             }
                         }
 
@@ -2086,7 +2085,7 @@
                                 }
                             })
                             if ($('.tab-pane.active input[required="required"]')
-                            .val() == "") {
+                                .val() == "") {
                                 nextHousing = false;
                                 $('.tab-pane.active input[name="price[]"]').addClass(
                                     'error-border')
@@ -2158,12 +2157,12 @@
 
                                 $('.tab-pane.active input[type="file"]').map((key,
                                     item) => {
-                                        if ($(item).parent('div').find(
-                                                '.project_imaget').length == 0) {
-                                            nextHousing = false;
-                                            $(item).addClass("error-border")
-                                        }
-                                    })
+                                    if ($(item).parent('div').find(
+                                            '.project_imaget').length == 0) {
+                                        nextHousing = false;
+                                        $(item).addClass("error-border")
+                                    }
+                                })
 
                                 var indexItem = $('.tab-pane.active').index();
                                 if (nextHousing) {
@@ -2174,9 +2173,9 @@
                                 } else {
                                     $('html, body').animate({
                                         scrollTop: $('.tab-pane.active')
-                                        .offset().top - parseFloat($(
+                                            .offset().top - parseFloat($(
                                                 '.navbar-top').css(
-                                            'height'))
+                                                'height'))
                                     }, 100);
                                 }
 
@@ -2196,7 +2195,7 @@
                             var transactionIndex = 0;
                             $('.tab-pane').prepend(
                                 '<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>'
-                                );
+                            );
                             var order = parseInt($(this).val()) - 1;
                             var currentOrder = parseInt($(this).closest(
                                 '.item-left-area').index());
@@ -2218,7 +2217,7 @@
                                             formData.append('order', currentOrder);
                                             formData.append('key', json[lm].name
                                                 .replace("[]", "").replace("[]",
-                                                "") + (currentOrder + 1));
+                                                    "") + (currentOrder + 1));
                                             formData.append('item_type', 1);
                                             formData.append('checkbox', "1");
                                             $.ajax({
@@ -2239,14 +2238,14 @@
                                             });
                                             $('input[name="' + (json[lm].name.replace(
                                                     '[]', '')) + (currentOrder +
-                                                1) + '[][]"][value="' + json[lm]
+                                                    1) + '[][]"][value="' + json[lm]
                                                 .values[i].value + '"]' + '').prop(
                                                 'checked', true)
                                         } else {
                                             transactionIndex++;
                                             $('input[name="' + (json[lm].name.replace(
                                                     '[]', '')) + (currentOrder +
-                                                1) + '[][]"][value="' + json[lm]
+                                                    1) + '[][]"][value="' + json[lm]
                                                 .values[i].value + '"]' + '').prop(
                                                 'checked', false)
                                         }
@@ -2406,7 +2405,7 @@
                             }
                             var formData = new FormData();
                             var csrfToken = $("meta[name='csrf-token']").attr(
-                            "content");
+                                "content");
                             formData.append('_token', csrfToken);
                             formData.append('value', $(this).val());
                             formData.append('order', parseInt($(this).closest(
@@ -2440,7 +2439,7 @@
                                 } else {
                                     $(this).closest('.form-group').append(
                                         '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                        )
+                                    )
                                     $('.price-only').val("");
                                 }
                             } else {
@@ -2468,7 +2467,7 @@
                                 } else {
                                     $(this).closest('.form-group').append(
                                         '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                        )
+                                    )
                                     $(this).val("");
                                 }
 
@@ -2603,7 +2602,7 @@
                             success: function(response) {
                                 // Yanıt başarılı olduğunda çalışacak kod
                                 var countiesSelect = $(
-                                '#neighbourhood'); // counties id'li select'i seç
+                                    '#neighbourhood'); // counties id'li select'i seç
                                 countiesSelect.empty(); // Select içeriğini temizle
                                 var countyId =
                                     @if (isset($tempData->neighbourhood_id))
@@ -2773,7 +2772,7 @@
                     if ($('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
                         topError) {
                         topError = $('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) -
-                        100;
+                            100;
                     }
                 } else {
                     topError = $('.statue-text').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
@@ -2807,7 +2806,7 @@
                     if ($('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
                         topError) {
                         topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) -
-                        100;
+                            100;
                     }
                 } else {
                     topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
@@ -2902,7 +2901,7 @@
                     if ($('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
                         topError) {
                         topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) -
-                        100;
+                            100;
                     }
                 } else {
                     topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
@@ -3062,7 +3061,7 @@
         function listChangex() {
             $.ajax({
                 url: "{{ URL::to('/') }}/institutional/get_housing_type_childrens/" +
-                itemSlug, // AJAX isteği yapılacak URL
+                    itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function(data) {
@@ -3134,7 +3133,7 @@
             changeData(itemSlug, 'step' + (itemOrder + 1) + '_slug')
             $.ajax({
                 url: "{{ URL::to('/') }}/institutional/get_housing_type_childrens/" +
-                itemSlug, // AJAX isteği yapılacak URL
+                    itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function(data) {

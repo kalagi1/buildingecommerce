@@ -26928,7 +26928,7 @@ input[type="checkbox"]::before {
      .selected {
             border: 2px solid red;
         }
-
+/* 
         .paySuccess {
             width: 200px;
             height: 40px;
@@ -26936,7 +26936,7 @@ input[type="checkbox"]::before {
             align-items: center;
             justify-content: center;
             border: none;
-            color: white;s
+            color: white;
             font-weight: 600;
             gap: 8px;
             cursor: pointer;
@@ -26944,7 +26944,7 @@ input[type="checkbox"]::before {
             position: relative;
             overflow: hidden;
             transition-duration: .3s;
-        }
+        } */
 
         .svgIcon {
             width: 16px;

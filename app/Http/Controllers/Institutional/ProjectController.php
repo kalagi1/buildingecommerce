@@ -53,6 +53,7 @@ class ProjectController extends Controller
 
     public function createV2()
     {
+        $userLog = User::where("id", auth()->user()->id)->with("plan.subscriptionPlan", "parent")->first();
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type', 1)->get();
         $cities = City::get();
@@ -78,8 +79,8 @@ class ProjectController extends Controller
             $tempDataFull = json_decode('{"step_order" : 1}');
         }
 
-        $userPlan = UserPlan::where('user_id', auth()->user()->id)->first();
-        return view('institutional.projects.createv2', compact('housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan', 'hasTemp'));
+        $userPlan = UserPlan::where('user_id', auth()->user()->id)->where("status", "1")->first();
+        return view('institutional.projects.createv2', compact('housingTypeParent', "userLog", 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan', 'hasTemp'));
     }
 
     public function editV2($slug)
@@ -127,7 +128,7 @@ class ProjectController extends Controller
             $tempDataFull = json_decode('{"step_order" : 1}');
         }
 
-        $userPlan = UserPlan::where('user_id', auth()->user()->id)->first();
+        $userPlan = UserPlan::where('user_id', auth()->user()->id)->where("status", "1")->first();
         return view('institutional.projects.editv2', compact('tempUpdateHas', 'housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan'));
     }
 
@@ -244,35 +245,35 @@ class ProjectController extends Controller
                 for ($i = 0; $i < $tempOrder->house_count; $i++) {
                     for ($j = 0; $j < count($housingTypeInputs); $j++) {
                         if ($housingTypeInputs[$j]->type != "checkbox-group" && $housingTypeInputs[$j]->type != "file") {
-                            if($housingTypeInputs[$j]->name == "installments[]" || $housingTypeInputs[$j]->name == "advance[]" || $housingTypeInputs[$j]->name == "installments-price[]"){
-                                if(in_array("taksitli",$tempOrder->roomInfoKeys->{'payment-plan'.($i+1)}) ){
-                                    
+                            if ($housingTypeInputs[$j]->name == "installments[]" || $housingTypeInputs[$j]->name == "advance[]" || $housingTypeInputs[$j]->name == "installments-price[]") {
+                                if (in_array("taksitli", $tempOrder->roomInfoKeys->{'payment-plan' . ($i + 1)})) {
+
                                     ProjectHousing::create([
                                         "key" => $housingTypeInputs[$j]->label,
                                         "name" => $housingTypeInputs[$j]->name,
-                                        "value" => str_replace('.','',$tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$paymentPlanOrder]),
+                                        "value" => str_replace('.', '', $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$paymentPlanOrder]),
                                         "project_id" => $project->id,
                                         "room_order" => $i + 1,
                                     ]);
 
-                                    if(substr($housingTypeInputs[$j]->name, 0, -2) == "installments-price"){
+                                    if (substr($housingTypeInputs[$j]->name, 0, -2) == "installments-price") {
                                         $paymentPlanOrder++;
                                     }
                                 }
-                            }else{
-                                if(str_contains($housingTypeInputs[$j]->className,'price-only')){
-                                    
-                                    if (isset($housingTypeInputs[$j]->name) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]) && $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i] != null) {                                
+                            } else {
+                                if (str_contains($housingTypeInputs[$j]->className, 'price-only')) {
+
+                                    if (isset($housingTypeInputs[$j]->name) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]) && $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i] != null) {
                                         ProjectHousing::create([
                                             "key" => $housingTypeInputs[$j]->label,
                                             "name" => $housingTypeInputs[$j]->name,
-                                            "value" => str_replace('.','',$tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]),
+                                            "value" => str_replace('.', '', $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]),
                                             "project_id" => $project->id,
                                             "room_order" => $i + 1,
                                         ]);
                                     }
-                                }else{
-                                    if (isset($housingTypeInputs[$j]->name) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]) && $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i] != null) {                                
+                                } else {
+                                    if (isset($housingTypeInputs[$j]->name) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]) && $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i] != null) {
                                         ProjectHousing::create([
                                             "key" => $housingTypeInputs[$j]->label,
                                             "name" => $housingTypeInputs[$j]->name,
@@ -283,31 +284,31 @@ class ProjectController extends Controller
                                     }
                                 }
                             }
-                        } else if($housingTypeInputs[$j]->type != "file") {
+                        } else if ($housingTypeInputs[$j]->type != "file") {
 
-                                ProjectHousing::create([
-                                    "key" => $housingTypeInputs[$j]->label,
-                                    "name" => $housingTypeInputs[$j]->name,
-                                    "value" => isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2).($i+1)}) ? json_encode($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2).($i+1)}) : json_encode([]),
-                                    "project_id" => $project->id,
-                                    "room_order" => $i + 1,
-                                ]);
-                            
-                        } else if($housingTypeInputs[$j]->type == "file"){
-                            if(!$housingTypeInputs[$j]->multiple){
-                                $eskiDosyaAdi = public_path('storage/project_images/'.$tempOrder->roomInfoKeys->image[$i]); // Mevcut dosyanın yolu
-                                $extension = explode('.',$tempOrder->roomInfoKeys->image[$i]);
-                                $newImageName = str_replace('.'.end($extension),'',$tempOrder->roomInfoKeys->image[$i]);
-                                if(substr($newImageName,-1) == $i){
-                                    $newFileName = Str::slug($tempOrder->name).'-project_housing-image-'.($i).'.'.end($extension);
-                                    $yeniDosyaAdi = public_path('project_housing_images/'.$newFileName); // Yeni dosya adı ve yolu
-                                    if(File::exists($eskiDosyaAdi)){
+                            ProjectHousing::create([
+                                "key" => $housingTypeInputs[$j]->label,
+                                "name" => $housingTypeInputs[$j]->name,
+                                "value" => isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1)}) ? json_encode($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1)}) : json_encode([]),
+                                "project_id" => $project->id,
+                                "room_order" => $i + 1,
+                            ]);
+
+                        } else if ($housingTypeInputs[$j]->type == "file") {
+                            if (!$housingTypeInputs[$j]->multiple) {
+                                $eskiDosyaAdi = public_path('storage/project_images/' . $tempOrder->roomInfoKeys->image[$i]); // Mevcut dosyanın yolu
+                                $extension = explode('.', $tempOrder->roomInfoKeys->image[$i]);
+                                $newImageName = str_replace('.' . end($extension), '', $tempOrder->roomInfoKeys->image[$i]);
+                                if (substr($newImageName, -1) == $i) {
+                                    $newFileName = Str::slug($tempOrder->name) . '-project_housing-image-' . ($i) . '.' . end($extension);
+                                    $yeniDosyaAdi = public_path('project_housing_images/' . $newFileName); // Yeni dosya adı ve yolu
+                                    if (File::exists($eskiDosyaAdi)) {
                                         File::move($eskiDosyaAdi, $yeniDosyaAdi);
                                     }
-                                }else{
-                                    $newFileName = Str::slug($tempOrder->name).'-project_housing-image-'.(substr($newImageName,-1)).'.'.end($extension);
+                                } else {
+                                    $newFileName = Str::slug($tempOrder->name) . '-project_housing-image-' . (substr($newImageName, -1)) . '.' . end($extension);
                                 }
-                                
+
                                 ProjectHousing::create([
                                     "key" => $housingTypeInputs[$j]->label,
                                     "name" => $housingTypeInputs[$j]->name,
