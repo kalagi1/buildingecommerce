@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankAccount;
 use App\Models\City;
 use App\Models\County;
 use App\Models\District;
@@ -22,10 +23,11 @@ class ProfileController extends Controller
 {
     public function upgrade()
     {
+        $bankAccounts = BankAccount::all();
         $user = User::where("id", auth()->user()->parent_id ?? auth()->user()->id)->first();
         $plans = SubscriptionPlan::where('plan_type', $user->corporate_type)->orderBy("price", "asc")->get();
         $current = UserPlan::with("subscriptionPlan")->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->first();
-        return view('institutional.profile.upgrade', compact('plans', 'current'));
+        return view('institutional.profile.upgrade', compact('plans', 'current', 'bankAccounts'));
     }
 
     public function upgradeProfile(Request $request, $id)
@@ -41,14 +43,13 @@ class ProfileController extends Controller
         );
 
         $plan = SubscriptionPlan::find($id);
-        $before = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->first();
+        $before = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where("status","1")->first();
         $user = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->first();
         $user->update([
             'subscription_plan_id' => $plan->id,
         ]);
 
         $childrens = User::where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
-
 
         if ($childrens) {
             foreach ($childrens as $key => $children) {
@@ -65,6 +66,8 @@ class ProfileController extends Controller
                     'subscription_plan_id' => $plan->id,
                     'user_limit' => $plan->user_limit,
                     'housing_limit' => $plan->housing_limit,
+                    'key' => $request->input("key"),
+                    "status" => 0
                 ];
                 break;
 
@@ -76,6 +79,9 @@ class ProfileController extends Controller
                     'user_limit' => $plan->user_limit,
                     'project_limit' => $plan->project_limit,
                     'housing_limit' => $plan->housing_limit,
+                    'key' => $request->input("key"),
+                    "status" => 0
+
                 ];
                 break;
 

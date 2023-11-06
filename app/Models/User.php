@@ -72,7 +72,7 @@ class User extends Authenticatable
 
     public function child()
     {
-        return $this->hasMany(User::class,  "parent_id");
+        return $this->hasMany(User::class, "parent_id");
     }
 
     public function hasPermission($permission)
@@ -132,7 +132,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(StoreBanner::class, 'user_id')->orderBy('order', 'asc');
     }
-    
 
     public function housingFavorites()
     {
@@ -146,7 +145,7 @@ class User extends Authenticatable
 
     public function plan()
     {
-        return $this->belongsTo(UserPlan::class, "subscription_plan_id", "subscription_plan_id");
+        return $this->belongsTo(UserPlan::class, "id", "user_id");
     }
 
 }

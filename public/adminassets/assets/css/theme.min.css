@@ -10406,7 +10406,7 @@ textarea.form-control.is-invalid {
 }
 
 .border-primary-200 {
-    --phoenix-border-color: rgba(var(--phoenix-primary-200-rgb), var(--phoenix-border-opacity))
+    --phoenix-border-color: #e54242, var(--phoenix-border-opacity))
 }
 
 .border-primary-300 {
@@ -12732,7 +12732,7 @@ textarea.form-control.is-invalid {
 
 .text-primary {
     --phoenix-text-opacity: 1;
-    color: rgba(var(--phoenix-primary-rgb), var(--phoenix-text-opacity)) !important
+    color:#e54242
 }
 
 .text-secondary {

@@ -240,7 +240,7 @@
                 <div class="row project-filter-reverse blog-pots">
                     @for ($i = 0; $i < $project->room_count; $i++)
                         @php
-                            $sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]) ?? false;
+                            $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]) ;
                         @endphp
 
                         <div class="col-md-12 col-12">
@@ -397,11 +397,16 @@
                                                     <button class="first-btn payment-plan-button"
                                                         project-id="{{ $project->id }}" order="{{ $i }}">
                                                         Ödeme Detayları </button>
-                                                    @if ($sold)
-                                                        <button class="btn second-btn soldBtn"
-                                                        disabled
-                                                            style="background: red !important;">
+                                                        @if ($sold && $sold[0]->status != '2')
+                                                        <button class="btn second-btn soldBtn" disabled
+                                                            @if ($sold[0]->status == '0') style="background: orange !important;color:White"
+                                                    @else 
+                                                    style="background: red !important;color:White" @endif>
+                                                            @if ($sold[0]->status == '0')
+                                                                <span class="text">Onay Bekleniyor</span>
+                                                            @else
                                                                 <span class="text">Rezerve Edildi</span>
+                                                            @endif
                                                         </button>
                                                     @else
                                                         <button class="CartBtn second-btn" data-type='project'

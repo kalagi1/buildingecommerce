@@ -1,58 +1,75 @@
 [
     {
-        "id": "ad-banners",
-        "label": "Uygulama",
-        "icon": "ad",
-        "text": "Reklam Bannerları",
-        "key": "AdBanners",
-        "url": "#nv-ad-banners",
-        "activePath": "admin/ad-banners/*",
-        "subMenu": [
-            {
-                "text": "Yeni Ekle",
-                "key": "CreateAdBanner",
-                "url": "admin.adBanners.create",
-                "activePath": "admin/ad-banners/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetAdBanners",
-                "url": "admin.adBanners.index",
-                "activePath": "admin/ad-banners"
-            }
-        ]
-    },
-    {
-        "id": "housing",
-        "label": "Uygulama",
-        "icon": "home",
-        "text": "Konutlar",
-        "key": "Housings",
-        "url": "#nv-housing",
-        "activePath": "admin/housing/*",
-        "subMenu": [
-            {
-                "text": "Yeni Ekle",
-                "key": "CreateHousing",
-                "url": "admin.housings.create",
-                "activePath": "admin/housing/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetHousings",
-                "url": "admin.housings.index",
-                "activePath": "admin/housing"
-            }
-        ]
-    },
-    {
         "id": "home",
-        "label": "Yönetim",
+        "label": "EMLAK SEPETTE",
         "icon": "home",
         "text": "Anasayfa",
         "key": "ViewDashboard",
         "url": "admin.index",
         "activePath": "admin/*"
+    },
+    {
+        "id": "projects",
+        "label": "EMLAK SEPETTE",
+        "icon": "plus",
+        "text": "Proje İlanları",
+        "key": "Projects",
+        "url": "admin.projects.index",
+        "activePath": "admin/projects*"
+    },
+    {
+        "id": "housing",
+        "label": "EMLAK SEPETTE",
+        "icon": "plus",
+        "text": "Konut İlanları",
+        "key": "Housings",
+        "url": "admin.housings.index",
+        "activePath": "admin/housing/*"
+    },
+    {
+        "id": "comment",
+        "label": "EMLAK SEPETTE",
+        "icon": "comments",
+        "text": "Yorumlar",
+        "key": "GetHousingComments",
+        "url": "admin.housings.comments",
+        "activePath": "admin/housing/comments"
+    },
+    {
+        "id": "order",
+        "label": "EMLAK SEPETTE",
+        "icon": "shopping-bag",
+        "text": "Konut Siparişleri",
+        "key": "GetOrders",
+        "url": "admin.orders",
+        "activePath": "admin/orders"
+    },
+    {
+        "id": "order",
+        "label": "EMLAK SEPETTE",
+        "icon": "shopping-bag",
+        "text": "Paket Siparişleri",
+        "key": "GetPackageOrders",
+        "url": "admin.packageOrders",
+        "activePath": "admin/package-orders"
+    },
+    {
+        "id": "ad-banners",
+        "label": "EMLAK SEPETTE",
+        "icon": "ad",
+        "text": "Reklam Görselleri",
+        "key": "AdBanners",
+        "url": "admin.adBanners.index",
+        "activePath": "admin/ad-banners/*"
+    },
+    {
+        "id": "subscriptionPlans",
+        "label": "EMLAK SEPETTE",
+        "icon": "credit-card",
+        "text": "Abonelik Planları",
+        "key": "SubscriptionPlans",
+        "url": "admin.subscriptionPlans.index",
+        "activePath": "admin/subscription-plans*"
     },
     {
         "id": "menu",
@@ -62,24 +79,6 @@
         "key": "Menus",
         "url": "admin.menu_management",
         "activePath": "admin/menus*"
-    },
-    {
-        "id": "comment",
-        "label": "Uygulama",
-        "icon": "comments",
-        "text": "Yorumlar",
-        "key": "GetHousingComments",
-        "url": "admin.housings.comments",
-        "activePath": "admin/housing/comments"
-    },
-    {
-        "id": "order",
-        "label": "Uygulama",
-        "icon": "shopping-bag",
-        "text": "Siparişler",
-        "key": "GetOrders",
-        "url": "admin.orders",
-        "activePath": "admin/orders"
     },
     {
         "id": "role",
@@ -174,29 +173,6 @@
         ]
     },
     {
-        "id": "subscriptionPlans",
-        "label": "Uygulama",
-        "icon": "credit-card",
-        "text": "Abonelik Planları",
-        "key": "SubscriptionPlans",
-        "url": "#nv-subscriptionPlans",
-        "activePath": "admin/subscription-plans*",
-        "subMenu": [
-            {
-                "text": "Yeni Ekle",
-                "key": "CreateSubscriptionPlan",
-                "url": "admin.subscriptionPlans.create",
-                "activePath": "admin/subscription-plans/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetSubscriptionPlans",
-                "url": "admin.subscriptionPlans.index",
-                "activePath": "admin/subscription-plans"
-            }
-        ]
-    },
-    {
         "id": "sliders",
         "label": "Yönetim",
         "icon": "image",
@@ -267,72 +243,30 @@
     },
     {
         "id": "housing_types",
-        "label": "Uygulama",
+        "label": "EMLAK SEPETTE",
         "icon": "info",
-        "text": "Konut Tipleri",
+        "text": "İlan Form Yönetimi",
         "key": "HousingTypes",
-        "url": "#nv-housing-types",
-        "activePath": "admin/housing_types*",
-        "subMenu": [
-            {
-                "text": "Yönetim",
-                "key": "HousingStatusParent",
-                "url": "admin.housing.status.parent.management",
-                "activePath": "admin/housing_status_parent_management"
-            },
-            {
-                "text": "Yeni Ekle",
-                "key": "CreateHousingType",
-                "url": "admin.housing_types.create",
-                "activePath": "admin/housing_types/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetHousingTypes",
-                "url": "admin.housing_types.index",
-                "activePath": "admin/housing_types"
-            }
-        ]
+        "url": "admin.housing.status.parent.management",
+        "activePath": "admin/housing_status_parent_management"
+    },
+    {
+        "id": "housing_types",
+        "label": "EMLAK SEPETTE",
+        "icon": "info",
+        "text": "İlan Formları",
+        "key": "HousingTypes",
+        "url": "admin.housing_types.index",
+        "activePath": "admin/housing_types"
     },
     {
         "id": "housing_status",
-        "label": "Uygulama",
+        "label": "EMLAK SEPETTE",
         "icon": "bar-chart",
-        "text": "Konut Durumları",
+        "text": "Konut Tipleri",
         "key": "HousingStatuses",
-        "url": "#nv-housing-status",
-        "activePath": "admin/housing_status*",
-        "subMenu": [
-            {
-                "text": "Yeni Ekle",
-                "key": "CreateHousingStatus",
-                "url": "admin.housing_statuses.index",
-                "activePath": "admin/housing_status/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetHousingStatuses",
-                "url": "admin.housing_statuses.index",
-                "activePath": "admin/housing_status"
-            }
-        ]
-    },
-    {
-        "id": "projects",
-        "label": "Uygulama",
-        "icon": "globe",
-        "text": "Projeler",
-        "key": "Projects",
-        "url": "#nv-projects",
-        "activePath": "admin/projects*",
-        "subMenu": [
-            {
-                "text": "Listele",
-                "key": "GetProjects",
-                "url": "admin.projects.index",
-                "activePath": "admin/projects"
-            }
-        ]
+        "url": "admin.housing_statuses.index",
+        "activePath": "admin/housing_status"
     },
     {
         "id": "general_settings",
@@ -372,7 +306,7 @@
     },
     {
         "id": "marketings",
-        "label": "Uygulama",
+        "label": "EMLAK SEPETTE",
         "icon": "shopping-bag",
         "text": "Pazarlama",
         "key": "Marketings",

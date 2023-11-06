@@ -87,8 +87,9 @@ class UserController extends Controller
 
     public function create()
     {
+        $userLog = User::where("id", auth()->user()->id)->with("plan.subscriptionPlan", "parent")->first();
         $roles = Role::where("parent_id", auth()->user()->parent_id ?? auth()->user()->id)->get();
-        return view('institutional.users.create', compact("roles"));
+        return view('institutional.users.create', compact("roles","userLog"));
     }
 
     public function store(Request $request)

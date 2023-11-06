@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\InfoController;
 use App\Http\Controllers\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\MarketingController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PaymentTempController as AdminPaymentTempController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -26,7 +28,6 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
-use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
@@ -80,7 +81,7 @@ Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
-Route::post('notification/read', [NotificationController::class,"markAsRead"])->name('notification.read');
+Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
 
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
 Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");
@@ -183,8 +184,6 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::get('show-corporate-account/{user}', [UserController::class, 'showCorporateAccount'])->name('user.show-corporate-account');
     });
 
-
-
     Route::middleware(['checkPermission:HousingStatusParent'])->group(function () {
 
         Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
@@ -218,6 +217,13 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::middleware(['checkPermission:GetOrders'])->group(function () {
         Route::get('/orders', [AdminHomeController::class, 'getOrders'])->name('orders');
+        Route::get('/package-orders', [AdminHomeController::class, 'getPackageOrders'])->name('packageOrders');
+
+        Route::get('/order/approve/{cartOrder}', [AdminHomeController::class, 'approveOrder'])->name('approve-order');
+        Route::get('/order/unapprove/{cartOrder}', [AdminHomeController::class, 'unapproveOrder'])->name('unapprove-order');
+
+        Route::get('/order/approve/package/{userPlan}', [AdminHomeController::class, 'approvePackageOrder'])->name('approve-package-order');
+        Route::get('/order/unapprove/package/{userPlan}', [AdminHomeController::class, 'unapprovePackageOrder'])->name('unapprove-package-order');
     });
 
     Route::middleware(['checkPermission:GetHousingTypeForm'])->group(function () {
@@ -625,6 +631,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
+
+
+    Route::get('/orders', [DashboardController::class, 'getOrders'])->name('orders');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
     Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');

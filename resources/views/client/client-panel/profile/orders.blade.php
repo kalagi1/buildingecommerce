@@ -1,6 +1,18 @@
 @extends('client.layouts.master')
 
 @section('content')
+    @php
+
+        function getHouse($project, $key, $roomOrder)
+        {
+            foreach ($project->roomInfo as $room) {
+                if ($room->room_order == $roomOrder && $room->name == $key) {
+                    return $room;
+                }
+            }
+        }
+
+    @endphp
     <section class="ps-section--account">
         <div class="container">
             <div class="row">
@@ -14,25 +26,25 @@
                                 </figure>
                             </div>
                             @php
-                            $groupedMenuData = [];
+                                $groupedMenuData = [];
 
-                            foreach ($menuData as $menuItem) {
-                                $label = $menuItem['label'];
+                                foreach ($menuData as $menuItem) {
+                                    $label = $menuItem['label'];
 
-                                // Gruplandırılmış menüyü oluştur
-                                if (!isset($groupedMenuData[$label])) {
-                                    $groupedMenuData[$label] = [];
+                                    // Gruplandırılmış menüyü oluştur
+                                    if (!isset($groupedMenuData[$label])) {
+                                        $groupedMenuData[$label] = [];
+                                    }
+
+                                    // Menü öğesini ilgili gruba ekle
+                                    $groupedMenuData[$label][] = $menuItem;
                                 }
-
-                                // Menü öğesini ilgili gruba ekle
-                                $groupedMenuData[$label][] = $menuItem;
-                            }
-                        @endphp
+                            @endphp
                             @foreach ($groupedMenuData as $label => $groupedMenu)
-                             <div class="ps-widget__content mt-3">
-                              
-                                <ul style="padding: 10px !important">
-                                   
+                                <div class="ps-widget__content mt-3">
+
+                                    <ul style="padding: 10px !important">
+
                                         @php
                                             $isActive = false;
                                         @endphp
@@ -52,81 +64,81 @@
                                                                 {{ $menuItem['text'] }}</a>
                                                         </li>
                                                     @endif
-                                                    
                                                 @endforeach
-                                                <li
-                                                style="border:none !important">
-                                                <a href="{{ route('client.logout') }}"><i
-                                                    class="fa fa-sign-out pl-3"></i>
-                                               Çıkış Yap</a>
-                                            </li>
+                                                <li style="border:none !important">
+                                                    <a href="{{ route('client.logout') }}"><i
+                                                            class="fa fa-sign-out pl-3"></i>
+                                                        Çıkış Yap</a>
+                                                </li>
                                             </ul>
                                         </li>
-                                </ul>
-
-                                @endforeach
-
-                            </div>
-                        </aside>
+                                    </ul>
+                            @endforeach
                     </div>
+                    </aside>
                 </div>
-                <div class="col-lg-9">
-                    <div class="ps-page__content">
-                        <div class="ps-page__dashboard">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Sipariş No.</th>
-                                        <th>Görsel</th>
-                                        <th>Proje</th>
-                                        <th>Tutar</th>
-                                        <th>Sipariş Tarihi</th>
-                                        <th>Durum</th>
-                                        <th>Sipariş</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if ($cartOrders->count() > 0)
-                                    @foreach ($cartOrders as $order)
-                                    @php($o = json_decode($order->cart))
-                                    @php($project = $o->type == 'project' ? App\Models\Project::find($o->item->id) : null)
-                                        <tr>
-                                            <td>{{$order->id}}</td>
-                                            <td>
-                                                @if ($o->type == 'housing')
-                                                <img src="{{asset('housing_images/'.json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null)}}" width="200px" height="120px" style="object-fit: contain;"/>
-                                                @else
-                                                <img src="{{asset($project->image)}}" width="200px" height="120px" style="object-fit: contain;"/>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($o->type == 'project')
-                                                {{ $project->project_title ?? '?' }}
-                                                @else
-                                                -
-                                                @endif
-                                            </td>
-                                            <td>{{$order->amount}}</td>
-                                            <td>{{$order->created_at}}</td>
-                                            <td>{{['0' => 'Başarısız', '1' => 'Başarılı'][$order->status]}}</td>
-                                            <td>
-                                                {{ $o->item->title }}<br/>
-                                                {{ $o->item->address }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    @else
-                                    <tr>
-                                        <td colspan="7" class="text-center">Sipariş Bulunamadı</td>
-                                    </tr>
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                
             </div>
+            <div class="col-lg-9">
+                <div class="my-properties">
+
+                    <div id="orders-container">
+                        @if ($cartOrders->count() > 0)
+                            @foreach ($cartOrders as $order)
+                                @php($o = json_decode($order->cart))
+                                @php(
+    $project =
+        $o->type == 'project'
+            ? App\Models\Project::with('roomInfo')->where('id', $o->item->id)->first()
+            : null
+)
+                                <div class="order">
+                                    <div class="order-header">
+                                        <div class="order-header-info">Sipariş Tarihi<b>
+                                                {{ date('Y-m-d', strtotime($order->created_at)) }}</b></div>
+                                      
+                                        <div class="order-header-info">Tutar<b class="text-red">
+                                                {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.01, 2, ',', '.') }}
+                                                ₺</b></div>
+                                    </div>
+                                    <div class="order-list">
+                                        <div class="order-item">
+                                            
+                                            <div class="order-item-images">
+                                                @if ($o->type == 'housing')
+                                                    <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
+                                                        style="object-fit: contain;width:100px" alt="Görsel">
+                                                @else
+                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', json_decode($order->cart)->item->housing)->value }}"
+                                                        style="object-fit: cover;width:100px;height:100px" alt="Görsel">
+                                                @endif
+                                            </div>
+                                            <div class="order-item-status">
+                                                <strong>
+                                                    {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                                        {{ getHouse($project, 'squaremeters[]', json_decode($order->cart)->item->housing)->value }}m2
+                                                        {{ getHouse($project, 'room_count[]',json_decode($order->cart)->item->housing)->value }} </strong>
+                                                        {!! [
+                                                            '0' => '<span class="text-warning">Ödeme Bekleniyor</span>',
+                                                            '1' => '<span class="text-success">Ödeme Onaylandı</span>',
+                                                            '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
+                                                        ][$order->status] !!}
+                                            </div>
+                                            
+
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <span class="text-center">Sipariş Bulunamadı</span>
+                        @endif
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
         </div>
     </section>
 @endsection
@@ -136,4 +148,32 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/account.css') }}" />
+
+    <style>
+        @media(max-width: 768px) {
+            .mobile-shadow {
+                background: white;
+                box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103)
+            }
+
+            .my-properties table tr {
+                margin-bottom: 20px;
+            }
+
+            .ps-section--account {
+                padding: 60px 0;
+            }
+
+            .my-properties table tr td {
+                padding: 10px !important;
+            }
+
+            .my-properties {
+                background: transparent;
+                padding: 0 !important;
+                margin-top: 20px;
+                box-shadow: none !important;
+            }
+        }
+    </style>
 @endsection

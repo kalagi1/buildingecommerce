@@ -410,7 +410,7 @@ out center;`;
                             <div class="project-inner project-head">
                                 <div class="location-card">
                                     <div class="location-card-head">
-                                        <img src="https://www.sahibinden.com/assets/images/durak:7299b7f721d8e670e9d070f1f816991a.png" alt="">
+                                        <img src="https://www..com/assets/images/durak:7299b7f721d8e670e9d070f1f816991a.png" alt="">
                                     </div>
                                     <div class="location-card-body">
                                         ${element.tags.type == "public_transport" ? `<p>${name} Metro Durağı </p>` : `<p>${name} Otobüs Durağı</p>`}

@@ -18,6 +18,16 @@
         "activePath": "institutional/profile/edit"
     },
     {
+        "id": "ChangePassword",
+        "label": "Hesabım & Yardım",
+        "icon": "lock",
+        "text": "Şifreyi Değiştir",
+        "key": "ChangePassword",
+        "url": "institutional.password.edit",
+        "activePath": "institutional/password/edit"
+    },
+  
+    {
         "id": "role",
         "label": "Hesabım & Yardım",
         "icon": "user",
@@ -39,6 +49,15 @@
                 "activePath": "institutional/roles"
             }
         ]
+    },
+    {
+        "id": "order",
+        "label": "Emlak Sepette",
+        "icon": "shopping-bag",
+        "text": "Siparişlerim",
+        "key": "GetOrders",
+        "url": "institutional.orders",
+        "activePath": "institutional/orders"
     },
     {
         "id": "user",
@@ -63,20 +82,11 @@
             }
         ]
     },
-    {
-        "id": "ChangePassword",
-        "label": "Hesabım & Yardım",
-        "icon": "lock",
-        "text": "Şifreyi Değiştir",
-        "key": "ChangePassword",
-        "url": "institutional.password.edit",
-        "activePath": "institutional/password/edit"
-    },
-  
+   
     {
         "id": "projects",
         "label": "Emlak Sepette",
-        "icon": "plus-square",
+        "icon": "plus",
         "text": "Proje İlanlarım",
         "key": "Projects",
         "url": "institutional.projects.index",
@@ -85,7 +95,7 @@
     {
         "id": "projects",
         "label": "Emlak Sepette",
-        "icon": "plus-square",
+        "icon": "plus",
         "text": "Emlak İlanlarım",
         "key": "Housings",
         "url": "institutional.housing.list",
@@ -141,7 +151,7 @@
         "id": "upgrade",
         "label": "Emlak Sepette",
         "icon": "arrow-up",
-        "text": "Aboneliği Yükselt",
+        "text": "Paket Satın Al",
         "key": "Upgrade",
         "url": "institutional.profile.upgrade",
         "activePath": "institutional/profile/upgrade"

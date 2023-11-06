@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartOrder;
 use App\Models\DocumentNotification;
 use App\Models\User;
 use App\Models\UserPlan;
@@ -12,6 +13,25 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+
+    public function getOrders()
+    {
+        $userProjectIds = Auth::user()->projects->pluck('id')->toArray();
+
+        $cartOrders = CartOrder::select('cart_orders.*')
+            ->with("user")
+            ->where(function ($query) use ($userProjectIds) {
+                $query->whereIn(
+                    DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
+                    $userProjectIds
+                )->where('cart_orders.status', '1');
+            })
+            ->get();
+
+
+        return view('institutional.orders.index', compact('cartOrders'));
+    }
+
     public function corporateAccountVerification()
     {
         return view('institutional.home.verification');
@@ -66,9 +86,9 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $user = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan", "parent")->first();
+        $userLog = User::where("id", Auth::user()->id)->with("plan.subscriptionPlan", "parent")->first();
         $hasPlan = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->with("subscriptionPlan")->first();
-        $remainingPackage = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->first();
+        $remainingPackage = UserPlan::where("user_id", auth()->user()->parent_id ?? auth()->user()->id)->where("status", "1")->first();
         $stats1_data = [];
 
         DB::beginTransaction();
@@ -96,7 +116,6 @@ class DashboardController extends Controller
 
         }
         DB::commit();
-
-        return view('institutional.home.index', compact("user", "remainingPackage", "stats1_data", "stats2_data"));
+        return view('institutional.home.index', compact("userLog", "remainingPackage", "stats1_data", "stats2_data"));
     }
 }
