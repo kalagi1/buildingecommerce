@@ -318,7 +318,7 @@
     $discount_amount =
         App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
-@php($sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND status = "1"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]) ?? false)
+                                        @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <a class="text-decoration-none"
@@ -423,11 +423,16 @@
                                                                     {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
                                                                 </li>
                                                             </ul>
-                                                            @if ($sold)
-                                                                <button class="btn second-btn soldBtn"
-                                                                disabled
-                                                                    style="background: red !important;width:100%;color:white">
-                                                                    <span class="text">Rezerve Edildi</span>
+                                                              @if ($sold && $sold[0]->status != '2')
+                                                                <button class="btn second-btn soldBtn" disabled
+                                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                                            @else 
+                                                            style="background: red !important;width:100%;color:White" @endif>
+                                                                    @if ($sold[0]->status == '0')
+                                                                        <span class="text">Onay Bekleniyor</span>
+                                                                    @else
+                                                                        <span class="text">Rezerve Edildi</span>
+                                                                    @endif
                                                                 </button>
                                                             @else
                                                                 <button class="CartBtn" data-type='project'
@@ -580,7 +585,7 @@
         App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
 
-                                        @php($sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND status = "1" AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]) ?? false)
+                                        @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <a class="text-decoration-none"
                                                 href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
@@ -684,11 +689,16 @@
                                                                     {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
                                                                 </li>
                                                             </ul>
-                                                            @if ($sold)
-                                                                <button class="btn second-btn soldBtn"
-                                                                disabled
-                                                                    style="background: red !important;width:100%;color:white">
-                                                                    <span class="text">Rezerve Edildi</span>
+                                                            @if ($sold && $sold[0]->status != '2')
+                                                                <button class="btn second-btn soldBtn" disabled
+                                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                                            @else 
+                                                            style="background: red !important;width:100%;color:White" @endif>
+                                                                    @if ($sold[0]->status == '0')
+                                                                        <span class="text">Onay Bekleniyor</span>
+                                                                    @else
+                                                                        <span class="text">Rezerve Edildi</span>
+                                                                    @endif
                                                                 </button>
                                                             @else
                                                                 <button class="CartBtn" data-type='project'
@@ -842,7 +852,7 @@
     $discount_amount =
         App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
-@php($sold = DB::select('SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND status = "1"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]) ?? false)
+                                        @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <a class="text-decoration-none"
@@ -947,22 +957,27 @@
                                                                     {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
                                                                 </li>
                                                             </ul>
-                                                            @if ($sold)
-                                                            <button class="btn second-btn soldBtn"
-                                                            disabled
-                                                                style="background: red !important;width:100%;color:white">
-                                                                <span class="text">Rezerve Edildi</span>
-                                                            </button>
-                                                        @else
-                                                            <button class="CartBtn" data-type='project'
-                                                                data-project='{{ $project->id }}'
-                                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
-                                                                <span class="IconContainer">
-                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                </span>
-                                                                <span class="text">Sepete Ekle</span>
-                                                            </button>
-                                                        @endif
+                                                              @if ($sold && $sold[0]->status != '2')
+                                                                <button class="btn second-btn soldBtn" disabled
+                                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                                            @else 
+                                                            style="background: red !important;width:100%;color:White" @endif>
+                                                                    @if ($sold[0]->status == '0')
+                                                                        <span class="text">Onay Bekleniyor</span>
+                                                                    @else
+                                                                        <span class="text">Rezerve Edildi</span>
+                                                                    @endif
+                                                                </button>
+                                                            @else
+                                                                <button class="CartBtn" data-type='project'
+                                                                    data-project='{{ $project->id }}'
+                                                                    data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                    </span>
+                                                                    <span class="text">Sepete Ekle</span>
+                                                                </button>
+                                                            @endif
 
                                                         </div>
                                                     </div>

@@ -1,6 +1,18 @@
 @extends('admin.layouts.master')
 
 @section('content')
+    @php
+
+        function getHouse($project, $key, $roomOrder)
+        {
+            foreach ($project->roomInfo as $room) {
+                if ($room->room_order == $roomOrder && $room->name == $key) {
+                    return $room;
+                }
+            }
+        }
+
+    @endphp
     <div class="content">
         <div class="mb-9">
             <div class="row g-3 mb-4">
@@ -15,7 +27,7 @@
                         <div class="col-auto">
                             <div class="search-box">
                                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
-                                        class="form-control search-input search" type="search" placeholder="Search orders"
+                                        class="form-control search-input search" type="search" placeholder="Ara"
                                         aria-label="Search" />
                                     <span class="fas fa-search search-box-icon"></span>
                                 </form>
@@ -28,63 +40,76 @@
                     <div class="table-responsive scrollbar mx-n1 px-1">
                         <table class="table table-sm fs--1 mb-0">
                             <thead>
-                            <tr>
-                                <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kod</th>
-                                <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_image">Görsel</th>
-                                <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_project">Proje</th>
-                                <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_amount">Tutar</th>
-                                <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_date">Sipariş Tarihi</th>
-                                <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_status">Durum</th>
-                                <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_user">Alıcı</th>
-                                <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_seller">Satıcı</th>
-                                <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_details">Detay</th>
-                            </tr>
+                                <tr>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_no">Kod</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_image">Görsel</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_project">Proje</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_amount">Tutar</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_date">Sipariş Tarihi</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_status">Durum</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_user">Alıcı</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_seller">Satıcı</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_details">Detay</th>
+                                </tr>
                             </thead>
                             <tbody class="list" id="order-table-body">
 
-                            @if ($cartOrders->count() > 0)
-                                @foreach ($cartOrders as $order)
-                                    @php($o = json_decode($order->cart))
-                                    @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
+                                @if ($cartOrders->count() > 0)
+                                    @foreach ($cartOrders as $order)
+                                        @php($o = json_decode($order->cart))
+                                        @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
+                                        <tr>
+                                            <td class="order_no">{{ $order->key }}</td>
+                                            <td class="order_image">
+                                                @if ($o->type == 'housing')
+                                                    <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
+                                                        width="100px" height="120px" style="object-fit: contain;" />
+                                                @else
+                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', json_decode($order->cart)->item->housing)->value }}"
+                                                        style="object-fit: cover;width:100px;height:75px" alt="Görsel">
+                                                @endif
+                                            </td>
+                                            <td class="order_project">
+                                                @if ($o->type == 'project')
+                                                    {{ $project->project_title ?? '?' }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td class="order_amount">{{ $order->amount }}</td>
+                                            <td class="order_date">{{ $order->created_at }}</td>
+                                            <td class="order_status">{!! [
+                                                '0' => '<span class="text-warning">Ödeme Bekleniyor</span>',
+                                                '1' => '<span class="text-success">Ödeme Onaylandı</span>',
+                                                '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
+                                            ][$order->status] !!}</td>
+                                            <td class="order_user">{{ $order->user->email }}</td>
+                                            <td class="order_seller">{{ $project->user->email ?? '-' }}</td>
+                                            <td class="order_details">
+                                                @if ($order->status == 0 || $order->status == 2)
+                                                    <a href="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}"
+                                                        class="btn btn-success">Onayla</a>
+                                                @else
+                                                    <a href="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}"
+                                                        class="btn btn-danger">Reddet</a>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
                                     <tr>
-                                        <td class="order_no">{{ $order->key }}</td>
-                                        <td class="order_image">
-                                            @if ($o->type == 'housing')
-                                                <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
-                                                     width="200px" height="120px"
-                                                     style="object-fit: contain;" />
-                                            @else
-                                                <img src="{{ URL::to('/') . '/project_housing_images/' . $project->image }}"
-                                                     width="200px" height="120px"
-                                                     style="object-fit: contain;" />
-                                            @endif
-                                        </td>
-                                        <td class="order_project">
-                                            @if ($o->type == 'project')
-                                                {{ $project->project_title ?? '?' }}
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-                                        <td class="order_amount">{{ $order->amount }}</td>
-                                        <td class="order_date">{{ $order->created_at }}</td>
-                                        <td class="order_status">{!! ['0' => '<span class="text-danger">Ödeme Bekleniyor</span>', '1' => '<span class="text-success">Ödeme Onaylandı</span>'][$order->status] !!}</td>
-                                        <td class="order_user">{{ $order->user->email }}</td>
-                                        <td class="order_seller">{{ $project->user->email ?? '-'  }}</td>
-                                        <td class="order_details">
-                                            @if ($order->status == 0)
-                                            <a href="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}" class="btn btn-success">Onayla</a>
-                                            @else
-                                            <a href="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}" class="btn btn-danger">Onayı Kaldır</a>
-                                            @endif
-                                        </td>
+                                        <td colspan="9" class="text-center">Sipariş Bulunamadı</td>
                                     </tr>
-                                @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="9" class="text-center">Sipariş Bulunamadı</td>
-                                </tr>
-                            @endif
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -139,6 +164,10 @@
 
 @section('css')
     <style>
+        .order_status span {
+            font-weight: 800
+        }
+
         #table_filter {
             margin-bottom: 20px;
         }

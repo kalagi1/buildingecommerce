@@ -40,7 +40,7 @@ class HomeController extends Controller
 
     function unapproveOrder(CartOrder $cartOrder)
     {
-        $cartOrder->update(['status' => '0']);
+        $cartOrder->update(['status' => '2']);
         return redirect()->back();
     }
 

@@ -74,78 +74,78 @@
                                         </li>
                                     </ul>
                             @endforeach
-                        </div>
+                    </div>
                     </aside>
                 </div>
             </div>
             <div class="col-lg-9">
                 <div class="my-properties">
-                    <table class="table-responsive">
-                        <thead>
-                            <tr>
-                                <th> No.</th>
-                                <th>Görsel</th>
-                                <th>Proje</th>
-                                <th>Tutar</th>
-                                <th>Sipariş Tarihi</th>
-                                <th>Durum</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if ($cartOrders->count() > 0)
-                                @foreach ($cartOrders as $order)
-                                    @php($o = json_decode($order->cart))
-                                    @php(
+
+                    <div id="orders-container">
+                        @if ($cartOrders->count() > 0)
+                            @foreach ($cartOrders as $order)
+                                @php($o = json_decode($order->cart))
+                                @php(
     $project =
         $o->type == 'project'
             ? App\Models\Project::with('roomInfo')->where('id', $o->item->id)->first()
             : null
 )
-                                    <tr class="mobile-shadow">
-                                        <td class="mobile-hidden">
-                                            {{ $order->key }}
-                                        </td>
-                                        <td class="mobile-show">
-                                            {{ date('Y-m-d', strtotime($order->created_at)) }} <br>
-                                            Toplam:
-                                            <strong style="color:#e54242">
+                                <div class="order">
+                                    <div class="order-header">
+                                        <div class="order-header-info">Sipariş Tarihi<b>
+                                                {{ date('Y-m-d', strtotime($order->created_at)) }}</b></div>
+                                        <div class="order-header-info">Sipariş Bilgisi<b
+                                                title=" @if ($o->type == 'project') {{ $project->project_title ?? '?' }}
+                                        @else
+                                            - @endif">
+                                                @if ($o->type == 'project')
+                                                    {{ $project->project_title ?? '?' }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </b>
+                                        </div>
+                                        <div class="order-header-info">Tutar<b class="text--red">
                                                 {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.01, 2, ',', '.') }}
-                                                ₺</strong>
+                                                ₺</b></div>
+                                    </div>
+                                    <div class="order-list">
+                                        <div class="order-item">
+                                            <div class="order-item-status">
+                                                <span
+                                                    style="color: 
+                                                    @if ($order->status == 0) orange
+                                                    @elseif ($order->status == 1)
+                                                        green
+                                                    @elseif ($order->status == 2)
+                                                        red @endif
+                                                ">
+                                                    <strong>
+                                                        {{ ['Ödeme Bekleniyor', 'Başarılı', 'Ödeme Reddedildi'][$order->status] }}
+                                                    </strong>
+                                                </span>
+                                            </div>
 
-                                        </td>
-                                        <td>
-                                            @if ($o->type == 'housing')
-                                                <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
-                                                    style="object-fit: contain;width:100px" alt="Görsel">
-                                            @else
-                                                <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', json_decode($order->cart)->item->housing)->value }}"
-                                                    style="object-fit: contain;width:100px" alt="Görsel">
-                                            @endif
-                                        </td>
-                                        <td class="mobile-hidden">
-                                            @if ($o->type == 'project')
-                                                {{ $project->project_title ?? '?' }}
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-                                        <td class="mobile-show">
-                                            <strong>{{ $o->item->title }}</strong>
-                                        </td>
-                                        <td class="mobile-hidden"> {{ $order->amount }}</td>
-                                        <td class="mobile-hidden">{{ $order->created_at }}</td>
-                                        <td style="color: {{ $order->status == 0 ? 'red' : 'green' }}">
-                                           <strong> {{ ['ÖDEME YAPILMADI', 'ÖDEME YAPILDI'][$order->status] }}</strong>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="7" class="text-center">Sipariş Bulunamadı</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
+                                            <div class="order-item-images">
+                                                @if ($o->type == 'housing')
+                                                    <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
+                                                        style="object-fit: contain;width:100px" alt="Görsel">
+                                                @else
+                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', json_decode($order->cart)->item->housing)->value }}"
+                                                        style="object-fit: cover;width:100px;height:100px" alt="Görsel">
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <span class="text-center">Sipariş Bulunamadı</span>
+                        @endif
+                    </div>
+
+
                 </div>
             </div>
 
