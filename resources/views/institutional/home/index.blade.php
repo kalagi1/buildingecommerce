@@ -5,10 +5,10 @@
     <div class="content">
         <div class="row gy-3 mb-6 justify-content-between">
             <div class="col-md-12 col-auto">
-                <h2 class="mb-2 text-1100">{{ $user->name }} Hoş Geldiniz.</h2>
-                @if (isset($user->parent))
+                <h2 class="mb-2 text-1100">{{ $userLog->name }} Hoş Geldiniz.</h2>
+                @if (isset($userLog->parent))
                     <span class="badge bg-info "> Kurumsal Hesap:
-                        {{ $user->parent->name }}</span>
+                        {{ $userLog->parent->name }}</span>
                 @endif
             </div>
         </div>
@@ -28,15 +28,24 @@
                     </path>
                 </svg><!-- <i class="fa-inverse fa-stack-1x text-primary-soft fas fa-percentage"></i> Font Awesome fontawesome.com --></span>
             <div class="col">
-                <h3 class="mb-0 text-primary position-relative fw-bold"><span class="bg-soft pe-2">
-                        @if ($user->plan)
-                            <span class="bg-soft pe-2">
-                                {{ $user->plan->subscriptionPlan->name }} Paketi
-                            </span>
+                <h3 class="mb-0 text-primary position-relative fw-bold">
+                    <span class="bg-soft pe-2">
+                        @if ($userLog->plan && $userLog->plan->status != 2 && $userLog->plan->subscription_plan_id != null)
+                            @if ($userLog->plan->status == 0)
+                                <span class="bg-soft pe-2 @if ($userLog->plan->status == 0) text-orange @endif">
+                                    Ödeme site yöneticisi tarafından onaylandığında paketiniz aktif olacaktır.
+                                </span>
+                            @else
+                                <span class="bg-soft pe-2">
+                                    {{ $userLog->plan->subscriptionPlan->name }} Paketi
+                                </span>
+                            @endif
                         @else
                             <span class="bg-soft pe-2">
                                 Henüz paket almadınız
                             </span>
+                            <a href="{{ route('institutional.profile.upgrade') }}" class="btn btn-primary">Paket Satın Al</a>
+
                         @endif
                     </span><span
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
@@ -214,4 +223,7 @@
 
         window.addEventListener('resize', myChart.resize);
     </script>
+@endsection
+
+@section('css')
 @endsection

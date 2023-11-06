@@ -79,16 +79,17 @@ class CartController extends Controller
             return redirect()->back()->withErrors(['pay' => 'Sepet boş.']);
         }
 
-        if ((CartOrder::whereRaw('JSON_EXTRACT(cart, "$.type") = ?', 'housing')->whereRaw('JSON_EXTRACT(cart, "$.item.id") = ?', $request->session()->get('cart')['item']['id'] && $request->session()->get('cart')['type'] == 'housing')->first()) ||
-            (CartOrder::whereRaw('JSON_EXTRACT(cart, "$.type") = ?', 'project')->whereRaw('JSON_EXTRACT(cart, "$.item.housing") = ?', $request->session()->get('cart')['item']['housing'] ?? null && $request->session()->get('cart')['type'] == 'project')->first())) {
-            return redirect()->back()->withErrors(['pay' => 'Bu ürün satılmış.']);
-        }
+        // if ((CartOrder::whereRaw('JSON_EXTRACT(cart, "$.type") = ?', 'housing')->whereRaw('JSON_EXTRACT(cart, "$.item.id") = ?', $request->session()->get('cart')['item']['id'] && $request->session()->get('cart')['type'] == 'housing')->first()) ||
+        //     (CartOrder::whereRaw('JSON_EXTRACT(cart, "$.type") = ?', 'project')->whereRaw('JSON_EXTRACT(cart, "$.item.housing") = ?', $request->session()->get('cart')['item']['housing'] ?? null && $request->session()->get('cart')['type'] == 'project')->first())) {
+        //     return redirect()->back()->withErrors(['pay' => 'Bu ürün satılmış.']);
+        // }
 
         $order = new CartOrder;
         $order->user_id = auth()->user()->id;
         $order->amount = str_replace(',', '.', number_format(floatval(str_replace('.', '', $request->session()->get('cart')['item']['price'] - $request->session()->get('cart')['item']['discount_amount'])) * 0.01, 2, ',', '.'));
         $order->cart = json_encode($request->session()->get('cart'));
-        $order->status = '1';
+        $order->status = '0';
+        $order->key = $request->input("key");
         $order->save();
         session()->forget('cart');
 

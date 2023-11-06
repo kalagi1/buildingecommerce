@@ -8,6 +8,7 @@ use App\Models\Housing;
 use App\Models\HousingComment;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\UserPlan;
 
 class HomeController extends Controller
 {
@@ -21,13 +22,45 @@ class HomeController extends Controller
         $passiveProjects = Project::where("status", "0")->get();
         $descProjects = Project::orderBy("id", "desc")->with("user", "city", "county")->limit(4)->get();
         $secondhandHousings = Housing::all();
-        return view('admin.home.index', compact("comments", "countUser","passiveProjects", "clients", "institutionals", "projects", "secondhandHousings", 'descProjects'));
+        return view('admin.home.index', compact("comments", "countUser", "passiveProjects", "clients", "institutionals", "projects", "secondhandHousings", 'descProjects'));
+    }
+
+    public function getPackageOrders()
+    {
+        $cartOrders = UserPlan::with('user',"subscriptionPlan")->get();
+
+        return view('admin.package-orders.index', compact('cartOrders'));
     }
 
     public function getOrders()
     {
         $cartOrders = CartOrder::with('user')->get();
+
         return view('admin.orders.index', compact('cartOrders'));
+    }
+
+    public function approveOrder(CartOrder $cartOrder)
+    {
+        $cartOrder->update(['status' => '1']);
+        return redirect()->back();
+    }
+
+    public function unapproveOrder(CartOrder $cartOrder)
+    {
+        $cartOrder->update(['status' => '2']);
+        return redirect()->back();
+    }
+
+    public function approvePackageOrder(UserPlan $userPlan)
+    {
+        $userPlan->update(['status' => '1']);
+        return redirect()->back();
+    }
+
+    public function unapprovePackageOrder(UserPlan $userPlan)
+    {
+        $userPlan->update(['status' => '2']);
+        return redirect()->back();
     }
 
 }

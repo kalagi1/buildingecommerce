@@ -1,23 +1,11 @@
 @extends('admin.layouts.master')
 
 @section('content')
-    @php
-
-        function getHouse($project, $key, $roomOrder)
-        {
-            foreach ($project->roomInfo as $room) {
-                if ($room->room_order == $roomOrder && $room->name == $key) {
-                    return $room;
-                }
-            }
-        }
-
-    @endphp
     <div class="content">
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
-                    <h2 class="mb-0">Siparişler</h2>
+                    <h2 class="mb-0">Paket Siparişleri</h2>
                 </div>
             </div>
             <div id="orderTable"
@@ -44,9 +32,7 @@
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_no">Kod</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_image">Görsel</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_project">Proje</th>
+                                        data-sort="order_image">Paket</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_amount">Tutar</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
@@ -65,44 +51,29 @@
 
                                 @if ($cartOrders->count() > 0)
                                     @foreach ($cartOrders as $order)
-                                        @php($o = json_decode($order->cart))
-                                        @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                         <tr>
                                             <td class="order_no">{{ $order->key }}</td>
-                                            <td class="order_image">
-                                                @if ($o->type == 'housing')
-                                                    <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
-                                                        width="100px" height="120px" style="object-fit: contain;" />
-                                                @else
-                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', json_decode($order->cart)->item->housing)->value }}"
-                                                        style="object-fit: cover;width:100px;height:75px" alt="Görsel">
-                                                @endif
-                                            </td>
                                             <td class="order_project">
-                                                @if ($o->type == 'project')
-                                                <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                    {{ getHouse($project, 'squaremeters[]', json_decode($order->cart)->item->housing)->value }}m2
-                                                    {{ getHouse($project, 'room_count[]',json_decode($order->cart)->item->housing)->value }}
-                                                </span>
-                                                @else
-                                                    -
-                                                @endif
+                                                {{ $order->subscriptionPlan->name }}
                                             </td>
-                                            <td class="order_amount">{{ $order->amount }}</td>
+                                            <td class="order_amount"> {{ $order->subscriptionPlan->price }}</td>
                                             <td class="order_date">{{ $order->created_at }}</td>
                                             <td class="order_status">{!! [
                                                 '0' => '<span class="text-warning">Ödeme Bekleniyor</span>',
                                                 '1' => '<span class="text-success">Ödeme Onaylandı</span>',
                                                 '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
                                             ][$order->status] !!}</td>
-                                            <td class="order_user">{{ $order->user->email }}</td>
-                                            <td class="order_seller">{{ $project->user->email ?? '-' }}</td>
+                                            <td class="order_user">
+                                                {{ $order->user->name }} <br>
+                                                {{ $order->user->email }}<br>
+                                                {{ $order->user->phone }}</td>
+                                            <td class="order_seller">Emlak Sepette</td>
                                             <td class="order_details">
                                                 @if ($order->status == 0 || $order->status == 2)
-                                                    <a href="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}"
+                                                    <a href="{{ route('admin.approve-package-order', ['userPlan' => $order->id]) }}"
                                                         class="btn btn-success">Onayla</a>
                                                 @else
-                                                    <a href="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}"
+                                                    <a href="{{ route('admin.unapprove-package-order', ['userPlan' => $order->id]) }}"
                                                         class="btn btn-danger">Reddet</a>
                                                 @endif
                                             </td>

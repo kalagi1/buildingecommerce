@@ -3,13 +3,16 @@
 @section('content')
     <div class="content">
         <h4 class="mb-2 lh-sm @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
-        
 
-            @if ($user->plan)
-                Kalan Konut Oluşturma Hakkınız :
-                {{ $user->plan->housing_limit }} Adet
-                @if ($user->plan->housing_limit === 0)
-                    - Hakkınız Kalmadı
+            @if ($userLog->plan && $userLog->plan->status != 2 && $userLog->plan->subscription_plan_id != null)
+                @if ($userLog->plan->status == '0' )
+                    Ödeme site yöneticisi tarafından onaylandığında paketiniz aktif olacaktır.
+                @else
+                    Kalan Konut Oluşturma Hakkınız :
+                    {{ $userLog->plan->housing_limit }} Adet
+                    @if ($userLog->plan->housing_limit === 0)
+                        - Hakkınız Kalmadı
+                    @endif
                 @endif
             @else
                 Konut eklemek için bir paket satın almanız gerekiyor.
@@ -78,7 +81,7 @@
                                     <p>Kategori Seçimi Tamanlanmıştır</p>
                                 </div>
                                 <div class="finish-button-first">
-                                    <button class="btn btn-info" @if (!$user->plan || $user->plan->housing_limit === 0) disabled @endif>
+                                    <button class="btn btn-info" @if (!$userLog->plan || $userLog->plan->housing_limit === 0 || $userLog->plan->status == '0') disabled @endif>
                                         Devam
                                     </button>
                                 </div>
@@ -235,23 +238,23 @@
                         <div class="pricing card py-2 px-5">
 
                             <div class="row pricing-select-first @if (
-                                (isset($userPlan) &&
-                                    $userPlan->housing_limit > 0 &&
+                                (isset($userLogPlan) &&
+                                    $userLogPlan->housing_limit > 0 &&
                                     (isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1)) ||
                                     !isset($tempData->{"pricing-type"})) @else d-none @endif">
                                 <div class="col-md-6">
                                     <div class="pricing-item-first" style="width: 100%;">
                                         <div class="pricing-item-inner" onclick="changeData(1,'pricing-type')">
                                             <span class="btn btn-primary remaining_projects">
-                                                @if ($user->plan)
-                                                Kalan Konut Oluşturma Hakkınız :
-                                                {{ $user->plan->housing_limit }} Adet
-                                                @if ($user->plan->housing_limit === 0)
-                                                    - Hakkınız Kalmadı
+                                                @if ($userLog->plan)
+                                                    Kalan Konut Oluşturma Hakkınız :
+                                                    {{ $userLog->plan->housing_limit }} Adet
+                                                    @if ($userLog->plan->housing_limit === 0)
+                                                        - Hakkınız Kalmadı
+                                                    @endif
+                                                @else
+                                                    Konut eklemek için bir paket satın almanız gerekiyor.
                                                 @endif
-                                            @else
-                                                Konut eklemek için bir paket satın almanız gerekiyor.
-                                            @endif
                                             </span>
                                             <div style="margin-right: 20px">
                                                 <input type="radio" style="display: none;margin:0 auto;">
@@ -286,8 +289,8 @@
 
                             <div class="row single-price-project-area @if (
                                 (isset($tempData->{"pricing-type"}) && $tempData->{"pricing-type"} == 1) ||
-                                    !isset($userPlan) ||
-                                    (isset($userPlan) && $userPlan->housing_limit == 0) ||
+                                    !isset($userLogPlan) ||
+                                    (isset($userLogPlan) && $userLogPlan->housing_limit == 0) ||
                                     !isset($tempData->{"pricing-type"})) d-none @endif">
                                 <div>
                                     <label for="" class="c-pointer redirect-back-pricing"><i
@@ -572,14 +575,14 @@
 
 
         $('.finish-button-first').click(function() {
-            @if ($user->plan && $user->plan->housing_limit === 0)
+            @if ($userLog->plan && $userLog->plan->housing_limit === 0)
                 $.toast({
                     heading: 'Hata',
                     text: 'Hakkınız kalmadığı için bu işlemi gerçekleştiremezsiniz.',
                     position: 'top-right',
                     stack: false
                 });
-            @elseif (!$user->plan)
+            @elseif (!$userLog->plan || $userLog->plan->status == '0')
                 $.toast({
                     heading: 'Hata',
                     text: 'Konut eklemek için paket satın almalısınız.',

@@ -92,7 +92,7 @@ class ProfileController extends Controller
         );
 
         $plan = SubscriptionPlan::find($id);
-        $before = UserPlan::where('user_id', auth()->user()->id)->first();
+        $before = UserPlan::where('user_id', auth()->user()->id)->where("status","1")->first();
         $user = User::where('id', auth()->user()->id)->first();
         $user->update([
             'subscription_plan_id' => $plan->id,
