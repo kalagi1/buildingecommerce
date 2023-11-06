@@ -63,7 +63,10 @@
                                                 '1' => '<span class="text-success">Ödeme Onaylandı</span>',
                                                 '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
                                             ][$order->status] !!}</td>
-                                            <td class="order_user">{{ $order->user->email }}</td>
+                                            <td class="order_user">
+                                                {{ $order->user->name }} <br>
+                                                {{ $order->user->email }}<br>
+                                                {{ $order->user->phone }}</td>
                                             <td class="order_seller">Emlak Sepette</td>
                                             <td class="order_details">
                                                 @if ($order->status == 0 || $order->status == 2)
