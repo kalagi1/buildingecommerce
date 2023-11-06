@@ -42,28 +42,30 @@
                             <div class="py-2 px-3">
 
                                 @if (Auth::user()->subscription_plan_id != null)
-                                <button type="button"
-                                class="btn @if ($current->subscriptionPlan->id == $plan->id && $current->status == 0) btn-warning @else btn-primary @endif paymentClick btn-lg btn-block w-100"
-                                data-toggle="modal" data-target="#paymentModal{{ $plan->id }}"
-                                {{ $current->subscriptionPlan->id == $plan->id && $current->status != 2 ? 'disabled' : '' }}>
-                                @if ($current->subscriptionPlan->id == $plan->id && $current->status != 2)
-                                    @if ($current->status == 0)
-                                        Onay Bekleniyor
-                                    @else
-                                        AKTİF
-                                    @endif
-                                @else
-                                    @if ($current->subscriptionPlan->price >= $plan->price)
-                                        SATIN AL
-                                    @else
-                                        YÜKSELT
-                                    @endif
-                                @endif
-                                @if ($current->subscriptionPlan->price < $plan->price)
-                                    <i class="fas fa-angle-double-up ml-3"></i>
-                                @endif
-                            </button>
-                            
+                                    <button type="button"
+                                        class="btn @if ($current->subscriptionPlan->id == $plan->id && $current->status == 0) btn-warning @else btn-primary @endif paymentClick btn-lg btn-block w-100"
+                                        data-toggle="modal" data-target="#paymentModal{{ $plan->id }}"
+                                        {{ $current->subscriptionPlan->id == $plan->id && $current->status != 2 ? 'disabled' : '' }}>
+                                        @if ($current->subscriptionPlan->id == $plan->id && $current->status != 2)
+                                            @if ($current->status == 0)
+                                                Onay Bekleniyor
+                                            @else
+                                                AKTİF
+                                            @endif
+                                        @elseif($current->status != 2)
+                                            @if ($current->subscriptionPlan->price >= $plan->price)
+                                                SATIN AL
+                                            @else
+                                                YÜKSELT
+                                            @endif
+                                            @if ($current->subscriptionPlan->price < $plan->price)
+                                            <i class="fas fa-angle-double-up ml-3"></i>
+                                        @endif
+                                        @else
+                                            SATIN AL
+                                        @endif
+                                     
+                                    </button>
                                 @else
                                     <button type="button" class="btn btn-primary paymentClick btn-lg btn-block w-100"
                                         data-toggle="modal" data-target="#paymentModal{{ $plan->id }}">

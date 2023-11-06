@@ -217,8 +217,13 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::middleware(['checkPermission:GetOrders'])->group(function () {
         Route::get('/orders', [AdminHomeController::class, 'getOrders'])->name('orders');
+        Route::get('/package-orders', [AdminHomeController::class, 'getPackageOrders'])->name('packageOrders');
+
         Route::get('/order/approve/{cartOrder}', [AdminHomeController::class, 'approveOrder'])->name('approve-order');
         Route::get('/order/unapprove/{cartOrder}', [AdminHomeController::class, 'unapproveOrder'])->name('unapprove-order');
+
+        Route::get('/order/approve/package/{userPlan}', [AdminHomeController::class, 'approvePackageOrder'])->name('approve-package-order');
+        Route::get('/order/unapprove/package/{userPlan}', [AdminHomeController::class, 'unapprovePackageOrder'])->name('unapprove-package-order');
     });
 
     Route::middleware(['checkPermission:GetHousingTypeForm'])->group(function () {

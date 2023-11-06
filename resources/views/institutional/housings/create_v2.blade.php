@@ -3,13 +3,16 @@
 @section('content')
     <div class="content">
         <h4 class="mb-2 lh-sm @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
-        
 
             @if ($user->plan)
-                Kalan Konut Oluşturma Hakkınız :
-                {{ $user->plan->housing_limit }} Adet
-                @if ($user->plan->housing_limit === 0)
-                    - Hakkınız Kalmadı
+                @if ($user->plan->status == '0')
+                    Ödeme site yöneticisi tarafından onaylandığında paketiniz aktif olacaktır.
+                @else
+                    Kalan Konut Oluşturma Hakkınız :
+                    {{ $user->plan->housing_limit }} Adet
+                    @if ($user->plan->housing_limit === 0)
+                        - Hakkınız Kalmadı
+                    @endif
                 @endif
             @else
                 Konut eklemek için bir paket satın almanız gerekiyor.
@@ -78,7 +81,7 @@
                                     <p>Kategori Seçimi Tamanlanmıştır</p>
                                 </div>
                                 <div class="finish-button-first">
-                                    <button class="btn btn-info" @if (!$user->plan || $user->plan->housing_limit === 0) disabled @endif>
+                                    <button class="btn btn-info" @if (!$user->plan || $user->plan->housing_limit === 0 || $user->plan->status == '0') disabled @endif>
                                         Devam
                                     </button>
                                 </div>
@@ -244,14 +247,14 @@
                                         <div class="pricing-item-inner" onclick="changeData(1,'pricing-type')">
                                             <span class="btn btn-primary remaining_projects">
                                                 @if ($user->plan)
-                                                Kalan Konut Oluşturma Hakkınız :
-                                                {{ $user->plan->housing_limit }} Adet
-                                                @if ($user->plan->housing_limit === 0)
-                                                    - Hakkınız Kalmadı
+                                                    Kalan Konut Oluşturma Hakkınız :
+                                                    {{ $user->plan->housing_limit }} Adet
+                                                    @if ($user->plan->housing_limit === 0)
+                                                        - Hakkınız Kalmadı
+                                                    @endif
+                                                @else
+                                                    Konut eklemek için bir paket satın almanız gerekiyor.
                                                 @endif
-                                            @else
-                                                Konut eklemek için bir paket satın almanız gerekiyor.
-                                            @endif
                                             </span>
                                             <div style="margin-right: 20px">
                                                 <input type="radio" style="display: none;margin:0 auto;">
@@ -579,7 +582,7 @@
                     position: 'top-right',
                     stack: false
                 });
-            @elseif (!$user->plan)
+            @elseif (!$user->plan || $user->plan->status == '0')
                 $.toast({
                     heading: 'Hata',
                     text: 'Konut eklemek için paket satın almalısınız.',

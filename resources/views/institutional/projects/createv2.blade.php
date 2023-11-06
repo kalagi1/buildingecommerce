@@ -24,10 +24,14 @@
     <div class="content">
         <h4 class="mb-2 lh-sm  @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
             @if ($userLog->plan)
-                Kalan Proje Oluşturma Hakkınız :
-                {{ $userLog->plan->project_limit }} Adet
-                @if ($userLog->plan->project_limit === 0)
-                    - Hakkınız Kalmadı
+                @if ($userLog->plan->status == '0')
+                    Ödeme site yöneticisi tarafından onaylandığında paketiniz aktif olacaktır.
+                @else
+                    Kalan Proje Oluşturma Hakkınız :
+                    {{ $userLog->plan->project_limit }} Adet
+                    @if ($userLog->plan->project_limit === 0)
+                        - Hakkınız Kalmadı
+                    @endif
                 @endif
             @else
                 Proje eklemek için bir paket satın almanız gerekiyor.
@@ -96,7 +100,7 @@
                                     <p>Kategori Seçimi Tamanlanmıştır</p>
                                 </div>
                                 <div class="finish-button-first">
-                                    <button class="btn btn-info" @if (!$userLog->plan || $userLog->plan->project_limit === 0) disabled @endif>
+                                    <button class="btn btn-info" @if (!$userLog->plan || $userLog->plan->project_limit === 0 || $user->plan->status == '0') disabled @endif>
                                         Devam
                                     </button>
                                 </div>
@@ -1393,9 +1397,27 @@
             })
         }
 
+
+
         $('.finish-button-first').click(function() {
-            toSecondArea();
-        })
+            @if ($userLog->plan && $userLog->plan->project_limit === 0)
+                $.toast({
+                    heading: 'Hata',
+                    text: 'Hakkınız kalmadığı için bu işlemi gerçekleştiremezsiniz.',
+                    position: 'top-right',
+                    stack: false
+                });
+            @elseif (!$userLog->plan || $userLog->plan->status == '0')
+                $.toast({
+                    heading: 'Hata',
+                    text: 'Proje eklemek için paket satın almalısınız.',
+                    position: 'top-right',
+                    stack: false
+                });
+            @else
+                toSecondArea();
+            @endif
+        });
 
         $('.doping_statuses').change(function() {
             if ($(this).val() != "") {

@@ -145,7 +145,7 @@ class User extends Authenticatable
 
     public function plan()
     {
-        return $this->belongsTo(UserPlan::class, "id", "user_id")->where("status","1");
+        return $this->belongsTo(UserPlan::class, "id", "user_id");
     }
 
 }
