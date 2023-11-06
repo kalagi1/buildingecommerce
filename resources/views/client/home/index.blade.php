@@ -215,6 +215,8 @@
     $discount_amount =
         App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
+                        @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
+
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                                 <div class="project-inner project-head">
@@ -253,20 +255,37 @@
                                                 style="color: white;" data-project-id="{{ $project->id }}">
                                                 <i class="fa fa-heart-o"></i>
                                             </a>
-                                            <button class="addToCart mobile px-2"
-                                                style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                                data-type='project' data-project='{{ $project->id }}'
-                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
-                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
-                                                    height="24px"
-                                                    style="width: 24px !important; height: 24px !important;" />
-                                            </button>
+
+                                            @if ($sold && $sold[0]->status != '2')
+                                                <button class="btn mobileBtn second-btn CartBtn" disabled
+                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                        @else 
+                                        style="background: red !important;width:100%;color:White" @endif>
+                                                    <span class="IconContainer">
+                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                    </span>
+                                                    @if ($sold[0]->status == '0')
+                                                        <span class="text">Onay Bekleniyor</span>
+                                                    @else
+                                                        <span class="text">Rezerve Edildi</span>
+                                                    @endif
+                                                </button>
+                                            @else
+                                                <button class="CartBtn mobileBtn" data-type='project'
+                                                    data-project='{{ $project->id }}'
+                                                    data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                    <span class="IconContainer">
+                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                    </span>
+                                                    <span class="text">Sepete Ekle</span>
+                                                </button>
+                                            @endif
                                         </div>
                                         <span class="ml-auto text-primary priceFont">
                                             @if ($discount_amount)
-                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                                    stroke-width="2" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round" class="css-i6dzq1">
+                                                <svg viewBox="0 0 24 24" width="24" height="24"
+                                                    stroke="currentColor" stroke-width="2" fill="none"
+                                                    stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                     <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                     <polyline points="17 18 23 18 23 12"></polyline>
                                                 </svg>
@@ -423,8 +442,8 @@
                                                                     {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
                                                                 </li>
                                                             </ul>
-                                                              @if ($sold && $sold[0]->status != '2')
-                                                                <button class="btn second-btn soldBtn" disabled
+                                                            @if ($sold && $sold[0]->status != '2')
+                                                                <button class="btn second-btn CartBtn" disabled
                                                                     @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                                             @else 
                                                             style="background: red !important;width:100%;color:White" @endif>
@@ -481,6 +500,8 @@
     $discount_amount =
         App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
+                        @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
+
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                                 <div class="project-inner project-head">
@@ -519,14 +540,30 @@
                                                 style="color: white;" data-project-id="{{ $project->id }}">
                                                 <i class="fa fa-heart-o"></i>
                                             </a>
-                                            <button class="addToCart mobile px-2"
-                                                style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                                data-type='project' data-project='{{ $project->id }}'
-                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
-                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
-                                                    height="24px"
-                                                    style="width: 24px !important; height: 24px !important;" />
+                                            @if ($sold && $sold[0]->status != '2')
+                                            <button class="btn mobileBtn second-btn CartBtn" disabled
+                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                    @else 
+                                    style="background: red !important;width:100%;color:White" @endif>
+                                                <span class="IconContainer">
+                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                </span>
+                                                @if ($sold[0]->status == '0')
+                                                    <span class="text">Onay Bekleniyor</span>
+                                                @else
+                                                    <span class="text">Rezerve Edildi</span>
+                                                @endif
                                             </button>
+                                        @else
+                                            <button class="CartBtn mobileBtn" data-type='project'
+                                                data-project='{{ $project->id }}'
+                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                <span class="IconContainer">
+                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                </span>
+                                                <span class="text">Sepete Ekle</span>
+                                            </button>
+                                        @endif
                                         </div>
                                         <span class="ml-auto text-primary priceFont">
                                             @if ($discount_amount)
@@ -690,7 +727,7 @@
                                                                 </li>
                                                             </ul>
                                                             @if ($sold && $sold[0]->status != '2')
-                                                                <button class="btn second-btn soldBtn" disabled
+                                                                <button class="btn second-btn CartBtn" disabled
                                                                     @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                                             @else 
                                                             style="background: red !important;width:100%;color:White" @endif>
@@ -747,6 +784,8 @@
     $discount_amount =
         App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
+                        @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
+
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                                 <div class="project-inner project-head">
@@ -785,14 +824,30 @@
                                                 style="color: white;" data-project-id="{{ $project->id }}">
                                                 <i class="fa fa-heart-o"></i>
                                             </a>
-                                            <button class="addToCart mobile px-2"
-                                                style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                                data-type='project' data-project='{{ $project->id }}'
-                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
-                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
-                                                    height="24px"
-                                                    style="width: 24px !important; height: 24px !important;" />
-                                            </button>
+                                            @if ($sold && $sold[0]->status != '2')
+                                                <button class="btn second-btn mobileBtn CartBtn" disabled
+                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                        @else 
+                                        style="background: red !important;width:100%;color:White" @endif>
+                                                    <span class="IconContainer">
+                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                    </span>
+                                                    @if ($sold[0]->status == '0')
+                                                        <span class="text">Onay Bekleniyor</span>
+                                                    @else
+                                                        <span class="text">Rezerve Edildi</span>
+                                                    @endif
+                                                </button>
+                                            @else
+                                                <button class="CartBtn mobileBtn" data-type='project'
+                                                    data-project='{{ $project->id }}'
+                                                    data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                    <span class="IconContainer">
+                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                    </span>
+                                                    <span class="text">Sepete Ekle</span>
+                                                </button>
+                                            @endif
                                         </div>
                                         <span class="ml-auto text-primary priceFont">
                                             @if ($discount_amount)
@@ -957,8 +1012,8 @@
                                                                     {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
                                                                 </li>
                                                             </ul>
-                                                              @if ($sold && $sold[0]->status != '2')
-                                                                <button class="btn second-btn soldBtn" disabled
+                                                            @if ($sold && $sold[0]->status != '2')
+                                                                <button class="btn second-btn CartBtn" disabled
                                                                     @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                                             @else 
                                                             style="background: red !important;width:100%;color:White" @endif>
@@ -1048,7 +1103,7 @@
                                             data-housing-id="{{ $project->id }}" style="color: white;">
                                             <i class="fa fa-heart-o"></i>
                                         </a>
-                                        <button class="addToCart mobile px-2"
+                                        <button class="CartBtn  mobile px-2"
                                             style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
                                             data-type='housing' data-id='{{ $project->id }}'>
                                             <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"

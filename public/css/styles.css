@@ -8334,7 +8334,21 @@ html input[disabled] {
     .itemCircleFont {
         font-size: 12px;
     }
+    .mobileBtn .text{
+        display:none !important
+    }
+    .mobileBtn{
+        width:40px !important
+    }
+   .mobileBtn .IconContainer{
+        left:5px !important;
+    }
 
+    .mobileBtn:hover .IconContainer {
+        transform:none !important;
+        border-radius: 40px;
+        transition-duration: .5s;
+    }
     .leftSide {
         display: flex;
         width: 100%;
