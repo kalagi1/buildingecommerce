@@ -148,6 +148,7 @@
                                                     <a
                                                     href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
                                                         alt="my-properties-3" src="{{ $cart['item']['image'] }}"
+                                                        style="width:100px"
                                                         class="img-fluid"></a>
                                                 </td>
                                                 <td>{{ $cart['item']['title'] }}</td>

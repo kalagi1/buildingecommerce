@@ -41,6 +41,15 @@
         ]
     },
     {
+        "id": "order",
+        "label": "Emlak Sepette",
+        "icon": "shopping-bag",
+        "text": "Siparişlerim",
+        "key": "GetOrders",
+        "url": "institutional.orders",
+        "activePath": "institutional/orders"
+    },
+    {
         "id": "user",
         "label": "Hesabım & Yardım",
         "icon": "user",
@@ -76,7 +85,7 @@
     {
         "id": "projects",
         "label": "Emlak Sepette",
-        "icon": "plus-square",
+        "icon": "plus",
         "text": "Proje İlanlarım",
         "key": "Projects",
         "url": "institutional.projects.index",
@@ -85,7 +94,7 @@
     {
         "id": "projects",
         "label": "Emlak Sepette",
-        "icon": "plus-square",
+        "icon": "plus",
         "text": "Emlak İlanlarım",
         "key": "Housings",
         "url": "institutional.housing.list",

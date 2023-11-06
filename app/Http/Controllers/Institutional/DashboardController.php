@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartOrder;
 use App\Models\DocumentNotification;
 use App\Models\User;
 use App\Models\UserPlan;
@@ -12,6 +13,25 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+
+    public function getOrders()
+    {
+        $userProjectIds = Auth::user()->projects->pluck('id')->toArray();
+
+        $cartOrders = CartOrder::select('cart_orders.*')
+            ->with("user")
+            ->where(function ($query) use ($userProjectIds) {
+                $query->whereIn(
+                    DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
+                    $userProjectIds
+                )->where('cart_orders.status', '1');
+            })
+            ->get();
+
+
+        return view('institutional.orders.index', compact('cartOrders'));
+    }
+
     public function corporateAccountVerification()
     {
         return view('institutional.home.verification');

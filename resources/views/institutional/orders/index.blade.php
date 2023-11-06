@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('institutional.layouts.master')
 
 @section('content')
     @php
@@ -57,8 +57,6 @@
                                         data-sort="order_user">Alıcı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_seller">Satıcı</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_details">Onay</th>
                                 </tr>
                             </thead>
                             <tbody class="list" id="order-table-body">
@@ -67,6 +65,7 @@
                                     @foreach ($cartOrders as $order)
                                         @php($o = json_decode($order->cart))
                                         @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
+
                                         <tr>
                                             <td class="order_no">{{ $order->key }}</td>
                                             <td class="order_image">
@@ -97,15 +96,7 @@
                                             ][$order->status] !!}</td>
                                             <td class="order_user">{{ $order->user->email }}</td>
                                             <td class="order_seller">{{ $project->user->email ?? '-' }}</td>
-                                            <td class="order_details">
-                                                @if ($order->status == 0 || $order->status == 2)
-                                                    <a href="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}"
-                                                        class="btn btn-success">Onayla</a>
-                                                @else
-                                                    <a href="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}"
-                                                        class="btn btn-danger">Reddet</a>
-                                                @endif
-                                            </td>
+                                           
                                         </tr>
                                     @endforeach
                                 @else
