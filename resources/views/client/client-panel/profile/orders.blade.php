@@ -95,38 +95,14 @@
                                     <div class="order-header">
                                         <div class="order-header-info">Sipariş Tarihi<b>
                                                 {{ date('Y-m-d', strtotime($order->created_at)) }}</b></div>
-                                        <div class="order-header-info">Sipariş Bilgisi<b
-                                                title=" @if ($o->type == 'project') {{ $project->project_title ?? '?' }}
-                                        @else
-                                            - @endif">
-                                                @if ($o->type == 'project')
-                                                    {{ $project->project_title ?? '?' }}
-                                                @else
-                                                    -
-                                                @endif
-                                            </b>
-                                        </div>
-                                        <div class="order-header-info">Tutar<b class="text--red">
+                                      
+                                        <div class="order-header-info">Tutar<b class="text-red">
                                                 {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.01, 2, ',', '.') }}
                                                 ₺</b></div>
                                     </div>
                                     <div class="order-list">
                                         <div class="order-item">
-                                            <div class="order-item-status">
-                                                <span
-                                                    style="color: 
-                                                    @if ($order->status == 0) orange
-                                                    @elseif ($order->status == 1)
-                                                        green
-                                                    @elseif ($order->status == 2)
-                                                        red @endif
-                                                ">
-                                                    <strong>
-                                                        {{ ['Ödeme Bekleniyor', 'Başarılı', 'Ödeme Reddedildi'][$order->status] }}
-                                                    </strong>
-                                                </span>
-                                            </div>
-
+                                            
                                             <div class="order-item-images">
                                                 @if ($o->type == 'housing')
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
@@ -136,6 +112,19 @@
                                                         style="object-fit: cover;width:100px;height:100px" alt="Görsel">
                                                 @endif
                                             </div>
+                                            <div class="order-item-status">
+                                                <strong>
+                                                    {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                                        {{ getHouse($project, 'squaremeters[]', json_decode($order->cart)->item->housing)->value }}m2
+                                                        {{ getHouse($project, 'room_count[]',json_decode($order->cart)->item->housing)->value }} </strong>
+                                                        {!! [
+                                                            '0' => '<span class="text-warning">Ödeme Bekleniyor</span>',
+                                                            '1' => '<span class="text-success">Ödeme Onaylandı</span>',
+                                                            '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
+                                                        ][$order->status] !!}
+                                            </div>
+                                            
+
                                         </div>
                                     </div>
                                 </div>

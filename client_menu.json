@@ -30,7 +30,7 @@
         "id": "UpgradeProfile",
         "label": "Hesabım & Yardım",
         "icon": "list",
-        "text": "Siparişler",
+        "text": "Siparişlerim",
         "key": "ShowCartOrders",
         "url": "client.profile.cart-orders",
         "activePath": "client/profile/cart-orders"

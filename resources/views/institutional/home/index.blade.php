@@ -44,6 +44,8 @@
                             <span class="bg-soft pe-2">
                                 Henüz paket almadınız
                             </span>
+                            <a href="{{ route('institutional.profile.upgrade') }}" class="btn btn-primary">Paket Satın Al</a>
+
                         @endif
                     </span><span
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>

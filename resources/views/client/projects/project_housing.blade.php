@@ -75,8 +75,8 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="row align-items-center">
-                        <div class="col-md-2">
+                    <div class="d-flex align-items-center">
+                        <div class="col-md-2 col-2">
                             <div class="button-effect toggle-project-favorite"
                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $housingOrder)->room_order }}"
                                 data-project-id={{ $project->id }}>

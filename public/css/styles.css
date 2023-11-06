@@ -264,6 +264,10 @@ button {
    .bank-account{
     margin:20px;
    }
+
+   #orders-container .order .order-item .order-item-status{
+    width: 60% !important;
+   }
 }
 
 
@@ -27185,19 +27189,31 @@ input[type="checkbox"]::before {
     margin-bottom: 15px;
     border-radius: 8px;
   }
+  .text-red{
+    color: #EA2B2E !important;
+    font-weight:600 !important
+  }
   #orders-container .order .last-operation-text {
     padding: 25px 20px 0 20px;
   }
   #orders-container .order .order-header {
     display: flex;
+    justify-content: space-between;
     border-bottom: solid 1px #e2e2e2;
     border-radius: 8px 8px 0 0;
     background-color: #fafafa;
     padding: 15px 20px;
     align-items: center;
   }
+  .list-group{
+    display:flex;
+    flex-wrap:wrap;
+    flex-direction: initial;
+  }
+  .list-group-item{
+    width:50%
+  }
   #orders-container .order .order-header .order-header-info {
-    width: 33%;
     color: #666;
     font-weight: bold;
     font-size: 13px;
@@ -27233,10 +27249,13 @@ input[type="checkbox"]::before {
   #orders-container .order .order-item:last-child {
     margin-bottom: 0;
   }
+  .list-group-item+.list-group-item{
+    border-top-width: none !important;
+  }
   #orders-container .order .order-item .order-item-status {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 80%;
     color: #333;
     font-size: 14px;
   }
@@ -27356,6 +27375,7 @@ input[type="checkbox"]::before {
   }
   #orders-container .order .order-item .order-item-images {
     flex: 1;
+    width :20%;
     display: flex;
     align-items: center;
   }

@@ -18,6 +18,16 @@
         "activePath": "institutional/profile/edit"
     },
     {
+        "id": "ChangePassword",
+        "label": "Hesabım & Yardım",
+        "icon": "lock",
+        "text": "Şifreyi Değiştir",
+        "key": "ChangePassword",
+        "url": "institutional.password.edit",
+        "activePath": "institutional/password/edit"
+    },
+  
+    {
         "id": "role",
         "label": "Hesabım & Yardım",
         "icon": "user",
@@ -72,16 +82,7 @@
             }
         ]
     },
-    {
-        "id": "ChangePassword",
-        "label": "Hesabım & Yardım",
-        "icon": "lock",
-        "text": "Şifreyi Değiştir",
-        "key": "ChangePassword",
-        "url": "institutional.password.edit",
-        "activePath": "institutional/password/edit"
-    },
-  
+   
     {
         "id": "projects",
         "label": "Emlak Sepette",
@@ -150,7 +151,7 @@
         "id": "upgrade",
         "label": "Emlak Sepette",
         "icon": "arrow-up",
-        "text": "Aboneliği Yükselt",
+        "text": "Paket Satın Al",
         "key": "Upgrade",
         "url": "institutional.profile.upgrade",
         "activePath": "institutional/profile/upgrade"
