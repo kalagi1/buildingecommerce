@@ -91,18 +91,33 @@
             ? App\Models\Project::with('roomInfo')->where('id', $o->item->id)->first()
             : null
 )
+
+
                                 <div class="order">
                                     <div class="order-header">
-                                        <div class="order-header-info">Sipariş Tarihi<b>
-                                                {{ date('Y-m-d', strtotime($order->created_at)) }}</b></div>
-                                      
-                                        <div class="order-header-info">Tutar<b class="text-red">
-                                                {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.01, 2, ',', '.') }}
-                                                ₺</b></div>
+                                        
+                                        <div class="order-header-info">
+                                            <b>{{ date('Y-m-d', strtotime($order->created_at)) }}</b>
+                                                <span style="margin-left:5px">
+                                                   <b class="text-red">
+                                                    {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.01, 2, ',', '.') }}
+                                                        ₺</b>
+                                                   </span>
+                                                </div>
+
+
+                                        <div class="order-header-info d-flex">
+                                            @if ($order->invoice)
+                                                <button class="btn btn-primary ">
+                                                    <span class="text">FATURAYI GÖRÜNTÜLE</span>
+                                                </button>
+                                            @endif
+                                          
+                                        </div>
                                     </div>
                                     <div class="order-list">
                                         <div class="order-item">
-                                            
+
                                             <div class="order-item-images">
                                                 @if ($o->type == 'housing')
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
@@ -115,15 +130,16 @@
                                             <div class="order-item-status">
                                                 <strong>
                                                     {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                        {{ getHouse($project, 'squaremeters[]', json_decode($order->cart)->item->housing)->value }}m2
-                                                        {{ getHouse($project, 'room_count[]',json_decode($order->cart)->item->housing)->value }} </strong>
-                                                        {!! [
-                                                            '0' => '<span class="text-warning">Ödeme Bekleniyor</span>',
-                                                            '1' => '<span class="text-success">Ödeme Onaylandı</span>',
-                                                            '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
-                                                        ][$order->status] !!}
+                                                    {{ getHouse($project, 'squaremeters[]', json_decode($order->cart)->item->housing)->value }}m2
+                                                    {{ getHouse($project, 'room_count[]', json_decode($order->cart)->item->housing)->value }}
+                                                </strong>
+                                                {!! [
+                                                    '0' => '<span class="text-warning">Onay Bekleniyor</span>',
+                                                    '1' => '<span class="text-success">Ödeme Onaylandı</span>',
+                                                    '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
+                                                ][$order->status] !!}
                                             </div>
-                                            
+
 
                                         </div>
                                     </div>

@@ -405,7 +405,7 @@
                                                             @if ($sold[0]->status == '0')
                                                                 <span class="text">Onay Bekleniyor</span>
                                                             @else
-                                                                <span class="text">Rezerve Edildi</span>
+                                                                <span class="text">Satıldı</span>
                                                             @endif
                                                         </button>
                                                     @else
@@ -438,7 +438,7 @@
         <div class="mobile-show">
             <div class="container">
                 @for ($i = 0; $i < $project->room_count; $i++)
-                    @php
+                    @php    
                         $room_order = getData($project, 'squaremeters[]', $i + 1)->room_order;
                         $discount_amount =
                             App\Models\Offer::where('type', 'project')

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CartOrder;
 use App\Models\Housing;
 use App\Models\HousingComment;
+use App\Models\Invoice;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\UserPlan;
@@ -27,7 +28,7 @@ class HomeController extends Controller
 
     public function getPackageOrders()
     {
-        $cartOrders = UserPlan::with('user',"subscriptionPlan")->get();
+        $cartOrders = UserPlan::with('user', "subscriptionPlan")->get();
 
         return view('admin.package-orders.index', compact('cartOrders'));
     }
@@ -42,6 +43,13 @@ class HomeController extends Controller
     public function approveOrder(CartOrder $cartOrder)
     {
         $cartOrder->update(['status' => '1']);
+        $cart = json_decode($cartOrder->cart);
+        $fatura = new Invoice();
+        $fatura->order_id = $cartOrder->id;
+        $fatura->total_amount = $cart->item->price;
+        $fatura->invoice_number = 'INV-' . time() . $cartOrder->id; // Fatura numarası oluşturabilirsiniz.
+        $fatura->save();
+
         return redirect()->back();
     }
 

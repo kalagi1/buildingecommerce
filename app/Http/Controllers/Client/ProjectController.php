@@ -23,7 +23,9 @@ class ProjectController extends Controller
     {
         $menu = Menu::getMenuItems();
         $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
-        return view('client.projects.index', compact('menu', 'project'));
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+
+        return view('client.projects.index', compact('menu', "offer",'project'));
     }
 
     public function detail($slug)

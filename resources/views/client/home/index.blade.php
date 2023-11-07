@@ -267,7 +267,7 @@
                                                     @if ($sold[0]->status == '0')
                                                         <span class="text">Onay Bekleniyor</span>
                                                     @else
-                                                        <span class="text">Rezerve Edildi</span>
+                                                        <span class="text">Satıldı</span>
                                                     @endif
                                                 </button>
                                             @else
@@ -450,7 +450,7 @@
                                                                     @if ($sold[0]->status == '0')
                                                                         <span class="text">Onay Bekleniyor</span>
                                                                     @else
-                                                                        <span class="text">Rezerve Edildi</span>
+                                                                        <span class="text">Satıldı</span>
                                                                     @endif
                                                                 </button>
                                                             @else
@@ -541,29 +541,29 @@
                                                 <i class="fa fa-heart-o"></i>
                                             </a>
                                             @if ($sold && $sold[0]->status != '2')
-                                            <button class="btn mobileBtn second-btn CartBtn" disabled
-                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                                <button class="btn mobileBtn second-btn CartBtn" disabled
+                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                     @else 
                                     style="background: red !important;width:100%;color:White" @endif>
-                                                <span class="IconContainer">
-                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                </span>
-                                                @if ($sold[0]->status == '0')
-                                                    <span class="text">Onay Bekleniyor</span>
-                                                @else
-                                                    <span class="text">Rezerve Edildi</span>
-                                                @endif
-                                            </button>
-                                        @else
-                                            <button class="CartBtn mobileBtn" data-type='project'
-                                                data-project='{{ $project->id }}'
-                                                data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
-                                                <span class="IconContainer">
-                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                </span>
-                                                <span class="text">Sepete Ekle</span>
-                                            </button>
-                                        @endif
+                                                    <span class="IconContainer">
+                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                    </span>
+                                                    @if ($sold[0]->status == '0')
+                                                        <span class="text">Onay Bekleniyor</span>
+                                                    @else
+                                                        <span class="text">Satıldı</span>
+                                                    @endif
+                                                </button>
+                                            @else
+                                                <button class="CartBtn mobileBtn" data-type='project'
+                                                    data-project='{{ $project->id }}'
+                                                    data-id='{{ getHouse($project, 'price[]', $i + 1)->room_order }}'>
+                                                    <span class="IconContainer">
+                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                    </span>
+                                                    <span class="text">Sepete Ekle</span>
+                                                </button>
+                                            @endif
                                         </div>
                                         <span class="ml-auto text-primary priceFont">
                                             @if ($discount_amount)
@@ -733,8 +733,8 @@
                                                             style="background: red !important;width:100%;color:White" @endif>
                                                                     @if ($sold[0]->status == '0')
                                                                         <span class="text">Onay Bekleniyor</span>
-                                                                    @else
-                                                                        <span class="text">Rezerve Edildi</span>
+                                                                    @elseif ($sold[0]->status == '1')
+                                                                        <span class="text">Satıldı</span>
                                                                     @endif
                                                                 </button>
                                                             @else
@@ -835,7 +835,7 @@
                                                     @if ($sold[0]->status == '0')
                                                         <span class="text">Onay Bekleniyor</span>
                                                     @else
-                                                        <span class="text">Rezerve Edildi</span>
+                                                        <span class="text">Satıldı</span>
                                                     @endif
                                                 </button>
                                             @else
@@ -1020,7 +1020,7 @@
                                                                     @if ($sold[0]->status == '0')
                                                                         <span class="text">Onay Bekleniyor</span>
                                                                     @else
-                                                                        <span class="text">Rezerve Edildi</span>
+                                                                        <span class="text">Satıldı</span>
                                                                     @endif
                                                                 </button>
                                                             @else

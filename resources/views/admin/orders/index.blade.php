@@ -91,7 +91,7 @@
                                             <td class="order_amount">{{ $order->amount }}</td>
                                             <td class="order_date">{{ $order->created_at }}</td>
                                             <td class="order_status">{!! [
-                                                '0' => '<span class="text-warning">Ödeme Bekleniyor</span>',
+                                                '0' => '<span class="text-warning">Onay Bekleniyor</span>',
                                                 '1' => '<span class="text-success">Ödeme Onaylandı</span>',
                                                 '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
                                             ][$order->status] !!}</td>

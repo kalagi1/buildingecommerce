@@ -27227,12 +27227,12 @@ input[type="checkbox"]::before {
   .list-group-item{
     width:50%
   }
+  
   #orders-container .order .order-header .order-header-info {
     color: #666;
     font-weight: bold;
     font-size: 13px;
     display: flex;
-    flex-direction: column;
   }
   #orders-container .order .order-header .order-header-info b {
     text-overflow: ellipsis;

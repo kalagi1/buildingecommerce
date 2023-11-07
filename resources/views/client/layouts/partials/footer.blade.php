@@ -700,7 +700,7 @@
                     button.textContent = "Sepete Eklendi";
                     button.classList.add("bg-success");
                 } else {
-                    button.textContent = "Sepete Ekle";
+                    // button.textContent = "Sepete Ekle";
                     button.classList.remove("bg-success");
                 }
             });
@@ -719,7 +719,7 @@
                     button.querySelector(".text").textContent = "Sepete Eklendi";
                     button.classList.add("bg-success");
                 } else {
-                    button.querySelector(".text").textContent = "Sepete Ekle";
+                    // button.querySelector(".text").textContent = "Sepete Ekle";
                     button.classList.remove("bg-success");
                 }
             });
