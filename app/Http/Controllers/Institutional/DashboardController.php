@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $userProjectIds = Auth::user()->projects->pluck('id')->toArray();
 
         $cartOrders = CartOrder::select('cart_orders.*')
-            ->with("user")
+            ->with("user", "invoice")
             ->where(function ($query) use ($userProjectIds) {
                 $query->whereIn(
                     DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
@@ -27,7 +27,6 @@ class DashboardController extends Controller
                 )->where('cart_orders.status', '1');
             })
             ->get();
-
 
         return view('institutional.orders.index', compact('cartOrders'));
     }

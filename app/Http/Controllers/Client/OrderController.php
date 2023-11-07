@@ -23,6 +23,7 @@ class OrderController extends Controller
         }
         return $user->orders->leftJoin();
     }
+    
     public function createOrder(Request $request)
     {
         $userId = Auth::user()->id;

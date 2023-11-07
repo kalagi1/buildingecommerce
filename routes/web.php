@@ -631,7 +631,8 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
-
+    Route::get('/fatura/{order}', [InvoiceController::class, "show"])->name('invoice.show');
+    Route::post('/generate-pdf', [InvoiceController::class,"generatePDF"]); 
     Route::get('/orders', [DashboardController::class, 'getOrders'])->name('orders');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
@@ -864,6 +865,8 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
         Route::get('/siparisler', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
         Route::get('/fatura/{order}', [InvoiceController::class, "show"])->name('invoice.show');
+        Route::post('/generate-pdf', [InvoiceController::class,"generatePDF"]); 
+
     });
 
     // ChangePassword Controller Rotasının İzinleri
