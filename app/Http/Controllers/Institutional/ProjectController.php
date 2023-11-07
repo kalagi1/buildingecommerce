@@ -361,6 +361,8 @@ class ProjectController extends Controller
                         'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
                         'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
                         'item_id' => $project->id,
+                        'owner_id' => 4,
+                        'is_visible' => true,
                     ]
                 );
 
@@ -527,6 +529,8 @@ class ProjectController extends Controller
                 'user_id' => auth()->user()->id,
                 'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
                 'item_id' => $project->id,
+                'owner_id' => 4,
+                'is_visible' => true,
             ]
         );
 

@@ -189,7 +189,7 @@
                                     <strong class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</strong>
                                     <div class="row mb-3 px-5 mt-3">
                                         @foreach ($bankAccounts as $bankAccount)
-                                            <div class="col-md-4 bank-account" bank_id="{{ $bankAccount->id }}"
+                                            <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
                                                 data-iban="{{ $bankAccount->iban }}"
                                                 data-title="{{ $bankAccount->receipent_full_name }}">
                                                 <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
@@ -239,6 +239,8 @@
                                     <form action="{{ route('client.pay.cart') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="key" id="orderKey">
+                                        <input type="hidden" name="banka_id" id="bankaID">
+
                                         <button type="submit" class="btn btn-primary paySuccess mt-3">Ödemeyi Tamamla
                                             <svg viewBox="0 0 576 512" class="svgIcon">
                                                 <path
@@ -276,7 +278,9 @@
 
                 // İlgili IBAN bilgisini al
                 var selectedBankIban = $(this).data('iban');
+                var selectedBankIbanID = $(this).data('id');
                 var selectedBankTitle = $(this).data('title');
+                $('#bankaID').text(selectedBankIbanID);
 
 
                 // IBAN bilgisini ekranda göster

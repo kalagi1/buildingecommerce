@@ -482,7 +482,7 @@
                                                                     @if ($sold[0]->status == '0')
                                                                         <span class="text">Onay Bekleniyor</span>
                                                                     @else
-                                                                        <span class="text">Rezerve Edildi</span>
+                                                                        <span class="text">Satıldı</span>
                                                                     @endif
                                                                 </button>
                                                             @else
@@ -746,7 +746,7 @@
                                                                     @if ($sold[0]->status == '0')
                                                                         <span class="text">Onay Bekleniyor</span>
                                                                     @else
-                                                                        <span class="text">Rezerve Edildi</span>
+                                                                        <span class="text">Satıldı</span>
                                                                     @endif
                                                                 </button>
                                                             @else

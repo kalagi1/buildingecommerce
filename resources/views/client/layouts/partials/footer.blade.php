@@ -11,8 +11,8 @@
 
                 </div>
                 @foreach ($widgetGroups as $widgetGroup)
-                <div class="col-sm-12 col-md-12 col-lg col-xl">
-                    <div class="navigation">
+                    <div class="col-sm-12 col-md-12 col-lg col-xl">
+                        <div class="navigation">
                             <h3>{{ $widgetGroup->widget }}</h3>
                             <div class="nav-footer">
                                 <ul>
@@ -586,8 +586,10 @@
 
                                 // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
                                 if (cart.clear_cart === "yes") {
-                                    location.reload();
+                                    window.location.href =
+                                        "/sepetim"; // Yönlendirilecek sayfanın URL'sini belirtin
                                 }
+
                             } else {
                                 toastr.error("Hata oluştu: " + xhr.responseText,
                                     "Hata");
@@ -664,8 +666,10 @@
 
                                 // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
                                 if (cart.clear_cart === "yes") {
-                                    location.reload();
+                                    window.location.href =
+                                    "/sepetim"; // Yönlendirilecek sayfanın URL'sini belirtin
                                 }
+
                             } else {
                                 toastr.error("Hata oluştu: " + xhr.responseText,
                                     "Hata");
@@ -700,7 +704,7 @@
                     button.textContent = "Sepete Eklendi";
                     button.classList.add("bg-success");
                 } else {
-                    button.textContent = "Sepete Ekle";
+                    // button.textContent = "Sepete Ekle";
                     button.classList.remove("bg-success");
                 }
             });
@@ -719,7 +723,7 @@
                     button.querySelector(".text").textContent = "Sepete Eklendi";
                     button.classList.add("bg-success");
                 } else {
-                    button.querySelector(".text").textContent = "Sepete Ekle";
+                    // button.querySelector(".text").textContent = "Sepete Ekle";
                     button.classList.remove("bg-success");
                 }
             });
@@ -1049,7 +1053,7 @@
     });
 
     $(document).click(function(event) {
-        
+
         if (
             $('.toggle > input').is(':checked') &&
             !$(event.target).parents('.toggle').is('.toggle')

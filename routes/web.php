@@ -15,7 +15,6 @@ use App\Http\Controllers\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\MarketingController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PaymentTempController as AdminPaymentTempController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -39,6 +38,7 @@ use App\Http\Controllers\Client\FavoriteController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\HousingController as ClientHousingController;
 use App\Http\Controllers\Client\InstitutionalController;
+use App\Http\Controllers\Client\InvoiceController;
 use App\Http\Controllers\Client\LoginController as ClientLoginController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\PageController as ClientPageController;
@@ -632,7 +632,6 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
 
-
     Route::get('/orders', [DashboardController::class, 'getOrders'])->name('orders');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
@@ -864,6 +863,7 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     Route::get('/get_neighbourhood', [InstitutionalProjectController::class, "getNeighbourhood"])->name('get.neighbourhood');
     Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
         Route::get('/siparisler', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
+        Route::get('/fatura/{order}', [InvoiceController::class, "show"])->name('invoice.show');
     });
 
     // ChangePassword Controller Rotasının İzinleri

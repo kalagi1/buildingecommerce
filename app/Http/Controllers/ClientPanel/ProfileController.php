@@ -18,7 +18,7 @@ class ProfileController extends Controller
 {
     public function cartOrders()
     {
-        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->get();
+        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice")->get();
         return view('client.client-panel.profile.orders', compact('cartOrders'));
     }
 

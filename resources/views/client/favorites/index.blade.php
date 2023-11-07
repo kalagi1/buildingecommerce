@@ -90,13 +90,13 @@
 
                                 </tr>
                             @endforeach
-                            @foreach ($projectFavorites as $key => $item)
+                            {{-- @foreach ($projectFavorites as $key => $item)
                                 @php($data = $item->projectHousing->pluck('value', 'key')->toArray())
                                 @php(
     $discount_amount =
         App\Models\Offer::where('type', 'project')->where('project_id', $item->project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
-                                @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, "$.type")) = "project" AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.housing")) = ? AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) = ? LIMIT 1', [getHouse($item->project, 'price[]', $key + 1)->room_order, $item->project->id]))
+                                @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, "$.type")) = "project" AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.housing")) = ? AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) = ? LIMIT 1', [getHouse($item->project, 'price[]', $item->housing_id)->room_order, $item->project->id]))
 
                                 <tr>
                                     <td class="image myelist">
@@ -130,7 +130,7 @@
                                                 @if ($sold[0]->status == '0')
                                                     <span class="text">Onay Bekleniyor</span>
                                                 @else
-                                                    <span class="text">Rezerve Edildi</span>
+                                                    <span class="text">Satıldı</span>
                                                 @endif
                                             </button>
                                         @else
@@ -152,7 +152,7 @@
                                                 class="far fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @endforeach --}}
                         @endif
 
                     </tbody>
