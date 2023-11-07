@@ -95,24 +95,34 @@
 
                                 <div class="order">
                                     <div class="order-header">
-                                        
-                                        <div class="order-header-info">
-                                            <b>{{ date('Y-m-d', strtotime($order->created_at)) }}</b>
-                                                <span style="margin-left:5px">
-                                                   <b class="text-red">
-                                                    {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.01, 2, ',', '.') }}
-                                                        ₺</b>
-                                                   </span>
-                                                </div>
+                                        <?php
+                                        $tarih = date('d F Y', strtotime($order->created_at));
+                                        $tarih = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $tarih);
+                                        ?>
 
+                                        <div class="order-header-info" style="flex-direction: column;">
+                                            <b>Sipariş Tarihi: {{ $tarih }}</b>
+                                            <span>
+                                                Fiyat:
+                                                <b class="text-red">
+                                                    {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.01, 2, ',', '.') }}
+                                                    ₺
+                                                </b>
+                                            </span>
+                                        </div>
 
                                         <div class="order-header-info d-flex">
                                             @if ($order->invoice)
-                                                <button class="btn btn-primary ">
-                                                    <span class="text">FATURAYI GÖRÜNTÜLE</span>
-                                                </button>
+                                                <a href="{{ route('client.invoice.show', $order->id) }}">
+                                                    <button class="invoiceBtn">
+                                                        <span class="button_lg">
+                                                            <span class="button_sl"></span>
+                                                            <span class="button_text">Faturayı Görüntüle</span>
+                                                        </span>
+                                                    </button>
+                                                </a>
                                             @endif
-                                          
+
                                         </div>
                                     </div>
                                     <div class="order-list">
@@ -190,6 +200,126 @@
                 margin-top: 20px;
                 box-shadow: none !important;
             }
+        }
+
+        .invoiceBtn {
+            width: 150px !important;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            border: none;
+            background: none;
+            color: #0f1923;
+            cursor: pointer;
+            position: relative;
+            padding: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all .15s ease;
+        }
+
+        .invoiceBtn::before,
+        .invoiceBtn::after {
+            content: '';
+            display: block;
+            position: absolute;
+            right: 0;
+            left: 0;
+            height: calc(50% - 5px);
+            border: 1px solid #7D8082;
+            transition: all .15s ease;
+        }
+
+        .invoiceBtn::before {
+            top: 0;
+            border-bottom-width: 0;
+        }
+
+        .invoiceBtn::after {
+            bottom: 0;
+            border-top-width: 0;
+        }
+
+        .invoiceBtn:active,
+        .invoiceBtn:focus {
+            outline: none;
+        }
+
+        .invoiceBtn:active::before,
+        .invoiceBtn:active::after {
+            right: 3px;
+            left: 3px;
+        }
+
+        .invoiceBtn:active::before {
+            top: 3px;
+        }
+
+        .invoiceBtn:active::after {
+            bottom: 3px;
+        }
+
+        .invoiceBtn_lg {
+            position: relative;
+            display: block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #0f1923;
+            overflow: hidden;
+            box-shadow: inset 0px 0px 0px 1px transparent;
+        }
+
+        .invoiceBtn_lg::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 2px;
+            background-color: #0f1923;
+        }
+
+        .invoiceBtn_lg::after {
+            content: '';
+            display: block;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 4px;
+            height: 4px;
+            background-color: #0f1923;
+            transition: all .2s ease;
+        }
+
+        .invoiceBtn_sl {
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: -1px;
+            left: -8px;
+            width: 0;
+            background-image: linear-gradient(to bottom right, #00c6ff,
+                    #0072ff);
+            transform: skew(-15deg);
+            transition: all .2s ease;
+        }
+
+        .invoiceBtn_text {
+            position: relative;
+        }
+
+        .invoiceBtn:hover {
+            color: #0f1923;
+        }
+
+        .invoiceBtn:hover .invoiceBtn_sl {
+            width: calc(100% + 15px);
+        }
+
+        .invoiceBtn:hover .invoiceBtn_lg::after {
+            background-color: #fff;
         }
     </style>
 @endsection

@@ -86,6 +86,8 @@ class CartController extends Controller
 
         $order = new CartOrder;
         $order->user_id = auth()->user()->id;
+        $order->banka_id = $request->input("banka_id");
+
         $order->amount = str_replace(',', '.', number_format(floatval(str_replace('.', '', $request->session()->get('cart')['item']['price'] - $request->session()->get('cart')['item']['discount_amount'])) * 0.01, 2, ',', '.'));
         $order->cart = json_encode($request->session()->get('cart'));
         $order->status = '0';
