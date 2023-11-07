@@ -121,7 +121,7 @@ Route::get('favoriler', [FavoriteController::class, 'showFavorites'])->name('fav
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('client.remove.from.cart');
 
 Route::post('/add-project-housing-to-favorites/{id}', [FavoriteController::class, "addProjectHousingToFavorites"])->name('add.project.housing.to.favorites');
-Route::get('/get-project-housing-favorite-status/{id}/{projectId}', [FavoriteController::class, "getProjectHousingFavoriteStatus"])->name('get.project.housing.favorite.status');
+Route::post('/get-project-housing-favorite-status', [FavoriteController::class, "getProjectHousingFavoriteStatus"])->name('get.project.housing.favorite.status');
 
 Route::post('/add-housing-to-favorites/{id}', [FavoriteController::class, "addHousingToFavorites"])->name('add.housing.to.favorites');
 Route::get('/get-housing-favorite-status/{id}', [FavoriteController::class, "getHousingFavoriteStatus"])->name('get.housing.favorite.status');

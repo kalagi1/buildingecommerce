@@ -607,11 +607,10 @@
         });
 
         var addToCartButtons = document.querySelectorAll(".CartBtn");
-        // Tüm "Sepete Ekle" düğmelerini seçin (dinamik olarak oluşturulanlar dahil)
         $('body').on('click', '.CartBtn', function(event) {
-            event.preventDefault();
-            if (event.target && event.target.classList.contains('CartBtn')) {
-                var button = event.target;
+            event.preventDefault(); // Linkin varsayılan davranışını engelle
+
+                var button = event.target;  
                 var productId = button.getAttribute("data-id");
 
                 var project = null;
@@ -667,7 +666,7 @@
                                 // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
                                 if (cart.clear_cart === "yes") {
                                     window.location.href =
-                                    "/sepetim"; // Yönlendirilecek sayfanın URL'sini belirtin
+                                        "/sepetim"; // Yönlendirilecek sayfanın URL'sini belirtin
                                 }
 
                             } else {
@@ -683,7 +682,7 @@
                         xhr.send(JSON.stringify(cart));
                     }
                 });
-            }
+            
         });
 
 
@@ -753,19 +752,34 @@
         function checkProjectFavorites() {
             // Favorileri sorgula ve uygun renk ve ikonları ayarla
             var favoriteButtons = document.querySelectorAll(".toggle-project-favorite");
+            var projectHousingPairs = []; // Proje ve housing ID'lerini içeren bir dizi
 
             favoriteButtons.forEach(function(button) {
                 var housingId = button.getAttribute("data-project-housing-id");
                 var projectId = button.getAttribute("data-project-id");
 
-                // AJAX isteği gönderme
-                $.ajax({
-                    url: "{{ route('get.project.housing.favorite.status', ['id' => ':id', 'projectId' => ':projectId']) }}"
-                        .replace(':id', housingId)
-                        .replace(':projectId', projectId), // Proje ID'sini de iletiyoruz
-                    type: "GET",
-                    success: function(response) {
-                        if (response.is_favorite) {
+                projectHousingPairs.push({
+                    projectId: projectId,
+                    housingId: housingId
+                });
+            });
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+
+            $.ajax({
+                url: "{{ route('get.project.housing.favorite.status') }}",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    projectHousingPairs: projectHousingPairs
+                },
+                success: function(response) {
+                    favoriteButtons.forEach(function(button) {
+                        var housingId = button.getAttribute("data-project-housing-id");
+                        var projectId = button.getAttribute("data-project-id");
+                        var isFavorite = response[projectId][housingId];
+
+                        if (isFavorite) {
                             button.querySelector("i").classList.remove(
                                 "fa-heart-o");
                             button.querySelector("i").classList.add(
@@ -781,19 +795,17 @@
                             button.querySelector("i").classList.add(
                                 "fa-heart-o");
                         }
-                    },
-                    error: function(error) {
-                        button.querySelector("i").classList.remove(
-                            "text-danger");
-                        button.querySelector("i").classList.remove(
-                            "fa-heart");
-                        button.querySelector("i").classList.add(
-                            "fa-heart-o");
-                        console.error(error);
-                    }
-                });
+                    });
+                },
+                error: function(error) {
+                    console.error(error);
+                },
             });
+
+
+
         }
+
 
         function checkFavorites() {
             var favoriteButtons = document.querySelectorAll(".toggle-favorite");
