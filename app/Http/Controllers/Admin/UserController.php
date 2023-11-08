@@ -190,7 +190,7 @@ class UserController extends Controller
             ]);
         } else {
             DocumentNotification::create([
-                'user_id' => 4,
+                'user_id' => auth()->user()->id,
                 'text' => "Üzgünüz, hesabınız onaylanamadı. Lütfen belgelerinizi kontrol ederek tekrar deneyin. Yardıma ihtiyacınız olursa bizimle iletişime geçebilirsiniz.",
                 'item_id' => $user->parent_id ?? $user->id,
                 'link' => route('institutional.index'),

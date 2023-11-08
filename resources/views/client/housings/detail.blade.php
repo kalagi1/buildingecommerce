@@ -472,10 +472,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="widget-boxed popular mt-5">
+                          @if (count($housing->user->banners) > 0)<div class="widget-boxed popular mt-5">
                             <div class="widget-boxed-header">
                                 <h4>{!! $housing->user->name !!}</h4>
                             </div>
+                            
                             <div class="widget-boxed-body">
                                 @if (count($housing->user->banners) > 0)
                                     @php
@@ -487,6 +488,7 @@
                                     <p>No banners available.</p>
                                 @endif
                             </div>
+                             @endif
                         </div>
 
 

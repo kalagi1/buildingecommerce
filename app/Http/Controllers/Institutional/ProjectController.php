@@ -115,6 +115,7 @@ class ProjectController extends Controller
         $housing_status = HousingStatus::all();
         $tempDataFull = TempOrder::where('item_type',1)->where('user_id',auth()->guard()->user()->id)->first();
         $tempDataFull = Project::where('slug',$slug)->first();
+        $project = Project::where('slug',$slug)->first();
         $tempDataFull2 = Project::where('slug',$slug)->first();
         $housingType = HousingType::where('id',$tempDataFull->housing_type_id)->first();
         $tempUpdate = TempOrder::where('item_type',3)->where('user_id',auth()->user()->id)->first();
@@ -154,7 +155,7 @@ class ProjectController extends Controller
         }
 
         $userPlan = UserPlan::where('user_id',auth()->user()->id)->first();
-        return view('institutional.projects.editv2',compact('tempUpdateHas','housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan'));
+        return view('institutional.projects.editv2',compact('tempUpdateHas','project','housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan'));
     }
 
     public function getBusyDatesByStatusType($statusId,Request $request){
@@ -359,8 +360,9 @@ class ProjectController extends Controller
                 DocumentNotification::create(
                     [
                         'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
-                        'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
+                        'text' => 'Yeni bir proje eklendi.',
                         'item_id' => $project->id,
+                        'link' => route('admin.projects.detail', ['projectId' => $project->id]),
                         'owner_id' => 4,
                         'is_visible' => true,
                     ]
@@ -527,8 +529,9 @@ class ProjectController extends Controller
         DocumentNotification::create(
             [
                 'user_id' => auth()->user()->id,
-                'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
+                'text' => 'Yeni bir proje eklendi.',
                 'item_id' => $project->id,
+                'link' => route('admin.projects.detail', ['projectId' => $project->id]),
                 'owner_id' => 4,
                 'is_visible' => true,
             ]

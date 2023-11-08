@@ -608,81 +608,79 @@
 
         var addToCartButtons = document.querySelectorAll(".CartBtn");
         $('body').on('click', '.CartBtn', function(event) {
-            event.preventDefault(); // Linkin varsayılan davranışını engelle
+            event.preventDefault();
 
-                var button = event.target;  
-                var productId = button.getAttribute("data-id");
+            var button = event.target;
+            var productId = button.getAttribute("data-id");
 
-                var project = null;
-                if (button.getAttribute("data-type") == "project") {
-                    project = button.getAttribute("data-project");
-                    // Ajax isteği gönderme
-                    var cart = {
-                        id: productId,
-                        type: button.getAttribute("data-type"),
-                        project: project,
-                        _token: "{{ csrf_token() }}",
-                        clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
+            var project = null;
+            if (button.getAttribute("data-type") == "project") {
+                project = button.getAttribute("data-project");
+                // Ajax isteği gönderme
+                var cart = {
+                    id: productId,
+                    type: button.getAttribute("data-type"),
+                    project: project,
+                    _token: "{{ csrf_token() }}",
+                    clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
+                };
+            } else {
+                var cart = {
+                    id: productId,
+                    type: button.getAttribute("data-type"),
+                    _token: "{{ csrf_token() }}",
+                    clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
+                };
+            }
+
+            // Eğer kullanıcı zaten ürün eklediyse ve yeni bir ürün eklenmek isteniyorsa sepeti temizlemeyi sorgula
+            // Kullanıcıya onay için bir onay kutusu göster
+            Swal.fire({
+                title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
+                    'Mevcut sepeti temizlemek istiyor musunuz?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Evet, temizle',
+                cancelButtonText: 'Hayır',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    cart.clear_cart = "yes"; // Kullanıcı sepeti temizlemeyi onayladı
+                    // Ajax isteğini gönder
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "{{ route('add.to.cart') }}", true);
+                    xhr.setRequestHeader("Content-Type",
+                        "application/json;charset=UTF-8");
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            console.log(xhr.responseText);
+                            toastr.success(isCartEmpty() ?
+                                'Ürün Sepete Eklendi' :
+                                'Ürün Sepetten Çıkarıldı');
+                            button.classList.add("bg-success");
+
+                            isCartEmpty() ?
+                                window.location.href = "/sepetim" :
+                                location.reload();
+
+                            if (!button.classList.contains("mobile"))
+                                button.querySelector(".text").textContent =
+                                "Sepete Eklendi";
+
+
+                        } else {
+                            toastr.error("Hata oluştu: " + xhr.responseText,
+                                "Hata");
+                            console.error("Hata oluştu: " + xhr.responseText);
+                        }
                     };
-                } else {
-                    var cart = {
-                        id: productId,
-                        type: button.getAttribute("data-type"),
-                        _token: "{{ csrf_token() }}",
-                        clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
+                    xhr.onerror = function() {
+                        toastr.error("Hata oluştu: İstek gönderilemedi", "Hata");
+                        console.error("Hata oluştu: İstek gönderilemedi");
                     };
+                    xhr.send(JSON.stringify(cart));
                 }
+            });
 
-                // Eğer kullanıcı zaten ürün eklediyse ve yeni bir ürün eklenmek isteniyorsa sepeti temizlemeyi sorgula
-                // Kullanıcıya onay için bir onay kutusu göster
-                Swal.fire({
-                    title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
-                        'Mevcut sepeti temizlemek istiyor musunuz?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Evet, temizle',
-                    cancelButtonText: 'Hayır',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        cart.clear_cart = "yes"; // Kullanıcı sepeti temizlemeyi onayladı
-                        // Ajax isteğini gönder
-                        var xhr = new XMLHttpRequest();
-                        xhr.open("POST", "{{ route('add.to.cart') }}", true);
-                        xhr.setRequestHeader("Content-Type",
-                            "application/json;charset=UTF-8");
-                        xhr.onload = function() {
-                            if (xhr.status === 200) {
-                                console.log(xhr.responseText);
-                                toastr.success(isCartEmpty() ?
-                                    'Ürün Sepete Eklendi' :
-                                    'Ürün Sepetten Çıkarıldı');
-                                button.classList.add("bg-success");
-
-                                // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
-                                if (!button.classList.contains("mobile"))
-                                    button.querySelector(".text").textContent =
-                                    "Sepete Eklendi";
-
-                                // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
-                                if (cart.clear_cart === "yes") {
-                                    window.location.href =
-                                        "/sepetim"; // Yönlendirilecek sayfanın URL'sini belirtin
-                                }
-
-                            } else {
-                                toastr.error("Hata oluştu: " + xhr.responseText,
-                                    "Hata");
-                                console.error("Hata oluştu: " + xhr.responseText);
-                            }
-                        };
-                        xhr.onerror = function() {
-                            toastr.error("Hata oluştu: İstek gönderilemedi", "Hata");
-                            console.error("Hata oluştu: İstek gönderilemedi");
-                        };
-                        xhr.send(JSON.stringify(cart));
-                    }
-                });
-            
         });
 
 
