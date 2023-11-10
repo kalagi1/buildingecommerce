@@ -85,11 +85,12 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.dashboard', Str::slug($brand->user->name)) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($brand->user->name)) }}">Tüm
-                                Projeler</a>
+                                href="{{ route('instituional.projects.detail', Str::slug($brand->user->name)) }}">Proje İlanları</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.profile', Str::slug($brand->user->name)) }}">Mağaza
                                 Profili</a>
+                                <a class="navbar-item"
+                                href="{{ route('instituional.housings', Str::slug($brand->user->name)) }}">Emlak İlanları</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
                             @csrf
@@ -143,7 +144,7 @@
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center;" >
                 <div class="section-title">
-                    <h2>İkinci El İlanlar</h2>
+                    <h2>Emlak İlanları</h2>
                 </div>
             </div>
             <div class="portfolio col-xl-12">

@@ -45,7 +45,7 @@
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="planUserLimit">Alt Kullanıcı Limiti</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="planHousingLimit">Konut Limiti</th>
+                                            data-sort="planHousingLimit">Emlak Limiti</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="planHousingLimit">Plan Tipi</th>
                                         <th>İşlemler</th>

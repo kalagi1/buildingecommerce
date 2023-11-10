@@ -80,10 +80,17 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3" class="text-end">
-                                                    {{ mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                    {{ getHouse($data['project'], 'squaremeters[]', $cart['item']['housing'])->value }}m2
-                                                    {{ getHouse($data['project'], 'room_count[]', $cart['item']['housing'])->value }}
-                                                    {{ $data['project']['step1_slug'] }}
+                                                    @if ($data['project']['project_title'])
+                                                        {{ mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                                        {{ getHouse($data['project'], 'squaremeters[]', $cart['item']['housing'])->value }}m2
+                                                        {{ getHouse($data['project'], 'room_count[]', $cart['item']['housing'])->value }}
+                                                        {{ ' ' }}
+                                                        {{ $cart['item']['housing'] }} {{ "No'lu" }}
+                                                        {{ $data['project']['step1_slug'] }}
+                                                    @else
+                                                        {{ $data['project']['title'] }}
+                                                    @endif
+
                                                 </td>
                                             </tr>
                                             <tr>
@@ -139,51 +146,52 @@
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
+@endsection
 
-    @section('scripts')
-        <script>
-            document.getElementById('print-button').addEventListener('click', function() {
-                var printContent = document.documentElement.innerHTML; // Sayfanın tamamını al
+@section('scripts')
+    <script>
+        document.getElementById('print-button').addEventListener('click', function() {
+            var printContent = document.documentElement.innerHTML; // Sayfanın tamamını al
 
-                var printWindow = window.open('', '', 'width=800, height=600');
-                printWindow.document.open();
-                printWindow.document.write(printContent);
-                printWindow.document.close();
+            var printWindow = window.open('', '', 'width=800, height=600');
+            printWindow.document.open();
+            printWindow.document.write(printContent);
+            printWindow.document.close();
 
-                printWindow.print(); // Yazdır
-                printWindow.close();
+            printWindow.print(); // Yazdır
+            printWindow.close();
+        });
+
+        // Faturayı indirmek için
+        document.getElementById('invoice_download_btn').addEventListener('click', function() {
+            var downloadContent = document.getElementById('invoice_wrapper')
+                .innerHTML;
+
+            var blob = new Blob([downloadContent], {
+                type: 'application/pdf'
             });
+            var url = URL.createObjectURL(blob);
 
-            // Faturayı indirmek için
-            document.getElementById('invoice_download_btn').addEventListener('click', function() {
-                var downloadContent = document.getElementById('invoice_wrapper')
-                    .innerHTML;
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'emlaksepettefatura.pdf';
+            a.style.display = 'none';
 
-                var blob = new Blob([downloadContent], {
-                    type: 'application/pdf'
-                });
-                var url = URL.createObjectURL(blob);
-
-                var a = document.createElement('a');
-                a.href = url;
-                a.download = 'emlaksepettefatura.pdf';
-                a.style.display = 'none';
-
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-            });
-        </script>
-    @endsection
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        });
+    </script>
+@endsection
 
 
-    @section('styles')
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/new.css">
-        <style>
-            .invoice-top .logo {
-                float: right
-            }
-        </style>
-    @endsection
+@section('styles')
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/new.css">
+    <style>
+        .invoice-top .logo {
+            float: right
+        }
+    </style>
+@endsection

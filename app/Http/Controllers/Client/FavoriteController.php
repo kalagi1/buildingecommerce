@@ -32,7 +32,7 @@ class FavoriteController extends Controller
 
         if ($existingFavorite) {
             $existingFavorite->delete();
-            $message = "Konut favorilerden kaldırıldı";
+            $message = "Ürün favorilerden kaldırıldı";
             $status = "removed";
         } else {
             ProjectFavorite::create([
@@ -40,7 +40,7 @@ class FavoriteController extends Controller
                 'housing_id' => $id,
                 "project_id" => $request->input("project_id"),
             ]);
-            $message = "Konut favorilere eklendi.";
+            $message = "Ürün favorilere eklendi.";
             $status = "added";
         }
 
@@ -73,14 +73,14 @@ class FavoriteController extends Controller
 
         if ($existingFavorite) {
             $existingFavorite->delete();
-            $message = "Konut favorilerden kaldırıldı";
+            $message = "Ürün favorilerden kaldırıldı";
             $status = "removed";
         } else {
             HousingFavorite::create([
                 "user_id" => $user->id,
                 'housing_id' => $housing->id,
             ]);
-            $message = "Konut favorilere eklendi.";
+            $message = "Ürün favorilere eklendi.";
             $status = "added";
         }
 

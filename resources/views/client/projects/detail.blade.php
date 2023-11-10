@@ -59,10 +59,14 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.dashboard', Str::slug($project->user->name)) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Proje İlanları</a>
+                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Proje
+                                İlanları</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">Mağaza
                                 Profili</a>
+                            <a class="navbar-item"
+                                href="{{ route('instituional.housings', Str::slug($project->user->name)) }}">Emlak
+                                İlanları</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
                             @csrf
@@ -143,14 +147,15 @@
                                     <li><span class="la la-map-marker"><i class="fa fa-map-marker"></i></span>
                                         {!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}
                                     </li>
-                                    
-                                    @if($project->user->phone)
-                                    <li><span class="la la-phone"><i class="fa fa-phone" aria-hidden="true"></i></span><a
-                                        style="text-decoration: none;color:inherit"
-                                        href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
-                                </li>
+
+                                    @if ($project->user->phone)
+                                        <li><span class="la la-phone"><i class="fa fa-phone"
+                                                    aria-hidden="true"></i></span><a
+                                                style="text-decoration: none;color:inherit"
+                                                href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                        </li>
                                     @endif
-                                  
+
 
                                     <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                 aria-hidden="true"></i></span><a
@@ -239,7 +244,7 @@
                 <div class="row project-filter-reverse blog-pots">
                     @for ($i = 0; $i < $project->room_count; $i++)
                         @php
-                            $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]) ;
+                            $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
                         @endphp
 
                         <div class="col-md-12 col-12">
@@ -396,7 +401,7 @@
                                                     <button class="first-btn payment-plan-button"
                                                         project-id="{{ $project->id }}" order="{{ $i }}">
                                                         Ödeme Detayları </button>
-                                                        @if ($sold && $sold[0]->status != '2')
+                                                    @if ($sold && $sold[0]->status != '2')
                                                         <button class="btn second-btn soldBtn" disabled
                                                             @if ($sold[0]->status == '0') style="background: orange !important;color:White"
                                                     @else 
@@ -437,7 +442,7 @@
         <div class="mobile-show">
             <div class="container">
                 @for ($i = 0; $i < $project->room_count; $i++)
-                    @php    
+                    @php
                         $room_order = getData($project, 'squaremeters[]', $i + 1)->room_order;
                         $discount_amount =
                             App\Models\Offer::where('type', 'project')
@@ -603,8 +608,17 @@
                                             response.room_info[i].room_order);
                                         var advanceData = formatPrice(getDataJS(response, "advance[]",
                                             response.room_info[i].room_order)) + "₺";
-                                            console.log((parseFloat(getDataJS(response, "installments-price[]", response.room_info[i].room_order)) - parseFloat(getDataJS(response, "advance[]",response.room_info[i].room_order))));
-                                        var monhlyPrice = (formatPrice(((parseFloat(getDataJS(response, "installments-price[]", response.room_info[i].room_order)) - parseFloat(getDataJS(response, "advance[]",response.room_info[i].room_order))) / parseInt(installementData)))) + '₺';
+                                        console.log((parseFloat(getDataJS(response,
+                                            "installments-price[]", response.room_info[
+                                                i].room_order)) - parseFloat(getDataJS(
+                                            response, "advance[]", response.room_info[i]
+                                            .room_order))));
+                                        var monhlyPrice = (formatPrice(((parseFloat(getDataJS(response,
+                                                "installments-price[]", response
+                                                .room_info[i].room_order)) - parseFloat(
+                                                getDataJS(response, "advance[]",
+                                                    response.room_info[i].room_order))) /
+                                            parseInt(installementData)))) + '₺';
                                     }
                                     html += "<tr>" +
                                         "<td>" + paymentPlanDatax[paymentPlanData[j]] + "</td>" +
@@ -682,7 +696,7 @@ out center;`;
                             <div class="project-inner project-head">
                                 <div class="location-card">
                                     <div class="location-card-head">
-                                        <img src="https://www.sahibinden.com/assets/images/durak:7299b7f721d8e670e9d070f1f816991a.png" alt="">
+                                        <img src="#/assets/images/durak:7299b7f721d8e670e9d070f1f816991a.png" alt="">
                                     </div>
                                     <div class="location-card-body">
                                         ${element.tags.type == "public_transport" ? `<p>${name} Metro Durağı </p>` : `<p>${name} Otobüs Durağı</p>`}

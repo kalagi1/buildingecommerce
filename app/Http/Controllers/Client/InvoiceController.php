@@ -24,13 +24,15 @@ class InvoiceController extends Controller
             $project = Housing::where("id", $cart->item->id)->with("user")->first();
         }
 
+
         $invoice = Invoice::where("order_id", $order->id)->with("order.user", "order.bank")->first();
         $data = [
             'invoice' => $invoice,
             'project' => $project,
         ];
+        
 
-        return view('institutional.invoice.index', compact("data"));
+        return view('client.invoice.index', compact("data"));
     }
 
     public function generatePDF(Request $request)

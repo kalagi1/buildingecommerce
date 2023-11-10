@@ -336,7 +336,7 @@
             data: {
                 labels: months,
                 datasets: [{
-                    label: 'Konutlar',
+                    label: 'Emlaklar',
                     data: getMonthlyCounts(housingMonthlyData, availableMonths),
                     borderColor: '#3c5a99',
                     borderWidth: 2,

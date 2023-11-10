@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="content">
-        <h2 class="mb-2 lh-sm">Konutlar</h2>
+        <h2 class="mb-2 lh-sm">Emlaklar</h2>
         <div class="mt-4">
             <div class="row g-4">
                 <div class="col-12 col-xl-12  order-1 order-xl-0">
