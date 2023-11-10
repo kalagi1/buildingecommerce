@@ -22,7 +22,11 @@
                                     <td class="column_cell bb_light" height="32"
                                         data-border-bottom-color="Border Light"
                                         style="vertical-align: top;border-bottom: 1px solid #dee0e1;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                                        &nbsp;</td>
+                                        <img
+                                        src="{{ URL::to('/') }}/images/emlaksepettelogo.png" style="    width: 200px;
+                                        margin: 0 auto;
+                                        display: flex;
+                                        margin-bottom: 20px;" alt=""></td>
                                 </tr>
                             </tbody>
                         </table>

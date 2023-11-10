@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CustomMail;
 use App\Models\CartOrder;
 use App\Models\DocumentNotification;
+use App\Models\EmailTemplate;
 use App\Models\User;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class DashboardController extends Controller
 {
@@ -71,14 +74,79 @@ class DashboardController extends Controller
 
         auth()->user()->update($array);
 
+        $emailTemplate = EmailTemplate::where('slug', "send-files")->first();
+
+        if (!$emailTemplate) {
+            return response()->json([
+                'message' => 'Email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203);
+        }
+
+        $content = $emailTemplate->body;
+        $user = User::where("id", auth()->user()->parent_id ?? auth()->user()->id)->first();
+
+        $variables = [
+            'username' => $user->name,
+            'companyName' => "Emlak Sepeti",
+            "email" => $user->email,
+            "token" => $user->email_verification_token,
+        ];
+
+        foreach ($variables as $key => $value) {
+            $content = str_replace("{{" . $key . "}}", $value, $content);
+        }
+
+        Mail::to($user->email)->send(new CustomMail($emailTemplate->subject, $content));
+
         DocumentNotification::create([
             'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
-            'text' => 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: ' . auth()->user()->email,
+            'text' => "Belgeleriniz Emlak Sepette Yönetimine İletildi",
             'item_id' => auth()->user()->parent_id ?? auth()->user()->id,
-            'link' => route('admin.user.show-corporate-account', ['user' => auth()->user()->parent_id ?? auth()->user()->id]),
-            'owner_id' => 4,
+            'link' => route('institutional.index'),
+            'owner_id' => auth()->user()->parent_id ?? auth()->user()->id,
             'is_visible' => true,
         ]);
+
+        $emailAdminTemplate = EmailTemplate::where('slug', "get-files")->first();
+
+        if (!$emailAdminTemplate) {
+            return response()->json([
+                'message' => 'Email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203);
+        }
+
+        $contentAdmin = $emailAdminTemplate->body;
+
+        $admins = User::where("type", "3")->get();
+
+        foreach ($admins as $key => $admin) {
+            DocumentNotification::create([
+                'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
+                'text' => 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: ' . auth()->user()->email,
+                'item_id' => auth()->user()->parent_id ?? auth()->user()->id,
+                'link' => route('admin.user.show-corporate-account', ['user' => auth()->user()->parent_id ?? auth()->user()->id]),
+                'owner_id' => 4,
+                'is_visible' => true,
+            ]);
+
+            $adminVariables = [
+                'username' => $user->name,
+                'adminName' => $admin->name,
+                'companyName' => "Emlak Sepeti",
+                "email" => $user->email,
+                "token" => $user->email_verification_token,
+            ];
+    
+            foreach ($adminVariables as $key => $value) {
+                $contentAdmin = str_replace("{{" . $key . "}}", $value, $contentAdmin);
+            }
+    
+            Mail::to($admin->email)->send(new CustomMail($emailAdminTemplate->subject, $contentAdmin));
+        }
 
         return redirect()->back();
     }

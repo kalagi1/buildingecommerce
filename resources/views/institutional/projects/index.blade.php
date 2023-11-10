@@ -39,8 +39,9 @@
                                             <thead>
                                                 <tr>
                                                     <th>No.</th>
-                                                    <th>Proje Adı</th>
-                                                    <th>Proje Kapak Fotoğrafı</th>
+                                                    <th>Proje</th>
+                                                    <th>Satılan Konut Sayısı</th>
+                                                    <th>Konut Listesi</th>
                                                     <th>Öne Çıkar</th>
                                                     <th>Statü</th>
                                                     <th>İşlemler</th>
@@ -181,15 +182,23 @@
             numberCell.className = "align-middle title";
             numberCell.textContent = project.id;
 
-            var titleCell = document.createElement("td");
-            titleCell.className = "align-middle ps-3 title";
-            titleCell.textContent = project.project_title;
 
             var slugCell = document.createElement("td");
             slugCell.className = "align-middle logo";
             slugCell.innerHTML = "<img style='max-width:100px;max-height:50px;' src='{{ URL::to('/') }}/" + project
-                .image.replace("public", "storage") + "'  />";
+                .image.replace("public", "storage") + "'  />" + " " + "<strong> " + project.project_title +
+                "</strong>";
 
+            console.log(project);
+
+            var titleCell = document.createElement("td");
+            titleCell.className = "align-middle title";
+            titleCell.textContent = project.cartOrders;
+
+            var houseCount = document.createElement("td");
+            houseCount.className = "align-middle status";
+            houseCount.innerHTML = "<a href='{{ URL::to('/') }}/institutional/projects/" + project.id +
+                "/housings' class='badge badge-success'>Listele</a>";
 
             var standOutCell = document.createElement("td");
             standOutCell.className = "align-middle status";
@@ -244,8 +253,9 @@
             actionsCell.appendChild(actionsDiv);
 
             row.appendChild(numberCell);
-            row.appendChild(titleCell);
             row.appendChild(slugCell);
+            row.appendChild(titleCell);
+            row.appendChild(houseCount);
             row.appendChild(standOutCell);
             row.appendChild(activeCell);
             row.appendChild(actionsCell);

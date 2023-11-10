@@ -110,7 +110,7 @@
                                                                 </div>
                                                             @endforeach
                                                         </div>
-                                                        <div id="ibanInfo"></div>
+                                                        <div class="ibanInfo"></div>
                                                         <strong>Ödeme işlemini tamamlamak için, lütfen bu
                                                             <span style="color:red" class="uniqueCode"></span> kodu
                                                             kullanarak ödemenizi
@@ -363,7 +363,7 @@
 
 
                 // IBAN bilgisini ekranda göster
-                $('#ibanInfo').text(selectedBankTitle + " : " + selectedBankIban);
+                $('.ibanInfo').text(selectedBankTitle + " : " + selectedBankIban);
                 // Ödeme düğmesini etkinleştir
                 $('.completePaymentButton').prop('disabled', false);
             });

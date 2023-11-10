@@ -30,6 +30,10 @@ class InstitutionalController extends Controller
                     $query->where('housing_type_id', '3');
                 })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->where("user_id", $store->id)->get();
 
+                $soilProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
+                    $query->where('housing_type_id', '5');
+                })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->where("user_id", $store->id)->get();
+
                 $secondhandHousings = Housing::with('images')->select(
                     'housings.id',
                     'housings.title AS housing_title',
@@ -43,7 +47,7 @@ class InstitutionalController extends Controller
                     ->where("user_id", $store->id)
                     ->get();
 
-                return view("client.institutional.dashboard", compact("store", 'projects', 'finishProjects', 'continueProjects', 'secondhandHousings'));
+                return view("client.institutional.dashboard", compact("store","soilProjects", 'projects', 'finishProjects', 'continueProjects', 'secondhandHousings'));
             }
         }
     }
