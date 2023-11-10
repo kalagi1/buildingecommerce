@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CustomMail;
 use App\Models\CartOrder;
+use App\Models\EmailTemplate;
 use App\Models\Housing;
 use App\Models\HousingComment;
 use App\Models\Invoice;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\UserPlan;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -49,6 +52,39 @@ class HomeController extends Controller
         $fatura->total_amount = $cart->item->price;
         $fatura->invoice_number = 'INV-' . time() . $cartOrder->id; // Fatura numarası oluşturabilirsiniz.
         $fatura->save();
+
+        $project = Project::where("id", $cart->item->id)->with("user")->first();
+
+        $user = User::where("id", $cartOrder->user_id)->first();
+        $newSeller = EmailTemplate::where('slug', "new-seller")->first();
+
+        if (!$newSeller) {
+            return response()->json([
+                'message' => 'Email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203);
+        }
+
+        $newSellerContent = $newSeller->body;
+
+        $newSellerVariables = [
+            'customerName' => $user->name,
+            'customerEmail' => $user->email,
+            'salesAmount' => $cartOrder->amount,
+            'salesDate' => $cartOrder->created_at,
+            'companyName' => "Emlak Sepeti",
+            "email" => $user->email,
+            "token" => $user->email_verification_token,
+            "storeOwnerName" => $project ? $project->user->name : "",
+            "invoiceLink" => route("institutional.invoice.show", $cartOrder->id),
+        ];
+
+        foreach ($newSellerVariables as $key => $value) {
+            $newSellerContent = str_replace("{{" . $key . "}}", $value, $newSellerContent);
+        }
+
+        Mail::to($user->email)->send(new CustomMail($newSeller->subject, $newSellerContent));
 
         return redirect()->back();
     }

@@ -280,7 +280,7 @@
                 var selectedBankIban = $(this).data('iban');
                 var selectedBankIbanID = $(this).data('id');
                 var selectedBankTitle = $(this).data('title');
-                $('#bankaID').text(selectedBankIbanID);
+                $('#bankaID').val(selectedBankIbanID);
 
 
                 // IBAN bilgisini ekranda göster

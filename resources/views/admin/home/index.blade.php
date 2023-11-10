@@ -135,7 +135,7 @@
                                                     <h5 class="fs--1 lh-sm">{{ $project->project_title }}
                                                     </h5>
                                                     <p class="fs--1">by <a target="_blank" class="fw-semi-bold"
-                                                            href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">{{ $project->user->name }}</a>
+                                                            href="{{ route('admin.projects.detail', Str::slug($project->id)) }}">{{ $project->user->name }}</a>
                                                     </p>
                                                 </div>
                                             </div>

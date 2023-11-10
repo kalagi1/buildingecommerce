@@ -762,6 +762,7 @@
                                         <!-- Image Box -->
                                         <a href="${res.url}" class="img-box hover-effect">
                                             <img src="${res.image}" class="img-fluid w100" alt="">
+                                        
                                         </a>
                                     </div>
                                     `
@@ -772,6 +773,7 @@
                                         <!-- Image Box -->
                                         <a href="${res.url}" class="img-box hover-effect">
                                             <img src="${res.image}" class="img-fluid w100" alt="">
+                                           
                                         </a>
                                     </div>
                                     `

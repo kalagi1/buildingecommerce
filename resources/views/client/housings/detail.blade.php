@@ -399,7 +399,10 @@
                                     <div class="author-box clearfix">
                                         <img src="{{ URL::to('/') . '/storage/profile_images/' . $housing->user->profile_image }}"
                                             alt="author-image" class="author__img">
-                                        <h4 class="author__title">{!! $housing->user->name !!}</h4>
+                                        <a href="{{ route('instituional.dashboard', Str::slug($housing->user->name)) }}">
+                                            <h4 class="author__title">{!! $housing->user->name !!}</h4>
+                                        </a>
+
                                         <p class="author__meta">{{ $housing->user->corporate_type }}</p>
                                     </div>
                                     <ul class="author__contact">
@@ -472,27 +475,30 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="widget-boxed popular mt-5">
-                            <div class="widget-boxed-header">
-                                <h4>{!! $housing->user->name !!}</h4>
-                            </div>
-                            <div class="widget-boxed-body">
-                                @if (count($housing->user->banners) > 0)
-                                    @php
-                                        $randomBanner = $housing->user->banners[0];
-                                        $imagePath = asset('storage/store_banners/' . $randomBanner['image']);
-                                    @endphp
-                                    <div class="banner"><img src="{{ $imagePath }}" alt=""></div>
-                                @else
-                                    <p>No banners available.</p>
-                                @endif
-                            </div>
-                        </div>
+                        @if (count($housing->user->banners) > 0)
+                            <div class="widget-boxed popular mt-5">
+                                <div class="widget-boxed-header">
+                                    <h4>{!! $housing->user->name !!}</h4>
+                                </div>
+
+                                <div class="widget-boxed-body">
+                                    @if (count($housing->user->banners) > 0)
+                                        @php
+                                            $randomBanner = $housing->user->banners[0];
+                                            $imagePath = asset('storage/store_banners/' . $randomBanner['image']);
+                                        @endphp
+                                        <div class="banner"><img src="{{ $imagePath }}" alt=""></div>
+                                    @else
+                                        <p>No banners available.</p>
+                                    @endif
+                                </div>
+                        @endif
+                    </div>
 
 
-                        <!-- End: Schedule a Tour -->
-                        <!-- end author-verified-badge -->
-                        {{-- <div class="sidebar">
+                    <!-- End: Schedule a Tour -->
+                    <!-- end author-verified-badge -->
+                    {{-- <div class="sidebar">
                             <div class="widget-boxed mt-33 mt-5">
                                 <div class="divider-fade"></div>
                                 <div id="map" class="contactmap">
@@ -505,9 +511,9 @@
                             </div>
 
                         </div> --}}
-                    </div>
-                </aside>
             </div>
+            </aside>
+        </div>
 
 
 

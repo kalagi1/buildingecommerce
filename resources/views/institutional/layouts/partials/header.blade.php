@@ -414,7 +414,9 @@
                                     <div class="p-3 text-center">Bildirim Yok</div>
                                 @else
                                    @foreach ($notifications as $notification)
-                                   <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{$notification->readed == 0 ? "unread":"read" }} border-bottom">
+                                   <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{$notification->readed == 0 ? "unread":"read" }} border-bottom"
+                                    data-id="{{ $notification->id }}"
+                                    data-link="{{ $notification->link }}">
                                     <div class="d-flex align-items-center justify-content-between position-relative">
                                       <div class="d-flex">
                                         <div class="avatar avatar-m status-online me-3">
@@ -448,9 +450,6 @@
                                           
                                           
                                                                                   </div>
-                                      </div>
-                                      <div class="font-sans-serif d-none d-sm-block"><button class="btn fs--2 btn-sm dropdown-toggle dropdown-caret-none transition-none notification-dropdown-toggle" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2 text-900"></span></button>
-                                        <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item notification-click" href="{!! $notification->link !!}" data-id="{{ $notification->id }}"  data-link="{{ $notification->link }}">Görüntüle</a></div>
                                       </div>
                                     </div>
                                   </div>
@@ -8038,8 +8037,45 @@
             });
         });
     });
+    document.addEventListener("DOMContentLoaded", function() {
+    // Bildirim kartlarını bul
+    var notificationCards = document.querySelectorAll(".notification-card");
+
+    // Her kart için tıklama etkinleyici ekleyin
+    notificationCards.forEach(function(card) {
+        card.addEventListener("click", function() {
+            var notificationId = card.getAttribute("data-id");
+            var notificationLink = $(this).data('link');
+              
+            console.log(notificationId);
+            
+            // AJAX ile bildirimi işaretle
+            fetch('/mark-notification-as-read/' + notificationId, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                }
+            })
+            .then(function(response) {
+             
+                    if (notificationLink) {
+                    window.location.href = notificationLink;
+                }
+                    card.classList.remove("unread");
+                    card.classList.add("read");
+                
+            })
+            .catch(function(error) {
+                console.error('Bir hata oluştu:', error);
+            });
+        });
+    });
+});
 </script>
         <style>
+               .notification-card {
+                cursor: pointer
+            }
             .navbar-logo .logo {
                 height: 45px !important;
                 padding: 5px;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DefaultMessage;
+use App\Models\DocumentNotification;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\Log;
@@ -22,10 +23,10 @@ class ProjectController extends Controller
             1 => "Aktif",
             0 => "Pasif",
             2 => "Admin Onayı Bekliyor",
-            3 => "Admin Tarafından Reddedildi"
+            3 => "Admin Tarafından Reddedildi",
         ];
         $projects = Project::orderByDesc('created_at')->get();
-        return view('admin.projects.index',compact('projects','projectStatuses'));
+        return view('admin.projects.index', compact('projects', 'projectStatuses'));
     }
 
     /**
@@ -60,29 +61,61 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.create')->with('success', 'Project and housings created successfully');
     }
 
-    public function detail($id){
+    public function detail($id)
+    {
         $defaultMessages = DefaultMessage::get();
-        $project = Project::where('id',$id)->first();
-        $housingTypeData = HousingType::where('id',$project->housing_type_id)->first();
+        $project = Project::where('id', $id)->first();
+        $housingTypeData = HousingType::where('id', $project->housing_type_id)->first();
         $housingTypeData = json_decode($housingTypeData->form_json);
         $housingData = $project->roomInfo;
-        return view('admin.projects.detail',compact('project','housingTypeData','housingData','defaultMessages'));
+        return view('admin.projects.detail', compact('project', 'housingTypeData', 'housingData', 'defaultMessages'));
     }
 
-    public function setStatus($projectId,Request $request){
+    public function setStatus($projectId, Request $request)
+    {
+        $project = Project::where('id', $projectId)->with("user")->firstOrFail();
         $reason = "";
         $isRejected = 0;
-        if($request->input('status') == 3){
+        if ($request->input('status') == 3) {
             $isRejected = 1;
             $reason = $request->input('reason');
-        }else if($request->input('status') == 1){
+            DocumentNotification::create(
+                [
+                    'user_id' => auth()->user()->id,
+                    'text' => 'Projeniz "' . $reason . '" sebebinden dolayı reddedildi.',
+                    'item_id' => $projectId,
+                    'link' => route('institutional.project.edit.v2', ['projectSlug' => $project->slug]),
+                    'owner_id' => $project->user->id,
+                    'is_visible' => true,
+                ]
+            );
+        } else if ($request->input('status') == 1) {
             $reason = "Başarıyla projeniz aktife alındı";
-        }else{
-            $reason = "Projeniz pasife alındı";
+            DocumentNotification::create(
+                [
+                    'user_id' => auth()->user()->id,
+                    'text' => 'Projeniz şu anda yayında!',
+                    'item_id' => $project->id,
+                    'link' => route('project.detail', ['slug' => $project->slug]),
+                    'owner_id' => $project->user->id,
+                    'is_visible' => true,
+                ]
+            );
+        } else {
+            DocumentNotification::create(
+                [
+                    'user_id' => auth()->user()->id,
+                    'text' => 'Projeniz pasife alındı!',
+                    'item_id' => $project->id,
+                    'link' => route('institutional.project.edit.v2', ['projectSlug' => $project->slug]),
+                    'owner_id' => $project->user->id,
+                    'is_visible' => true,
+                ]
+            );
         }
-        $project = Project::where('id',$projectId)->firstOrFail();
-        Project::where('id',$projectId)->update([
-            "status" => $request->input('status')
+        $project = Project::where('id', $projectId)->firstOrFail();
+        Project::where('id', $projectId)->update([
+            "status" => $request->input('status'),
         ]);
 
         Log::create([
@@ -94,24 +127,44 @@ class ProjectController extends Controller
         ]);
 
         return json_encode([
-            "status" => true
+            "status" => true,
         ]);
     }
 
-    public function setStatusGet($projectId){
-        $project = Project::where('id',$projectId)->firstOrFail();
-        if($project->status == 0 || $project->status == 2){
-            Project::where('id',$projectId)->update([
-                "status" => 1
+    public function setStatusGet($projectId)
+    {
+        $project = Project::where('id', $projectId)->with("user")->firstOrFail();
+        if ($project->status == 0 || $project->status == 2) {
+            Project::where('id', $projectId)->update([
+                "status" => 1,
             ]);
-        }else{
-            Project::where('id',$projectId)->update([
-                "status" => 0
+            DocumentNotification::create(
+                [
+                    'user_id' => auth()->user()->id,
+                    'text' => 'Projeniz şu anda yayında!',
+                    'item_id' => $project->id,
+                    'link' => route('project.detail', ['slug' => $project->slug]),
+                    'owner_id' => $project->user->id,
+                    'is_visible' => true,
+                ]
+            );
+        } else {
+            DocumentNotification::create(
+                [
+                    'user_id' => auth()->user()->id,
+                    'text' => 'Projeniz pasife alındı!',
+                    'item_id' => $project->id,
+                    'link' => route('institutional.project.edit.v2', ['projectSlug' => $project->slug]),
+                    'owner_id' => $project->user->id,
+                    'is_visible' => true,
+                ]
+            );
+            Project::where('id', $projectId)->update([
+                "status" => 0,
             ]);
         }
-        
 
-        if($project->status == 1){
+        if ($project->status == 1) {
             Log::create([
                 "item_type" => 1,
                 "item_id" => $projectId,
@@ -119,7 +172,7 @@ class ProjectController extends Controller
                 "is_rejected" => 0,
                 "user_id" => auth()->user()->id,
             ]);
-        }else{
+        } else {
             Log::create([
                 "item_type" => 1,
                 "item_id" => $projectId,
@@ -129,11 +182,12 @@ class ProjectController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.projects.detail',$projectId);
+        return redirect()->route('admin.projects.detail', $projectId);
     }
 
-    public function logs($projectId){
-        $logs = Log::where('item_type',1)->where('item_id',$projectId)->orderByDesc('created_at')->with('user')->get();
-        return view('admin.projects.logs',compact('logs'));
+    public function logs($projectId)
+    {
+        $logs = Log::where('item_type', 1)->where('item_id', $projectId)->orderByDesc('created_at')->with('user')->get();
+        return view('admin.projects.logs', compact('logs'));
     }
 }

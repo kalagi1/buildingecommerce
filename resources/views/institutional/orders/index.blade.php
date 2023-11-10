@@ -67,7 +67,18 @@
                                         @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
 
                                         <tr>
-                                            <td class="order_no">{{ $order->key }}</td>
+                                            <td class="order_no">{{ $order->key }} <br>
+                                                @if ($order->invoice)
+                                                    <a href="{{ route('institutional.invoice.show', $order->id) }}">
+                                                        <button class="invoiceBtn">
+                                                            <span class="button_lg">
+                                                                <span class="button_sl"></span>
+                                                                <span class="button_text">Faturayı Görüntüle</span>
+                                                            </span>
+                                                        </button>
+                                                    </a>
+                                                @endif
+                                            </td>
                                             <td class="order_image">
                                                 @if ($o->type == 'housing')
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
@@ -79,10 +90,10 @@
                                             </td>
                                             <td class="order_project">
                                                 @if ($o->type == 'project')
-                                                <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                    {{ getHouse($project, 'squaremeters[]', json_decode($order->cart)->item->housing)->value }}m2
-                                                    {{ getHouse($project, 'room_count[]',json_decode($order->cart)->item->housing)->value }}
-                                                </span>
+                                                    <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                                        {{ getHouse($project, 'squaremeters[]', json_decode($order->cart)->item->housing)->value }}m2
+                                                        {{ getHouse($project, 'room_count[]', json_decode($order->cart)->item->housing)->value }}
+                                                    </span>
                                                 @else
                                                     -
                                                 @endif
@@ -96,7 +107,7 @@
                                             ][$order->status] !!}</td>
                                             <td class="order_user">{{ $order->user->email }}</td>
                                             <td class="order_seller">{{ $project->user->email ?? '-' }}</td>
-                                           
+
                                         </tr>
                                     @endforeach
                                 @else
@@ -164,6 +175,125 @@
 
         #table_filter {
             margin-bottom: 20px;
+        }
+        .invoiceBtn {
+            width: 150px !important;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            border: none;
+            background: none;
+            color: #0f1923;
+            cursor: pointer;
+            position: relative;
+            padding: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all .15s ease;
+        }
+
+        .invoiceBtn::before,
+        .invoiceBtn::after {
+            content: '';
+            display: block;
+            position: absolute;
+            right: 0;
+            left: 0;
+            height: calc(50% - 5px);
+            border: 1px solid #7D8082;
+            transition: all .15s ease;
+        }
+
+        .invoiceBtn::before {
+            top: 0;
+            border-bottom-width: 0;
+        }
+
+        .invoiceBtn::after {
+            bottom: 0;
+            border-top-width: 0;
+        }
+
+        .invoiceBtn:active,
+        .invoiceBtn:focus {
+            outline: none;
+        }
+
+        .invoiceBtn:active::before,
+        .invoiceBtn:active::after {
+            right: 3px;
+            left: 3px;
+        }
+
+        .invoiceBtn:active::before {
+            top: 3px;
+        }
+
+        .invoiceBtn:active::after {
+            bottom: 3px;
+        }
+
+        .invoiceBtn_lg {
+            position: relative;
+            display: block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #0f1923;
+            overflow: hidden;
+            box-shadow: inset 0px 0px 0px 1px transparent;
+        }
+
+        .invoiceBtn_lg::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 2px;
+            background-color: #0f1923;
+        }
+
+        .invoiceBtn_lg::after {
+            content: '';
+            display: block;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 4px;
+            height: 4px;
+            background-color: #0f1923;
+            transition: all .2s ease;
+        }
+
+        .invoiceBtn_sl {
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: -1px;
+            left: -8px;
+            width: 0;
+            background-image: linear-gradient(to bottom right, #00c6ff,
+                    #0072ff);
+            transform: skew(-15deg);
+            transition: all .2s ease;
+        }
+
+        .invoiceBtn_text {
+            position: relative;
+        }
+
+        .invoiceBtn:hover {
+            color: #0f1923;
+        }
+
+        .invoiceBtn:hover .invoiceBtn_sl {
+            width: calc(100% + 15px);
+        }
+
+        .invoiceBtn:hover .invoiceBtn_lg::after {
+            background-color: #fff;
         }
     </style>
 @endsection

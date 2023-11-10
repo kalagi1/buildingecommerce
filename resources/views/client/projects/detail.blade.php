@@ -59,8 +59,7 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.dashboard', Str::slug($project->user->name)) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Tüm
-                                Projeler</a>
+                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Proje İlanları</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">Mağaza
                                 Profili</a>

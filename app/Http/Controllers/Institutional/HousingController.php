@@ -163,9 +163,9 @@ class HousingController extends Controller
                 DocumentNotification::create(
                     [
                         'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
-                        'text' => 'Yeni bir konut eklendi. Detayları incelemek için <a href="' . route('housing.show', ['id' => $project->id]) . '">buraya tıklayın</a>',
+                        'text' => 'Yeni bir konut eklendi.',
                         'item_id' => auth()->user()->parent_id ?? auth()->user()->id,
-                        'link' => route('admin.housings.detail', ['housing' => $project->id]), // Rota adını ve parametreyi uygun şekilde ayarlayın
+                        'link' => route('admin.housings.detail', ['housing' => $project->id]), 
                         'owner_id' => 4,
                         'is_visible' => true,
                     ]

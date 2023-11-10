@@ -23,6 +23,7 @@
                                         <div class="invoice">
                                             <h4 class="inv-header-1">Fatura<br> {{ $data['invoice']['invoice_number'] }}
                                             </h4>
+                                            <span> Tarih: {{ $data['invoice']['created_at'] }}</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -31,38 +32,6 @@
                                                 <img class="logo" src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
                                                     alt="logo">
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="informeshon">
-                                            <p class="inv-title-1">Tarih</p>
-                                            <p>Fatura Tarihi: {{ $data['invoice']['created_at'] }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="informeshon">
-                                            <p class="inv-title-1">Alıcı Bilgileri</p>
-                                            <p class="invo-addr-1">
-                                                {{ $data['invoice']['order']['user']['name'] }} <br>
-                                                {{ $data['invoice']['order']['user']['email'] }} <br>
-
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="informeshon text-end">
-                                            <p class="inv-title-1">Satıcı Bilgileri</p>
-                                            <p class="invo-addr-1">
-                                                {{ $data['project']['user']['name'] }} <br>
-                                                {{ $data['project']['user']['email'] }} <br>
-                                                Vergi No: {{ $data['project']['user']['taxNumber'] }} <br>
-                                                Telefon: {{ $data['project']['user']['phone'] }} <br>
-
-
-                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +46,30 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <img src={{ $cart['item']['image'] }} style="width:200px">
+                                                    <img src="{{ $cart['item']['image'] }}" style="width:200px">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Alıcı Bilgileri</strong>
+                                                    <ul>
+                                                        <li> İsim Soyisim: {{ $data['invoice']['order']['user']['name'] }}
+                                                        </li>
+                                                        <li> E-Mail: {{ $data['invoice']['order']['user']['email'] }} </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Satıcı Bilgileri</strong>
+                                                    <ul>
+                                                        <li> Mağaza: {{ $data['project']['user']['name'] }} </li>
+                                                        <li> E-Mail: {{ $data['project']['user']['email'] }} </li>
+                                                        <li> Vergi No: {{ $data['project']['user']['taxNumber'] }} </li>
+                                                        @if ($data['project']['user']['phone'])
+                                                            <li> Telefon: {{ $data['project']['user']['phone'] }} </li>
+                                                        @endif
+                                                    </ul>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -131,20 +123,17 @@
                                             <p class="mb-0">KDV Dahil</p>
                                         </div>
                                     </div>
-                                    {{-- </div>
-                          <div class="note mt-3">
-                              <p class="text-muted">{!! $data['project']['description'] !!}</p>
-                          </div> --}}
                                 </div>
                             </div>
-                            <div class="invoice-btn-section clearfix d-print-none">
-                                <a href="javascript:window.print()" class="btn btn-lg btn-print">
-                                    <i class="fa fa-print"></i> Faturayı Yazdır
-                                </a>
-                                <a id="invoice_download_btn" class="btn btn-lg btn-download">
-                                    <i class="fa fa-download"></i> Faturayı İndir
-                                </a>
-                            </div>
+
+                        </div>
+                        <div class="invoice-btn-section clearfix d-print-none mb-5">
+                            <a class="btn btn-lg btn-print" id="print-button">
+                                <i class="fa fa-print"></i> Faturayı Yazdır
+                            </a>
+                            <a id="invoice_download_btn" class="btn btn-lg btn-download">
+                                <i class="fa fa-download"></i> Faturayı İndir
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -153,7 +142,42 @@
     @endsection
 
     @section('scripts')
+        <script>
+            document.getElementById('print-button').addEventListener('click', function() {
+                var printContent = document.documentElement.innerHTML; // Sayfanın tamamını al
+
+                var printWindow = window.open('', '', 'width=800, height=600');
+                printWindow.document.open();
+                printWindow.document.write(printContent);
+                printWindow.document.close();
+
+                printWindow.print(); // Yazdır
+                printWindow.close();
+            });
+
+            // Faturayı indirmek için
+            document.getElementById('invoice_download_btn').addEventListener('click', function() {
+                var downloadContent = document.getElementById('invoice_wrapper')
+                    .innerHTML;
+
+                var blob = new Blob([downloadContent], {
+                    type: 'application/pdf'
+                });
+                var url = URL.createObjectURL(blob);
+
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'emlaksepettefatura.pdf';
+                a.style.display = 'none';
+
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            });
+        </script>
     @endsection
+
 
     @section('styles')
         <link rel="stylesheet" href="{{ URL::to('/') }}/css/new.css">
