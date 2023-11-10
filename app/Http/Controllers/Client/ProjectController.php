@@ -16,23 +16,49 @@ use App\Models\ProjectHouseSetting;
 use App\Models\ProjectImage;
 use App\Models\StandOutUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ProjectController extends Controller
 {
     public function index($slug)
     {
-        $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
-        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+        if(Cache::get('project_'.$slug)){
+            $cachedHtml = Cache::get('project_'.$slug);
+            return response($cachedHtml);
+        }else{
+            $menu = Menu::getMenuItems();
+            $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+            $project->roomInfo = $project->roomInfo;
+            $project->brand = $project->brand;
+            $project->housingType = $project->housingType;
+            $project->county = $project->county;
+            $project->city = $project->city;
+            $project->user = $project->user;
+            $project->user->housings = $project->user->housings;
+            $project->user->brands = $project->user->brands;
+            $project->images = $project->images;
+            $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+            
+            Cache::rememberForever('project_'.$slug, 100000 ,  function () use($offer,$project,$menu) {
+                return view('client.projects.index', compact('menu', "offer",'project'))->render();
+            });
+        }
 
-        return view('client.projects.index', compact('menu', "offer",'project'));
     }
 
     public function detail($slug)
     {
         $menu = Menu::getMenuItems();
         $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
-
+        $project->roomInfo = $project->roomInfo;
+        $project->brand = $project->brand;
+        $project->housingType = $project->housingType;
+        $project->county = $project->county;
+        $project->city = $project->city;
+        $project->user = $project->user;
+        $project->user->housings = $project->user->housings;
+        $project->user->brands = $project->user->brands;
+        $project->images = $project->images;
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         return view('client.projects.detail', compact('menu', 'project', 'offer'));
     }

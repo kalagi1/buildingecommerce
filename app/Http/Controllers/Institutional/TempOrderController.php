@@ -551,4 +551,99 @@ class TempOrderController extends Controller
     public function choiseAdvertiseType(){
         return view('institutional.advertise.choise');
     }
+
+    public function getDataByKey($order,$tempData,$key){
+        foreach($tempData->roomInfoKeys as $keyt => $roomInfo){
+            if($keyt.'[]' == $key){
+                if(!is_object($roomInfo) && isset($roomInfo[$order])){
+                    return $roomInfo[$order];
+                }else{
+                    return null;
+                }
+            }
+        }
+    }
+
+    public function getDataByKeyCheckbox($order,$tempData,$key){
+        foreach($tempData->roomInfoKeys as $keyt => $roomInfo){
+            if($keyt.'[]' == $key){
+                if(!is_object($roomInfo) && isset($roomInfo)){
+                    return $roomInfo;
+                }else{
+                    return null;
+                }
+            }
+        }
+    }
+
+    public function getHouseData(Request $request){
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempData = json_decode($tempOrder->data);
+        $housingTypeForm = HousingType::where('id',$tempData->housing_type_id)->first();
+        $housingTypeFormData = json_decode($housingTypeForm->form_json);
+        $data = [];
+        foreach($housingTypeFormData as $formData){
+            if($formData->type == "checkbox-group"){
+                array_push($data,[str_replace('[]','',$formData->name) => $this->getDataByKeyCheckbox($request->input('order'),$tempData,(str_replace('[]','',$formData->name).($request->input('order') + 1).'[]')) , "type" => $formData->type]);
+            }else{
+                array_push($data,[str_replace('[]','',$formData->name) => $this->getDataByKey($request->input('order'),$tempData,$formData->name) , "type" => $formData->type]);
+            }
+        }
+
+        return $data;
+    }
+
+    public function getHouseDataFunc($lastOrder,$itemType){
+        $tempOrder = TempOrder::where('item_type',$itemType)->where('user_id',auth()->guard()->user()->id)->first();
+        $tempData = json_decode($tempOrder->data);
+        $housingTypeForm = HousingType::where('id',$tempData->housing_type_id)->first();
+        $housingTypeFormData = json_decode($housingTypeForm->form_json);
+        $data = [];
+        foreach($housingTypeFormData as $formData){
+            if($formData->type == "checkbox-group"){
+                array_push($data,[str_replace('[]','',$formData->name) => $this->getDataByKeyCheckbox($lastOrder,$tempData,(str_replace('[]','',$formData->name).($lastOrder + 1).'[]')) , "type" => $formData->type]);
+            }else{
+                array_push($data,[str_replace('[]','',$formData->name) => $this->getDataByKey($lastOrder,$tempData,$formData->name) , "type" => $formData->type]);
+            }
+        }
+
+        return $data;
+    }
+
+    public function copyData(Request $request){
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempData = json_decode($tempOrder->data);
+        $dataCopyItem = $this->getHouseDataFunc($request->input('last_order'),$request->input('item_type'));
+        foreach($dataCopyItem as $key => $data){
+            foreach($data as $keyx => $datax){
+                if($data['type'] != "checkbox-group"){
+                    if($keyx != "type"){
+                        if( $data[$keyx] != null){
+                            $tempData->roomInfoKeys->{$keyx}[($request->input('new_order'))] = $data[$keyx];
+                            $tempData->roomInfoKeys->{$keyx} = array_values($tempData->roomInfoKeys->{$keyx});
+                        }else{
+                            $tempData->roomInfoKeys->{$keyx}[($request->input('new_order'))] = null;
+                            $tempData->roomInfoKeys->{$keyx} = array_values($tempData->roomInfoKeys->{$keyx});
+                        }
+                    }
+                }else{
+                    if($keyx != "type"){
+                        if($data[$keyx] && $data[$keyx] != null){
+                            $tempData->roomInfoKeys->{$keyx.($request->input('new_order') + 1)} = $data[$keyx];
+                        }else{
+                            $tempData->roomInfoKeys->{$keyx.($request->input('new_order') + 1)} = [];
+                        }
+                    }
+                }
+            }
+        }
+
+        $tempOrder->update([
+            "data" => json_encode($tempData)
+        ]);
+
+        $dataCopyItem = $this->getHouseDataFunc($request->input('new_order'),$request->input('item_type'));
+        
+        return $dataCopyItem;
+    }
 }

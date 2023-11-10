@@ -677,6 +677,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/temp_order_project_housing_data_change', [TempOrderController::class, 'projectHousingDataChange'])->name('temp.order.project.housing.change');
         Route::post('/add_project_image', [TempOrderController::class, 'addProjectImage'])->name('temp.order.project.add.image');
         Route::post('/copy_checkbox', [TempOrderController::class, 'copyCheckbox'])->name('temp.order.copy.checkbox');
+        Route::get('/get_house_data', [TempOrderController::class, 'getHouseData'])->name('temp.order.get.house.data');
+        Route::post('/copy_item', [TempOrderController::class, 'copyData'])->name('temp.order.copy.data');
     });
 
     Route::middleware(['checkPermission:DeleteOffer'])->group(function () {
