@@ -4,51 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a14b5ee4fc5a92d58d114f421933a541",
+    "content-hash": "27b9ad9aedc3ad84b4eb2d8d3d5cd664",
     "packages": [
         {
-            "name": "barryvdh/laravel-dompdf",
-            "version": "v2.0.1",
+            "name": "barryvdh/laravel-debugbar",
+            "version": "v3.9.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/barryvdh/laravel-dompdf.git",
-                "reference": "9843d2be423670fb434f4c978b3c0f4dd92c87a6"
+                "url": "https://github.com/barryvdh/laravel-debugbar.git",
+                "reference": "bfd0131c146973cab164e50f5cdd8a67cc60cab1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-dompdf/zipball/9843d2be423670fb434f4c978b3c0f4dd92c87a6",
-                "reference": "9843d2be423670fb434f4c978b3c0f4dd92c87a6",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/bfd0131c146973cab164e50f5cdd8a67cc60cab1",
+                "reference": "bfd0131c146973cab164e50f5cdd8a67cc60cab1",
                 "shasum": ""
             },
             "require": {
-                "dompdf/dompdf": "^2.0.1",
-                "illuminate/support": "^6|^7|^8|^9|^10",
-                "php": "^7.2 || ^8.0"
+                "illuminate/routing": "^9|^10",
+                "illuminate/session": "^9|^10",
+                "illuminate/support": "^9|^10",
+                "maximebf/debugbar": "^1.18.2",
+                "php": "^8.0",
+                "symfony/finder": "^6"
             },
             "require-dev": {
-                "nunomaduro/larastan": "^1|^2",
-                "orchestra/testbench": "^4|^5|^6|^7|^8",
-                "phpro/grumphp": "^1",
+                "mockery/mockery": "^1.3.3",
+                "orchestra/testbench-dusk": "^5|^6|^7|^8",
+                "phpunit/phpunit": "^8.5.30|^9.0",
                 "squizlabs/php_codesniffer": "^3.5"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "3.8-dev"
                 },
                 "laravel": {
                     "providers": [
-                        "Barryvdh\\DomPDF\\ServiceProvider"
+                        "Barryvdh\\Debugbar\\ServiceProvider"
                     ],
                     "aliases": {
-                        "Pdf": "Barryvdh\\DomPDF\\Facade\\Pdf",
-                        "PDF": "Barryvdh\\DomPDF\\Facade\\Pdf"
+                        "Debugbar": "Barryvdh\\Debugbar\\Facades\\Debugbar"
                     }
                 }
             },
             "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
                 "psr-4": {
-                    "Barryvdh\\DomPDF\\": "src"
+                    "Barryvdh\\Debugbar\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -61,15 +66,17 @@
                     "email": "barryvdh@gmail.com"
                 }
             ],
-            "description": "A DOMPDF Wrapper for Laravel",
+            "description": "PHP Debugbar integration for Laravel",
             "keywords": [
-                "dompdf",
+                "debug",
+                "debugbar",
                 "laravel",
-                "pdf"
+                "profiler",
+                "webprofiler"
             ],
             "support": {
-                "issues": "https://github.com/barryvdh/laravel-dompdf/issues",
-                "source": "https://github.com/barryvdh/laravel-dompdf/tree/v2.0.1"
+                "issues": "https://github.com/barryvdh/laravel-debugbar/issues",
+                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.9.2"
             },
             "funding": [
                 {
@@ -81,7 +88,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-12T15:12:49+00:00"
+            "time": "2023-08-25T18:43:57+00:00
         },
         {
             "name": "brick/math",
@@ -2478,35 +2485,42 @@
             "time": "2023-09-16T11:51:32+00:00"
         },
         {
-            "name": "masterminds/html5",
-            "version": "2.8.1",
+            "name": "maximebf/debugbar",
+            "version": "v1.19.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Masterminds/html5-php.git",
-                "reference": "f47dcf3c70c584de14f21143c55d9939631bc6cf"
+                "url": "https://github.com/maximebf/php-debugbar.git",
+                "reference": "03dd40a1826f4d585ef93ef83afa2a9874a00523"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/f47dcf3c70c584de14f21143c55d9939631bc6cf",
-                "reference": "f47dcf3c70c584de14f21143c55d9939631bc6cf",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/03dd40a1826f4d585ef93ef83afa2a9874a00523",
+                "reference": "03dd40a1826f4d585ef93ef83afa2a9874a00523",
                 "shasum": ""
             },
             "require": {
-                "ext-dom": "*",
-                "php": ">=5.3.0"
+                "php": "^7.1|^8",
+                "psr/log": "^1|^2|^3",
+                "symfony/var-dumper": "^4|^5|^6"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.7.21 || ^6 || ^7 || ^8"
+                "phpunit/phpunit": ">=7.5.20 <10.0",
+                "twig/twig": "^1.38|^2.7|^3.0"
+            },
+            "suggest": {
+                "kriswallsmith/assetic": "The best way to manage assets",
+                "monolog/monolog": "Log using Monolog",
+                "predis/predis": "Redis storage"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.7-dev"
+                    "dev-master": "1.18-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Masterminds\\": "src"
+                    "DebugBar\\": "src/DebugBar/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2515,34 +2529,27 @@
             ],
             "authors": [
                 {
-                    "name": "Matt Butcher",
-                    "email": "technosophos@gmail.com"
+                    "name": "Maxime Bouroumeau-Fuseau",
+                    "email": "maxime.bouroumeau@gmail.com",
+                    "homepage": "http://maximebf.com"
                 },
                 {
-                    "name": "Matt Farina",
-                    "email": "matt@mattfarina.com"
-                },
-                {
-                    "name": "Asmir Mustafic",
-                    "email": "goetas@gmail.com"
+                    "name": "Barry vd. Heuvel",
+                    "email": "barryvdh@gmail.com"
                 }
             ],
-            "description": "An HTML5 parser and serializer.",
-            "homepage": "http://masterminds.github.io/html5-php",
+            "description": "Debug bar in the browser for php application",
+            "homepage": "https://github.com/maximebf/php-debugbar",
             "keywords": [
-                "HTML5",
-                "dom",
-                "html",
-                "parser",
-                "querypath",
-                "serializer",
-                "xml"
+                "debug",
+                "debugbar"
             ],
             "support": {
-                "issues": "https://github.com/Masterminds/html5-php/issues",
-                "source": "https://github.com/Masterminds/html5-php/tree/2.8.1"
+                "issues": "https://github.com/maximebf/php-debugbar/issues",
+                "source": "https://github.com/maximebf/php-debugbar/tree/v1.19.1"
             },
-            "time": "2023-05-10T11:58:31+00:00"
+            "time": "2023-10-12T08:10:52+00:00"
+
         },
         {
             "name": "mongodb/mongodb",

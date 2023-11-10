@@ -41372,3 +41372,135 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
     color: #95afc0;
     opacity: 0.55;
   }
+
+  .load-area{
+    position: fixed;
+    top: 0;
+    width: 50%;
+    height: 70px;
+    background: #e54242;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 9999;
+    left: 25%;
+  }
+
+  .progress{
+    margin: 10px 10px;
+    height: 20px;
+    background: #fff;
+  }
+
+  .progress-bar{
+    background: #333;
+  }
+
+  .load-area span{
+    display: block;
+    text-align: center;
+    color: #fff;
+    margin: 10px 0;
+  }
+
+  .bottom-housing-area{
+    position: fixed;
+    bottom: 0;
+    height: 120px;
+    background: #e54242;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    z-index: 9999;
+    margin: 0 auto;
+    left: 25%;
+    padding: 0 20px;
+}
+
+.button-white{
+    padding: 15px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    font-weight: 600;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.align-center{
+    display: flex;
+    align-items: center;
+}
+
+.mr-5px{
+    margin-right: 5px;
+}
+
+.ml-5px{
+    margin-left: 5px;
+}
+
+.button-white2{
+    padding: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    font-weight: 600;
+    border-radius: 15px;
+}
+
+.button-white2 input{
+    width: 50px;
+    height: 30px;
+    float:right;
+    padding-left:4px !important;
+    padding-right:4px !important;
+    text-align: right;
+}
+
+.button-white2 span{
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.mbpx-10{
+    margin-bottom: 10px;
+}
+
+.show-houing-order{
+    padding: 8px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    font-weight: 600;
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.jc-space-between{
+    justify-content: space-between;
+}
+
+.br-10px{
+    border-radius: 10px;
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+.full-load{
+    background: green;
+    color: #fff;
+    height: 100%;
+    left: 0;
+    top: 0;
+    position: absolute;
+    z-index: 0;
+}
+
+.show-houing-order span{
+    position: relative;
+    z-index: 9;
+}

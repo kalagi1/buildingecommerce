@@ -16,6 +16,12 @@ use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\HousingTypeParentConnection;
 use App\Models\Log;
+use App\Models\DocumentNotification;
+use App\Models\Menu;
+use App\Models\Neighborhood;
+use App\Models\Neighbourhood;
+use App\Models\Offer;
+use App\Models\PaymentPlan;
 use App\Models\Neighborhood;
 use App\Models\PricingStandOut;
 use App\Models\Project;
@@ -30,6 +36,7 @@ use App\Models\UserPlan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -368,14 +375,57 @@ class ProjectController extends Controller
                 }
             }
 
-            if (!$request->without_doping) {
-                StandOutUser::create([
-                    "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
-                    "project_id" => $project->id,
-                    "item_order" => $tempOrder->doping_order,
-                    "housing_status_id" => $tempOrder->doping_statuses,
-                    "start_date" => date('Y-m-d', strtotime($tempOrder->doping_start_date)),
-                    "end_date" => date('Y-m-d', strtotime($tempOrder->doping_end_date)),
+                if(!$request->without_doping){
+                    StandOutUser::create([
+                        "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
+                        "project_id" => $project->id,
+                        "item_order" => $tempOrder->doping_order,
+                        "housing_status_id" => $tempOrder->doping_statuses,
+                        "start_date" => date('Y-m-d',strtotime($tempOrder->doping_start_date)),
+                        "end_date" => date('Y-m-d',strtotime($tempOrder->doping_end_date)),
+                    ]);
+                }
+
+                DocumentNotification::create(
+                    [
+                        'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
+                        'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
+                        'item_id' => $project->id,
+                        'owner_id' => 4,
+                        'is_visible' => true,
+                    ]
+                );
+
+                DB::commit();
+                
+                TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->delete();
+                UserPlan::where('user_id', $instUser->parent_id ? $instUser->parent_id : $instUser->id)->decrement('project_limit');
+                dispatch(new AdvertTimeJob($project))->delay(now()->addMonths($month));
+
+                $project = Project::where('id', $project->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+                $menu = Menu::getMenuItems();
+                $project->roomInfo = $project->roomInfo;
+                $project->brand = $project->brand;
+                $project->housingType = $project->housingType;
+                $project->county = $project->county;
+                $project->city = $project->city;
+                $project->user = $project->user;
+                $project->user->housings = $project->user->housings;
+                $project->user->brands = $project->user->brands;
+                $project->images = $project->images;
+                $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+                
+                Cache::rememberForever('project_'.$project->slug ,  function () use($offer,$project,$menu) {
+                    return view('client.projects.index', compact('menu', "offer",'project'))->render();
+                });
+
+                return json_encode([
+                    "status" => true
+                ]);
+            }else{
+                return json_encode([
+                    "status" => false,
+                    "message" => "Son aşamada değilsiniz"
                 ]);
             }
 
