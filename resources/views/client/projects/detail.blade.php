@@ -330,7 +330,7 @@
                                                             <li class="the-icons custom-width">
                                                                 <i class="fa fa-circle circleIcon mr-1"
                                                                     aria-hidden="true"></i>
-                                                                <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
+                                                                <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
                                                                     .Kat
                                                                 </span>
                                                             </li>
