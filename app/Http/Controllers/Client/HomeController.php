@@ -173,6 +173,7 @@ class HomeController extends Controller
             return [
                 'image' => url(str_replace('public/', 'storage/', $item->image)),
                 'url' => route('project.detail', $item->slug),
+                "title" => $item->project_title
             ];
         });
 

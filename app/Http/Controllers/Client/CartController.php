@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CustomMail;
 use App\Models\BankAccount;
 use App\Models\CartOrder;
+use App\Models\EmailTemplate;
 use App\Models\Housing;
 use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Project;
 use App\Models\ProjectHousing;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -79,20 +83,78 @@ class CartController extends Controller
             return redirect()->back()->withErrors(['pay' => 'Sepet boş.']);
         }
 
-        // if ((CartOrder::whereRaw('JSON_EXTRACT(cart, "$.type") = ?', 'housing')->whereRaw('JSON_EXTRACT(cart, "$.item.id") = ?', $request->session()->get('cart')['item']['id'] && $request->session()->get('cart')['type'] == 'housing')->first()) ||
-        //     (CartOrder::whereRaw('JSON_EXTRACT(cart, "$.type") = ?', 'project')->whereRaw('JSON_EXTRACT(cart, "$.item.housing") = ?', $request->session()->get('cart')['item']['housing'] ?? null && $request->session()->get('cart')['type'] == 'project')->first())) {
-        //     return redirect()->back()->withErrors(['pay' => 'Bu ürün satılmış.']);
-        // }
-
         $order = new CartOrder;
         $order->user_id = auth()->user()->id;
-        $order->banka_id = $request->input("banka_id");
+        $order->bank_id = $request->input("banka_id");
 
         $order->amount = str_replace(',', '.', number_format(floatval(str_replace('.', '', $request->session()->get('cart')['item']['price'] - $request->session()->get('cart')['item']['discount_amount'])) * 0.01, 2, ',', '.'));
         $order->cart = json_encode($request->session()->get('cart'));
         $order->status = '0';
         $order->key = $request->input("key");
         $order->save();
+
+        $user = User::where("id", auth()->user()->id)->first();
+        $BuyCart = EmailTemplate::where('slug', "buy-cart")->first();
+
+        if (!$BuyCart) {
+            return response()->json([
+                'message' => 'Email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203);
+        }
+
+        $BuyCartContent = $BuyCart->body;
+
+        $buyCartVariables = [
+            'username' => $user->name,
+            'companyName' => "Emlak Sepeti",
+            "email" => $user->email,
+            "token" => $user->email_verification_token,
+        ];
+
+        foreach ($buyCartVariables as $key => $value) {
+            $BuyCartContent = str_replace("{{" . $key . "}}", $value, $BuyCartContent);
+        }
+
+        Mail::to($user->email)->send(new CustomMail($BuyCart->subject, $BuyCartContent));
+        $cartOrder = CartOrder::where("id", $order->id)->with("bank")->first();
+
+      
+        $NewOrder = EmailTemplate::where('slug', "new-order")->first();
+
+        if (!$NewOrder) {
+            return response()->json([
+                'message' => 'Email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203);
+        }
+
+        $NewOrderContent = $NewOrder->body;
+
+        $admins = User::where("type", "3")->get();
+
+        foreach ($admins as $key => $admin) {
+            $NewOrderVariables = [
+                "adminName" => $admin->name,
+                'customerName' => $user->name,
+                'paymentDate' => $cartOrder->created_at,
+                'paymentTotalAmount' => $cartOrder->amount,
+                'bankAccount' => $cartOrder->bank->receipent_full_name,
+                'companyName' => "Emlak Sepeti",
+                "email" => $user->email,
+                "token" => $user->email_verification_token,
+            ];
+
+            foreach ($NewOrderVariables as $key => $value) {
+                $NewOrderContent = str_replace("{{" . $key . "}}", $value, $NewOrderContent);
+            }
+
+            Mail::to($admin->email)->send(new CustomMail($NewOrder->subject, $NewOrderContent));
+        }
+
+    
         session()->forget('cart');
 
         return redirect()->route('client.pay.success', ['cart_order' => $order->id]);

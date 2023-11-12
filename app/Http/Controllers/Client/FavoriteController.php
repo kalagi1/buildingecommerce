@@ -110,21 +110,24 @@ class FavoriteController extends Controller
         ]);
     }
 
-    public function getProjectHousingFavoriteStatus($id, $projectId)
+    public function getProjectHousingFavoriteStatus(HttpRequest $request)
     {
-        // Kullanıcının favori konutlarını ve projeyi sorgula
+        $projectHousingPairs = $request->input('projectHousingPairs');
+        $result = [];
         $user = User::where("id", Auth::user()->id)->first();
-        $housing = ProjectFavorite::where("user_id", $user->id)
-            ->where("housing_id", $id)
-            ->where("project_id", $projectId)
-            ->first();
+        foreach ($projectHousingPairs as $pair) {
+            $projectId = $pair['projectId'];
+            $housingId = $pair['housingId'];
 
-        // $housing değişkeni, veritabanında bu konutun favori olup olmadığını içerir
-        $isFavorite = $housing !== null;
+            $housing = ProjectFavorite::where("user_id", $user->id)
+                ->where("housing_id", $housingId)
+                ->where("project_id", $projectId)
+                ->first();
 
-        return response()->json([
-            'is_favorite' => $isFavorite,
-        ]);
+            $result[$projectId][$housingId] = $housing !== null;
+        }
+
+        return response()->json($result);
     }
 
 }

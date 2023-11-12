@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CustomMail;
 use App\Models\BankAccount;
 use App\Models\City;
 use App\Models\County;
 use App\Models\District;
+use App\Models\EmailTemplate;
 use App\Models\Neighborhood;
 use App\Models\SubscriptionPlan;
 use App\Models\TaxOffice;
@@ -18,6 +20,7 @@ use App\Rules\SubscriptionPlanToUpgrade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ProfileController extends Controller
 {
@@ -43,7 +46,7 @@ class ProfileController extends Controller
         );
 
         $plan = SubscriptionPlan::find($id);
-        $before = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where("status","1")->first();
+        $before = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where("status", "1")->first();
         $user = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->first();
         $user->update([
             'subscription_plan_id' => $plan->id,
@@ -67,7 +70,7 @@ class ProfileController extends Controller
                     'user_limit' => $plan->user_limit,
                     'housing_limit' => $plan->housing_limit,
                     'key' => $request->input("key"),
-                    "status" => 0
+                    "status" => 0,
                 ];
                 break;
 
@@ -80,7 +83,7 @@ class ProfileController extends Controller
                     'project_limit' => $plan->project_limit,
                     'housing_limit' => $plan->housing_limit,
                     'key' => $request->input("key"),
-                    "status" => 0
+                    "status" => 0,
 
                 ];
                 break;
@@ -88,6 +91,52 @@ class ProfileController extends Controller
             default:
                 return redirect()->back();
                 break;
+        }
+
+        $emailTemplate = EmailTemplate::where('slug', "buy-package")->first();
+        $emailSellTemplate = EmailTemplate::where('slug', "sell-package")->first();
+
+        if (!$emailTemplate || !$emailSellTemplate) {
+            return response()->json([
+                'message' => 'Email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203);
+        }
+
+        $content = $emailTemplate->body;
+
+        $variables = [
+            'username' => $user->name,
+            'packageName' => $plan->name,
+            'companyName' => "Emlak Sepeti",
+            "email" => $user->email,
+            "token" => $user->email_verification_token,
+        ];
+
+        foreach ($variables as $key => $value) {
+            $content = str_replace("{{" . $key . "}}", $value, $content);
+        }
+
+        Mail::to($user->email)->send(new CustomMail($emailTemplate->subject, $content));
+
+        $contentSell = $emailSellTemplate->body;
+
+        $sellVariables = [
+            'username' => $user->name,
+            'packageName' => $plan->name,
+            'companyName' => "Emlak Sepeti",
+            "email" => $user->email,
+            "token" => $user->email_verification_token,
+        ];
+
+        foreach ($sellVariables as $key => $value) {
+            $contentSell = str_replace("{{" . $key . "}}", $value, $contentSell);
+        }
+
+        $admins = User::where("type", "3")->get();
+        foreach ($admins as $key => $value) {
+            Mail::to($value->email)->send(new CustomMail($emailSellTemplate->subject, $contentSell));
         }
 
         DB::beginTransaction();

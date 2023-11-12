@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
 use App\Models\CartOrder;
@@ -8,7 +8,6 @@ use App\Models\Housing;
 use App\Models\Invoice;
 use App\Models\Project;
 use Illuminate\Http\Request;
-use PDF; 
 
 class InvoiceController extends Controller
 {
@@ -43,5 +42,4 @@ class InvoiceController extends Controller
         $pdf = PDF::loadHTML($content);
         return $pdf->stream('invoice.pdf');
     }
-
 }

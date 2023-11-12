@@ -3,21 +3,32 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\AboutUs;
 use App\Models\ContactInfo;
 use App\Models\DocumentNotification;
 use Illuminate\Http\Request;
 
 class InfoController extends Controller
 {
+    public function markAsRead($id)
+    {
+        $notification = DocumentNotification::find($id);
 
-    function setReadedDn(Request $request, DocumentNotification $dn)
+        if ($notification) {
+            $notification->readed = 1;
+            $notification->save();
+            return response()->json(['message' => 'Bildirim okundu olarak işaretlendi.']);
+        } else {
+            return response()->json(['error' => 'Bildirim bulunamadı.'], 404);
+        }
+    }
+
+    public function setReadedDn(Request $request, DocumentNotification $dn)
     {
         $dn->update(['readed' => 1]);
         return redirect()->route('admin.user.show-corporate-account', ['user' => $dn->user_id]);
     }
 
-    function notificationHistory()
+    public function notificationHistory()
     {
         return view('admin.notification-history');
     }
@@ -39,7 +50,6 @@ class InfoController extends Controller
             'working_time' => 'required',
         ]);
 
-
         $contact_info = request()->only('address', 'location', 'phone', 'email', 'working_time');
 
         $contact_info_model = ContactInfo::first();
@@ -49,7 +59,6 @@ class InfoController extends Controller
         } else {
             $contact_info_model = ContactInfo::create($contact_info);
         }
-
 
         return redirect()->route('admin.info.contact.index')->with('success', 'İletişim bilgileri kaydedildi');
     }

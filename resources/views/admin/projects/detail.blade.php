@@ -258,8 +258,11 @@
                           text: 'Başarıyla projeyi reddetiniz',
                           position: 'top-right',
                           stack: false
-                        })
+                        });
+                        location.reload();
+
                       }
+                      
                     },
                     error: function(xhr, status, error) {
                         // Hata durumunda burada işlemleri gerçekleştirin

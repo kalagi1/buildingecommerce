@@ -18,7 +18,7 @@ class ProfileController extends Controller
 {
     public function cartOrders()
     {
-        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice")->get();
+        $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice")->orderBy("id", "desc")->get();
         return view('client.client-panel.profile.orders', compact('cartOrders'));
     }
 
@@ -50,7 +50,6 @@ class ProfileController extends Controller
             'owner_id' => 4,
             'is_visible' => true,
         ]);
-        
 
         return redirect()->back();
     }
@@ -92,7 +91,7 @@ class ProfileController extends Controller
         );
 
         $plan = SubscriptionPlan::find($id);
-        $before = UserPlan::where('user_id', auth()->user()->id)->where("status","1")->first();
+        $before = UserPlan::where('user_id', auth()->user()->id)->where("status", "1")->first();
         $user = User::where('id', auth()->user()->id)->first();
         $user->update([
             'subscription_plan_id' => $plan->id,

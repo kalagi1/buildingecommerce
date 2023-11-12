@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CustomMail;
 use App\Models\DocumentNotification;
+use App\Models\EmailTemplate;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -163,7 +166,7 @@ class UserController extends Controller
                 'record_document_approve' => 'nullable|in:0,1',
                 'identity_document_approve' => 'required|in:0,1',
                 'company_document_approve' => 'nullable|in:0,1',
-                'note' => 'required|string',
+                'note' => 'string',
                 'status' => 'required|in:0,1',
             ],
             [
@@ -180,6 +183,30 @@ class UserController extends Controller
         }
 
         if ($request->input("status") == "1") {
+            $emailTemplate = EmailTemplate::where('slug', "active-account")->first();
+
+            if (!$emailTemplate) {
+                return response()->json([
+                    'message' => 'Email template not found.',
+                    'status' => 203,
+                    'success' => true,
+                ], 203);
+            }
+
+            $content = $emailTemplate->body;
+
+            $variables = [
+                'username' => $user->name,
+                'companyName' => "Emlak Sepeti",
+                "email" => $user->email,
+                "token" => $user->email_verification_token,
+            ];
+
+            foreach ($variables as $key => $value) {
+                $content = str_replace("{{" . $key . "}}", $value, $content);
+            }
+
+            Mail::to($user->email)->send(new CustomMail($emailTemplate->subject, $content));
             DocumentNotification::create([
                 'user_id' => 4,
                 'text' => "Hesabınız başarıyla onaylandı. Artık platformumuzu kullanmaya başlayabilirsiniz. İyi günler dileriz!",
@@ -189,8 +216,32 @@ class UserController extends Controller
                 'is_visible' => true,
             ]);
         } else {
+            $emailTemplate = EmailTemplate::where('slug', "passive-account")->first();
+
+            if (!$emailTemplate) {
+                return response()->json([
+                    'message' => 'Email template not found.',
+                    'status' => 203,
+                    'success' => true,
+                ], 203);
+            }
+
+            $content = $emailTemplate->body;
+
+            $variables = [
+                'username' => $user->name,
+                'companyName' => "Emlak Sepeti",
+                "email" => $user->email,
+                "token" => $user->email_verification_token,
+            ];
+
+            foreach ($variables as $key => $value) {
+                $content = str_replace("{{" . $key . "}}", $value, $content);
+            }
+
+            Mail::to($user->email)->send(new CustomMail($emailTemplate->subject, $content));
             DocumentNotification::create([
-                'user_id' => 4,
+                'user_id' => auth()->user()->id,
                 'text' => "Üzgünüz, hesabınız onaylanamadı. Lütfen belgelerinizi kontrol ederek tekrar deneyin. Yardıma ihtiyacınız olursa bizimle iletişime geçebilirsiniz.",
                 'item_id' => $user->parent_id ?? $user->id,
                 'link' => route('institutional.index'),

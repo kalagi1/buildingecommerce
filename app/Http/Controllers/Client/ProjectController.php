@@ -59,12 +59,17 @@ class ProjectController extends Controller
         $project->user->housings = $project->user->housings;
         $project->user->brands = $project->user->brands;
         $project->images = $project->images;
+
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+        if ($project->status == 0) {
+            return view('client.projects.product_not_found', compact('menu', 'project'));
+        }
         return view('client.projects.detail', compact('menu', 'project', 'offer'));
     }
 
-    public function projectPaymentPlan(Request $request){
-        $project = Project::with("roomInfo")->where('id',$request->input('project_id'))->first();
+    public function projectPaymentPlan(Request $request)
+    {
+        $project = Project::with("roomInfo")->where('id', $request->input('project_id'))->first();
 
         return $project;
     }
