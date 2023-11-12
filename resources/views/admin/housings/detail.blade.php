@@ -70,8 +70,11 @@
                                           @endif
                                         @else 
                                             <div class="view-form-json">
-                                                <label for="" style="font-weight: bold;">{{$housingType->label}}</label>
+                                                @if(isset($housingData->{str_replace("[]","",$housingType->name)}))
+                                                <label for="" style="font-weight: bold;">{!! $housingType->label !!}</label>
+                                                
                                                 <p>{!! $housingData->{str_replace("[]","",$housingType->name)}[0] !!}</p>
+                                                @endif
                                             </div>
                                         @endif 
                                     @endif

@@ -80,6 +80,12 @@ class ProjectController extends Controller
             $secondAreaList = null;
         }
 
+        if(isset($tempData->housing_type_id) && $tempData->housing_type_id){
+            $housingTypeTempX = HousingType::where('id',$tempData->housing_type_id)->first();
+        }else{
+            $housingTypeTempX = null;
+        }
+
         if(isset($tempDataFull) && $tempData->step2_slug){
             $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
             $topParentSecond = HousingTypeParent::where('parent_id',$topParent->id)->where('slug',$tempData->step2_slug)->first();
@@ -107,7 +113,7 @@ class ProjectController extends Controller
         }
 
         $userPlan = UserPlan::where('user_id',auth()->user()->id)->first();
-        return view('institutional.projects.createv2',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan','hasTemp','secondAreaList','housingTypes','areaSlugs'));
+        return view('institutional.projects.createv2',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan','hasTemp','secondAreaList','housingTypes','areaSlugs','housingTypeTempX'));
     }
 
     public function editV2($slug){
