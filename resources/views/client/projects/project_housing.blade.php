@@ -139,7 +139,7 @@
                             <div class="button-effect toggle-project-favorite"
                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $housingOrder)->room_order }}"
                                 data-project-id={{ $project->id }}>
-                                <i class="fa fa-heart-o"></i>
+                                <i class="fa fa-heart"></i>
                             </div>
                         </div>
                         <div class="col-md-10">
@@ -498,7 +498,7 @@
                                                                                                 class="btn toggle-project-favorite bg-white"
                                                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                                                 data-project-id={{ $project->id }}>
-                                                                                                <i class="fa fa-heart-o"></i>
+                                                                                                <i class="fa fa-heart"></i>
                                                                                             </div>
                                                                                         </div>
                                                                                         <div
@@ -567,17 +567,15 @@
                                                                                                 class="fa fa-circle circleIcon mr-1"></i>
                                                                                             <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
                                                                                         </li>
+                                                                                        @if ($project->step1_slug != 'arsaa')
                                                                                         <li class="the-icons custom-width">
-                                                                                            <i
-                                                                                                class="fa fa-circle circleIcon mr-1"></i>
-                                                                                            <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                                                @if ($project->step1_slug == 'konut')
-                                                                                                    .Kat
-                                                                                                @else
-                                                                                                    ₺
-                                                                                                @endif
+                                                                                            <i class="fa fa-circle circleIcon mr-1"
+                                                                                                aria-hidden="true"></i>
+                                                                                            <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
+                                                                                                .Kat
                                                                                             </span>
                                                                                         </li>
+                                                                                    @endif
                                                                                         <li
                                                                                             class="the-icons custom-width ">
                                                                                             <i
@@ -1040,7 +1038,7 @@
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                                             data-project-id={{ $project->id }}>
-                                                                                            <i class="fa fa-heart-o"></i>
+                                                                                            <i class="fa fa-heart"></i>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="homes position-relative">
@@ -1108,17 +1106,15 @@
                                                                                             class="fa fa-circle circleIcon mr-1"></i>
                                                                                         <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
                                                                                     </li>
+                                                                                    @if ($project->step1_slug != 'arsaa')
                                                                                     <li class="the-icons custom-width">
-                                                                                        <i
-                                                                                            class="fa fa-circle circleIcon mr-1"></i>
-                                                                                        <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                                            @if ($project->step1_slug == 'konut')
-                                                                                                .Kat
-                                                                                            @else
-                                                                                                ₺
-                                                                                            @endif
+                                                                                        <i class="fa fa-circle circleIcon mr-1"
+                                                                                            aria-hidden="true"></i>
+                                                                                        <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
+                                                                                            .Kat
                                                                                         </span>
                                                                                     </li>
+                                                                                @endif
                                                                                     <li class="the-icons custom-width ">
                                                                                         <i
                                                                                             class="fa fa-circle circleIcon mr-1"></i>
@@ -1552,7 +1548,6 @@ out center;`;
             flex-wrap: wrap
         }
     </style>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         .soldBtn {
             height: auto !important

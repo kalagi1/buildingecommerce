@@ -269,7 +269,7 @@
                                                                 class="btn toggle-project-favorite bg-white"
                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                 data-project-id={{ $project->id }}>
-                                                                <i class="fa fa-heart-o"></i>
+                                                                <i class="fa fa-heart"></i>
                                                             </div>
                                                         </div>
                                                         <div class="homes position-relative">
@@ -326,16 +326,15 @@
                                                             <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
                                                         </li>
-                                                        <li class="the-icons custom-width">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                @if ($project->step1_slug == 'konut')
+                                                        @if ($project->step1_slug != 'arsaa')
+                                                            <li class="the-icons custom-width">
+                                                                <i class="fa fa-circle circleIcon mr-1"
+                                                                    aria-hidden="true"></i>
+                                                                <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
                                                                     .Kat
-                                                                @else
-                                                                    ₺
-                                                                @endif
-                                                            </span>
-                                                        </li>
+                                                                </span>
+                                                            </li>
+                                                        @endif
                                                         <li class="the-icons custom-width ">
                                                             <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>

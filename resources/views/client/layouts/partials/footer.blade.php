@@ -212,7 +212,7 @@
     </div>
     <div class="payment-plan-pop-content">
         <div class="payment-plan-pop-close-icon"><i class="fa fa-times"></i></div>
-        <table class="payment-plan">
+        <table class="payment-plan table">
             <thead>
                 <tr>
                     <th>Ödeme Türü</th>

@@ -22,6 +22,7 @@ class ProjectController extends Controller
 {
     public function index($slug)
     {
+        // Cache::forget('project_'.$slug);
         if(Cache::get('project_'.$slug)){
             $cachedHtml = Cache::get('project_'.$slug);
             return response($cachedHtml);

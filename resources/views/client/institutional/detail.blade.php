@@ -74,12 +74,14 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.dashboard', Str::slug($institutional->name)) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Proje İlanları</a>
+                                href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Proje
+                                İlanları</a>
                             <a class="navbar-item active"
                                 href="{{ route('instituional.profile', Str::slug($institutional->name)) }}">Mağaza
                                 Profili</a>
-                                <a class="navbar-item active"
-                                href="{{ route('instituional.housings', Str::slug($institutional->name)) }}">Emlak İlanları</a>
+                            <a class="navbar-item"
+                                href="{{ route('instituional.housings', Str::slug($institutional->name)) }}">Emlak
+                                İlanları</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
                             @csrf
@@ -129,14 +131,6 @@
                                 {{ $institutional->town->sehir_title }} <i class="fa fa-angle-right"></i>
                                 {{ $institutional->district->ilce_title }} <i class="fa fa-angle-right"></i>
                                 {{ $institutional->neighborhood->mahalle_title }} </span></div>
-                    </div>
-                    <div class="seller-info-container__wrapper"><img
-                            src="https://cdn.dsmcdn.com/seller-store/resources/corporate-invoice-web-icon.svg"
-                            alt="icon" class="seller-info-container__wrapper__img">
-                        <div class="seller-info-container__wrapper__text-container"><span
-                                class="seller-info-container__wrapper__text-container__title">Proje Sayısı</span><span
-                                class="seller-info-container__wrapper__text-container__value">{{ count($institutional->projects) }}
-                            </span></div>
                     </div>
                 </div>
             </div>

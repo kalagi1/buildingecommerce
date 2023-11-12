@@ -449,17 +449,16 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                @if ($project->step1_slug != 'arsaa')
+                                                                <li class="sude-the-icons"
+                                                                    style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                         aria-hidden="true"></i>
                                                                     <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                        @if ($project->step1_slug == 'konut')
-                                                                            .Kat
-                                                                        @else
-                                                                            ₺
-                                                                        @endif
+                                                                        .Kat
                                                                     </span>
                                                                 </li>
+                                                            @endif
                                                                 <li class="sude-the-icons" style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                         aria-hidden="true"></i>
@@ -751,17 +750,16 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="fa fa-circle circleIcon mr-1"
-                                                                        aria-hidden="true"></i>
-                                                                    <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                        @if ($project->step1_slug == 'konut')
+                                                                @if ($project->step1_slug != 'arsaa')
+                                                                    <li class="sude-the-icons"
+                                                                        style="width:auto !important">
+                                                                        <i class="fa fa-circle circleIcon mr-1"
+                                                                            aria-hidden="true"></i>
+                                                                        <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
                                                                             .Kat
-                                                                        @else
-                                                                            ₺
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
+                                                                        </span>
+                                                                    </li>
+                                                                @endif
                                                                 <li class="sude-the-icons" style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                         aria-hidden="true"></i>
@@ -1056,17 +1054,16 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                @if ($project->step1_slug != 'arsaa')
+                                                                <li class="sude-the-icons"
+                                                                    style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                         aria-hidden="true"></i>
                                                                     <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                        @if ($project->step1_slug == 'konut')
-                                                                            .Kat
-                                                                        @else
-                                                                            ₺
-                                                                        @endif
+                                                                        .Kat
                                                                     </span>
                                                                 </li>
+                                                            @endif
                                                                 <li class="sude-the-icons" style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                         aria-hidden="true"></i>
