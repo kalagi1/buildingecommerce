@@ -92,8 +92,7 @@
                                             <td class="order_project">
                                                 @if ($o->type == 'project')
                                                     <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                        {{ getHouse($project, 'squaremeters[]', json_decode($order->cart)->item->housing)->value }}m2
-                                                        {{ getHouse($project, 'room_count[]', json_decode($order->cart)->item->housing)->value }}
+
                                                         {{ ' ' }}
                                                         {{ json_decode($order->cart)->item->housing }} {{ "No'lu" }}
                                                         {{ $project->step1_slug }}

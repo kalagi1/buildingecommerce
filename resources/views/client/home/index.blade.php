@@ -209,7 +209,7 @@
                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
@@ -238,8 +238,7 @@
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                            {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                            {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
+                                            
                                             {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                         </h3>
 
@@ -339,7 +338,7 @@
                                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
@@ -382,9 +381,7 @@
                                                             <span style="text-decoration: none">
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                                                     Projesinde
-                                                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                                                    {{ ' ' }}
+                                                                    
                                                                     {{ $i + 1 }} {{ "No'lu" }}
                                                                     {{ $project->step1_slug }}
                                                                 </h3>
@@ -514,7 +511,7 @@
                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
@@ -543,8 +540,7 @@
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                            {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                            {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
+                                            
                                             {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                         </h3>
 
@@ -643,7 +639,7 @@
                                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
 
                                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
@@ -686,9 +682,7 @@
                                                             <span style="text-decoration: none">
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                                                     Projesinde
-                                                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                                                    {{ ' ' }}
+                                                                    
                                                                     {{ $i + 1 }} {{ "No'lu" }}
                                                                     {{ $project->step1_slug }}
                                                                 </h3>
@@ -817,7 +811,7 @@
                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
@@ -846,8 +840,7 @@
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                            {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                            {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
+                                         
                                             {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                         </h3>
 
@@ -947,7 +940,7 @@
                                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
@@ -990,9 +983,7 @@
                                                             <span style="text-decoration: none">
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                                                     Projesinde
-                                                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                                                    {{ ' ' }}
+                                                                    
                                                                     {{ $i + 1 }} {{ "No'lu" }}
                                                                     {{ $project->step1_slug }}
                                                                 </h3>
@@ -1118,7 +1109,7 @@
                 @foreach ($secondhandHousings as $housing)
                     @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$project->id]))
 

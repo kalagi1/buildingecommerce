@@ -85,7 +85,8 @@
                                                     {{ getData($project, 'squaremeters[]', $housingOrder)->value }}m2
                                                     {{ getData($project, 'room_count[]', $housingOrder)->value }}
                                                     {{ $project->housingType->title }} {{ ' ' }}
-                                                    {{ $housingOrder }} {{ "No'lu" }} {{ $project->step1_slug }}</h3>
+                                                    {{ $housingOrder }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                </h3>
                                             </div>
                                         </div>
                                     @endif
@@ -97,7 +98,7 @@
                                                 {{ getData($project, 'squaremeters[]', $housingOrder)->value }}m2
                                                 {{ getData($project, 'room_count[]', $housingOrder)->value }}
                                                 {{ $project->housingType->title }} {{ ' ' }}
-                                                {{ $housingOrder }} {{ "No'lu"}} {{ $project->step1_slug }} </h3>
+                                                {{ $housingOrder }} {{ "No'lu" }} {{ $project->step1_slug }} </h3>
                                             <div class="mt-0">
                                                 <a href="#listing-location" class="listing-address">
                                                     <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
@@ -568,14 +569,15 @@
                                                                                             <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
                                                                                         </li>
                                                                                         @if ($project->step1_slug != 'arsaa')
-                                                                                        <li class="the-icons custom-width">
-                                                                                            <i class="fa fa-circle circleIcon mr-1"
-                                                                                                aria-hidden="true"></i>
-                                                                                            <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                                                .Kat
-                                                                                            </span>
-                                                                                        </li>
-                                                                                    @endif
+                                                                                            <li
+                                                                                                class="the-icons custom-width">
+                                                                                                <i class="fa fa-circle circleIcon mr-1"
+                                                                                                    aria-hidden="true"></i>
+                                                                                                <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
+                                                                                                    .Kat
+                                                                                                </span>
+                                                                                            </li>
+                                                                                        @endif
                                                                                         <li
                                                                                             class="the-icons custom-width ">
                                                                                             <i
@@ -760,8 +762,9 @@
                                                                 <a style="text-decoration: none; height: 100%"
                                                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                                                     <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                                        {{ getData($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                        {{ getData($project, 'room_count[]', $i + 1)->value }}
+                                                                        {{ $room_order }}
+                                                                        {{ "No'lu" }}
+                                                                        {{ $project->step1_slug }}
                                                                     </h3>
                                                                 </a>
                                                                 <div class="d-flex align-items-center">
@@ -1107,14 +1110,14 @@
                                                                                         <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
                                                                                     </li>
                                                                                     @if ($project->step1_slug != 'arsaa')
-                                                                                    <li class="the-icons custom-width">
-                                                                                        <i class="fa fa-circle circleIcon mr-1"
-                                                                                            aria-hidden="true"></i>
-                                                                                        <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                                            .Kat
-                                                                                        </span>
-                                                                                    </li>
-                                                                                @endif
+                                                                                        <li class="the-icons custom-width">
+                                                                                            <i class="fa fa-circle circleIcon mr-1"
+                                                                                                aria-hidden="true"></i>
+                                                                                            <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
+                                                                                                .Kat
+                                                                                            </span>
+                                                                                        </li>
+                                                                                    @endif
                                                                                     <li class="the-icons custom-width ">
                                                                                         <i
                                                                                             class="fa fa-circle circleIcon mr-1"></i>
@@ -1296,8 +1299,9 @@
                                                             <a style="text-decoration: none; height: 100%"
                                                                 href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                                    {{ getData($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getData($project, 'room_count[]', $i + 1)->value }}
+                                                                    {{$room_order}}
+                                                                    {{ "No'lu" }}
+                                                                                    {{ $project->step1_slug }}
                                                                 </h3>
                                                             </a>
                                                             <div class="d-flex align-items-center">
