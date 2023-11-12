@@ -50,7 +50,7 @@
                     <div class="row" style="justify-content: space-between;">
                         <div class=" col-md-4">
                             <div class="button-white prev-house-bottom">
-                                <i class="fa fa-circle-chevron-left"></i> <span class="ml-5px">Önceki Konut</span>
+                                <i class="fa fa-circle-chevron-left"></i> <span class="ml-5px last-housing-text">Önceki @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif</span>
                             </div>
                         </div>
                         <div class="button-white2 col-md-4">
@@ -58,7 +58,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="button-white next-house-bottom">
-                                <span class="mr-5px">Sonraki Konut</span> <i class="fa fa-circle-chevron-right"></i>
+                                <span class="mr-5px next-housing-text">Sonraki @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif</span> <i class="fa fa-circle-chevron-right"></i>
                             </div>
                         </div>
                     </div>
@@ -183,7 +183,7 @@
                                 <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')" class="form-control">{{isset($tempData->description) ? $tempData->description : ''}}</textarea>
                             </div>
                             
-                            <h4 class="mb-3">Kaç Adet Konutunuz Var</h4><input value="{{isset($tempData->house_count) ? $tempData->house_count : ''}}" onkeyup="changeData(this.value,'house_count')" class="form-control mb-5" type="text" id="house_count" name="house_count" value="{{old('house_count')}}" placeholder="Kaç Adet Konutunuz Var" />
+                            <h4 class="mb-3 housings_title">Bu Projede Kaç Adet @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif Var</h4><input value="{{isset($tempData->house_count) ? $tempData->house_count : ''}}" onkeyup="changeData(this.value,'house_count')" class="form-control mb-5" type="text" id="house_count" name="house_count" value="{{old('house_count')}}" placeholder="Kaç Adet Konutunuz Var" />
                             <span id="generate_tabs" class=" btn btn-primary mb-5">Daireleri Oluştur</span>
                             <div class="row full-area">
                                 <div class="col-sm-12">
@@ -192,7 +192,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="address">
+                            <div class="address housing_after_step d-none">
                                 <span class="section-title">Adres Bilgileri</span>
                                 <div class="card">
                                     <div class="row px-5 py-4">
@@ -225,10 +225,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="section-title mt-4">Kapak Fotoğrafı</span>
-                            <div class="cover-photo-full card py-2 px-5">
+                            <span class="section-title mt-4 housing_after_step d-none">Kapak Fotoğrafı</span>
+                            <div class="cover-photo-full card py-2 px-5 housing_after_step d-none">
                                 <input type="file" name="cover-image" class="cover_image d-none">
-                                <div class="upload-container col-md-2 cover-photo-area">
+                                <div class="upload-container col-md-4 col-xl-3 cover-photo-area">
                                     <div class="border-container">
                                       <div class="icons fa-4x">
                                         <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
@@ -245,10 +245,10 @@
                                     @endif
                                 </div>
                             </div>
-                            <span class="section-title mt-4">Proje Galerisi</span>
-                            <div class="photo card py-2 px-5">
+                            <span class="section-title mt-4 housing_after_step d-none">Proje Galerisi</span>
+                            <div class="photo card py-2 px-5 housing_after_step d-none">
                                 <input type="file" multiple name="project-images" class="project_image d-none">
-                                <div class="upload-container col-md-2 photo-area">
+                                <div class="upload-container col-md-4 col-xl-3 photo-area">
                                     <div class="border-container">
                                       <div class="icons fa-4x">
                                         <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
@@ -270,10 +270,10 @@
                                     @endif
                                 </div>
                             </div>
-                            <span class="section-title mt-4">Ruhsat Belgesi / Tapu Belgesi</span>
-                            <div class="cover-photo-full card py-2 px-5">
+                            <span class="section-title mt-4 housing_after_step d-none">Ruhsat Belgesi / Tapu Belgesi</span>
+                            <div class="cover-photo-full card py-2 px-5 housing_after_step d-none">
                                 <input type="file" name="cover-image" class="document d-none">
-                                <div class="upload-container col-md-2 cover-document-area">
+                                <div class="upload-container col-md-4 col-xl-3 cover-document-area">
                                     <div class="border-container">
                                       <div class="icons fa-4x mb-4">
                                         <i class="fas fa-file-image" data-fa-transform="shrink-3 down-2 left-6 rotate--45"></i>
@@ -311,7 +311,7 @@
                     </div>
                 </div>
                 <div class="third-area @if($tempDataFull->step_order != 3) d-none @endif">
-                    <div class="without-doping mb-5">
+                    <div class="mb-5">
                         <button class="without-doping btn btn-info">Dopingsiz Bitir</button>
                     </div>
                     <div class="row" style="align-items: flex-end;">
@@ -381,10 +381,23 @@
         <script>
             changeData(1,'pricing-type')
             var nextTemp = false;
+            var housingTypeTitle = "";
             var housingImages = [];
             var descriptionText = @if(isset($tempData) && isset($tempData->description)) 'evet var' @else "" @endif;
             var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
             
+            $(window).scroll(function(){
+                
+                var scrollTopValue = $(".tab-pane").offset().top;
+                var fullAreaHeight = $(".tab-pane").height();
+                console.log($(".tab-pane").offset().top,$(window).scrollTop())
+                if($(window).scrollTop() < (scrollTopValue+fullAreaHeight - 500) && $(window).scrollTop() > (scrollTopValue - 500)){
+                    $('.bottom-housing-area').removeClass('d-none')
+                }else{
+                    $('.bottom-housing-area').addClass('d-none')
+                }
+            })
+
             $('.project_imagex .image-buttons').click(function(){
                 var thisx = $(this);
                 $.ajax({
@@ -510,12 +523,12 @@
                                     }
 
 
+                                    $('#renderForm'+(i)).html(renderHtmlx);
                                     renderHtml = renderHtmlx;
 
                                     
                                     }
                                 }
-                                $('#renderForm'+(i)).html(renderHtmlx);
 
                                 
                             }
@@ -1369,7 +1382,7 @@
                 })
             })
 
-            $('.without-doping').click(function(){
+            $('.without-doping').click(function(e){
                 $('.load-area').removeClass('d-none');
                 $('.load-area span').html('Proje Oluşturuluyor')
                 $.ajax({
@@ -1416,6 +1429,8 @@
                         }
                     }
                 })
+                
+                $(this).off(e);
             })
             
             
@@ -1732,8 +1747,8 @@
 
                                     
                                 }
-                                $('#renderForm'+(i)).html(renderHtmlx);
 
+                                $('#renderForm'+(i)).html(renderHtmlx);
                             }
                             for (let i = 1; i <= houseCount; i++) {
                                 for(var j = 2 ; j < formInputs.length; j++){
@@ -2557,223 +2572,225 @@
                         });
                     }
                 });
-                $('.finish-button').click(function(e){
+                $('.finish-button').one("click",function(e){
                     e.preventDefault();
-                var next = true;
-                var topError = 0;
-                if(!$('input[name="name"]').val()){
-                    next = false;
-                    $('input[name="name"]').addClass('error-border')
-                    topError = $('input[name="name"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
-                }
+                    var next = true;
+                    var topError = 0;
+                    if(!$('input[name="name"]').val()){
+                        next = false;
+                        $('input[name="name"]').addClass('error-border')
+                        topError = $('input[name="name"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
+                    }
 
 
-                if(!$('#location').val()){
-                    next = false;
-                    if(topError){
-                        if($('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                    if(!$('#location').val()){
+                        next = false;
+                        if(topError){
+                            if($('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
                             topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                         }
-                    }else{
-                        topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        $('#location').parent('div').find('.error-text').remove();
+                        $('#location').parent('div').append('<span class="error-text">Haritadan konum seçmek zorunludur</span>')
                     }
-                    $('#location').parent('div').find('.error-text').remove();
-                    $('#location').parent('div').append('<span class="error-text">Haritadan konum seçmek zorunludur</span>')
-                }
 
-                if(!$('.rules_confirm').is(':checked')){
-                    next = false;
+                    if(!$('.rules_confirm').is(':checked')){
+                        next = false;
 
-                    if(topError){
-                        if($('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                        if(topError){
+                            if($('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
                             topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                         }
-                    }else{
-                        topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        $('.finish-tick').addClass('error-border')
                     }
-                    $('.finish-tick').addClass('error-border')
-                }
 
-                if(descriptionText == ""){
-                    next = false;
-                    if(topError){
-                        if($('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                    if(descriptionText == ""){
+                        next = false;
+                        if(topError){
+                            if($('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
                             topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                         }
-                    }else{
-                        topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        $('.description-field .error-text').remove();
+                        $('.description-field').append('<span class="error-text">Açıklama metnini girmek zorunludur</span>')
                     }
-                    $('.description-field .error-text').remove();
-                    $('.description-field').append('<span class="error-text">Açıklama metnini girmek zorunludur</span>')
-                }
 
-                $('.tab-pane.active input[required="required"]').map((key,item) => {
-                    if(!$(item).val() && $(item).attr('type') != 'file'){
-                        next = false;
+                    $('.tab-pane.active input[required="required"]').map((key,item) => {
+                        if(!$(item).val() && $(item).attr('type') != 'file'){
+                            next = false;
 
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                            if(topError){
+                                if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
                                 topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                             }
-                        }else{
-                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $(item).addClass("error-border")
-                    }
-                })
-
-                $('.tab-pane.active input[type="file"]').map((key,item) => {
-                    if($(item).parent('div').find('.project_imaget').length == 0){
-                        next = false;
-
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $(item).addClass("error-border")
-                    }
-                })
-
-                $('.tab-pane.active select[required="required"]').map((key,item) => {
-                    if(!$(item).val() || $(item).val() == "Seçiniz"){
-                        next = false;
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $(item).addClass("error-border")
-                    }
-                })
-
-                
-
-                if($('.photos .project_imagex').length == 0){
-                    next = false;
-                    if(topError){
-                        if($('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('.photo-area').addClass('error-border')
-                }
-
-                if($('.cover-photo .project_imagex').length == 0){
-                    next = false;
-                    if(topError){
-                        if($('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('.cover-photo-area').addClass('error-border')
-                }
-
-                if($('.cover-document .has_file').length == 0){
-                    next = false;
-                    if(topError){
-                        if($('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('.cover-document-area').addClass('error-border')
-                }
-                
-                if(!$('select[name="city_id"]').val()){
-                    next = false;
-                    if(topError){
-                        if($('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('select[name="city_id"]').addClass('error-border')
-                }
-
-                if(!$('select[name="county_id"]').val()){
-                    next = false;
-                    if(topError){
-                        if($('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('select[name="county_id"]').addClass('error-border')
-                }
-
-                if(!$('select[name="neighbourhood_id"]').val()){
-                    next = false;
-                    if(topError){
-                        if($('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('select[name="neighbourhood_id"]').addClass('error-border')
-                }
-                
-
-                if($('.pricing-item-first .price-radio.select').length > 0){
-                    if($('.single-price-project-area .pricing-item .price-radio.select').length == 0){
-                        if(topError){
-                            if($('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $('.single-price-project-area .error-text').remove();
-                        $('.single-price-project-area').append("<p class='error-text'>İlan süresini seçmeniz gerekmektedir</p>")
-                    }
-                }
-                if(next){
-                    nextTemp = true;
-                    $.ajax({
-                        method: "POST",
-                        url: "{{route('institutional.change.step.order')}}",
-                        data : {
-                            order : 3,
-                            item_type : 1,
-                            _token : csrfToken
-                        },
-                        success: function(response) {
-                            response = JSON.parse(response);
-                            if(response.status){
-                                $('.firt-area').addClass('d-none');
-                                $('.second-area').addClass('d-none');
-                                $('.third-area').addClass('d-none');
-                                $('.progress-line').removeClass('step1')
-                                $('.progress-line').removeClass('step2')
-                                $('.progress-line').removeClass('step3')
-                                $('.third-area').removeClass('d-none');
-                                $('.progress-line').addClass('step3')
-                                $('.progress-line li').eq(0).removeClass('current').addClass('done')
-                                $('.progress-line li').eq(1).removeClass('current').addClass('done')
-                                $('.progress-line li').eq(2).addClass('current')
-                            }
-                            
+                            $(item).addClass("error-border")
                         }
                     })
-                }else{
-                    nextTemp = false;
-                    $('html, body').animate({
-                        scrollTop: topError
-                    }, 100);
-                }
-            })
+
+                    $('.tab-pane.active input[type="file"]').map((key,item) => {
+                        if($(item).parent('div').find('.project_imaget').length == 0){
+                            next = false;
+
+                            if(topError){
+                                if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $(item).addClass("error-border")
+                        }
+                    })
+
+                    $('.tab-pane.active select[required="required"]').map((key,item) => {
+                        if(!$(item).val() || $(item).val() == "Seçiniz"){
+                            next = false;
+                            if(topError){
+                                if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $(item).addClass("error-border")
+                        }
+                    })
+
+                    
+
+                    if($('.photos .project_imagex').length == 0){
+                        next = false;
+                        if(topError){
+                            if($('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
+                            topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                        $('.photo-area').addClass('error-border')
+                    }
+
+                    if($('.cover-photo .project_imagex').length == 0){
+                        next = false;
+                        if(topError){
+                            if($('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
+                            topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                        $('.cover-photo-area').addClass('error-border')
+                    }
+
+                    if($('.cover-document .has_file').length == 0){
+                        next = false;
+                        if(topError){
+                            if($('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
+                            topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                        $('.cover-document-area').addClass('error-border')
+                    }
+                    
+                    if(!$('select[name="city_id"]').val()){
+                        next = false;
+                        if(topError){
+                            if($('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
+                            topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                        $('select[name="city_id"]').addClass('error-border')
+                    }
+
+                    if(!$('select[name="county_id"]').val()){
+                        next = false;
+                        if(topError){
+                            if($('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
+                            topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                        $('select[name="county_id"]').addClass('error-border')
+                    }
+
+                    if(!$('select[name="neighbourhood_id"]').val()){
+                        next = false;
+                        if(topError){
+                            if($('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
+                            topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                        $('select[name="neighbourhood_id"]').addClass('error-border')
+                    }
+                    
+
+                    if($('.pricing-item-first .price-radio.select').length > 0){
+                        if($('.single-price-project-area .pricing-item .price-radio.select').length == 0){
+                            if(topError){
+                                if($('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $('.single-price-project-area .error-text').remove();
+                            $('.single-price-project-area').append("<p class='error-text'>İlan süresini seçmeniz gerekmektedir</p>")
+                        }
+                    }
+                    if(next){
+                        nextTemp = true;
+                        $.ajax({
+                            method: "POST",
+                            url: "{{route('institutional.change.step.order')}}",
+                            data : {
+                                order : 3,
+                                item_type : 1,
+                                _token : csrfToken
+                            },
+                            success: function(response) {
+                                response = JSON.parse(response);
+                                if(response.status){
+                                    $('.firt-area').addClass('d-none');
+                                    $('.second-area').addClass('d-none');
+                                    $('.third-area').addClass('d-none');
+                                    $('.progress-line').removeClass('step1')
+                                    $('.progress-line').removeClass('step2')
+                                    $('.progress-line').removeClass('step3')
+                                    $('.third-area').removeClass('d-none');
+                                    $('.progress-line').addClass('step3')
+                                    $('.progress-line li').eq(0).removeClass('current').addClass('done')
+                                    $('.progress-line li').eq(1).removeClass('current').addClass('done')
+                                    $('.progress-line li').eq(2).addClass('current')
+                                }
+                                
+                            }
+                        })
+                    }else{
+                        nextTemp = false;
+                        $('html, body').animate({
+                            scrollTop: topError
+                        }, 100);
+                    }
+
+                    
+                })
             var itemOrder = 0;
             var itemSlug = "";
             var areasSlugs = [];
@@ -2867,8 +2884,12 @@
 
                                     $('.area-list').eq(2).find('li').click(function(){
                                         itemSlug = $(this).attr('slug');
+                                        console.log($(this).html());
                                         var thisx = $(this);
                                         changeData(itemSlug,'step3_slug')
+                                        $('.housings_title').html('Bu Projede Kaç Adet '+($(this).html())+' Var')
+                                        $('.last-housing-text').html('Önceki '+($(this).html())+'')
+                                        $('.next-housing-text').html('Sonraki '+($(this).html())+'')
                                         $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
                                         $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
                                         $.ajax({
@@ -2878,6 +2899,7 @@
                                             success: function (data) {
                                                 $('.area-list').eq(2).find('li').removeClass('selected');
                                                 changeData(data,'housing_type_id');
+                                                console.log(data);
                                                 selectedid = data;
                                                 
                                                 thisx.addClass('selected');
@@ -2934,6 +2956,10 @@
                             changeData(itemSlug,'step3_slug')
                             $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
                             $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                            
+                            $('.housings_title').html('Bu Projede Kaç Adet '+($(this).html())+' Var')
+                            $('.last-housing-text').html('Önceki '+($(this).html())+'')
+                            $('.next-housing-text').html('Sonraki '+($(this).html())+'')
                             $.ajax({
                                 url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
                                 type: "GET", // GET isteği
@@ -2958,6 +2984,12 @@
 
             $('.area-list').eq(2).find('li').click(function(){
                 itemSlug = $(this).attr('slug');
+                
+                console.log($(this).html());
+                $('.housings_title').html('Bu Projede Kaç Adet '+($(this).html())+' Var')
+                $('.last-housing-text').html('Önceki '+($(this).html())+'')
+                $('.next-housing-text').html('Sonraki '+($(this).html())+'')
+                
                 var thisx = $(this);
                 changeData(itemSlug,'step3_slug')
                 $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
@@ -2970,7 +3002,6 @@
                         $('.area-list').eq(2).find('li').removeClass('selected');
                         changeData(data,'housing_type_id');
                         selectedid = data;
-                        
                         thisx.addClass('selected');
                         $('.area-list').eq(3).addClass('active');
                     }

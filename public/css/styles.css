@@ -28333,4 +28333,11 @@ input[type="checkbox"]::before {
     position: absolute;
   }
   
-  
+  .type-tag{
+    background: #EA2B2E !important;
+    right: 15px;
+    text-align: center;
+    width: 60px !important;
+    margin-top: 15px;
+    position: absolute;
+  }

@@ -30,6 +30,7 @@ class HomeController extends Controller
                 'housings.title AS housing_title',
                 'housings.created_at',
                 'housings.step1_slug',
+                'housings.step2_slug',
                 'housing_types.title as housing_type_title',
                 'housings.housing_type_data',
                 'housings.address',
@@ -43,13 +44,11 @@ class HomeController extends Controller
             ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id') // district tablosunu join etme
             ->where('housings.status', 1)
             ->get();
-
         $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))->where('end_date', ">=", date("Y-m-d"))->orderBy("item_order")->get();
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->get();
         $sliders = Slider::all();
         $footerSlider = FooterSlider::all();
-
         $finishProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '2');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->orderBy("created_at", "desc")->where('status', 1)->get();

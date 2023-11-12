@@ -1113,25 +1113,24 @@
                 </div>
             </div>
             <div class="mobile-show">
-                @foreach ($secondhandHousings as $project)
+                @foreach ($secondhandHousings as $housing)
                     @php(
     $discount_amount =
         App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$project->id]))
 
-
                     <div class="d-flex" style="flex-wrap: nowrap">
                         <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                             <div class="project-inner project-head">
-                                <a href="{{ route('housing.show', [$project->id]) }}">
+                                <a href="{{ route('housing.show', $housing->id) }}">
                                     <div class="homes">
                                         <!-- homes img -->
 
                                         <div class="homes-img h-100 d-flex align-items-center"
                                             style="width: 130px; height: 128px;">
-                                            <img src="{{ URL::to('/') . '/housing_images/' . json_decode($project->housing_type_data)->image }}"
-                                                alt="{{ $project->housing_title }}" class="img-responsive"
+                                            <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
+                                                alt="{{ $housing->housing_title }}" class="img-responsive"
                                                 style="height: 100px !important;">
                                         </div>
                                     </div>
@@ -1142,17 +1141,17 @@
                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                 <a style="text-decoration: none;height:100%"
-                                    href="{{ route('housing.show', [$project->id]) }}">
+                                    href="{{ route('housing.show', $housing->id) }}">
                                     <h3>
-                                        {{ mb_convert_case($project->housing_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}
-                                        {{ json_decode($project->housing_type_data)->squaremeters[0] ?? '?' }}m2
-                                        {{ json_decode($project->housing_type_data)->room_count[0] ?? '?' }}
+                                        {{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}
+                                        {{ json_decode($housing->housing_type_data)->squaremeters[0] ?? '?' }}m2
+                                        {{ json_decode($housing->housing_type_data)->room_count[0] ?? '?' }}
                                     </h3>
                                 </a>
                                 <div class="d-flex">
                                     <div class="d-flex" style="gap: 8px;">
                                         <a href="#" class="btn toggle-favorite bg-white"
-                                            data-housing-id="{{ $project->id }}" style="color: white;">
+                                            data-housing-id="{{ $housing->id }}" style="color: white;">
                                             <i class="fa fa-heart-o"></i>
                                         </a>
                                         @if ($sold && $sold[0]->status != '2')
@@ -1191,7 +1190,6 @@
                                         @if ($sold)
                                         @if ($sold[0]->status != '1' && $sold[0]->status != '0')
                                         {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
-
                                         ₺
                                         @endif
                                     @else
@@ -1210,19 +1208,19 @@
                             style="list-style: none;padding:0;font-weight:600">
                             <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon"></i>
-                                No: {{ $project->id }}
+                                No: {{ $housing->id }}
                             </li>
                             <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon"></i>
-                                {{ json_decode($project->housing_type_data)->squaremeters[0] ?? null }} m2
+                                {{ json_decode($housing->housing_type_data)->squaremeters[0] ?? null }} m2
                             </li>
                             <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon"></i>
-                                {{ json_decode($project->housing_type_data)->room_count[0] ?? null }}
+                                {{ json_decode($housing->housing_type_data)->room_count[0] ?? null }}
                             </li>
                             <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon"></i>
-                                {{ $project->city_title }} {{ '/' }} {{ $project->county_title }}
+                                {{ $housing->city_title }} {{ '/' }} {{ $housing->county_title }}
                             </li>
 
 
@@ -1235,20 +1233,20 @@
             <div class="mobile-hidden">
                 @if (count($secondhandHousings))
                     <section class="properties-right list featured portfolio blog  pb-5 bg-white">
-                        <a href="{{ route('housing.show', [$project->id]) }}" class="text-decoration-none">
+                        @foreach ($secondhandHousings as $housing)
+                        <a href="{{ route('housing.show', [$housing->id]) }}" class="text-decoration-none">
                             <div class="container">
                                 <div class="row project-filter-reverse blog-pots secondhand-housings-web">
-                                    @foreach ($secondhandHousings as $project)
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <div class="landscapes">
                                                 <div class="project-single">
                                                     <div class="project-inner project-head">
                                                         <div class="homes">
-                                                            <!-- homes img -->
-
                                                             <div class="homes-img">
                                                                 <div class="homes-tag button alt featured">Öne
                                                                     Çıkan
+                                                                </div>
+                                                                <div class="type-tag button alt featured">@if($housing->step2_slug == "kiralik") Kiralık @else Satılık @endif
                                                                 </div>
                                                                 @if ($discount_amount)
                                                                     <div class="homes-tag button alt sale"
@@ -1256,14 +1254,14 @@
                                                                     </div>
                                                                 @endif
 
-                                                                <img src="{{ URL::to('/') . '/housing_images/' . json_decode($project->housing_type_data)->image }}"
-                                                                    alt="Housing {{ $project->id }}"
+                                                                <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
+                                                                    alt="Housing {{ $housing->id }}"
                                                                     class="img-responsive">
                                                             </div>
                                                         </div>
                                                         <div class="button-effect">
                                                             <span class="btn toggle-favorite bg-white"
-                                                                data-housing-id={{ $project->id }}>
+                                                                data-housing-id={{ $housing->id }}>
                                                                 <i class="fa fa-heart-o"></i>
                                                             </span>
                                                         </div>
@@ -1272,15 +1270,15 @@
                                                     <div class="homes-content p-3" style="padding:20px !important">
                                                         <span style="text-decoration: none">
 
-                                                            <h4>{{ mb_convert_case($project->housing_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                            <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
                                                             </h4>
 
                                                             <p class="homes-address mb-3">
 
 
                                                                 <i class="fa fa-map-marker"></i>
-                                                                <span> {{ $project->city_title }} {{ '/' }}
-                                                                    {{ $project->county_title }}
+                                                                <span> {{ $housing->city_title }} {{ '/' }}
+                                                                    {{ $housing->county_title }}
                                                                 </span>
 
                                                             </p>
@@ -1290,12 +1288,12 @@
                                                             style="display: flex;justify-content:space-between">
                                                             <li class="sude-the-icons" style="width:auto !important">
                                                                 <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                <span>{{ json_decode($project->housing_type_data)->room_count[0] ?? null }}</span>
+                                                                <span>{{ json_decode($housing->housing_type_data)->room_count[0] ?? null }}</span>
                                                             </li>
                                                             <li class="sude-the-icons" style="width:auto !important">
                                                                 <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                <span>{{ json_decode($project->housing_type_data)->numberoffloors[0] ?? null }}
-                                                                    @if ($project->step1_slug == 'konut')
+                                                                <span>{{ json_decode($housing->housing_type_data)->numberoffloors[0] ?? null }}
+                                                                    @if ($housing->step1_slug == 'konut')
                                                                         .Kat
                                                                     @else
                                                                         ₺
@@ -1304,7 +1302,7 @@
                                                             </li>
                                                             <li class="sude-the-icons" style="width:auto !important">
                                                                 <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                <span>{{ json_decode($project->housing_type_data)->squaremeters[0] ?? null }}
+                                                                <span>{{ json_decode($housing->housing_type_data)->squaremeters[0] ?? null }}
                                                                     m2</span>
                                                             </li>
                                                         </ul>
@@ -1323,6 +1321,7 @@
                                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                                     </svg>
                                                                 @endif
+
                                                                 @if ($sold)
                                                                     @if ($sold[0]->status != '1' && $sold[0]->status != '0')
                                                                         {{ number_format(json_decode($project->housing_type_data)->price[0], 2, ',', '.') }}
@@ -1335,7 +1334,7 @@
 
                                                             </li>
                                                             <li style="display: flex; justify-content: right;width:100%">
-                                                                {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
+                                                                {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
                                                             </li>
                                                         </ul>
                                                         @if ($sold && $sold[0]->status != '2')
@@ -1364,10 +1363,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
                                 </div>
                             </div>
                         </a>
+                        @endforeach
                     </section>
                 @else
                     <p>Henüz İlan Yayınlanmadı</p>

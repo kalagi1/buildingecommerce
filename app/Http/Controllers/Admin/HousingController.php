@@ -103,6 +103,7 @@ class HousingController extends Controller
             "item_type" => 2,
             "item_id" => $housingId,
             "reason" => $reason,
+            "user_id" => auth()->user()->id,
             "is_rejected" => $isRejected
         ]);
 
@@ -128,6 +129,7 @@ class HousingController extends Controller
             Log::create([
                 "item_type" => 2,
                 "item_id" => $housingId,
+                "user_id" => auth()->user()->id,
                 "reason" => "Admin tarafından pasife alındı",
                 "is_rejected" => 0
             ]);
@@ -135,6 +137,7 @@ class HousingController extends Controller
             Log::create([
                 "item_type" => 2,
                 "item_id" => $housingId,
+                "user_id" => auth()->user()->id,
                 "reason" => "Admin tarafından aktife alındı",
                 "is_rejected" => 0
             ]);

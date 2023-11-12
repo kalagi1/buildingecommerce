@@ -646,4 +646,8 @@ class TempOrderController extends Controller
         
         return $dataCopyItem;
     }
+
+    public function housingConfirmFull(Request $request){
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+    }
 }

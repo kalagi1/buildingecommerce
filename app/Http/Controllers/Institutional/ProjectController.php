@@ -14,11 +14,9 @@ use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\HousingTypeParentConnection;
 use App\Models\Log;
-use App\Models\DocumentNotification;
 use App\Models\Menu;
-use App\Models\Neighborhood;
-use App\Models\Neighbourhood;
 use App\Models\Offer;
+use App\Models\Neighborhood;
 use App\Models\PaymentPlan;
 use App\Models\PricingStandOut;
 use App\Models\Project;
@@ -80,6 +78,11 @@ class ProjectController extends Controller
             $secondAreaList = null;
         }
 
+        if(isset($tempData->housing_type_id) && $tempData->housing_type_id){
+            $housingTypeTempX = HousingType::where('id',$tempData->housing_type_id)->first();
+        }else{
+            $housingTypeTempX = null;
+        }
         if(isset($tempDataFull) && $tempData->step2_slug){
             $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
             $topParentSecond = HousingTypeParent::where('parent_id',$topParent->id)->where('slug',$tempData->step2_slug)->first();
@@ -107,7 +110,7 @@ class ProjectController extends Controller
         }
 
         $userPlan = UserPlan::where('user_id',auth()->user()->id)->first();
-        return view('institutional.projects.createv2',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan','hasTemp','secondAreaList','housingTypes','areaSlugs'));
+        return view('institutional.projects.createv2',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan','hasTemp','secondAreaList','housingTypes','areaSlugs','housingTypeTempX'));
     }
 
     public function editV2($slug){
@@ -190,39 +193,59 @@ class ProjectController extends Controller
         }
     }
 
-    public function createProjectEnd(Request $request){
-            DB::beginTransaction();
-            $tempOrderFull = TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->first();
-            $tempOrder = json_decode($tempOrderFull->data);
-            $housingType = HousingType::where('slug',$tempOrder->step3_slug)->firstOrFail();
-            $housingTypeInputs = json_decode($housingType->form_json);
-            
-            // Dosya adını değiştirme işlemi
-            
-            if($tempOrderFull->step_order == 3){
-                $oldCoverImage = public_path('project_images/'.$tempOrder->cover_image); // Mevcut dosyanın yolu
-                $extension = explode('.',$tempOrder->cover_image);
-                $newCoverImage = Str::slug($tempOrder->name).(Auth::user()->id).'.'.end($extension);
-                $newCoverImageName = public_path('storage/project_images/'.$newCoverImage); // Yeni dosya adı ve yolu
-                if(File::exists($oldCoverImage)){
-                    File::move($oldCoverImage, $newCoverImageName);
-                }
-                $oldDocument = public_path('housing_documents/'.$tempOrder->document); // Mevcut dosyanın yolu
-                $extension = explode('.',$tempOrder->document);
-                $newDocument = Str::slug($tempOrder->name).'_verification_'.(Auth::user()->id).'.'.end($extension);
-                $newDocumentFile = public_path('housing_documents/'.$newDocument); // Yeni dosya adı ve yolu
-                if(File::exists($oldDocument)){
-                    File::move($oldDocument, $newDocumentFile);
-                }
-                $now = Carbon::now();
-                if($tempOrder->{"pricing-type"} == "2"){
-                    $singlePrice = SinglePrice::where('id',$tempOrder->price_id)->first();
-                    $endDate = $now->addMonths($singlePrice->month);
-                    $month = $singlePrice->month;
-                }else{
-                    $endDate = $now->addMonths(2);
-                    $month = 2;
-                }
+    public function createProjectEnd(Request $request)
+    {
+        DB::beginTransaction();
+        $tempOrderFull = TempOrder::where('user_id', auth()->user()->id)->where('item_type', 1)->first();
+        $tempOrder = json_decode($tempOrderFull->data);
+        $housingType = HousingType::where('slug', $tempOrder->step3_slug)->firstOrFail();
+        $housingTypeInputs = json_decode($housingType->form_json);
+
+        if ($tempOrderFull->step_order == 3) {
+            $oldCoverImage = public_path('project_images/' . $tempOrder->cover_image); // Mevcut dosyanın yolu
+            $extension = explode('.', $tempOrder->cover_image);
+            $newCoverImage = Str::slug($tempOrder->name) . (Auth::user()->id) . '.' . end($extension);
+            $newCoverImageName = public_path('storage/project_images/' . $newCoverImage); // Yeni dosya adı ve yolu
+            if (File::exists($oldCoverImage)) {
+                File::move($oldCoverImage, $newCoverImageName);
+            }
+            $oldDocument = public_path('housing_documents/' . $tempOrder->document); // Mevcut dosyanın yolu
+            $extension = explode('.', $tempOrder->document);
+            $newDocument = Str::slug($tempOrder->name) . '_verification_' . (Auth::user()->id) . '.' . end($extension);
+            $newDocumentFile = public_path('housing_documents/' . $newDocument); // Yeni dosya adı ve yolu
+            if (File::exists($oldDocument)) {
+                File::move($oldDocument, $newDocumentFile);
+            }
+            $now = Carbon::now();
+            if ($tempOrder->{"pricing-type"} == "2") {
+                $singlePrice = SinglePrice::where('id', $tempOrder->price_id)->first();
+                $endDate = $now->addMonths($singlePrice->month);
+                $month = $singlePrice->month;
+            } else {
+                $endDate = $now->addMonths(2);
+                $month = 2;
+            }
+
+            $instUser = User::where("id", Auth::user()->id)->first();
+            $project = Project::create([
+                "housing_type_id" => $housingType->id,
+                "step1_slug" => $tempOrder->step1_slug,
+                "step2_slug" => $tempOrder->step2_slug,
+                "project_title" => $tempOrder->name,
+                "slug" => Str::slug($tempOrder->name),
+                "address" => "asd",
+                "location" => $tempOrder->location,
+                "description" => $tempOrder->description,
+                "room_count" => $tempOrder->house_count,
+                "city_id" => $tempOrder->city_id,
+                "county_id" => $tempOrder->county_id,
+                "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
+                "status_id" => 1,
+                "image" => 'public/project_images/' . $newCoverImage,
+                'document' => $newDocument,
+                "end_date" => $endDate->format('Y-m-d'),
+                "status" => 2,
+            ]);
 
                 $instUser = User::where("id", Auth::user()->id)->first();
                 $project = Project::create([
@@ -347,61 +370,81 @@ class ProjectController extends Controller
                         }
                     }
                 }
-
-                if(!$request->without_doping){
-                    StandOutUser::create([
-                        "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
-                        "project_id" => $project->id,
-                        "item_order" => $tempOrder->doping_order,
-                        "housing_status_id" => $tempOrder->doping_statuses,
-                        "start_date" => date('Y-m-d',strtotime($tempOrder->doping_start_date)),
-                        "end_date" => date('Y-m-d',strtotime($tempOrder->doping_end_date)),
-                    ]);
-                }
-
-                DocumentNotification::create(
-                    [
-                        'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
-                        'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
-                        'item_id' => $project->id,
-                        'owner_id' => 4,
-                        'is_visible' => true,
-                    ]
-                );
-
-                DB::commit();
-                
-                TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->delete();
-                UserPlan::where('user_id', $instUser->parent_id ? $instUser->parent_id : $instUser->id)->decrement('project_limit');
-                dispatch(new AdvertTimeJob($project))->delay(now()->addMonths($month));
-
-                $project = Project::where('id', $project->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
-                $menu = Menu::getMenuItems();
-                $project->roomInfo = $project->roomInfo;
-                $project->brand = $project->brand;
-                $project->housingType = $project->housingType;
-                $project->county = $project->county;
-                $project->city = $project->city;
-                $project->user = $project->user;
-                $project->user->housings = $project->user->housings;
-                $project->user->brands = $project->user->brands;
-                $project->images = $project->images;
-                $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
-                
-                Cache::rememberForever('project_'.$project->slug ,  function () use($offer,$project,$menu) {
-                    return view('client.projects.index', compact('menu', "offer",'project'))->render();
-                });
-
-                return json_encode([
-                    "status" => true
-                ]);
-            }else{
-                return json_encode([
-                    "status" => false,
-                    "message" => "Son aşamada değilsiniz"
+            }
+            if(!$request->without_doping){
+                StandOutUser::create([
+                    "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
+                    "project_id" => $project->id,
+                    "item_order" => $tempOrder->doping_order,
+                    "housing_status_id" => $tempOrder->doping_statuses,
+                    "start_date" => date('Y-m-d',strtotime($tempOrder->doping_start_date)),
+                    "end_date" => date('Y-m-d',strtotime($tempOrder->doping_end_date)),
                 ]);
             }
-        
+
+            DocumentNotification::create(
+                [
+                    'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
+                    'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
+                    'item_id' => $project->id,
+                    'owner_id' => 4,
+                    'is_visible' => true,
+                ]
+            );
+
+            DB::commit();
+            
+            TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->delete();
+            UserPlan::where('user_id', $instUser->parent_id ? $instUser->parent_id : $instUser->id)->decrement('project_limit');
+            dispatch(new AdvertTimeJob($project))->delay(now()->addMonths($month));
+
+            $project = Project::where('id', $project->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+            $menu = Menu::getMenuItems();
+            $project->roomInfo = $project->roomInfo;
+            $project->brand = $project->brand;
+            $project->housingType = $project->housingType;
+            $project->county = $project->county;
+            $project->city = $project->city;
+            $project->user = $project->user;
+            $project->user->housings = $project->user->housings;
+            $project->user->brands = $project->user->brands;
+            $project->images = $project->images;
+            $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+            
+            Cache::rememberForever('project_'.$project->slug ,  function () use($offer,$project,$menu) {
+                return view('client.projects.index', compact('menu', "offer",'project'))->render();
+            });
+
+            return json_encode([
+                "status" => true
+            ]);
+
+            DocumentNotification::create(
+                [
+                    'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
+                    'text' => 'Yeni bir proje eklendi.',
+                    'item_id' => $project->id,
+                    'link' => route('admin.projects.detail', ['projectId' => $project->id]),
+                    'owner_id' => 4,
+                    'is_visible' => true,
+                ]
+            );
+
+            DB::commit();
+
+            TempOrder::where('user_id', auth()->user()->id)->where('item_type', 1)->delete();
+            UserPlan::where('user_id', $instUser->parent_id ? $instUser->parent_id : $instUser->id)->decrement('project_limit');
+            dispatch(new AdvertTimeJob($project))->delay(now()->addMonths($month));
+            return json_encode([
+                "status" => true,
+            ]);
+        } else {
+            return json_encode([
+                "status" => false,
+                "message" => "Son aşamada değilsiniz",
+            ]);
+        }
+
     }
 
     public function store(Request $request)
