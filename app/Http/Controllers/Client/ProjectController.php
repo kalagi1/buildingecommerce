@@ -39,7 +39,7 @@ class ProjectController extends Controller
             $project->images = $project->images;
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
             
-            Cache::rememberForever('project_'.$slug, 100000 ,  function () use($offer,$project,$menu) {
+            Cache::rememberForever('project_'.$slug ,  function () use($offer,$project,$menu) {
                 return view('client.projects.index', compact('menu', "offer",'project'))->render();
             });
         }

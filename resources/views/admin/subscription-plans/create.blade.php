@@ -41,8 +41,8 @@
                                 <input class="form-control" id="user_limit" name="user_limit" type="number" placeholder="Alt Kullanıcı Limiti" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="housing_limit">Konut Limiti</label>
-                                <input class="form-control" id="housing_limit" name="housing_limit" type="number" placeholder="Konut Limiti" required>
+                                <label class="form-label" for="housing_limit">Emlak Limiti</label>
+                                <input class="form-control" id="housing_limit" name="housing_limit" type="number" placeholder="Emlak Limiti" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="plan_type">Plan Türü</label>

@@ -52,6 +52,7 @@ use App\Http\Controllers\Institutional\BuyController;
 use App\Http\Controllers\Institutional\ChangePasswordController as InstitutionalChangePasswordController;
 use App\Http\Controllers\Institutional\DashboardController;
 use App\Http\Controllers\Institutional\HousingController as InstitutionalHousingController;
+use App\Http\Controllers\Institutional\InvoiceController as InstitutionalInvoiceController;
 use App\Http\Controllers\Institutional\LoginController;
 use App\Http\Controllers\Institutional\OfferController as InstitutionalOfferController;
 use App\Http\Controllers\Institutional\PaymentTempController;
@@ -97,8 +98,8 @@ Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->n
 Route::get('/magaza/{slug}', [InstitutionalController::class, "dashboard"])->name('instituional.dashboard');
 
 Route::get('/magaza/{slug}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
-Route::get('/magaza/{slug}/projeler', [InstitutionalController::class, "projectDetails"])->name('instituional.projects.detail');
-
+Route::get('/magaza/{slug}/proje-ilanlari', [InstitutionalController::class, "projectDetails"])->name('instituional.projects.detail');
+Route::get('/magaza/{slug}/emlak-ilanlari', [InstitutionalController::class, "housingList"])->name('instituional.housings');
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
 Route::get('/get-counties/{city}', [CountyController::class, "getCounties"])->name("getCounties");
@@ -633,7 +634,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
-    Route::get('/fatura/{order}', [InvoiceController::class, "show"])->name('invoice.show');
+    Route::get('/fatura/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
     Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
     Route::get('/orders', [DashboardController::class, 'getOrders'])->name('orders');
 

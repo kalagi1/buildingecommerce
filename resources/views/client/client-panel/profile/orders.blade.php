@@ -89,7 +89,7 @@
     $project =
         $o->type == 'project'
             ? App\Models\Project::with('roomInfo')->where('id', $o->item->id)->first()
-            : null
+            : null,
 )
 
 
@@ -138,11 +138,19 @@
                                                 @endif
                                             </div>
                                             <div class="order-item-status">
-                                                <strong>
-                                                    {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                    {{ getHouse($project, 'squaremeters[]', json_decode($order->cart)->item->housing)->value }}m2
-                                                    {{ getHouse($project, 'room_count[]', json_decode($order->cart)->item->housing)->value }}
-                                                </strong>
+                                                @if ($o->type == 'housing')
+                                                    {{ App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->title ?? null }}
+                                                @else
+                                                    <strong>
+                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                                        {{ getHouse($project, 'squaremeters[]', json_decode($order->cart)->item->housing)->value }}m2
+                                                        {{ getHouse($project, 'room_count[]', json_decode($order->cart)->item->housing)->value }}
+                                                        {{ ' ' }}
+                                                        {{ json_decode($order->cart)->item->housing }} {{ "No'lu" }}
+                                                        {{ $project->step1_slug }}
+                                                    </strong>
+                                                @endif
+
                                                 {!! [
                                                     '0' => '<span class="text-warning">Onay Bekleniyor</span>',
                                                     '1' => '<span class="text-success">Ödeme Onaylandı</span>',

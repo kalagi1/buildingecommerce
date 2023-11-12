@@ -19,9 +19,11 @@ class DashboardController extends Controller
 
     public function getOrders()
     {
-        $userProjectIds = Auth::user()->projects->pluck('id')->toArray();
-
-        $cartOrders = CartOrder::select('cart_orders.*')
+        $user = Auth::user();
+        $userProjectIds = $user->projects->pluck('id')->toArray();
+    
+        // Projects için sorgu
+        $projectOrders = CartOrder::select('cart_orders.*')
             ->with("user", "invoice")
             ->where(function ($query) use ($userProjectIds) {
                 $query->whereIn(
@@ -30,10 +32,29 @@ class DashboardController extends Controller
                 )->where('cart_orders.status', '1');
             })
             ->get();
+    
+        // Housings için sorgu
+        $housingOrders = CartOrder::select('cart_orders.*')
+            ->with("user", "invoice")
+            ->where(function ($query) use ($userProjectIds) {
+                $query->whereIn(
+                    DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
+                    $userProjectIds
+                )->where('cart_orders.status', '1');
+            })
+            ->orWhereIn('cart_orders.cart', function($subQuery) use ($user) {
+                $subQuery->select('cart')
+                    ->from('housings')
+                    ->where('user_id', $user->id);
+            })
+            ->get();
+    
+        $cartOrders = $projectOrders->merge($housingOrders);
 
+    
         return view('institutional.orders.index', compact('cartOrders'));
     }
-
+    
     public function corporateAccountVerification()
     {
         return view('institutional.home.verification');
