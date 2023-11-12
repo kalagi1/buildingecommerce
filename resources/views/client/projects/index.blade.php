@@ -188,7 +188,7 @@
                                                                 class="btn toggle-project-favorite bg-white"
                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                 data-project-id={{ $project->id }}>
-                                                                <i class="fa fa-heart"></i>
+                                                                <i class="fa fa-heart-o"></i>
                                                             </div>
                                                         </div>
                                                         <div class="homes position-relative">
