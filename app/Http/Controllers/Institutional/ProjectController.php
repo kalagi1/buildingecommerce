@@ -48,6 +48,7 @@ class ProjectController extends Controller
         // Tüm projeleri çek ve ilişkiyi yükle
         $projects = Project::where('user_id', Auth::user()->id)
             ->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')
+            ->orderByDesc('created_at')
             ->get();
     
         // Projelerin CartOrder ilişkisi içindeki sipariş sayısını hesaplayın

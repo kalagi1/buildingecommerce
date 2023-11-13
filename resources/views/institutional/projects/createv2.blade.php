@@ -192,6 +192,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <span class="after_step_housing btn btn-info">Sonraki Aşamaya Geç</span>
                             <div class="address housing_after_step d-none">
                                 <span class="section-title">Adres Bilgileri</span>
                                 <div class="card">
@@ -385,7 +386,30 @@
             var housingImages = [];
             var descriptionText = @if(isset($tempData) && isset($tempData->description)) 'evet var' @else "" @endif;
             var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
-            
+
+            $('.after_step_housing').click(function(){
+                $.ajax({
+                    url: '{{route("institutional.temp.order.housing.confirm.full")}}?item_type=1',
+                    type: 'GET',
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        if(response.status){
+                            $('.housing_after_step').removeClass('d-none')
+                        }else{
+                            $.toast({
+                                heading: 'Hata',
+                                text: response.message,
+                                position: 'top-right',
+                                stack: false
+                            })
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                    }
+                });
+            })
+
             $(window).scroll(function(){
                 
                 var scrollTopValue = $(".tab-pane").offset().top;
@@ -904,6 +928,7 @@
                                                             })
                                                         }
                                                     }else{
+                                                        console.log(data[i][key[0]]);
                                                         if(data[i][key[0]] == null){
                                                             $('input[name="'+key[0]+'[]"]').val("");
                                                         }else{
@@ -2190,6 +2215,7 @@
                                                         })
                                                     }
                                                 }else{
+                                                        console.log(data[i][key[0]]);
                                                     if(data[i][key[0]] == null){
                                                         $('input[name="'+key[0]+'[]"]').val("");
                                                     }else{
@@ -2572,7 +2598,7 @@
                         });
                     }
                 });
-                $('.finish-button').one("click",function(e){
+                $('.finish-button').click(function(e){
                     e.preventDefault();
                     var next = true;
                     var topError = 0;

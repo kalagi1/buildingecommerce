@@ -649,5 +649,41 @@ class TempOrderController extends Controller
 
     public function housingConfirmFull(Request $request){
         $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+
+        $data = json_decode($tempOrder->data);
+
+        $housingType = HousingType::where('id',$data->housing_type_id)->first();
+        $formJson = json_decode($housingType->form_json);
+        $errors = [];
+        if(isset($data->house_count) && $data->house_count){
+            for($i = 0; $i < $data->house_count; $i++){
+                foreach($formJson as $json){
+                    if($json->required){
+                        if(isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}) && isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i]) && $data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i] != "Seçiniz"){
+
+                        }else{
+                            array_push($errors,"Lütfen sonraki aşamaya geçmeden önce".($i+1).'. '.$housingType->title.' '.$json->label.' değerini doldurmanız gerekiyor');
+                        };
+                    }
+                }
+            }
+        }else{
+            return json_encode([
+                "status" => false,
+                "message" => "Sonraki aşamaya geçmeden önce lütfen ".$housingType->title.' sayısını belirtiniz ve içeriklerini doldurunuz'
+            ]);
+        }
+        
+        if(count($errors) > 0){
+            return json_encode([
+                "status" => false,
+                "message" => implode('<br>,',$errors)
+            ]);
+        }else{
+            return json_encode([
+                "status" => true,
+            ]);
+        }
+        return ;
     }
 }
