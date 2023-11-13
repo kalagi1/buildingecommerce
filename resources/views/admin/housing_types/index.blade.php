@@ -17,7 +17,7 @@
                                                     Ekle</span></button></div>
                                     </div>
                                     <div id="tableExample"
-                                        data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
+                                        data-list='{"valueNames":["name","email","age"],"page":15,"pagination":true}'>
                                         <div class="table-responsive mx-n1 px-1">
                                             <table class="table table-sm border-top border-200 fs--1 mb-0">
                                                 <thead>

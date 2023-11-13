@@ -54,7 +54,7 @@
         "id": "order",
         "label": "Emlak Sepette",
         "icon": "shopping-bag",
-        "text": "Siparişlerim",
+        "text": "Gelen Siparişlerim",
         "key": "GetOrders",
         "url": "institutional.orders",
         "activePath": "institutional/orders"

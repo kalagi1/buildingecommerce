@@ -253,7 +253,7 @@
                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
 )
                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
@@ -282,9 +282,8 @@
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                            {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                            {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
-                                            {{ $i + 1 }} {{ "No'lu" }} {{$project->step1_slug}}
+
+                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                         </h3>
 
 
@@ -383,7 +382,7 @@
                                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
 )
                                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
@@ -426,10 +425,9 @@
                                                             <span style="text-decoration: none">
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                                                     Projesinde
-                                                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                                                    {{ ' ' }}
-                                                                    {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+
+                                                                    {{ $i + 1 }} {{ "No'lu" }}
+                                                                    {{ $project->step1_slug }}
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -449,17 +447,16 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="fa fa-circle circleIcon mr-1"
-                                                                        aria-hidden="true"></i>
-                                                                    <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                        @if ($project->step1_slug == 'konut')
+                                                                @if ($project->step1_slug != 'arsaa')
+                                                                    <li class="sude-the-icons"
+                                                                        style="width:auto !important">
+                                                                        <i class="fa fa-circle circleIcon mr-1"
+                                                                            aria-hidden="true"></i>
+                                                                        <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
                                                                             .Kat
-                                                                        @else
-                                                                            ₺
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
+                                                                        </span>
+                                                                    </li>
+                                                                @endif
                                                                 <li class="sude-the-icons" style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                         aria-hidden="true"></i>
@@ -556,7 +553,7 @@
                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
 )
                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
@@ -585,8 +582,7 @@
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                            {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                            {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
+
                                             {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                         </h3>
 
@@ -685,7 +681,7 @@
                                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
 )
 
                                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
@@ -728,10 +724,9 @@
                                                             <span style="text-decoration: none">
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                                                     Projesinde
-                                                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                                                    {{ ' ' }}
-                                                                    {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+
+                                                                    {{ $i + 1 }} {{ "No'lu" }}
+                                                                    {{ $project->step1_slug }}
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -751,17 +746,16 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="fa fa-circle circleIcon mr-1"
-                                                                        aria-hidden="true"></i>
-                                                                    <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                        @if ($project->step1_slug == 'konut')
+                                                                @if ($project->step1_slug != 'arsaa')
+                                                                    <li class="sude-the-icons"
+                                                                        style="width:auto !important">
+                                                                        <i class="fa fa-circle circleIcon mr-1"
+                                                                            aria-hidden="true"></i>
+                                                                        <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
                                                                             .Kat
-                                                                        @else
-                                                                            ₺
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
+                                                                        </span>
+                                                                    </li>
+                                                                @endif
                                                                 <li class="sude-the-icons" style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                         aria-hidden="true"></i>
@@ -859,7 +853,7 @@
                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
 )
                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
@@ -888,8 +882,7 @@
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                            {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                            {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
+
                                             {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                         </h3>
 
@@ -990,7 +983,7 @@
                                         @php($room_order = getHouse($project, 'squaremeters[]', $i + 1)->room_order)
                                         @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
 )
                                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
@@ -1033,10 +1026,9 @@
                                                             <span style="text-decoration: none">
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                                                     Projesinde
-                                                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                                                    {{ ' ' }}
-                                                                    {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+
+                                                                    {{ $i + 1 }} {{ "No'lu" }}
+                                                                    {{ $project->step1_slug }}
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -1056,17 +1048,16 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="fa fa-circle circleIcon mr-1"
-                                                                        aria-hidden="true"></i>
-                                                                    <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                        @if ($project->step1_slug == 'konut')
+                                                                @if ($project->step1_slug != 'arsaa')
+                                                                    <li class="sude-the-icons"
+                                                                        style="width:auto !important">
+                                                                        <i class="fa fa-circle circleIcon mr-1"
+                                                                            aria-hidden="true"></i>
+                                                                        <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
                                                                             .Kat
-                                                                        @else
-                                                                            ₺
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
+                                                                        </span>
+                                                                    </li>
+                                                                @endif
                                                                 <li class="sude-the-icons" style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                         aria-hidden="true"></i>
@@ -1161,7 +1152,7 @@
                 @foreach ($secondhandHousings as $project)
                     @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
 )
                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$project->id]))
 
@@ -1201,28 +1192,29 @@
                                             <i class="fa fa-heart-o"></i>
                                         </a>
                                         @if ($sold && $sold[0]->status != '2')
-                                        <button class="btn second-btn mobileBtn CartBtn" disabled
-                                            @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                            <button class="btn second-btn mobileBtn CartBtn" disabled
+                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                 @else 
                                 style="background: red !important;width:100%;color:White" @endif>
-                                            <span class="IconContainer">
-                                                <img src="{{ asset('sc.png') }}" alt="">
-                                            </span>
-                                            @if ($sold[0]->status == '0')
-                                                <span class="text">Onay Bekleniyor</span>
-                                            @else
-                                                <span class="text">Satıldı</span>
-                                            @endif
-                                        </button>
-                                    @else
-                                    <button class="CartBtn  mobile px-2"
-                                    style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                    data-type='housing' data-id='{{ $project->id }}'>
-                                    <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
-                                        height="24px" style="width: 24px !important; height: 24px !important;" />
-                                </button>
-                                    @endif
-                                   
+                                                <span class="IconContainer">
+                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                </span>
+                                                @if ($sold[0]->status == '0')
+                                                    <span class="text">Onay Bekleniyor</span>
+                                                @else
+                                                    <span class="text">Satıldı</span>
+                                                @endif
+                                            </button>
+                                        @else
+                                            <button class="CartBtn  mobile px-2"
+                                                style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                data-type='housing' data-id='{{ $project->id }}'>
+                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
+                                                    height="24px"
+                                                    style="width: 24px !important; height: 24px !important;" />
+                                            </button>
+                                        @endif
+
                                     </div>
                                     <span class="ml-auto text-primary priceFont">
                                         @if ($discount_amount)
@@ -1234,17 +1226,17 @@
                                             </svg>
                                         @endif
                                         @if ($sold)
-                                        @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                        {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
+                                            @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
 
-                                        ₺
+                                                ₺
+                                            @endif
+                                        @else
+                                            {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
+
+                                            ₺
                                         @endif
-                                    @else
-                                    {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
 
-                                    ₺
-                                    @endif
-                                      
                                     </span>
                                 </div>
                             </div>
@@ -1337,16 +1329,14 @@
                                                                 <i class="fa fa-circle circleIcon mr-1"></i>
                                                                 <span>{{ json_decode($project->housing_type_data)->room_count[0] ?? null }}</span>
                                                             </li>
-                                                            <li class="sude-the-icons" style="width:auto !important">
-                                                                <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                <span>{{ json_decode($project->housing_type_data)->numberoffloors[0] ?? null }}
-                                                                    @if ($project->step1_slug == 'konut')
+                                                            @if ($project->step1_slug == 'konut')
+                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                    <i class="fa fa-circle circleIcon mr-1"></i>
+                                                                    <span>{{ json_decode($project->housing_type_data)->numberoffloors[0] ?? null }}
                                                                         .Kat
-                                                                    @else
-                                                                        ₺
-                                                                    @endif
-                                                                </span>
-                                                            </li>
+                                                                    </span>
+                                                                </li>
+                                                            @endif
                                                             <li class="sude-the-icons" style="width:auto !important">
                                                                 <i class="fa fa-circle circleIcon mr-1"></i>
                                                                 <span>{{ json_decode($project->housing_type_data)->squaremeters[0] ?? null }}

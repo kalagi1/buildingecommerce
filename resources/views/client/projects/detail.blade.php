@@ -269,7 +269,7 @@
                                                                 class="btn toggle-project-favorite bg-white"
                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                 data-project-id={{ $project->id }}>
-                                                                <i class="fa fa-heart-o"></i>
+                                                                <i class="fa fa-heart"></i>
                                                             </div>
                                                         </div>
                                                         <div class="homes position-relative">
@@ -318,7 +318,7 @@
 
                                                     <ul class="homes-list clearfix pb-3 d-flex">
                                                         <li class="the-icons custom-width">
-                                                            <i class="fas fa-home mr-2" style="color: black;"
+                                                            <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                                                 aria-hidden="true"></i>
                                                             <span>{{ $project->housingType->title }}</span>
                                                         </li>
@@ -326,16 +326,15 @@
                                                             <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
                                                         </li>
-                                                        <li class="the-icons custom-width">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                @if ($project->step1_slug == 'konut')
+                                                        @if ($project->step1_slug != 'arsaa')
+                                                            <li class="the-icons custom-width">
+                                                                <i class="fa fa-circle circleIcon mr-1"
+                                                                    aria-hidden="true"></i>
+                                                                <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
                                                                     .Kat
-                                                                @else
-                                                                    ₺
-                                                                @endif
-                                                            </span>
-                                                        </li>
+                                                                </span>
+                                                            </li>
+                                                        @endif
                                                         <li class="the-icons custom-width ">
                                                             <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
@@ -473,8 +472,10 @@
                                 <a style="text-decoration: none; height: 100%"
                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                     <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                        {{ getData($project, 'squaremeters[]', $i + 1)->value }}m2
-                                        {{ getData($project, 'room_count[]', $i + 1)->value }}
+
+                                        {{ $i + 1 }}
+                                        {{ "No'lu" }}
+                                        {{ $project->step1_slug }}
                                     </h3>
                                 </a>
                                 <div class="d-flex align-items-center">

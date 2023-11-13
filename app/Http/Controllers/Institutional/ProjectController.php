@@ -19,7 +19,6 @@ use App\Models\Log;
 use App\Models\Menu;
 use App\Models\Offer;
 use App\Models\Neighborhood;
-use App\Models\PaymentPlan;
 use App\Models\PricingStandOut;
 use App\Models\Project;
 use App\Models\ProjectHousing;
@@ -28,8 +27,8 @@ use App\Models\ProjectImage;
 use App\Models\SinglePrice;
 use App\Models\StandOutUser;
 use App\Models\TempOrder;
-use App\Models\UserPlan;
 use App\Models\User;
+use App\Models\UserPlan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,10 +36,10 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Throwable;
 
 class ProjectController extends Controller
 {
+
     public function index()
     {
         $bankAccounts = BankAccount::all();
@@ -67,6 +66,7 @@ class ProjectController extends Controller
     
         return view('institutional.projects.index', compact('projects', 'bankAccounts'));
     }
+    
 
     public function create()
     {
@@ -77,26 +77,27 @@ class ProjectController extends Controller
         return view('institutional.projects.create', compact('housing_types', 'housing_status', 'brands', 'cities'));
     }
 
-    public function createV2(){
+    public function createV2()
+    {
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
-        $prices = SinglePrice::where('item_type',1)->get();
+        $prices = SinglePrice::where('item_type', 1)->get();
         $cities = City::get();
-        $housing_status = HousingStatus::where('is_project',1)->where('is_default',0)->get();
-        $housing_statusX = HousingStatus::where('is_project',1)->where('is_default',1)->first();
-        $tempDataFull = TempOrder::where('item_type',1)->where('user_id',auth()->guard()->user()->id)->first();
-        if($tempDataFull){
+        $housing_status = HousingStatus::where('is_project', 1)->where('is_default', 0)->get();
+        $housing_statusX = HousingStatus::where('is_project', 1)->where('is_default', 1)->first();
+        $tempDataFull = TempOrder::where('item_type', 1)->where('user_id', auth()->guard()->user()->id)->first();
+        if ($tempDataFull) {
             $hasTemp = true;
             $tempData = json_decode($tempDataFull->data);
-        }else{
+        } else {
             $tempData = json_decode('{}');
             $hasTemp = false;
         }
         $areaSlugs = [];
-        if(isset($tempDataFull) && $tempData->step1_slug){
-            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
-            array_push($areaSlugs,$topParent->title);
-            $secondAreaList = HousingTypeParent::where('parent_id',$topParent->id)->get();
-        }else{
+        if (isset($tempDataFull) && $tempData->step1_slug) {
+            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug', $tempData->step1_slug)->first();
+            array_push($areaSlugs, $topParent->title);
+            $secondAreaList = HousingTypeParent::where('parent_id', $topParent->id)->get();
+        } else {
             $secondAreaList = null;
         }
 
@@ -105,6 +106,7 @@ class ProjectController extends Controller
         }else{
             $housingTypeTempX = null;
         }
+
         if(isset($tempDataFull) && $tempData->step2_slug){
             $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
             $topParentSecond = HousingTypeParent::where('parent_id',$topParent->id)->where('slug',$tempData->step2_slug)->first();
@@ -113,21 +115,21 @@ class ProjectController extends Controller
         }else{
             $housingTypes = null;
         }
-        
-        if(isset($tempDataFull) && $tempData->step3_slug){
-            $housingTypeTemp = HousingTypeParentConnection::where('slug',$tempData->step3_slug)->where("parent_id",$topParentSecond->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->first();
-            
-            array_push($areaSlugs,$housingTypeTemp->title);
+
+        if (isset($tempDataFull) && $tempData->step3_slug) {
+            $housingTypeTemp = HousingTypeParentConnection::where('slug', $tempData->step3_slug)->where("parent_id", $topParentSecond->id)->join('housing_types', 'housing_types.id', "=", "housing_type_parent_connections.housing_type_id")->first();
+
+            array_push($areaSlugs, $housingTypeTemp->title);
         }
 
-        if($tempDataFull && isset($tempData->statuses)){
-            $selectedStatuses = HousingStatus::whereIn("id",$tempData->statuses)->get();
-        }else{
+        if ($tempDataFull && isset($tempData->statuses)) {
+            $selectedStatuses = HousingStatus::whereIn("id", $tempData->statuses)->get();
+        } else {
             $selectedStatuses = [];
         }
-        if($tempDataFull){
+        if ($tempDataFull) {
             $tempDataFull = $tempDataFull;
-        }else{
+        } else {
             $tempDataFull = json_decode('{"step_order" : 1}');
         }
 
@@ -135,82 +137,85 @@ class ProjectController extends Controller
         return view('institutional.projects.createv2',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan','hasTemp','secondAreaList','housingTypes','areaSlugs','housingTypeTempX'));
     }
 
-    public function editV2($slug){
+    public function editV2($slug)
+    {
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
-        $prices = SinglePrice::where('item_type',1)->get();
+        $prices = SinglePrice::where('item_type', 1)->get();
         $cities = City::get();
         $tempUpdateHas = false;
         $housing_status = HousingStatus::all();
-        $tempDataFull = TempOrder::where('item_type',1)->where('user_id',auth()->guard()->user()->id)->first();
-        $tempDataFull = Project::where('slug',$slug)->first();
-        $tempDataFull2 = Project::where('slug',$slug)->first();
-        $housingType = HousingType::where('id',$tempDataFull->housing_type_id)->first();
-        $tempUpdate = TempOrder::where('item_type',3)->where('user_id',auth()->user()->id)->first();
-        if($tempUpdate && json_decode($tempUpdate->data)->data_slug == $slug){
+        $tempDataFull = TempOrder::where('item_type', 1)->where('user_id', auth()->guard()->user()->id)->first();
+        $tempDataFull = Project::where('slug', $slug)->first();
+        $project = Project::where('slug', $slug)->first();
+        $tempDataFull2 = Project::where('slug', $slug)->first();
+        $housingType = HousingType::where('id', $tempDataFull->housing_type_id)->first();
+        $tempUpdate = TempOrder::where('item_type', 3)->where('user_id', auth()->user()->id)->first();
+        if ($tempUpdate && json_decode($tempUpdate->data)->data_slug == $slug) {
             $tempUpdateHas = true;
             $tempDataFull = $tempUpdate;
-            
+
             $tempData = json_decode($tempDataFull->data);
             $tempData->step3_slug = $housingType->slug;
-        }else{
-            TempOrder::where('item_type',3)->where('user_id',auth()->user()->id)->delete();
-            if($tempDataFull){
+        } else {
+            TempOrder::where('item_type', 3)->where('user_id', auth()->user()->id)->delete();
+            if ($tempDataFull) {
                 $tempData = $tempDataFull;
                 $tempData->roomInfoKeys = $tempDataFull->roomInfo;
                 $tempData->step3_slug = $housingType->slug;
-            }else{
+            } else {
                 $tempData = json_decode("{}");
             }
             $tempDataFull->data_slug = $slug;
-            $selectedStatuses = HousingStatus::select("id")->whereIn("id",$tempDataFull2->housingStatusIds)->get()->keyBy('id')->toArray();
+            $selectedStatuses = HousingStatus::select("id")->whereIn("id", $tempDataFull2->housingStatusIds)->get()->keyBy('id')->toArray();
             $tempDataFull->statuses = array_keys((array) $selectedStatuses);
             $tempDataFull->images = $tempDataFull->images;
             TempOrder::create([
                 "user_id" => auth()->user()->id,
                 "data" => json_encode($tempDataFull),
                 "item_type" => 3,
-                "step_order" => 1
+                "step_order" => 1,
             ]);
         }
-        
-        
+
         $selectedStatuses = $tempDataFull->statuses;
-        if($tempDataFull){
+        if ($tempDataFull) {
             $tempDataFull = $tempDataFull;
-        }else{
+        } else {
             $tempDataFull = json_decode('{"step_order" : 1}');
         }
 
-        $userPlan = UserPlan::where('user_id',auth()->user()->id)->first();
-        return view('institutional.projects.editv2',compact('tempUpdateHas','housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan'));
+        $userPlan = UserPlan::where('user_id', auth()->user()->id)->first();
+        return view('institutional.projects.editv2', compact('tempUpdateHas', 'project', 'housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan'));
     }
 
-    public function getBusyDatesByStatusType($statusId,Request $request){
+    public function getBusyDatesByStatusType($statusId, Request $request)
+    {
         return json_encode([
-            "busy_dates" => StandOutUser::where('housing_status_id',$statusId)->where('item_order',$request->input('order'))->get(),
-            "price" => PricingStandOut::where('housing_status_id',$statusId)->where('order',$request->input('order'))->first()
+            "busy_dates" => StandOutUser::where('housing_status_id', $statusId)->where('item_order', $request->input('order'))->get(),
+            "price" => PricingStandOut::where('housing_status_id', $statusId)->where('order', $request->input('order'))->first(),
         ]);
     }
 
-    public function getHousingTypeChildren(Request $request,$slug){
-        if($request->input('parent_slug')){
-            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$request->input('parent_slug'))->first();
-            $housingTypeParent = HousingTypeParent::where('slug',$slug)->where('parent_id',$topParent->id)->first();
-        }else{
-            $housingTypeParent = HousingTypeParent::where('slug',$slug)->first();
+    public function getHousingTypeChildren(Request $request, $slug)
+    {
+        if ($request->input('parent_slug')) {
+            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug', $request->input('parent_slug'))->first();
+            $housingTypeParent = HousingTypeParent::where('slug', $slug)->where('parent_id', $topParent->id)->first();
+        } else {
+            $housingTypeParent = HousingTypeParent::where('slug', $slug)->first();
         }
 
-        if($housingTypeParent->is_end){
-            $housingTypes = HousingTypeParentConnection::where("parent_id",$housingTypeParent->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->get();
+        if ($housingTypeParent->is_end) {
+            $housingTypes = HousingTypeParentConnection::where("parent_id", $housingTypeParent->id)->join('housing_types', 'housing_types.id', "=", "housing_type_parent_connections.housing_type_id")->get();
             return [
                 "data" => $housingTypes,
-                "is_end" => 0
+                "is_end" => 0,
             ];
-        }else{
-            $housingTypeChildren = HousingTypeParent::where('parent_id',$housingTypeParent->id)->get();
+        } else {
+            $housingTypeChildren = HousingTypeParent::where('parent_id', $housingTypeParent->id)->get();
             return [
                 "data" => $housingTypeChildren,
-                "is_end" => 1
+                "is_end" => 1,
             ];
         }
     }
@@ -327,7 +332,6 @@ class ProjectController extends Controller
                                     "project_id" => $project->id,
                                     "room_order" => $i + 1,
                                 ]);
-
                                 if(substr($housingTypeInputs[$j]->name, 0, -2) == "installments-price"){
                                     $paymentPlanOrder++;
                                 }
@@ -346,6 +350,7 @@ class ProjectController extends Controller
                                 }
                             }else{
                                 if (isset($housingTypeInputs[$j]->name) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]) && $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i] != null) {                                
+
                                     ProjectHousing::create([
                                         "key" => $housingTypeInputs[$j]->label,
                                         "name" => $housingTypeInputs[$j]->name,
@@ -380,7 +385,7 @@ class ProjectController extends Controller
                             }else{
                                 $newFileName = Str::slug($tempOrder->name).'-project_housing-image-'.(substr($newImageName,-1)).'.'.end($extension);
                             }
-                            
+                        
                             ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
@@ -483,13 +488,14 @@ class ProjectController extends Controller
             "document" => "required|file|max:2048",
         ]);
 
-        if (UserPlan::where('user_id', auth()->user()->id)->sum('project_limit') <= 0)
+        if (UserPlan::where('user_id', auth()->user()->id)->sum('project_limit') <= 0) {
             return redirect()->back()->withErrors(['not_enough_limit' => 'Proje oluşturma hakkınız doldu.']);
+        }
 
         if ($request->hasFile('document')) {
             $document = $request->file('document');
-            $documentName = $request->project_title. ' proje belgesi.' . $document->getClientOriginalExtension();
-            
+            $documentName = $request->project_title . ' proje belgesi.' . $document->getClientOriginalExtension();
+
             // Dosyayı public/housing_documents klasörüne taşı
             $document->move(public_path('/housing_documents'), $documentName);
         }
@@ -528,7 +534,7 @@ class ProjectController extends Controller
                 "status_id" => 1,
                 "image" => $filePath,
                 'document' => $documentName,
-                "status" => 2
+                "status" => 2,
             ]);
 
             UserPlan::where('user_id', auth()->user()->id)->decrement('project_limit');
@@ -613,8 +619,9 @@ class ProjectController extends Controller
         DocumentNotification::create(
             [
                 'user_id' => auth()->user()->id,
-                'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
+                'text' => 'Yeni bir proje eklendi.',
                 'item_id' => $project->id,
+                'link' => route('admin.projects.detail', ['projectId' => $project->id]),
                 'owner_id' => 4,
                 'is_visible' => true,
             ]
@@ -640,22 +647,23 @@ class ProjectController extends Controller
     public function standOut($projectId)
     {
         $project = Project::where('id', $projectId)->first();
-        
+
         return view('institutional.projects.stand_out', compact('project'));
     }
 
     public function pricingList(Request $request)
     {
-        $pricingStandOuts = PricingStandOut::where('housing_status_id',$request->input('housing_status_id'))->where('type', $request->input('type'))->get();
-        
+        $pricingStandOuts = PricingStandOut::where('housing_status_id', $request->input('housing_status_id'))->where('type', $request->input('type'))->get();
+
         return json_encode([
             "status" => true,
             "data" => $pricingStandOuts,
         ]);
     }
 
-    public function edit($id){
-        $project = Project::with("roomInfo")->where('id',$id)->first();
+    public function edit($id)
+    {
+        $project = Project::with("roomInfo")->where('id', $id)->first();
         $project->housingStatusesFull = $project->housingStatus->keyBy('housing_type_id')->toArray();
         $results = ProjectHousing::
             select(DB::raw('max(name) as name , max(value) as value, max(room_order) as room_order'))
@@ -669,15 +677,14 @@ class ProjectController extends Controller
             $groupedData[str_replace("[]", "", $result['name'])][$result->room_order - 1] = $result->value;
         }
 
-
         $project->roomInfoKeys = $groupedData;
 
         $brands = Brand::where('user_id', Auth::user()->id)->where('status', 1)->get();
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
         $cities = City::get();
-        $counties = County::where('city_id',$project->city_id)->get();
-        return view('institutional.projects.edit',compact('project','housing_types', 'housing_status', 'brands', 'cities','counties'));
+        $counties = County::where('city_id', $project->city_id)->get();
+        return view('institutional.projects.edit', compact('project', 'housing_types', 'housing_status', 'brands', 'cities', 'counties'));
     }
 
     public function update(Request $request, $id)
@@ -715,11 +722,11 @@ class ProjectController extends Controller
 
         if ($request->hasFile('document')) {
             $document = $request->file('document');
-            $documentName = $request->project_title. ' proje belgesi.' . $document->getClientOriginalExtension();
-            
+            $documentName = $request->project_title . ' proje belgesi.' . $document->getClientOriginalExtension();
+
             // Dosyayı public/housing_documents klasörüne taşı
             $document->move(public_path('/housing_documents'), $documentName);
-        }else{
+        } else {
             $documentName = $project->document;
         }
 
@@ -740,21 +747,21 @@ class ProjectController extends Controller
                 'document' => $documentName,
             ]);
 
-            ProjectHousingType::where('project_id',$id)->delete();
+            ProjectHousingType::where('project_id', $id)->delete();
 
-            foreach($request->input('housing_status') as $housingStatus){
+            foreach ($request->input('housing_status') as $housingStatus) {
                 ProjectHousingType::create([
                     "project_id" => $id,
-                    "housing_type_id" => $housingStatus
+                    "housing_type_id" => $housingStatus,
                 ]);
             }
 
-            $project = Project::where('id',$id)->first();
-            if($request->file('image')){
+            $project = Project::where('id', $id)->first();
+            if ($request->file('image')) {
 
-                ProjectHousing::where('project_id',$id)->where('name','!=','images[]')->delete();
-            }else{
-                ProjectHousing::where('project_id',$id)->where('name','!=','images[]')->where('name','!=','image[]')->delete();
+                ProjectHousing::where('project_id', $id)->where('name', '!=', 'images[]')->delete();
+            } else {
+                ProjectHousing::where('project_id', $id)->where('name', '!=', 'images[]')->where('name', '!=', 'image[]')->delete();
             }
             for ($i = 0; $i < $request->input('house_count'); $i++) {
                 for ($j = 0; $j < count($housingTypeInputs); $j++) {
@@ -778,9 +785,9 @@ class ProjectController extends Controller
                                 }
                             }
                         }
-                    }else{
-                        if($housingTypeInputs[$j]->type != "checkbox-group"){
-                            if(isset($housingTypeInputs[$j]->name)  && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null){
+                    } else {
+                        if ($housingTypeInputs[$j]->type != "checkbox-group") {
+                            if (isset($housingTypeInputs[$j]->name) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null) {
                                 ProjectHousing::create([
                                     "key" => $housingTypeInputs[$j]->label,
                                     "name" => $housingTypeInputs[$j]->name,
@@ -818,7 +825,8 @@ class ProjectController extends Controller
         return redirect()->route('institutional.projects.index')->with('success', 'Proje başarıyla silindi.');
     }
 
-    public function newProjectImage(Request $request,$projectId){
+    public function newProjectImage(Request $request, $projectId)
+    {
         if ($request->hasFile('file')) {
             $uploadedFile = $request->file('file');
 
@@ -827,78 +835,83 @@ class ProjectController extends Controller
 
         ProjectImage::create([
             "image" => $filePath,
-            "project_id" => $projectId
+            "project_id" => $projectId,
         ]);
 
         return json_encode([
-            "status" => true
+            "status" => true,
         ]);
     }
 
-    public function deleteProjectImage($projectId,$filename){
-        $fileId = explode('--',$filename);
+    public function deleteProjectImage($projectId, $filename)
+    {
+        $fileId = explode('--', $filename);
 
-        ProjectImage::where('id',$fileId[1])->delete();
+        ProjectImage::where('id', $fileId[1])->delete();
         return json_encode([
-            "status" => true
+            "status" => true,
         ]);
     }
 
-    public function removeProjectHousingFile(Request $request){
-        $projectHousing = ProjectHousing::where('project_id',$request->input('projectId'))->where('room_order',$request->input('housingOrder'))->where('name','images[]')->first();
+    public function removeProjectHousingFile(Request $request)
+    {
+        $projectHousing = ProjectHousing::where('project_id', $request->input('projectId'))->where('room_order', $request->input('housingOrder'))->where('name', 'images[]')->first();
 
-        $projectHousingImagesTemp  = [];
+        $projectHousingImagesTemp = [];
 
-        $projectHousingImages= json_decode($projectHousing->value);
+        $projectHousingImages = json_decode($projectHousing->value);
 
-        foreach($projectHousingImages as $key => $image){
-            if($key != $request->input('order')){
-                array_push($projectHousingImagesTemp,$image);
+        foreach ($projectHousingImages as $key => $image) {
+            if ($key != $request->input('order')) {
+                array_push($projectHousingImagesTemp, $image);
             }
         }
 
-        ProjectHousing::where('project_id',$request->input('projectId'))->where('room_order',$request->input('housingOrder'))->where('name','images[]')->update(["value" => json_encode($projectHousingImagesTemp)]);
+        ProjectHousing::where('project_id', $request->input('projectId'))->where('room_order', $request->input('housingOrder'))->where('name', 'images[]')->update(["value" => json_encode($projectHousingImagesTemp)]);
 
         return json_encode([
-            "status" => true
+            "status" => true,
         ]);
     }
 
-    public function addProjectHousingFile(Request $request){
-        $project = Project::where('id',$request->input('projectId'))->first();
-        $projectHousing = ProjectHousing::where('project_id',$request->input('projectId'))->where('room_order',$request->input('housingOrder'))->where('name','images[]')->first();
-        if($projectHousing->value){
+    public function addProjectHousingFile(Request $request)
+    {
+        $project = Project::where('id', $request->input('projectId'))->first();
+        $projectHousing = ProjectHousing::where('project_id', $request->input('projectId'))->where('room_order', $request->input('housingOrder'))->where('name', 'images[]')->first();
+        if ($projectHousing->value) {
 
-            $projectHousingImages= json_decode($projectHousing->value);
-        }else{
-            $projectHousingImages =[];
+            $projectHousingImages = json_decode($projectHousing->value);
+        } else {
+            $projectHousingImages = [];
         }
 
         $image = $request->file('file');
         $imageName = $project->slug . '-' . ($request->input('housingOrder')) . '-' . time() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('/project_housing_images'), $imageName);
 
-        array_push($projectHousingImages,$imageName);
+        array_push($projectHousingImages, $imageName);
 
-        ProjectHousing::where('project_id',$request->input('projectId'))->where('room_order',$request->input('housingOrder'))->where('name','images[]')->update(["value" => json_encode($projectHousingImages)]);
+        ProjectHousing::where('project_id', $request->input('projectId'))->where('room_order', $request->input('housingOrder'))->where('name', 'images[]')->update(["value" => json_encode($projectHousingImages)]);
 
-        $projectHousing = ProjectHousing::where('project_id',$request->input('projectId'))->where('room_order',$request->input('housingOrder'))->where('name','images[]')->first();
+        $projectHousing = ProjectHousing::where('project_id', $request->input('projectId'))->where('room_order', $request->input('housingOrder'))->where('name', 'images[]')->first();
         return json_encode([
             "status" => true,
-            "imageName" => $imageName
+            "imageName" => $imageName,
         ]);
     }
 
-    public function logs($projectId){
-        $logs = Log::where('item_type',1)->where('item_id',$projectId)->orderByDesc('created_at')->get();
-        return view('institutional.projects.logs',compact('logs'));
+    public function logs($projectId)
+    {
+        $logs = Log::where('item_type', 1)->where('item_id', $projectId)->orderByDesc('created_at')->get();
+        return view('institutional.projects.logs', compact('logs'));
     }
 
-    public function updateProjectEnd(){
-        $tempOrder = TempOrder::where('item_type',3)->where('user_id',auth()->guard()->user()->id)->first();
+    public function updateProjectEnd()
+    {
+        $tempOrder = TempOrder::where('item_type', 3)->where('user_id', auth()->guard()->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
 
-        Project::where('id',$tempData->id)->update([
+        Project::where('id', $tempData->id)->update([
             "project_title" => $tempData->project_title,
             "slug" => Str::slug($tempData->project_title),
             "description" => $tempData->description,
@@ -906,28 +919,28 @@ class ProjectController extends Controller
             "image" => $tempData->image,
             "city_id" => $tempData->city_id,
             "county_id" => $tempData->county_id,
-            "status" => "2"
+            "status" => "2",
         ]);
 
-        ProjectImage::where('project_id',$tempData->id)->delete();
-        foreach($tempData->images as $key => $image){
+        ProjectImage::where('project_id', $tempData->id)->delete();
+        foreach ($tempData->images as $key => $image) {
             $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
             $projectImage->image = $image->image;
             $projectImage->project_id = $tempData->id;
             $projectImage->save();
         }
 
-        foreach($tempData->roomInfoKeys as $roomInfo){
-            if(isset($roomInfo->new_value) && $roomInfo->new_value == 1){
-                if($roomInfo->name == "price[]" || $roomInfo->name == "installments-price[]" || $roomInfo->name == "installments[]"){
+        foreach ($tempData->roomInfoKeys as $roomInfo) {
+            if (isset($roomInfo->new_value) && $roomInfo->new_value == 1) {
+                if ($roomInfo->name == "price[]" || $roomInfo->name == "installments-price[]" || $roomInfo->name == "installments[]") {
                     ProjectHousing::create([
                         "key" => $roomInfo->key,
                         "name" => $roomInfo->name,
-                        "value" => str_replace('.','',$roomInfo->value),
+                        "value" => str_replace('.', '', $roomInfo->value),
                         "project_id" => $tempData->id,
                         "room_order" => $roomInfo->room_order,
                     ]);
-                }else{
+                } else {
                     ProjectHousing::create([
                         "key" => $roomInfo->key,
                         "name" => $roomInfo->name,
@@ -936,19 +949,19 @@ class ProjectController extends Controller
                         "room_order" => $roomInfo->room_order,
                     ]);
                 }
-                
-            }else{
-                ProjectHousing::where('name',$roomInfo->name)->where('project_id',$tempData->id)->where('room_order',$roomInfo->room_order)->update([
-                    "value" => $roomInfo->value
+
+            } else {
+                ProjectHousing::where('name', $roomInfo->name)->where('project_id', $tempData->id)->where('room_order', $roomInfo->room_order)->update([
+                    "value" => $roomInfo->value,
                 ]);
             }
-            
+
         }
 
         $tempOrder->delete();
 
         return json_encode([
-            "status" => true
+            "status" => true,
         ]);
     }
 }

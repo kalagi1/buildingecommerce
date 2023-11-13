@@ -22,6 +22,7 @@ class ProjectController extends Controller
 {
     public function index($slug)
     {
+        // Cache::forget('project_'.$slug);
         if(Cache::get('project_'.$slug)){
             $cachedHtml = Cache::get('project_'.$slug);
             return response($cachedHtml);
@@ -70,7 +71,6 @@ class ProjectController extends Controller
     public function projectPaymentPlan(Request $request)
     {
         $project = Project::with("roomInfo")->where('id', $request->input('project_id'))->first();
-
         return $project;
     }
 
@@ -293,7 +293,6 @@ class ProjectController extends Controller
         $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
-
         $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
         return view('client.projects.project_housing', compact('menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }

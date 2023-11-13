@@ -131,7 +131,7 @@
                             </ul>
                         </div>
                         <div class="news-item-bottom">
-                           
+
                             <div class="admin">
                                 <p>{!! $project->user->name !!}</p>
                                 <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
@@ -143,7 +143,6 @@
             </div>
         </div>
     </section>
-
 
     @php
         function getData($project, $key, $roomOrder)
@@ -188,7 +187,7 @@
                                                                 class="btn toggle-project-favorite bg-white"
                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                 data-project-id={{ $project->id }}>
-                                                                <i class="fa fa-heart-o"></i>
+                                                                <i class="fa fa-heart"></i>
                                                             </div>
                                                         </div>
                                                         <div class="homes position-relative">
@@ -237,7 +236,7 @@
 
                                                     <ul class="homes-list clearfix pb-3 d-flex">
                                                         <li class="the-icons custom-width">
-                                                            <i class="fas fa-home mr-2" style="color: black;"
+                                                            <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                                                 aria-hidden="true"></i>
                                                             <span>{{ $project->housingType->title }}</span>
                                                         </li>
@@ -245,16 +244,15 @@
                                                             <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
                                                         </li>
-                                                        <li class="the-icons custom-width">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                @if ($project->step1_slug == 'konut')
+                                                        @if ($project->step1_slug != 'arsaa')
+                                                            <li class="the-icons custom-width">
+                                                                <i class="fa fa-circle circleIcon mr-1"
+                                                                    aria-hidden="true"></i>
+                                                                <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
                                                                     .Kat
-                                                                @else
-                                                                    ₺
-                                                                @endif
-                                                            </span>
-                                                        </li>
+                                                                </span>
+                                                            </li>
+                                                        @endif
                                                         <li class="the-icons custom-width ">
                                                             <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
@@ -323,8 +321,8 @@
                                                     @if ($sold && $sold[0]->status != '2')
                                                         <button class="btn second-btn soldBtn" disabled
                                                             @if ($sold[0]->status == '0') style="background: orange !important;color:White"
-                                                    @else 
-                                                    style="background: red !important;color:White" @endif>
+                                                @else 
+                                                style="background: red !important;color:White" @endif>
                                                             @if ($sold[0]->status == '0')
                                                                 <span class="text">Onay Bekleniyor</span>
                                                             @else
@@ -334,6 +332,7 @@
                                                     @else
                                                         <button class="CartBtn second-btn" data-type='project'
                                                             data-project='{{ $project->id }}'
+                                                            style="height: auto !important"
                                                             data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
                                                             <span class="IconContainer">
                                                                 <img src="{{ asset('sc.png') }}" alt="">
@@ -392,8 +391,9 @@
                                 <a style="text-decoration: none; height: 100%"
                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                     <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                        {{ getData($project, 'squaremeters[]', $i + 1)->value }}m2
-                                        {{ getData($project, 'room_count[]', $i + 1)->value }}
+                                        {{ $i + 1 }}
+                                        {{ "No'lu" }}
+                                        {{ $project->step1_slug }}
                                     </h3>
                                 </a>
                                 <div class="d-flex align-items-center">
@@ -673,6 +673,10 @@
 @endsection
 
 @section('scripts')
+
+<script>
+    
+</script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         @php
@@ -842,6 +846,77 @@ out center;`;
     </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        .mobile-hidden {
+            display: flex;
+        }
+
+        .desktop-hidden {
+            display: none;
+        }
+
+        .homes-content .footer {
+            display: none
+        }
+
+        .price-mobile {
+            display: flex;
+            align-items: self-end;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-hidden {
+                display: none
+            }
+
+            .desktop-hidden {
+                display: block;
+            }
+
+            .mobile-position {
+                width: 100%;
+                margin: 0 auto;
+                box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+            }
+
+            .inner-pages .portfolio .homes-content .homes-list-div ul {
+                flex-wrap: wrap
+            }
+
+            .homes-content .footer {
+                display: block;
+                background: none;
+                border-top: 1px solid #e8e8e8;
+                padding-top: 1rem;
+                font-size: 13px;
+                color: #666;
+            }
+
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        .button-effect {
+            border: solid 1px #e6e6e6;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .housing-detail-box {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap
+        }
+    </style>
+    <style>
+        .soldBtn {
+            height: auto !important
+        }
+
         .mobile-hidden {
             display: flex;
         }

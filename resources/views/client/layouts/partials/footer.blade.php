@@ -212,7 +212,7 @@
     </div>
     <div class="payment-plan-pop-content">
         <div class="payment-plan-pop-close-icon"><i class="fa fa-times"></i></div>
-        <table class="payment-plan">
+        <table class="payment-plan table">
             <thead>
                 <tr>
                     <th>Ödeme Türü</th>
@@ -275,6 +275,110 @@
 <script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
 
 <script>
+    $('.payment-plan-button').click(function() {
+        var order = $(this).attr('order');
+        var cart = {
+            project_id: $(this).attr('project-id'),
+            order: $(this).attr('order'),
+            _token: "{{ csrf_token() }}"
+        };
+
+        var paymentPlanDatax = {
+            "pesin": "Peşin",
+            "taksitli": "Taksitli"
+        }
+
+        function getDataJS(project, key, roomOrder) {
+            var a = 0;
+            project.room_info.forEach((room) => {
+                if (room.room_order == roomOrder && room.name == key) {
+                    a = room.value;
+                }
+            })
+
+            return a;
+
+        }
+        // Ajax isteği gönderme
+        $.ajax({
+            url: "{{ route('get.housing.payment.plan') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+            type: "get", // Veriyi göndermek için POST kullanabilirsiniz
+            data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
+            success: function(response) {
+                for (var i = 0; i < response.room_info.length; i++) {
+                    if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
+                        .room_order == parseInt(order) + 1) {
+                        var paymentPlanData = JSON.parse(response.room_info[i].value);
+
+
+                        var html = "";
+
+                        function formatPrice(number) {
+                            number = parseFloat(number);
+                            // Sayıyı ondalık kısmı virgülle ayır
+                            const parts = number.toFixed(2).toString().split(".");
+
+                            // Virgül ile ayırmak için her üç haneli kısma nokta ekleyin
+                            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                            // Sonucu birleştirin ve virgül ile ayırın
+                            return parts.join(",");
+                        }
+                        var tempPlans = [];
+                        for (var j = 0; j < paymentPlanData.length; j++) {
+
+                            if (!tempPlans.includes(paymentPlanData[j])) {
+                                if (paymentPlanData[j] == "pesin") {
+                                    var priceData = getDataJS(response, "price[]", response
+                                        .room_info[i].room_order);
+                                    var installementData = "-";
+                                    var advanceData = "-";
+                                    var monhlyPrice = "-";
+                                } else {
+                                    var priceData = getDataJS(response, "installments-price[]",
+                                        response.room_info[i].room_order);
+                                    var installementData = getDataJS(response, "installments[]",
+                                        response.room_info[i].room_order);
+                                    var advanceData = formatPrice(getDataJS(response, "advance[]",
+                                        response.room_info[i].room_order)) + "₺";
+                                    console.log((parseFloat(getDataJS(response,
+                                        "installments-price[]", response.room_info[
+                                            i].room_order)) - parseFloat(getDataJS(
+                                        response, "advance[]", response.room_info[i]
+                                        .room_order))));
+                                    var monhlyPrice = (formatPrice(((parseFloat(getDataJS(response,
+                                            "installments-price[]", response
+                                            .room_info[i].room_order)) - parseFloat(
+                                            getDataJS(response, "advance[]",
+                                                response.room_info[i].room_order))) /
+                                        parseInt(installementData)))) + '₺';
+                                }
+                                html += "<tr>" +
+                                    "<td>" + paymentPlanDatax[paymentPlanData[j]] + "</td>" +
+                                    "<td>" + formatPrice(priceData) + "₺</td>" +
+                                    "<td>" + installementData + "</td>" +
+                                    "<td>" + advanceData + "</td>" +
+                                    "<td>" + monhlyPrice + "</td>" +
+                                    "</tr>"
+                            }
+
+                            tempPlans.push(paymentPlanData[j])
+
+                        }
+
+                        $('.payment-plan tbody').html(html);
+
+                        $('.payment-plan-pop-up').removeClass('d-none')
+                    }
+                }
+            },
+            error: function(error) {
+                // Hata durumunda buraya gelir
+                toast.error(error)
+                console.error("Hata oluştu: " + error);
+            }
+        });
+    })
     $(document).ready(function() {
         const searchInput = $(".search-input");
         const suggestions = $(".header-search__suggestions");
@@ -527,83 +631,72 @@
         checkProjectFavorites();
         var cart = @json(session('cart', []));
 
+        // Tüm "Sepete Ekle" düğmelerini seçin
         var addToCartButtons = document.querySelectorAll(".CartBtn");
-        $('body').on('click', '.CartBtn', async function(event) {
-    event.preventDefault();
+        $('body').on('click', '.CartBtn', function(event) {
+            event.preventDefault();
 
-    var button = event.target;
-    var productId = button.getAttribute("data-id");
-    var project = button.getAttribute("data-project");
-    var token = "{{ csrf_token() }}";
+            var button = event.target;
+            var productId = $(this).data("id");
+            var project = null;
 
-    var cart = {
-        id: productId,
-        type: button.getAttribute("data-type"),
-        project: project,
-        _token: token,
-        clear_cart: "no"
-    };
+            if ($(this).data("type") == "project") {
+                project = $(this).data("project");
+            }
 
-    try {
-        // Kullanıcıya onay için bir onay kutusu göster
-        var result = await Swal.fire({
-            title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' : 'Mevcut sepeti temizlemek istiyor musunuz?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
-            cancelButtonText: 'Hayır',
+            var cart = {
+                id: productId,
+                type: $(this).data("type"),
+                project: project,
+                _token: "{{ csrf_token() }}",
+                clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
+            };
+
+            Swal.fire({
+                title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
+                    'Mevcut sepeti temizlemek istiyor musunuz?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Evet, temizle',
+                cancelButtonText: 'Hayır',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    cart.clear_cart = "yes";
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('add.to.cart') }}",
+                        data: JSON.stringify(cart),
+                        contentType: "application/json;charset=UTF-8",
+                        success: function(response) {
+                            console.log(response);
+                            // toastr.success("Ürün Sepete Eklendi");
+                            // button.classList.add("bg-success");
+
+                            // // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
+                            // if (!button.classList.contains("mobile"))
+                            //     button.textContent = "Sepete Eklendi";
+
+                            // // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
+                            // if (cart.clear_cart === "yes") {
+                            //     location.reload();
+                            // }
+                        },
+                        error: function(xhr, status, error) {
+                            toastr.error("Hata oluştu: " + xhr.responseText,
+                            "Hata");
+                            console.error("Hata oluştu: " + xhr.responseText);
+                        }
+                    });
+                }
+            });
         });
 
-        if (result.isConfirmed) {
-            cart.clear_cart = "yes";
-
-            // Ajax isteğini gönder
-            var response = await $.ajax({
-                url: "{{ route('add.to.cart') }}",
-                method: "POST",
-                contentType: "application/json;charset=UTF-8",
-                data: JSON.stringify(cart)
-            });
-
-            toastr.success("Ürün Sepete Eklendi");
-            button.classList.add("bg-success");
-
-            if (!button.classList.contains("mobile"))
-                button.textContent = "Sepete Eklendi";
-
-            location.reload();
-        }
-    } catch (error) {
-        toastr.error("Hata oluştu: " + error.responseText, "Hata");
-        console.error("Hata oluştu: " + error.responseText);
-    }
-});
 
 
         updateCartButton();
 
         function updateCartButton() {
-            var addToCartButtons = document.querySelectorAll(".addToCart:not(.mobile)");
-
-            addToCartButtons.forEach(function(button) {
-                var productId = button.getAttribute("data-id");
-                var productType = button.getAttribute("data-type");
-                var product = null;
-                if (productType == "project") {
-                    product = button.getAttribute("data-project");
-                }
-
-                if (isProductInCart(productId, product)) {
-                    button.textContent = "Sepete Eklendi";
-                    button.classList.add("bg-success");
-                } else {
-                    // button.textContent = "Sepete Ekle";
-                    button.classList.remove("bg-success");
-                }
-            });
-
             var CartBtn = document.querySelectorAll(".CartBtn");
-
             CartBtn.forEach(function(button) {
                 var productId = button.getAttribute("data-id");
                 var productType = button.getAttribute("data-type");
@@ -616,7 +709,6 @@
                     button.querySelector(".text").textContent = "Sepete Eklendi";
                     button.classList.add("bg-success");
                 } else {
-                    // button.querySelector(".text").textContent = "Sepete Ekle";
                     button.classList.remove("bg-success");
                 }
             });

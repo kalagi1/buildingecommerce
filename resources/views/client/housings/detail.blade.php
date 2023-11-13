@@ -146,7 +146,7 @@
                                 }
                             </style>
                             <div class="button-effect toggle-favorite" data-housing-id={{ $housing->id }}>
-                                <i class="fa fa-heart-o"></i>
+                                <i class="fa fa-heart"></i>
                             </div>
                         </div>
                         <div class="col-md-10 col-10">

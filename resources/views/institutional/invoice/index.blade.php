@@ -117,8 +117,7 @@
                                     <td class="align-middle ps-5">
                                         @if ($data['project']['project_title'])
                                             {{ mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                            {{ getHouse($data['project'], 'squaremeters[]', $cart['item']['housing'])->value }}m2
-                                            {{ getHouse($data['project'], 'room_count[]', $cart['item']['housing'])->value }}
+                                            
                                             {{ ' ' }}
                                             {{ $cart['item']['housing'] }} {{ "No'lu" }}
                                             {{ $data['project']['step1_slug'] }}

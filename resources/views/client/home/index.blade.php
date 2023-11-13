@@ -134,9 +134,9 @@
     <section class="container justify-content-center">
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $status)
-                <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+                <div class="col-lg-2 col-md-6 col-sm-6 mb-3 statusHome">
                     <a href="{{ url('kategori/' . $status->slug) }}">
-                        <button style="background-color: #e5424224; color: #e54242;" class="w-100">
+                        <button style="background-color: #ea2a28; color: white;" class="w-100">
                             {{ $status->name }}
                         </button>
                     </a>
@@ -238,9 +238,8 @@
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                            {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                            {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
-                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }} 
+
+                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                         </h3>
 
 
@@ -382,10 +381,9 @@
                                                             <span style="text-decoration: none">
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                                                     Projesinde
-                                                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                                                    {{ ' ' }}
-                                                                    {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }} 
+
+                                                                    {{ $i + 1 }} {{ "No'lu" }}
+                                                                    {{ $project->step1_slug }}
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -405,17 +403,18 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="fa fa-circle circleIcon mr-1"
-                                                                        aria-hidden="true"></i>
-                                                                    <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                        @if ($project->step1_slug == 'konut')
+
+                                                                @if ($project->step1_slug != 'arsaa')
+                                                                    <li class="sude-the-icons"
+                                                                        style="width:auto !important">
+                                                                        <i class="fa fa-circle circleIcon mr-1"
+                                                                            aria-hidden="true"></i>
+                                                                        <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
                                                                             .Kat
-                                                                        @else
-                                                                            ₺
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
+                                                                        </span>
+                                                                    </li>
+                                                                @endif
+
                                                                 <li class="sude-the-icons" style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                         aria-hidden="true"></i>
@@ -541,9 +540,8 @@
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                            {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                            {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
-                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }} 
+
+                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                         </h3>
 
 
@@ -684,10 +682,9 @@
                                                             <span style="text-decoration: none">
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                                                     Projesinde
-                                                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                                                    {{ ' ' }}
-                                                                    {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }} 
+
+                                                                    {{ $i + 1 }} {{ "No'lu" }}
+                                                                    {{ $project->step1_slug }}
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -707,17 +704,16 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="fa fa-circle circleIcon mr-1"
-                                                                        aria-hidden="true"></i>
-                                                                    <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                        @if ($project->step1_slug == 'konut')
+                                                                @if ($project->step1_slug != 'arsaa')
+                                                                    <li class="sude-the-icons"
+                                                                        style="width:auto !important">
+                                                                        <i class="fa fa-circle circleIcon mr-1"
+                                                                            aria-hidden="true"></i>
+                                                                        <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
                                                                             .Kat
-                                                                        @else
-                                                                            ₺
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
+                                                                        </span>
+                                                                    </li>
+                                                                @endif
                                                                 <li class="sude-the-icons" style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                         aria-hidden="true"></i>
@@ -844,9 +840,8 @@
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                            {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                            {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
-                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }} 
+
+                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                         </h3>
 
 
@@ -988,10 +983,9 @@
                                                             <span style="text-decoration: none">
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                                                     Projesinde
-                                                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                                                    {{ ' ' }}
-                                                                    {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }} 
+
+                                                                    {{ $i + 1 }} {{ "No'lu" }}
+                                                                    {{ $project->step1_slug }}
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -1011,17 +1005,16 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="fa fa-circle circleIcon mr-1"
-                                                                        aria-hidden="true"></i>
-                                                                    <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                        @if ($project->step1_slug == 'konut')
+                                                                @if ($project->step1_slug != 'arsaa')
+                                                                    <li class="sude-the-icons"
+                                                                        style="width:auto !important">
+                                                                        <i class="fa fa-circle circleIcon mr-1"
+                                                                            aria-hidden="true"></i>
+                                                                        <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
                                                                             .Kat
-                                                                        @else
-                                                                            ₺
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
+                                                                        </span>
+                                                                    </li>
+                                                                @endif
                                                                 <li class="sude-the-icons" style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                         aria-hidden="true"></i>
@@ -1155,28 +1148,29 @@
                                             <i class="fa fa-heart-o"></i>
                                         </a>
                                         @if ($sold && $sold[0]->status != '2')
-                                        <button class="btn second-btn mobileBtn CartBtn" disabled
-                                            @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                            <button class="btn second-btn mobileBtn CartBtn" disabled
+                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                 @else 
                                 style="background: red !important;width:100%;color:White" @endif>
-                                            <span class="IconContainer">
-                                                <img src="{{ asset('sc.png') }}" alt="">
-                                            </span>
-                                            @if ($sold[0]->status == '0')
-                                                <span class="text">Onay Bekleniyor</span>
-                                            @else
-                                                <span class="text">Satıldı</span>
-                                            @endif
-                                        </button>
-                                    @else
-                                    <button class="CartBtn  mobile px-2"
-                                    style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                    data-type='housing' data-id='{{ $project->id }}'>
-                                    <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
-                                        height="24px" style="width: 24px !important; height: 24px !important;" />
-                                </button>
-                                    @endif
-                                   
+                                                <span class="IconContainer">
+                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                </span>
+                                                @if ($sold[0]->status == '0')
+                                                    <span class="text">Onay Bekleniyor</span>
+                                                @else
+                                                    <span class="text">Satıldı</span>
+                                                @endif
+                                            </button>
+                                        @else
+                                            <button class="CartBtn  mobile px-2"
+                                                style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                data-type='housing' data-id='{{ $housing->id }}'>
+                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
+                                                    height="24px"
+                                                    style="width: 24px !important; height: 24px !important;" />
+                                            </button>
+                                        @endif
+
                                     </div>
                                     <span class="ml-auto text-primary priceFont">
                                         @if ($discount_amount)
@@ -1188,16 +1182,17 @@
                                             </svg>
                                         @endif
                                         @if ($sold)
-                                        @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                        {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
-                                        ₺
-                                        @endif
-                                    @else
-                                    {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
+                                            @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                {{ number_format(json_decode($housing->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
 
-                                    ₺
-                                    @endif
-                                      
+                                                ₺
+                                            @endif
+                                        @else
+                                            {{ number_format(json_decode($housing->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
+
+                                            ₺
+                                        @endif
+
                                     </span>
                                 </div>
                             </div>
@@ -1234,9 +1229,9 @@
                 @if (count($secondhandHousings))
                     <section class="properties-right list featured portfolio blog  pb-5 bg-white">
                         @foreach ($secondhandHousings as $housing)
-                        <a href="{{ route('housing.show', [$housing->id]) }}" class="text-decoration-none">
-                            <div class="container">
-                                <div class="row project-filter-reverse blog-pots secondhand-housings-web">
+                            <a href="{{ route('housing.show', [$housing->id]) }}" class="text-decoration-none">
+                                <div class="container">
+                                    <div class="row project-filter-reverse blog-pots secondhand-housings-web">
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <div class="landscapes">
                                                 <div class="project-single">
@@ -1246,7 +1241,12 @@
                                                                 <div class="homes-tag button alt featured">Öne
                                                                     Çıkan
                                                                 </div>
-                                                                <div class="type-tag button alt featured">@if($housing->step2_slug == "kiralik") Kiralık @else Satılık @endif
+                                                                <div class="type-tag button alt featured">
+                                                                    @if ($housing->step2_slug == 'kiralik')
+                                                                        Kiralık
+                                                                    @else
+                                                                        Satılık
+                                                                    @endif
                                                                 </div>
                                                                 @if ($discount_amount)
                                                                     <div class="homes-tag button alt sale"
@@ -1290,16 +1290,16 @@
                                                                 <i class="fa fa-circle circleIcon mr-1"></i>
                                                                 <span>{{ json_decode($housing->housing_type_data)->room_count[0] ?? null }}</span>
                                                             </li>
-                                                            <li class="sude-the-icons" style="width:auto !important">
-                                                                <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                <span>{{ json_decode($housing->housing_type_data)->numberoffloors[0] ?? null }}
-                                                                    @if ($housing->step1_slug == 'konut')
+
+                                                            @if ($housing->step1_slug == 'konut')
+                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                    <i class="fa fa-circle circleIcon mr-1"></i>
+                                                                    <span>{{ json_decode($housing->housing_type_data)->numberoffloors[0] ?? null }}
                                                                         .Kat
-                                                                    @else
-                                                                        ₺
-                                                                    @endif
-                                                                </span>
-                                                            </li>
+                                                                    </span>
+                                                                </li>
+                                                            @endif
+
                                                             <li class="sude-the-icons" style="width:auto !important">
                                                                 <i class="fa fa-circle circleIcon mr-1"></i>
                                                                 <span>{{ json_decode($housing->housing_type_data)->squaremeters[0] ?? null }}
@@ -1324,11 +1324,11 @@
 
                                                                 @if ($sold)
                                                                     @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                        {{ number_format(json_decode($project->housing_type_data)->price[0], 2, ',', '.') }}
+                                                                        {{ number_format(json_decode($housing->housing_type_data)->price[0], 2, ',', '.') }}
                                                                         ₺
                                                                     @endif
                                                                 @else
-                                                                    {{ number_format(json_decode($project->housing_type_data)->price[0], 2, ',', '.') }}
+                                                                    {{ number_format(json_decode($housing->housing_type_data)->price[0], 2, ',', '.') }}
                                                                     ₺
                                                                 @endif
 
@@ -1350,7 +1350,7 @@
                                                             </button>
                                                         @else
                                                             <button class="CartBtn" data-type='housing'
-                                                                data-id='{{ $project->id }}'>
+                                                                data-id='{{ $housing->id }}'>
                                                                 <span class="IconContainer">
                                                                     <img src="{{ asset('sc.png') }}" alt="">
 
@@ -1363,9 +1363,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
                         @endforeach
                     </section>
                 @else
@@ -1651,6 +1651,13 @@
                 font-weight: 600;
                 font-size: 14px;
             }
+        }
+
+        .statusHome {
+            width: 20%;
+            max-width: 20%;
+            padding-left: 0;
+            flex: 0 0 20%;
         }
     </style>
 @endsection
