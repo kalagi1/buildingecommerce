@@ -240,7 +240,7 @@
                                         <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
                                             {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
                                             {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
-                                            {{ $i + 1 }} {{ "No'lu Daire" }}
+                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }} 
                                         </h3>
 
 
@@ -288,14 +288,14 @@
                                                 </svg>
                                             @endif
                                             @if ($sold)
-                                            @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                    {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                    ₺
+                                                @endif
+                                            @else
                                                 {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
                                                 ₺
                                             @endif
-                                        @else
-                                            {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
-                                            ₺
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -383,8 +383,9 @@
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                                                     Projesinde
                                                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
-                                                                    {{ $i + 1 }} {{ "No'lu Daire" }}
+                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
+                                                                    {{ ' ' }}
+                                                                    {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }} 
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -438,16 +439,16 @@
                                                                             </polyline>
                                                                         </svg>
                                                                     @endif
-                                                                    
+
                                                                     @if ($sold)
-                                                                    @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                        @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                            {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                                            ₺
+                                                                        @endif
+                                                                    @else
                                                                         {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
                                                                         ₺
                                                                     @endif
-                                                                @else
-                                                                    {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
-                                                                    ₺
-                                                                @endif
 
                                                                 </li>
                                                                 <li
@@ -542,7 +543,7 @@
                                         <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
                                             {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
                                             {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
-                                            {{ $i + 1 }} {{ "No'lu Daire" }}
+                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }} 
                                         </h3>
 
 
@@ -684,8 +685,9 @@
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                                                     Projesinde
                                                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
-                                                                    {{ $i + 1 }} {{ "No'lu Daire" }}
+                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
+                                                                    {{ ' ' }}
+                                                                    {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }} 
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -844,7 +846,7 @@
                                         <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
                                             {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
                                             {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
-                                            {{ $i + 1 }} {{ "No'lu Daire" }}
+                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }} 
                                         </h3>
 
 
@@ -891,14 +893,14 @@
                                                 </svg>
                                             @endif
                                             @if ($sold)
-                                            @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                    {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                    ₺
+                                                @endif
+                                            @else
                                                 {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
                                                 ₺
                                             @endif
-                                        @else
-                                            {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
-                                            ₺
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -909,7 +911,6 @@
                                 <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->room_order }} <span> No'lu
-
                                     </span>
                                 </li>
                                 <li class="d-flex align-items-center itemCircleFont">
@@ -988,8 +989,9 @@
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                                                     Projesinde
                                                                     {{ getHouse($project, 'squaremeters[]', $i + 1)->value }}m2
-                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }} {{ ' ' }}
-                                                                    {{ $i + 1 }} {{ "No'lu Daire" }}
+                                                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
+                                                                    {{ ' ' }}
+                                                                    {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }} 
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -1043,16 +1045,16 @@
                                                                             </polyline>
                                                                         </svg>
                                                                     @endif
-                                                                  
+
                                                                     @if ($sold)
-                                                                    @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                        @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                            {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                                            ₺
+                                                                        @endif
+                                                                    @else
                                                                         {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
                                                                         ₺
                                                                     @endif
-                                                                @else
-                                                                    {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
-                                                                    ₺
-                                                                @endif
 
                                                                 </li>
                                                                 <li
@@ -1107,14 +1109,16 @@
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div class="section-title">
-                    <h2>İkinci El İlanlar</h2>
+                    <h2>Emlak İlanları</h2>
                 </div>
             </div>
             <div class="mobile-show">
                 @foreach ($secondhandHousings as $housing)
                     @php(
-                        $discount_amount =
-                            App\Models\Offer::where('type', 'housing')->where('housing_id', $housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0)
+    $discount_amount =
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+)
+                    @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$project->id]))
 
                     <div class="d-flex" style="flex-wrap: nowrap">
                         <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
@@ -1150,12 +1154,29 @@
                                             data-housing-id="{{ $housing->id }}" style="color: white;">
                                             <i class="fa fa-heart-o"></i>
                                         </a>
-                                        <button class="CartBtn  mobile px-2"
-                                            style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                            data-type='housing' data-id='{{ $housing->id }}'>
-                                            <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
-                                                height="24px" style="width: 24px !important; height: 24px !important;" />
+                                        @if ($sold && $sold[0]->status != '2')
+                                        <button class="btn second-btn mobileBtn CartBtn" disabled
+                                            @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                @else 
+                                style="background: red !important;width:100%;color:White" @endif>
+                                            <span class="IconContainer">
+                                                <img src="{{ asset('sc.png') }}" alt="">
+                                            </span>
+                                            @if ($sold[0]->status == '0')
+                                                <span class="text">Onay Bekleniyor</span>
+                                            @else
+                                                <span class="text">Satıldı</span>
+                                            @endif
                                         </button>
+                                    @else
+                                    <button class="CartBtn  mobile px-2"
+                                    style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                    data-type='housing' data-id='{{ $project->id }}'>
+                                    <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
+                                        height="24px" style="width: 24px !important; height: 24px !important;" />
+                                </button>
+                                    @endif
+                                   
                                     </div>
                                     <span class="ml-auto text-primary priceFont">
                                         @if ($discount_amount)
@@ -1166,9 +1187,17 @@
                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                             </svg>
                                         @endif
-                                        {{ number_format(json_decode($housing->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
-
+                                        @if ($sold)
+                                        @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                        {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
                                         ₺
+                                        @endif
+                                    @else
+                                    {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
+
+                                    ₺
+                                    @endif
+                                      
                                     </span>
                                 </div>
                             </div>
@@ -1292,21 +1321,44 @@
                                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                                     </svg>
                                                                 @endif
-                                                                {{ number_format(json_decode($housing->housing_type_data)->price[0], 2, ',', '.') }}
-                                                                ₺
+
+                                                                @if ($sold)
+                                                                    @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                        {{ number_format(json_decode($project->housing_type_data)->price[0], 2, ',', '.') }}
+                                                                        ₺
+                                                                    @endif
+                                                                @else
+                                                                    {{ number_format(json_decode($project->housing_type_data)->price[0], 2, ',', '.') }}
+                                                                    ₺
+                                                                @endif
+
                                                             </li>
                                                             <li style="display: flex; justify-content: right;width:100%">
                                                                 {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
                                                             </li>
                                                         </ul>
-                                                        <button class="CartBtn" data-type='housing'
-                                                            data-id='{{ $housing->id }}'>
-                                                            <span class="IconContainer">
-                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                        @if ($sold && $sold[0]->status != '2')
+                                                            <button class="btn second-btn CartBtn" disabled
+                                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                                    @else 
+                                                    style="background: red !important;width:100%;color:White" @endif>
+                                                                @if ($sold[0]->status == '0')
+                                                                    <span class="text">Onay Bekleniyor</span>
+                                                                @else
+                                                                    <span class="text">Satıldı</span>
+                                                                @endif
+                                                            </button>
+                                                        @else
+                                                            <button class="CartBtn" data-type='housing'
+                                                                data-id='{{ $project->id }}'>
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('sc.png') }}" alt="">
 
-                                                            </span>
-                                                            <span class="text">Sepete Ekle</span>
-                                                        </button>
+                                                                </span>
+                                                                <span class="text">Sepete Ekle</span>
+                                                            </button>
+                                                        @endif
+
                                                     </div>
                                                 </div>
                                             </div>

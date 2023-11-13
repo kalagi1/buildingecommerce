@@ -115,10 +115,17 @@
                                         <img src="{{ $cart['item']['image'] }}" alt="" style="width:200px">
                                     </td>
                                     <td class="align-middle ps-5">
-                                        {{ mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                        {{ getHouse($data['project'], 'squaremeters[]', $cart['item']['housing'])->value }}m2
-                                        {{ getHouse($data['project'], 'room_count[]', $cart['item']['housing'])->value }}
-                                        {{ $data['project']['step1_slug'] }}</td>
+                                        @if ($data['project']['project_title'])
+                                            {{ mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                            {{ getHouse($data['project'], 'squaremeters[]', $cart['item']['housing'])->value }}m2
+                                            {{ getHouse($data['project'], 'room_count[]', $cart['item']['housing'])->value }}
+                                            {{ ' ' }}
+                                            {{ $cart['item']['housing'] }} {{ "No'lu" }}
+                                            {{ $data['project']['step1_slug'] }}
+                                        @else
+                                            {{ $data['project']['title'] }}
+                                        @endif
+                                    </td>
                                     <td class="align-middle text-700 fw-semi-bold">
                                         {{ number_format($data['invoice']['total_amount'], 2) }} ₺</td>
                                     <td class="align-middle text-end text-1000 fw-semi-bold">
@@ -183,6 +190,5 @@
         .invoice-top .logo {
             float: right
         }
-        
     </style>
 @endsection

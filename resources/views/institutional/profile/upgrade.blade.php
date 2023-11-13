@@ -22,7 +22,7 @@
                                 </div>
                             @endif
                             <div class="py-2 px-3 border-bottom d-flex">
-                                <b>Konut Limiti:</b>
+                                <b>Emlak Limiti:</b>
                                 <span style="margin-left: auto;">
                                     {{ $plan->housing_limit }}
                                 </span>

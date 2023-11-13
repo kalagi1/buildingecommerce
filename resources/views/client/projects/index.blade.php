@@ -51,7 +51,7 @@
                         </div>
                     </div>
 
-                
+
                 </div>
                 <div class="card-body">
                     <nav class="navbar" style="padding: 0 !important">
@@ -59,11 +59,14 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.dashboard', Str::slug($project->user->name)) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Tüm
-                                Projeler</a>
+                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Proje
+                                İlanları</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">Mağaza
                                 Profili</a>
+                            <a class="navbar-item"
+                                href="{{ route('instituional.housings', Str::slug($project->user->name)) }}">Emlak
+                                İlanları</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
                             @csrf
@@ -128,8 +131,7 @@
                             </ul>
                         </div>
                         <div class="news-item-bottom">
-                            <a href="{{ route('project.housing.detail', $project->slug) }}" class="news-link">Proje
-                                Detayı</a>
+                           
                             <div class="admin">
                                 <p>{!! $project->user->name !!}</p>
                                 <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
@@ -142,7 +144,7 @@
         </div>
     </section>
 
-    
+
     @php
         function getData($project, $key, $roomOrder)
         {
@@ -161,7 +163,7 @@
                 <div class="row project-filter-reverse blog-pots">
                     @for ($i = 0; $i < $project->room_count; $i++)
                         @php
-                            $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]) ;
+                            $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
                         @endphp
 
                         <div class="col-md-12 col-12">
@@ -186,7 +188,7 @@
                                                                 class="btn toggle-project-favorite bg-white"
                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                 data-project-id={{ $project->id }}>
-                                                                <i class="fa fa-heart"></i>
+                                                                <i class="fa fa-heart-o"></i>
                                                             </div>
                                                         </div>
                                                         <div class="homes position-relative">
@@ -318,7 +320,7 @@
                                                     <button class="first-btn payment-plan-button"
                                                         project-id="{{ $project->id }}" order="{{ $i }}">
                                                         Ödeme Detayları </button>
-                                                        @if ($sold && $sold[0]->status != '2')
+                                                    @if ($sold && $sold[0]->status != '2')
                                                         <button class="btn second-btn soldBtn" disabled
                                                             @if ($sold[0]->status == '0') style="background: orange !important;color:White"
                                                     @else 
@@ -359,7 +361,7 @@
         <div class="mobile-show">
             <div class="container">
                 @for ($i = 0; $i < $project->room_count; $i++)
-                    @php    
+                    @php
                         $room_order = getData($project, 'squaremeters[]', $i + 1)->room_order;
                         $discount_amount =
                             App\Models\Offer::where('type', 'project')
@@ -838,53 +840,53 @@ out center;`;
             }
         }
     </style>
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-      <style>
-          .mobile-hidden {
-              display: flex;
-          }
-  
-          .desktop-hidden {
-              display: none;
-          }
-  
-          .homes-content .footer {
-              display: none
-          }
-  
-          .price-mobile {
-              display: flex;
-              align-items: self-end;
-          }
-  
-          @media (max-width: 768px) {
-              .mobile-hidden {
-                  display: none
-              }
-  
-              .desktop-hidden {
-                  display: block;
-              }
-  
-              .mobile-position {
-                  width: 100%;
-                  margin: 0 auto;
-                  box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
-              }
-  
-              .inner-pages .portfolio .homes-content .homes-list-div ul {
-                  flex-wrap: wrap
-              }
-  
-              .homes-content .footer {
-                  display: block;
-                  background: none;
-                  border-top: 1px solid #e8e8e8;
-                  padding-top: 1rem;
-                  font-size: 13px;
-                  color: #666;
-              }
-  
-          }
-      </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        .mobile-hidden {
+            display: flex;
+        }
+
+        .desktop-hidden {
+            display: none;
+        }
+
+        .homes-content .footer {
+            display: none
+        }
+
+        .price-mobile {
+            display: flex;
+            align-items: self-end;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-hidden {
+                display: none
+            }
+
+            .desktop-hidden {
+                display: block;
+            }
+
+            .mobile-position {
+                width: 100%;
+                margin: 0 auto;
+                box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+            }
+
+            .inner-pages .portfolio .homes-content .homes-list-div ul {
+                flex-wrap: wrap
+            }
+
+            .homes-content .footer {
+                display: block;
+                background: none;
+                border-top: 1px solid #e8e8e8;
+                padding-top: 1rem;
+                font-size: 13px;
+                color: #666;
+            }
+
+        }
+    </style>
 @endsection

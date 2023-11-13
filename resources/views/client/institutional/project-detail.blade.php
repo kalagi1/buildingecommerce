@@ -54,11 +54,12 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.dashboard', Str::slug($institutional->name)) }}">Anasayfa</a>
                             <a class="navbar-item active"
-                                href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Tüm
-                                Projeler</a>
+                                href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Proje İlanları</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.profile', Str::slug($institutional->name)) }}">Mağaza
                                 Profili</a>
+                                <a class="navbar-item"
+                                href="{{ route('instituional.housings', Str::slug($institutional->name)) }}">Emlak İlanları</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
                             @csrf

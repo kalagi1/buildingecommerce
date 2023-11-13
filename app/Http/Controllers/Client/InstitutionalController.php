@@ -13,14 +13,14 @@ class InstitutionalController extends Controller
 {
     public function dashboard($slug)
     {
-       
+
         $users = User::all();
         foreach ($users as $institutional) {
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {
 
                 $store = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'town', 'district', "neighborhood", 'brands', "banners")->first();
-                $projects = Project::where("user_id", $store->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->orderBy("id", "desc")->where("status","1")->limit(3)->get();
+                $projects = Project::where("user_id", $store->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->orderBy("id", "desc")->where("status", "1")->limit(3)->get();
 
                 $finishProjects = Project::whereHas('housingStatus', function ($query) {
                     $query->where('housing_type_id', '2');
@@ -47,7 +47,7 @@ class InstitutionalController extends Controller
                     ->where("user_id", $store->id)
                     ->get();
 
-                return view("client.institutional.dashboard", compact("store","soilProjects", 'projects', 'finishProjects', 'continueProjects', 'secondhandHousings'));
+                return view("client.institutional.dashboard", compact("store", "soilProjects", 'projects', 'finishProjects', 'continueProjects', 'secondhandHousings'));
             }
         }
     }
@@ -63,6 +63,34 @@ class InstitutionalController extends Controller
             }
         }
 
+    }
+
+    public function housingList($slug)
+    {
+        $users = User::all();
+        foreach ($users as $institutional) {
+            $slugName = Str::slug($institutional->name);
+            if ($slugName === $slug) {
+
+                $store = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'town', 'district', "neighborhood", 'brands', "banners")->first();
+               
+               
+                $secondhandHousings = Housing::with('images')->select(
+                    'housings.id',
+                    'housings.title AS housing_title',
+                    'housings.created_at',
+                    'housing_types.title as housing_type_title',
+                    'housings.housing_type_data',
+                    'housings.address',
+                )->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+                    ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+                    ->where('housings.status_id', 1)
+                    ->where("user_id", $store->id)
+                    ->get();
+
+                return view("client.institutional.housings", compact("secondhandHousings","store"));
+            }
+        }
     }
 
     public function projectDetails($slug)

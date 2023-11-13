@@ -31,15 +31,13 @@ class HomeController extends Controller
 
     public function getPackageOrders()
     {
-        $cartOrders = UserPlan::with('user', "subscriptionPlan")->get();
-
-        return view('admin.package-orders.index', compact('cartOrders'));
+        $cartOrders = UserPlan::with('user', 'subscriptionPlan')->where("subscription_plan_id", "!=", NULL)->get();
+            return view('admin.package-orders.index', compact('cartOrders'));
     }
-
+    
     public function getOrders()
     {
         $cartOrders = CartOrder::with('user')->get();
-
         return view('admin.orders.index', compact('cartOrders'));
     }
 

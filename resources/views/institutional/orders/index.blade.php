@@ -65,6 +65,7 @@
                                     @foreach ($cartOrders as $order)
                                         @php($o = json_decode($order->cart))
                                         @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
+                                        @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
 
                                         <tr>
                                             <td class="order_no">{{ $order->key }} <br>
@@ -93,9 +94,12 @@
                                                     <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
                                                         {{ getHouse($project, 'squaremeters[]', json_decode($order->cart)->item->housing)->value }}m2
                                                         {{ getHouse($project, 'room_count[]', json_decode($order->cart)->item->housing)->value }}
+                                                        {{ ' ' }}
+                                                        {{ json_decode($order->cart)->item->housing }} {{ "No'lu" }}
+                                                        {{ $project->step1_slug }}
                                                     </span>
                                                 @else
-                                                    -
+                                                    {{ App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->title ?? null }}
                                                 @endif
                                             </td>
                                             <td class="order_amount">{{ $order->amount }}</td>
@@ -106,7 +110,8 @@
                                                 '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
                                             ][$order->status] !!}</td>
                                             <td class="order_user">{{ $order->user->email }}</td>
-                                            <td class="order_seller">{{ $project->user->email ?? '-' }}</td>
+                                            <td class="order_seller">{{ $project->user->email ?? $housing->user->email }}
+                                            </td>
 
                                         </tr>
                                     @endforeach
@@ -176,6 +181,7 @@
         #table_filter {
             margin-bottom: 20px;
         }
+
         .invoiceBtn {
             width: 150px !important;
             -moz-appearance: none;
