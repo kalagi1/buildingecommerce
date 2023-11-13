@@ -79,8 +79,8 @@
     <section class="properties-right list featured portfolio blog pt-5 bg-white">
         <div class="container">
 
-            <div class="row project-filter-reverse">
-                <aside class="col-lg-3 col-md-12 order-2 order-md-1">
+            <div class="row project-filter-reverse pb-5">
+                <aside class="col-lg-3 col-md-12 order-2 order-md-1 ">
                     <div class="widget filters-input-area" style="display: none;">
                         <svg height="24px" id="Layer_1" onclick="$(this).parent().slideToggle();" class="d-md-none"
                             style="float: left; margin-top: -24px; margin-bottom: 24px;enable-background:new 0 0 512 512;cursor: pointer;"
@@ -90,21 +90,15 @@
                                 d="M437.5,386.6L306.9,256l130.6-130.6c14.1-14.1,14.1-36.8,0-50.9c-14.1-14.1-36.8-14.1-50.9,0L256,205.1L125.4,74.5  c-14.1-14.1-36.8-14.1-50.9,0c-14.1,14.1-14.1,36.8,0,50.9L205.1,256L74.5,386.6c-14.1,14.1-14.1,36.8,0,50.9  c14.1,14.1,36.8,14.1,50.9,0L256,306.9l130.6,130.6c14.1,14.1,36.8,14.1,50.9,0C451.5,423.4,451.5,400.6,437.5,386.6z" />
                         </svg>
                         <!-- Search Fields -->
-                        <div class="widget-boxed main-search-field mt-4">
+
+                        <div class="widget-boxed main-search-field mt-4 ">
                             <div class="trip-search">
-                                <div class="head d-flex">
-                                    <b>Adres</b>
-                                    <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
-                                        <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                        </svg>
-                                    </span>
+                                <div class="widget-boxed-header">
+                                    <h6 style="font-weight: 700">Adres</h6>
                                 </div>
                                 <div class="mt-4">
                                     <select id="city" class="bg-white filter-now">
-                                        <option value="#" selected disabled>İl</option>
+                                        <option value="#" class="selected" selected disabled>İl</option>
                                         @foreach ($cities as $city)
                                             <option value="{{ $city->id }}">{{ $city->title }}</option>
                                         @endforeach
@@ -112,33 +106,53 @@
                                 </div>
                                 <div class="mt-4">
                                     <select id="county" class="bg-white filter-now">
-                                        <option value="#" selected disabled>İlçe</option>
+                                        <option value="#" class="selected" selected disabled>İlçe</option>
                                     </select>
                                 </div>
                                 <div class="mt-4">
                                     <select id="neighborhood" class="bg-white filter-now">
-                                        <option value="#" selected disabled>Mahalle</option>
+                                        <option value="#" class="selected" selected disabled>Mahalle</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                            <div class="trip-search mt-5">
+                                <div class="widget-boxed-header">
+                                    <h6 style="font-weight: 700">İlan Tarihi</h6>
+                                </div>
+                                <div class="mt-4">
+                                    <label class="filter-date">
+                                        <input name="filter-date" class="filter-date filter-now" type="radio" value="last3Days">
+                                        <span class="fs-13 ml-2">Son 3 Gün</span>
+                                    </label>
+                                    <label class="filter-date mt-2">
+                                        <input name="filter-date" class="filter-date filter-now" type="radio" value="lastWeek">
+                                        <span class="fs-13 ml-2">Son Bir Hafta</span>
+                                    </label>
+                                     <label class="filter-date mt-2">
+        <input name="filter-date" type="radio" class="filter-date filter-now" value="lastMonth">
+        <span class="fs-13 ml-2">Son Bir Ay</span>
+    </label>
+                                </div>
 
-                        @if ($projects)
-                            <div class="widget-boxed main-search-field mt-4">
-                                <div class="trip-search">
-                                    <div class="head d-flex">
-                                        <b>Proje Tipi</b>
+                            </div>
+                            @if ($projects)
+                                <div class="trip-search mt-5">
+                                    <div class="widget-boxed-header">
+                                        <h6 style="font-weight: 700">Proje Durumu</h6>
                                     </div>
                                     <div class="mt-4">
                                         <select id="project_type" class="form-control bg-white filter-now">
-                                            <option value="#" selected disabled>Proje Tipi</option>
-                                            <option value="1">Tamamlandı</option>
-                                            <option value="2">Yapım Aşamasında</option>
+                                            <option value="#" selected disabled>Proje Durumu</option>
+                                            <option value="2">Tamamlanan Projeler</option>
+                                            <option value="3">Devam Eden Projeler</option>
+                                            <option value="5">Topraktan Projeler</option>
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                        @endif
+                            @endif
+                        </div>
+
+
 
                         @if ($secondhandHousings)
                             <div class="widget-boxed main-search-field mt-4">
@@ -197,7 +211,8 @@
                             <div class="widget-boxed mt-4" id="room_count_field">
                                 <div class="head d-flex">
                                     <b>Oda Sayısı</b>
-                                    <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
+                                    <span class="ml-auto"
+                                        onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
                                         <svg width="16px" height="16px" viewBox="0 0 384 512"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -320,7 +335,7 @@
                             </div>
                         @endif
 
-                        <button type="button" class="btn btn-primary btn-lg btn-block mt-4 mb-4"
+                        <button type="button" class=" btn btn-white btn-lg btn-block mt-4 mb-4e btn-transition"
                             id="clear-filters">Temizle</button>
 
                         <button type="button" onclick="$('.filters-input-area').slideToggle();"
@@ -653,13 +668,13 @@
         $('#city').on('change', function() {
             $.ajax({
                 method: "GET",
-                url: "{{ url('get-counties-for-client') }}/" + $(this).val(),
+                url: "{{ url('get-counties') }}/" + $(this).val(),
                 success: function(res) {
                     $('#county').empty();
                     $('#county').append('<option value="#" disabled>İlçe</option>');
                     res.forEach((e) => {
                         $('#county').append(
-                            `<option value="${e.id}">${e.title}</option>`
+                            `<option value="${e.ilce_key}">${e.ilce_title}</option>`
                         );
                         $('#county').val('#');
                     });
@@ -841,20 +856,20 @@
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
                                                         ${res.sold ? 
                                                             `<button
-                                                                                                                                                                style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                                                                            </button>`
+                                                                                                                                                                                                    style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                                                                                                </button>`
                                                             : 
                                                             
                                                             `
-                                                                                                                    <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                                    data-id='${res.id}'>
-                                                                                                                    <span class="IconContainer">
-                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                        <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                                                                                                        data-id='${res.id}'>
+                                                                                                                                                        <span class="IconContainer">
+                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
 
-                                                                                                                    </span>
-                                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                </button>
-                                                                                                                    `
+                                                                                                                                                        </span>
+                                                                                                                                                        <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                    </button>
+                                                                                                                                                        `
                                                             }
                                                     </ul>
                                                 </div>
@@ -1008,7 +1023,9 @@
                     page: current_page,
                     city: $('#city').val(),
                     county: $('#county').val(),
+                    project_type: $("#project_type").val(),
                     neighborhood: $('#neighborhood').val(),
+                    filterDate: $(".filter-date:checked").val(),
                     @if ($secondhandHousings)
                         price_min: $('#price-min').val(),
                         price_max: $('#price-max').val(),
@@ -1076,10 +1093,11 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-        hr{
+        hr {
             width: 100%;
             height: 100%;
         }
+
         .homes-content h4 {
             height: 60px !important;
         }
@@ -1091,6 +1109,30 @@
 
         .brand-head .brands-square {
             padding-left: 0 !important
+        }
+
+
+        .btn-white {
+            background: #fff !important;
+            border: 0.0625rem solid rgba(33, 50, 91, .1);
+        }
+
+        .btn-transition {
+            transition: all .2s ease-in-out
+        }
+
+        .btn-transition:focus,
+        .btn-transition:hover {
+            transform: translateY(-0.1875rem);
+        }
+
+        .btn-check:focus+.btn-white,
+        .btn-white:focus,
+        .btn-white:hover {
+            color: #1366ff;
+            border-color: rgba(33, 50, 91, .1);
+            background-color: #fff;
+            box-shadow: 0 3px 6px -2px rgba(140, 152, 164, .25)
         }
 
         .filter-now {

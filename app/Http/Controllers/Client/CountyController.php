@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\Models\District;
 use App\Models\County;
+use App\Models\District;
 use App\Models\Neighborhood;
 
 class CountyController extends Controller
@@ -26,8 +26,8 @@ class CountyController extends Controller
     }
     public function getNeighborhoodsForClient($county)
     {
-        $neighborhoods = Neighborhood::whereRaw("mahalle_ilcekey = (SELECT key_x FROM counties WHERE id = ?)", [$county])
-                                     ->get();
+        $neighborhoods = Neighborhood::whereRaw("mahalle_ilcekey = (SELECT key_x FROM districts WHERE id = ?)", [$county])
+            ->get();
         return response()->json($neighborhoods->map(fn($item) => ['id' => $item->mahalle_id, 'title' => $item->mahalle_title]));
-    }
+    }   
 }

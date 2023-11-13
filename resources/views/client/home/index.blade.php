@@ -1679,8 +1679,15 @@
         .statusHome {
             width: 20%;
             max-width: 20%;
-            padding-left: 0;
             flex: 0 0 20%;
+        }
+
+        @media (max-width: 768px) {
+            .statusHome {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: auto !important;
+            }
         }
     </style>
 @endsection
