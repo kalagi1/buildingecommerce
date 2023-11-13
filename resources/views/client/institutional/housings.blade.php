@@ -368,16 +368,14 @@
                                                                 <i class="fa fa-circle circleIcon mr-1"></i>
                                                                 <span>{{ json_decode($project->housing_type_data)->room_count[0] ?? null }}</span>
                                                             </li>
+                                                            @if ($project->step1_slug == 'konut')
                                                             <li class="sude-the-icons" style="width:auto !important">
                                                                 <i class="fa fa-circle circleIcon mr-1"></i>
                                                                 <span>{{ json_decode($project->housing_type_data)->numberoffloors[0] ?? null }}
-                                                                    @if ($project->step1_slug == 'konut')
-                                                                        .Kat
-                                                                    @else
-                                                                        ₺
-                                                                    @endif
+                                                                    .Kat
                                                                 </span>
                                                             </li>
+                                                        @endif
                                                             <li class="sude-the-icons" style="width:auto !important">
                                                                 <i class="fa fa-circle circleIcon mr-1"></i>
                                                                 <span>{{ json_decode($project->housing_type_data)->squaremeters[0] ?? null }}

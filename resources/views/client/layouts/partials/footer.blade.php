@@ -275,6 +275,110 @@
 <script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
 
 <script>
+    $('.payment-plan-button').click(function() {
+        var order = $(this).attr('order');
+        var cart = {
+            project_id: $(this).attr('project-id'),
+            order: $(this).attr('order'),
+            _token: "{{ csrf_token() }}"
+        };
+
+        var paymentPlanDatax = {
+            "pesin": "Peşin",
+            "taksitli": "Taksitli"
+        }
+
+        function getDataJS(project, key, roomOrder) {
+            var a = 0;
+            project.room_info.forEach((room) => {
+                if (room.room_order == roomOrder && room.name == key) {
+                    a = room.value;
+                }
+            })
+
+            return a;
+
+        }
+        // Ajax isteği gönderme
+        $.ajax({
+            url: "{{ route('get.housing.payment.plan') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+            type: "get", // Veriyi göndermek için POST kullanabilirsiniz
+            data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
+            success: function(response) {
+                for (var i = 0; i < response.room_info.length; i++) {
+                    if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
+                        .room_order == parseInt(order) + 1) {
+                        var paymentPlanData = JSON.parse(response.room_info[i].value);
+
+
+                        var html = "";
+
+                        function formatPrice(number) {
+                            number = parseFloat(number);
+                            // Sayıyı ondalık kısmı virgülle ayır
+                            const parts = number.toFixed(2).toString().split(".");
+
+                            // Virgül ile ayırmak için her üç haneli kısma nokta ekleyin
+                            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                            // Sonucu birleştirin ve virgül ile ayırın
+                            return parts.join(",");
+                        }
+                        var tempPlans = [];
+                        for (var j = 0; j < paymentPlanData.length; j++) {
+
+                            if (!tempPlans.includes(paymentPlanData[j])) {
+                                if (paymentPlanData[j] == "pesin") {
+                                    var priceData = getDataJS(response, "price[]", response
+                                        .room_info[i].room_order);
+                                    var installementData = "-";
+                                    var advanceData = "-";
+                                    var monhlyPrice = "-";
+                                } else {
+                                    var priceData = getDataJS(response, "installments-price[]",
+                                        response.room_info[i].room_order);
+                                    var installementData = getDataJS(response, "installments[]",
+                                        response.room_info[i].room_order);
+                                    var advanceData = formatPrice(getDataJS(response, "advance[]",
+                                        response.room_info[i].room_order)) + "₺";
+                                    console.log((parseFloat(getDataJS(response,
+                                        "installments-price[]", response.room_info[
+                                            i].room_order)) - parseFloat(getDataJS(
+                                        response, "advance[]", response.room_info[i]
+                                        .room_order))));
+                                    var monhlyPrice = (formatPrice(((parseFloat(getDataJS(response,
+                                            "installments-price[]", response
+                                            .room_info[i].room_order)) - parseFloat(
+                                            getDataJS(response, "advance[]",
+                                                response.room_info[i].room_order))) /
+                                        parseInt(installementData)))) + '₺';
+                                }
+                                html += "<tr>" +
+                                    "<td>" + paymentPlanDatax[paymentPlanData[j]] + "</td>" +
+                                    "<td>" + formatPrice(priceData) + "₺</td>" +
+                                    "<td>" + installementData + "</td>" +
+                                    "<td>" + advanceData + "</td>" +
+                                    "<td>" + monhlyPrice + "</td>" +
+                                    "</tr>"
+                            }
+
+                            tempPlans.push(paymentPlanData[j])
+
+                        }
+
+                        $('.payment-plan tbody').html(html);
+
+                        $('.payment-plan-pop-up').removeClass('d-none')
+                    }
+                }
+            },
+            error: function(error) {
+                // Hata durumunda buraya gelir
+                toast.error(error)
+                console.error("Hata oluştu: " + error);
+            }
+        });
+    })
     $(document).ready(function() {
         const searchInput = $(".search-input");
         const suggestions = $(".header-search__suggestions");
@@ -529,55 +633,56 @@
 
         var addToCartButtons = document.querySelectorAll(".CartBtn");
         $('body').on('click', '.CartBtn', async function(event) {
-    event.preventDefault();
+            event.preventDefault();
 
-    var button = event.target;
-    var productId = button.getAttribute("data-id");
-    var project = button.getAttribute("data-project");
-    var token = "{{ csrf_token() }}";
+            var button = event.target;
+            var productId = button.getAttribute("data-id");
+            var project = button.getAttribute("data-project");
+            var token = "{{ csrf_token() }}";
 
-    var cart = {
-        id: productId,
-        type: button.getAttribute("data-type"),
-        project: project,
-        _token: token,
-        clear_cart: "no"
-    };
+            var cart = {
+                id: productId,
+                type: button.getAttribute("data-type"),
+                project: project,
+                _token: token,
+                clear_cart: "no"
+            };
 
-    try {
-        // Kullanıcıya onay için bir onay kutusu göster
-        var result = await Swal.fire({
-            title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' : 'Mevcut sepeti temizlemek istiyor musunuz?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
-            cancelButtonText: 'Hayır',
+            try {
+                // Kullanıcıya onay için bir onay kutusu göster
+                var result = await Swal.fire({
+                    title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
+                        'Mevcut sepeti temizlemek istiyor musunuz?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
+                    cancelButtonText: 'Hayır',
+                });
+
+                if (result.isConfirmed) {
+                    cart.clear_cart = "yes";
+
+                    // Ajax isteğini gönder
+                    var response = await $.ajax({
+                        url: "{{ route('add.to.cart') }}",
+                        method: "POST",
+                        contentType: "application/json;charset=UTF-8",
+                        data: JSON.stringify(cart)
+                    });
+
+                    toastr.success("Ürün Sepete Eklendi");
+                    button.classList.add("bg-success");
+
+                    if (!button.classList.contains("mobile"))
+                        button.textContent = "Sepete Eklendi";
+
+                    location.reload();
+                }
+            } catch (error) {
+                toastr.error("Hata oluştu: " + error.responseText, "Hata");
+                console.error("Hata oluştu: " + error.responseText);
+            }
         });
-
-        if (result.isConfirmed) {
-            cart.clear_cart = "yes";
-
-            // Ajax isteğini gönder
-            var response = await $.ajax({
-                url: "{{ route('add.to.cart') }}",
-                method: "POST",
-                contentType: "application/json;charset=UTF-8",
-                data: JSON.stringify(cart)
-            });
-
-            toastr.success("Ürün Sepete Eklendi");
-            button.classList.add("bg-success");
-
-            if (!button.classList.contains("mobile"))
-                button.textContent = "Sepete Eklendi";
-
-            location.reload();
-        }
-    } catch (error) {
-        toastr.error("Hata oluştu: " + error.responseText, "Hata");
-        console.error("Hata oluştu: " + error.responseText);
-    }
-});
 
 
         updateCartButton();

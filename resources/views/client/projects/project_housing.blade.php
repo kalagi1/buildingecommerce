@@ -348,6 +348,12 @@
                                         aria-selected="false">Projedeki Diğer
                                         Konutlar</button>
                                 </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
+                                        data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
+                                        project-id="{{ $project->id }}" order="{{ $housingOrder }}"
+                                        aria-selected="false">Ödeme Planı</button>
+                                </li>
                             </ul>
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active blog-info details mb-30" id="home"
@@ -558,7 +564,7 @@
                                                                                     <ul
                                                                                         class="homes-list clearfix pb-3 d-flex">
                                                                                         <li class="the-icons custom-width">
-                                                                                            <i class="fas fa-home mr-2"
+                                                                                            <i class="fa fa-circle circleIcon mr-1"
                                                                                                 style="color: black;"
                                                                                                 aria-hidden="true"></i>
                                                                                             <span>{{ $project->housingType->title }}</span>
@@ -871,6 +877,23 @@
                                     </section>
 
                                 </div>
+                                <div class="tab-pane fad blog-info details mb-30" id="payment" role="tabpanel"
+                                    aria-labelledby="payment">
+                                    <table class="payment-plan-table table">
+                                        <thead>
+                                            <tr>
+                                                <th>Ödeme Türü</th>
+                                                <th>Fiyat</th>
+                                                <th>Taksit Sayısı</th>
+                                                <th>Peşin Ödenecek Tutar</th>
+                                                <th>Aylık Ödenecek Tutar</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         @endif
                     @else
@@ -890,6 +913,12 @@
                                     type="button" role="tab" aria-controls="contact"
                                     aria-selected="false">Projedeki Diğer
                                     Konutlar</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
+                                    data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
+                                    project-id="{{ $project->id }}" order="{{ $housingOrder }}"
+                                    aria-selected="false">Ödeme Planı</button>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
@@ -1099,7 +1128,7 @@
                                                                                 <ul
                                                                                     class="homes-list clearfix pb-3 d-flex">
                                                                                     <li class="the-icons custom-width">
-                                                                                        <i class="fas fa-home mr-2"
+                                                                                        <i class="fa fa-circle circleIcon mr-1"
                                                                                             style="color: black;"
                                                                                             aria-hidden="true"></i>
                                                                                         <span>{{ $project->housingType->title }}</span>
@@ -1299,9 +1328,9 @@
                                                             <a style="text-decoration: none; height: 100%"
                                                                 href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                                                 <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                                    {{$room_order}}
+                                                                    {{ $room_order }}
                                                                     {{ "No'lu" }}
-                                                                                    {{ $project->step1_slug }}
+                                                                    {{ $project->step1_slug }}
                                                                 </h3>
                                                             </a>
                                                             <div class="d-flex align-items-center">
@@ -1404,6 +1433,22 @@
                                 </section>
 
                             </div>
+                            <div class="tab-pane fad blog-info details mb-30" id="payment" role="tabpanel"
+                                aria-labelledby="payment">
+                                <table class="payment-plan-table table">
+                                    <thead>
+                                        <tr>
+                                            <th>Ödeme Türü</th>
+                                            <th>Fiyat</th>
+                                            <th>Taksit Sayısı</th>
+                                            <th>Peşin Ödenecek Tutar</th>
+                                            <th>Aylık Ödenecek Tutar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     @endif
                 </div>
@@ -1420,6 +1465,141 @@
     </script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
+        $('.payment-plan-tab').click(function() {
+            showLoadingSpinner();
+
+            var order = $(this).attr('order');
+            var cart = {
+                project_id: $(this).attr('project-id'),
+                order: $(this).attr('order'),
+                _token: "{{ csrf_token() }}"
+            };
+
+            var paymentPlanDatax = {
+                "pesin": "Peşin",
+                "taksitli": "Taksitli"
+            }
+
+            function getDataJS(project, key, roomOrder) {
+                var a = 0;
+                project.room_info.forEach((room) => {
+                    if (room.room_order == roomOrder && room.name == key) {
+                        a = room.value;
+                    }
+                })
+
+                return a;
+
+            }
+            // Ajax isteği gönderme
+            $.ajax({
+                url: "{{ route('get.housing.payment.plan') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+                type: "get", // Veriyi göndermek için POST kullanabilirsiniz
+                data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
+                success: function(response) {
+                    for (var i = 0; i < response.room_info.length; i++) {
+                        if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
+                            .room_order == parseInt(order)) {
+                            var paymentPlanData = JSON.parse(response.room_info[i].value);
+
+
+                            var html = "";
+
+                            function formatPrice(number) {
+                                number = parseFloat(number);
+                                // Sayıyı ondalık kısmı virgülle ayır
+                                const parts = number.toFixed(2).toString().split(".");
+
+                                // Virgül ile ayırmak için her üç haneli kısma nokta ekleyin
+                                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                                // Sonucu birleştirin ve virgül ile ayırın
+                                return parts.join(",");
+                            }
+                            var tempPlans = [];
+                            for (var j = 0; j < paymentPlanData.length; j++) {
+
+                                if (!tempPlans.includes(paymentPlanData[j])) {
+                                    if (paymentPlanData[j] == "pesin") {
+                                        var priceData = getDataJS(response, "price[]", response
+                                            .room_info[i].room_order);
+                                        var installementData = "-";
+                                        var advanceData = "-";
+                                        var monhlyPrice = "-";
+                                    } else {
+                                        var priceData = getDataJS(response, "installments-price[]",
+                                            response.room_info[i].room_order);
+                                        var installementData = getDataJS(response, "installments[]",
+                                            response.room_info[i].room_order);
+                                        var advanceData = formatPrice(getDataJS(response, "advance[]",
+                                            response.room_info[i].room_order)) + "₺";
+                                        console.log((parseFloat(getDataJS(response,
+                                            "installments-price[]", response.room_info[
+                                                i].room_order)) - parseFloat(getDataJS(
+                                            response, "advance[]", response.room_info[i]
+                                            .room_order))));
+                                        var monhlyPrice = (formatPrice(((parseFloat(getDataJS(response,
+                                                "installments-price[]", response
+                                                .room_info[i].room_order)) - parseFloat(
+                                                getDataJS(response, "advance[]",
+                                                    response.room_info[i].room_order))) /
+                                            parseInt(installementData)))) + '₺';
+                                    }
+                                    html += "<tr>" +
+                                        "<td>" + paymentPlanDatax[paymentPlanData[j]] + "</td>" +
+                                        "<td>" + formatPrice(priceData) + "₺</td>" +
+                                        "<td>" + installementData + "</td>" +
+                                        "<td>" + advanceData + "</td>" +
+                                        "<td>" + monhlyPrice + "</td>" +
+                                        "</tr>"
+                                }
+
+                                tempPlans.push(paymentPlanData[j])
+
+                            }
+
+                            hideLoadingSpinner();
+
+                            $('.payment-plan-table tbody').html(html);
+
+                        }
+                    }
+                },
+                error: function(error) {
+                    hideLoadingSpinner();
+                    toast.error(error)
+                    console.error("Hata oluştu: " + error);
+                }
+            });
+        })
+
+        function showLoadingSpinner() {
+            // Create a spinner row with colspan
+            var spinnerElement = document.createElement('tr');
+            spinnerElement.className = 'loading-spinner';
+
+            // Create a single cell with colspan
+            var spinnerCell = document.createElement('td');
+            spinnerCell.colSpan = 5; // Adjust the colspan value based on the number of columns in your table
+
+            // Add the spinner icon to the cell
+            spinnerCell.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'; // Use your preferred spinner
+
+            // Append the cell to the row
+            spinnerElement.appendChild(spinnerCell);
+
+            // Append the spinner element to the tbody
+            $('.payment-plan-table tbody').html(spinnerElement);
+        }
+
+
+        function hideLoadingSpinner() {
+            // Remove the spinner element
+            var spinnerElement = document.querySelector('.loading-spinner');
+            if (spinnerElement) {
+                spinnerElement.parentNode.removeChild(spinnerElement);
+            }
+        }
         @php
             $location = explode(',', $project->location);
             $location['latitude'] = $location[0];
@@ -1602,6 +1782,13 @@ out center;`;
                 color: #666;
             }
 
+
+
         }
+
+        
+        .loading-spinner {
+                text-align: center
+            }
     </style>
 @endsection

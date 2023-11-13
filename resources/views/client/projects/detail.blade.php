@@ -318,7 +318,7 @@
 
                                                     <ul class="homes-list clearfix pb-3 d-flex">
                                                         <li class="the-icons custom-width">
-                                                            <i class="fas fa-home mr-2" style="color: black;"
+                                                            <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                                                 aria-hidden="true"></i>
                                                             <span>{{ $project->housingType->title }}</span>
                                                         </li>
