@@ -1,194 +1,197 @@
-@extends('institutional.layouts.master')
+    Zehra sana aşığım
+    
+    @extends('institutional.layouts.master')
 
-@section('content')
-    <div class="load-area d-none">
-        <div class="progress">
-            <div class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    @section('content')
+        <div class="load-area d-none">
+            <div class="progress">
+                <div class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <span>Proje Oluşturuluyor</span>
         </div>
-        <span>Proje Oluşturuluyor</span>
-    </div>
-    @if($hasTemp)
-    <div class="pop-up-v2">
-        <div class="pop-back">
+        @if($hasTemp)
+        <div class="pop-up-v2">
+            <div class="pop-back">
 
-        </div>
-        <div class="pop-content">
-            <div class="pop-content-inner">
-                <h2 class="text-center">Proje üzerinde önceden bir düzenleme yapmışsınız</h2>
-                <div class="choises">
-                    <div class="choise choise-1">
-                        Kaldığım Yerden Devam Et
-                    </div>
-                    <div class="choise choise-2">
-                        Yeni Proje Oluştur
+            </div>
+            <div class="pop-content">
+                <div class="pop-content-inner">
+                    <h2 class="text-center">Proje üzerinde önceden bir düzenleme yapmışsınız</h2>
+                    <div class="choises">
+                        <div class="choise choise-1">
+                            Kaldığım Yerden Devam Et
+                        </div>
+                        <div class="choise choise-2">
+                            Yeni Proje Oluştur
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    @endif
+        @endif
 
-    <div class="bottom-housing-area align-center col-xl-6 col-md-6 col-6 d-none">
-        <div class="row w-100">
-            <div class="col-md-12 mbpx-10">
-                <div class="row jc-space-between ">
-                    <div class="col-md-5">
-                        <select class="form-control br-10px copy-item" name="" id="">
-                            <option value="">Kopyalamak istediğiniz daireyi seçin</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="show-houing-order "><div class="full-load" style="width: 0%"></div> <span>Daire <span class="room-order-progress">1</span> / <span class="percent-housing">0</span>%</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 ">
-                <div class="row" style="justify-content: space-between;">
-                    <div class=" col-md-4">
-                        <div class="button-white prev-house-bottom">
-                            <i class="fa fa-circle-chevron-left"></i> <span class="ml-5px last-housing-text">Önceki @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif</span>
+        <div class="bottom-housing-area align-center col-xl-6 col-md-6 col-6 d-none">
+            <div class="row w-100">
+                <div class="col-md-12 mbpx-10">
+                    <div class="row jc-space-between ">
+                        <div class="col-md-5">
+                            <select class="form-control br-10px copy-item" name="" id="">
+                                <option value="">Kopyalamak istediğiniz daireyi seçin</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
                         </div>
-                    </div>
-                    <div class="button-white2 col-md-4">
-                        <input type="text" value="1" class="form-control house_order_input"><span>/</span><span class="total-house-text">{{isset($tempData->house_count) ? $tempData->house_count : 1}}</span>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="button-white next-house-bottom">
-                            <span class="mr-5px next-housing-text">Sonraki @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif</span> <i class="fa fa-circle-chevron-right"></i>
+                        <div class="col-md-5">
+                            <div class="show-houing-order "><div class="full-load" style="width: 0%"></div> <span>Daire <span class="room-order-progress">1</span> / <span class="percent-housing">0</span>%</span></div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="content">
-        <h2 class="mb-2 lh-sm  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">Adım Adım Kategori Seç</h2>
-        <div class="breadcrumb  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
-            <span>Emlak</span>
-            @foreach($areaSlugs as $slug)
-                <span class="breadcrumb-after-item">{{$slug}}</span>
-            @endforeach
-        </div>
-        <div class="mt-4">
-            <div class="progress-area">
-                <div class="progress-line step{{$tempDataFull->step_order}}">
-                    <ol>
-                        <li @if(isset($tempDataFull) && $tempDataFull->step_order == 1) class="current" @elseif($tempDataFull->step_order > 1) class="done" @endif >
-                            <a href="" class="step-counter"><i class="fa fa-star"></i> <span>1</span></a>
-                            <a href="">Kategori Seçimi</a>
-                        </li>
-                        <li @if(isset($tempDataFull) && $tempDataFull->step_order == 2) class="current" @elseif($tempDataFull->step_order > 2) class="done" @endif>
-                            <a href="" class="step-counter"><i class="fa fa-star"></i> <span>2</span></a>
-                            <a href="">İlan Detayları</a>
-                        </li>
-                        <li @if(isset($tempDataFull) && $tempDataFull->step_order == 3) class="current" @elseif($tempDataFull->step_order > 3) class="done" @endif>
-                            <a href="" class="step-counter"><i class="fa fa-star"></i> <span>3</span></a>
-                            <a href="">Öne Çıkar</a>
-                        </li>
-                        <li @if(isset($tempDataFull) && $tempDataFull->step_order == 4) class="current" @endif>
-                            <a href="" class="step-counter"><i class="fa fa-star"></i> <span>4</span></a>
-                            <a href="">Tebrikler</a>
-                        </li>
-                    </ol>
-                </div>
-            </div>
-            <div class="clear-both"></div>
-            <div class="firt-area @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
-                <div class="row">
-                    <div class="area-lists">
-                        <div class="area-listx">
-                            <ul >
-                                @foreach($housing_status as $status)
-                                    <li @if(isset($tempData->statuses) && in_array($status->id,$tempData->statuses)) class="selected" @endif attr-id="{{$status->id}}">{{$status->name}}</li>
-                                @endforeach
-                            </ul>
+                <div class="col-md-12 ">
+                    <div class="row" style="justify-content: space-between;">
+                        <div class=" col-md-4">
+                            <div class="button-white prev-house-bottom">
+                                <i class="fa fa-circle-chevron-left"></i> <span class="ml-5px last-housing-text">Önceki @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif</span>
+                            </div>
                         </div>
-                        <div class="area-list @if(isset($tempData->statuses) && count($tempData->statuses) > 1) active @endif">
-                            <ul>
-                                @foreach($housingTypeParent as $parent)
-                                <li @if(isset($tempData->step1_slug) && $tempData->step1_slug == $parent->slug) class="selected" @endif slug="{{$parent->slug}}">{{$parent->title}}</li>
-                                @endforeach
-                            </ul>
+                        <div class="button-white2 col-md-4">
+                            <input type="text" value="1" class="form-control house_order_input"><span>/</span><span class="total-house-text">{{isset($tempData->house_count) ? $tempData->house_count : 1}}</span>
                         </div>
-                        <div class="area-list @if(isset($tempDataFull->data) && $tempData->step1_slug) active @endif">
-                            <ul>
-                                @if(isset($tempDataFull->data) && $tempData->step1_slug)
-                                    @foreach($secondAreaList as $secondAreaItem)
-                                        <li @if($tempData->step2_slug == $secondAreaItem->slug) class="selected" @endif slug="{{$secondAreaItem->slug}}">{{$secondAreaItem->title}}</li>
-                                    @endforeach
-                                @endif
-                            </ul>
-                        </div>
-                        <div class="area-list @if(isset($tempDataFull->data) && $tempData->step2_slug) active @endif">
-                            <ul>
-                                @if(isset($tempDataFull->data) && $tempData->step1_slug && $tempData->step2_slug)
-                                    @foreach($housingTypes as $housingType)
-                                        <li @if($tempData->step3_slug == $housingType->slug) class="selected" @endif slug="{{$housingType->slug}}">{{$housingType->title}}</li>
-                                    @endforeach
-                                @endif
-                            </ul>
-                        </div>
-                        <div class="area-list @if(isset($tempDataFull->data) && $tempData->step3_slug) active @endif">
-                            <div class="finish-category-select">
-                                <div class="finish-icon-area">
-                                    <i class="fa fa-check"></i>
-                                </div>
-                                <div class="finish-text">
-                                    <p>Kategori Seçimi Tamanlanmıştır</p>
-                                </div>
-                                <div class="finish-button-first">
-                                    <button class="btn btn-info">
-                                        Devam
-                                    </button>
-                                </div>
+                        <div class="col-md-4">
+                            <div class="button-white next-house-bottom">
+                                <span class="mr-5px next-housing-text">Sonraki @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif</span> <i class="fa fa-circle-chevron-right"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="second-area @if($tempDataFull->step_order != 2) d-none @endif">
-                <div class="row">
-                    <div class="thumbnail-second">
-                        <span class="section-title">Kategori</span>
-                        <div class="card px-5 py-2 breadcrumb breadcrumb-v2" style="display: flex;flex-direction:row;">
-                            <div class="icon"><i class="fa fa-house"></i></div> Emlak
-                            @foreach($areaSlugs as $slug)
-                                <span class="breadcrumb-after-item">{{$slug}}</span>
-                            @endforeach
-                        </div>
+        </div>
+        <div class="content">
+            <h2 class="mb-2 lh-sm  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">Adım Adım Kategori Seç</h2>
+            <div class="breadcrumb  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
+                <span>Emlak</span>
+                @foreach($areaSlugs as $slug)
+                    <span class="breadcrumb-after-item">{{$slug}}</span>
+                @endforeach
+            </div>
+            <div class="mt-4">
+                <div class="progress-area">
+                    <div class="progress-line step{{$tempDataFull->step_order}}">
+                        <ol>
+                            <li @if(isset($tempDataFull) && $tempDataFull->step_order == 1) class="current" @elseif($tempDataFull->step_order > 1) class="done" @endif >
+                                <a href="" class="step-counter"><i class="fa fa-star"></i> <span>1</span></a>
+                                <a href="">Kategori Seçimi</a>
+                            </li>
+                            <li @if(isset($tempDataFull) && $tempDataFull->step_order == 2) class="current" @elseif($tempDataFull->step_order > 2) class="done" @endif>
+                                <a href="" class="step-counter"><i class="fa fa-star"></i> <span>2</span></a>
+                                <a href="">İlan Detayları</a>
+                            </li>
+                            <li @if(isset($tempDataFull) && $tempDataFull->step_order == 3) class="current" @elseif($tempDataFull->step_order > 3) class="done" @endif>
+                                <a href="" class="step-counter"><i class="fa fa-star"></i> <span>3</span></a>
+                                <a href="">Öne Çıkar</a>
+                            </li>
+                            <li @if(isset($tempDataFull) && $tempDataFull->step_order == 4) class="current" @endif>
+                                <a href="" class="step-counter"><i class="fa fa-star"></i> <span>4</span></a>
+                                <a href="">Tebrikler</a>
+                            </li>
+                        </ol>
                     </div>
-                    <div class="form-area mt-4">
-                        <span class="section-title">İlan Detayları</span>
-                        
-                        <div class="form-group">
-                            <label for="">Proje Adı <span class="required">*</span></label>
-                            <div class="max-character-input">
-                                <div class="row" style="align-items:center;">
-                                    <div class="input col-md-10">
-                                        <input type="text" value="{{isset($tempData->name) ? $tempData->name : ''}}" name="name" class="form-control advert_title">
+                </div>
+                <div class="clear-both"></div>
+                <div class="firt-area @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
+                    <div class="row">
+                        <div class="area-lists">
+                            <div class="area-listx">
+                                <ul >
+                                    @foreach($housing_status as $status)
+                                        <li @if(isset($tempData->statuses) && in_array($status->id,$tempData->statuses)) class="selected" @endif attr-id="{{$status->id}}">{{$status->name}}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="area-list @if(isset($tempData->statuses) && count($tempData->statuses) > 1) active @endif">
+                                <ul>
+                                    @foreach($housingTypeParent as $parent)
+                                    <li @if(isset($tempData->step1_slug) && $tempData->step1_slug == $parent->slug) class="selected" @endif slug="{{$parent->slug}}">{{$parent->title}}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="area-list @if(isset($tempDataFull->data) && $tempData->step1_slug) active @endif">
+                                <ul>
+                                    @if(isset($tempDataFull->data) && $tempData->step1_slug)
+                                        @foreach($secondAreaList as $secondAreaItem)
+                                            <li @if($tempData->step2_slug == $secondAreaItem->slug) class="selected" @endif slug="{{$secondAreaItem->slug}}">{{$secondAreaItem->title}}</li>
+                                        @endforeach
+                                    @endif
+                                </ul>
+                            </div>
+                            <div class="area-list @if(isset($tempDataFull->data) && $tempData->step2_slug) active @endif">
+                                <ul>
+                                    @if(isset($tempDataFull->data) && $tempData->step1_slug && $tempData->step2_slug)
+                                        @foreach($housingTypes as $housingType)
+                                            <li @if($tempData->step3_slug == $housingType->slug) class="selected" @endif slug="{{$housingType->slug}}">{{$housingType->title}}</li>
+                                        @endforeach
+                                    @endif
+                                </ul>
+                            </div>
+                            <div class="area-list @if(isset($tempDataFull->data) && $tempData->step3_slug) active @endif">
+                                <div class="finish-category-select">
+                                    <div class="finish-icon-area">
+                                        <i class="fa fa-check"></i>
                                     </div>
-                                    <div class="col-md-2">
-                                        <label class="max-character" for="">{{isset($tempData->name) ? Str::length(trim($tempData->name)) : '0'}}/70</label>
+                                    <div class="finish-text">
+                                        <p>Kategori Seçimi Tamanlanmıştır</p>
+                                    </div>
+                                    <div class="finish-button-first">
+                                        <button class="btn btn-info">
+                                            Devam
+                                        </button>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="second-area @if($tempDataFull->step_order != 2) d-none @endif">
+                    <div class="row">
+                        <div class="thumbnail-second">
+                            <span class="section-title">Kategori</span>
+                            <div class="card px-5 py-2 breadcrumb breadcrumb-v2" style="display: flex;flex-direction:row;">
+                                <div class="icon"><i class="fa fa-house"></i></div> Emlak
+                                @foreach($areaSlugs as $slug)
+                                    <span class="breadcrumb-after-item">{{$slug}}</span>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="form-area mt-4">
+                            <span class="section-title">İlan Detayları</span>
+                            
+                            <div class="form-group">
+                                <label for="">Proje Adı <span class="required">*</span></label>
+                                <div class="max-character-input">
+                                    <div class="row" style="align-items:center;">
+                                        <div class="input col-md-10">
+                                            <input type="text" value="{{isset($tempData->name) ? $tempData->name : ''}}" name="name" class="form-control advert_title">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="max-character" for="">{{isset($tempData->name) ? Str::length(trim($tempData->name)) : '0'}}/70</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group description-field">
+                                <label for="">İlan Açıklaması <span class="required">*</span></label>
+                                <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')" class="form-control">{{isset($tempData->description) ? $tempData->description : ''}}</textarea>
                             </div>
                             
-                        </div>
-                        <div class="form-group description-field">
-                            <label for="">İlan Açıklaması <span class="required">*</span></label>
-                            <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')" class="form-control">{{isset($tempData->description) ? $tempData->description : ''}}</textarea>
-                        </div>
-                        
-                        <h4 class="mb-3 housings_title">Bu Projede Kaç Adet @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif Var</h4><input value="{{isset($tempData->house_count) ? $tempData->house_count : ''}}" onkeyup="changeData(this.value,'house_count')" class="form-control mb-5" type="text" id="house_count" name="house_count" value="{{old('house_count')}}" placeholder="Kaç Adet Konutunuz Var" />
-                        <span id="generate_tabs" class=" btn btn-primary mb-5">Daireleri Oluştur</span>
-                        <div class="row full-area">
-                            <div class="col-sm-12">
-                                <div class="tab-content" id="pricingTabContent" role="tabpanel">
-                                    <div id="renderForm1"></div>
+                            <h4 class="mb-3 housings_title">Bu Projede Kaç Adet @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif Var</h4><input value="{{isset($tempData->house_count) ? $tempData->house_count : ''}}" onkeyup="changeData(this.value,'house_count')" class="form-control mb-5" type="text" id="house_count" name="house_count" value="{{old('house_count')}}" placeholder="Kaç Adet Konutunuz Var" />
+                            <span id="generate_tabs" class=" btn btn-primary mb-5">Daireleri Oluştur</span>
+                            <div class="row full-area">
+                                <div class="col-sm-12">
+                                    <div class="tab-content" id="pricingTabContent" role="tabpanel">
+                                        <div id="renderForm1"></div>
+                                    </div>
                                 </div>
                             </div>
                             <span class="after_step_housing btn btn-info">Sonraki Aşamaya Geç</span>
@@ -218,186 +221,166 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="">İlçe <span class="required">*</span></label>
-                                        <select onchange="changeData(this.value,'county_id')" name="county_id" id="counties" class="form-control">
-                                            <option  value="">İlçe Seç</option>
-                                        </select>
+                                    <div>
+                                        <input name="location" class="form-control" id="location" readonly type="hidden"
+                                                    value="@if(isset($tempData->location)){{$tempData->location}}@else 39.1667,35.6667 @endif" />
+                                        <div id="mapContainer"></div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="">Mahalle <span class="required">*</span></label>
-                                        <select onchange="changeData(this.value,'neighbourhood_id')" name="neighbourhood_id" id="neighbourhood" class="form-control">
-                                            <option value="">Mahalle Seç</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div>
-                                    <input name="location" class="form-control" id="location" readonly type="hidden"
-                                                value="@if(isset($tempData->location)){{$tempData->location}}@else 39.1667,35.6667 @endif" />
-                                    <div id="mapContainer"></div>
                                 </div>
                             </div>
-                        </div>
-                        <span class="section-title mt-4 housing_after_step d-none">Kapak Fotoğrafı</span>
-                        <div class="cover-photo-full card py-2 px-5 housing_after_step d-none">
-                            <input type="file" name="cover-image" class="cover_image d-none">
-                            <div class="upload-container col-md-4 col-xl-3 cover-photo-area">
-                                <div class="border-container">
-                                  <div class="icons fa-4x">
-                                    <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
+                            <span class="section-title mt-4 housing_after_step d-none">Kapak Fotoğrafı</span>
+                            <div class="cover-photo-full card py-2 px-5 housing_after_step d-none">
+                                <input type="file" name="cover-image" class="cover_image d-none">
+                                <div class="upload-container col-md-4 col-xl-3 cover-photo-area">
+                                    <div class="border-container">
+                                      <div class="icons fa-4x">
+                                        <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
+                                      </div>
+                                      <!--<input type="file" id="file-upload">-->
+                                      <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
+                                    </div>
                                   </div>
-                                  <!--<input type="file" id="file-upload">-->
-                                  <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
-                                </div>
-                              </div>
-                            <div class="cover-photo">
-                                @if(isset($tempData->cover_image) && $tempData->cover_image)
-                                    <div class="project_imagex">
-                                        <img src="{{URL::to('/')}}/project_images/{{$tempData->cover_image}}" alt="">
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        <span class="section-title mt-4 housing_after_step d-none">Proje Galerisi</span>
-                        <div class="photo card py-2 px-5 housing_after_step d-none">
-                            <input type="file" multiple name="project-images" class="project_image d-none">
-                            <div class="upload-container col-md-4 col-xl-3 photo-area">
-                                <div class="border-container">
-                                  <div class="icons fa-4x">
-                                    <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
-                                  </div>
-                                  <!--<input type="file" id="file-upload">-->
-                                  <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
-                                </div>
-                            </div>
-                            <div class="photos">
-                                @if(isset($tempData->images) && $tempData->images)
-                                    @foreach($tempData->images as $image)
-                                        <div class="project_imagex"  order="{{$image}}">
-                                            <img src="{{URL::to('/')}}/project_images/{{$image}}" alt="">
-                                            <div class="image-buttons">
-                                                <i class="fa fa-trash"></i>
-                                            </div>
+                                <div class="cover-photo">
+                                    @if(isset($tempData->cover_image) && $tempData->cover_image)
+                                        <div class="project_imagex">
+                                            <img src="{{URL::to('/')}}/project_images/{{$tempData->cover_image}}" alt="">
                                         </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <span class="section-title mt-4 housing_after_step d-none">Proje Galerisi</span>
+                            <div class="photo card py-2 px-5 housing_after_step d-none">
+                                <input type="file" multiple name="project-images" class="project_image d-none">
+                                <div class="upload-container col-md-4 col-xl-3 photo-area">
+                                    <div class="border-container">
+                                      <div class="icons fa-4x">
+                                        <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
+                                      </div>
+                                      <!--<input type="file" id="file-upload">-->
+                                      <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
+                                    </div>
+                                </div>
+                                <div class="photos">
+                                    @if(isset($tempData->images) && $tempData->images)
+                                        @foreach($tempData->images as $image)
+                                            <div class="project_imagex"  order="{{$image}}">
+                                                <img src="{{URL::to('/')}}/project_images/{{$image}}" alt="">
+                                                <div class="image-buttons">
+                                                    <i class="fa fa-trash"></i>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
+                            <span class="section-title mt-4 housing_after_step d-none">Ruhsat Belgesi / Tapu Belgesi</span>
+                            <div class="cover-photo-full card py-2 px-5 housing_after_step d-none">
+                                <input type="file" name="cover-image" class="document d-none">
+                                <div class="upload-container col-md-4 col-xl-3 cover-document-area">
+                                    <div class="border-container">
+                                      <div class="icons fa-4x mb-4">
+                                        <i class="fas fa-file-image" data-fa-transform="shrink-3 down-2 left-6 rotate--45"></i>
+                                        <i class="fas fa-file-alt" data-fa-transform="shrink-2 up-4"></i>
+                                        <i class="fas fa-file-pdf" data-fa-transform="shrink-3 down-2 right-6 rotate-45"></i>
+                                      </div>
+                                      <!--<input type="file" id="file-upload">-->
+                                      <p>Bilgisayardan Dosya Ekle <span>veya sürükle bırak</span></p>
+                                    </div>
+                                </div>
+                                <div class="cover-document">
+                                    @if(isset($tempData->document) && $tempData->document)
+                                        <div class="has_file">
+                                            <span class="d-block">Dosya Eklediniz</span>
+                                            <a class="btn btn-info" href="{{URL::to('/')}}/housing_documents/{{$tempData->document}}" download="">Mevcut Dosyayı İndir</a>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="second-area-finish">
+                                <div class="finish-tick ">
+                                    <input type="checkbox" value="1" class="rules_confirm" >
+                                    <span class="rulesOpen">İlan verme kurallarını</span>
+                                    <span>okudum, kabul ediyorum</span>
+                                </div>
+                                <div class="finish-button" style="float:right;margin:0;">
+                                    <button class="btn btn-info">
+                                        Devam
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="third-area @if($tempDataFull->step_order != 3) d-none @endif">
+                    <div class="mb-5">
+                        <button class="without-doping btn btn-info">Dopingsiz Bitir</button>
+                    </div>
+                    <div class="row" style="align-items: flex-end;">
+                        <div class="col-md-5">
+                            <label for="">Hangi statüde öne çıkarmak istiyorsun ?</label>
+                            <select name="" class="form-control doping_statuses" id="doping_status">
+                                <option value="">Statü Seç</option>
+                                @if(isset($selectedStatuses) && count($selectedStatuses) > 0)
+                                    @foreach($selectedStatuses as $statu)
+                                        <option @if(isset($tempData->doping_statuses) && $tempData->doping_statuses == $statu->id) selected @endif value="{{$statu->id}}">{{$statu->name}}</option>
                                     @endforeach
                                 @endif
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="">Sıra Seç</label>
+                            <select name="" class="form-control doping_order" id="">
+                                <option value="">Sıra Seç</option>
+                                @for($i = 1; $i <= 10; $i++)
+                                    <option @if(isset($tempData->doping_order) && $tempData->doping_order == $i) selected @endif value="{{$i}}">{{$i}}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="send-button col-md-2">
+                            <button class="btn btn-primary list-dates">Tarihleri göster</button>
+                        </div>
+                        <div class="col-md-12 mt-3 date-range d-none">
+                            <div>
+                                <p class="m-0">Günlük Fiyat</p> <span class="daily-price btn btn-info" style="display: inline-block;"></span>
+                            </div>
+                            <div class="mt-2">
+                                <label for="">Tarih aralığını seçin?</label>
+                                <input id="date-range2" class="form-control" size="40">
+                            </div>
+                            <div>
+                                <p class="m-0">Toplam Fiyat</p> <span class="total-price btn btn-info" style="display: inline-block;"></span>
+                            </div>
+                            <div class="mt-5">
+                                <button class="finish-step-3 btn btn-info">Dopingli Bitir</button>
                             </div>
                         </div>
-                        <span class="section-title mt-4 housing_after_step d-none">Ruhsat Belgesi / Tapu Belgesi</span>
-                        <div class="cover-photo-full card py-2 px-5 housing_after_step d-none">
-                            <input type="file" name="cover-image" class="document d-none">
-                            <div class="upload-container col-md-4 col-xl-3 cover-document-area">
-                                <div class="border-container">
-                                  <div class="icons fa-4x mb-4">
-                                    <i class="fas fa-file-image" data-fa-transform="shrink-3 down-2 left-6 rotate--45"></i>
-                                    <i class="fas fa-file-alt" data-fa-transform="shrink-2 up-4"></i>
-                                    <i class="fas fa-file-pdf" data-fa-transform="shrink-3 down-2 right-6 rotate-45"></i>
-                                  </div>
-                                  <!--<input type="file" id="file-upload">-->
-                                  <p>Bilgisayardan Dosya Ekle <span>veya sürükle bırak</span></p>
-                                </div>
-                            </div>
-                            <div class="cover-document">
-                                @if(isset($tempData->document) && $tempData->document)
-                                    <div class="has_file">
-                                        <span class="d-block">Dosya Eklediniz</span>
-                                        <a class="btn btn-info" href="{{URL::to('/')}}/housing_documents/{{$tempData->document}}" download="">Mevcut Dosyayı İndir</a>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        
-                        
-                        <div class="second-area-finish">
-                            <div class="finish-tick ">
-                                <input type="checkbox" value="1" class="rules_confirm" >
-                                <span class="rulesOpen">İlan verme kurallarını</span>
-                                <span>okudum, kabul ediyorum</span>
-                            </div>
-                            <div class="finish-button" style="float:right;margin:0;">
-                                <button class="btn btn-info">
-                                    Devam
-                                </button>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="category-select">
                     </div>
                 </div>
-            </div>
-            <div class="third-area @if($tempDataFull->step_order != 3) d-none @endif">
-                <div class="mb-5">
-                    <button class="without-doping btn btn-info">Dopingsiz Bitir</button>
-                </div>
-                <div class="row" style="align-items: flex-end;">
-                    <div class="col-md-5">
-                        <label for="">Hangi statüde öne çıkarmak istiyorsun ?</label>
-                        <select name="" class="form-control doping_statuses" id="doping_status">
-                            <option value="">Statü Seç</option>
-                            @if(isset($selectedStatuses) && count($selectedStatuses) > 0)
-                                @foreach($selectedStatuses as $statu)
-                                    <option @if(isset($tempData->doping_statuses) && $tempData->doping_statuses == $statu->id) selected @endif value="{{$statu->id}}">{{$statu->name}}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                    <div class="col-md-5">
-                        <label for="">Sıra Seç</label>
-                        <select name="" class="form-control doping_order" id="">
-                            <option value="">Sıra Seç</option>
-                            @for($i = 1; $i <= 10; $i++)
-                                <option @if(isset($tempData->doping_order) && $tempData->doping_order == $i) selected @endif value="{{$i}}">{{$i}}</option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="send-button col-md-2">
-                        <button class="btn btn-primary list-dates">Tarihleri göster</button>
-                    </div>
-                    <div class="col-md-12 mt-3 date-range d-none">
-                        <div>
-                            <p class="m-0">Günlük Fiyat</p> <span class="daily-price btn btn-info" style="display: inline-block;"></span>
-                        </div>
-                        <div class="mt-2">
-                            <label for="">Tarih aralığını seçin?</label>
-                            <input id="date-range2" class="form-control" size="40">
-                        </div>
-                        <div>
-                            <p class="m-0">Toplam Fiyat</p> <span class="total-price btn btn-info" style="display: inline-block;"></span>
-                        </div>
-                        <div class="mt-5">
-                            <button class="finish-step-3 btn btn-info">Dopingli Bitir</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-select">
-                </div>
-            </div>
-            <div class="fourth-area d-none">
-                <div class="row" style="justify-content:center;">
-                    <div class="col-md-5">
-                        <div class="finish-area">
-                            <div class="icon"><i class="fa fa-thumbs-up"></i></div>
-                            <div class="text">Başarıyla ilan eklediniz</div>
-                            <div class="text"><a href="{{route('institutional.projects.index')}}" class="btn btn-info">Projelerime yönlen</a></div>
+                <div class="fourth-area d-none">
+                    <div class="row" style="justify-content:center;">
+                        <div class="col-md-5">
+                            <div class="finish-area">
+                                <div class="icon"><i class="fa fa-thumbs-up"></i></div>
+                                <div class="text">Başarıyla ilan eklediniz</div>
+                                <div class="text"><a href="{{route('institutional.projects.index')}}" class="btn btn-info">Projelerime yönlen</a></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-@endsection
-@section('scripts')
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.min.js"></script>
-    <script src="{{ URL::to('/') }}/adminassets/assets/js/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{ URL::to('/') }}/adminassets/assets/js/jquery.daterangepicker.min.js"></script>
-    
-    
-        
+    @endsection
+    @section('scripts')
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.min.js"></script>
         <script src="{{ URL::to('/') }}/adminassets/assets/js/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="{{ URL::to('/') }}/adminassets/assets/js/jquery.daterangepicker.min.js"></script>
+        
         <script>
             changeData(1,'pricing-type')
             var nextTemp = false;
@@ -439,7 +422,26 @@
                 }else{
                     $('.bottom-housing-area').addClass('d-none')
                 }
-            });
+            })
+
+            $('.project_imagex .image-buttons').click(function(){
+                var thisx = $(this);
+                $.ajax({
+                    url: '{{route("institutional.delete.image.order.temp.update")}}',
+                    type: 'POST',
+                    data: { 
+                        image: $(this).closest('.project_imagex').attr('order') ,
+                        item_type : 1,
+                        _token : csrfToken
+                    },
+                    success: function(response) {
+                        thisx.closest('.project_imagex').remove()
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                    }
+                });
+            })
 
             $('.photos').sortable({
                 revert: true,
@@ -713,7 +715,6 @@
                                                                 })
                                                             }
                                                         }else{
-                                                            console.log(data[i][key[0]]);
                                                             if(data[i][key[0]] == null){
                                                                 $('input[name="'+key[0]+'[]"]').val("");
                                                             }else{
@@ -2205,12 +2206,15 @@
                                                     if(data[i][key[0]] == null){
                                                         $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
                                                     }else{
-                                                            console.log(data[i][key[0]]);
-                                                        if(data[i][key[0]] == null){
-                                                            $('input[name="'+key[0]+'[]"]').val("");
-                                                        }else{
-                                                            $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
-                                                        }
+                                                        $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
+                                                            $(item).prop('checked',false);
+                                                            for(var k = 0 ; k < data[i][key[0]].length; k++){
+                                                                if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                    $(item).prop('checked',true);
+                                                                }
+                                                            }
+                                                            
+                                                        })
                                                     }
                                                 }else{
                                                         console.log(data[i][key[0]]);
@@ -2535,12 +2539,67 @@
                     }
                 });
             });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/40.0.0/ckeditor.min.js" integrity="sha512-Zyl/SvrviD3rEMVNCPN+m5zV0PofJYlGHnLDzol2kM224QpmWj9p5z7hQYppmnLFhZwqif5Fugjjouuk5l1lgA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
-    <script>
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/40.0.0/ckeditor.min.js" integrity="sha512-Zyl/SvrviD3rEMVNCPN+m5zV0PofJYlGHnLDzol2kM224QpmWj9p5z7hQYppmnLFhZwqif5Fugjjouuk5l1lgA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
+        <script>
             
-                
+
+            
+
+            
+                tinymce.init({
+                    selector: '#editor', // HTML elementinizi seçin
+                    plugins: 'advlist autolink lists link image charmap print preview anchor',
+                    toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | forecolor backcolor ',
+                    menubar: false, // Menü çubuğunu tamamen devre dışı bırakır
+                    contextmenu: "paste | link image inserttable | cell row column deletetable",
+                    language : "tr",
+                    // Görünümleri devre dışı bırakmak için aşağıdaki yapılandırmaları kullanın
+                    file_browser_callback_types: 'image media',
+                    file_browser_callback: function(field_name, url, type, win) {
+                        // Herhangi bir işlem yapmadan boş bir işlev kullanarak "File" görünümünü devre dışı bırakır
+                    },
+                    file_picker_types: 'image media',
+                    file_picker_callback: function(callback, value, meta) {
+                        // Herhangi bir işlem yapmadan boş bir işlev kullanarak "File" görünümünü devre dışı bırakır
+                    },
+                    setup: function (editor) {
+                        // 'change' olayını dinleyin
+                        editor.on('change', function () {
+                            // Editör içeriği değiştiğinde yapılacak işlemi burada tanımlayabilirsiniz.
+                            console.log("Editör içeriği değişti.");
+                            const editorContent = editor.getContent();
+                            console.log(editorContent);
+                            if(editorContent != ""){
+                                descriptionText = "evet var";
+                            }else{
+                                descriptionText = "";
+                            }
+                            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+                            
+                            
+                            // Verileri FormData nesnesine ekleyin
+                            const formData = new FormData();
+                            formData.append('_token', csrfToken);
+                            formData.append('value', editorContent);
+                            formData.append('key', "description");
+                            formData.append('item_type', 1);
+                            
+                            // AJAX isteği gönderin
+                            fetch("{{ route('institutional.temp.order.data.change') }}", {
+                                method: "POST",
+                                body: formData,
+                            })
+                            .then(data => {
+                                // Sunucu yanıtını işleyebilirsiniz.
+                            })
+                            .catch(error => {
+                                console.error(error);
+                            });
+                        });
+                    }
+                });
                 $('.finish-button').click(function(e){
                     e.preventDefault();
                     var next = true;
@@ -2552,496 +2611,496 @@
                     }
 
 
-                if(!$('#location').val()){
-                    next = false;
-                    if(topError){
-                        if($('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                    if(!$('#location').val()){
+                        next = false;
+                        if(topError){
+                            if($('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
                             topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                         }
-                    }else{
-                        topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        $('#location').parent('div').find('.error-text').remove();
+                        $('#location').parent('div').append('<span class="error-text">Haritadan konum seçmek zorunludur</span>')
                     }
-                    $('#location').parent('div').find('.error-text').remove();
-                    $('#location').parent('div').append('<span class="error-text">Haritadan konum seçmek zorunludur</span>')
-                }
 
-                if(!$('.rules_confirm').is(':checked')){
-                    next = false;
+                    if(!$('.rules_confirm').is(':checked')){
+                        next = false;
 
-                    if(topError){
-                        if($('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                        if(topError){
+                            if($('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
                             topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                         }
-                    }else{
-                        topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        $('.finish-tick').addClass('error-border')
                     }
-                    $('.finish-tick').addClass('error-border')
-                }
 
-                if(descriptionText == ""){
-                    next = false;
-                    if(topError){
-                        if($('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                    if(descriptionText == ""){
+                        next = false;
+                        if(topError){
+                            if($('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
                             topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                         }
-                    }else{
-                        topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        $('.description-field .error-text').remove();
+                        $('.description-field').append('<span class="error-text">Açıklama metnini girmek zorunludur</span>')
                     }
-                    $('.description-field .error-text').remove();
-                    $('.description-field').append('<span class="error-text">Açıklama metnini girmek zorunludur</span>')
-                }
 
-                $('.tab-pane.active input[required="required"]').map((key,item) => {
-                    if(!$(item).val() && $(item).attr('type') != 'file'){
-                        next = false;
+                    $('.tab-pane.active input[required="required"]').map((key,item) => {
+                        if(!$(item).val() && $(item).attr('type') != 'file'){
+                            next = false;
 
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                            if(topError){
+                                if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
                                 topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                             }
-                        }else{
-                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $(item).addClass("error-border")
-                    }
-                })
-
-                $('.tab-pane.active input[type="file"]').map((key,item) => {
-                    if($(item).parent('div').find('.project_imaget').length == 0){
-                        next = false;
-
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $(item).addClass("error-border")
-                    }
-                })
-
-                $('.tab-pane.active select[required="required"]').map((key,item) => {
-                    if(!$(item).val() || $(item).val() == "Seçiniz"){
-                        next = false;
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $(item).addClass("error-border")
-                    }
-                })
-
-                
-
-                if($('.photos .project_imagex').length == 0){
-                    next = false;
-                    if(topError){
-                        if($('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('.photo-area').addClass('error-border')
-                }
-
-                if($('.cover-photo .project_imagex').length == 0){
-                    next = false;
-                    if(topError){
-                        if($('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('.cover-photo-area').addClass('error-border')
-                }
-
-                if($('.cover-document .has_file').length == 0){
-                    next = false;
-                    if(topError){
-                        if($('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('.cover-document-area').addClass('error-border')
-                }
-                
-                if(!$('select[name="city_id"]').val()){
-                    next = false;
-                    if(topError){
-                        if($('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('select[name="city_id"]').addClass('error-border')
-                }
-
-                if(!$('select[name="county_id"]').val()){
-                    next = false;
-                    if(topError){
-                        if($('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('select[name="county_id"]').addClass('error-border')
-                }
-
-                if(!$('select[name="neighbourhood_id"]').val()){
-                    next = false;
-                    if(topError){
-                        if($('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('select[name="neighbourhood_id"]').addClass('error-border')
-                }
-                
-
-                if($('.pricing-item-first .price-radio.select').length > 0){
-                    if($('.single-price-project-area .pricing-item .price-radio.select').length == 0){
-                        if(topError){
-                            if($('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $('.single-price-project-area .error-text').remove();
-                        $('.single-price-project-area').append("<p class='error-text'>İlan süresini seçmeniz gerekmektedir</p>")
-                    }
-                }
-                if(next){
-                    nextTemp = true;
-                    $.ajax({
-                        method: "POST",
-                        url: "{{route('institutional.change.step.order')}}",
-                        data : {
-                            order : 3,
-                            item_type : 1,
-                            _token : csrfToken
-                        },
-                        success: function(response) {
-                            response = JSON.parse(response);
-                            if(response.status){
-                                $('.firt-area').addClass('d-none');
-                                $('.second-area').addClass('d-none');
-                                $('.third-area').addClass('d-none');
-                                $('.progress-line').removeClass('step1')
-                                $('.progress-line').removeClass('step2')
-                                $('.progress-line').removeClass('step3')
-                                $('.third-area').removeClass('d-none');
-                                $('.progress-line').addClass('step3')
-                                $('.progress-line li').eq(0).removeClass('current').addClass('done')
-                                $('.progress-line li').eq(1).removeClass('current').addClass('done')
-                                $('.progress-line li').eq(2).addClass('current')
-                            }
-                            
+                            $(item).addClass("error-border")
                         }
                     })
-                }else{
-                    nextTemp = false;
-                    $('html, body').animate({
-                        scrollTop: topError
-                    }, 100);
-                }
 
-                
-            })
-        var itemOrder = 0;
-        var itemSlug = "";
-        var areasSlugs = [];
-        
+                    $('.tab-pane.active input[type="file"]').map((key,item) => {
+                        if($(item).parent('div').find('.project_imaget').length == 0){
+                            next = false;
 
-        $('.area-listx li').click(function(){
-            $('.area-listx li').removeClass('selected');
-            var thisx = $(this);
-            var value = $(this).attr('attr-id');
-            var key = "statuses";
-            var isArray = 1; 
-            var formData = new FormData();
-            var csrfToken = $("meta[name='csrf-token']").attr("content");
-            formData.append('_token', csrfToken);
-            formData.append('value',value);
-            formData.append('key',key);
-            formData.append('item_type',1);
-            formData.append('array_data',isArray);
-            $.ajax({
-                type: "POST",
-                url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    changeData("",'step3_slug')
-                    changeData("",'step2_slug')
-                    changeData("",'step1_slug')
-                    thisx.addClass('selected')
-                    $('.area-list').removeClass('active');
-                    $('.area-list').eq(0).addClass('active')
-                    $('.area-list').eq(0).find('li').removeClass('selected');
-                },
-            });
-        })
-
-        $('.area-list').eq(0).find('li').click(function(){
-            itemSlug = $(this).attr('slug');
-            var thisx = $(this);
-            changeData(itemSlug,'step1_slug')
-            changeData("",'step3_slug')
-            changeData("",'step2_slug')
-            $('.breadcrumb').find('.breadcrumb-after-item').remove()
-            $('.breadcrumb').find('.breadcrumb-after-item').remove()
-            $('.breadcrumb').find('.breadcrumb-after-item').remove()
-            $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
-            $.ajax({
-                url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
-                type: "GET", // GET isteği
-                dataType: "json", // Gelen veri tipi JSON
-                success: function (data) {
-                    console.log(data);
-                    $('.area-list').eq(0).find('li').removeClass('selected');
-                    data = data.data;
-                    var list = "";
-                    for(var i = 0 ; i < data.length; i++){
-                        list += "<li slug='"+data[i].slug+"'>"+data[i].title+"</li>"
-                    }
-                    $('.area-list').eq(1).children('ul').html(list)
-
-                    $('.area-list').eq(1).addClass('active');
-                    thisx.addClass('selected');
-
-                    $('.area-list').eq(2).removeClass('active');
-                    $('.area-list').eq(3).removeClass('active');
-
-                    $('.area-list').eq(1).find('li').click(function(){
-                        itemSlug = $(this).attr('slug');
-                        var thisx = $(this);
-                        changeData(itemSlug,'step2_slug')
-                        changeData("",'step3_slug')
-                        $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
-                        $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
-                        $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
-                        $.ajax({
-                            url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug+'?parent_slug='+$('.area-list').eq(0).find('li.selected').attr('slug'), // AJAX isteği yapılacak URL
-                            type: "GET", // GET isteği
-                            dataType: "json", // Gelen veri tipi JSON
-                            success: function (data) {
-                                $('.area-list').eq(1).find('li').removeClass('selected');
-                                $('.area-list').eq(3).removeClass('active');
-                                data = data.data;
-                                var list = "";
-                                for(var i = 0 ; i < data.length; i++){
-                                    list += "<li slug='"+data[i].slug+"'>"+data[i].title+"</li>"
+                            if(topError){
+                                if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                                 }
-                                $('.area-list').eq(2).children('ul').html(list)
-
-                                $('.area-list').eq(2).addClass('active');
-                                thisx.addClass('selected');
-
-                                $('.area-list').eq(2).find('li').click(function(){
-                                    itemSlug = $(this).attr('slug');
-                                    console.log($(this).html());
-                                    var thisx = $(this);
-                                    changeData(itemSlug,'step3_slug')
-                                    $('.housings_title').html('Bu Projede Kaç Adet '+($(this).html())+' Var')
-                                    $('.last-housing-text').html('Önceki '+($(this).html())+'')
-                                    $('.next-housing-text').html('Sonraki '+($(this).html())+'')
-                                    $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
-                                    $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
-                                    $.ajax({
-                                        url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
-                                        type: "GET", // GET isteği
-                                        dataType: "json", // Gelen veri tipi JSON
-                                        success: function (data) {
-                                            $('.area-list').eq(2).find('li').removeClass('selected');
-                                            changeData(data,'housing_type_id');
-                                            console.log(data);
-                                            selectedid = data;
-                                            
-                                            thisx.addClass('selected');
-                                            $('.area-list').eq(3).addClass('active');
-                                        }
-                                    })
-                                })
-                            },
-                            error: function (xhr, status, error) {
-                                // İstek hata verdiğinde çalışacak fonksiyon
-                                console.error(xhr.statusText);
+                            }else{
+                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                             }
-                        });
+                            $(item).addClass("error-border")
+                        }
+                    })
+
+                    $('.tab-pane.active select[required="required"]').map((key,item) => {
+                        if(!$(item).val() || $(item).val() == "Seçiniz"){
+                            next = false;
+                            if(topError){
+                                if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $(item).addClass("error-border")
+                        }
                     })
 
                     
-                },
-                error: function (xhr, status, error) {
-                    // İstek hata verdiğinde çalışacak fonksiyon
-                    console.error(xhr.statusText);
-                }
-            });
-        })
 
-        $('.area-list').eq(1).find('li').click(function(){
-            itemSlug = $(this).attr('slug');
-            var thisx = $(this);
-            console.log("asd");
-            changeData(itemSlug,'step2_slug')
-            changeData("",'step3_slug')
-            $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
-            $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
-            $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
-            $.ajax({
-                url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug+'?parent_slug='+$('.area-list').eq(0).find('li.selected').attr('slug'), // AJAX isteği yapılacak URL
-                type: "GET", // GET isteği
-                dataType: "json", // Gelen veri tipi JSON
-                success: function (data) {
-                    console.log(data);
-                    $('.area-list').eq(1).find('li').removeClass('selected');
-                    data = data.data;
-                    var list = "";
-                    for(var i = 0 ; i < data.length; i++){
-                        list += "<li slug='"+data[i].slug+"'>"+data[i].title+"</li>"
+                    if($('.photos .project_imagex').length == 0){
+                        next = false;
+                        if(topError){
+                            if($('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
+                            topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                        $('.photo-area').addClass('error-border')
                     }
-                    $('.area-list').eq(2).children('ul').html(list)
 
-                    $('.area-list').eq(2).addClass('active');
-                    thisx.addClass('selected');
+                    if($('.cover-photo .project_imagex').length == 0){
+                        next = false;
+                        if(topError){
+                            if($('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
+                            topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                        $('.cover-photo-area').addClass('error-border')
+                    }
 
-                    $('.area-list').eq(2).find('li').click(function(){
-                        itemSlug = $(this).attr('slug');
-                        var thisx = $(this);
-                        changeData(itemSlug,'step3_slug')
-                        $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
-                        $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
-                        
-                        $('.housings_title').html('Bu Projede Kaç Adet '+($(this).html())+' Var')
-                        $('.last-housing-text').html('Önceki '+($(this).html())+'')
-                        $('.next-housing-text').html('Sonraki '+($(this).html())+'')
+                    if($('.cover-document .has_file').length == 0){
+                        next = false;
+                        if(topError){
+                            if($('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
+                            topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                        $('.cover-document-area').addClass('error-border')
+                    }
+                    
+                    if(!$('select[name="city_id"]').val()){
+                        next = false;
+                        if(topError){
+                            if($('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
+                            topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                        $('select[name="city_id"]').addClass('error-border')
+                    }
+
+                    if(!$('select[name="county_id"]').val()){
+                        next = false;
+                        if(topError){
+                            if($('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
+                            topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                        $('select[name="county_id"]').addClass('error-border')
+                    }
+
+                    if(!$('select[name="neighbourhood_id"]').val()){
+                        next = false;
+                        if(topError){
+                            if($('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                        }else{
+                            topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                        $('select[name="neighbourhood_id"]').addClass('error-border')
+                    }
+                    
+
+                    if($('.pricing-item-first .price-radio.select').length > 0){
+                        if($('.single-price-project-area .pricing-item .price-radio.select').length == 0){
+                            if(topError){
+                                if($('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $('.single-price-project-area .error-text').remove();
+                            $('.single-price-project-area').append("<p class='error-text'>İlan süresini seçmeniz gerekmektedir</p>")
+                        }
+                    }
+                    if(next){
+                        nextTemp = true;
                         $.ajax({
-                            url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
-                            type: "GET", // GET isteği
-                            dataType: "json", // Gelen veri tipi JSON
-                            success: function (data) {
-                                $('.area-list').eq(2).find('li').removeClass('selected');
-                                changeData(data,'housing_type_id');
-                                selectedid = data;
+                            method: "POST",
+                            url: "{{route('institutional.change.step.order')}}",
+                            data : {
+                                order : 3,
+                                item_type : 1,
+                                _token : csrfToken
+                            },
+                            success: function(response) {
+                                response = JSON.parse(response);
+                                if(response.status){
+                                    $('.firt-area').addClass('d-none');
+                                    $('.second-area').addClass('d-none');
+                                    $('.third-area').addClass('d-none');
+                                    $('.progress-line').removeClass('step1')
+                                    $('.progress-line').removeClass('step2')
+                                    $('.progress-line').removeClass('step3')
+                                    $('.third-area').removeClass('d-none');
+                                    $('.progress-line').addClass('step3')
+                                    $('.progress-line li').eq(0).removeClass('current').addClass('done')
+                                    $('.progress-line li').eq(1).removeClass('current').addClass('done')
+                                    $('.progress-line li').eq(2).addClass('current')
+                                }
                                 
-                                thisx.addClass('selected');
-                                $('.area-list').eq(3).addClass('active');
                             }
                         })
-                    })
-                },
-                error: function (xhr, status, error) {
-                    // İstek hata verdiğinde çalışacak fonksiyon
-                    console.error(xhr.statusText);
-                }
-            });
-        })
+                    }else{
+                        nextTemp = false;
+                        $('html, body').animate({
+                            scrollTop: topError
+                        }, 100);
+                    }
 
-        $('.area-list').eq(2).find('li').click(function(){
-            itemSlug = $(this).attr('slug');
+                    
+                })
+            var itemOrder = 0;
+            var itemSlug = "";
+            var areasSlugs = [];
             
-            console.log($(this).html());
-            $('.housings_title').html('Bu Projede Kaç Adet '+($(this).html())+' Var')
-            $('.last-housing-text').html('Önceki '+($(this).html())+'')
-            $('.next-housing-text').html('Sonraki '+($(this).html())+'')
-            
-            var thisx = $(this);
-            changeData(itemSlug,'step3_slug')
-            $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
-            $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
-            $.ajax({
-                url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
-                type: "GET", // GET isteği
-                dataType: "json", // Gelen veri tipi JSON
-                success: function (data) {
-                    $('.area-list').eq(2).find('li').removeClass('selected');
-                    changeData(data,'housing_type_id');
-                    selectedid = data;
-                    thisx.addClass('selected');
-                    $('.area-list').eq(3).addClass('active');
-                }
+
+            $('.area-listx li').click(function(){
+                $('.area-listx li').removeClass('selected');
+                var thisx = $(this);
+                var value = $(this).attr('attr-id');
+                var key = "statuses";
+                var isArray = 1; 
+                var formData = new FormData();
+                var csrfToken = $("meta[name='csrf-token']").attr("content");
+                formData.append('_token', csrfToken);
+                formData.append('value',value);
+                formData.append('key',key);
+                formData.append('item_type',1);
+                formData.append('array_data',isArray);
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        changeData("",'step3_slug')
+                        changeData("",'step2_slug')
+                        changeData("",'step1_slug')
+                        thisx.addClass('selected')
+                        $('.area-list').removeClass('active');
+                        $('.area-list').eq(0).addClass('active')
+                        $('.area-list').eq(0).find('li').removeClass('selected');
+                    },
+                });
             })
-        })
 
-        $('.advert_title').keyup(function(){
-            if($(this).val().length > 70){
-                $(this).val($(this).val().substring(0,70))
-            }else{
-                changeData($(this).val(),'name')
-                $('.max-character').html(($(this).val().length)+'/70');
-            
-                if($(this).val() != ""){
-                    $(this).removeClass('error-border');
+            $('.area-list').eq(0).find('li').click(function(){
+                itemSlug = $(this).attr('slug');
+                var thisx = $(this);
+                changeData(itemSlug,'step1_slug')
+                changeData("",'step3_slug')
+                changeData("",'step2_slug')
+                $('.breadcrumb').find('.breadcrumb-after-item').remove()
+                $('.breadcrumb').find('.breadcrumb-after-item').remove()
+                $('.breadcrumb').find('.breadcrumb-after-item').remove()
+                $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                $.ajax({
+                    url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
+                    type: "GET", // GET isteği
+                    dataType: "json", // Gelen veri tipi JSON
+                    success: function (data) {
+                        console.log(data);
+                        $('.area-list').eq(0).find('li').removeClass('selected');
+                        data = data.data;
+                        var list = "";
+                        for(var i = 0 ; i < data.length; i++){
+                            list += "<li slug='"+data[i].slug+"'>"+data[i].title+"</li>"
+                        }
+                        $('.area-list').eq(1).children('ul').html(list)
+
+                        $('.area-list').eq(1).addClass('active');
+                        thisx.addClass('selected');
+
+                        $('.area-list').eq(2).removeClass('active');
+                        $('.area-list').eq(3).removeClass('active');
+
+                        $('.area-list').eq(1).find('li').click(function(){
+                            itemSlug = $(this).attr('slug');
+                            var thisx = $(this);
+                            changeData(itemSlug,'step2_slug')
+                            changeData("",'step3_slug')
+                            $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
+                            $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
+                            $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                            $.ajax({
+                                url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug+'?parent_slug='+$('.area-list').eq(0).find('li.selected').attr('slug'), // AJAX isteği yapılacak URL
+                                type: "GET", // GET isteği
+                                dataType: "json", // Gelen veri tipi JSON
+                                success: function (data) {
+                                    $('.area-list').eq(1).find('li').removeClass('selected');
+                                    $('.area-list').eq(3).removeClass('active');
+                                    data = data.data;
+                                    var list = "";
+                                    for(var i = 0 ; i < data.length; i++){
+                                        list += "<li slug='"+data[i].slug+"'>"+data[i].title+"</li>"
+                                    }
+                                    $('.area-list').eq(2).children('ul').html(list)
+
+                                    $('.area-list').eq(2).addClass('active');
+                                    thisx.addClass('selected');
+
+                                    $('.area-list').eq(2).find('li').click(function(){
+                                        itemSlug = $(this).attr('slug');
+                                        console.log($(this).html());
+                                        var thisx = $(this);
+                                        changeData(itemSlug,'step3_slug')
+                                        $('.housings_title').html('Bu Projede Kaç Adet '+($(this).html())+' Var')
+                                        $('.last-housing-text').html('Önceki '+($(this).html())+'')
+                                        $('.next-housing-text').html('Sonraki '+($(this).html())+'')
+                                        $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
+                                        $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                                        $.ajax({
+                                            url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
+                                            type: "GET", // GET isteği
+                                            dataType: "json", // Gelen veri tipi JSON
+                                            success: function (data) {
+                                                $('.area-list').eq(2).find('li').removeClass('selected');
+                                                changeData(data,'housing_type_id');
+                                                console.log(data);
+                                                selectedid = data;
+                                                
+                                                thisx.addClass('selected');
+                                                $('.area-list').eq(3).addClass('active');
+                                            }
+                                        })
+                                    })
+                                },
+                                error: function (xhr, status, error) {
+                                    // İstek hata verdiğinde çalışacak fonksiyon
+                                    console.error(xhr.statusText);
+                                }
+                            });
+                        })
+
+                        
+                    },
+                    error: function (xhr, status, error) {
+                        // İstek hata verdiğinde çalışacak fonksiyon
+                        console.error(xhr.statusText);
+                    }
+                });
+            })
+
+            $('.area-list').eq(1).find('li').click(function(){
+                itemSlug = $(this).attr('slug');
+                var thisx = $(this);
+                console.log("asd");
+                changeData(itemSlug,'step2_slug')
+                changeData("",'step3_slug')
+                $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
+                $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
+                $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                $.ajax({
+                    url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug+'?parent_slug='+$('.area-list').eq(0).find('li.selected').attr('slug'), // AJAX isteği yapılacak URL
+                    type: "GET", // GET isteği
+                    dataType: "json", // Gelen veri tipi JSON
+                    success: function (data) {
+                        console.log(data);
+                        $('.area-list').eq(1).find('li').removeClass('selected');
+                        data = data.data;
+                        var list = "";
+                        for(var i = 0 ; i < data.length; i++){
+                            list += "<li slug='"+data[i].slug+"'>"+data[i].title+"</li>"
+                        }
+                        $('.area-list').eq(2).children('ul').html(list)
+
+                        $('.area-list').eq(2).addClass('active');
+                        thisx.addClass('selected');
+
+                        $('.area-list').eq(2).find('li').click(function(){
+                            itemSlug = $(this).attr('slug');
+                            var thisx = $(this);
+                            changeData(itemSlug,'step3_slug')
+                            $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
+                            $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                            
+                            $('.housings_title').html('Bu Projede Kaç Adet '+($(this).html())+' Var')
+                            $('.last-housing-text').html('Önceki '+($(this).html())+'')
+                            $('.next-housing-text').html('Sonraki '+($(this).html())+'')
+                            $.ajax({
+                                url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
+                                type: "GET", // GET isteği
+                                dataType: "json", // Gelen veri tipi JSON
+                                success: function (data) {
+                                    $('.area-list').eq(2).find('li').removeClass('selected');
+                                    changeData(data,'housing_type_id');
+                                    selectedid = data;
+                                    
+                                    thisx.addClass('selected');
+                                    $('.area-list').eq(3).addClass('active');
+                                }
+                            })
+                        })
+                    },
+                    error: function (xhr, status, error) {
+                        // İstek hata verdiğinde çalışacak fonksiyon
+                        console.error(xhr.statusText);
+                    }
+                });
+            })
+
+            $('.area-list').eq(2).find('li').click(function(){
+                itemSlug = $(this).attr('slug');
+                
+                console.log($(this).html());
+                $('.housings_title').html('Bu Projede Kaç Adet '+($(this).html())+' Var')
+                $('.last-housing-text').html('Önceki '+($(this).html())+'')
+                $('.next-housing-text').html('Sonraki '+($(this).html())+'')
+                
+                var thisx = $(this);
+                changeData(itemSlug,'step3_slug')
+                $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
+                $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                $.ajax({
+                    url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
+                    type: "GET", // GET isteği
+                    dataType: "json", // Gelen veri tipi JSON
+                    success: function (data) {
+                        $('.area-list').eq(2).find('li').removeClass('selected');
+                        changeData(data,'housing_type_id');
+                        selectedid = data;
+                        thisx.addClass('selected');
+                        $('.area-list').eq(3).addClass('active');
+                    }
+                })
+            })
+
+            $('.advert_title').keyup(function(){
+                if($(this).val().length > 70){
+                    $(this).val($(this).val().substring(0,70))
+                }else{
+                    changeData($(this).val(),'name')
+                    $('.max-character').html(($(this).val().length)+'/70');
+                
+                    if($(this).val() != ""){
+                        $(this).removeClass('error-border');
+                    }
                 }
-            }
 
+                
+            })
+        </script>
+        <script>
             
-        })
-    </script>
-    <script>
-        
-        var $select = $('#housing_status').selectize();
-        var selectize = $select[0].selectize;
-        selectize.on('item_click', function(item) {
-            selectize.removeItem(item);
-        });
-
-
-
-        $('#housing_status').change(function(){
-            var value = $(this).val();
-            var html = "<option value=''>Statü Seç</option>";
-            for(var i = 0 ; i < value.length; i++){
-                html += "<option value='"+value[i]+"'>"+($('#housing_status option[value="'+value[i]+'"]').html())+"</option>";
-            }
-            $('.doping_statuses').html(html);
-            var key = "statuses";
-            var isArray = 1; 
-            var formData = new FormData();
-            var csrfToken = $("meta[name='csrf-token']").attr("content");
-            formData.append('_token', csrfToken);
-            formData.append('value',value);
-            formData.append('key',key);
-            formData.append('item_type',1);
-            formData.append('array_data',isArray);
-            $.ajax({
-                type: "POST",
-                url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                },
+            var $select = $('#housing_status').selectize();
+            var selectize = $select[0].selectize;
+            selectize.on('item_click', function(item) {
+                selectize.removeItem(item);
             });
-        })
 
-        changeData($('#location').val(),"location")
-    </script>
-    @stack('scripts')
-@endsection
 
-@section('css')
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
-        integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.css" />
+            $('#housing_status').change(function(){
+                var value = $(this).val();
+                var html = "<option value=''>Statü Seç</option>";
+                for(var i = 0 ; i < value.length; i++){
+                    html += "<option value='"+value[i]+"'>"+($('#housing_status option[value="'+value[i]+'"]').html())+"</option>";
+                }
+                $('.doping_statuses').html(html);
+                var key = "statuses";
+                var isArray = 1; 
+                var formData = new FormData();
+                var csrfToken = $("meta[name='csrf-token']").attr("content");
+                formData.append('_token', csrfToken);
+                formData.append('value',value);
+                formData.append('key',key);
+                formData.append('item_type',1);
+                formData.append('array_data',isArray);
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                    },
+                });
+            })
 
-    <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/daterangepicker.css">
-    <link rel="stylesheet" href="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/content/default/content.min.css">
-@endsection
+            changeData($('#location').val(),"location")
+        </script>
+        @stack('scripts')
+    @endsection
+
+    @section('css')
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
+            integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.css" />
+
+        <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/daterangepicker.css">
+        <link rel="stylesheet" href="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/content/default/content.min.css">
+    @endsection
 
