@@ -404,14 +404,15 @@
                                                         'titledeedstatus' => 'Tapu Durumu',
                                                         'external_features1' => 'Dış Özellikler',
                                                         'swap' => 'Takas',
-                                                        'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
                                                         'internal_features1' => 'İç Özellikler',
+                                                        'floorlocation' => 'Kat Sayısı',
+                                                        'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
+                                                        'furnished1' => 'Eşyalı',
                                                     ];
-
                                                     $key = $turkceKarsilik[$key] ?? $key;
                                                 @endphp
 
-                                                @if ($key != 'image' && $key != 'images' && $key != 'İç Özellikler' && $key != 'Dış Özellikler')
+                                                @if ($key != 'image' && $key != 'images' && $key != 'İç Özellikler' && $key != 'Dış Özellikler' && $key != 'payment-plan1')
                                                     <li style="border: none !important;">
                                                         @if ($key == 'Fiyat')
                                                             <span
@@ -460,6 +461,9 @@
                                                     'swap' => 'Takas',
                                                     'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
                                                     'internal_features1' => 'İç Özellikler',
+                                                    'floorlocation' => 'Kat Sayısı',
+                                                    'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
+                                                    'furnished1' => 'Eşyalı',
                                                 ];
 
                                                 $key = $turkceKarsilik[$key] ?? $key;
@@ -669,12 +673,15 @@
                                                 'swap' => 'Takas',
                                                 'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
                                                 'internal_features1' => 'İç Özellikler',
+                                                'floorlocation' => 'Kat Sayısı',
+                                                'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
+                                                'furnished1' => 'Eşyalı',
                                             ];
 
                                             $key = $turkceKarsilik[$key] ?? $key;
                                         @endphp
 
-                                        @if ($key != 'image' && $key != 'images' && $key != 'İç Özellikler' && $key != 'Dış Özellikler')
+                                        @if ($key != 'image' && $key != 'images' && $key != 'İç Özellikler' && $key != 'Dış Özellikler' && $key != 'payment-plan1')
                                             <li style="border: none !important;">
                                                 @if ($key == 'Fiyat')
                                                     <span
@@ -723,6 +730,9 @@
                                             'swap' => 'Takas',
                                             'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
                                             'internal_features1' => 'İç Özellikler',
+                                            'floorlocation' => 'Kat Sayısı',
+                                            'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
+                                            'furnished1' => 'Eşyalı',
                                         ];
 
                                         $key = $turkceKarsilik[$key] ?? $key;

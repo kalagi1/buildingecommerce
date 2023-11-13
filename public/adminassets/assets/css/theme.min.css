@@ -41509,3 +41509,9 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     position: relative;
     z-index: 9;
 }
+
+.pop-up-housing .pop-content-inner{
+    max-height: 70vh;
+    position: relative;
+    overflow: scroll;
+}
