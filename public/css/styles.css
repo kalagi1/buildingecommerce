@@ -18032,7 +18032,8 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
     .inner-pages .carousel.slide .carousel-inner img {
         width: 100%;
-        height: 280px;
+        height: 100% !important;
+        object-fit: cover;
     }
 
     .inner-pages .headings-2 .listing-title-bar h3 {
@@ -26045,7 +26046,6 @@ section.ui-element {
 
     .blog .blog-pots img {
         width: 100%;
-        height: auto !important;
     }
 
     .agents .admin.company img {

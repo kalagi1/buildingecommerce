@@ -166,7 +166,7 @@
                                                 <!-- Örneğin Kalp İkonu -->
                                                 <a href="#" class="btn toggle-favorite bg-white"
                                                     data-housing-id="{{ $housing->id }}">
-                                                    <i class="fa fa-heart"></i>
+                                                    <i class="fa fa-heart-o"></i>
                                                 </a>
                                             </div>
                                         </div>

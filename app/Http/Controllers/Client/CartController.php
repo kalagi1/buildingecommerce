@@ -225,10 +225,12 @@ class CartController extends Controller
                     'type' => $type,
                 ];
 
+
                 $request->session()->put('cart', $cart); // Save cart data to session
+                return response(['message' => 'success']);
+
             }
 
-            return response(['message' => 'success']);
         } catch (\Exception $e) {
             // Handle exceptions if any
             return response(['message' => 'error', 'error' => $e->getMessage()], 500);

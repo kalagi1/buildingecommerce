@@ -644,6 +644,7 @@
                 project = $(this).data("project");
             }
 
+
             var cart = {
                 id: productId,
                 type: $(this).data("type"),
@@ -652,43 +653,76 @@
                 clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
             };
 
-            Swal.fire({
-                title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
-                    'Mevcut sepeti temizlemek istiyor musunuz?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Evet, temizle',
-                cancelButtonText: 'Hayır',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    cart.clear_cart = "yes";
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ route('add.to.cart') }}",
-                        data: JSON.stringify(cart),
-                        contentType: "application/json;charset=UTF-8",
-                        success: function(response) {
-                            console.log(response);
-                            // toastr.success("Ürün Sepete Eklendi");
-                            // button.classList.add("bg-success");
 
-                            // // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
-                            // if (!button.classList.contains("mobile"))
-                            //     button.textContent = "Sepete Eklendi";
+            if (isProductInCart(productId, project)) {
+                Swal.fire({
+                    title: "Ürünü sepetten kaldırmak istiyor musunuz ?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: "Evet, Kaldır",
+                    cancelButtonText: 'Hayır',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ route('add.to.cart') }}",
+                            data: JSON.stringify(cart),
+                            contentType: "application/json;charset=UTF-8",
+                            success: function(response) {
 
-                            // // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
-                            // if (cart.clear_cart === "yes") {
-                            //     location.reload();
-                            // }
-                        },
-                        error: function(xhr, status, error) {
-                            toastr.error("Hata oluştu: " + xhr.responseText,
-                            "Hata");
-                            console.error("Hata oluştu: " + xhr.responseText);
-                        }
-                    });
-                }
-            });
+                                toastr.error("Ürün Sepetten Kaldırılıyor.");
+                                button.classList.remove("bg-success");
+                                location.reload();
+
+                            },
+                            error: function(xhr, status, error) {
+                                toastr.error("Hata oluştu: " + xhr
+                                    .responseText,
+                                    "Hata");
+                                console.error("Hata oluştu: " + xhr
+                                    .responseText);
+                            }
+                        });
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
+                        'Mevcut sepeti temizlemek istiyor musunuz?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
+                    cancelButtonText: 'Hayır',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ route('add.to.cart') }}",
+                            data: JSON.stringify(cart),
+                            contentType: "application/json;charset=UTF-8",
+                            success: function(response) {
+
+                                toastr.success("Ürün Sepete Eklendi");
+                                if (!button.classList.contains("mobile")) {
+                                    button.textContent = "Sepete Eklendi";
+                                }
+                                button.classList.add("bg-success");
+                                location.reload();
+
+                            },
+                            error: function(xhr, status, error) {
+                                toastr.error("Hata oluştu: " + xhr
+                                    .responseText,
+                                    "Hata");
+                                console.error("Hata oluştu: " + xhr
+                                    .responseText);
+                            }
+                        });
+                    }
+                });
+
+            }
+
         });
 
 
@@ -706,7 +740,9 @@
                 }
 
                 if (isProductInCart(productId, product)) {
-                    button.querySelector(".text").textContent = "Sepete Eklendi";
+                    if (!button.classList.contains("mobile")) {
+                        button.querySelector(".text").textContent = "Sepete Eklendi";
+                    }
                     button.classList.add("bg-success");
                 } else {
                     button.classList.remove("bg-success");
@@ -727,6 +763,8 @@
                         return true;
                     }
                 } else {
+                    console.log(productId);
+                    console.log(cart.item.id);
                     if (cart.item.id == productId) {
                         return true; // Ürün sepette bulundu
                     }
@@ -761,7 +799,8 @@
                 },
                 success: function(response) {
                     favoriteButtons.forEach(function(button) {
-                        var housingId = button.getAttribute("data-project-housing-id");
+                        var housingId = button.getAttribute(
+                            "data-project-housing-id");
                         var projectId = button.getAttribute("data-project-id");
                         var isFavorite = response[projectId][housingId];
 
@@ -861,7 +900,8 @@
                                 "text-danger");
                             button.classList.add("bg-white");
                         } else if (response.status === 'removed') {
-                            toastr.warning("Konut Favorilerden Kaldırıldı");
+                            toastr.warning(
+                                "Konut Favorilerden Kaldırıldı");
                             button.querySelector("i").classList.remove(
                                 "text-danger");
                             button.querySelector("i").classList.remove(

@@ -187,7 +187,7 @@
                                                                 class="btn toggle-project-favorite bg-white"
                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                 data-project-id={{ $project->id }}>
-                                                                <i class="fa fa-heart"></i>
+                                                                <i class="fa fa-heart-o"></i>
                                                             </div>
                                                         </div>
                                                         <div class="homes position-relative">
@@ -401,7 +401,7 @@
                                         <a href="#" class="btn toggle-project-favorite bg-white"
                                             data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                             style="color: white;" data-project-id="{{ $project->id }}">
-                                            <i class="fa fa-heart-o"></i>
+                                            <i class="fa fa-heart-o-o"></i>
                                         </a>
                                         <button class="addToCart mobile px-2"
                                             style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"

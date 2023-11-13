@@ -7023,9 +7023,17 @@ a.close.disabled {
 }
 
 .carousel-inner {
+    height: 400px !important;
     position: relative;
     width: 100%;
     overflow: hidden
+}
+
+@media (max-width:768px) {
+    .carousel-inner {
+        height: 200px !important;
+    }
+
 }
 
 .carousel-inner::after {
@@ -7039,6 +7047,8 @@ a.close.disabled {
     display: none;
     float: left;
     width: 100%;
+    height: 100%;
+    object-fit: cover;
     margin-right: -100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
