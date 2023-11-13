@@ -90,12 +90,14 @@
 
                                 </tr>
                             @endforeach
-                            {{-- @foreach ($projectFavorites as $key => $item)
+                            @foreach ($projectFavorites as $key => $item)
                                 @php($data = $item->projectHousing->pluck('value', 'key')->toArray())
+
                                 @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $item->project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+        App\Models\Offer::where('type', 'project')->where('project_id', $item->project->id)->where('project_housings', 'LIKE', "%\"{$item->project->housing_type_id}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
+
                                 @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, "$.type")) = "project" AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.housing")) = ? AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) = ? LIMIT 1', [getHouse($item->project, 'price[]', $item->housing_id)->room_order, $item->project->id]))
 
                                 <tr>
@@ -119,10 +121,18 @@
                                         </div>
                                     </td>
                                     <td>
-                                        {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 2, ',', '.') }}
-                                        ₺</td>
+                                        @if ($sold)
+                                            @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 2, ',', '.') }}
+                                                ₺
+                                            @endif
+                                        @else
+                                            {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 2, ',', '.') }}
+                                            ₺
+                                        @endif
+                                    </td>
                                     <td>
-                                        @if ($sold[0] && $sold[0]->status != '2')
+                                        @if ($sold && $sold[0]->status != '2')
                                             <button class="btn second-btn soldBtn" disabled
                                                 @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                             @else 
@@ -152,7 +162,7 @@
                                                 class="far fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         @endif
 
                     </tbody>
