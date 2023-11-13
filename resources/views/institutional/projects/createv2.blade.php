@@ -191,20 +191,32 @@
                                     <div id="renderForm1"></div>
                                 </div>
                             </div>
-                        </div>
-                        <span class="after_step_housing btn btn-info">Sonraki Aşamaya Geç</span>
-                        <div class="address housing_after_step d-none">
-                            <span class="section-title">Adres Bilgileri</span>
-                            <div class="card">
-                                <div class="row px-5 py-4">
-                                    <div class="col-md-4">
-                                        <label for="">İl <span class="required">*</span></label>
-                                        <select onchange="changeData(this.value,'city_id')" name="city_id" id="cities" class="form-control">
-                                            <option value="">İl Seç</option>
-                                            @foreach($cities as $city)
-                                            <option {{isset($tempData->city_id) && $tempData->city_id == $city->id ? "selected" : ''}} value="{{$city->id}}">{{$city->title}}</option>
-                                            @endforeach
-                                        </select>
+                            <span class="after_step_housing btn btn-info">Sonraki Aşamaya Geç</span>
+                            <div class="address housing_after_step d-none">
+                                <span class="section-title">Adres Bilgileri</span>
+                                <div class="card">
+                                    <div class="row px-5 py-4">
+                                        <div class="col-md-4">
+                                            <label for="">İl <span class="required">*</span></label>
+                                            <select onchange="changeData(this.value,'city_id')" name="city_id" id="cities" class="form-control">
+                                                <option value="">İl Seç</option>
+                                                @foreach($cities as $city)
+                                                <option {{isset($tempData->city_id) && $tempData->city_id == $city->id ? "selected" : ''}} value="{{$city->id}}">{{$city->title}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="">İlçe <span class="required">*</span></label>
+                                            <select onchange="changeData(this.value,'county_id')" name="county_id" id="counties" class="form-control">
+                                                <option  value="">İlçe Seç</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="">Mahalle <span class="required">*</span></label>
+                                            <select onchange="changeData(this.value,'neighbourhood_id')" name="neighbourhood_id" id="neighbourhood" class="form-control">
+                                                <option value="">Mahalle Seç</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="">İlçe <span class="required">*</span></label>
@@ -410,33 +422,51 @@
             });
         })
 
-        $(window).scroll(function(){
-            
-            var scrollTopValue = $(".tab-pane").offset().top;
-            var fullAreaHeight = $(".tab-pane").height();
-            console.log($(".tab-pane").offset().top,$(window).scrollTop())
-            if($(window).scrollTop() < (scrollTopValue+fullAreaHeight - 500) && $(window).scrollTop() > (scrollTopValue - 500)){
-                $('.bottom-housing-area').removeClass('d-none')
-            }else{
-                $('.bottom-housing-area').addClass('d-none')
-            }
-        })
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.min.js"></script>
+        <script src="{{ URL::to('/') }}/adminassets/assets/js/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="{{ URL::to('/') }}/adminassets/assets/js/jquery.daterangepicker.min.js"></script>
+        
+        <script>
+            changeData(1,'pricing-type')
+            var nextTemp = false;
+            var housingTypeTitle = "";
+            var housingImages = [];
+            var descriptionText = @if(isset($tempData) && isset($tempData->description)) 'evet var' @else "" @endif;
+            var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
 
-        $('.project_imagex .image-buttons').click(function(){
-            var thisx = $(this);
-            $.ajax({
-                url: '{{route("institutional.delete.image.order.temp.update")}}',
-                type: 'POST',
-                data: { 
-                    image: $(this).closest('.project_imagex').attr('order') ,
-                    item_type : 1,
-                    _token : csrfToken
-                },
-                success: function(response) {
-                    thisx.closest('.project_imagex').remove()
-                },
-                error: function(xhr, status, error) {
-                    console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+            $('.after_step_housing').click(function(){
+                $.ajax({
+                    url: '{{route("institutional.temp.order.housing.confirm.full")}}?item_type=1',
+                    type: 'GET',
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        if(response.status){
+                            $('.housing_after_step').removeClass('d-none')
+                        }else{
+                            $.toast({
+                                heading: 'Hata',
+                                text: response.message,
+                                position: 'top-right',
+                                stack: false
+                            })
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                    }
+                });
+            })
+
+            $(window).scroll(function(){
+                
+                var scrollTopValue = $(".tab-pane").offset().top;
+                var fullAreaHeight = $(".tab-pane").height();
+                console.log($(".tab-pane").offset().top,$(window).scrollTop())
+                if($(window).scrollTop() < (scrollTopValue+fullAreaHeight - 500) && $(window).scrollTop() > (scrollTopValue - 500)){
+                    $('.bottom-housing-area').removeClass('d-none')
+                }else{
+                    $('.bottom-housing-area').addClass('d-none')
                 }
             });
         })
@@ -713,6 +743,7 @@
                                                             })
                                                         }
                                                     }else{
+                                                        console.log(data[i][key[0]]);
                                                         if(data[i][key[0]] == null){
                                                             $('input[name="'+key[0]+'[]"]').val("");
                                                         }else{
@@ -2204,15 +2235,12 @@
                                                 if(data[i][key[0]] == null){
                                                     $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
                                                 }else{
-                                                    $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
-                                                        $(item).prop('checked',false);
-                                                        for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                            if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                                $(item).prop('checked',true);
-                                                            }
-                                                        }
-                                                        
-                                                    })
+                                                        console.log(data[i][key[0]]);
+                                                    if(data[i][key[0]] == null){
+                                                        $('input[name="'+key[0]+'[]"]').val("");
+                                                    }else{
+                                                        $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                                    }
                                                 }
                                             }else{
                                                     console.log(data[i][key[0]]);
@@ -2595,18 +2623,17 @@
                         .catch(error => {
                             console.error(error);
                         });
-                    });
-                }
-            });
-            $('.finish-button').click(function(e){
-                e.preventDefault();
-                var next = true;
-                var topError = 0;
-                if(!$('input[name="name"]').val()){
-                    next = false;
-                    $('input[name="name"]').addClass('error-border')
-                    topError = $('input[name="name"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
-                }
+                    }
+                });
+                $('.finish-button').click(function(e){
+                    e.preventDefault();
+                    var next = true;
+                    var topError = 0;
+                    if(!$('input[name="name"]').val()){
+                        next = false;
+                        $('input[name="name"]').addClass('error-border')
+                        topError = $('input[name="name"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
+                    }
 
 
                 if(!$('#location').val()){
