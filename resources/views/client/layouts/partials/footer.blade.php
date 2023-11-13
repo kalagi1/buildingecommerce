@@ -631,84 +631,72 @@
         checkProjectFavorites();
         var cart = @json(session('cart', []));
 
+        // Tüm "Sepete Ekle" düğmelerini seçin
         var addToCartButtons = document.querySelectorAll(".CartBtn");
-        $('body').on('click', '.CartBtn', async function(event) {
+        $('body').on('click', '.CartBtn', function(event) {
             event.preventDefault();
 
             var button = event.target;
-            var productId = button.getAttribute("data-id");
-            var project = button.getAttribute("data-project");
-            var token = "{{ csrf_token() }}";
+            var productId = $(this).data("id");
+            var project = null;
+
+            if ($(this).data("type") == "project") {
+                project = $(this).data("project");
+            }
 
             var cart = {
                 id: productId,
-                type: button.getAttribute("data-type"),
+                type: $(this).data("type"),
                 project: project,
-                _token: token,
-                clear_cart: "no"
+                _token: "{{ csrf_token() }}",
+                clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
             };
 
-            try {
-                // Kullanıcıya onay için bir onay kutusu göster
-                var result = await Swal.fire({
-                    title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
-                        'Mevcut sepeti temizlemek istiyor musunuz?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
-                    cancelButtonText: 'Hayır',
-                });
-
+            Swal.fire({
+                title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
+                    'Mevcut sepeti temizlemek istiyor musunuz?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Evet, temizle',
+                cancelButtonText: 'Hayır',
+            }).then((result) => {
                 if (result.isConfirmed) {
                     cart.clear_cart = "yes";
-
-                    // Ajax isteğini gönder
-                    var response = await $.ajax({
+                    $.ajax({
+                        type: "POST",
                         url: "{{ route('add.to.cart') }}",
-                        method: "POST",
+                        data: JSON.stringify(cart),
                         contentType: "application/json;charset=UTF-8",
-                        data: JSON.stringify(cart)
+                        success: function(response) {
+                            console.log(response);
+                            // toastr.success("Ürün Sepete Eklendi");
+                            // button.classList.add("bg-success");
+
+                            // // Ürün sepete eklendiğinde düğme metnini ve durumunu güncelleyin
+                            // if (!button.classList.contains("mobile"))
+                            //     button.textContent = "Sepete Eklendi";
+
+                            // // Eğer sepeti temizlemeyi onayladıysa sayfayı yeniden yükle
+                            // if (cart.clear_cart === "yes") {
+                            //     location.reload();
+                            // }
+                        },
+                        error: function(xhr, status, error) {
+                            toastr.error("Hata oluştu: " + xhr.responseText,
+                            "Hata");
+                            console.error("Hata oluştu: " + xhr.responseText);
+                        }
                     });
-
-                    toastr.success("Ürün Sepete Eklendi");
-                    button.classList.add("bg-success");
-
-                    if (!button.classList.contains("mobile"))
-                        button.textContent = "Sepete Eklendi";
-
-                    location.reload();
                 }
-            } catch (error) {
-                toastr.error("Hata oluştu: " + error.responseText, "Hata");
-                console.error("Hata oluştu: " + error.responseText);
-            }
+            });
         });
+
 
 
         updateCartButton();
 
         function updateCartButton() {
-            var addToCartButtons = document.querySelectorAll(".addToCart:not(.mobile)");
-
-            addToCartButtons.forEach(function(button) {
-                var productId = button.getAttribute("data-id");
-                var productType = button.getAttribute("data-type");
-                var product = null;
-                if (productType == "project") {
-                    product = button.getAttribute("data-project");
-                }
-
-                if (isProductInCart(productId, product)) {
-                    button.textContent = "Sepete Eklendi";
-                    button.classList.add("bg-success");
-                } else {
-                    // button.textContent = "Sepete Ekle";
-                    button.classList.remove("bg-success");
-                }
-            });
-
             var CartBtn = document.querySelectorAll(".CartBtn");
-
             CartBtn.forEach(function(button) {
                 var productId = button.getAttribute("data-id");
                 var productType = button.getAttribute("data-type");
@@ -721,7 +709,6 @@
                     button.querySelector(".text").textContent = "Sepete Eklendi";
                     button.classList.add("bg-success");
                 } else {
-                    // button.querySelector(".text").textContent = "Sepete Ekle";
                     button.classList.remove("bg-success");
                 }
             });
