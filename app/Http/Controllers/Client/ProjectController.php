@@ -141,7 +141,7 @@ class ProjectController extends Controller
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
                     $housingType = HousingType::where('slug', $paramValue)->first();
-
+                    
                     if ($item1) {
                         $is_project = $item1->is_project;
                         $slugName = $item1->name;

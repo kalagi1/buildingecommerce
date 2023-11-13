@@ -26043,6 +26043,8 @@ section.ui-element {
         padding-right: 1.1rem;
         padding-left: 1.1rem;
     }
+   
+
 
     .blog .blog-pots img {
         width: 100%;
@@ -26770,6 +26772,7 @@ section.ui-element {
 }
 
 input[type="checkbox"] {
+    border:1px solid grey;
     /* Add if not using autoprefixer */
     -webkit-appearance: none;
     appearance: none;
