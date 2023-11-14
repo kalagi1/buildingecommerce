@@ -2,6 +2,20 @@
 
 @section('content')
     <style>
+        /* css */
+        .trip-search select
+        {
+            appearance: none;
+            border: 1px solid #CCC;
+            border-radius: 8px;
+        }
+
+        .widget-boxed-header h6
+        {
+            font-weight: bold !important;
+            color: #000;
+        }
+
         @media (min-width: 768px) {
             .filters-input-area {
                 display: block !important;
@@ -91,12 +105,12 @@
                         </svg>
                         <!-- Search Fields -->
 
-                        <div class="widget-boxed main-search-field mt-4 ">
+                        <div class="widget-boxed main-search-field mt-4">
                             <div class="trip-search">
-                                <div class="widget-boxed-header">
+                                <div class="widget-boxed-header border-0">
                                     <h6 style="font-weight: 700">Adres</h6>
                                 </div>
-                                <div class="mt-4">
+                                <div>
                                     <select id="city" class="bg-white filter-now">
                                         <option value="#" class="selected" selected disabled>İl</option>
                                         @foreach ($cities as $city)
@@ -116,19 +130,19 @@
                                 </div>
                             </div>
                             <div class="trip-search mt-5">
-                                <div class="widget-boxed-header">
+                                <div class="widget-boxed-header border-0">
                                     <h6 style="font-weight: 700">İlan Tarihi</h6>
                                 </div>
-                                <div class="mt-4">
-                                    <label class="filter-date">
+                                <div style="display: grid;">
+                                    <label class="filter-date d-flex align-items-center">
                                         <input name="filter-date" class="filter-date filter-now" type="radio" value="last3Days">
                                         <span class="fs-13 ml-2">Son 3 Gün</span>
                                     </label>
-                                    <label class="filter-date mt-2">
+                                    <label class="filter-date mt-2 d-flex align-items-center">
                                         <input name="filter-date" class="filter-date filter-now" type="radio" value="lastWeek">
                                         <span class="fs-13 ml-2">Son Bir Hafta</span>
                                     </label>
-                                     <label class="filter-date mt-2">
+                                     <label class="filter-date mt-2 d-flex align-items-center">
         <input name="filter-date" type="radio" class="filter-date filter-now" value="lastMonth">
         <span class="fs-13 ml-2">Son Bir Ay</span>
     </label>
@@ -137,10 +151,10 @@
                             </div>
                             @if ($projects)
                                 <div class="trip-search mt-5">
-                                    <div class="widget-boxed-header">
+                                    <div class="widget-boxed-header border-0">
                                         <h6 style="font-weight: 700">Proje Durumu</h6>
                                     </div>
-                                    <div class="mt-4">
+                                    <div>
                                         <select id="project_type" class="form-control bg-white filter-now">
                                             <option value="#" selected disabled>Proje Durumu</option>
                                             <option value="2">Tamamlanan Projeler</option>
@@ -168,7 +182,7 @@
                                             </svg>
                                         </span>
                                     </div>
-                                    <div class="mt-4 row price-inputs" style="display: none;">
+                                    <div class="row price-inputs" style="display: none;">
                                         <div class="col-6">
                                             <input type="number" id="price-min" min="0" placeholder="Min"
                                                 class="filter-now form-control">
@@ -195,7 +209,7 @@
                                             </svg>
                                         </span>
                                     </div>
-                                    <div class="mt-4 row" style="display: none;">
+                                    <div class="row" style="display: none;">
                                         <div class="col-6">
                                             <input type="number" id="msq-min" min="0" placeholder="Min"
                                                 class="filter-now form-control">
@@ -220,7 +234,7 @@
                                         </svg>
                                     </span>
                                 </div>
-                                <div class="mt-4" style="display: none;">
+                                <div style="display: none;">
                                     <div class="mb-2 d-flex align-items-center w-100">
                                         <input type="checkbox" class="form-check-input filter-now form-control"
                                             id="1_1" />
@@ -271,7 +285,7 @@
                                         </svg>
                                     </span>
                                 </div>
-                                <div class="mt-4" style="display: none;">
+                                <div style="display: none;">
                                     <div class="mb-2 d-flex align-items-center w-100">
                                         <input type="radio" name="post_date" id="recent_day" class="filter-now" />
                                         <label for="recent_day" class="form-check-label w-100 small ">Son 1 Gün
@@ -312,7 +326,7 @@
                                         </svg>
                                     </span>
                                 </div>
-                                <div class="mt-4" style="display: none;">
+                                <div style="display: none;">
                                     <div class="mb-2 d-flex align-items-center w-100">
                                         <input type="radio" name="whose" id="from_owner" class="filter-now" />
                                         <label for="from_owner" class="form-check-label w-100 small">Sahibinden</label>
@@ -578,7 +592,7 @@
                                     </svg>
                                 </span>
                             </div>
-                            <div class="mt-4" style="display: none;">
+                            <div style="display: none;">
                                 <div class="mb-2 d-flex align-items-center w-100">
                                     <input type="radio" name="post_date" id="recent_day" class="filter-now" />
                                     <label for="recent_day" class="form-check-label w-100 small ">Son
@@ -777,7 +791,7 @@
                                         <!-- Image Box -->
                                         <a href="${res.url}" class="img-box hover-effect">
                                             <img src="${res.image}" class="img-fluid w100" alt="">
-                                        
+
                                         </a>
                                     </div>
                                     `
@@ -788,7 +802,7 @@
                                         <!-- Image Box -->
                                         <a href="${res.url}" class="img-box hover-effect">
                                             <img src="${res.image}" class="img-fluid w100" alt="">
-                                           
+
                                         </a>
                                     </div>
                                     `
@@ -800,7 +814,7 @@
                                         <a href="${res.housing_url}" tabindex="0" class="text-decoration-none">
                                         <div class="landscapes">
                                             <div class="project-single">
-                                                
+
                                                 <div class="project-inner project-head">
                                                     <div class="homes">
                                                         <!-- homes img -->
@@ -854,12 +868,12 @@
                                                         </li>
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
-                                                        ${res.sold ? 
+                                                        ${res.sold ?
                                                             `<button
                                                                                                                                                                                                     style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
                                                                                                                                                                                                 </button>`
-                                                            : 
-                                                            
+                                                            :
+
                                                             `
                                                                                                                                                         <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
                                                                                                                                                         data-id='${res.id}'>
@@ -880,7 +894,7 @@
                                     `
                                 );
                                 $('.pp-col').append(`
-                               
+
                                     <div class="d-flex" style="flex-wrap: nowrap">
                                         <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                                             <div class="project-inner project-head">
@@ -915,7 +929,7 @@
                                                                                     height="24px"
                                                                                     style="width: 24px !important; height: 24px !important;" />
                                                                             </button>
-                                                
+
                                                     </div>
                                                     <span class="ml-auto text-primary priceFont">
                                                         ${numberFormat(res.housing_type.price)} ₺
