@@ -112,6 +112,8 @@ Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOf
 
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
+Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
+
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
 Route::post('add_to_project_cart/', [CartController::class, 'addProject'])->name('add.to.project.cart');

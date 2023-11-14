@@ -48,6 +48,7 @@
                                                         {{ getData($project, 'advertise_title[]', $housingOrder)->value }}</span>
                                                 @else
                                                     <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}</span>
+                                                    <br>
                                                     {{ $housingOrder }} {{ "No'lu" }}
                                                     {{ $project->step1_slug }}
                                                 @endif </h3>
@@ -90,7 +91,7 @@
                                                         <span>
                                                             {{ getData($project, 'advertise_title[]', $housingOrder)->value }}</span>
                                                     @else
-                                                        <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}</span>
+                                                        <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}</span><br>
                                                         {{ $housingOrder }} {{ "No'lu" }}
                                                         {{ $project->step1_slug }}
                                                     @endif
@@ -108,7 +109,7 @@
                                                 <span>
                                                     {{ getData($project, 'advertise_title[]', $housingOrder)->value }}</span>
                                             @else
-                                                <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}</span>
+                                                <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}</span><br>
                                                 {{ $housingOrder }} {{ "No'lu" }}
                                                 {{ $project->step1_slug }}
                                             @endif
@@ -784,10 +785,10 @@
                                                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                                                     <h3>
                                                                         @if (getData($project, 'advertise_title[]', $housingOrder)->value ?? null)
-                                                                            {{ getData($project, 'advertise_title[]', $housingOrder)->value }}
+                                                                          <span>  {{ getData($project, 'advertise_title[]', $housingOrder)->value }}</span>
                                                                         @else
-                                                                            {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                            Projesinde
+                                                                           <span> {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                                            </span><br>
                                                                             {{ $housingOrder }} {{ "No'lu" }}
                                                                             {{ $project->step1_slug }}
                                                                         @endif
@@ -1349,11 +1350,11 @@
                                                                 href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                                                 <h3>
                                                                     @if (getData($project, 'advertise_title[]', $housingOrder)->value ?? null)
-                                                                        )
-                                                                        {{ getData($project, 'advertise_title[]', $housingOrder)->value }}
+                                                                        
+                                                                        <span>{{ getData($project, 'advertise_title[]', $housingOrder)->value }}</span>
                                                                     @else
-                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                        Projesinde
+                                                                        <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}</span>
+                                                                        <br>
                                                                         {{ $housingOrder }} {{ "No'lu" }}
                                                                         {{ $project->step1_slug }}
                                                                     @endif

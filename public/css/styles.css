@@ -3267,7 +3267,7 @@ section.portfolio {
 }
 
 .portfolio .homes-content .homes-list li {
-    width: 33%;
+    /* width: 33%; */
     float: left;
     font-size: 14px;
     line-height: 40px;
@@ -23393,11 +23393,11 @@ section.leve-comments {
 }
 
 label {
-    font-size: 16px;
+    font-size: 13px;
     line-height: 24px;
-    font-weight: 400;
+    font-weight: 600;
     margin-bottom: 5px;
-    color: #000;
+    color: #666 !important;
 }
 
 form label.error {
@@ -24570,8 +24570,8 @@ input[type="radio"] {
 }
 
 input[type="radio"] {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
 }
 
 textarea {
