@@ -86,4 +86,8 @@ class Project extends Model
     public function rejectedLog(){
         return $this->hasOne(Log::class,'item_id','id')->where('item_type',1)->where('is_rejected',1)->orderByDesc('created_at');
     }
+
+    public function listItemValues(){
+        return $this->hasOne(ProjectListItem::class,"housing_type_id",'housing_type_id');
+    }
 }

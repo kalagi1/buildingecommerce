@@ -287,28 +287,7 @@ class ProjectController extends Controller
                 "county_id" => $tempOrder->county_id,
                 "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
                 "status_id" => 1,
-                "image" => 'public/project_images/' . $newCoverImage,
-                'document' => $newDocument,
-                "end_date" => $endDate->format('Y-m-d'),
-                "status" => 2,
-            ]);
-
-            $instUser = User::where("id", Auth::user()->id)->first();
-            $project = Project::create([
-                "housing_type_id" => $housingType->id,
-                "step1_slug" => $tempOrder->step1_slug,
-                "step2_slug" => $tempOrder->step2_slug,
-                "project_title" => $tempOrder->name,
-                "slug" => Str::slug($tempOrder->name),
-                "address" => "asd",
-                "location" => $tempOrder->location,
-                "description" => $tempOrder->description,
-                "room_count" => $tempOrder->house_count,
-                "city_id" => $tempOrder->city_id,
-                "county_id" => $tempOrder->county_id,
-                "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
-                "status_id" => 1,
-                "image" => 'public/project_images/' . $newCoverImage,
+                "image" => 'public/project_images/'.$newCoverImage,
                 'document' => $newDocument,
                 "end_date" => $endDate->format('Y-m-d'),
                 "status" => 2,
@@ -442,24 +421,6 @@ class ProjectController extends Controller
             TempOrder::where('user_id', auth()->user()->id)->where('item_type', 1)->delete();
             UserPlan::where('user_id', $instUser->parent_id ? $instUser->parent_id : $instUser->id)->decrement('project_limit');
             dispatch(new AdvertTimeJob($project))->delay(now()->addMonths($month));
-
-            $project = Project::where('id', $project->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
-            $menu = Menu::getMenuItems();
-            $project->roomInfo = $project->roomInfo;
-            $project->brand = $project->brand;
-            $project->housingType = $project->housingType;
-            $project->county = $project->county;
-            $project->city = $project->city;
-            $project->user = $project->user;
-            $project->user->housings = $project->user->housings;
-            $project->user->brands = $project->user->brands;
-            $project->images = $project->images;
-            $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
-
-            Cache::rememberForever('project_' . $project->slug, function () use ($offer, $project, $menu) {
-                return view('client.projects.index', compact('menu', "offer", 'project'))->render();
-            });
-
             return json_encode([
                 "status" => true,
             ]);

@@ -218,18 +218,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="">İlçe <span class="required">*</span></label>
-                                        <select onchange="changeData(this.value,'county_id')" name="county_id" id="counties" class="form-control">
-                                            <option  value="">İlçe Seç</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="">Mahalle <span class="required">*</span></label>
-                                        <select onchange="changeData(this.value,'neighbourhood_id')" name="neighbourhood_id" id="neighbourhood" class="form-control">
-                                            <option value="">Mahalle Seç</option>
-                                        </select>
-                                    </div>
                                 </div>
                                 <div>
                                     <input name="location" class="form-control" id="location" readonly type="hidden"
@@ -310,9 +298,11 @@
                         
                         <div class="second-area-finish">
                             <div class="finish-tick ">
-                                <input type="checkbox" value="1" class="rules_confirm" >
-                                <span class="rulesOpen">İlan verme kurallarını</span>
-                                <span>okudum, kabul ediyorum</span>
+                                <input type="checkbox" id="rules_confirmx" value="1" class="rules_confirm" >
+                                <label for="rules_confirmx">
+                                    <span class="rulesOpen">İlan verme kurallarını</span>
+                                    <span>okudum, kabul ediyorum</span>
+                                </label>
                             </div>
                             <div class="finish-button" style="float:right;margin:0;">
                                 <button class="btn btn-info">
@@ -929,7 +919,6 @@
                                                             })
                                                         }
                                                     }else{
-                                                        console.log(data[i][key[0]]);
                                                         if(data[i][key[0]] == null){
                                                             $('input[name="'+key[0]+'[]"]').val("");
                                                         }else{
@@ -1135,7 +1124,7 @@
                     method: "POST",
                     url: "{{route('institutional.delete.temp.create')}}",
                     data : {
-                        item_type : 3,
+                        item_type : 1,
                         _token : csrfToken
                     },
                     success: function(response) {
@@ -1656,15 +1645,6 @@
 
                 }
             });
-
-            $('.finish-tick').click(function(){
-                if($(this).find('input').is(':checked')){
-                    $(this).find('input').prop('checked',false)
-                }else{
-                    $('.finish-tick').removeClass('error-border')
-                    $(this).find('input').prop('checked',true)
-                }
-            })
             
             $('.pricing-item').click(function(){
                 $('.pricing-item').find('input').removeAttr('checked');
@@ -1838,7 +1818,6 @@
                         var latitude = location.latlng.lat;
                         var longitude = location.latlng.lng;
                         changeData(latitude+','+longitude,'location');
-                        var apiURL = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" + latitude + "&lon=" + longitude+'&zoom=18&addressdetails=1';
                     }
                 }); 
 

@@ -764,6 +764,44 @@
 
                         </div>
                     </div>
+                    <div class="tab-pane fade blog-info details" id="profile" role="tabpanel"
+                        aria-labelledby="profile-tab">
+                        <div class="similar-property featured portfolio p-0 bg-white">
+
+                            <div class="single homes-content">
+                                <!-- title -->
+                                <h5 class="mb-4">Özellikler</h5>
+                                <ul class="homes-list clearfix">
+                                    @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
+                                        @php
+                                            $turkceKarsilik = [
+                                                'price' => 'Fiyat',
+                                                'numberoffloors' => 'Bulunduğu Kat',
+                                                'squaremeters' => 'm² (Net)',
+                                                'room_count' => 'Oda Sayısı',
+                                                'front1' => 'Cephe',
+                                                'm2gross' => 'm² (Brüt)',
+                                                'buildingage' => 'Bina Yaşı',
+                                                'heating' => 'Isıtma',
+                                                'balcony' => 'Balkon',
+                                                'numberofbathrooms' => 'Banyo Sayısı',
+                                                'usingstatus' => 'Kullanım Durumu',
+                                                'dues' => 'Aidat',
+                                                'titledeedstatus' => 'Tapu Durumu',
+                                                'external_features1' => 'Dış Özellikler',
+                                                'swap' => 'Takas',
+                                                'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
+                                                'internal_features1' => 'İç Özellikler',
+                                                'floorlocation' => 'Kat Sayısı',
+                                                'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
+                                                'furnished1' => 'Eşyalı',
+                                                'availableforLoan1' => 'Krediye Uygun',
+                                                'swap1' => 'Takaslı',
+                                                'buysellurgent1' => 'Acil Satılık',
+                                            ];
+
+                                            $key = $turkceKarsilik[$key] ?? $key;
+                                        @endphp
 
 
                 </div>

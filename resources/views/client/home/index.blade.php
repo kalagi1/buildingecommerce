@@ -409,28 +409,43 @@
                                                             <!-- homes List -->
                                                             <ul class="homes-list clearfix pb-0"
                                                                 style="display: flex;justify-content:space-between">
+                                                                
+                                                                @if(isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
                                                                 <li class="sude-the-icons" style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                    <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
+                                                                    <span>
+                                                                        {{ getHouse($project, $project->listItemValues->column1_name.'[]', $i + 1)->value }}
+                                                                        @if(isset($project->listItemValues) && isset($project->listItemValues->column1_additional) && $project->listItemValues->column1_additional)
+                                                                        {{$project->listItemValues->column1_additional}}
+                                                                        @endif
+                                                                    </span>
                                                                 </li>
-
-                                                                @if ($project->step1_slug != 'arsaa')
-                                                                    <li class="sude-the-icons"
-                                                                        style="width:auto !important">
-                                                                        <i class="fa fa-circle circleIcon mr-1"
-                                                                            aria-hidden="true"></i>
-                                                                        <span>{{ getHouse($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                            .Kat
-                                                                        </span>
-                                                                    </li>
                                                                 @endif
-
+                                                                @if(isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
+                                                                <li class="sude-the-icons"
+                                                                    style="width:auto !important">
+                                                                    <i class="fa fa-circle circleIcon mr-1"
+                                                                        aria-hidden="true"></i>
+                                                                    <span>
+                                                                        {{ getHouse($project, $project->listItemValues->column2_name.'[]', $i + 1)->value }}
+                                                                        @if(isset($project->listItemValues) && isset($project->listItemValues->column2_additional) && $project->listItemValues->column2_additional)
+                                                                        {{$project->listItemValues->column2_additional}}
+                                                                        @endif
+                                                                    </span>
+                                                                </li>
+                                                                @endif
+                                                                @if(isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
                                                                 <li class="sude-the-icons" style="width:auto !important">
                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                         aria-hidden="true"></i>
-                                                                    <span>{{ getHouse($project, 'squaremeters[]', $i + 1)->value }}
-                                                                        m2</span>
+                                                                    <span>
+                                                                        {{ getHouse($project, $project->listItemValues->column3_name.'[]', $i + 1)->value }}
+                                                                        @if(isset($project->listItemValues) && isset($project->listItemValues->column3_additional) && $project->listItemValues->column3_additional)
+                                                                        {{$project->listItemValues->column3_additional}}
+                                                                        @endif
+                                                                    </span>
                                                                 </li>
+                                                                @endif
                                                             </ul>
                                                             <ul class="homes-list clearfix pb-0"
                                                                 style="display: flex; justify-content: space-between;margin-top:20px !important;">
