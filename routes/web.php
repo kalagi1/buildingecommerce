@@ -760,6 +760,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
+    Route::get('/projects/{project_id}/housings', [InstitutionalProjectController::class, 'housings'])->name('projects.housings');
 
     Route::post('/end_extend_time', [PaymentTempController::class, "createPaymentTemp"])->name('create.payment.end.temp');
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');

@@ -437,10 +437,9 @@
                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                 <a style="text-decoration: none; height: 100%"
                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                    <h3> @php($advertiseTitle = getData($project, 'advertise_title[]', $i + 1)->value ?? null)
-
-                                        @if ($advertiseTitle)
-                                            {{ $advertiseTitle }}
+                                    <h3> 
+                                        @if (getData($project, 'advertise_title[]', $i + 1)->value)
+                                            {{ getData($project, 'advertise_title[]', $i + 1)->value }}
                                         @else
                                             {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                             Projesinde
