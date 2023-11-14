@@ -16,7 +16,6 @@ use App\Models\ProjectHouseSetting;
 use App\Models\ProjectImage;
 use App\Models\StandOutUser;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class ProjectController extends Controller
 {
@@ -27,24 +26,24 @@ class ProjectController extends Controller
         //     $cachedHtml = Cache::get('project_'.$slug);
         //     return response($cachedHtml);
         // }else{
-            $menu = Menu::getMenuItems();
-            $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
-            $project->roomInfo = $project->roomInfo;
-            $project->brand = $project->brand;
-            $project->housingType = $project->housingType;
-            $project->county = $project->county;
-            $project->city = $project->city;
-            $project->user = $project->user;
-            $project->user->housings = $project->user->housings;
-            $project->user->brands = $project->user->brands;
-            $project->images = $project->images;
-            $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
-            
-            return view('client.projects.index', compact('menu', "offer",'project'));
+        $menu = Menu::getMenuItems();
+        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project->roomInfo = $project->roomInfo;
+        $project->brand = $project->brand;
+        $project->housingType = $project->housingType;
+        $project->county = $project->county;
+        $project->city = $project->city;
+        $project->user = $project->user;
+        $project->user->housings = $project->user->housings;
+        $project->user->brands = $project->user->brands;
+        $project->images = $project->images;
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
 
-            // Cache::rememberForever('project_'.$slug ,  function () use($offer,$project,$menu) {
-            //     return view('client.projects.index', compact('menu', "offer",'project'))->render();
-            // });
+        return view('client.projects.index', compact('menu', "offer", 'project'));
+
+        // Cache::rememberForever('project_'.$slug ,  function () use($offer,$project,$menu) {
+        //     return view('client.projects.index', compact('menu', "offer",'project'))->render();
+        // });
         // }
 
     }
@@ -108,6 +107,11 @@ class ProjectController extends Controller
 
     public function allMenuProjects($slug = null, $type = null, $optional = null, $title = null)
     {
+        $deneme = null;
+        if ($slug == "al-sat-acil") {
+            $deneme = "al-sat-acil";
+        }
+
         $parameters = [$slug, $type, $optional, $title];
         $secondhandHousings = [];
         $projects = [];
@@ -126,6 +130,44 @@ class ProjectController extends Controller
 
         $optName = [];
 
+        if ($deneme) {
+            $slug = "al-sat-acil";
+            $slugName = "Al Sat Acil";
+            $secondhandHousings = Housing::with('images')
+                ->select(
+                    'housings.id',
+                    'housings.title AS housing_title',
+                    'housings.created_at',
+                    'housings.step1_slug',
+                    'housings.step2_slug',
+                    'housing_types.title as housing_type_title',
+                    'housings.housing_type_data',
+                    'project_list_items.column1_name as column1_name',
+                    'project_list_items.column2_name as column2_name',
+                    'project_list_items.column3_name as column3_name',
+                    'project_list_items.column4_name as column4_name',
+                    'project_list_items.column1_additional as column1_additional',
+                    'project_list_items.column2_additional as column2_additional',
+                    'project_list_items.column3_additional as column3_additional',
+                    'project_list_items.column4_additional as column4_additional',
+                    'housings.address',
+                    \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+                    'cities.title AS city_title', // city tablosundan veri çekme
+                    'districts.ilce_title AS county_title' // district tablosundan veri çekme
+                )
+                ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+                ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+                ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+                ->leftJoin('cities', 'cities.id', '=', 'housings.city_id') // city tablosunu join etme
+                ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id') // district tablosunu join etme
+                ->where('housings.status', 1)
+                ->whereJsonContains('housings.housing_type_data->buysellurgent1', 'Evet')
+                ->where('project_list_items.item_type', 2)
+                ->orderByDesc('housings.created_at')
+                ->get();
+
+        }
+
         foreach ($parameters as $paramValue) {
             if ($paramValue) {
 
@@ -143,7 +185,7 @@ class ProjectController extends Controller
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
                     $housingType = HousingType::where('slug', $paramValue)->first();
-                    
+
                     if ($item1) {
                         $is_project = $item1->is_project;
                         $slugName = $item1->name;
@@ -231,6 +273,7 @@ class ProjectController extends Controller
             }
             $secondhandHousings = $query->get();
         }
+
 
         $housingStatuses = HousingStatus::get();
         $cities = City::get();
