@@ -67,11 +67,10 @@ class HomeController extends Controller
             $query->where('housing_type_id', '3');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
 
-
         $soilProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '5');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
-        return view('client.home.index', compact('menu',"soilProjects" ,'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
+        return view('client.home.index', compact('menu', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 
     public function getRenderedProjects(Request $request)
@@ -131,7 +130,6 @@ class HomeController extends Controller
             }
         }
 
-
         $query = Project::query()->where('status', 1);
 
         if ($request->input('city')) {
@@ -142,13 +140,41 @@ class HomeController extends Controller
             $query->where('county_id', $request->input('county'));
         }
 
+        if ($request->input('filterDate')) {
+            $filterDate = $request->input('filterDate');
+        
+            switch ($filterDate) {
+                case 'last3Days':
+                    $query->where('created_at', '>=', now()->subDays(3));
+                    break;
+        
+                case 'lastWeek':
+                    $query->where('created_at', '>=', now()->subWeek());
+                    break;
+        
+                case 'lastMonth':
+                    $query->where('created_at', '>=', now()->subMonth());
+                    break;
+        
+        
+                default:
+                    break;
+            }
+        }
+        
+        if ($request->input('project_type')) {
+            $slug = $request->input('project_type');
+            $query->whereHas('housingTypes', function ($query) use ($slug) {
+                $query->where('housing_type_id', $slug);
+            });}
+
         if ($slug) {
             $query->whereHas('housingTypes', function ($query) use ($slug) {
                 $query->where('housing_type_id', $slug);
             });
         }
 
-        if ($housingTypeSlug) { 
+        if ($housingTypeSlug) {
             $query->where("step1_slug", $housingTypeSlug);
         }
 
@@ -183,7 +209,7 @@ class HomeController extends Controller
             return [
                 'image' => url(str_replace('public/', 'storage/', $item->image)),
                 'url' => route('project.detail', $item->slug),
-                "title" => $item->project_title
+                "title" => $item->project_title,
             ];
         });
 

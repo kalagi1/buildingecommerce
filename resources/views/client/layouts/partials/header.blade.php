@@ -69,6 +69,11 @@
                 padding: 13px !important
             }
         }
+
+        .sticky-bar {
+    position: sticky;
+    top: 80px;
+}
     </style>
 </head>
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @extends('institutional.layouts.master')
 
 @section('content')
@@ -3077,3 +3078,5 @@
     <link rel="stylesheet" href="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/content/default/content.min.css">
 @endsection
 
+=======
+>>>>>>> ba34eb19e8e3136e5946f9a127b52afcd6a9367d

@@ -89,7 +89,7 @@
     $project =
         $o->type == 'project'
             ? App\Models\Project::with('roomInfo')->where('id', $o->item->id)->first()
-            : null,
+            : null
 )
 
 

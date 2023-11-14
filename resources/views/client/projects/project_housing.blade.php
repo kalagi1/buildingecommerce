@@ -140,7 +140,7 @@
                             <div class="button-effect toggle-project-favorite"
                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $housingOrder)->room_order }}"
                                 data-project-id={{ $project->id }}>
-                                <i class="fa fa-heart"></i>
+                                <i class="fa fa-heart-o"></i>
                             </div>
                         </div>
                         <div class="col-md-10">
@@ -505,7 +505,7 @@
                                                                                                 class="btn toggle-project-favorite bg-white"
                                                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                                                 data-project-id={{ $project->id }}>
-                                                                                                <i class="fa fa-heart"></i>
+                                                                                                <i class="fa fa-heart-o"></i>
                                                                                             </div>
                                                                                         </div>
                                                                                         <div
@@ -1084,7 +1084,7 @@
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                                             data-project-id={{ $project->id }}>
-                                                                                            <i class="fa fa-heart"></i>
+                                                                                            <i class="fa fa-heart-o"></i>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="homes position-relative">
