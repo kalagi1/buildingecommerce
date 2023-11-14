@@ -104,7 +104,7 @@
                         </svg>
                         <!-- Search Fields -->
 
-                        <div class="widget-boxed main-search-field mt-4 ">
+                        <div class="widget-boxed main-search-field mt-4">
                             <div class="trip-search">
                                 <div class="widget-boxed-header border-0">
                                     <h6 style="font-weight: 700">Adres</h6>
