@@ -69,7 +69,7 @@
                                                     <polyline points="17 18 23 18 23 12"></polyline>
                                                 </svg>
                                             @endif
-                                            {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 2, ',', '.') }}
+                                            {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 0, ',', '.') }}
                                             ₺
                                         </span>
                                     </td>
@@ -123,11 +123,11 @@
                                     <td>
                                         @if ($sold)
                                             @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 2, ',', '.') }}
+                                                {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 0, ',', '.') }}
                                                 ₺
                                             @endif
                                         @else
-                                            {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 2, ',', '.') }}
+                                            {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 0, ',', '.') }}
                                             ₺
                                         @endif
                                     </td>

@@ -12,8 +12,44 @@ use App\Models\ProjectHouseSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class HousingController extends Controller
-{
+class HousingController extends Controller {
+    public function alert() {
+        $secondhandHousings = Housing::with('images')
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.created_at',
+            'housings.step1_slug',
+            'housings.step2_slug',
+            'housing_types.title as housing_type_title',
+            'housings.housing_type_data',
+            'project_list_items.column1_name as column1_name',
+            'project_list_items.column2_name as column2_name',
+            'project_list_items.column3_name as column3_name',
+            'project_list_items.column4_name as column4_name',
+            'project_list_items.column1_additional as column1_additional',
+            'project_list_items.column2_additional as column2_additional',
+            'project_list_items.column3_additional as column3_additional',
+            'project_list_items.column4_additional as column4_additional',
+            'housings.address',
+            \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+            'cities.title AS city_title', // city tablosundan veri çekme
+            'districts.ilce_title AS county_title' // district tablosundan veri çekme
+        )
+        ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+        ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+        ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+        ->leftJoin('cities', 'cities.id', '=', 'housings.city_id') // city tablosunu join etme
+        ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id') // district tablosunu join etme
+        ->where('housings.status', 1)
+        ->whereJsonContains('housings.housing_type_data->buysellurgent1', 'Evet')
+        ->where('project_list_items.item_type', 2)
+        ->orderByDesc('housings.created_at')
+        ->get();
+
+        return $secondhandHousings;
+    }
+
     public function sendComment(Request $request, $id)
     {
         $housing = Housing::where("id", $id)->with("user")->first();

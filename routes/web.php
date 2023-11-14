@@ -112,6 +112,8 @@ Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOf
 
 Route::get('/proje_konut_detayi/{projectSlug}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
+Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
+
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
 Route::post('add_to_project_cart/', [CartController::class, 'addProject'])->name('add.to.project.cart');
@@ -634,9 +636,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
-    Route::get('/fatura/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
     Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
     Route::get('/orders', [DashboardController::class, 'getOrders'])->name('orders');
+    Route::get('/projects/{project_id}/housings', [InstitutionalProjectController::class, 'housings'])->name('projects.housings');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
     Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');
@@ -760,6 +762,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::resource('/brands', BrandController::class);
     Route::resource('/projects', InstitutionalProjectController::class);
+    Route::get('/projects/{project_id}/housings', [InstitutionalProjectController::class, 'housings'])->name('projects.housings');
 
     Route::post('/end_extend_time', [PaymentTempController::class, "createPaymentTemp"])->name('create.payment.end.temp');
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
@@ -829,7 +832,18 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::get('/housings', [InstitutionalHousingController::class, 'index'])->name('housing.list');
     });
 
+    Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
+        Route::get('/get-orders', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
+        Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
+        Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
+
+    });
+
 });
+
+Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
+Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
+
 
 Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client', 'checkAccountStatus']], function () {
 
@@ -837,8 +851,6 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     Route::post('/verify', [ClientPanelProfileController::class, 'verifyAccount'])->name('verify-account');
     Route::get('/get-document', [ClientPanelProfileController::class, 'getIdentityDocument'])->name('get.identity-document');
 
-    Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
-    Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
 
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
@@ -868,6 +880,7 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
 
     Route::get('/get_neighbourhood', [InstitutionalProjectController::class, "getNeighbourhood"])->name('get.neighbourhood');
+
     Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
         Route::get('/siparisler', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
         Route::get('/fatura/{order}', [InvoiceController::class, "show"])->name('invoice.show');

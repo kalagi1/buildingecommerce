@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\UserPlan;
 use App\Rules\SubscriptionPlanToUpgradeBireysel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
@@ -19,7 +20,13 @@ class ProfileController extends Controller
     public function cartOrders()
     {
         $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice")->orderBy("id", "desc")->get();
-        return view('client.client-panel.profile.orders', compact('cartOrders'));
+        if (Auth::user()->type == "2") {
+            return view('institutional.orders.get', compact('cartOrders'));
+
+        } else {
+            return view('client.client-panel.profile.orders', compact('cartOrders'));
+
+        }
     }
 
     public function verify()

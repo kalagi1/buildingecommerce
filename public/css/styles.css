@@ -3267,7 +3267,7 @@ section.portfolio {
 }
 
 .portfolio .homes-content .homes-list li {
-    width: 33%;
+    /* width: 33%; */
     float: left;
     font-size: 14px;
     line-height: 40px;
@@ -17973,6 +17973,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .inner-pages .blog .homes-content .homes-list li {
+    width: 33%;
     float: left;
     font-size: 13px;
     line-height: 36px;
@@ -18462,7 +18463,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     padding: 6px 7px;
     color: #fff;
     border: 0px;
-    background-color: black;
+    background-color: #274abb;
     border-radius: 50px;
     display: inline-block;
     position: relative;
@@ -22808,8 +22809,114 @@ a.btn_1 {
     flex-wrap: wrap;
 }
 
+.ud-btn {
+    border-radius: 12px;
+    display: inline-block;
+    font-family: var(--title-font-family);
+    font-weight: 600;
+    font-size: 15px;
+    font-style: normal;
+    letter-spacing: 0em;
+    padding: 13px 30px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    z-index: 0;
+    -webkit-transition: all .4s ease;
+    -o-transition: all .4s ease;
+    transition: all .4s ease
+}
+
+.ud-btn i {
+    margin-left: 10px;
+    font-size: 16px;
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg)
+}
+
+.ud-btn:hover,.ud-btn:focus,.ud-btn:active {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none
+}
+
+@media (max-width: 339px) {
+    .ud-btn {
+        padding:13px 25px
+    }
+}
+
+.ud-btn2 {
+    font-family: var(--title-font-family);
+    font-weight: 600;
+    font-size: 15px;
+    position: relative;
+    text-align: center;
+    -webkit-transition: all .4s ease;
+    -o-transition: all .4s ease;
+    transition: all .4s ease
+}
+
+.ud-btn2 i {
+    margin-left: 10px;
+    font-size: 16px;
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg)
+}
+
+.ud-btn2:hover {
+    outline: none
+}
+
+.btn-thm {
+    background-color: #eb6753;
+    border: 1px solid #eb6753;
+    color: #fff
+}
+
+.btn-dark {
+    background-color: var(--headings-color);
+    border: 1px solid var(--headings-color);
+    color: #fff
+}
+
+.ud-btn:before,.btn-gray:before,.btn-dark:before,.btn-thm:before,.btn-thm2:before,.btn-thm3:before,.btn-thm-border:before,.btn-white:before,.btn-light-gray:before,.btn-transparent:before,.btn-transparent2:before {
+    background-color: #EA2B2E;
+    content: "";
+    height: 100%;
+    left: -100%;
+    position: absolute;
+    top: 0;
+    width: 0;
+    z-index: -1;
+    -webkit-transform: skew(50deg);
+    -ms-transform: skew(50deg);
+    transform: skew(50deg);
+    -webkit-transition: width .6s;
+    -o-transition: width .6s;
+    transition: width .6s;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left
+}
+
+.btn-white, .btn-white2 {
+    background-color: #fff;
+    border: 1px solid black;
+}
+.ud-btn:hover,.btn-gray:hover,.btn-dark:hover,.btn-thm:hover,.btn-thm2:hover,.btn-thm3:hover,.btn-thm-border:hover,.btn-white:hover,.btn-light-gray:hover,.btn-transparent:hover,.btn-transparent2:hover {
+    color: #fff
+}
+
+.ud-btn:hover:before,.btn-gray:hover:before,.btn-dark:hover:before,.btn-thm:hover:before,.btn-thm2:hover:before,.btn-thm3:hover:before,.btn-thm-border:hover:before,.btn-white:hover:before,.btn-light-gray:hover:before,.btn-transparent:hover:before,.btn-transparent2:hover:before {
+    height: 100%;
+    width: 200%
+}
 .inner-pages .recent-post .tags a {
     background: black;
+    font-size:12px;
     color: #fff;
     border: 1px solid black;
     margin-bottom: .7rem;
@@ -23287,11 +23394,11 @@ section.leve-comments {
 }
 
 label {
-    font-size: 16px;
+    font-size: 13px;
     line-height: 24px;
-    font-weight: 400;
+    font-weight: 600;
     margin-bottom: 5px;
-    color: #000;
+    color: #666 !important;
 }
 
 form label.error {
@@ -24464,8 +24571,8 @@ input[type="radio"] {
 }
 
 input[type="radio"] {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
 }
 
 textarea {
@@ -27083,9 +27190,9 @@ input[type="checkbox"]::before {
     position: relative;
 }
 
-     .selected {
+     /* .selected {
             border: 2px solid red;
-        }
+        } */
 /* 
         .paySuccess {
             width: 200px;
@@ -28344,3 +28451,5 @@ input[type="checkbox"]::before {
     margin-top: 15px;
     position: absolute;
   }
+
+  

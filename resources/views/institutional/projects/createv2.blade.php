@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @extends('institutional.layouts.master')
 
 @section('content')
@@ -906,7 +905,6 @@
                                             }else{
                                                 if(data[i].type != "file"){
                                                     if(data[i].type == "checkbox-group"){
-                                                            console.log(data[i][key[0]]);
                                                         if(data[i][key[0]] == null){
                                                             $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
                                                         }else{
@@ -1647,7 +1645,6 @@
 
                 }
             });
-
             
             $('.pricing-item').click(function(){
                 $('.pricing-item').find('input').removeAttr('checked');
@@ -3078,5 +3075,3 @@
     <link rel="stylesheet" href="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/content/default/content.min.css">
 @endsection
 
-=======
->>>>>>> ba34eb19e8e3136e5946f9a127b52afcd6a9367d
