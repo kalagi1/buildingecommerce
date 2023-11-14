@@ -407,8 +407,11 @@ class HomeController extends Controller
             $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.squaremeters[0]")) AS DECIMAL(10, 2)) <= ?', [$request->input('msq_max')]);
         }
 
-        if ($request->input('bathroom_count')) {
-            $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.numberofbathrooms[0]")) AS DECIMAL(10, 2)) <= ?', [$request->input('bathroom_count')]);
+        if ($request->has('bathroom_count')) {
+            if ($request->input('bathroom_count') == '4+')
+                $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.numberofbathrooms[0]")) AS DECIMAL(10, 2)) >= ?', [$request->input('bathroom_count')]);
+            else
+                $obj = $obj->whereRaw('JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.numberofbathrooms[0]")) = ?', [$request->input('bathroom_count')]);
         }
 
         if ($request->input('room_count')) {

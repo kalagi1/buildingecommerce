@@ -254,39 +254,6 @@
                                     </div>
                                 </div>
 
-                                <div class="mt-4" id="post_date_field">
-                                    <div class="head d-flex">
-                                        <b>İlan Tarihi</b>
-                                    </div>
-                                    <div class="mt-4">
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="post_date" id="recent_day" class="filter-now" />
-                                            <label for="recent_day" class="form-check-label w-100 small ">Son 1 Gün
-                                                İçinde</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="post_date" id="last_3_day" class="filter-now" />
-                                            <label for="last_3_day" class="form-check-label w-100 small">Son 3 Gün
-                                                İçinde</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="post_date" id="last_7_day" class="filter-now" />
-                                            <label for="last_7_day" class="form-check-label w-100 small">Son 7 Gün
-                                                İçinde</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="post_date" id="last_15_day" class="filter-now" />
-                                            <label for="last_15_day" class="form-check-label w-100 small">Son 15 Gün
-                                                İçinde</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="post_date" id="last_30_day" class="filter-now" />
-                                            <label for="last_30_day" class="form-check-label w-100 small">Son 30 Gün
-                                                İçinde</label>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="mt-4" id="from_owner_field">
                                     <div class="head d-flex">
                                         <b>Kimden</b>
@@ -356,7 +323,7 @@
                             @endif
                         </div>
 
-                        <button type="button" class=" btn btn-white btn-lg btn-block mt-4 mb-4e btn-transition"
+                        <button type="button" class=" btn bg-white btn-lg btn-block mt-4 mb-4e btn-transition" style="border: 1px solid #CCC;"
                             id="clear-filters">Temizle</button>
 
                         <button type="button" onclick="$('.filters-input-area').slideToggle();"
@@ -586,53 +553,7 @@
                                     <label for="5_1" class="form-check-label w-100 ml-4">5+1</label>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="widget-boxed mt-4" id="post_date_field">
-                            <div class="head d-flex">
-                                <b>İlan Tarihi</b>
-                                <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
-                                    <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div style="display: none;">
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="post_date" id="recent_day" class="filter-now" />
-                                    <label for="recent_day" class="form-check-label w-100 small ">Son
-                                        1 Gün
-                                        İçinde</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="post_date" id="last_3_day" class="filter-now" />
-                                    <label for="last_3_day" class="form-check-label w-100 small">Son 3
-                                        Gün
-                                        İçinde</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="post_date" id="last_7_day" class="filter-now" />
-                                    <label for="last_7_day" class="form-check-label w-100 small">Son 7
-                                        Gün
-                                        İçinde</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="post_date" id="last_15_day" class="filter-now" />
-                                    <label for="last_15_day" class="form-check-label w-100 small">Son
-                                        15 Gün
-                                        İçinde</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="post_date" id="last_30_day" class="filter-now" />
-                                    <label for="last_30_day" class="form-check-label w-100 small">Son
-                                        30 Gün
-                                        İçinde</label>
-                                </div>
-                            </div>
-                        </div>
-
+                        </div
                         <div class="widget-boxed mt-4" id="from_owner_field">
                             <div class="head d-flex">
                                 <b>Kimden</b>
