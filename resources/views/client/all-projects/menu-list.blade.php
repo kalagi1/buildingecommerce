@@ -2,6 +2,7 @@
 
 @section('content')
     <style>
+        /* css */
         .trip-search select
         {
             appearance: none;
