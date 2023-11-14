@@ -92,7 +92,7 @@
                                                     <div class="view-form-json mt-4">
                                                         <label for=""
                                                             style="font-weight: bold;">{!! $housingType->label !!}</label>
-                                                        @foreach (json_decode(getData($i + 1, $housingType->name, $housingData)) as $checkboxItem)
+                                                            @foreach (json_decode(getData($i + 1, $housingType->name, $housingData)) as $checkboxItem)
                                                             <p class="mb-1">{{ $checkboxItem }}</p>
                                                         @endforeach
                                                     </div>

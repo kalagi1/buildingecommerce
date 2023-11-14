@@ -22,28 +22,20 @@ class ProjectController extends Controller
 {
     public function index($slug)
     {
-        // Cache::forget('project_'.$slug);
-        if(Cache::get('project_'.$slug)){
-            $cachedHtml = Cache::get('project_'.$slug);
-            return response($cachedHtml);
-        }else{
-            $menu = Menu::getMenuItems();
-            $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
-            $project->roomInfo = $project->roomInfo;
-            $project->brand = $project->brand;
-            $project->housingType = $project->housingType;
-            $project->county = $project->county;
-            $project->city = $project->city;
-            $project->user = $project->user;
-            $project->user->housings = $project->user->housings;
-            $project->user->brands = $project->user->brands;
-            $project->images = $project->images;
-            $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
-            
-            Cache::rememberForever('project_'.$slug ,  function () use($offer,$project,$menu) {
-                return view('client.projects.index', compact('menu', "offer",'project'))->render();
-            });
-        }
+        
+        $menu = Menu::getMenuItems();
+        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project->roomInfo = $project->roomInfo;
+        $project->brand = $project->brand;
+        $project->housingType = $project->housingType;
+        $project->county = $project->county;
+        $project->city = $project->city;
+        $project->user = $project->user;
+        $project->user->housings = $project->user->housings;
+        $project->user->brands = $project->user->brands;
+        $project->images = $project->images;
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+        return view('client.projects.index', compact('menu', "offer",'project'));
 
     }
 
@@ -60,6 +52,7 @@ class ProjectController extends Controller
         $project->user->housings = $project->user->housings;
         $project->user->brands = $project->user->brands;
         $project->images = $project->images;
+        $project->listItemValues = $project->listItemValues;
 
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         if ($project->status == 0) {

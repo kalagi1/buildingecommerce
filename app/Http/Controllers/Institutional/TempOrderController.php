@@ -531,8 +531,8 @@ class TempOrderController extends Controller
         ]);
     }
 
-    public function deleteTempCreate(){
-        TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->delete();
+    public function deleteTempCreate(Request $request){
+        TempOrder::where('user_id',auth()->user()->id)->where('item_type',$request->input('item_type'))->delete();
 
         return json_encode([
             "status" => true

@@ -43,14 +43,17 @@ class HousingController extends Controller
         $cities = City::get();
         $housing_status = HousingStatus::where("is_housing", 1)->where('is_default', 0)->get();
         $tempDataFull = TempOrder::where('item_type', 2)->where('user_id', auth()->guard()->user()->id)->first();
+        
         if ($tempDataFull) {
+            $hasTemp = true;
             $tempData = json_decode($tempDataFull->data);
         } else {
+            $hasTemp = false;
             $tempData = json_decode("{}");
         }
 
         $areaSlugs = [];
-        if(isset($tempDataFull) && $tempData->step1_slug){
+        if(isset($tempDataFull) && isset($tempData->step1_slug) && $tempData->step1_slug){
             $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
             array_push($areaSlugs,$topParent->title);
             $secondAreaList = HousingTypeParent::where('parent_id',$topParent->id)->get();
@@ -58,7 +61,7 @@ class HousingController extends Controller
             $secondAreaList = null;
         }
 
-        if(isset($tempDataFull) && $tempData->step2_slug){
+        if(isset($tempDataFull) && isset($tempData->step2_slug) && $tempData->step2_slug){
             $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
             $topParentSecond = HousingTypeParent::where('parent_id',$topParent->id)->where('slug',$tempData->step2_slug)->first();
             array_push($areaSlugs,$topParentSecond->title);
@@ -67,7 +70,7 @@ class HousingController extends Controller
             $housingTypes = null;
         }
         
-        if(isset($tempDataFull) && $tempData->step3_slug){
+        if(isset($tempDataFull) && isset($tempData->step3_slug) && $tempData->step3_slug){
             $housingTypeTemp = HousingTypeParentConnection::where('slug',$tempData->step3_slug)->where("parent_id",$topParentSecond->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->first();
             
             array_push($areaSlugs,$housingTypeTemp->title);
@@ -84,7 +87,7 @@ class HousingController extends Controller
         }
 
         $userPlan = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->first();
-        return view('institutional.housings.create_v2', compact('housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan','secondAreaList','housingTypes','areaSlugs'));
+        return view('institutional.housings.create_v2', compact('housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan','secondAreaList','housingTypes','areaSlugs','hasTemp'));
     }
 
     public function finishByTemp(Request $request)
@@ -113,7 +116,7 @@ class HousingController extends Controller
                 $location = explode(',', $tempOrder->location);
                 $latitude = $location[0];
                 $longitude = $location[1];
-
+                $tempOrder->roomInfoKeys->price = str_replace('.','',$tempOrder->roomInfoKeys->price);
                 $postData = $tempOrder->roomInfoKeys;
                 $postData->image = $newCoverImage;
                 $tempImageNames = [];

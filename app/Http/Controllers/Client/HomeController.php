@@ -62,8 +62,7 @@ class HomeController extends Controller
         $footerSlider = FooterSlider::all();
         $finishProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '2');
-        })->with("housings", 'brand', 'roomInfo', 'housingType')->orderBy("created_at", "desc")->where('status', 1)->get();
-
+        })->with("housings", 'brand', 'roomInfo','listItemValues', 'housingType')->orderBy("created_at", "desc")->where('status', 1)->get();
         $continueProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '3');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();

@@ -676,6 +676,9 @@
                                                 'floorlocation' => 'Kat Sayısı',
                                                 'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                 'furnished1' => 'Eşyalı',
+                                                'availableforLoan1' => 'Krediye Uygun',
+                                                'swap1' => 'Takaslı',
+                                                'buysellurgent1' => 'Acil Satılık',
                                             ];
 
                                             $key = $turkceKarsilik[$key] ?? $key;

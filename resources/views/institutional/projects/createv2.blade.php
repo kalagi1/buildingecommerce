@@ -218,18 +218,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="">İlçe <span class="required">*</span></label>
-                                        <select onchange="changeData(this.value,'county_id')" name="county_id" id="counties" class="form-control">
-                                            <option  value="">İlçe Seç</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="">Mahalle <span class="required">*</span></label>
-                                        <select onchange="changeData(this.value,'neighbourhood_id')" name="neighbourhood_id" id="neighbourhood" class="form-control">
-                                            <option value="">Mahalle Seç</option>
-                                        </select>
-                                    </div>
                                 </div>
                                 <div>
                                     <input name="location" class="form-control" id="location" readonly type="hidden"
@@ -310,9 +298,11 @@
                         
                         <div class="second-area-finish">
                             <div class="finish-tick ">
-                                <input type="checkbox" value="1" class="rules_confirm" >
-                                <span class="rulesOpen">İlan verme kurallarını</span>
-                                <span>okudum, kabul ediyorum</span>
+                                <input type="checkbox" id="rules_confirmx" value="1" class="rules_confirm" >
+                                <label for="rules_confirmx">
+                                    <span class="rulesOpen">İlan verme kurallarını</span>
+                                    <span>okudum, kabul ediyorum</span>
+                                </label>
                             </div>
                             <div class="finish-button" style="float:right;margin:0;">
                                 <button class="btn btn-info">
@@ -915,6 +905,7 @@
                                             }else{
                                                 if(data[i].type != "file"){
                                                     if(data[i].type == "checkbox-group"){
+                                                            console.log(data[i][key[0]]);
                                                         if(data[i][key[0]] == null){
                                                             $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
                                                         }else{
@@ -929,7 +920,6 @@
                                                             })
                                                         }
                                                     }else{
-                                                        console.log(data[i][key[0]]);
                                                         if(data[i][key[0]] == null){
                                                             $('input[name="'+key[0]+'[]"]').val("");
                                                         }else{
@@ -1135,7 +1125,7 @@
                     method: "POST",
                     url: "{{route('institutional.delete.temp.create')}}",
                     data : {
-                        item_type : 3,
+                        item_type : 1,
                         _token : csrfToken
                     },
                     success: function(response) {
@@ -1657,14 +1647,6 @@
                 }
             });
 
-            $('.finish-tick').click(function(){
-                if($(this).find('input').is(':checked')){
-                    $(this).find('input').prop('checked',false)
-                }else{
-                    $('.finish-tick').removeClass('error-border')
-                    $(this).find('input').prop('checked',true)
-                }
-            })
             
             $('.pricing-item').click(function(){
                 $('.pricing-item').find('input').removeAttr('checked');
@@ -1838,7 +1820,6 @@
                         var latitude = location.latlng.lat;
                         var longitude = location.latlng.lng;
                         changeData(latitude+','+longitude,'location');
-                        var apiURL = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" + latitude + "&lon=" + longitude+'&zoom=18&addressdetails=1';
                     }
                 }); 
 
@@ -2539,227 +2520,278 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/40.0.0/ckeditor.min.js" integrity="sha512-Zyl/SvrviD3rEMVNCPN+m5zV0PofJYlGHnLDzol2kM224QpmWj9p5z7hQYppmnLFhZwqif5Fugjjouuk5l1lgA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
     <script>
-            
-                
-                $('.finish-button').click(function(e){
-                    e.preventDefault();
-                    var next = true;
-                    var topError = 0;
-                    if(!$('input[name="name"]').val()){
-                        next = false;
-                        $('input[name="name"]').addClass('error-border')
-                        topError = $('input[name="name"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
-                    }
-
-
-                if(!$('#location').val()){
-                    next = false;
-                    if(topError){
-                        if($('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
+        tinymce.init({
+            selector: '#editor', // HTML elementinizi seçin
+            plugins: 'advlist autolink lists link image charmap print preview anchor',
+            toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | forecolor backcolor ',
+            menubar: false, // Menü çubuğunu tamamen devre dışı bırakır
+            contextmenu: "paste | link image inserttable | cell row column deletetable",
+            language : "tr",
+            // Görünümleri devre dışı bırakmak için aşağıdaki yapılandırmaları kullanın
+            file_browser_callback_types: 'image media',
+            file_browser_callback: function(field_name, url, type, win) {
+                // Herhangi bir işlem yapmadan boş bir işlev kullanarak "File" görünümünü devre dışı bırakır
+            },
+            file_picker_types: 'image media',
+            file_picker_callback: function(callback, value, meta) {
+                // Herhangi bir işlem yapmadan boş bir işlev kullanarak "File" görünümünü devre dışı bırakır
+            },
+            setup: function (editor) {
+                // 'change' olayını dinleyin
+                editor.on('change', function () {
+                    // Editör içeriği değiştiğinde yapılacak işlemi burada tanımlayabilirsiniz.
+                    console.log("Editör içeriği değişti.");
+                    const editorContent = editor.getContent();
+                    console.log(editorContent);
+                    if(editorContent != ""){
+                        descriptionText = "evet var";
                     }else{
+                        descriptionText = "";
+                    }
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+                    
+                    
+                    // Verileri FormData nesnesine ekleyin
+                    const formData = new FormData();
+                    formData.append('_token', csrfToken);
+                    formData.append('value', editorContent);
+                    formData.append('key', "description");
+                    formData.append('item_type', 1);
+                    
+                    // AJAX isteği gönderin
+                    fetch("{{ route('institutional.temp.order.data.change') }}", {
+                        method: "POST",
+                        body: formData,
+                    })
+                    .then(data => {
+                        // Sunucu yanıtını işleyebilirsiniz.
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                })
+            }
+        })
+
+        $('.finish-button').click(function(e){
+            e.preventDefault();
+            var next = true;
+            var topError = 0;
+            if(!$('input[name="name"]').val()){
+                next = false;
+                $('input[name="name"]').addClass('error-border')
+                topError = $('input[name="name"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
+            }
+
+
+            if(!$('#location').val()){
+                next = false;
+                if(topError){
+                    if($('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                         topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
-                    $('#location').parent('div').find('.error-text').remove();
-                    $('#location').parent('div').append('<span class="error-text">Haritadan konum seçmek zorunludur</span>')
+                }else{
+                    topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                 }
+                $('#location').parent('div').find('.error-text').remove();
+                $('#location').parent('div').append('<span class="error-text">Haritadan konum seçmek zorunludur</span>')
+            }
 
-                if(!$('.rules_confirm').is(':checked')){
-                    next = false;
+            if(!$('.rules_confirm').is(':checked')){
+                next = false;
 
-                    if(topError){
-                        if($('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
+                if(topError){
+                    if($('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                         topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
-                    $('.finish-tick').addClass('error-border')
+                }else{
+                    topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                 }
+                $('.finish-tick').addClass('error-border')
+            }
 
-                if(descriptionText == ""){
-                    next = false;
-                    if(topError){
-                        if($('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
+            if(descriptionText == ""){
+                next = false;
+                if(topError){
+                    if($('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                         topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
-                    $('.description-field .error-text').remove();
-                    $('.description-field').append('<span class="error-text">Açıklama metnini girmek zorunludur</span>')
+                }else{
+                    topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                 }
+                $('.description-field .error-text').remove();
+                $('.description-field').append('<span class="error-text">Açıklama metnini girmek zorunludur</span>')
+            }
 
-                $('.tab-pane.active input[required="required"]').map((key,item) => {
-                    if(!$(item).val() && $(item).attr('type') != 'file'){
-                        next = false;
-
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $(item).addClass("error-border")
-                    }
-                })
-
-                $('.tab-pane.active input[type="file"]').map((key,item) => {
-                    if($(item).parent('div').find('.project_imaget').length == 0){
-                        next = false;
-
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $(item).addClass("error-border")
-                    }
-                })
-
-                $('.tab-pane.active select[required="required"]').map((key,item) => {
-                    if(!$(item).val() || $(item).val() == "Seçiniz"){
-                        next = false;
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $(item).addClass("error-border")
-                    }
-                })
-
-                
-
-                if($('.photos .project_imagex').length == 0){
+            $('.tab-pane.active input[required="required"]').map((key,item) => {
+                if(!$(item).val() && $(item).attr('type') != 'file'){
                     next = false;
+
                     if(topError){
-                        if($('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                         }
                     }else{
+                        topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                    }
+                    $(item).addClass("error-border")
+                }
+            })
+
+            $('.tab-pane.active input[type="file"]').map((key,item) => {
+                if($(item).parent('div').find('.project_imaget').length == 0){
+                    next = false;
+
+                    if(topError){
+                        if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                    }else{
+                        topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                    }
+                    $(item).addClass("error-border")
+                }
+            })
+
+            $('.tab-pane.active select[required="required"]').map((key,item) => {
+                if(!$(item).val() || $(item).val() == "Seçiniz"){
+                    next = false;
+                    if(topError){
+                        if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                        }
+                    }else{
+                        topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                    }
+                    $(item).addClass("error-border")
+                }
+            })
+
+            
+
+            if($('.photos .project_imagex').length == 0){
+                next = false;
+                if(topError){
+                    if($('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                         topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
-                    $('.photo-area').addClass('error-border')
+                }else{
+                    topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                 }
+                $('.photo-area').addClass('error-border')
+            }
 
-                if($('.cover-photo .project_imagex').length == 0){
-                    next = false;
-                    if(topError){
-                        if($('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
+            if($('.cover-photo .project_imagex').length == 0){
+                next = false;
+                if(topError){
+                    if($('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                         topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
-                    $('.cover-photo-area').addClass('error-border')
+                }else{
+                    topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                 }
+                $('.cover-photo-area').addClass('error-border')
+            }
 
-                if($('.cover-document .has_file').length == 0){
-                    next = false;
-                    if(topError){
-                        if($('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
+            if($('.cover-document .has_file').length == 0){
+                next = false;
+                if(topError){
+                    if($('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                         topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
-                    $('.cover-document-area').addClass('error-border')
+                }else{
+                    topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                 }
-                
-                if(!$('select[name="city_id"]').val()){
-                    next = false;
-                    if(topError){
-                        if($('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
+                $('.cover-document-area').addClass('error-border')
+            }
+            
+            if(!$('select[name="city_id"]').val()){
+                next = false;
+                if(topError){
+                    if($('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                         topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
-                    $('select[name="city_id"]').addClass('error-border')
+                }else{
+                    topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                 }
+                $('select[name="city_id"]').addClass('error-border')
+            }
 
-                if(!$('select[name="county_id"]').val()){
-                    next = false;
-                    if(topError){
-                        if($('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
+            if(!$('select[name="county_id"]').val()){
+                next = false;
+                if(topError){
+                    if($('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                         topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
-                    $('select[name="county_id"]').addClass('error-border')
+                }else{
+                    topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                 }
+                $('select[name="county_id"]').addClass('error-border')
+            }
 
-                if(!$('select[name="neighbourhood_id"]').val()){
-                    next = false;
-                    if(topError){
-                        if($('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
+            if(!$('select[name="neighbourhood_id"]').val()){
+                next = false;
+                if(topError){
+                    if($('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                         topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
-                    $('select[name="neighbourhood_id"]').addClass('error-border')
+                }else{
+                    topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                 }
-                
+                $('select[name="neighbourhood_id"]').addClass('error-border')
+            }
+            
 
-                if($('.pricing-item-first .price-radio.select').length > 0){
-                    if($('.single-price-project-area .pricing-item .price-radio.select').length == 0){
-                        if(topError){
-                            if($('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
+            if($('.pricing-item-first .price-radio.select').length > 0){
+                if($('.single-price-project-area .pricing-item .price-radio.select').length == 0){
+                    if(topError){
+                        if($('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
                             topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                         }
-                        $('.single-price-project-area .error-text').remove();
-                        $('.single-price-project-area').append("<p class='error-text'>İlan süresini seçmeniz gerekmektedir</p>")
+                    }else{
+                        topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
                     }
+                    $('.single-price-project-area .error-text').remove();
+                    $('.single-price-project-area').append("<p class='error-text'>İlan süresini seçmeniz gerekmektedir</p>")
                 }
-                if(next){
-                    nextTemp = true;
-                    $.ajax({
-                        method: "POST",
-                        url: "{{route('institutional.change.step.order')}}",
-                        data : {
-                            order : 3,
-                            item_type : 1,
-                            _token : csrfToken
-                        },
-                        success: function(response) {
-                            response = JSON.parse(response);
-                            if(response.status){
-                                $('.firt-area').addClass('d-none');
-                                $('.second-area').addClass('d-none');
-                                $('.third-area').addClass('d-none');
-                                $('.progress-line').removeClass('step1')
-                                $('.progress-line').removeClass('step2')
-                                $('.progress-line').removeClass('step3')
-                                $('.third-area').removeClass('d-none');
-                                $('.progress-line').addClass('step3')
-                                $('.progress-line li').eq(0).removeClass('current').addClass('done')
-                                $('.progress-line li').eq(1).removeClass('current').addClass('done')
-                                $('.progress-line li').eq(2).addClass('current')
-                            }
-                            
+            }
+            if(next){
+                nextTemp = true;
+                $.ajax({
+                    method: "POST",
+                    url: "{{route('institutional.change.step.order')}}",
+                    data : {
+                        order : 3,
+                        item_type : 1,
+                        _token : csrfToken
+                    },
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        if(response.status){
+                            $('.firt-area').addClass('d-none');
+                            $('.second-area').addClass('d-none');
+                            $('.third-area').addClass('d-none');
+                            $('.progress-line').removeClass('step1')
+                            $('.progress-line').removeClass('step2')
+                            $('.progress-line').removeClass('step3')
+                            $('.third-area').removeClass('d-none');
+                            $('.progress-line').addClass('step3')
+                            $('.progress-line li').eq(0).removeClass('current').addClass('done')
+                            $('.progress-line li').eq(1).removeClass('current').addClass('done')
+                            $('.progress-line li').eq(2).addClass('current')
                         }
-                    })
-                }else{
-                    nextTemp = false;
-                    $('html, body').animate({
-                        scrollTop: topError
-                    }, 100);
-                }
+                        
+                    }
+                })
+            }else{
+                nextTemp = false;
+                $('html, body').animate({
+                    scrollTop: topError
+                }, 100);
+            }
 
-                
-            })
+            
+        })
         var itemOrder = 0;
         var itemSlug = "";
         var areasSlugs = [];
