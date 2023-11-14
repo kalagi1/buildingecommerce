@@ -54,7 +54,7 @@
                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                     </svg>
                                                 @endif
-                                                {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }}
+                                                {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 0, ',', '.') }}
                                                 ₺
                                             </span>
                                         </td>
@@ -84,10 +84,10 @@
                                 @else
                                     <ul>
                                         <li>Ürün Fiyatı<strong
-                                                class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])), 2, ',', '.') }}
+                                                class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])), 0, ',', '.') }}
                                                 TL</strong></li>
                                         <li>%1'si<strong
-                                                class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 2, ',', '.') }}
+                                                class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}
                                                 TL</strong></li>
                                     </ul>
                                 @endif
@@ -153,8 +153,8 @@
                                                 </td>
                                                 <td>{{ $cart['item']['title'] }}</td>
                                                 <td>1</td>
-                                                <td>{{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }} ₺</td>
-                                                <td>{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 2, ',', '.') }} ₺</td>
+                                                <td>{{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 0, ',', '.') }} ₺</td>
+                                                <td>{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }} ₺</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -177,10 +177,10 @@
                                                 <strong>Miktar:</strong> 1
                                             </li>
                                             <li class="list-group-item">
-                                                <strong>Fiyat:</strong> {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 2, ',', '.') }} ₺
+                                                <strong>Fiyat:</strong> {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 0, ',', '.') }} ₺
                                             </li>
                                             <li class="list-group-item">
-                                                <strong>Toplam:</strong> {{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 2, ',', '.') }} ₺
+                                                <strong>Toplam:</strong> {{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }} ₺
                                             </li>
                                         </ul>
                                     </div>

@@ -18462,7 +18462,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     padding: 6px 7px;
     color: #fff;
     border: 0px;
-    background-color: black;
+    background-color: #274abb;
     border-radius: 50px;
     display: inline-block;
     position: relative;
@@ -22810,6 +22810,7 @@ a.btn_1 {
 
 .inner-pages .recent-post .tags a {
     background: black;
+    font-size:12px;
     color: #fff;
     border: 1px solid black;
     margin-bottom: .7rem;
@@ -27083,9 +27084,9 @@ input[type="checkbox"]::before {
     position: relative;
 }
 
-     .selected {
+     /* .selected {
             border: 2px solid red;
-        }
+        } */
 /* 
         .paySuccess {
             width: 200px;
@@ -28344,3 +28345,5 @@ input[type="checkbox"]::before {
     margin-top: 15px;
     position: absolute;
   }
+
+  

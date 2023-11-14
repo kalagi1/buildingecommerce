@@ -87,7 +87,7 @@ class CartController extends Controller
         $order->user_id = auth()->user()->id;
         $order->bank_id = $request->input("banka_id");
 
-        $order->amount = str_replace(',', '.', number_format(floatval(str_replace('.', '', $request->session()->get('cart')['item']['price'] - $request->session()->get('cart')['item']['discount_amount'])) * 0.01, 2, ',', '.'));
+        $order->amount = str_replace(',', '.', number_format(floatval(str_replace('.', '', $request->session()->get('cart')['item']['price'] - $request->session()->get('cart')['item']['discount_amount'])) * 0.01, 0, ',', '.'));
         $order->cart = json_encode($request->session()->get('cart'));
         $order->status = '0';
         $order->key = $request->input("key");
