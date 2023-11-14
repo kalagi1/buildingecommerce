@@ -97,14 +97,18 @@ class ProfileController extends Controller
             'subscription_plan_id' => $plan->id,
         ]);
 
+        if (!$before) {
+            $before = new \stdClass();
+            $before->housing_limit = 0;
+        }
+
         $data =
             ['subscription_plan_id' => $plan->id,
-            'housing_limit' =>  $plan->housing_limit,
+            'housing_limit' => $before->housing_limit + $plan->housing_limit,
             'user_id' => auth()->user()->id,
             'subscription_plan_id' => $id,
             'project_limit' => 0,
             'user_limit' => 0,
-            'status' => false,
         ];
 
         DB::beginTransaction();
