@@ -14,7 +14,7 @@
         {
             appearance: none;
             background: white;
-            border: 2px solid #0A0A0A;
+            border: 2px solid #dddddd;
             border-radius: 100%;
         }
 
@@ -121,7 +121,7 @@
                         <div class="widget-boxed main-search-field mt-4">
                             <div class="trip-search">
                                 <div class="widget-boxed-header border-0">
-                                    <h6 style="font-weight: 700">Adres</h6>
+                                    <b>Adres</b>
                                 </div>
                                 <div>
                                     <select id="city" class="bg-white filter-now">
@@ -153,138 +153,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="trip-search mt-5">
-                                <div class="widget-boxed-header border-0">
-                                    <h6 style="font-weight: 700">İlan Tarihi</h6>
-                                </div>
-                                <div style="display: grid;">
-                                    <label class="filter-date d-flex align-items-center">
-                                        <input name="filter-date" class="filter-date filter-now" type="radio" value="last3Days">
-                                        <span class="fs-13 ml-2">Son 3 Gün</span>
-                                    </label>
-                                    <label class="filter-date mt-2 d-flex align-items-center">
-                                        <input name="filter-date" class="filter-date filter-now" type="radio" value="lastWeek">
-                                        <span class="fs-13 ml-2">Son Bir Hafta</span>
-                                    </label>
-                                     <label class="filter-date mt-2 d-flex align-items-center">
-        <input name="filter-date" type="radio" class="filter-date filter-now" value="lastMonth">
-        <span class="fs-13 ml-2">Son Bir Ay</span>
-    </label>
-                                </div>
-
-                            </div>
+                        
                             @if ($secondhandHousings)
-                                <div class="mt-4">
-                                    <div class="trip-search">
-                                        <div class="head d-flex">
-                                            <b>Fiyat Aralığı</b>
-                                        </div>
-                                        <div class="mt-4 row price-inputs">
-                                            <div class="col-6">
-                                                <input type="number" id="price-min" min="0" placeholder="Min"
-                                                       class="filter-now form-control">
-                                            </div>
-                                            <div class="col-6">
-                                                <input type="number" id="price-max" min="0" placeholder="Max"
-                                                       class="filter-now form-control">
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="mt-4">
-                                    <div class="trip-search">
-                                        <div class="head d-flex">
-                                            <b>m<sup>2</sup> (brüt)</b>
-                                        </div>
-                                        <div class="mt-4 row">
-                                            <div class="col-6">
-                                                <input type="number" id="msq-min" min="0" placeholder="Min"
-                                                       class="filter-now form-control">
-                                            </div>
-                                            <div class="col-6">
-                                                <input type="number" id="msq-max" min="0" placeholder="Max"
-                                                       class="filter-now form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mt-4" id="room_count_field">
-                                    <div class="head d-flex">
-                                        <b>Oda Sayısı</b>
-                                    </div>
-                                    <div class="mt-4">
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="checkbox" class="form-check-input filter-now form-control"
-                                                   id="1_1" />
-                                            <label for="1_1" class="form-check-label w-100 ml-4">1+1</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="2_1" />
-                                            <label for="2_1" class="form-check-label w-100 ml-4">2+1</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="3_1" />
-                                            <label for="3_1" class="form-check-label w-100 ml-4">3+1</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="3_2" />
-                                            <label for="3_2" class="form-check-label w-100 ml-4">3+2</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="4_1" />
-                                            <label for="4_1" class="form-check-label w-100 ml-4">4+1</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="4_2" />
-                                            <label for="4_2" class="form-check-label w-100 ml-4">4+2</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="5_1" />
-                                            <label for="5_1" class="form-check-label w-100 ml-4">5+1</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mt-4" id="from_owner_field">
-                                    <div class="head d-flex">
-                                        <b>Kimden</b>
-                                    </div>
-                                    <div class="mt-4">
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="whose" id="from_owner" class="filter-now" />
-                                            <label for="from_owner" class="form-check-label w-100 small">Sahibinden</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="whose" id="from_office" class="filter-now" />
-                                            <label for="from_office" class="form-check-label w-100 small">Emlak
-                                                Ofisinden</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="whose" id="from_company" class="filter-now" />
-                                            <label for="from_company" class="form-check-label w-100 small">İnşaat
-                                                Firmasından</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="whose" id="from_bank" class="filter-now" />
-                                            <label for="from_bank" class="form-check-label w-100 small">Bankadan</label>
-                                        </div>
-                                    </div>
-                                </div>
-
+                            
                                 <div class="mt-4" id="number_of_bathrooms">
                                     <div class="head d-flex">
                                         <b>Banyo Sayısı</b>
                                     </div>
-                                    <div class="mt-4">
+                                    <div class="mt-2">
                                         <div class="d-flex current-page" style="border: 1px solid #CCC; cursor: pointer; border-radius: 8px;">
                                             <div style="border-radius: 8px 0 0 8px;" class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
                                                 1
@@ -301,11 +177,117 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="mt-4">
+                                    <div class="trip-search">
+                                        <div class="head d-flex">
+                                            <b>Fiyat Aralığı</b>
+                                        </div>
+                                        <div class="mt-2 row price-inputs">
+                                            <div class="col-6">
+                                                <input type="number" id="price-min" min="0" placeholder="Min"
+                                                       class="filter-now form-control">
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="number" id="price-max" min="0" placeholder="Max"
+                                                       class="filter-now form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <div class="trip-search">
+                                        <div class="head d-flex">
+                                            <b>M<sup>2</sup> (brüt)</b>
+                                        </div>
+                                        <div class="mt-2 row">
+                                            <div class="col-6">
+                                                <input type="number" id="msq-min" min="0" placeholder="Min"
+                                                       class="filter-now form-control">
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="number" id="msq-max" min="0" placeholder="Max"
+                                                       class="filter-now form-control">
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </div>
+
+                                <div class="mt-4" id="room_count_field">
+                                    <div class="head d-flex">
+                                        <b>Oda Sayısı</b>
+                                    </div>
+                                    <div class="mt-2 d-flex align-items-center" style="flex-wrap: wrap">
+                                        <div class="mb-2 d-flex align-items-center w-50">
+                                            <input type="checkbox" class="form-check-input filter-now form-control"
+                                                   id="1_1" />
+                                            <label for="1_1" class="form-check-label w-100 ml-4">1+1</label>
+                                        </div>
+                                        <div class="mb-2 d-flex align-items-center w-50">
+                                            <input type="checkbox" class="form-check-input filter-now  form-control"
+                                                   id="2_1" />
+                                            <label for="2_1" class="form-check-label w-100 ml-4">2+1</label>
+                                        </div>
+                                        <div class="mb-2 d-flex align-items-center w-50">
+                                            <input type="checkbox" class="form-check-input filter-now  form-control"
+                                                   id="3_1" />
+                                            <label for="3_1" class="form-check-label w-100 ml-4">3+1</label>
+                                        </div>
+                                        <div class="mb-2 d-flex align-items-center w-50">
+                                            <input type="checkbox" class="form-check-input filter-now  form-control"
+                                                   id="3_2" />
+                                            <label for="3_2" class="form-check-label w-100 ml-4">3+2</label>
+                                        </div>
+                                        <div class="mb-2 d-flex align-items-center w-50">
+                                            <input type="checkbox" class="form-check-input filter-now  form-control"
+                                                   id="4_1" />
+                                            <label for="4_1" class="form-check-label w-100 ml-4">4+1</label>
+                                        </div>
+                                        <div class="mb-2 d-flex align-items-center w-50">
+                                            <input type="checkbox" class="form-check-input filter-now  form-control"
+                                                   id="4_2" />
+                                            <label for="4_2" class="form-check-label w-100 ml-4">4+2</label>
+                                        </div>
+                                        <div class="mb-2 d-flex align-items-center w-50">
+                                            <input type="checkbox" class="form-check-input filter-now  form-control"
+                                                   id="5_1" />
+                                            <label for="5_1" class="form-check-label w-100 ml-4">5+1</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4" id="from_owner_field">
+                                    <div class="head d-flex">
+                                        <b>Kimden</b>
+                                    </div>
+                                    <div class="mt-2">
+                                        <div class="mb-2 d-flex align-items-center w-100">
+                                            <input type="radio" name="whose" id="from_owner" class="filter-now" />
+                                            <label for="from_owner" class="form-check-label w-100 ml-2">Sahibinden</label>
+                                        </div>
+                                        <div class="mb-2 d-flex align-items-center w-100">
+                                            <input type="radio" name="whose" id="from_office" class="filter-now" />
+                                            <label for="from_office" class="form-check-label w-100 ml-2">Emlak
+                                                Ofisinden</label>
+                                        </div>
+                                        <div class="mb-2 d-flex align-items-center w-100">
+                                            <input type="radio" name="whose" id="from_company" class="filter-now" />
+                                            <label for="from_company" class="form-check-label w-100 ml-2">İnşaat
+                                                Firmasından</label>
+                                        </div>
+                                        <div class="mb-2 d-flex align-items-center w-100">
+                                            <input type="radio" name="whose" id="from_bank" class="filter-now" />
+                                            <label for="from_bank" class="form-check-label w-100 ml-2">Bankadan</label>
+                                        </div>
+                                    </div>
+                                </div>
+
                             @endif
                         @if ($projects)
-                                <div class="trip-search mt-5">
+                                <div class="trip-search mt-4">
                                     <div class="widget-boxed-header border-0">
-                                        <h6 style="font-weight: 700">Proje Durumu</h6>
+                                        <b>Proje Durumu</b>
                                     </div>
                                     <div>
                                         <select id="project_type" class="form-control bg-white filter-now">
@@ -321,7 +303,30 @@
                                     </div>
                                 </div>
                             @endif
+
+                                <div class="trip-search mt-4">
+                                <div class="widget-boxed-header border-0">
+                                    <b>İlan Tarihi</b>
+                                </div>
+                                <div style="display: grid;">
+                                    <label class="filter-date d-flex align-items-center">
+                                        <input name="filter-date" class="filter-date filter-now" type="radio" value="last3Days">
+                                        <span class="fs-13 ml-2">Son 3 Gün</span>
+                                    </label>
+                                    <label class="filter-date d-flex align-items-center">
+                                        <input name="filter-date" class="filter-date filter-now" type="radio" value="lastWeek">
+                                        <span class="fs-13 ml-2">Son Bir Hafta</span>
+                                    </label>
+                                     <label class="filter-date d-flex align-items-center">
+                                        <input name="filter-date" type="radio" class="filter-date filter-now" value="lastMonth">
+                                        <span class="fs-13 ml-2">Son Bir Ay</span>
+                                        </label>
+                                </div>
+
+                            </div>
                         </div>
+
+                        
 
                         <button type="button" class=" btn bg-white btn-lg btn-block mt-4 mb-4e btn-transition" style="border: 1px solid #CCC;"
                             id="clear-filters">Temizle</button>
@@ -568,21 +573,21 @@
                             <div class="mt-4" style="display: none;">
                                 <div class="mb-2 d-flex align-items-center w-100">
                                     <input type="radio" name="whose" id="from_owner" class="filter-now" />
-                                    <label for="from_owner" class="form-check-label w-100 small">Sahibinden</label>
+                                    <label for="from_owner" class="form-check-label w-100 ml-2">Sahibinden</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
                                     <input type="radio" name="whose" id="from_office" class="filter-now" />
-                                    <label for="from_office" class="form-check-label w-100 small">Emlak
+                                    <label for="from_office" class="form-check-label w-100 ml-2">Emlak
                                         Ofisinden</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
                                     <input type="radio" name="whose" id="from_company" class="filter-now" />
-                                    <label for="from_company" class="form-check-label w-100 small">İnşaat
+                                    <label for="from_company" class="form-check-label w-100 ml-2">İnşaat
                                         Firmasından</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
                                     <input type="radio" name="whose" id="from_bank" class="filter-now" />
-                                    <label for="from_bank" class="form-check-label w-100 small">Bankadan</label>
+                                    <label for="from_bank" class="form-check-label w-100 ml-2">Bankadan</label>
                                 </div>
                             </div>
                         </div>

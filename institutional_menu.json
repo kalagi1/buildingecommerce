@@ -60,6 +60,15 @@
         "activePath": "institutional/orders"
     },
     {
+        "id": "order",
+        "label": "Emlak Sepette",
+        "icon": "shopping-bag",
+        "text": "Benim Siparişlerim",
+        "key": "ShowCartOrders",
+        "url": "institutional.profile.cart-orders",
+        "activePath": "institutional/get-orders"
+    },
+    {
         "id": "user",
         "label": "Hesabım & Yardım",
         "icon": "user",
