@@ -43,10 +43,14 @@
                                         <div class="detail-wrapper-body">
                                             <div class="listing-title-bar">
 
-                                                <h3><span>{{ $project->project_title }}</span><br>
-                                                    {{ getData($project, 'squaremeters[]', $housingOrder)->value }}m2
-                                                    {{ getData($project, 'room_count[]', $housingOrder)->value }}
-                                                    {{ $project->housingType->title }} </h3>
+                                                <h3> @if (getData($project, 'advertise_title[]', $housingOrder)->value ?? null)
+                                                    <span>
+                                                        {{ getData($project, 'advertise_title[]', $housingOrder)->value }}</span>
+                                                @else
+                                                    <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}</span>
+                                                    {{ $housingOrder }} {{ "No'lu" }}
+                                                    {{ $project->step1_slug }}
+                                                @endif </h3>
                                                 <div class="mt-0">
                                                     <a href="#listing-location" class="listing-address">
                                                         <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
@@ -81,11 +85,16 @@
                                         <div class="detail-wrapper-body">
                                             <div class="listing-title-bar">
 
-                                                <h3><span>{{ $project->project_title }}</span><br>
-                                                    {{ getData($project, 'squaremeters[]', $housingOrder)->value }}m2
-                                                    {{ getData($project, 'room_count[]', $housingOrder)->value }}
-                                                    {{ $project->housingType->title }} {{ ' ' }}
-                                                    {{ $housingOrder }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                <h3>
+                                                    @if (getData($project, 'advertise_title[]', $housingOrder)->value ?? null)
+                                                        <span>
+                                                            {{ getData($project, 'advertise_title[]', $housingOrder)->value }}</span>
+                                                    @else
+                                                        <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}</span>
+                                                        {{ $housingOrder }} {{ "No'lu" }}
+                                                        {{ $project->step1_slug }}
+                                                    @endif
+
                                                 </h3>
                                             </div>
                                         </div>
@@ -94,11 +103,16 @@
                                     <div class="detail-wrapper-body">
                                         <div class="listing-title-bar">
 
-                                            <h3><span>{{ $project->project_title }}</span> <br>
-                                                {{ getData($project, 'squaremeters[]', $housingOrder)->value }}m2
-                                                {{ getData($project, 'room_count[]', $housingOrder)->value }}
-                                                {{ $project->housingType->title }} {{ ' ' }}
-                                                {{ $housingOrder }} {{ "No'lu" }} {{ $project->step1_slug }} </h3>
+                                            <h3>
+                                                @if (getData($project, 'advertise_title[]', $housingOrder)->value ?? null)
+                                                <span>
+                                                    {{ getData($project, 'advertise_title[]', $housingOrder)->value }}</span>
+                                            @else
+                                                <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}</span>
+                                                {{ $housingOrder }} {{ "No'lu" }}
+                                                {{ $project->step1_slug }}
+                                            @endif
+                                            </h3>
                                             <div class="mt-0">
                                                 <a href="#listing-location" class="listing-address">
                                                     <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
@@ -290,7 +304,7 @@
                             <div class="widget-boxed-body">
                                 <div class="recent-post">
                                     <div class="tags">
-                                        @foreach ($project->user->projects as $item)
+                                        @foreach ($project->user->projects->take(3) as $item)
                                             <span><a href="{{ route('project.detail', ['slug' => $item->slug]) }}"
                                                     class="btn btn-outline-primary">{{ $item->project_title }}</a></span>
                                         @endforeach
@@ -505,7 +519,8 @@
                                                                                                 class="btn toggle-project-favorite bg-white"
                                                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                                                 data-project-id={{ $project->id }}>
-                                                                                                <i class="fa fa-heart-o"></i>
+                                                                                                <i
+                                                                                                    class="fa fa-heart-o"></i>
                                                                                             </div>
                                                                                         </div>
                                                                                         <div
@@ -767,10 +782,15 @@
                                                                 class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                                                 <a style="text-decoration: none; height: 100%"
                                                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                                                    <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                                        {{ $room_order }}
-                                                                        {{ "No'lu" }}
-                                                                        {{ $project->step1_slug }}
+                                                                    <h3>
+                                                                        @if (getData($project, 'advertise_title[]', $housingOrder)->value ?? null)
+                                                                            {{ getData($project, 'advertise_title[]', $housingOrder)->value }}
+                                                                        @else
+                                                                            {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                                            Projesinde
+                                                                            {{ $housingOrder }} {{ "No'lu" }}
+                                                                            {{ $project->step1_slug }}
+                                                                        @endif
                                                                     </h3>
                                                                 </a>
                                                                 <div class="d-flex align-items-center">
@@ -1327,10 +1347,16 @@
                                                             class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                                             <a style="text-decoration: none; height: 100%"
                                                                 href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                                                <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                                    {{ $room_order }}
-                                                                    {{ "No'lu" }}
-                                                                    {{ $project->step1_slug }}
+                                                                <h3>
+                                                                    @if (getData($project, 'advertise_title[]', $housingOrder)->value ?? null)
+                                                                        )
+                                                                        {{ getData($project, 'advertise_title[]', $housingOrder)->value }}
+                                                                    @else
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                                        Projesinde
+                                                                        {{ $housingOrder }} {{ "No'lu" }}
+                                                                        {{ $project->step1_slug }}
+                                                                    @endif
                                                                 </h3>
                                                             </a>
                                                             <div class="d-flex align-items-center">
@@ -1786,9 +1812,9 @@ out center;`;
 
         }
 
-        
+
         .loading-spinner {
-                text-align: center
-            }
+            text-align: center
+        }
     </style>
 @endsection

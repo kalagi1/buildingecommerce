@@ -419,13 +419,6 @@
                                             @csrf
                                             <input type="hidden" name="rate" id="rate" />
                                             <h5>Yeni Yorum Ekle</h5>
-                                            @if ($errors->any())
-                                                <div class="alert alert-danger text-white">
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </div>
-                                            @endif
                                             
                                             <div class="d-flex align-items-center w-full" style="gap: 6px;">
                                                 <div class="d-flex rating-area">
@@ -483,8 +476,8 @@
                                                 </div>
                                             </div>
                                             <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..."></textarea>
-                                            <button type="submit" class="btn btn-primary q-button mt-4">YORUMU
-                                                GÖNDER</button>
+                                            <button type="submit" class="ud-btn btn-white2 mt-3">Yorumu Gönder<i class="fal fa-arrow-right-long"></i></button>
+
                                         </form>
         
                                     </div>
@@ -761,10 +754,8 @@
                                             </div>
                                         </div>
                                         <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..."></textarea>
-                                        <button type="submit" class="btn btn-primary q-button mt-4">
-                                            <span>YORUMU
-                                                GÖNDER</span>
-                                        </button>
+                                        
+                                        <button type="submit" class="ud-btn btn-white2 mt-3">Yorumu Gönder<i class="fal fa-arrow-right-long"></i></button>
                                     </form>
         
                                 </div>

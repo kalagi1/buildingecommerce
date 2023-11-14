@@ -281,9 +281,15 @@
 
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
-                                        <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                        <h3> @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
-                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                            @if ($advertiseTitle)
+                                                {{ $advertiseTitle }}
+                                            @else
+                                                {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                Projesinde
+                                                {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                            @endif
                                         </h3>
 
 
@@ -423,11 +429,14 @@
                                                         <div class="homes-content p-3">
 
                                                             <span style="text-decoration: none">
-                                                                <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                    Projesinde
-
-                                                                    {{ $i + 1 }} {{ "No'lu" }}
-                                                                    {{ $project->step1_slug }}
+                                                                <h3>  @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
+                                                                
+                                                                    @if ($advertiseTitle)
+                                                                        {{ $advertiseTitle }}
+                                                                    @else
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
+                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                    @endif
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -581,9 +590,15 @@
 
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
-                                        <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                        <h3> @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
-                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                            @if ($advertiseTitle)
+                                                {{ $advertiseTitle }}
+                                            @else
+                                                {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                Projesinde
+                                                {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                            @endif
                                         </h3>
 
 
@@ -722,11 +737,14 @@
                                                         <div class="homes-content p-3">
 
                                                             <span style="text-decoration: none">
-                                                                <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                    Projesinde
-
-                                                                    {{ $i + 1 }} {{ "No'lu" }}
-                                                                    {{ $project->step1_slug }}
+                                                                <h3>  @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
+                                                                
+                                                                    @if ($advertiseTitle)
+                                                                        {{ $advertiseTitle }}
+                                                                    @else
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
+                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                    @endif
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -881,9 +899,15 @@
 
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
-                                        <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                        <h3> @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
-                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                            @if ($advertiseTitle)
+                                                {{ $advertiseTitle }}
+                                            @else
+                                                {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                Projesinde
+                                                {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                            @endif
                                         </h3>
 
 
@@ -1024,11 +1048,14 @@
                                                         <div class="homes-content p-3">
 
                                                             <span style="text-decoration: none">
-                                                                <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                    Projesinde
-
-                                                                    {{ $i + 1 }} {{ "No'lu" }}
-                                                                    {{ $project->step1_slug }}
+                                                                <h3>  @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
+                                                                
+                                                                    @if ($advertiseTitle)
+                                                                        {{ $advertiseTitle }}
+                                                                    @else
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
+                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                    @endif
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
