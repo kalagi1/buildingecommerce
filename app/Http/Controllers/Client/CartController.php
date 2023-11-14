@@ -160,6 +160,7 @@ class CartController extends Controller
 
     public function paySuccess(Request $request, CartOrder $cart_order)
     {
+        
         return view('client.cart.pay-success', compact('cart_order'));
     }
 
