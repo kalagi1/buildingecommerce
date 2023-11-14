@@ -634,7 +634,6 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
-    Route::get('/fatura/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
     Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
     Route::get('/orders', [DashboardController::class, 'getOrders'])->name('orders');
 
@@ -830,7 +829,18 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::get('/housings', [InstitutionalHousingController::class, 'index'])->name('housing.list');
     });
 
+    Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
+        Route::get('/get-orders', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
+        Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
+        Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
+
+    });
+
 });
+
+Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
+Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
+
 
 Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client', 'checkAccountStatus']], function () {
 
@@ -838,8 +848,6 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     Route::post('/verify', [ClientPanelProfileController::class, 'verifyAccount'])->name('verify-account');
     Route::get('/get-document', [ClientPanelProfileController::class, 'getIdentityDocument'])->name('get.identity-document');
 
-    Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
-    Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
 
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
@@ -869,6 +877,7 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
 
     Route::get('/get_neighbourhood', [InstitutionalProjectController::class, "getNeighbourhood"])->name('get.neighbourhood');
+
     Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
         Route::get('/siparisler', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
         Route::get('/fatura/{order}', [InvoiceController::class, "show"])->name('invoice.show');

@@ -155,7 +155,7 @@ class CartController extends Controller
 
         session()->forget('cart');
 
-        return redirect()->route('client.pay.success', ['cart_order' => $order->id]);
+        return redirect()->route('pay.success', ['cart_order' => $order->id]);
     }
 
     public function paySuccess(Request $request, CartOrder $cart_order)

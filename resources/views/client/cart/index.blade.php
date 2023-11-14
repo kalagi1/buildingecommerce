@@ -94,15 +94,11 @@
                                 <ul>
                                     <li>
                                         <button type="button" class="btn btn-primary btn-lg btn-block mb-3"
-                                            @if (!Auth::check()) disabled @endif
-                                            @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif data-toggle="modal"
+                                           data-toggle="modal"
                                             data-target="#paymentModal">
                                             Satın Al
                                         </button>
-                                        @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id))
-                                            <span class="text-danger">Mağazalar için şu an satın alma modülümüz
-                                                kapalıdır.</span>
-                                        @endif
+                                     
                                     </li>
                                 </ul>
                             </div>
@@ -236,7 +232,7 @@
                                 </li>
                                 <li>
                                     Son olarak, işlemi bitirmek için aşağıdaki butona tıklayın: <br>
-                                    <form action="{{ route('client.pay.cart') }}" method="POST">
+                                    <form action="{{ route('pay.cart') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="key" id="orderKey">
                                         <input type="hidden" name="banka_id" id="bankaID">
