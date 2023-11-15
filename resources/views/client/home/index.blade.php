@@ -168,6 +168,10 @@
                                 <!-- Image Box -->
                                 <a href="{{ route('project.detail', $project->project->slug) }}"
                                     class="img-box hover-effect">
+                                    <div class="listing-img-content">
+                                        <span class="listing-compact-title">{{$project->project_title}}</span>
+                                      
+                                    </div>
                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"
                                         class="img-fluid w100" alt="">
                                 </a>

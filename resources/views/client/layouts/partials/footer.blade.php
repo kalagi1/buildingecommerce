@@ -76,13 +76,14 @@
 <!-- END FOOTER -->
 
 <style>
-       .filter-date{
-   display: flex;
-   align-items: center;
-   justify-content: start;
-   }
+    .filter-date {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+
     .homes-content h4 {
-        height: 30px;
+        height: 50px;
     }
 
     .circleIcon {
@@ -681,12 +682,9 @@
                                 location.reload();
 
                             },
-                            error: function(xhr, status, error) {
-                                toastr.error("Hata oluştu: " + xhr
-                                    .responseText,
-                                    "Hata");
-                                console.error("Hata oluştu: " + xhr
-                                    .responseText);
+                            error: function(error) {
+                                toastr.error("Lütfen Giriş Yapınız");
+                                console.error(error);
                             }
                         });
                     }
@@ -716,12 +714,9 @@
                                 location.reload();
 
                             },
-                            error: function(xhr, status, error) {
-                                toastr.error("Hata oluştu: " + xhr
-                                    .responseText,
-                                    "Hata");
-                                console.error("Hata oluştu: " + xhr
-                                    .responseText);
+                            error: function(error) {
+                                toastr.error("Lütfen Giriş Yapınız");
+                                console.error(error);
                             }
                         });
                     }

@@ -41,10 +41,14 @@ class InstitutionalController extends Controller
                     'housing_types.title as housing_type_title',
                     'housings.housing_type_data',
                     'housings.address',
+                    'cities.title AS city_title', // city tablosundan veri çekme
+                    'districts.ilce_title AS county_title' // district tablosundan veri çekme
                 )->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
                     ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
                     ->where('housings.status_id', 1)
                     ->where("user_id", $store->id)
+                    ->leftJoin('cities', 'cities.id', '=', 'housings.city_id') // city tablosunu join etme
+                    ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id') // district tablosunu join etme
                     ->get();
 
                 return view("client.institutional.dashboard", compact("store", "soilProjects", 'projects', 'finishProjects', 'continueProjects', 'secondhandHousings'));
@@ -73,8 +77,7 @@ class InstitutionalController extends Controller
             if ($slugName === $slug) {
 
                 $store = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'town', 'district', "neighborhood", 'brands', "banners")->first();
-               
-               
+
                 $secondhandHousings = Housing::with('images')->select(
                     'housings.id',
                     'housings.title AS housing_title',
@@ -88,7 +91,7 @@ class InstitutionalController extends Controller
                     ->where("user_id", $store->id)
                     ->get();
 
-                return view("client.institutional.housings", compact("secondhandHousings","store"));
+                return view("client.institutional.housings", compact("secondhandHousings", "store"));
             }
         }
     }

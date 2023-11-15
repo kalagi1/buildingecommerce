@@ -409,6 +409,22 @@ class HomeController extends Controller
             $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.squaremeters[0]")) AS DECIMAL(10, 2)) <= ?', [$request->input('msq_max')]);
         }
 
+        if ($request->input('islandnumber_min')) {
+            $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.islandnumber[0]")) AS DECIMAL(10, 2)) >= ?', [$request->input('islandnumber_min')]);
+        }
+
+        if ($request->input('islandnumber_max')) {
+            $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.islandnumber[0]")) AS DECIMAL(10, 2)) <= ?', [$request->input('islandnumber_max')]);
+        }
+
+        if ($request->input('parcelnumber_min')) {
+            $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.parcelnumber[0]")) AS DECIMAL(10, 2)) >= ?', [$request->input('parcelnumber_min')]);
+        }
+
+        if ($request->input('parcelnumber_max')) {
+            $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.parcelnumber[0]")) AS DECIMAL(10, 2)) <= ?', [$request->input('parcelnumber_max')]);
+        }
+
         if ($request->has('bathroom_count')) {
             if ($request->input('bathroom_count') == '4+') {
                 $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.numberofbathrooms[0]")) AS DECIMAL(10, 2)) >= ?', [$request->input('bathroom_count')]);
@@ -416,6 +432,10 @@ class HomeController extends Controller
                 $obj = $obj->whereRaw('JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.numberofbathrooms[0]")) = ?', [$request->input('bathroom_count')]);
             }
 
+        }
+
+        if ($request->has('zoning')) {
+                $obj = $obj->whereRaw('JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.room_count[0]")) = ?', [$request->input('zoning')]);
         }
 
         if ($request->input('room_count')) {

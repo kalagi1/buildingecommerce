@@ -3,28 +3,24 @@
 @section('content')
     <style>
         /* css */
-        .trip-search select
-        {
+        .trip-search select {
             appearance: none;
             border: 1px solid #CCC;
             border-radius: 8px;
         }
 
-        input[type=radio]
-        {
+        input[type=radio] {
             appearance: none;
             background: white;
             border: 2px solid #dddddd;
             border-radius: 100%;
         }
 
-        input[type=radio]:checked
-        {
+        input[type=radio]:checked {
             background: #0A0A0A;
         }
 
-        .widget-boxed-header h6
-        {
+        .widget-boxed-header h6 {
             font-weight: bold !important;
             color: #000;
         }
@@ -130,8 +126,13 @@
                                             <option value="{{ $city->id }}">{{ $city->title }}</option>
                                         @endforeach
                                     </select>
-                                    <div onclick="$(this).parent().find('select').trigger('click');" class="border-left" style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                        <svg viewBox="0 0 384 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#AAA" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
+                                    <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
+                                        style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
+                                        <svg viewBox="0 0 384 512" width="16" height="16"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="#AAA"
+                                                d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
+                                        </svg>
                                     </div>
                                 </div>
                                 <div class="mt-4">
@@ -139,8 +140,13 @@
                                         <option value="#" class="selected" selected disabled>İlçe</option>
                                     </select>
 
-                                    <div onclick="$(this).parent().find('select').trigger('click');" class="border-left" style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                        <svg viewBox="0 0 384 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#AAA" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
+                                    <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
+                                        style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
+                                        <svg viewBox="0 0 384 512" width="16" height="16"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="#AAA"
+                                                d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
+                                        </svg>
                                     </div>
                                 </div>
                                 <div class="mt-4">
@@ -148,50 +154,31 @@
                                         <option value="#" class="selected" selected disabled>Mahalle</option>
                                     </select>
 
-                                    <div onclick="$(this).parent().find('select').trigger('click');" class="border-left" style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                        <svg viewBox="0 0 384 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#AAA" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
+                                    <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
+                                        style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
+                                        <svg viewBox="0 0 384 512" width="16" height="16"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="#AAA"
+                                                d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
-                        
+
                             @if ($secondhandHousings)
-                            
-                                <div class="mt-4" id="number_of_bathrooms">
-                                    <div class="head d-flex">
-                                        <b>Banyo Sayısı</b>
-                                    </div>
-                                    <div class="mt-2">
-                                        <div class="d-flex current-page" style="border: 1px solid #CCC; cursor: pointer; border-radius: 8px;">
-                                            <div style="border-radius: 8px 0 0 8px;" class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
-                                                1
-                                            </div>
-                                            <div class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
-                                                2
-                                            </div>
-                                            <div class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
-                                                3
-                                            </div>
-                                            <div style="border-radius: 0px 8px 8px 0;" class="bathroom-count-item cursor-pointer py-2 px-3 font-weight-bold w-100 text-center">
-                                                4+
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="mt-4">
                                     <div class="trip-search">
                                         <div class="head d-flex">
                                             <b>Fiyat Aralığı</b>
                                         </div>
-                                        <div class="mt-2 row price-inputs">
-                                            <div class="col-6">
+                                        <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
                                                 <input type="number" id="price-min" min="0" placeholder="Min"
-                                                       class="filter-now form-control">
-                                            </div>
-                                            <div class="col-6">
+                                                    class="filter-now form-control"> </span><i
+                                                class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
+                                                id="slider-range-value2">
                                                 <input type="number" id="price-max" min="0" placeholder="Max"
-                                                       class="filter-now form-control">
-                                            </div>
-                                        </div>
+                                                    class="filter-now form-control"></span></div>
+
 
                                     </div>
                                 </div>
@@ -201,61 +188,127 @@
                                         <div class="head d-flex">
                                             <b>M<sup>2</sup> (brüt)</b>
                                         </div>
-                                        <div class="mt-2 row">
-                                            <div class="col-6">
+                                        <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
                                                 <input type="number" id="msq-min" min="0" placeholder="Min"
-                                                       class="filter-now form-control">
-                                            </div>
-                                            <div class="col-6">
+                                                    class="filter-now form-control"> </span><i
+                                                class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
+                                                id="slider-range-value2">
                                                 <input type="number" id="msq-max" min="0" placeholder="Max"
-                                                       class="filter-now form-control">
-                                            </div>
-                                        </div>
-                                    </div>  
+                                                    class="filter-now form-control"></span></div>
+
+
+                                    </div>
                                 </div>
 
-                                <div class="mt-4" id="room_count_field">
-                                    <div class="head d-flex">
-                                        <b>Oda Sayısı</b>
+                                @if ($housingTypeSlugName == 'Konut')
+                                    <div class="mt-4" id="room_count_field">
+                                        <div class="head d-flex">
+                                            <b>Oda Sayısı</b>
+                                        </div>
+                                        <div class="mt-2 d-flex align-items-center" style="flex-wrap: wrap">
+                                            @for ($i = 1; $i <= 15; $i++)
+                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                    <input type="checkbox" class="form-check-input filter-now form-control"
+                                                        id="{{ $i }}+1" />
+                                                    <label for="{{ $i }}+1"
+                                                        class="form-check-label w-100 ml-4">{{ $i }}+1</label>
+                                                </div>
+                                            @endfor
+                                        </div>
                                     </div>
-                                    <div class="mt-2 d-flex align-items-center" style="flex-wrap: wrap">
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now form-control"
-                                                   id="1_1" />
-                                            <label for="1_1" class="form-check-label w-100 ml-4">1+1</label>
+
+                                    <div class="mt-4" id="number_of_bathrooms">
+                                        <div class="head d-flex">
+                                            <b>Banyo Sayısı</b>
                                         </div>
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="2_1" />
-                                            <label for="2_1" class="form-check-label w-100 ml-4">2+1</label>
+                                        <div class="mt-2">
+                                            <div class="d-flex current-page"
+                                                style="border: 1px solid #CCC; cursor: pointer; border-radius: 8px;">
+                                                <div style="border-radius: 8px 0 0 8px;"
+                                                    class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
+                                                    1
+                                                </div>
+                                                <div
+                                                    class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
+                                                    2
+                                                </div>
+                                                <div
+                                                    class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
+                                                    3
+                                                </div>
+                                                <div style="border-radius: 0px 8px 8px 0;"
+                                                    class="bathroom-count-item cursor-pointer py-2 px-3 font-weight-bold w-100 text-center">
+                                                    4+
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="3_1" />
-                                            <label for="3_1" class="form-check-label w-100 ml-4">3+1</label>
+                                    </div>
+                                @elseif ($housingTypeSlugName == 'Arsa')
+                                <div class="mt-4">
+                                    <div class="trip-search">
+                                        <div class="head d-flex">
+                                            <b>Ada No</b>
                                         </div>
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="3_2" />
-                                            <label for="3_2" class="form-check-label w-100 ml-4">3+2</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="4_1" />
-                                            <label for="4_1" class="form-check-label w-100 ml-4">4+1</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="4_2" />
-                                            <label for="4_2" class="form-check-label w-100 ml-4">4+2</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="5_1" />
-                                            <label for="5_1" class="form-check-label w-100 ml-4">5+1</label>
-                                        </div>
+                                        <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
+                                                <input type="number" id="islandnumber-min" min="0"
+                                                    placeholder="Min" class="filter-now form-control"> </span><i
+                                                class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
+                                                id="slider-range-value2">
+                                                <input type="number" id="islandnumber-max" min="0"
+                                                    placeholder="Max" class="filter-now form-control"></span></div>
+
+
                                     </div>
                                 </div>
+                                <div class="mt-4">
+                                    <div class="trip-search">
+                                        <div class="head d-flex">
+                                            <b>Parsel No</b>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
+                                                <input type="number" id="parcelnumber-min" min="0"
+                                                    placeholder="Min" class="filter-now form-control"> </span><i
+                                                class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
+                                                id="slider-range-value2">
+                                                <input type="number" id="parcelnumber-max" min="0"
+                                                    placeholder="Max" class="filter-now form-control"></span></div>
+
+
+                                    </div>
+                                </div>
+                                    <div class="mt-4 trip-search" id="from_owner_field">
+                                        <div class="head d-flex">
+                                            <b>İmar Durumu</b>
+                                        </div>
+
+                                        <select id="zoning" class="bg-white filter-now mt-2">
+                                            <option value="#" class="selected" selected disabled>Seçiniz</option>
+                                            <option value="Ada">Ada</option>
+                                            <option value="A-Lejantlı">A-Lejantlı</option>
+                                            <option value="Arazi">Arazi</option>
+                                            <option value="Bağ & Bahçe">Bağ & Bahçe</option>
+                                            <option value="Depo & Antrepo">Depo & Antrepo</option>
+                                            <option value="Eğitim">Eğitim</option>
+                                            <option value="Tarla">Tarla</option>
+                                        </select>
+
+                                        <div onclick="$(this).parent().find('select').trigger('click');"
+                                            class="border-left"
+                                            style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
+                                            <svg viewBox="0 0 384 512" width="16" height="16"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill="#AAA"
+                                                    d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    
+                                @endif
+
+
+
+
+
 
                                 <div class="mt-4" id="from_owner_field">
                                     <div class="head d-flex">
@@ -264,7 +317,7 @@
                                     <div class="mt-2">
                                         <div class="mb-2 d-flex align-items-center w-100">
                                             <input type="radio" name="whose" id="from_owner" class="filter-now" />
-                                            <label for="from_owner" class="form-check-label w-100 ml-2">Sahibinden</label>
+                                            <label for="from_owner" class="form-check-label w-100 ml-2">Turizm</label>
                                         </div>
                                         <div class="mb-2 d-flex align-items-center w-100">
                                             <input type="radio" name="whose" id="from_office" class="filter-now" />
@@ -282,9 +335,8 @@
                                         </div>
                                     </div>
                                 </div>
-
                             @endif
-                        @if ($projects)
+                            @if ($projects)
                                 <div class="trip-search mt-4">
                                     <div class="widget-boxed-header border-0">
                                         <b>Proje Durumu</b>
@@ -297,39 +349,48 @@
                                             <option value="5">Topraktan Projeler</option>
                                         </select>
 
-                                        <div onclick="$(this).parent().find('select').trigger('click');" class="border-left" style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                            <svg viewBox="0 0 384 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#AAA" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
+                                        <div onclick="$(this).parent().find('select').trigger('click');"
+                                            class="border-left"
+                                            style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
+                                            <svg viewBox="0 0 384 512" width="16" height="16"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill="#AAA"
+                                                    d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
+                                            </svg>
                                         </div>
                                     </div>
                                 </div>
                             @endif
 
-                                <div class="trip-search mt-4">
+                            <div class="trip-search mt-4">
                                 <div class="widget-boxed-header border-0">
                                     <b>İlan Tarihi</b>
                                 </div>
                                 <div style="display: grid;">
                                     <label class="filter-date d-flex align-items-center">
-                                        <input name="filter-date" class="filter-date filter-now" type="radio" value="last3Days">
+                                        <input name="filter-date" class="filter-date filter-now" type="radio"
+                                            value="last3Days">
                                         <span class="fs-13 ml-2">Son 3 Gün</span>
                                     </label>
                                     <label class="filter-date d-flex align-items-center">
-                                        <input name="filter-date" class="filter-date filter-now" type="radio" value="lastWeek">
+                                        <input name="filter-date" class="filter-date filter-now" type="radio"
+                                            value="lastWeek">
                                         <span class="fs-13 ml-2">Son Bir Hafta</span>
                                     </label>
-                                     <label class="filter-date d-flex align-items-center">
-                                        <input name="filter-date" type="radio" class="filter-date filter-now" value="lastMonth">
+                                    <label class="filter-date d-flex align-items-center">
+                                        <input name="filter-date" type="radio" class="filter-date filter-now"
+                                            value="lastMonth">
                                         <span class="fs-13 ml-2">Son Bir Ay</span>
-                                        </label>
+                                    </label>
                                 </div>
 
                             </div>
                         </div>
 
-                        
 
-                        <button type="button" class=" btn bg-white btn-lg btn-block mt-4 mb-4e btn-transition" style="border: 1px solid #CCC;"
-                            id="clear-filters">Temizle</button>
+
+                        <button type="button" class=" btn bg-white btn-lg btn-block mt-4 mb-4e btn-transition"
+                            style="border: 1px solid #CCC;" id="clear-filters">Temizle</button>
 
                         <button type="button" onclick="$('.filters-input-area').slideToggle();"
                             style="background: #e54242 !important"
@@ -430,7 +491,7 @@
                     <div class="widget-boxed main-search-field">
                         <div class="trip-search">
                             <div class="head d-flex">
-                                <b>Adres</b>
+                                <b>Adres </b>
                                 <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
                                     <svg width="16px" height="16px" viewBox="0 0 384 512"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -470,16 +531,16 @@
                                         </svg>
                                     </span>
                                 </div>
-                                <div class="mt-4 row price-inputs" style="display: none;">
-                                    <div class="col-6">
-                                        <input type="number" id="price-min" min="0" placeholder="Min"
-                                            class="filter-now form-control">
-                                    </div>
-                                    <div class="col-6">
+                                <div class="d-flex align-items-center mt-2">
+                                    <span id="slider-range-value1"> <input type="number" id="price-min" min="0"
+                                            placeholder="Min" class="filter-now form-control"></span><i
+                                        class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
+                                        id="slider-range-value2">
                                         <input type="number" id="price-max" min="0" placeholder="Max"
-                                            class="filter-now form-control">
-                                    </div>
+                                            class="filter-now form-control"></span>
                                 </div>
+
+
 
                             </div>
                         </div>
@@ -488,77 +549,32 @@
                             <div class="trip-search">
                                 <div class="head d-flex">
                                     <b>m<sup>2</sup> (brüt)</b>
-                                    <span class="ml-auto"
-                                        onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
-                                        <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                        </svg>
-                                    </span>
                                 </div>
-                                <div class="mt-4 row" style="display: none;">
-                                    <div class="col-6">
+                                <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
                                         <input type="number" id="msq-min" min="0" placeholder="Min"
-                                            class="filter-now form-control">
-                                    </div>
-                                    <div class="col-6">
+                                            class="filter-now form-control"> </span><i
+                                        class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
+                                        id="slider-range-value2">
                                         <input type="number" id="msq-max" min="0" placeholder="Max"
-                                            class="filter-now form-control">
-                                    </div>
-                                </div>
+                                            class="filter-now form-control"></span></div>
                             </div>
                         </div>
 
-                        <div class="widget-boxed mt-4" id="room_count_field">
+                        <div class="mt-4" id="room_count_field">
                             <div class="head d-flex">
                                 <b>Oda Sayısı</b>
-                                <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
-                                    <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                    </svg>
-                                </span>
                             </div>
-                            <div class="mt-4" style="display: none;">
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now form-control"
-                                        id="1_1" />
-                                    <label for="1_1" class="form-check-label w-100 ml-4">1+1</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now  form-control"
-                                        id="2_1" />
-                                    <label for="2_1" class="form-check-label w-100 ml-4">2+1</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now  form-control"
-                                        id="3_1" />
-                                    <label for="3_1" class="form-check-label w-100 ml-4">3+1</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now  form-control"
-                                        id="3_2" />
-                                    <label for="3_2" class="form-check-label w-100 ml-4">3+2</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now  form-control"
-                                        id="4_1" />
-                                    <label for="4_1" class="form-check-label w-100 ml-4">4+1</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now  form-control"
-                                        id="4_2" />
-                                    <label for="4_2" class="form-check-label w-100 ml-4">4+2</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now  form-control"
-                                        id="5_1" />
-                                    <label for="5_1" class="form-check-label w-100 ml-4">5+1</label>
-                                </div>
+                            <div class="mt-2 d-flex align-items-center" style="flex-wrap: wrap">
+                                @for ($i = 1; $i <= 15; $i++)
+                                    <div class="mb-2 d-flex align-items-center w-50">
+                                        <input type="checkbox" class="form-check-input filter-now form-control"
+                                            id="{{ $i }}+1" />
+                                        <label for="{{ $i }}+1"
+                                            class="form-check-label w-100 ml-4">{{ $i }}+1</label>
+                                    </div>
+                                @endfor
                             </div>
-                        </div
+                        </div>
                         <div class="widget-boxed mt-4" id="from_owner_field">
                             <div class="head d-flex">
                                 <b>Kimden</b>
@@ -573,7 +589,7 @@
                             <div class="mt-4" style="display: none;">
                                 <div class="mb-2 d-flex align-items-center w-100">
                                     <input type="radio" name="whose" id="from_owner" class="filter-now" />
-                                    <label for="from_owner" class="form-check-label w-100 ml-2">Sahibinden</label>
+                                    <label for="from_owner" class="form-check-label w-100 ml-2">Turizm</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
                                     <input type="radio" name="whose" id="from_office" class="filter-now" />
@@ -613,8 +629,7 @@
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
 
-        $('.bathroom-count-item').on('click', function()
-        {
+        $('.bathroom-count-item').on('click', function() {
             $('.bathroom-count-item').removeClass('bg-dark').removeClass('text-white');
             $(this).addClass('bg-dark').addClass('text-white');
             bathroom_count = $(this).text();
@@ -799,7 +814,7 @@
                                                         </li>
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                        <li style="font-size: 16px; font-weight: 700;" class="priceFont">
+                                                        <li style="font-size: 16px; font-weight: 700;width: auto !important" class="priceFont" >
                                                             ${numberFormat(res.housing_type.price)} ₺
 
                                                         </li>
@@ -811,20 +826,20 @@
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
                                                         ${res.sold ?
                                                             `<button
-                                                                                                                                                                                                    style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                                                                                                                </button>`
+                                                                                                                                                                                                                                                                style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                                                                                                                                                            </button>`
                                                             :
 
                                                             `
-                                                                                                                                                        <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                                                                        data-id='${res.id}'>
-                                                                                                                                                        <span class="IconContainer">
-                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                    <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                                                                                                                                                                    data-id='${res.id}'>
+                                                                                                                                                                                                                    <span class="IconContainer">
+                                                                                                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
 
-                                                                                                                                                        </span>
-                                                                                                                                                        <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                    </button>
-                                                                                                                                                        `
+                                                                                                                                                                                                                    </span>
+                                                                                                                                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                                </button>
+                                                                                                                                                                                                                    `
                                                             }
                                                     </ul>
                                                 </div>
@@ -949,7 +964,7 @@
 
             function filterNow() {
                 let room_count = [];
-                $('#room_count_field .mt-4 .mb-2').each(function() {
+                $('#room_count_field .mb-2').each(function() {
                     let i = $(this).find('.form-check-input');
                     if (i.is(':checked')) {
                         room_count.push(i.attr('id').replace('_', '+'));
@@ -981,16 +996,19 @@
                     project_type: $("#project_type").val(),
                     neighborhood: $('#neighborhood').val(),
                     filterDate: $(".filter-date:checked").val(),
-                    @if ($secondhandHousings)
-                        price_min: $('#price-min').val(),
-                        price_max: $('#price-max').val(),
-                        msq_min: $('#msq-min').val(),
-                        msq_max: $('#msq-max').val(),
-                        room_count,
-                        post_date,
-                        from_owner,
-                        bathroom_count,
-                    @endif
+                    zoning: $("#zoning").val(),
+                    islandnumber_min: $('#islandnumber-min').val(),
+                    islandnumber_max: $('#islandnumber-max').val(),
+                    parcelnumber_min: $("#parcelnumber-min").val(),
+                    parcelnumber_max: $("#parcelnumber-max").val(),
+                    price_min: $('#price-min').val(),
+                    price_max: $('#price-max').val(),
+                    msq_min: $('#msq-min').val(),
+                    msq_max: $('#msq-max').val(),
+                    room_count,
+                    post_date,
+                    from_owner,
+                    bathroom_count,
                 });
             }
 
@@ -1005,7 +1023,7 @@
                     $('.bathroom-count-item').removeClass('bg-dark').removeClass('text-white');
                     bathroom_count = null;
 
-                $('#room_count_field .mt-4 .mb-2').each(function() {
+                    $('#room_count_field .mt-4 .mb-2').each(function() {
                         let i = $(this).find('.form-check-input');
                         i.prop('checked', false);
                     });
@@ -1052,6 +1070,13 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        #pages {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            justify-content: center
+        }
+
         hr {
             width: 100%;
             height: 100%;

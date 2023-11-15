@@ -438,7 +438,7 @@
                                 <a style="text-decoration: none; height: 100%"
                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                     <h3> 
-                                        @if (getData($project, 'advertise_title[]', $i + 1)->value)
+                                        @if (isset(getData($project, 'advertise_title[]', $i + 1)->value))
                                             {{ getData($project, 'advertise_title[]', $i + 1)->value }}
                                         @else
                                             {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}

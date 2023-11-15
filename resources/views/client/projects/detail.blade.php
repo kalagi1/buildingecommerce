@@ -59,11 +59,11 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.dashboard', Str::slug($project->user->name)) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Proje
-                                İlanları</a>
-                            <a class="navbar-item"
                                 href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">Mağaza
                                 Profili</a>
+                            <a class="navbar-item"
+                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Proje
+                                İlanları</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.housings', Str::slug($project->user->name)) }}">Emlak
                                 İlanları</a>
@@ -473,11 +473,12 @@
                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                     <h3>
                                         @php($advertiseTitle = getData($project, 'advertise_title[]', $i + 1)->value ?? null)
-                                                         
+
                                         @if ($advertiseTitle)
                                             {{ $advertiseTitle }}
                                         @else
-                                            {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
+                                            {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                            Projesinde
                                             {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                         @endif
                                     </h3>

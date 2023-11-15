@@ -144,12 +144,13 @@
                         <div class="navbar-items">
                             <a class="navbar-item active"
                                 href="{{ route('instituional.dashboard', Str::slug($store->name)) }}">Anasayfa</a>
-                            <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($store->name)) }}">Proje
-                                İlanları</a>
-                            <a class="navbar-item"
+                                <a class="navbar-item"
                                 href="{{ route('instituional.profile', Str::slug($store->name)) }}">Mağaza
                                 Profili</a>
+                                <a class="navbar-item"
+                                href="{{ route('instituional.projects.detail', Str::slug($store->name)) }}">Proje
+                                İlanları</a>
+                        
                             <a class="navbar-item"
                                 href="{{ route('instituional.housings', Str::slug($store->name)) }}">Emlak İlanları</a>
                         </div>
@@ -213,13 +214,20 @@
         <section class="popular-places home18">
             <div class="container">
                 <div class="row">
+                    
                     @foreach ($projects as $project)
                         <div class="col-sm-12 col-md-4 col-lg-4 col-12" data-aos="zoom-in" data-aos-delay="150">
-                            <!-- Image Box -->
-                            <a href="{{ route('project.detail', $project->slug) }}" class="img-box hover-effect">
-                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                    class="img-fluid w100" alt="" style="object-fit: cover">
-                            </a>
+                            <div class="project-single no-mb aos-init aos-animate" data-aos="zoom-in" data-aos-delay="150">
+                                <div class="listing-item compact">
+                                    <a href="{{ route('project.detail', $project->slug) }}" class="listing-img-container">
+                                        <div class="listing-img-content">
+                                            <span class="listing-compact-title">{{$project->project_title}}</span>
+                                          
+                                        </div>
+                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}" alt="">
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     @endforeach
                 </div>

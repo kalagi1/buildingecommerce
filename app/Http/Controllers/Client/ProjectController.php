@@ -164,10 +164,10 @@ class ProjectController extends Controller
                     $opt = $paramValue;
                     if ($opt) {
                         $opt = $opt;
-                        if ($opt == "satilik") {
-                            $optName = "Satılık";
-                        } else {
+                        if ($opt == "kiralik") {
                             $optName = "Kiralık";
+                        } else {
+                            $optName = "Satılık";
                         }
                     }
                 } else {
@@ -267,6 +267,7 @@ class ProjectController extends Controller
         $housingStatuses = HousingStatus::get();
         $cities = City::get();
         $menu = Menu::getMenuItems();
+
 
         return view('client.all-projects.menu-list', compact('menu', "opt", "housingTypeSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
     }
