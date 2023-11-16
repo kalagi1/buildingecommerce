@@ -155,26 +155,25 @@ class HomeController extends Controller
 
         if ($request->input('filterDate')) {
             $filterDate = $request->input('filterDate');
-        
+
             switch ($filterDate) {
                 case 'last3Days':
                     $query->where('created_at', '>=', now()->subDays(3));
                     break;
-        
+
                 case 'lastWeek':
                     $query->where('created_at', '>=', now()->subWeek());
                     break;
-        
+
                 case 'lastMonth':
                     $query->where('created_at', '>=', now()->subMonth());
                     break;
-        
-        
+
                 default:
                     break;
             }
         }
-        
+
         if ($request->input('project_type')) {
             $slug = $request->input('project_type');
             $query->whereHas('housingTypes', function ($query) use ($slug) {
@@ -339,7 +338,11 @@ class HomeController extends Controller
         }
 
         $obj = Housing::select('housings.*')->with('images', "city", "county")->where('housings.status', 1)->whereRaw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) IS NULL');
-        
+
+        if ($request->input("slug") == "al-sat-acil") {
+            $obj = $obj->whereJsonContains('housing_type_data->buysellurgent1', "Evet");
+        }
+
         if ($housingTypeSlug) {
             $obj->where("step1_slug", $housingTypeSlug);
         }
@@ -418,6 +421,15 @@ class HomeController extends Controller
 
         if ($request->input('msq_max')) {
             $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.squaremeters[0]")) AS DECIMAL(10, 2)) <= ?', [$request->input('msq_max')]);
+        }
+
+        if ($request->has('bathroom_count')) {
+            if ($request->input('bathroom_count') == '4+') {
+                $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.numberofbathrooms[0]")) AS DECIMAL(10, 2)) >= ?', [$request->input('bathroom_count')]);
+            } else {
+                $obj = $obj->whereRaw('JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.numberofbathrooms[0]")) = ?', [$request->input('bathroom_count')]);
+            }
+
         }
 
         if ($request->input('room_count')) {

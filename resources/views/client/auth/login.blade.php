@@ -31,19 +31,21 @@
                                 <div class="tab-pane fade @if ($errors->has('login_error') || !$errors->any()) active show @else hide @endif "
                                     id="normal" role="tabpanel" aria-labelledby="normal-tab">
 
-                                    @if (session()->has('success'))
-                                        <div class="alert alert-success text-white">
-                                            {{ session()->get('success') }}
-                                        </div>
-                                    @elseif (session()->has('error'))
-                                        <div class="alert alert-danger text-white">
-                                            {{ session()->get('error') }}
-                                        </div>
-                                    @elseif (session()->has('warning'))
-                                        <div class="alert alert-warning">
-                                            {{ session()->get('warning') }}
-                                        </div>
-                                    @endif
+                                    <div class="mt-5">
+                                        @if (session()->has('success'))
+                                            <div class="alert alert-success text-white">
+                                                {{ session()->get('success') }}
+                                            </div>
+                                        @elseif (session()->has('error'))
+                                            <div class="alert alert-danger text-white">
+                                                {{ session()->get('error') }}
+                                            </div>
+                                        @elseif (session()->has('warning'))
+                                            <div class="alert alert-warning">
+                                                {{ session()->get('warning') }}
+                                            </div>
+                                        @endif
+                                    </div>
 
                                     <form method="POST"class="form w-100" action="{{ route('client.submit.login') }}">
                                         @csrf

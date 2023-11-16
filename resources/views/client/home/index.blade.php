@@ -239,9 +239,15 @@
 
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
-                                        <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-
-                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                        <h3>
+                                            @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
+                                                                
+                                                                    @if ($advertiseTitle)
+                                                                        {{ $advertiseTitle }}
+                                                                    @else
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
+                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                    @endif
                                         </h3>
 
 
@@ -290,11 +296,11 @@
                                             @endif
                                             @if ($sold)
                                                 @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                    {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                    {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                     ₺
                                                 @endif
                                             @else
-                                                {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                 ₺
                                             @endif
                                     </div>
@@ -383,11 +389,15 @@
                                                         <div class="homes-content p-3">
 
                                                             <span style="text-decoration: none">
-                                                                <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                    Projesinde
-
-                                                                    {{ $i + 1 }} {{ "No'lu" }}
-                                                                    {{ $project->step1_slug }}
+                                                                <h3>
+                                                                    @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
+                                                                
+                                                                    @if ($advertiseTitle)
+                                                                        {{ $advertiseTitle }}
+                                                                    @else
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
+                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                    @endif
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -460,11 +470,11 @@
 
                                                                     @if ($sold)
                                                                         @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                            {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                                            {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                                             ₺
                                                                         @endif
                                                                     @else
-                                                                        {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                                        {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                                         ₺
                                                                     @endif
 
@@ -558,9 +568,15 @@
 
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
-                                        <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-
-                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                        <h3>
+                                            @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
+                                                                
+                                                                    @if ($advertiseTitle)
+                                                                        {{ $advertiseTitle }}
+                                                                    @else
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
+                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                    @endif
                                         </h3>
 
 
@@ -608,11 +624,11 @@
                                             @endif
                                             @if ($sold)
                                                 @if ($sold[0]->status != '0' && $sold[0]->status != '1')
-                                                    {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                    {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                     ₺
                                                 @endif
                                             @else
-                                                {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                 ₺
                                             @endif
                                     </div>
@@ -699,11 +715,14 @@
                                                         <div class="homes-content p-3">
 
                                                             <span style="text-decoration: none">
-                                                                <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                    Projesinde
-
-                                                                    {{ $i + 1 }} {{ "No'lu" }}
-                                                                    {{ $project->step1_slug }}
+                                                                <h3>@php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
+                                                                
+                                                                    @if ($advertiseTitle)
+                                                                        {{ $advertiseTitle }}
+                                                                    @else
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
+                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                    @endif
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -774,11 +793,11 @@
                                                                     @endif
                                                                     @if ($sold)
                                                                         @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                            {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                                            {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                                             ₺
                                                                         @endif
                                                                     @else
-                                                                        {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                                        {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                                         ₺
                                                                     @endif
 
@@ -874,9 +893,15 @@
 
                                     <a style="text-decoration: none;height:100%"
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
-                                        <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-
-                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                        <h3>
+                                            @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
+                                                                
+                                                                    @if ($advertiseTitle)
+                                                                        {{ $advertiseTitle }}
+                                                                    @else
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
+                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                    @endif
                                         </h3>
 
 
@@ -924,11 +949,11 @@
                                             @endif
                                             @if ($sold)
                                                 @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                    {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                    {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                     ₺
                                                 @endif
                                             @else
-                                                {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                 ₺
                                             @endif
                                     </div>
@@ -1016,12 +1041,18 @@
                                                         <div class="homes-content p-3">
 
                                                             <span style="text-decoration: none">
-                                                                <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                    Projesinde
-
-                                                                    {{ $i + 1 }} {{ "No'lu" }}
-                                                                    {{ $project->step1_slug }}
+                                                                <h3>
+                                                                    @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
+                                                                
+                                                                    @if ($advertiseTitle)
+                                                                        {{ $advertiseTitle }}
+                                                                    @else
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
+                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                    @endif
                                                                 </h3>
+                                                                
+                                                                
 
                                                                 <p class="homes-address mb-3">
 
@@ -1076,11 +1107,11 @@
 
                                                                     @if ($sold)
                                                                         @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                            {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                                            {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                                             ₺
                                                                         @endif
                                                                     @else
-                                                                        {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                                        {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                                         ₺
                                                                     @endif
 
@@ -1218,12 +1249,12 @@
                                         @endif
                                         @if ($sold)
                                             @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                {{ number_format(json_decode($housing->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
+                                                {{ number_format(json_decode($housing->housing_type_data)->price[0] - $discount_amount, 0, ',', '.') }}
 
                                                 ₺
                                             @endif
                                         @else
-                                            {{ number_format(json_decode($housing->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
+                                            {{ number_format(json_decode($housing->housing_type_data)->price[0] - $discount_amount, 0, ',', '.') }}
 
                                             ₺
                                         @endif
@@ -1384,11 +1415,11 @@
 
                                                                         @if ($sold)
                                                                             @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                                {{ number_format(json_decode($housing->housing_type_data)->price[0], 2, ',', '.') }}
+                                                                                {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                                                 ₺
                                                                             @endif
                                                                         @else
-                                                                            {{ number_format(json_decode($housing->housing_type_data)->price[0], 2, ',', '.') }}
+                                                                            {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                                             ₺
                                                                         @endif
 

@@ -17,8 +17,8 @@ use App\Models\HousingTypeParent;
 use App\Models\HousingTypeParentConnection;
 use App\Models\Log;
 use App\Models\Menu;
-use App\Models\Offer;
 use App\Models\Neighborhood;
+use App\Models\Offer;
 use App\Models\PricingStandOut;
 use App\Models\Project;
 use App\Models\ProjectHousing;
@@ -40,33 +40,52 @@ use Illuminate\Support\Str;
 class ProjectController extends Controller
 {
 
+    public function housings($project_id)
+    {
+        $menu = Menu::getMenuItems();
+        $project = Project::where('id', $project_id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project->roomInfo = $project->roomInfo;
+        $project->brand = $project->brand;
+        $project->housingType = $project->housingType;
+        $project->county = $project->county;
+        $project->city = $project->city;
+        $project->user = $project->user;
+        $project->user->housings = $project->user->housings;
+        $project->user->brands = $project->user->brands;
+        $project->images = $project->images;
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+
+        return view('institutional.projects.housings', compact('menu', "offer", 'project'));
+
+    }
     public function index()
     {
         $bankAccounts = BankAccount::all();
-        $userProjectIds = Auth::user()->projects->pluck('id'); // Kullanıcının proje ID'lerini al
-    
+
         // Tüm projeleri çek ve ilişkiyi yükle
         $projects = Project::where('user_id', Auth::user()->id)
             ->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')
             ->orderByDesc('created_at')
             ->get();
-    
-        // Projelerin CartOrder ilişkisi içindeki sipariş sayısını hesaplayın
-        $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) as project_id')
-            ->whereIn(DB::raw('JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id"))'), $userProjectIds)
-            ->where('cart_orders.status', 1)
+
+        $userProjectIds = $projects->pluck('id'); // Kullanıcının proje ID'lerini al
+
+        $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+            ->whereIn(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $userProjectIds)
             ->groupBy('project_id')
+            ->where("status", "1")
             ->get();
-    
+
+
         // Projeleri ilgili sipariş sayısı ile eşleştirin
         $projects = $projects->map(function ($project) use ($projectCounts) {
             $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
             return $project;
         });
-    
+
+
         return view('institutional.projects.index', compact('projects', 'bankAccounts'));
     }
-    
 
     public function create()
     {
@@ -101,18 +120,18 @@ class ProjectController extends Controller
             $secondAreaList = null;
         }
 
-        if(isset($tempData->housing_type_id) && $tempData->housing_type_id){
-            $housingTypeTempX = HousingType::where('id',$tempData->housing_type_id)->first();
-        }else{
+        if (isset($tempData->housing_type_id) && $tempData->housing_type_id) {
+            $housingTypeTempX = HousingType::where('id', $tempData->housing_type_id)->first();
+        } else {
             $housingTypeTempX = null;
         }
 
-        if(isset($tempDataFull) && $tempData->step2_slug){
-            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
-            $topParentSecond = HousingTypeParent::where('parent_id',$topParent->id)->where('slug',$tempData->step2_slug)->first();
-            array_push($areaSlugs,$topParentSecond->title);
-            $housingTypes = HousingTypeParentConnection::where("parent_id",$topParentSecond->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->get();
-        }else{
+        if (isset($tempDataFull) && $tempData->step2_slug) {
+            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug', $tempData->step1_slug)->first();
+            $topParentSecond = HousingTypeParent::where('parent_id', $topParent->id)->where('slug', $tempData->step2_slug)->first();
+            array_push($areaSlugs, $topParentSecond->title);
+            $housingTypes = HousingTypeParentConnection::where("parent_id", $topParentSecond->id)->join('housing_types', 'housing_types.id', "=", "housing_type_parent_connections.housing_type_id")->get();
+        } else {
             $housingTypes = null;
         }
 
@@ -133,8 +152,8 @@ class ProjectController extends Controller
             $tempDataFull = json_decode('{"step_order" : 1}');
         }
 
-        $userPlan = UserPlan::where('user_id',auth()->user()->id)->first();
-        return view('institutional.projects.createv2',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan','hasTemp','secondAreaList','housingTypes','areaSlugs','housingTypeTempX'));
+        $userPlan = UserPlan::where('user_id', auth()->user()->id)->first();
+        return view('institutional.projects.createv2', compact('housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan', 'hasTemp', 'secondAreaList', 'housingTypes', 'areaSlugs', 'housingTypeTempX'));
     }
 
     public function editV2($slug)
@@ -271,27 +290,26 @@ class ProjectController extends Controller
                 "image" => 'public/project_images/'.$newCoverImage,
                 'document' => $newDocument,
                 "end_date" => $endDate->format('Y-m-d'),
-                "status" => 2
+                "status" => 2,
             ]);
 
-
-            foreach($tempOrder->statuses as $status){
-            ProjectHousingType::create([
+            foreach ($tempOrder->statuses as $status) {
+                ProjectHousingType::create([
                     "project_id" => $project->id,
-                    "housing_type_id" => $status
+                    "housing_type_id" => $status,
                 ]);
             }
 
-            foreach($tempOrder->images as $key => $image){
-                $eskiDosyaAdi = public_path('project_images/'.$image); // Mevcut dosyanın yolu
-                $extension = explode('.',$image);
-                $newFileName = Str::slug($tempOrder->name).'-'.($key+1).'.'.end($extension);
-                $yeniDosyaAdi = public_path('storage/project_images/'.$newFileName); // Yeni dosya adı ve yolu
-                
-                if(File::exists($eskiDosyaAdi)){
+            foreach ($tempOrder->images as $key => $image) {
+                $eskiDosyaAdi = public_path('project_images/' . $image); // Mevcut dosyanın yolu
+                $extension = explode('.', $image);
+                $newFileName = Str::slug($tempOrder->name) . '-' . ($key + 1) . '.' . end($extension);
+                $yeniDosyaAdi = public_path('storage/project_images/' . $newFileName); // Yeni dosya adı ve yolu
+
+                if (File::exists($eskiDosyaAdi)) {
                     if (File::move($eskiDosyaAdi, $yeniDosyaAdi)) {
                         $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
-                        $projectImage->image = 'public/project_images/'.$newFileName;
+                        $projectImage->image = 'public/project_images/' . $newFileName;
                         $projectImage->project_id = $project->id;
                         $projectImage->save();
                     }
@@ -301,34 +319,34 @@ class ProjectController extends Controller
             for ($i = 0; $i < $tempOrder->house_count; $i++) {
                 for ($j = 0; $j < count($housingTypeInputs); $j++) {
                     if ($housingTypeInputs[$j]->type != "checkbox-group" && $housingTypeInputs[$j]->type != "file") {
-                        if($housingTypeInputs[$j]->name == "installments[]" || $housingTypeInputs[$j]->name == "advance[]" || $housingTypeInputs[$j]->name == "installments-price[]"){
-                            if(in_array("taksitli",$tempOrder->roomInfoKeys->{'payment-plan'.($i+1)}) ){
-                                
+                        if ($housingTypeInputs[$j]->name == "installments[]" || $housingTypeInputs[$j]->name == "advance[]" || $housingTypeInputs[$j]->name == "installments-price[]") {
+                            if (in_array("taksitli", $tempOrder->roomInfoKeys->{'payment-plan' . ($i + 1)})) {
+
                                 ProjectHousing::create([
                                     "key" => $housingTypeInputs[$j]->label,
                                     "name" => $housingTypeInputs[$j]->name,
-                                    "value" => str_replace('.','',$tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$paymentPlanOrder]),
+                                    "value" => str_replace('.', '', $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$paymentPlanOrder]),
                                     "project_id" => $project->id,
                                     "room_order" => $i + 1,
                                 ]);
-                                if(substr($housingTypeInputs[$j]->name, 0, -2) == "installments-price"){
+                                if (substr($housingTypeInputs[$j]->name, 0, -2) == "installments-price") {
                                     $paymentPlanOrder++;
                                 }
                             }
-                        }else{
-                            if(str_contains($housingTypeInputs[$j]->className,'price-only')){
-                                
-                                if (isset($housingTypeInputs[$j]->name) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]) && $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i] != null) {                                
+                        } else {
+                            if (str_contains($housingTypeInputs[$j]->className, 'price-only')) {
+
+                                if (isset($housingTypeInputs[$j]->name) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]) && $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i] != null) {
                                     ProjectHousing::create([
                                         "key" => $housingTypeInputs[$j]->label,
                                         "name" => $housingTypeInputs[$j]->name,
-                                        "value" => str_replace('.','',$tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]),
+                                        "value" => str_replace('.', '', $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]),
                                         "project_id" => $project->id,
                                         "room_order" => $i + 1,
                                     ]);
                                 }
-                            }else{
-                                if (isset($housingTypeInputs[$j]->name) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]) && $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i] != null) {                                
+                            } else {
+                                if (isset($housingTypeInputs[$j]->name) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}) && isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]) && $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i] != null) {
 
                                     ProjectHousing::create([
                                         "key" => $housingTypeInputs[$j]->label,
@@ -340,31 +358,31 @@ class ProjectController extends Controller
                                 }
                             }
                         }
-                    } else if($housingTypeInputs[$j]->type != "file") {
+                    } else if ($housingTypeInputs[$j]->type != "file") {
 
-                            ProjectHousing::create([
-                                "key" => $housingTypeInputs[$j]->label,
-                                "name" => $housingTypeInputs[$j]->name,
-                                "value" => isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2).($i+1)}) ? json_encode($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2).($i+1)}) : json_encode([]),
-                                "project_id" => $project->id,
-                                "room_order" => $i + 1,
-                            ]);
-                        
-                    } else if($housingTypeInputs[$j]->type == "file"){
-                        if(!$housingTypeInputs[$j]->multiple){
-                            $eskiDosyaAdi = public_path('storage/project_images/'.$tempOrder->roomInfoKeys->image[$i]); // Mevcut dosyanın yolu
-                            $extension = explode('.',$tempOrder->roomInfoKeys->image[$i]);
-                            $newImageName = str_replace('.'.end($extension),'',$tempOrder->roomInfoKeys->image[$i]);
-                            if(substr($newImageName,-1) == $i){
-                                $newFileName = Str::slug($tempOrder->name).'-project_housing-image-'.($i).'.'.end($extension);
-                                $yeniDosyaAdi = public_path('project_housing_images/'.$newFileName); // Yeni dosya adı ve yolu
-                                if(File::exists($eskiDosyaAdi)){
+                        ProjectHousing::create([
+                            "key" => $housingTypeInputs[$j]->label,
+                            "name" => $housingTypeInputs[$j]->name,
+                            "value" => isset($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1)}) ? json_encode($tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1)}) : json_encode([]),
+                            "project_id" => $project->id,
+                            "room_order" => $i + 1,
+                        ]);
+
+                    } else if ($housingTypeInputs[$j]->type == "file") {
+                        if (!$housingTypeInputs[$j]->multiple) {
+                            $eskiDosyaAdi = public_path('storage/project_images/' . $tempOrder->roomInfoKeys->image[$i]); // Mevcut dosyanın yolu
+                            $extension = explode('.', $tempOrder->roomInfoKeys->image[$i]);
+                            $newImageName = str_replace('.' . end($extension), '', $tempOrder->roomInfoKeys->image[$i]);
+                            if (substr($newImageName, -1) == $i) {
+                                $newFileName = Str::slug($tempOrder->name) . '-project_housing-image-' . ($i) . '.' . end($extension);
+                                $yeniDosyaAdi = public_path('project_housing_images/' . $newFileName); // Yeni dosya adı ve yolu
+                                if (File::exists($eskiDosyaAdi)) {
                                     File::move($eskiDosyaAdi, $yeniDosyaAdi);
                                 }
-                            }else{
-                                $newFileName = Str::slug($tempOrder->name).'-project_housing-image-'.(substr($newImageName,-1)).'.'.end($extension);
+                            } else {
+                                $newFileName = Str::slug($tempOrder->name) . '-project_housing-image-' . (substr($newImageName, -1)) . '.' . end($extension);
                             }
-                        
+
                             ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
@@ -376,15 +394,15 @@ class ProjectController extends Controller
                     }
                 }
             }
-            
-            if(!$request->without_doping){
+
+            if (!$request->without_doping) {
                 StandOutUser::create([
                     "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
                     "project_id" => $project->id,
                     "item_order" => $tempOrder->doping_order,
                     "housing_status_id" => $tempOrder->doping_statuses,
-                    "start_date" => date('Y-m-d',strtotime($tempOrder->doping_start_date)),
-                    "end_date" => date('Y-m-d',strtotime($tempOrder->doping_end_date)),
+                    "start_date" => date('Y-m-d', strtotime($tempOrder->doping_start_date)),
+                    "end_date" => date('Y-m-d', strtotime($tempOrder->doping_end_date)),
                 ]);
             }
 
@@ -417,7 +435,7 @@ class ProjectController extends Controller
             DocumentNotification::create(
                 [
                     'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
-                    'text' => 'Yeni bir proje eklendi. <a href="'.route('project.detail', ['slug' => $project->slug]).'">Linke git</a>',
+                    'text' => 'Yeni bir proje eklendi. <a href="' . route('project.detail', ['slug' => $project->slug]) . '">Linke git</a>',
                     'item_id' => $project->id,
                     'owner_id' => 4,
                     'is_visible' => true,
@@ -425,13 +443,12 @@ class ProjectController extends Controller
             );
 
             DB::commit();
-            
-            TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->delete();
+
+            TempOrder::where('user_id', auth()->user()->id)->where('item_type', 1)->delete();
             UserPlan::where('user_id', $instUser->parent_id ? $instUser->parent_id : $instUser->id)->decrement('project_limit');
             dispatch(new AdvertTimeJob($project))->delay(now()->addMonths($month));
-
             return json_encode([
-                "status" => true
+                "status" => true,
             ]);
 
             DocumentNotification::create(

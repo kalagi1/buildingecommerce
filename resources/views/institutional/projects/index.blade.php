@@ -2,60 +2,33 @@
 
 @section('content')
     <div class="content">
-        <h2 class="mb-2 lh-sm">Projelerim</h2>
-        <div class="row">
-            <div class="col-12 col-xl-12 order-1 order-xl-0">
-                <div class="mb-9">
-                    <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
-                        <div class="card-body p-0">
-                            <div class="p-4 code-to-copy">
-                                <div class="d-flex align-items-center justify-content-end my-3">
-                                    <div id="bulk-select-replace-element">
-                                        <a class="btn btn-phoenix-success btn-sm"
-                                            href="{{ url('institutional/create_project_v2') }}">
-                                            <span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span>
-                                            <span class="ms-1">Yeni Proje Ekle</span>
-                                        </a>
-                                    </div>
-                                    <div class="d-none ms-3" id="bulk-select-actions">
-                                        <div class="d-flex"><select class="form-select form-select-sm"
-                                                aria-label="Bulk actions">
-                                                <option selected="selected">Bulk actions</option>
-                                                <option value="Delete">Delete</option>
-                                                <option value="Archive">Archive</option>
-                                            </select><button class="btn btn-phoenix-danger btn-sm ms-2"
-                                                type="button">Apply</button></div>
-                                    </div>
-                                </div>
-                                <div id="tableExample"
-                                    data-list='{"valueNames":["name","email","age"],"page":10,"pagination":true}'>
-                                    @if (session()->has('success'))
-                                        <div class="alert alert-success text-white">
-                                            {{ session()->get('success') }}
-                                        </div>
-                                    @endif
-                                    <div class="table-responsive mx-n1 px-1">
-                                        <table class="table table-sm border-top border-200 fs--1 mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>No.</th>
-                                                    <th>Proje</th>
-                                                    <th>Satılan Konut Sayısı</th>
-                                                    <th>Konut Listesi</th>
-                                                    <th>Öne Çıkar</th>
-                                                    <th>Statü</th>
-                                                    <th>İşlemler</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="list" id="bulk-select-body"></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+        <div id="tableExample" data-list='{"valueNames":["name","email","age"],"page":10,"pagination":true}'>
+            @if (session()->has('success'))
+                <div class="alert alert-success text-white">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
+            <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
+                <div class="table-responsive scrollbar mx-n1 px-1">
+                    <table class="table fs--1 mb-0">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Proje</th>
+                                <th>Satılan Konut Sayısı</th>
+                                <th>Satışa Açık Konut Sayısı</th>
+                                <th>Konut Listesi</th>
+                                <th>Öne Çıkar</th>
+                                <th>Statü</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list" id="bulk-select-body"></tbody>
+                    </table>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -189,11 +162,14 @@
                 .image.replace("public", "storage") + "'  />" + " " + "<strong> " + project.project_title +
                 "</strong>";
 
-            console.log(project);
 
             var titleCell = document.createElement("td");
             titleCell.className = "align-middle title";
             titleCell.textContent = project.cartOrders;
+
+            var totalCell = document.createElement("td");
+            totalCell.className = "align-middle title";
+            totalCell.textContent = project.room_count -project.cartOrders;
 
             var houseCount = document.createElement("td");
             houseCount.className = "align-middle status";
@@ -255,6 +231,8 @@
             row.appendChild(numberCell);
             row.appendChild(slugCell);
             row.appendChild(titleCell);
+            row.appendChild(totalCell);
+
             row.appendChild(houseCount);
             row.appendChild(standOutCell);
             row.appendChild(activeCell);

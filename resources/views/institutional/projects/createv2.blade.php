@@ -938,7 +938,6 @@
                                             }else{
                                                 if(data[i].type != "file"){
                                                     if(data[i].type == "checkbox-group"){
-                                                            console.log(data[i][key[0]]);
                                                         if(data[i][key[0]] == null){
                                                             $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
                                                         }else{
@@ -1679,7 +1678,6 @@
 
                 }
             });
-
             
             $('.pricing-item').click(function(){
                 $('.pricing-item').find('input').removeAttr('checked');

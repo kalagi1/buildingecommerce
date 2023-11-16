@@ -266,12 +266,12 @@
                                         @endif
                                         @if ($sold)
                                         @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                        {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
+                                        {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 0, ',', '.') }}
 
                                         ₺
                                         @endif
                                     @else
-                                    {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
+                                    {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 0, ',', '.') }}
 
                                     ₺
                                     @endif
@@ -399,11 +399,11 @@
                                                                 @endif
                                                                 @if ($sold)
                                                                     @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                        {{ number_format(json_decode($project->housing_type_data)->price[0], 2, ',', '.') }}
+                                                                        {{ number_format(json_decode($project->housing_type_data)->price[0], 0, ',', '.') }}
                                                                         ₺
                                                                     @endif
                                                                 @else
-                                                                    {{ number_format(json_decode($project->housing_type_data)->price[0], 2, ',', '.') }}
+                                                                    {{ number_format(json_decode($project->housing_type_data)->price[0], 0, ',', '.') }}
                                                                     ₺
                                                                 @endif
 

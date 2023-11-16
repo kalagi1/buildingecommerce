@@ -283,18 +283,18 @@
                                                                         @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                                             <h6
                                                                                 style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 2, ',', '.') }}
+                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
                                                                                 ₺</h6>
                                                                             <h6
                                                                                 style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
-                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}
+                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                 ₺
 
                                                                             </h6>
                                                                         @else
                                                                             <h6
                                                                                 style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
-                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}
+                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                 ₺
                                                                             </h6>
                                                                         @endif
@@ -303,18 +303,18 @@
                                                                     @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                                         <h6
                                                                             style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 2, ',', '.') }}
+                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
                                                                             ₺</h6>
                                                                         <h6
                                                                             style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
-                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}
+                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                             ₺
 
                                                                         </h6>
                                                                     @else
                                                                         <h6
                                                                             style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
-                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}
+                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                             ₺
                                                                         </h6>
                                                                     @endif
@@ -339,18 +339,18 @@
                                                                 @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                                     <h6
                                                                         style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
-                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}
+                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                         ₺
                                                                     </h6>
                                                                     <h6
                                                                         style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:20px;">
-                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 2, ',', '.') }}
+                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
 
                                                                         ₺</h6>
                                                                 @else
                                                                     <h6
                                                                         style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
-                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}₺
+                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
                                                                     </h6>
                                                                 @endif
                                                             @endif
@@ -358,18 +358,18 @@
                                                             @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                                 <h6
                                                                     style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
-                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}
+                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                     ₺
                                                                 </h6>
                                                                 <h6
                                                                     style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:20px;">
-                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 2, ',', '.') }}
+                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
 
                                                                     ₺</h6>
                                                             @else
                                                                 <h6
                                                                     style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
-                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}₺
+                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
                                                                 </h6>
                                                             @endif
                                                         @endif
@@ -455,10 +455,14 @@
                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                 <a style="text-decoration: none; height: 100%"
                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                    <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                        {{ $i + 1 }}
-                                        {{ "No'lu" }}
-                                        {{ $project->step1_slug }}
+                                    <h3> 
+                                        @if (getData($project, 'advertise_title[]', $i + 1)->value)
+                                            {{ getData($project, 'advertise_title[]', $i + 1)->value }}
+                                        @else
+                                            {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                            Projesinde
+                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                        @endif
                                     </h3>
                                 </a>
                                 <div class="d-flex align-items-center">
@@ -485,7 +489,7 @@
                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                             </svg>
                                         @endif
-                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                         ₺
                                     </span>
                                 </div>
