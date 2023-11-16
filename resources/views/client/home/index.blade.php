@@ -169,8 +169,8 @@
                                 <a href="{{ route('project.detail', $project->project->slug) }}"
                                     class="img-box hover-effect">
                                     <div class="listing-img-content">
-                                        <span class="listing-compact-title">{{$project->project_title}}</span>
-                                      
+                                        <span class="listing-compact-title">{{ $project->project_title }}</span>
+
                                     </div>
                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"
                                         class="img-fluid w100" alt="">
@@ -243,13 +243,14 @@
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>
                                             @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
-                                                                
-                                                                    @if ($advertiseTitle)
-                                                                        {{ $advertiseTitle }}
-                                                                    @else
-                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
-                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
-                                                                    @endif
+
+                                            @if ($advertiseTitle)
+                                                {{ $advertiseTitle }}
+                                            @else
+                                                {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                Projesinde
+                                                {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                            @endif
                                         </h3>
 
 
@@ -391,12 +392,14 @@
                                                             <span style="text-decoration: none">
                                                                 <h3>
                                                                     @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
-                                                                
+
                                                                     @if ($advertiseTitle)
                                                                         {{ $advertiseTitle }}
                                                                     @else
-                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
-                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                                        Projesinde
+                                                                        {{ $i + 1 }} {{ "No'lu" }}
+                                                                        {{ $project->step1_slug }}
                                                                     @endif
                                                                 </h3>
 
@@ -413,42 +416,56 @@
                                                             <!-- homes List -->
                                                             <ul class="homes-list clearfix pb-0"
                                                                 style="display: flex;justify-content:space-between">
-                                                                
-                                                                @if(isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                    <span>
-                                                                        {{ getHouse($project, $project->listItemValues->column1_name.'[]', $i + 1)->value }}
-                                                                        @if(isset($project->listItemValues) && isset($project->listItemValues->column1_additional) && $project->listItemValues->column1_additional)
-                                                                        {{$project->listItemValues->column1_additional}}
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
+
+                                                                @if (isset($project->listItemValues) &&
+                                                                        isset($project->listItemValues->column1_name) &&
+                                                                        $project->listItemValues->column1_name)
+                                                                    <li class="sude-the-icons"
+                                                                        style="width:auto !important">
+                                                                        <i class="fa fa-circle circleIcon mr-1"></i>
+                                                                        <span>
+                                                                            {{ getHouse($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
+                                                                            @if (isset($project->listItemValues) &&
+                                                                                    isset($project->listItemValues->column1_additional) &&
+                                                                                    $project->listItemValues->column1_additional)
+                                                                                {{ $project->listItemValues->column1_additional }}
+                                                                            @endif
+                                                                        </span>
+                                                                    </li>
                                                                 @endif
-                                                                @if(isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
-                                                                <li class="sude-the-icons"
-                                                                    style="width:auto !important">
-                                                                    <i class="fa fa-circle circleIcon mr-1"
-                                                                        aria-hidden="true"></i>
-                                                                    <span>
-                                                                        {{ getHouse($project, $project->listItemValues->column2_name.'[]', $i + 1)->value }}
-                                                                        @if(isset($project->listItemValues) && isset($project->listItemValues->column2_additional) && $project->listItemValues->column2_additional)
-                                                                        {{$project->listItemValues->column2_additional}}
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
+                                                                @if (isset($project->listItemValues) &&
+                                                                        isset($project->listItemValues->column2_name) &&
+                                                                        $project->listItemValues->column2_name)
+                                                                    <li class="sude-the-icons"
+                                                                        style="width:auto !important">
+                                                                        <i class="fa fa-circle circleIcon mr-1"
+                                                                            aria-hidden="true"></i>
+                                                                        <span>
+                                                                            {{ getHouse($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
+                                                                            @if (isset($project->listItemValues) &&
+                                                                                    isset($project->listItemValues->column2_additional) &&
+                                                                                    $project->listItemValues->column2_additional)
+                                                                                {{ $project->listItemValues->column2_additional }}
+                                                                            @endif
+                                                                        </span>
+                                                                    </li>
                                                                 @endif
-                                                                @if(isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="fa fa-circle circleIcon mr-1"
-                                                                        aria-hidden="true"></i>
-                                                                    <span>
-                                                                        {{ getHouse($project, $project->listItemValues->column3_name.'[]', $i + 1)->value }}
-                                                                        @if(isset($project->listItemValues) && isset($project->listItemValues->column3_additional) && $project->listItemValues->column3_additional)
-                                                                        {{$project->listItemValues->column3_additional}}
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
+                                                                @if (isset($project->listItemValues) &&
+                                                                        isset($project->listItemValues->column3_name) &&
+                                                                        $project->listItemValues->column3_name)
+                                                                    <li class="sude-the-icons"
+                                                                        style="width:auto !important">
+                                                                        <i class="fa fa-circle circleIcon mr-1"
+                                                                            aria-hidden="true"></i>
+                                                                        <span>
+                                                                            {{ getHouse($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
+                                                                            @if (isset($project->listItemValues) &&
+                                                                                    isset($project->listItemValues->column3_additional) &&
+                                                                                    $project->listItemValues->column3_additional)
+                                                                                {{ $project->listItemValues->column3_additional }}
+                                                                            @endif
+                                                                        </span>
+                                                                    </li>
                                                                 @endif
                                                             </ul>
                                                             <ul class="homes-list clearfix pb-0"
@@ -570,13 +587,14 @@
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>
                                             @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
-                                                                
-                                                                    @if ($advertiseTitle)
-                                                                        {{ $advertiseTitle }}
-                                                                    @else
-                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
-                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
-                                                                    @endif
+
+                                            @if ($advertiseTitle)
+                                                {{ $advertiseTitle }}
+                                            @else
+                                                {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                Projesinde
+                                                {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                            @endif
                                         </h3>
 
 
@@ -716,12 +734,14 @@
 
                                                             <span style="text-decoration: none">
                                                                 <h3>@php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
-                                                                
+
                                                                     @if ($advertiseTitle)
                                                                         {{ $advertiseTitle }}
                                                                     @else
-                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
-                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                                        Projesinde
+                                                                        {{ $i + 1 }} {{ "No'lu" }}
+                                                                        {{ $project->step1_slug }}
                                                                     @endif
                                                                 </h3>
 
@@ -879,13 +899,14 @@
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>
                                             @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
-                                                                
-                                                                    @if ($advertiseTitle)
-                                                                        {{ $advertiseTitle }}
-                                                                    @else
-                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
-                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
-                                                                    @endif
+
+                                            @if ($advertiseTitle)
+                                                {{ $advertiseTitle }}
+                                            @else
+                                                {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                Projesinde
+                                                {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                            @endif
                                         </h3>
 
 
@@ -1027,16 +1048,18 @@
                                                             <span style="text-decoration: none">
                                                                 <h3>
                                                                     @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
-                                                                
+
                                                                     @if ($advertiseTitle)
                                                                         {{ $advertiseTitle }}
                                                                     @else
-                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
-                                                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                                        Projesinde
+                                                                        {{ $i + 1 }} {{ "No'lu" }}
+                                                                        {{ $project->step1_slug }}
                                                                     @endif
                                                                 </h3>
-                                                                
-                                                                
+
+
 
                                                                 <p class="homes-address mb-3">
 
@@ -1158,9 +1181,9 @@
             <div class="mobile-show">
                 @foreach ($secondhandHousings as $housing)
                     @php(
-                    $discount_amount =
-                        App\Models\Offer::where('type', 'housing')->where('housing_id', $housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-                        )
+    $discount_amount =
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+)
                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$housing->id]))
 
                     <div class="d-flex" style="flex-wrap: nowrap">
@@ -1284,156 +1307,156 @@
                                     <a href="{{ route('housing.show', [$housing->id]) }}" class="text-decoration-none">
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <div class="landscapes">
-                                                
-                                                        <div class="project-single">
-                                                            <div class="project-inner project-head">
-                                                                <div class="homes">
-                                                                    <div class="homes-img">
-                                                                        <div class="homes-tag button alt featured">Öne
-                                                                            Çıkan
-                                                                        </div>
-                                                                        <div class="type-tag button alt featured">
-                                                                            @if ($housing->step2_slug == 'kiralik')
-                                                                                Kiralık
-                                                                            @else
-                                                                                Satılık
-                                                                            @endif
-                                                                        </div>
-                                                                        @if ($discount_amount)
-                                                                            <div class="homes-tag button alt sale"
-                                                                                style="background-color:#EA2B2E!important">İNDİRİM
-                                                                            </div>
-                                                                        @endif
 
-                                                                        <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
-                                                                            alt="Housing {{ $housing->id }}"
-                                                                            class="img-responsive">
+                                                <div class="project-single">
+                                                    <div class="project-inner project-head">
+                                                        <div class="homes">
+                                                            <div class="homes-img">
+                                                                <div class="homes-tag button alt featured">Öne
+                                                                    Çıkan
+                                                                </div>
+                                                                <div class="type-tag button alt featured">
+                                                                    @if ($housing->step2_slug == 'kiralik')
+                                                                        Kiralık
+                                                                    @else
+                                                                        Satılık
+                                                                    @endif
+                                                                </div>
+                                                                @if ($discount_amount)
+                                                                    <div class="homes-tag button alt sale"
+                                                                        style="background-color:#EA2B2E!important">İNDİRİM
                                                                     </div>
-                                                                </div>
-                                                                <div class="button-effect">
-                                                                    <span class="btn toggle-favorite bg-white"
-                                                                        data-housing-id={{ $housing->id }}>
-                                                                        <i class="fa fa-heart-o"></i>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                            <!-- homes content -->
-                                                            <div class="homes-content p-3" style="padding:20px !important">
-                                                                <span style="text-decoration: none">
-
-                                                                    <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                    </h4>
-
-                                                                    <p class="homes-address mb-3">
-
-
-                                                                        <i class="fa fa-map-marker"></i>
-                                                                        <span> {{ $housing->city_title }} {{ '/' }}
-                                                                            {{ $housing->county_title }}
-                                                                        </span>
-
-                                                                    </p>
-                                                                </span>
-                                                                <!-- homes List -->
-                                                                <ul class="homes-list clearfix pb-0"
-                                                                    style="display: flex;justify-content:space-between">
-                                                                    <li class="sude-the-icons" style="width:auto !important">
-                                                                        <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                        <span>
-                                                                            {{ json_decode($housing->housing_type_data)->{$housing->column1_name}[0] ?? null }}
-                                                                            @if($housing->column1_additional)
-                                                                                {{$housing->column1_additional}}
-                                                                            @endif
-                                                                        </span>
-                                                                    </li>
-                                                                    @if($housing->column2_name)
-                                                                    <li class="sude-the-icons" style="width:auto !important">
-                                                                        <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                        <span>{{ json_decode($housing->housing_type_data)->{$housing->column2_name}[0] ?? null }}
-                                                                            @if($housing->column2_additional)
-                                                                                {{$housing->column2_additional}}
-                                                                            @endif
-                                                                        </span>
-                                                                    </li>
-                                                                    @endif
-                                                                    
-                                                                    @if($housing->column3_name)
-                                                                    <li class="sude-the-icons" style="width:auto !important">
-                                                                        <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                        <span>{{ json_decode($housing->housing_type_data)->{$housing->column3_name}[0] ?? null }}
-                                                                            @if($housing->column3_additional)
-                                                                                {{$housing->column3_additional}}
-                                                                            @endif
-                                                                        </span>
-                                                                    </li>
-                                                                    @endif
-
-                                                                    @if($housing->column4_name)
-                                                                    <li class="sude-the-icons" style="width:auto !important">
-                                                                        <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                        <span>{{ json_decode($housing->housing_type_data)->{$housing->column4_name}[0] ?? null }}
-                                                                            @if($housing->column4_additional)
-                                                                                {{$housing->column4_additional}}
-                                                                            @endif
-                                                                        </span>
-                                                                    </li>
-                                                                    @endif
-                                                                </ul>
-                                                                <ul class="homes-list clearfix pb-0"
-                                                                    style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                                    <li
-                                                                        style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
-                                                                        @if ($discount_amount)
-                                                                            <svg viewBox="0 0 24 24" width="24"
-                                                                                height="24" stroke="currentColor"
-                                                                                stroke-width="2" fill="none"
-                                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                                class="css-i6dzq1">
-                                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                                </polyline>
-                                                                                <polyline points="17 18 23 18 23 12"></polyline>
-                                                                            </svg>
-                                                                        @endif
-
-                                                                        @if ($sold)
-                                                                            @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                                {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                                                                ₺
-                                                                            @endif
-                                                                        @else
-                                                                            {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                                                            ₺
-                                                                        @endif
-
-                                                                    </li>
-                                                                    <li style="display: flex; justify-content: right;width:100%">
-                                                                        {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at)).' '.date('Y', strtotime($housing->created_at))) }}
-                                                                    </li>
-                                                                </ul>
-                                                                @if ($sold && $sold[0]->status != '2')
-                                                                    <button class="btn second-btn CartBtn" disabled
-                                                                        @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
-                                                            @else 
-                                                            style="background: red !important;width:100%;color:White" @endif>
-                                                                        @if ($sold[0]->status == '0')
-                                                                            <span class="text">Onay Bekleniyor</span>
-                                                                        @else
-                                                                            <span class="text">Satıldı</span>
-                                                                        @endif
-                                                                    </button>
-                                                                @else
-                                                                    <button class="CartBtn" data-type='housing'
-                                                                        data-id='{{ $housing->id }}'>
-                                                                        <span class="IconContainer">
-                                                                            <img src="{{ asset('sc.png') }}" alt="">
-
-                                                                        </span>
-                                                                        <span class="text">Sepete Ekle</span>
-                                                                    </button>
                                                                 @endif
 
+                                                                <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
+                                                                    alt="Housing {{ $housing->id }}"
+                                                                    class="img-responsive">
                                                             </div>
                                                         </div>
+                                                        <div class="button-effect">
+                                                            <span class="btn toggle-favorite bg-white"
+                                                                data-housing-id={{ $housing->id }}>
+                                                                <i class="fa fa-heart-o"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- homes content -->
+                                                    <div class="homes-content p-3" style="padding:20px !important">
+                                                        <span style="text-decoration: none">
+
+                                                            <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                            </h4>
+
+                                                            <p class="homes-address mb-3">
+
+
+                                                                <i class="fa fa-map-marker"></i>
+                                                                <span> {{ $housing->city_title }} {{ '/' }}
+                                                                    {{ $housing->county_title }}
+                                                                </span>
+
+                                                            </p>
+                                                        </span>
+                                                        <!-- homes List -->
+                                                        <ul class="homes-list clearfix pb-0"
+                                                            style="display: flex;justify-content:space-between">
+                                                            <li class="sude-the-icons" style="width:auto !important">
+                                                                <i class="fa fa-circle circleIcon mr-1"></i>
+                                                                <span>
+                                                                    {{ json_decode($housing->housing_type_data)->{$housing->column1_name}[0] ?? null }}
+                                                                    @if ($housing->column1_additional)
+                                                                        {{ $housing->column1_additional }}
+                                                                    @endif
+                                                                </span>
+                                                            </li>
+                                                            @if ($housing->column2_name)
+                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                    <i class="fa fa-circle circleIcon mr-1"></i>
+                                                                    <span>{{ json_decode($housing->housing_type_data)->{$housing->column2_name}[0] ?? null }}
+                                                                        @if ($housing->column2_additional)
+                                                                            {{ $housing->column2_additional }}
+                                                                        @endif
+                                                                    </span>
+                                                                </li>
+                                                            @endif
+
+                                                            @if ($housing->column3_name)
+                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                    <i class="fa fa-circle circleIcon mr-1"></i>
+                                                                    <span>{{ json_decode($housing->housing_type_data)->{$housing->column3_name}[0] ?? null }}
+                                                                        @if ($housing->column3_additional)
+                                                                            {{ $housing->column3_additional }}
+                                                                        @endif
+                                                                    </span>
+                                                                </li>
+                                                            @endif
+
+                                                            @if ($housing->column4_name)
+                                                                <li class="sude-the-icons" style="width:auto !important">
+                                                                    <i class="fa fa-circle circleIcon mr-1"></i>
+                                                                    <span>{{ json_decode($housing->housing_type_data)->{$housing->column4_name}[0] ?? null }}
+                                                                        @if ($housing->column4_additional)
+                                                                            {{ $housing->column4_additional }}
+                                                                        @endif
+                                                                    </span>
+                                                                </li>
+                                                            @endif
+                                                        </ul>
+                                                        <ul class="homes-list clearfix pb-0"
+                                                            style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                            <li
+                                                                style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
+                                                                @if ($discount_amount)
+                                                                    <svg viewBox="0 0 24 24" width="24"
+                                                                        height="24" stroke="currentColor"
+                                                                        stroke-width="2" fill="none"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        class="css-i6dzq1">
+                                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                        </polyline>
+                                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                                    </svg>
+                                                                @endif
+
+                                                                @if ($sold)
+                                                                    @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                        {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
+                                                                        ₺
+                                                                    @endif
+                                                                @else
+                                                                    {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
+                                                                    ₺
+                                                                @endif
+
+                                                            </li>
+                                                            <li style="display: flex; justify-content: right;width:100%">
+                                                                {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at)) . ' ' . date('Y', strtotime($housing->created_at))) }}
+                                                            </li>
+                                                        </ul>
+                                                        @if ($sold && $sold[0]->status != '2')
+                                                            <button class="btn second-btn CartBtn" disabled
+                                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                                            @else 
+                                                            style="background: red !important;width:100%;color:White" @endif>
+                                                                @if ($sold[0]->status == '0')
+                                                                    <span class="text">Onay Bekleniyor</span>
+                                                                @else
+                                                                    <span class="text">Satıldı</span>
+                                                                @endif
+                                                            </button>
+                                                        @else
+                                                            <button class="CartBtn" data-type='housing'
+                                                                data-id='{{ $housing->id }}'>
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('sc.png') }}" alt="">
+
+                                                                </span>
+                                                                <span class="text">Sepete Ekle</span>
+                                                            </button>
+                                                        @endif
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </a>
@@ -1587,12 +1610,168 @@
             </div>
         </div>
     </section>
+
+    @if (Auth::check() && Auth::user()->type !="3")
+          <!-- HTML -->
+    <button class="chatbox-open">
+        <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+    </button>
+    <button class="chatbox-close">
+        <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+    </button>
+    <div class="chatbox-popup">
+        <header class="chatbox-popup__header">
+            <aside style="flex:8">
+                <h4 style="color: white">Emlak Sepette Canlı Destek</h4>
+            </aside>
+        </header>
+        <main class="chatbox-popup__main">
+            <div class="chatbox-messages">
+                <div class="msg left-msg">
+
+                    <div class="msg-bubble">
+
+                        <div class="msg-text">
+                            Merhaba size nasıl yardımcı olabiliriz ?
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+        <footer class="chatbox-popup__footer">
+            <aside style="flex:10">
+                <textarea id="userMessage" type="text" placeholder="Mesajınızı Yazınız..." autofocus
+                    onkeydown="handleKeyPress(event)"></textarea>
+            </aside>
+            <aside style="flex:1;color:#888;text-align:center;">
+                <button onclick="sendMessage()" class="btn btn-primary"><i class="fa fa-paper-plane"
+                        aria-hidden="true"></i></button>
+            </aside>
+        </footer>
+    </div>
+    @endif
+
+  
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Sayfa yüklendiğinde mevcut sohbet geçmişini çekmek için bir AJAX çağrısı yapabilirsiniz
+            fetchChatHistory();
+        });
+
+        function fetchChatHistory() {
+            $.ajax({
+                url: 'chat/history',
+                method: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    renderChatHistory(response);
+                },
+                error: function(error) {
+                    console.error('Sohbet geçmişi alınamadı:', error);
+                }
+            });
+
+        }
+
+        function renderChatHistory(chatHistory) {
+            const chatboxMessages = document.querySelector('.chatbox-messages');
+
+            chatHistory.forEach(entry => {
+                const messageElement = document.createElement('div');
+                const messageType = entry.receiver_id == 4 ? 'user' : 'admin';
+
+                messageElement.className = messageType == 'admin' ? 'msg left-msg' : 'msg right-msg';
+                messageElement.innerHTML = `
+            <div class="msg-bubble">
+                <div class="msg-text">
+                    ${entry.content}
+                </div>
+            </div>
+        `;
+                chatboxMessages.appendChild(messageElement);
+            });
+        }
+
+
+        var isFirstMessage = true;
+
+        function sendMessage() {
+            var userMessage = document.getElementById('userMessage').value;
+            var chatboxMessages = document.querySelector('.chatbox-messages');
+
+            // Kullanıcının mesajını ekle
+            var userMessageElement = document.createElement('div');
+            userMessageElement.className = 'msg right-msg';
+            userMessageElement.innerHTML = `
+            <div class="msg-bubble">
+                <div class="msg-text">
+                    ${userMessage}
+                </div>
+            </div>
+        `;
+            chatboxMessages.appendChild(userMessageElement);
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('messages.store') }}",
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    'content': userMessage,
+                },
+                success: function(response) {
+                    // Başarıyla mesaj gönderildiğinde yapılacak işlemler
+                    console.log(response.message);
+                    chatboxMessages.scrollTop = chatboxMessages.scrollHeight;
+                },
+                error: function(error) {
+                    toastr.error('Bir hata oluştu. Lütfen tekrar deneyin.');
+
+                }
+            });
+
+
+            // Kullanıcının girdiği mesaj alanını temizle
+            document.getElementById('userMessage').value = '';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        $(".chatbox-open").click(() => {
+            $(".chatbox-popup, .chatbox-close").fadeIn();
+        });
+
+        $(".chatbox-close").click(() => {
+            $(".chatbox-popup, .chatbox-close").fadeOut();
+        });
+
+        $(".chatbox-maximize").click(() => {
+            $(".chatbox-popup, .chatbox-open, .chatbox-close").fadeOut();
+            $(".chatbox-panel").fadeIn();
+            $(".chatbox-panel").css({
+                display: "flex"
+            });
+        });
+
+        $(".chatbox-minimize").click(() => {
+            $(".chatbox-panel").fadeOut();
+            $(".chatbox-popup, .chatbox-open, .chatbox-close").fadeIn();
+        });
+
+        $(".chatbox-panel-close").click(() => {
+            $(".chatbox-panel").fadeOut();
+            $(".chatbox-open").fadeIn();
+        });
         $('.finish-projects-web').slick({
             infinite: false,
             slidesToShow: 4,

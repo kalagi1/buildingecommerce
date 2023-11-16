@@ -264,11 +264,7 @@
                                     <div class="widget-boxed-header">
                                         <h4>Özellikler</h4>
                                     </div>
-                                    <button class="first-btn payment-plan-button"
-                                    project-id="{{ $project->id }}" order="{{ $housingOrder }}">
-                                    Ödeme Detayları </button>
-
-                                    <div class="mt-5">
+                                    <div class="mt-2">
                                         {!! $project->description !!}
                                         <hr>
                                         <div class="single homes-content">

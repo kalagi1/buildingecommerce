@@ -28,8 +28,8 @@
                             <th class="pl-2">Konut</th>
                             <th class="p-0"></th>
                             <th class="pl-2">Fiyat</th>
-                            <th>Sepete Ekle</th>
                             <th>Kaldır</th>
+                            <th>Sepete Ekle</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -44,6 +44,9 @@
     $discount_amount =
         App\Models\Offer::where('type', 'housing')->where('housing_id', $item->housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
+
+@php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$item->housing->id]))
+
                                 <tr>
                                     <td class="image myelist">
                                         <a href="{{ route('housing.show', $item->housing->id) }}"><img alt="my-properties-3"
@@ -69,8 +72,16 @@
                                                     <polyline points="17 18 23 18 23 12"></polyline>
                                                 </svg>
                                             @endif
+                                            @if ($sold)
+                                            @if ($sold[0]->status != '1' && $sold[0]->status != '0')
                                             {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 0, ',', '.') }}
                                             ₺
+                                            @endif
+                                        @else
+                                        {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 0, ',', '.') }}
+                                        ₺
+                                        @endif
+                                           
                                         </span>
                                     </td>
                                     <td class="actions">
@@ -121,6 +132,8 @@
                                         </div>
                                     </td>
                                     <td>
+                                        <span style="color:#e54242; font-weight:600">
+
                                         @if ($sold)
                                             @if ($sold[0]->status != '1' && $sold[0]->status != '0')
                                                 {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 0, ',', '.') }}
@@ -130,6 +143,14 @@
                                             {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 0, ',', '.') }}
                                             ₺
                                         @endif
+                                        </span>
+                                    </td>
+                             
+                                    <td class="actions">
+                                        <a href="#" class="remove-from-project-cart"
+                                            data-project-housing-id="{{ $item->room_order }}"
+                                            data-project-id="{{ $item->project_id }}" style="float: left"><i
+                                                class="far fa-trash-alt"></i></a>
                                     </td>
                                     <td>
                                         @if ($sold && $sold[0]->status != '2')
@@ -154,12 +175,6 @@
                                             </button>
                                         @endif
 
-                                    </td>
-                                    <td class="actions">
-                                        <a href="#" class="remove-from-project-cart"
-                                            data-project-housing-id="{{ $item->room_order }}"
-                                            data-project-id="{{ $item->project_id }}" style="float: left"><i
-                                                class="far fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

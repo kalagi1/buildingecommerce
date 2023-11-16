@@ -44,6 +44,7 @@ use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\PageController as ClientPageController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\RegisterController;
+use App\Http\Controllers\Client\SupportChatController;
 use App\Http\Controllers\Client\TaxOfficeController;
 use App\Http\Controllers\Client\VerifyController;
 use App\Http\Controllers\Institutional\BankAccountController as InstitutionalBankAccountController;
@@ -172,6 +173,7 @@ Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRe
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
     Route::put('/users/{user}/block', [UserController::class, 'blockUser'])->name('users.block');
+    Route::get('/messages', [UserController::class, 'messages'])->name('messages');
 
     Route::get('/notification-history', [InfoController::class, 'notificationHistory'])->name('notification-history');
 
@@ -844,13 +846,11 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
 Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
 
-
 Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client', 'checkAccountStatus']], function () {
 
     Route::get('/verify', [ClientPanelProfileController::class, 'verify'])->name('account-verification');
     Route::post('/verify', [ClientPanelProfileController::class, 'verifyAccount'])->name('verify-account');
     Route::get('/get-document', [ClientPanelProfileController::class, 'getIdentityDocument'])->name('get.identity-document');
-
 
     // Profile Controller Rotasının İzinleri
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
@@ -915,3 +915,11 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
 
 Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}', [ClientProjectController::class, "allMenuProjects"])
     ->name('all.menu.project.list');
+
+// Kullanıcı sayfası
+Route::get('/user-chat', [SupportChatController::class, 'userChat']);
+Route::post('/messages/store', [SupportChatController::class, 'store'])->name('messages.store');
+
+// Admin sayfası
+Route::get('/admin-chat', [SupportChatController::class, 'adminChat']);
+Route::get('/chat/history', [SupportChatController::class, 'getChatHistory']);
