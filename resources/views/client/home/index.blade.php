@@ -163,16 +163,18 @@
             <div class="row mt-2">
                 <div class="container">
                     @if (count($dashboardProjects))
-                        @foreach ($dashboardProjects as $project)
-                            <div class="col-sm-12 col-md-4 col-lg-4 col-12" data-aos="zoom-in" data-aos-delay="150">
-                                <!-- Image Box -->
-                                <a href="{{ route('project.detail', $project->project->slug) }}"
-                                    class="img-box hover-effect">
-                                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"
-                                        class="img-fluid w100" alt="">
-                                </a>
-                            </div>
-                        @endforeach
+                        <div class="row">
+                            @foreach ($dashboardProjects as $project)
+                                <div class="col-sm-12 col-md-4 col-lg-4 col-12" data-aos="zoom-in" data-aos-delay="150">
+                                    <!-- Image Box -->
+                                    <a href="{{ route('project.detail', $project->project->slug) }}"
+                                        class="img-box hover-effect">
+                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"
+                                            class="img-fluid w100" alt="">
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
                     @else
                         <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
                     @endif

@@ -2216,18 +2216,21 @@
                                         }else{
                                             if(data[i].type != "file"){
                                                 if(data[i].type == "checkbox-group"){
+                                                        console.log(data[i][key[0]]);
                                                     if(data[i][key[0]] == null){
                                                         $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
                                                     }else{
-                                                            console.log(data[i][key[0]]);
-                                                        if(data[i][key[0]] == null){
-                                                            $('input[name="'+key[0]+'[]"]').val("");
-                                                        }else{
-                                                            $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
-                                                        }
+                                                        $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
+                                                            $(item).prop('checked',false);
+                                                            for(var k = 0 ; k < data[i][key[0]].length; k++){
+                                                                if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                    $(item).prop('checked',true);
+                                                                }
+                                                            }
+                                                            
+                                                        })
                                                     }
                                                 }else{
-                                                        console.log(data[i][key[0]]);
                                                     if(data[i][key[0]] == null){
                                                         $('input[name="'+key[0]+'[]"]').val("");
                                                     }else{

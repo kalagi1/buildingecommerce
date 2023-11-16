@@ -390,7 +390,7 @@ class ProjectController extends Controller
 
             if (isset($tempOrder->top_row) && $tempOrder->top_row) {
                 $now = Carbon::now();
-                $endDate = $now->addWeeks($tempOrder->top_row_data_day);
+                $endDate = Carbon::now()->addDays($tempOrder->top_row_data_day);
                 StandOutUser::create([
                     "user_id" => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
                     "item_id" => $project->id,
@@ -403,7 +403,7 @@ class ProjectController extends Controller
 
             if (isset($tempOrder->featured) && $tempOrder->featured) {
                 $now = Carbon::now();
-                $endDate = $now->addWeeks($tempOrder->featured_data_day);
+                $endDate = Carbon::now()->addDays($tempOrder->featured_data_day);
                 StandOutUser::create([
                     "user_id" => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
                     "item_id" => $project->id,
