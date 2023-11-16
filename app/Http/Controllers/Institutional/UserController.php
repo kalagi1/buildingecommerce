@@ -126,6 +126,10 @@ class UserController extends Controller
             $countUser->save();
         }
 
+        Chat::create([
+            "user_id" => $user->id
+        ]);
+
         // Başarılı bir işlem sonrası mesajı ayarlayın
         session()->flash('success', 'Kullanıcı başarıyla oluşturuldu.');
 

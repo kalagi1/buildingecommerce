@@ -127,7 +127,7 @@
                                 <a href="{{ url('institutional/choise-advertise-type') }}"
                                     style="margin-left: auto; margin-right:30px">
                                     <button type="button" class="buyUserRequest ml-3">
-                                        <span class="buyUserRequest__text"> İlan Ekle</span>
+                                        <span class="buyUserRequest__text"> <i class="fa fa-plus"></i></span>
                                         <span class="buyUserRequest__icon">
                                             <img src="{{ asset('sc.png') }}" alt="" srcset="">
                                         </span>
@@ -144,12 +144,13 @@
                         <div class="navbar-items">
                             <a class="navbar-item active"
                                 href="{{ route('instituional.dashboard', Str::slug($store->name)) }}">Anasayfa</a>
-                            <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($store->name)) }}">Proje
-                                İlanları</a>
-                            <a class="navbar-item"
+                                <a class="navbar-item"
                                 href="{{ route('instituional.profile', Str::slug($store->name)) }}">Mağaza
                                 Profili</a>
+                                <a class="navbar-item"
+                                href="{{ route('instituional.projects.detail', Str::slug($store->name)) }}">Proje
+                                İlanları</a>
+                        
                             <a class="navbar-item"
                                 href="{{ route('instituional.housings', Str::slug($store->name)) }}">Emlak İlanları</a>
                         </div>
@@ -210,16 +211,30 @@
 
 
     @if (count($projects))
-        <section class="popular-places home18">
-            <div class="container">
+    <section class="featured portfolio rec-pro disc bg-white">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between;">
+                <div class="section-title">
+                    <h2>Tüm Projeler</h2>
+                </div>
+            </div>
                 <div class="row">
+                  
                     @foreach ($projects as $project)
-                        <div class="col-sm-12 col-md-4 col-lg-4 col-12" data-aos="zoom-in" data-aos-delay="150">
-                            <!-- Image Box -->
-                            <a href="{{ route('project.detail', $project->slug) }}" class="img-box hover-effect">
-                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                    class="img-fluid w100" alt="" style="object-fit: cover">
-                            </a>
+                        <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150"
+                        style="height:200px">
+                            <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
+                                <div class="listing-item compact" style="height:100%">
+                                    <a href="{{ route('project.detail', $project->slug) }}" class="listing-img-container">
+                                        <div class="listing-img-content">
+                                            <span class="listing-compact-title">{{$project->project_title}}</span>
+                                          
+                                        </div>
+                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}" alt=""
+                                        style="height:100%;object-fit:cover">
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     @endforeach
                 </div>
@@ -456,7 +471,7 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                @if ($project->step1_slug != 'arsaa')
+                                                                @if ($project->step1_slug != 'arsa')
                                                                     <li class="sude-the-icons"
                                                                         style="width:auto !important">
                                                                         <i class="fa fa-circle circleIcon mr-1"
@@ -764,7 +779,7 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                @if ($project->step1_slug != 'arsaa')
+                                                                @if ($project->step1_slug != 'arsa')
                                                                     <li class="sude-the-icons"
                                                                         style="width:auto !important">
                                                                         <i class="fa fa-circle circleIcon mr-1"
@@ -1075,7 +1090,7 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                @if ($project->step1_slug != 'arsaa')
+                                                                @if ($project->step1_slug != 'arsa')
                                                                     <li class="sude-the-icons"
                                                                         style="width:auto !important">
                                                                         <i class="fa fa-circle circleIcon mr-1"
@@ -1549,6 +1564,9 @@
         }
 
         @media (max-width: 768px) {
+            .projectMobileMargin{
+                margin-bottom:20px
+            }
 
             .bannerResize,
             .bannerResizeGrid {

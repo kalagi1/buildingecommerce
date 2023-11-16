@@ -8,11 +8,16 @@ use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Chat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
+    public function messages(){
+        $chats = Chat::with("messages","user")->get();
+        return view("admin.chat.index");
+    }
 
     public function blockUser(User $user)
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\CartOrder;
 use App\Models\City;
 use App\Models\Housing;
 use App\Models\HousingStatus;
@@ -16,6 +17,7 @@ use App\Models\ProjectHouseSetting;
 use App\Models\ProjectImage;
 use App\Models\StandOutUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -34,7 +36,13 @@ class ProjectController extends Controller
         $project->user->brands = $project->user->brands;
         $project->images = $project->images;
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
-        return view('client.projects.index', compact('menu', "offer",'project'));
+        $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+            ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+            ->groupBy('project_id')
+            ->where("status", "1")
+            ->get();
+        $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+        return view('client.projects.index', compact('menu', "offer", 'project'));
     }
 
     public function detail($slug)
@@ -165,10 +173,10 @@ class ProjectController extends Controller
                     $opt = $paramValue;
                     if ($opt) {
                         $opt = $opt;
-                        if ($opt == "satilik") {
-                            $optName = "Satılık";
-                        } else {
+                        if ($opt == "kiralik") {
                             $optName = "Kiralık";
+                        } else {
+                            $optName = "Satılık";
                         }
                     }
                 } else {
@@ -265,7 +273,6 @@ class ProjectController extends Controller
             
             $secondhandHousings = $query->get();
         }
-        
         $housingStatuses = HousingStatus::get();
         $cities = City::get();
         $menu = Menu::getMenuItems();

@@ -19,6 +19,12 @@ use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     // public function add(Request $request)
     // {
     //     $type = $request->input('type');
@@ -160,7 +166,7 @@ class CartController extends Controller
 
     public function paySuccess(Request $request, CartOrder $cart_order)
     {
-        
+
         return view('client.cart.pay-success', compact('cart_order'));
     }
 
@@ -225,7 +231,6 @@ class CartController extends Controller
                     'item' => $cartItem,
                     'type' => $type,
                 ];
-
 
                 $request->session()->put('cart', $cart); // Save cart data to session
                 return response(['message' => 'success']);
