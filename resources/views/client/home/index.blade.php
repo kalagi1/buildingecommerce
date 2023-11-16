@@ -742,7 +742,7 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                @if ($project->step1_slug != 'arsaa')
+                                                                @if ($project->step1_slug != 'arsa')
                                                                     <li class="sude-the-icons"
                                                                         style="width:auto !important">
                                                                         <i class="fa fa-circle circleIcon mr-1"
@@ -1055,7 +1055,7 @@
                                                                     <i class="fa fa-circle circleIcon mr-1"></i>
                                                                     <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
                                                                 </li>
-                                                                @if ($project->step1_slug != 'arsaa')
+                                                                @if ($project->step1_slug != 'arsa')
                                                                     <li class="sude-the-icons"
                                                                         style="width:auto !important">
                                                                         <i class="fa fa-circle circleIcon mr-1"

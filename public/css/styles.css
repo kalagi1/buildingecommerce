@@ -16264,9 +16264,6 @@ a.button {
 }
 
 @media screen and (max-width: 767px) {
-    .inner-pages .blog .item {
-        padding-bottom: 1.6rem;
-    }
 
     .inner-pages .portfolio.blog .item.no-pb.x2 {
         padding-bottom: 0px;
@@ -17471,6 +17468,13 @@ h4.widget_author__name {
     transition: all .3s ease;
 }
 
+
+.carousel-indicator-image{
+    height:70px !important;
+    object-fit:cover !important;
+
+}
+
 .listing-details-sliders .img-fluid {
     max-width: 100%;
     height: auto;
@@ -17999,7 +18003,6 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .inner-pages .blog .homes-content .homes-list li:last-child {
     border: none;
-    font-weight: 600;
 }
 
 .inner-pages .blog .homes-content.details-2 {
@@ -19429,7 +19432,11 @@ ul.the-agents-details li a {
 .inner-pages .homes-content .homes-list li i {
     font-size: 18px;
     margin-right: 5px;
-    color: #2D2D2D;
+}
+
+.inner-pages .homes-content .homes-list li span{
+    color: black;
+    font-weight:600;
 }
 
 .inner-pages .agent-details a:hover {
@@ -26028,7 +26035,7 @@ section.ui-element {
 
 .shop .blog .blog-pots h3 {
     font-weight: bold;
-    font-size: 1.3rem;
+    font-size: 1rem;
     margin: 0;
 }
 
@@ -26290,7 +26297,7 @@ section.ui-element {
     }
 
     .blog .blog-pots h3 {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
 
@@ -27335,9 +27342,8 @@ input[type="checkbox"]::before {
 }
 
 .payment-plan-pop-content {
-    width: 50%;
+    width: 90%;
     background-color: white;
-    padding: 15px;
     z-index: 9999;
     position: relative;
 }

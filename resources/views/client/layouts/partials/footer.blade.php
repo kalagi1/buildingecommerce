@@ -218,33 +218,37 @@
     </div>
     <div class="payment-plan-pop-content">
         <div class="payment-plan-pop-close-icon"><i class="fa fa-times"></i></div>
-        <table class="payment-plan table">
-            <thead>
-                <tr>
-                    <th>Ödeme Türü</th>
-                    <th>Fiyat</th>
-                    <th>Taksit Sayısı</th>
-                    <th>Peşin Ödenecek Tutar</th>
-                    <th>Aylık Ödenecek Tutar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Peşin</td>
-                    <td>1.000.000,00₺</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td>Taksitli</td>
-                    <td>1.400.000,00₺</td>
-                    <td>14</td>
-                    <td>300.000,00₺</td>
-                    <td>78.571,42₺</td>
-                </tr>
-            </tbody>
-        </table>
+
+                <div class="my-properties">
+                    <table class="payment-plan table">
+                        <thead>
+                            <tr>
+                                <th>Ödeme Türü</th>
+                                <th>Fiyat</th>
+                                <th>Taksit Sayısı</th>
+                                <th>Peşin Ödenecek Tutar</th>
+                                <th>Aylık Ödenecek Tutar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Peşin</td>
+                                <td>1.000.000,00₺</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Taksitli</td>
+                                <td>1.400.000,00₺</td>
+                                <td>14</td>
+                                <td>300.000,00₺</td>
+                                <td>78.571,42₺</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+      
     </div>
 </div>
 

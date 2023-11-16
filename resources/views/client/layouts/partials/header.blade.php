@@ -427,7 +427,7 @@
 
             @media (max-width: 768px) {
                 .buyUserRequest {
-                    width: 80px !important;
+                    width: 35px !important;
                 }
 
                 .buyUserRequest .buyUserRequest__text {

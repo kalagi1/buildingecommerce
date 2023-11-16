@@ -326,7 +326,7 @@
                                                             <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
                                                         </li>
-                                                        @if ($project->step1_slug != 'arsaa')
+                                                        @if ($project->step1_slug != 'arsa')
                                                             <li class="the-icons custom-width">
                                                                 <i class="fa fa-circle circleIcon mr-1"
                                                                     aria-hidden="true"></i>

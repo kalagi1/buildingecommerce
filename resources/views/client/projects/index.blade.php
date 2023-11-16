@@ -124,8 +124,10 @@
 
                                 <li><strong>İl-İlçe:</strong> {!! $project->city->title !!} {{ '/' }}
                                     {!! $project->county->ilce_title !!} </li>
-                                <li><strong>Konut Sayısı:</strong> {{ $project->room_count }} </li>
-                                <li><strong>Konut Tipi:</strong> {{ $project->housingtype->title }}
+                                <li><strong> {{ ucfirst($project->step1_slug) }}
+                                        Sayısı:</strong> {{ $project->room_count }} </li>
+                                <li><strong> {{ ucfirst($project->step1_slug) }} Tipi:</strong>
+                                    {{ $project->housingtype->title }}
                                 </li>
 
                             </ul>
@@ -244,7 +246,7 @@
                                                             <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
                                                         </li>
-                                                        @if ($project->step1_slug != 'arsaa')
+                                                        @if ($project->step1_slug != 'arsa')
                                                             <li class="the-icons custom-width">
                                                                 <i class="fa fa-circle circleIcon mr-1"
                                                                     aria-hidden="true"></i>
@@ -437,7 +439,7 @@
                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                 <a style="text-decoration: none; height: 100%"
                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                    <h3> 
+                                    <h3>
                                         @if (isset(getData($project, 'advertise_title[]', $i + 1)->value))
                                             {{ getData($project, 'advertise_title[]', $i + 1)->value }}
                                         @else
