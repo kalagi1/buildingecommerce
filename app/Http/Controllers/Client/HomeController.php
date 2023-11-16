@@ -43,6 +43,7 @@ class HomeController extends Controller
                 'project_list_items.column4_additional as column4_additional',
                 'housings.address',
                 \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+                \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
                 'cities.title AS city_title', // city tablosundan veri çekme
                 'districts.ilce_title AS county_title' // district tablosundan veri çekme
             )
@@ -53,19 +54,31 @@ class HomeController extends Controller
             ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id') // district tablosunu join etme
             ->where('housings.status', 1)
             ->where('project_list_items.item_type', 2)
+            ->orderByDesc('doping_time')
             ->orderByDesc('housings.created_at')
             ->get();
-        $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))->where('end_date', ">=", date("Y-m-d"))->orderBy("item_order")->get();
+        $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))->where('end_date', ">=", date("Y-m-d"))->where('item_type',1)->orderByDesc("created_at")->where('housing_type_id',0)->get();
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->get();
         $sliders = Slider::all();
         $footerSlider = FooterSlider::all();
-        $finishProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
+        $finishProjects = Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
+        ->with("city", "county")
+        ->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '2');
-        })->with("housings", 'brand', 'roomInfo','listItemValues', 'housingType')->orderBy("created_at", "desc")->where('status', 1)->get();
-        $continueProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
+        })->with("housings", 'brand', 'roomInfo','listItemValues', 'housingType')
+        ->orderBy("doping_time", "desc")
+        ->orderBy("created_at", "desc")
+        ->where('status', 1)
+        ->get();
+        $continueProjects = Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
+        ->with("city", "county")
+        ->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '3');
-        })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
+        })->with("housings", 'brand', 'roomInfo', 'housingType')
+        ->where('status', 1)
+        ->orderBy("created_at", "desc")
+        ->get();
 
         $soilProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '5');
@@ -335,6 +348,7 @@ class HomeController extends Controller
         }
 
         if ($housingType) {
+            $obj->select('housings.*',\Illuminate\Support\Facades\DB::raw('(SELECT start_date FROM stand_out_users WHERE stand_out_users.item_type = 2 AND stand_out_users.item_id = housings.id AND housing_type_id = '.$housingType.') as doping_time'));
             $obj->where('housing_type_id', $housingType);
         }
 
@@ -478,22 +492,27 @@ class HomeController extends Controller
             switch ($request->input('sort')) {
                 case 'date-asc':
                     $obj = $obj->orderBy('created_at', 'asc');
+                    $obj = $obj->orderBy('doping_time', 'asc');
                     break;
                 case 'date-desc':
                     $obj = $obj->orderBy('created_at', 'desc');
+                    $obj = $obj->orderBy('doping_time', 'asc');
                     break;
                 case 'price-asc':
                     $obj = $obj->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.price[0]")) AS DECIMAL(10, 2)) ASC');
+                    $obj = $obj->orderBy('doping_time', 'asc');
                     break;
                 case 'price-desc':
                     $obj = $obj->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.price[0]")) AS DECIMAL(10, 2)) DESC');
+                    $obj = $obj->orderBy('doping_time', 'asc');
                     break;
             }
+        }else{
+            $obj = $obj->orderBy('doping_time', 'desc');
         }
 
         $itemPerPage = 12;
         $obj = $obj->paginate($itemPerPage);
-
         return response()->json($obj->through(function ($item) use ($request) {
             $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
             $isFavorite = 0;
@@ -510,6 +529,7 @@ class HomeController extends Controller
                 'title' => $item->title,
                 'step1_slug' => $item->step1_slug,
                 'housing_address' => $item->address,
+                'doping_time' => $item->doping_time,
                 'city' => $item->city,
                 'county' => $item->county,
                 'created_at' => $item->created_at,

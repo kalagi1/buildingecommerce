@@ -273,32 +273,32 @@
                 
                 <div class="row" style="align-items: flex-end;">
                     <div class="col-md-4">
-                        <div class="doping-square">
+                        <div class="doping-square @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured) && $tempData->featured) selected @endif" data-id="1">
                             <div class="row" style="align-items: center">
                                 <div class="col-md-12">
-                                    <span class="doping-is-selected">Seçilmedi</span>
+                                    <span class="doping-is-selected">@if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured) && $tempData->featured) Seçildi @else Seçilmedi @endif </span>
                                     <img src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt="">
                                     <h4 class="mt-3">Öne Çıkarılanlar Vitrini</h4>
                                     <span>İlanınız anasayfamızda önce çıkan emlak ilanları sekmesinde yer alsın.</span>
                                     <select name="" id="" class="form-control mt-3">
-                                        <option value="7">1 Hafta (2259 TL)</option>
-                                        <option value="14">2 Hafta (4500 TL)</option>
+                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured_data_day) && $tempData->featured_data_day == "7") selected @endif value="7">1 Hafta (2259 TL)</option>
+                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured_data_day) && $tempData->featured_data_day == "14") selected @endif value="14">2 Hafta (4500 TL)</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="doping-square">
+                        <div class="doping-square @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row) && $tempData->top_row) selected @endif" data-id="2">
                             <div class="row" style="align-items: center">
                                 <div class="col-md-12">
-                                    <span class="doping-is-selected">Seçilmedi</span>
+                                    <span class="doping-is-selected">@if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row) && $tempData->top_row) Seçildi @else Seçilmedi @endif</span>
                                     <img src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt="">
                                     <h4 class="mt-3">Üst Sıradayım</h4>
                                     <span>İlanınız anasayfamızda önce çıkan emlak ilanları sekmesinde yer alsın.</span>
                                     <select name="" id="" class="form-control mt-3">
-                                        <option value="7">1 Hafta (2000 TL)</option>
-                                        <option value="14">2 Hafta (3500 TL)</option>
+                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row_data_day) && $tempData->top_row_data_day == "7") selected @endif value="7">1 Hafta (2000 TL)</option>
+                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row_data_day) && $tempData->top_row_data_day == "14") selected @endif value="14">2 Hafta (3500 TL)</option>
                                     </select>
                                 </div>
                             </div>
@@ -341,19 +341,45 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
+        @if(!isset($tempDataFull) || !isset($tempData) || !isset($tempData->top_row))
+            changeData(0,"top_row");
+        @endif
+        @if(!isset($tempDataFull) || !isset($tempData) || !isset($tempData->featured))
+            changeData(0,"featured");
+        @endif
         $('.doping-square').click(function(){
             if($(this).hasClass('selected')){
+                if($(this).attr('data-id') == "1"){
+                    changeData(0,"featured");
+                }else{
+                    changeData(0,"top_row");
+                }
                 $(this).removeClass('selected')
                 $(this).find('.doping-is-selected').html('Seçilmedi')
             }else{
+                if($(this).attr('data-id') == "1"){
+                    changeData(1,"featured");
+                    changeData($(this).find('select').val(),'featured_data_day')
+                }else{
+                    changeData(1,"top_row");
+                    changeData($(this).find('select').val(),'top_row_data_day')
+                }
                 $(this).addClass('selected')
                 $(this).find('.doping-is-selected').html('Seçildi')
             }
         })
-
-        $('.doping-square select').click(function(e) {
-            console.log(e);
+        $('.doping-square select').click(function(e){
             e.stopPropagation();
+        })
+        $('.doping-square select').change(function(e) {
+            var dataId = $(this).closest('.doping-square').attr('data-id')
+            if(dataId == "1"){
+                changeData(1,"featured");
+                changeData($(this).val(),'featured_data_day')
+            }else{
+                changeData(1,"top_row");
+                changeData($(this).val(),'top_row_data_day')
+            }
         })
 
         @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)

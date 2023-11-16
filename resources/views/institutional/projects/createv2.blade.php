@@ -314,50 +314,43 @@
                 </div>
             </div>
             <div class="third-area @if($tempDataFull->step_order != 3) d-none @endif">
-                <div class="mb-5">
-                    <button class="without-doping btn btn-info">Dopingsiz Bitir</button>
-                </div>
                 <div class="row" style="align-items: flex-end;">
-                    <div class="col-md-5">
-                        <label for="">Hangi statüde öne çıkarmak istiyorsun ?</label>
-                        <select name="" class="form-control doping_statuses" id="doping_status">
-                            <option value="">Statü Seç</option>
-                            @if(isset($selectedStatuses) && count($selectedStatuses) > 0)
-                                @foreach($selectedStatuses as $statu)
-                                    <option @if(isset($tempData->doping_statuses) && $tempData->doping_statuses == $statu->id) selected @endif value="{{$statu->id}}">{{$statu->name}}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                    <div class="col-md-5">
-                        <label for="">Sıra Seç</label>
-                        <select name="" class="form-control doping_order" id="">
-                            <option value="">Sıra Seç</option>
-                            @for($i = 1; $i <= 10; $i++)
-                                <option @if(isset($tempData->doping_order) && $tempData->doping_order == $i) selected @endif value="{{$i}}">{{$i}}</option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="send-button col-md-2">
-                        <button class="btn btn-primary list-dates">Tarihleri göster</button>
-                    </div>
-                    <div class="col-md-12 mt-3 date-range d-none">
-                        <div>
-                            <p class="m-0">Günlük Fiyat</p> <span class="daily-price btn btn-info" style="display: inline-block;"></span>
-                        </div>
-                        <div class="mt-2">
-                            <label for="">Tarih aralığını seçin?</label>
-                            <input id="date-range2" class="form-control" size="40">
-                        </div>
-                        <div>
-                            <p class="m-0">Toplam Fiyat</p> <span class="total-price btn btn-info" style="display: inline-block;"></span>
-                        </div>
-                        <div class="mt-5">
-                            <button class="finish-step-3 btn btn-info">Dopingli Bitir</button>
+                    <div class="col-md-4">
+                        <div class="doping-square @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured) && $tempData->featured) selected @endif" data-id="1">
+                            <div class="row" style="align-items: center">
+                                <div class="col-md-12">
+                                    <span class="doping-is-selected">@if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured) && $tempData->featured) Seçildi @else Seçilmedi @endif </span>
+                                    <img src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt="">
+                                    <h4 class="mt-3">Öne Çıkarılanlar Vitrini</h4>
+                                    <span>İlanınız anasayfamızda önce çıkan emlak ilanları sekmesinde yer alsın.</span>
+                                    <select name="" id="" class="form-control mt-3">
+                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured_data_day) && $tempData->featured_data_day == "7") selected @endif value="7">1 Hafta (2259 TL)</option>
+                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured_data_day) && $tempData->featured_data_day == "14") selected @endif value="14">2 Hafta (4500 TL)</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="category-select">
+                    <div class="col-md-4">
+                        <div class="doping-square @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row) && $tempData->top_row) selected @endif" data-id="2">
+                            <div class="row" style="align-items: center">
+                                <div class="col-md-12">
+                                    <span class="doping-is-selected">@if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row) && $tempData->top_row) Seçildi @else Seçilmedi @endif</span>
+                                    <img src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt="">
+                                    <h4 class="mt-3">Üst Sıradayım</h4>
+                                    <span>İlanınız anasayfamızda önce çıkan emlak ilanları sekmesinde yer alsın.</span>
+                                    <select name="" id="" class="form-control mt-3">
+                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row_data_day) && $tempData->top_row_data_day == "7") selected @endif value="7">1 Hafta (2000 TL)</option>
+                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row_data_day) && $tempData->top_row_data_day == "14") selected @endif value="14">2 Hafta (3500 TL)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="without-dopingxx mt-4 mb-5">
+                        <button class="without-doping btn btn-info">Devam</button>
+                    </div>
                 </div>
             </div>
             <div class="fourth-area d-none">
@@ -389,6 +382,46 @@
         <script src="{{ URL::to('/') }}/adminassets/assets/js/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="{{ URL::to('/') }}/adminassets/assets/js/jquery.daterangepicker.min.js"></script>
         <script>
+            @if(!isset($tempDataFull) || !isset($tempData) || !isset($tempData->top_row))
+                changeData(0,"top_row");
+            @endif
+            @if(!isset($tempDataFull) || !isset($tempData) || !isset($tempData->featured))
+                changeData(0,"featured");
+            @endif
+            $('.doping-square').click(function(){
+                if($(this).hasClass('selected')){
+                    if($(this).attr('data-id') == "1"){
+                        changeData(0,"featured");
+                    }else{
+                        changeData(0,"top_row");
+                    }
+                    $(this).removeClass('selected')
+                    $(this).find('.doping-is-selected').html('Seçilmedi')
+                }else{
+                    if($(this).attr('data-id') == "1"){
+                        changeData(1,"featured");
+                        changeData($(this).find('select').val(),'featured_data_day')
+                    }else{
+                        changeData(1,"top_row");
+                        changeData($(this).find('select').val(),'top_row_data_day')
+                    }
+                    $(this).addClass('selected')
+                    $(this).find('.doping-is-selected').html('Seçildi')
+                }
+            })
+            $('.doping-square select').click(function(e){
+                e.stopPropagation();
+            })
+            $('.doping-square select').change(function(e) {
+                var dataId = $(this).closest('.doping-square').attr('data-id')
+                if(dataId == "1"){
+                    changeData(1,"featured");
+                    changeData($(this).val(),'featured_data_day')
+                }else{
+                    changeData(1,"top_row");
+                    changeData($(this).val(),'top_row_data_day')
+                }
+            })
             changeData(1,'pricing-type')
             var nextTemp = false;
             var housingTypeTitle = "";
@@ -2181,18 +2214,21 @@
                                         }else{
                                             if(data[i].type != "file"){
                                                 if(data[i].type == "checkbox-group"){
+                                                        console.log(data[i][key[0]]);
                                                     if(data[i][key[0]] == null){
                                                         $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
                                                     }else{
-                                                            console.log(data[i][key[0]]);
-                                                        if(data[i][key[0]] == null){
-                                                            $('input[name="'+key[0]+'[]"]').val("");
-                                                        }else{
-                                                            $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
-                                                        }
+                                                        $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
+                                                            $(item).prop('checked',false);
+                                                            for(var k = 0 ; k < data[i][key[0]].length; k++){
+                                                                if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                    $(item).prop('checked',true);
+                                                                }
+                                                            }
+                                                            
+                                                        })
                                                     }
                                                 }else{
-                                                        console.log(data[i][key[0]]);
                                                     if(data[i][key[0]] == null){
                                                         $('input[name="'+key[0]+'[]"]').val("");
                                                     }else{

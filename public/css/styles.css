@@ -28473,6 +28473,9 @@ input[type="checkbox"]::before {
     position: absolute;
   }
 
+  .flex-1{
+    flex: 1;
+  }
   
 
     .msger {

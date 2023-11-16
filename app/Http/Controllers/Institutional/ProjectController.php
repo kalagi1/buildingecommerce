@@ -406,6 +406,32 @@ class ProjectController extends Controller
                 ]);
             }
 
+            if (isset($tempOrder->top_row) && $tempOrder->top_row) {
+                $now = Carbon::now();
+                $endDate = Carbon::now()->addDays($tempOrder->top_row_data_day);
+                StandOutUser::create([
+                    "user_id" => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
+                    "item_id" => $project->id,
+                    "item_type" => 1,
+                    "housing_type_id" => $tempOrder->housing_type_id,
+                    "start_date" => $now->format('y-m-d'),
+                    "end_date" => $endDate->format('y-m-d'),
+                ]);
+            }
+
+            if (isset($tempOrder->featured) && $tempOrder->featured) {
+                $now = Carbon::now();
+                $endDate = Carbon::now()->addDays($tempOrder->featured_data_day);
+                StandOutUser::create([
+                    "user_id" => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
+                    "item_id" => $project->id,
+                    "item_type" => 1,
+                    "housing_type_id" => 0,
+                    "start_date" => $now->format('y-m-d'),
+                    "end_date" => $endDate->format('y-m-d'),
+                ]);
+            }
+
             DocumentNotification::create(
                 [
                     'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
