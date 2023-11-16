@@ -28344,3 +28344,7 @@ input[type="checkbox"]::before {
     margin-top: 15px;
     position: absolute;
   }
+
+  .flex-1{
+    flex: 1;
+  }

@@ -233,30 +233,48 @@
                                             <div class="col-md-8">
 
                                                 <div class="homes-list-div">
-
                                                     <ul class="homes-list clearfix pb-3 d-flex">
-                                                        <li class="the-icons custom-width">
+                                                        <li class="the-icons custom-width flex-1">
                                                             <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                                                 aria-hidden="true"></i>
                                                             <span>{{ $project->housingType->title }}</span>
                                                         </li>
-                                                        <li class="the-icons custom-width">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
-                                                        </li>
-                                                        @if ($project->step1_slug != 'arsaa')
-                                                            <li class="the-icons custom-width">
+                                                        @if(isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
+                                                            <li class="the-icons custom-width flex-1">
                                                                 <i class="fa fa-circle circleIcon mr-1"
                                                                     aria-hidden="true"></i>
-                                                                <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                    .Kat
+                                                                <span>
+                                                                    {{ getData($project, $project->listItemValues->column1_name.'[]', $i + 1)->value }}
+                                                                    @if(isset($project->listItemValues) && isset($project->listItemValues->column1_additional) && $project->listItemValues->column1_additional)
+                                                                    {{$project->listItemValues->column1_additional}}
+                                                                    @endif
                                                                 </span>
                                                             </li>
                                                         @endif
-                                                        <li class="the-icons custom-width ">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
-                                                        </li>
+                                                        @if(isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
+                                                            <li class="the-icons custom-width flex-1">
+                                                                <i class="fa fa-circle circleIcon mr-1"
+                                                                    aria-hidden="true"></i>
+                                                                <span>
+                                                                    {{ getData($project, $project->listItemValues->column2_name.'[]', $i + 1)->value }}
+                                                                    @if(isset($project->listItemValues) && isset($project->listItemValues->column2_additional) && $project->listItemValues->column2_additional)
+                                                                    {{$project->listItemValues->column2_additional}}
+                                                                    @endif
+                                                                </span>
+                                                            </li>
+                                                        @endif
+                                                        @if(isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
+                                                            <li class="the-icons custom-width flex-1">
+                                                                <i class="fa fa-circle circleIcon mr-1"
+                                                                    aria-hidden="true"></i>
+                                                                <span>
+                                                                    {{ getData($project, $project->listItemValues->column3_name.'[]', $i + 1)->value }}
+                                                                    @if(isset($project->listItemValues) && isset($project->listItemValues->column3_additional) && $project->listItemValues->column3_additional)
+                                                                    {{$project->listItemValues->column3_additional}}
+                                                                    @endif
+                                                                </span>
+                                                            </li>
+                                                        @endif
 
                                                         <li class="the-icons mobile-hidden">
                                                             <span>

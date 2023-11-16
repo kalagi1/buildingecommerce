@@ -711,7 +711,8 @@
             function formatDate(rawDate) {
                 const options = {
                     month: 'long',
-                    day: 'numeric'
+                    day: 'numeric',
+                    year : 'numeric'
                 };
                 const date = new Date(rawDate);
                 return new Intl.DateTimeFormat('tr-TR', options).format(date);
@@ -794,6 +795,10 @@
                                     `
                                 );
                             @else
+                                var featuredHtml = '';
+                                if(res.doping_time){
+                                    var featuredHtml = '<div class="homes-tag button alt featured">Öne Çıkan </div>';
+                                }
                                 $('.pp-row').append(
                                     `
                                     <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
@@ -804,10 +809,11 @@
                                                 <div class="project-inner project-head">
                                                     <div class="homes">
                                                         <!-- homes img -->
-                                                        <a href="${res.housing_url}" class="homes-img">
+                                                        <div class="homes-img">
+                                                            ${featuredHtml}
                                                             <img src="${res.image}" alt="${res.housing_type_title}"
                                                                  class="img-responsive">
-                                                        </a>
+                                                        </div>
                                                     </div>
                                                     <div class="button-effect">
                                                         <!-- Örneğin Kalp İkonu -->
@@ -844,11 +850,11 @@
                                                         </li>
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                        <li style="font-size: 16px; font-weight: 700;" class="priceFont">
+                                                        <li style="font-size: 15px; font-weight: 700;flex:1;" class="priceFont">
                                                             ${numberFormat(res.housing_type.price)} ₺
 
                                                         </li>
-                                                        <li style="display: flex; justify-content: center;">
+                                                        <li style="display: flex; justify-content: center;flex:1;">
                                                             ${formatDate(res.created_at)}
 
                                                         </li>
@@ -856,20 +862,18 @@
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
                                                         ${res.sold ? 
                                                             `<button
-                                                                                                                                                                                                    style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                                                                                                                </button>`
+                                                                style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                            </button>`
                                                             : 
                                                             
-                                                            `
-                                                                                                                                                        <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                                                                        data-id='${res.id}'>
-                                                                                                                                                        <span class="IconContainer">
-                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                            `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                data-id='${res.id}'>
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('sc.png') }}" alt="">
 
-                                                                                                                                                        </span>
-                                                                                                                                                        <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                    </button>
-                                                                                                                                                        `
+                                                                </span>
+                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                            </button>`
                                                             }
                                                     </ul>
                                                 </div>

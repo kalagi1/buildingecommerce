@@ -24,10 +24,11 @@ class ProjectController extends Controller
     {
         
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $slug)->with("brand",'listItemValues', "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         $project->roomInfo = $project->roomInfo;
         $project->brand = $project->brand;
         $project->housingType = $project->housingType;
+        $project->listItemValues = $project->listItemValues;
         $project->county = $project->county;
         $project->city = $project->city;
         $project->user = $project->user;
@@ -214,15 +215,17 @@ class ProjectController extends Controller
             }
 
             if ($housingType) {
+                $query->select(\Illuminate\Support\Facades\DB::raw('(SELECT start_date FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = '.$housingType.') as doping_time'));
                 $query->where('housing_type_id', $housingType);
             }
 
             if ($opt) {
                 $query->where('step2_slug', $opt);
             }
+            
             $secondhandHousings = $query->get();
         }
-
+        
         $housingStatuses = HousingStatus::get();
         $cities = City::get();
         $menu = Menu::getMenuItems();

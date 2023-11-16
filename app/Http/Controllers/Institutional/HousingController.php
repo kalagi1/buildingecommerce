@@ -18,6 +18,7 @@ use App\Models\SinglePrice;
 use App\Models\StandOutUser;
 use App\Models\TempOrder;
 use App\Models\UserPlan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -150,14 +151,29 @@ class HousingController extends Controller
                     ]
                 );
 
-                if (!$request->without_doping) {
+                if (isset($tempOrder->top_row) && $tempOrder->top_row) {
+                    $now = Carbon::now();
+                    $endDate = $now->addWeeks($tempOrder->top_row_data_day);
                     StandOutUser::create([
                         "user_id" => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
-                        "project_id" => $project->id,
-                        "item_order" => $tempOrder->doping_order,
-                        "housing_status_id" => $tempOrder->doping_statuses,
-                        "start_date" => date('Y-m-d', strtotime($tempOrder->doping_start_date)),
-                        "end_date" => date('Y-m-d', strtotime($tempOrder->doping_end_date)),
+                        "item_id" => $project->id,
+                        "item_type" => 2,
+                        "housing_type_id" => $tempOrder->housing_type_id,
+                        "start_date" => $now->format('y-m-d'),
+                        "end_date" => $endDate->format('y-m-d'),
+                    ]);
+                }
+
+                if (isset($tempOrder->featured) && $tempOrder->featured) {
+                    $now = Carbon::now();
+                    $endDate = $now->addWeeks($tempOrder->featured_data_day);
+                    StandOutUser::create([
+                        "user_id" => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
+                        "item_id" => $project->id,
+                        "item_type" => 2,
+                        "housing_type_id" => 0,
+                        "start_date" => $now->format('y-m-d'),
+                        "end_date" => $endDate->format('y-m-d'),
                     ]);
                 }
 

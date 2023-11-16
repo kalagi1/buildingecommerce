@@ -12,6 +12,6 @@ class StandOutUser extends Model
     protected $guarded = [];
 
     public function project(){
-        return $this->hasOne(Project::class,"id","project_id");
+        return $this->hasOne(Project::class,"id","item_id");
     }
 }
