@@ -132,7 +132,8 @@
                                         $hasVisibleMenus = true;
                                     @endphp
                                     <!-- Parent Menü -->
-                                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
+                                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1
+                                        @if (request()->is($menuItem['activePath'])) active @endif"
                                             href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif "
                                             role="button"
                                             @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>

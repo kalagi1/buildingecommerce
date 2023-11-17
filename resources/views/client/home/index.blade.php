@@ -1323,27 +1323,6 @@
                                     <a href="{{ route('housing.show', [$housing->id]) }}" class="text-decoration-none">
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <div class="landscapes">
-                                                        <div class="project-single">
-                                                            <div class="project-inner project-head">
-                                                                <div class="homes">
-                                                                    <div class="homes-img">
-                                                                        @if($housing->doping_time)
-                                                                        <div class="homes-tag button alt featured">Öne
-                                                                            Çıkan
-                                                                        </div>
-                                                                        @endif
-                                                                        <div class="type-tag button alt featured">
-                                                                            @if ($housing->step2_slug == 'kiralik')
-                                                                                Kiralık
-                                                                            @else
-                                                                                Satılık
-                                                                            @endif
-                                                                        </div>
-                                                                        @if ($discount_amount)
-                                                                            <div class="homes-tag button alt sale"
-                                                                                style="background-color:#EA2B2E!important">İNDİRİM
-                                                                            </div>
-                                                                        @endif
 
                                                 <div class="project-single">
                                                     <div class="project-inner project-head">
@@ -1697,7 +1676,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Sayfa yüklendiğinde mevcut sohbet geçmişini çekmek için bir AJAX çağrısı yapabilirsiniz
             fetchChatHistory();
         });
 
