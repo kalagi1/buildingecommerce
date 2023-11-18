@@ -238,13 +238,7 @@
                                 <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                     <a style="text-decoration: none;height:100%"
-<<<<<<< HEAD
-                                        href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                        <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-
-                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
-=======
-                                        href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+                                        href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}">
                                         <h3>
                                             @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
@@ -255,10 +249,7 @@
                                                 Projesinde
                                                 {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                             @endif
->>>>>>> b47a9e387a6eda7cfff83d8f84434974cf98661f
                                         </h3>
-
-
                                     </a>
                                     <div class="d-flex align-items-center">
                                         <div class="d-flex" style="gap: 8px;">
@@ -377,9 +368,9 @@
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         @php($room_order = $i + 1)
                                         @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
+                                            $discount_amount =
+                                                App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                        )
                                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                                         <div data-aos="fade-up" data-aos-delay="150">
@@ -421,13 +412,6 @@
                                                         <div class="homes-content p-3">
 
                                                             <span style="text-decoration: none">
-<<<<<<< HEAD
-                                                                <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                    Projesinde
-
-                                                                    {{ $i + 1 }} {{ "No'lu" }}
-                                                                    {{ $project->step1_slug }}
-=======
                                                                 <h3>
                                                                     @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
@@ -439,7 +423,6 @@
                                                                         {{ $i + 1 }} {{ "No'lu" }}
                                                                         {{ $project->step1_slug }}
                                                                     @endif
->>>>>>> b47a9e387a6eda7cfff83d8f84434974cf98661f
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -542,9 +525,7 @@
                                                             </ul>
                                                             @if ($sold && $sold[0]->status != '2')
                                                                 <button class="btn second-btn CartBtn" disabled
-                                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
-                                                            @else 
-                                                            style="background: red !important;width:100%;color:White" @endif>
+                                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
                                                                     @if ($sold[0]->status == '0')
                                                                         <span class="text">Onay Bekleniyor</span>
                                                                     @else
@@ -595,9 +576,9 @@
                     @for ($i = 0; $i < $project->room_count; $i++)
                         @php($room_order = $i + 1)
                         @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
+                            $discount_amount =
+                                App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                        )
                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                         <div class="d-flex" style="flex-wrap: nowrap">
@@ -623,13 +604,7 @@
                                 <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                     <a style="text-decoration: none;height:100%"
-<<<<<<< HEAD
                                         href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}">
-                                        <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-
-                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
-=======
-                                        href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>
                                             @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
@@ -640,7 +615,6 @@
                                                 Projesinde
                                                 {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                             @endif
->>>>>>> b47a9e387a6eda7cfff83d8f84434974cf98661f
                                         </h3>
 
 
@@ -737,9 +711,9 @@
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         @php($room_order = $i + 1)
                                         @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
+                                            $discount_amount =
+                                                App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                        )
 
                                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
                                         <div data-aos="fade-up" data-aos-delay="150">
@@ -779,13 +753,6 @@
                                                         <div class="homes-content p-3">
 
                                                             <span style="text-decoration: none">
-<<<<<<< HEAD
-                                                                <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                    Projesinde
-
-                                                                    {{ $i + 1 }} {{ "No'lu" }}
-                                                                    {{ $project->step1_slug }}
-=======
                                                                 <h3>@php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
                                                                     @if ($advertiseTitle)
@@ -796,7 +763,6 @@
                                                                         {{ $i + 1 }} {{ "No'lu" }}
                                                                         {{ $project->step1_slug }}
                                                                     @endif
->>>>>>> b47a9e387a6eda7cfff83d8f84434974cf98661f
                                                                 </h3>
 
                                                                 <p class="homes-address mb-3">
@@ -938,9 +904,9 @@
                     @for ($i = 0; $i < $project->room_count; $i++)
                         @php($room_order = $i + 1)
                         @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
+                            $discount_amount =
+                                App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                        )
                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                         <div class="d-flex" style="flex-wrap: nowrap">
@@ -966,12 +932,6 @@
                                 <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                     <a style="text-decoration: none;height:100%"
-<<<<<<< HEAD
-                                        href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}">
-                                        <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-
-                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
-=======
                                         href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
                                         <h3>
                                             @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
@@ -983,7 +943,6 @@
                                                 Projesinde
                                                 {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                             @endif
->>>>>>> b47a9e387a6eda7cfff83d8f84434974cf98661f
                                         </h3>
 
 
@@ -1104,9 +1063,9 @@
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         @php($room_order = $i + 1)
                                         @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
+                                            $discount_amount =
+                                                App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                        )
                                         @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                                         <div data-aos="fade-up" data-aos-delay="150">
@@ -1146,14 +1105,6 @@
                                                         <div class="homes-content p-3">
 
                                                             <span style="text-decoration: none">
-<<<<<<< HEAD
-                                                                <h3>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                    Projesinde
-
-                                                                    {{ $i + 1 }} {{ "No'lu" }}
-                                                                    {{ $project->step1_slug }}
-                                                                </h3>
-=======
                                                                 <h3>
                                                                     @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
@@ -1168,7 +1119,6 @@
                                                                 </h3>
 
 
->>>>>>> b47a9e387a6eda7cfff83d8f84434974cf98661f
 
                                                                 <p class="homes-address mb-3">
 
@@ -1183,7 +1133,6 @@
                                                             <!-- homes List -->
                                                             <ul class="homes-list clearfix pb-0"
                                                                 style="display: flex;justify-content:space-between">
-<<<<<<< HEAD
                                                                 @if(isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
                                                                     <li class="sude-the-icons" style="width:auto !important">
                                                                         <i class="fa fa-circle circleIcon mr-1"></i>
@@ -1196,13 +1145,6 @@
                                                                     </li>
                                                                 @endif
                                                                 @if(isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
-=======
-                                                                <li class="sude-the-icons" style="width:auto !important">
-                                                                    <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                    <span>{{ getHouse($project, 'room_count[]', $i + 1)->value }}</span>
-                                                                </li>
-                                                                @if ($project->step1_slug != 'arsa')
->>>>>>> b47a9e387a6eda7cfff83d8f84434974cf98661f
                                                                     <li class="sude-the-icons"
                                                                         style="width:auto !important">
                                                                         <i class="fa fa-circle circleIcon mr-1"
@@ -1314,9 +1256,9 @@
             <div class="mobile-show">
                 @foreach ($secondhandHousings as $housing)
                     @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
+                        $discount_amount =
+                            App\Models\Offer::where('type', 'housing')->where('housing_id', $housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                    )
                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$housing->id]))
 
                     <div class="d-flex" style="flex-wrap: nowrap">
@@ -1440,28 +1382,6 @@
                                     <a href="{{ route('housing.show', [$housing->id]) }}" class="text-decoration-none">
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <div class="landscapes">
-                                                        <div class="project-single">
-                                                            <div class="project-inner project-head">
-                                                                <div class="homes">
-                                                                    <div class="homes-img">
-                                                                        @if($housing->doping_time)
-                                                                        <div class="homes-tag button alt featured">Öne
-                                                                            Çıkan
-                                                                        </div>
-                                                                        @endif
-                                                                        <div class="type-tag button alt featured">
-                                                                            @if ($housing->step2_slug == 'kiralik')
-                                                                                Kiralık
-                                                                            @else
-                                                                                Satılık
-                                                                            @endif
-                                                                        </div>
-                                                                        @if ($discount_amount)
-                                                                            <div class="homes-tag button alt sale"
-                                                                                style="background-color:#EA2B2E!important">İNDİRİM
-                                                                            </div>
-                                                                        @endif
-
                                                 <div class="project-single">
                                                     <div class="project-inner project-head">
                                                         <div class="homes">
@@ -1480,8 +1400,8 @@
                                                                     <div class="homes-tag button alt sale"
                                                                         style="background-color:#EA2B2E!important">İNDİRİM
                                                                     </div>
-<<<<<<< HEAD
                                                                 </div>
+                                                                @endif
                                                                 <div class="button-effect">
                                                                     <span class="btn toggle-favorite bg-white"
                                                                         data-housing-id={{ $housing->id }}>
@@ -1602,8 +1522,6 @@
                                                                         </span>
                                                                         <span class="text">Sepete Ekle</span>
                                                                     </button>
-=======
->>>>>>> b47a9e387a6eda7cfff83d8f84434974cf98661f
                                                                 @endif
 
                                                                 <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
