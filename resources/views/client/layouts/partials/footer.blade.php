@@ -72,17 +72,15 @@
     </div>
 </footer>
 
-<a data-scroll href="#wrapper" class="go-up"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>
-<!-- END FOOTER -->
-
 <style>
-       .filter-date{
-   display: flex;
-   align-items: center;
-   justify-content: start;
-   }
+    .filter-date {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+
     .homes-content h4 {
-        height: 30px;
+        height: 50px;
     }
 
     .circleIcon {
@@ -217,33 +215,37 @@
     </div>
     <div class="payment-plan-pop-content">
         <div class="payment-plan-pop-close-icon"><i class="fa fa-times"></i></div>
-        <table class="payment-plan table">
-            <thead>
-                <tr>
-                    <th>Ödeme Türü</th>
-                    <th>Fiyat</th>
-                    <th>Taksit Sayısı</th>
-                    <th>Peşin Ödenecek Tutar</th>
-                    <th>Aylık Ödenecek Tutar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Peşin</td>
-                    <td>1.000.000,00₺</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td>Taksitli</td>
-                    <td>1.400.000,00₺</td>
-                    <td>14</td>
-                    <td>300.000,00₺</td>
-                    <td>78.571,42₺</td>
-                </tr>
-            </tbody>
-        </table>
+
+                <div class="my-properties">
+                    <table class="payment-plan table">
+                        <thead>
+                            <tr>
+                                <th>Ödeme Türü</th>
+                                <th>Fiyat</th>
+                                <th>Taksit Sayısı</th>
+                                <th>Peşin Ödenecek Tutar</th>
+                                <th>Aylık Ödenecek Tutar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Peşin</td>
+                                <td>1.000.000,00₺</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Taksitli</td>
+                                <td>1.400.000,00₺</td>
+                                <td>14</td>
+                                <td>300.000,00₺</td>
+                                <td>78.571,42₺</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+      
     </div>
 </div>
 
@@ -681,12 +683,9 @@
                                 location.reload();
 
                             },
-                            error: function(xhr, status, error) {
-                                toastr.error("Hata oluştu: " + xhr
-                                    .responseText,
-                                    "Hata");
-                                console.error("Hata oluştu: " + xhr
-                                    .responseText);
+                            error: function(error) {
+                                toastr.error("Lütfen Giriş Yapınız");
+                                console.error(error);
                             }
                         });
                     }
@@ -716,12 +715,9 @@
                                 location.reload();
 
                             },
-                            error: function(xhr, status, error) {
-                                toastr.error("Hata oluştu: " + xhr
-                                    .responseText,
-                                    "Hata");
-                                console.error("Hata oluştu: " + xhr
-                                    .responseText);
+                            error: function(error) {
+                                toastr.error("Lütfen Giriş Yapınız");
+                                console.error(error);
                             }
                         });
                     }

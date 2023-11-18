@@ -151,6 +151,11 @@ class RegisterController extends Controller
             $content = str_replace("{{" . $key . "}}", $value, $content);
         }
 
+        Chat::create([
+            "user_id" => $user->id
+        ]);
+
+
         try
         {
             Mail::to($request->input("email"))->send(new CustomMail($emailTemplate->subject, $content));

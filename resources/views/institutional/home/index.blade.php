@@ -134,10 +134,165 @@
             </div>
         </div>
     </div>
+
+    @if (Auth::check() && Auth::user()->type !="3")
+    <!-- HTML -->
+<button class="chatbox-open">
+  <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+</button>
+<button class="chatbox-close">
+  <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+</button>
+<div class="chatbox-popup">
+  <header class="chatbox-popup__header">
+      <aside style="flex:8">
+          <h4 style="color: white">Emlak Sepette Canlı Destek</h4>
+      </aside>
+  </header>
+  <main class="chatbox-popup__main">
+      <div class="chatbox-messages">
+          <div class="msg left-msg">
+
+              <div class="msg-bubble">
+
+                  <div class="msg-text">
+                      Merhaba size nasıl yardımcı olabiliriz ?
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </main>
+  <footer class="chatbox-popup__footer">
+      <aside style="flex:10">
+          <textarea id="userMessage" type="text" placeholder="Mesajınızı Yazınız..." autofocus
+              onkeydown="handleKeyPress(event)"></textarea>
+      </aside>
+      <aside style="flex:1;color:#888;text-align:center;">
+          <button onclick="sendMessage()" class="btn btn-primary"><i class="fa fa-paper-plane"
+                  aria-hidden="true"></i></button>
+      </aside>
+  </footer>
+</div>
+@endif
 @endsection
 
 @section('scripts')
     <script>
+           document.addEventListener("DOMContentLoaded", function() {
+            // Sayfa yüklendiğinde mevcut sohbet geçmişini çekmek için bir AJAX çağrısı yapabilirsiniz
+            fetchChatHistory();
+        });
+
+        function fetchChatHistory() {
+            $.ajax({
+                url: 'chat/history',
+                method: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    renderChatHistory(response);
+                },
+                error: function(error) {
+                    console.error('Sohbet geçmişi alınamadı:', error);
+                }
+            });
+
+        }
+
+        function renderChatHistory(chatHistory) {
+            const chatboxMessages = document.querySelector('.chatbox-messages');
+
+            chatHistory.forEach(entry => {
+                const messageElement = document.createElement('div');
+                const messageType = entry.receiver_id == 4 ? 'user' : 'admin';
+
+                messageElement.className = messageType == 'admin' ? 'msg left-msg' : 'msg right-msg';
+                messageElement.innerHTML = `
+            <div class="msg-bubble">
+                <div class="msg-text">
+                    ${entry.content}
+                </div>
+            </div>
+        `;
+                chatboxMessages.appendChild(messageElement);
+            });
+        }
+
+
+        var isFirstMessage = true;
+
+        function sendMessage() {
+            var userMessage = document.getElementById('userMessage').value;
+            var chatboxMessages = document.querySelector('.chatbox-messages');
+
+            // Kullanıcının mesajını ekle
+            var userMessageElement = document.createElement('div');
+            userMessageElement.className = 'msg right-msg';
+            userMessageElement.innerHTML = `
+            <div class="msg-bubble">
+                <div class="msg-text">
+                    ${userMessage}
+                </div>
+            </div>
+        `;
+            chatboxMessages.appendChild(userMessageElement);
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('messages.store') }}",
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    'content': userMessage,
+                },
+                success: function(response) {
+                    // Başarıyla mesaj gönderildiğinde yapılacak işlemler
+                    console.log(response.message);
+                    chatboxMessages.scrollTop = chatboxMessages.scrollHeight;
+                },
+                error: function(error) {
+                    toastr.error('Bir hata oluştu. Lütfen tekrar deneyin.');
+
+                }
+            });
+
+
+            // Kullanıcının girdiği mesaj alanını temizle
+            document.getElementById('userMessage').value = '';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        $(".chatbox-open").click(() => {
+            $(".chatbox-popup, .chatbox-close").fadeIn();
+        });
+
+        $(".chatbox-close").click(() => {
+            $(".chatbox-popup, .chatbox-close").fadeOut();
+        });
+
+        $(".chatbox-maximize").click(() => {
+            $(".chatbox-popup, .chatbox-open, .chatbox-close").fadeOut();
+            $(".chatbox-panel").fadeIn();
+            $(".chatbox-panel").css({
+                display: "flex"
+            });
+        });
+
+        $(".chatbox-minimize").click(() => {
+            $(".chatbox-panel").fadeOut();
+            $(".chatbox-popup, .chatbox-open, .chatbox-close").fadeIn();
+        });
+
+        $(".chatbox-panel-close").click(() => {
+            $(".chatbox-panel").fadeOut();
+            $(".chatbox-open").fadeIn();
+        });
+        
         var dom = document.getElementById('stat-1');
         var myChart = echarts.init(dom, null, {
             renderer: 'canvas',

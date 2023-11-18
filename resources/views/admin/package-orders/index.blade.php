@@ -34,15 +34,17 @@
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_image">Paket</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_amount">Tutar</th>
+                                        data-sort="order_image">Proje Limiti</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_date">Sipariş Tarihi</th>
+                                        data-sort="order_image">Konut Limiti</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_image">Alt Kullanıcı Limiti</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_amount">Tutar</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_status">Durum</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_user">Alıcı</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_seller">Satıcı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_details">Onay</th>
                                 </tr>
@@ -56,8 +58,16 @@
                                             <td class="order_project">
                                                 {{ $order->subscriptionPlan->name }}
                                             </td>
+                                            <td class="order_project">
+                                                {{ $order->subscriptionPlan->project_limit }}
+                                            </td>
+                                            <td class="order_project">
+                                                {{ $order->subscriptionPlan->housing_limit }}
+                                            </td>
+                                            <td class="order_project">
+                                                {{ $order->subscriptionPlan->user_limit }}
+                                            </td>
                                             <td class="order_amount"> {{ $order->subscriptionPlan->price }}</td>
-                                            <td class="order_date">{{ $order->created_at }}</td>
                                             <td class="order_status">{!! [
                                                 '0' => '<span class="text-warning">Onay Bekleniyor</span>',
                                                 '1' => '<span class="text-success">Ödeme Onaylandı</span>',
@@ -67,7 +77,6 @@
                                                 {{ $order->user->name }} <br>
                                                 {{ $order->user->email }}<br>
                                                 {{ $order->user->phone }}</td>
-                                            <td class="order_seller">Emlak Sepette</td>
                                             <td class="order_details">
                                                 @if ($order->status == 0 || $order->status == 2)
                                                     <a href="{{ route('admin.approve-package-order', ['userPlan' => $order->id]) }}"

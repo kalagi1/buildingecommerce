@@ -135,7 +135,7 @@
                                                                 @if ($user->corporate_account_status)
                                                                     <style type="text/css">
                                                                         .st0 {
-                                                                            fill: rgb(44, 191, 247);
+                                                                            fill: #e54242;
                                                                         }
 
                                                                         .st1 {

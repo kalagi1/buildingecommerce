@@ -59,11 +59,11 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.dashboard', Str::slug($project->user->name)) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Proje
-                                İlanları</a>
-                            <a class="navbar-item"
                                 href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">Mağaza
                                 Profili</a>
+                            <a class="navbar-item"
+                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Proje
+                                İlanları</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.housings', Str::slug($project->user->name)) }}">Emlak
                                 İlanları</a>
@@ -109,9 +109,7 @@
                         </div>
                     </div>
                     <div class="news-item-text">
-                        <a href="{{ route('project.housing.detail', $project->slug) }}">
-                            <h3>{{ $project->project_title }}</h3>
-                        </a>
+                        <h3>{{ $project->project_title }}</h3>
                         <div class="the-agents">
                             <ul class="the-agents-details">
                                 <?php
@@ -124,9 +122,19 @@
 
                                 <li><strong>İl-İlçe:</strong> {!! $project->city->title !!} {{ '/' }}
                                     {!! $project->county->ilce_title !!} </li>
-                                <li><strong>Konut Sayısı:</strong> {{ $project->room_count }} </li>
-                                <li><strong>Konut Tipi:</strong> {{ $project->housingtype->title }}
+                                <li><strong> Toplam {{ ucfirst($project->step1_slug) }}
+                                        Sayısı:</strong> {{ $project->room_count }} </li>
+                                <li><strong> Satışa Açık {{ ucfirst($project->step1_slug) }}
+                                        Sayısı:</strong> {{ $project->room_count - $project->cartOrders }} </li>
+                                <li><strong> Satılan {{ ucfirst($project->step1_slug) }}
+                                        Sayısı:</strong> {{ $project->cartOrders }} </li>
+                                <li><strong> {{ ucfirst($project->step1_slug) }} Tipi:</strong>
+                                    {{ $project->housingtype->title }}
                                 </li>
+                                @if ($project->user->phone)
+                                    <li><strong>İletişim No:</strong> {!! $project->user->phone !!} </li>
+                                @endif
+                                <li><strong>E-Posta:</strong> {!! $project->user->email !!} </li>
 
                             </ul>
                         </div>
@@ -455,8 +463,8 @@
                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                 <a style="text-decoration: none; height: 100%"
                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                    <h3> 
-                                        @if (getData($project, 'advertise_title[]', $i + 1)->value)
+                                    <h3>
+                                        @if (isset(getData($project, 'advertise_title[]', $i + 1)->value))
                                             {{ getData($project, 'advertise_title[]', $i + 1)->value }}
                                         @else
                                             {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}

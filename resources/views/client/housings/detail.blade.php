@@ -34,12 +34,6 @@
 
 
 @section('content')
-    <style>
-        .rating-area .rating.selected polygon {
-            fill: gold;
-            stroke: gold
-        }
-    </style>
     <section class="single-proper blog details bg-white">
         <div class="container">
             <div class="row mb-3">
@@ -151,25 +145,31 @@
                         </div>
                         <div class="col-md-10 col-10">
 
-                            @if ($sold && $sold[0]->status != '2')
-                                <button class="btn second-btn soldBtn" disabled
-                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
-                                                        @else 
-                                                        style="background: red !important;width:100%;color:White" @endif>
-                                    @if ($sold[0]->status == '0')
-                                        <span class="text">Onay Bekleniyor</span>
-                                    @else
-                                        <span class="text">Satıldı</span>
-                                    @endif
-                                </button>
-                            @else
-                                <button class="CartBtn" data-type='housing' data-id='{{ $housing->id }}'>
-                                    <span class="IconContainer">
-                                        <img src="{{ asset('sc.png') }}" alt="">
-                                    </span>
-                                    <span class="text">Sepete Ekle</span>
-                                </button>
-                            @endif
+                            @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
+                            @php
+                                $buttonStyle = '';
+                                $buttonText = '';
+                                if ($sold[0]->status == '0') {
+                                    $buttonStyle = 'background: orange !important; width: 100%; color: white;';
+                                    $buttonText = 'Onay Bekleniyor';
+                                } else {
+                                    $buttonStyle = 'background: red !important; width: 100%; color: white;';
+                                    $buttonText = 'Satıldı';
+                                }
+                            @endphp
+                        
+                            <button class="btn second-btn soldBtn" disabled style="{{ $buttonStyle }}">
+                                <span class="text">{{ $buttonText }}</span>
+                            </button>
+                        @else
+                            <button class="CartBtn" data-type='housing' data-id='{{ $housing->id }}'>
+                                <span class="IconContainer">
+                                    <img src="{{ asset('sc.png') }}" alt="">
+                                </span>
+                                <span class="text">Sepete Ekle</span>
+                            </button>
+                        @endif
+                        
 
 
 
@@ -616,11 +616,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @php 
-                                    $turkishMonths = [
-                                        "Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"
-                                    ]
-                                    @endphp
                                 <div class="tab-pane fade  blog-info details" id="contact" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                     <h5 class="mt-4">Yorumlar</h5>
@@ -633,7 +628,7 @@
                                                         <div>
                                                             <div class="font-weight-bold">{{ $comment->user->name }}</div>
                                                             <i
-                                                                class="small">{{$turkishMonths[date('n',strtotime($comment->created_at)) - 1].', '.date('d Y',strtotime($comment->created_at))}}</i>
+                                                                class="small">{{$comment->created_at}}</i>
                                                         </div>
                                                         <div class="ml-auto order-2">
                                                             @for ($i = 0; $i < $comment->rate; ++$i)
@@ -764,44 +759,6 @@
 
                         </div>
                     </div>
-                    <div class="tab-pane fade blog-info details" id="profile" role="tabpanel"
-                        aria-labelledby="profile-tab">
-                        <div class="similar-property featured portfolio p-0 bg-white">
-
-                            <div class="single homes-content">
-                                <!-- title -->
-                                <h5 class="mb-4">Özellikler</h5>
-                                <ul class="homes-list clearfix">
-                                    @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
-                                        @php
-                                            $turkceKarsilik = [
-                                                'price' => 'Fiyat',
-                                                'numberoffloors' => 'Bulunduğu Kat',
-                                                'squaremeters' => 'm² (Net)',
-                                                'room_count' => 'Oda Sayısı',
-                                                'front1' => 'Cephe',
-                                                'm2gross' => 'm² (Brüt)',
-                                                'buildingage' => 'Bina Yaşı',
-                                                'heating' => 'Isıtma',
-                                                'balcony' => 'Balkon',
-                                                'numberofbathrooms' => 'Banyo Sayısı',
-                                                'usingstatus' => 'Kullanım Durumu',
-                                                'dues' => 'Aidat',
-                                                'titledeedstatus' => 'Tapu Durumu',
-                                                'external_features1' => 'Dış Özellikler',
-                                                'swap' => 'Takas',
-                                                'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
-                                                'internal_features1' => 'İç Özellikler',
-                                                'floorlocation' => 'Kat Sayısı',
-                                                'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
-                                                'furnished1' => 'Eşyalı',
-                                                'availableforLoan1' => 'Krediye Uygun',
-                                                'swap1' => 'Takaslı',
-                                                'buysellurgent1' => 'Acil Satılık',
-                                            ];
-
-                                            $key = $turkceKarsilik[$key] ?? $key;
-                                        @endphp
 
 
                 </div>
@@ -954,47 +911,14 @@
                 }, {
                     breakpoint: 769,
                     settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 4,
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
                         dots: false,
                         arrows: false
                     }
                 }]
             });
         });
-        var map = L.map('map').setView([{{ $housing->latitude }}, {{ $housing->longitude }}], 13);
-
-        // OpenStreetMap katmanını haritaya ekleyin
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Yakınındaki alışveriş yerlerini Overpass API kullanarak getirin
-        var overpassUrl = 'https://overpass-api.de/api/interpreter';
-        var query = `[out:json];
-    (
-        node["amenity"="clinic"](around:12000,{{ $housing->latitude }},{{ $housing->longitude }});
-        way["amenity"="clinic"](around:12000,{{ $housing->latitude }},{{ $housing->longitude }});
-        relation["amenity"="clinic"](around:12000,{{ $housing->latitude }},{{ $housing->longitude }});
-    );
-    out center;`;
-        var url = `${overpassUrl}?data=${encodeURIComponent(query)}`;
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                // Alışveriş yerlerini işaretle
-                console.log(data.elements);
-                data.elements.forEach(element => {
-                    var lat = element.lat;
-                    var lon = element.lon;
-                    var marker = L.marker([lat, lon]).addTo(map);
-                    marker.bindPopup(element.tags.name || 'Bilinmeyen Mağaza');
-                });
-            })
-            .catch(error => console.error('Hata:', error));
-    </script>
-    <script>
         jQuery('.rating-area .rating').on('mouseover', function() {
             jQuery('.rating-area .rating polygon').attr('fill', 'none');
             for (var i = 0; i <= $(this).index(); ++i)
@@ -1021,5 +945,10 @@
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<style>
+     .rating-area .rating.selected polygon {
+            fill: gold;
+            stroke: gold
+        }
+    </style>
 @endsection
