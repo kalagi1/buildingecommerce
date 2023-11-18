@@ -53,15 +53,41 @@
                                             alt="home-1" class="img-responsive"
                                             style="height: 100px !important;object-fit:cover">
                                     </td>
-                                    <td class="room_count">
-                                        <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
-                                    </td>
-                                    <td class="number_of_floors">
-                                        <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}. Kat</span>
-                                    </td>
-                                    <td class="squaremeters">
-                                        <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m<sup>2</sup></span>
-                                    </td>
+                                    @if(isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
+                                        <td class="room_count">
+                                            <i
+                                                class="fa fa-circle circleIcon mr-1"></i>
+                                            <span>
+                                                {{ getData($project, $project->listItemValues->column1_name.'[]', $i + 1)->value }}
+                                                @if(isset($project->listItemValues) && isset($project->listItemValues->column1_additional) && $project->listItemValues->column1_additional)
+                                                    {{$project->listItemValues->column2_additional}}
+                                                @endif
+                                            </span>
+                                        </td>
+                                    @endif
+                                    @if(isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
+                                        <td class="room_count">
+                                            <i class="fa fa-circle circleIcon mr-1"
+                                                aria-hidden="true"></i>
+                                            <span>{{ getData($project, $project->listItemValues->column2_name.'[]', $i + 1)->value }}
+                                                @if(isset($project->listItemValues) && isset($project->listItemValues->column2_additional) && $project->listItemValues->column2_additional)
+                                                    {{$project->listItemValues->column2_additional}}
+                                                @endif
+                                            </span>
+                                        </td>
+                                    @endif
+                                    @if(isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
+                                        <td class="room_count">
+                                            <i
+                                                class="fa fa-circle circleIcon mr-1"></i>
+                                            <span>
+                                                {{ getData($project, $project->listItemValues->column3_name.'[]', $i + 1)->value }}
+                                                @if(isset($project->listItemValues) && isset($project->listItemValues->column3_additional) && $project->listItemValues->column3_additional)
+                                                    {{$project->listItemValues->column3_additional}}
+                                                @endif
+                                            </span>
+                                        </td>
+                                    @endif
                                    
                                     <td class="price">
                                         {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}₺

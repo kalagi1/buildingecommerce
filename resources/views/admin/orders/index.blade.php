@@ -68,7 +68,6 @@
                                         @php($o = json_decode($order->cart))
                                         @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                         @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
-
                                         <tr>
                                             <td class="order_no">{{ $order->key }}</td>
                                             <td class="order_image">

@@ -41562,6 +41562,16 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     color: #fff;
 }
 
+<<<<<<< HEAD
+.disabled-button{
+    background: gray !important;
+    cursor: not-allowed;
+}
+
+#paymentModal{
+    background-color: #33333347;
+}
+=======
   .msger {
                 display: flex;
                 flex-flow: column wrap;
@@ -42133,3 +42143,4 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
             .dropdown.toggle>input:checked~ul li:first-child {
                 padding-top: 15px;
             }
+>>>>>>> b47a9e387a6eda7cfff83d8f84434974cf98661f

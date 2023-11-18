@@ -189,7 +189,101 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Ödeme Onay Adımı</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="contentx">
+                            <div class="invoice-body">
+                                <table class="table table-bordered d-none d-md-table"> <!-- Tabloyu sadece tablet ve daha büyük ekranlarda göster -->
+                                    <thead>
+                                        <tr>
+                                            <th>Doping Adı</th>
+                                            <th>Kullanıcı</th>
+                                            <th>Ödeme Keyi</th>
+                                            <th>Ödenen Banka</th>
+                                            <th>Ödenen Tutar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($project->dopingOrder as $doping)
+                                            <tr>
+                                                <td>@if($doping->standOut->housing_type_id == 0) Öne Çıkarılanlar @else Üst Sıradayım @endif</td>
+                                                <td>{{$doping->user->name}}</td>
+                                                <td>{{$doping->key}}</td>
+                                                <td>{{$doping->bank->receipent_full_name}}</td>
+                                                <td>{{$doping->price}} ₺</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                    
+                                <!-- Mobilde sadece alt alta liste göster -->
+                                <div class="d-md-none">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <strong>Ürün Adı:</strong> Doping Ücreti
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Miktar:</strong> 1
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Fiyat:</strong> 2500 ₺
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Toplam:</strong> 2500 ₺
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ route('admin.project.set.status.get', $project->id) }}"  class="btn btn-primary btn-lg btn-block mb-3" id="completePaymentButton">
+                            Ödemeyi Onayla ve Projeyi Aktife Al
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
+            aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="finalConfirmationModalLabel">Ödeme Onayı</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</p>
+                        <ol>
+                            <li>
+                                <strong style="color:red" id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
+                                alanına yazdığınızdan emin olun.
+                            </li>
+                            <li>
+                                Son olarak, işlemi bitirmek için aşağıdaki butona tıklayın: <br>
+                                <button type="submit" class="btn btn-primary without-doping mt-3">Ödemeyi Tamamla
+                                    <svg viewBox="0 0 576 512" style="width: 16px;color: #fff;fill: #fff;" class="svgIcon">
+                                        <path
+                                            d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                        </path>
+                                    </svg></button>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 @endsection
@@ -222,22 +316,28 @@
 
         $('.set_status').click(function(e) {
             e.preventDefault();
-            var projectId = $(this).attr('project_id');
-            Swal.fire({
-                @if ($project->status)
-                    title: 'Pasife almak istediğine emin misin?',
-                @else
-                    title: 'Aktife almak istediğine emin misin?',
-                @endif
-                showCancelButton: true,
-                confirmButtonText: 'Evet',
-                denyButtonText: `İptal`,
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    window.location.href = "{{ route('admin.project.set.status.get', $project->id) }}"
-                }
-            })
+            @if($project->confirmDopingOrder)
+                $('#paymentModal').addClass('show')
+                $('#paymentModal').css('display','block')
+                
+            @else
+                var projectId = $(this).attr('project_id');
+                Swal.fire({
+                    @if ($project->status != 1)
+                        title: 'Aktife almak istediğine emin misin?',
+                    @else
+                        title: 'Pasife almak istediğine emin misin?',
+                    @endif
+                    showCancelButton: true,
+                    confirmButtonText: 'Evet',
+                    denyButtonText: `İptal`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('admin.project.set.status.get', $project->id) }}"
+                    }
+                })
+            @endif
         })
         var defaultMessagesItems = @json($defaultMessages);
         console.log(defaultMessagesItems[0].title);

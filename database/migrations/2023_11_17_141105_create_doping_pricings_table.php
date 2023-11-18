@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_plans', function (Blueprint $table) {
-            $table->boolean('status')->default(0);
+        Schema::create('doping_pricings', function (Blueprint $table) {
+            $table->id();
+            $table->integer("item_type");
+            $table->float("price");
+            $table->integer("day");
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user_plans', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('doping_pricings');
     }
 };

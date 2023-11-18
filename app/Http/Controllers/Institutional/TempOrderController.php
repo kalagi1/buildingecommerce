@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
+use App\Models\DopingPricing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\TempOrder;
@@ -66,6 +67,12 @@ class TempOrderController extends Controller
         }
     }
 
+    public function getDopingPrice(Request $request){
+        $dopingPrice = DopingPricing::where('day',$request->input('day'))->where('item_type',$request->input('item_type'))->first();
+
+        return $dopingPrice;
+    }
+
     public function projectHousingDataChange(Request $request){
         if($request->input('item_type') != 3){
             $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
@@ -90,7 +97,11 @@ class TempOrderController extends Controller
                             $newArray = array_values($newArray);
                             $data->roomInfoKeys->{$request->input('key')} = $newArray;
                         }else{
-                            $data->roomInfoKeys->{$request->input('key')}[count($data->roomInfoKeys->{$request->input('key')})] = $request->input('value');
+                            if($request->input('only-one')){
+                                $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
+                            }else{
+                                $data->roomInfoKeys->{$request->input('key')}[count($data->roomInfoKeys->{$request->input('key')})] = $request->input('value');
+                            }
                         }
                     }else{
                         $data->roomInfoKeys->{$request->input('key')} = [$request->input('value')];
