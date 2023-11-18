@@ -38939,7 +38939,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .navbar-vibrant .
 }
 
 .chat .chat-message .sent-message-content:not(.chat .chat-message .sent-message-content.gallery):after {
-    content: " ";
+  
     position: absolute;
     width: 0;
     height: 0;

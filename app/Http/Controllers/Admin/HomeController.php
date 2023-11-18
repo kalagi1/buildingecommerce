@@ -84,6 +84,37 @@ class HomeController extends Controller
 
         Mail::to($user->email)->send(new CustomMail($newSeller->subject, $newSellerContent));
 
+
+        $newSeller = EmailTemplate::where('slug', "new-seller")->first();
+
+        if (!$newSeller) {
+            return response()->json([
+                'message' => 'Email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203);
+        }
+
+        $newSellerContent = $newSeller->body;
+
+        $newSellerVariables = [
+            'customerName' => $user->name,
+            'customerEmail' => $user->email,
+            'salesAmount' => $cartOrder->amount,
+            'salesDate' => $cartOrder->created_at,
+            'companyName' => "Emlak Sepeti",
+            "email" => $user->email,
+            "token" => $user->email_verification_token,
+            "storeOwnerName" => $project ? $project->user->name : "",
+            "invoiceLink" => route("institutional.invoice.show", $cartOrder->id),
+        ];
+
+        foreach ($newSellerVariables as $key => $value) {
+            $newSellerContent = str_replace("{{" . $key . "}}", $value, $newSellerContent);
+        }
+
+        Mail::to($user->email)->send(new CustomMail($newSeller->subject, $newSellerContent));
+
         return redirect()->back();
     }
 

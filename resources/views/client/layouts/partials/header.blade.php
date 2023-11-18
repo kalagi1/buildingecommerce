@@ -94,6 +94,7 @@
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
         ================================================== -->
+        
         <header id="header-container">
             <div class="container">
                 <div class="header-center">
@@ -123,6 +124,7 @@
                         </div>
                         <div class="rightSide d-xl-block d-none d-lg-block ">
                             <div class="header-widget d-flex">
+                                
                                 @if (Auth::user())
                                     @if (Auth::user()->type == 1)
                                         <a href="{{ route('client.index') }}" class="userIcon">
@@ -253,6 +255,7 @@
 
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="header-bottom d-xl-block d-none d-lg-block">

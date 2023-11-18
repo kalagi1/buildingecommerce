@@ -72,6 +72,30 @@ class SupportChatController extends Controller
         return response()->json(['message' => $message]);
     }
 
+    public function adminStore(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json(['error' => 'Lütfen giriş yapınız.']);
+        }
+
+        $data = $request->validate([
+            'receiver_id' => 'int',
+            'sender_id' => 'int',
+            'content' => 'string',
+            'chat_id' => 'int',
+        ]);
+
+        $user = User::where("id", $request->input("receiver_id"))->first();
+        $chat = Chat::where("user_id", $user->id)->first();
+        $data['sender_id'] = "4";
+        $data['receiver_id'] = $user->id;
+        $data['chat_id'] = $chat->id;
+
+        
+        $message = Message::create($data);
+        return response()->json(['message' => $message]);
+    }
+
     private function isFirstMessage($senderId, $receiverId)
     {
         $messageCount = Message::where('sender_id', $senderId)

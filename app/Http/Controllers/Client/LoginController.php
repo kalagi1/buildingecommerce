@@ -66,9 +66,11 @@ class LoginController extends Controller
                 }
 
             }
+        }else{
+            return redirect()->back()->withInput()->withErrors(['login_error' => "Giriş başarısız. Lütfen bilgilerinizi kontrol edin."]);
+
         }
 
-        return redirect()->back()->withInput()->withErrors(['login_error' => "Giriş başarısız. Lütfen bilgilerinizi kontrol edin."]);
     }
 
     private function sendVerificationEmail(User $user)
@@ -99,8 +101,8 @@ class LoginController extends Controller
 
         try {
             Mail::to($user->email)->send(new CustomMail($emailTemplate->subject, $content));
-            session()->flash('success', 'Hesabınız oluşturuldu. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
-            return redirect()->route('client.login');
+            // session()->flash('warning', 'Giriş Başarısız. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
+            // return redirect()->route('client.login');
 
         } catch (\Exception $e) {
             session()->flash('error', 'Hata');
