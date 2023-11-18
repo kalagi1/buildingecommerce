@@ -104,6 +104,27 @@
         padding: 7px 15px;
     }
 
+    table {
+            margin-top: 30px
+        }
+
+        table.top-0 {
+            margin-top: 0;
+        }
+
+        table.order-detail,
+        .order-detail th,
+        .order-detail td {
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+        }
+
+        .order-detail th {
+            font-size: 16px;
+            padding: 15px;
+            text-align: center;
+        }
+
     .banner {
         position: relative;
     }
