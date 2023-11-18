@@ -90,4 +90,12 @@ class Project extends Model
     public function listItemValues(){
         return $this->hasOne(ProjectListItem::class,"housing_type_id",'housing_type_id');
     }
+
+    public function dopingOrder(){
+        return $this->hasMany(DopingOrder::class,"project_id","id");
+    }
+
+    public function confirmDopingOrder(){
+        return $this->hasOne(DopingOrder::class,"project_id","id")->where('status',0);
+    }
 }

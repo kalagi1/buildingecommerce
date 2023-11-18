@@ -49,7 +49,7 @@
             <div class="col-md-12 ">
                 <div class="row" style="justify-content: space-between;">
                     <div class=" col-md-4">
-                        <div class="button-white prev-house-bottom">
+                        <div class="button-white prev-house-bottom disabled-button">
                             <i class="fa fa-circle-chevron-left"></i> <span class="ml-5px last-housing-text">Önceki @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif</span>
                         </div>
                     </div>
@@ -324,8 +324,9 @@
                                     <h4 class="mt-3">Öne Çıkarılanlar Vitrini</h4>
                                     <span>İlanınız anasayfamızda önce çıkan emlak ilanları sekmesinde yer alsın.</span>
                                     <select name="" id="" class="form-control mt-3">
-                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured_data_day) && $tempData->featured_data_day == "7") selected @endif value="7">1 Hafta (2259 TL)</option>
-                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured_data_day) && $tempData->featured_data_day == "14") selected @endif value="14">2 Hafta (4500 TL)</option>
+                                        @foreach($featuredPrices as $price)
+                                            <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured_data_day) && $tempData->featured_data_day == $price->day) selected @endif value="{{$price->day}}">{{$price->day / 7}} Hafta ({{$price->price}} TL)</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -340,8 +341,9 @@
                                     <h4 class="mt-3">Üst Sıradayım</h4>
                                     <span>İlanınız anasayfamızda önce çıkan emlak ilanları sekmesinde yer alsın.</span>
                                     <select name="" id="" class="form-control mt-3">
-                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row_data_day) && $tempData->top_row_data_day == "7") selected @endif value="7">1 Hafta (2000 TL)</option>
-                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row_data_day) && $tempData->top_row_data_day == "14") selected @endif value="14">2 Hafta (3500 TL)</option>
+                                        @foreach($topRowPrices as $price)
+                                            <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row_data_day) && $tempData->top_row_data_day == $price->day) selected @endif value="{{$price->day}}">{{$price->day / 7}} Hafta ({{$price->price}} TL)</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -349,7 +351,7 @@
                     </div>
 
                     <div class="without-dopingxx mt-4 mb-5">
-                        <button class="without-doping btn btn-info">Devam</button>
+                        <button class="payment-area btn btn-info">Devam</button>
                     </div>
                 </div>
             </div>
@@ -360,6 +362,122 @@
                             <div class="icon"><i class="fa fa-thumbs-up"></i></div>
                             <div class="text">Başarıyla ilan eklediniz</div>
                             <div class="text"><a href="{{route('institutional.projects.index')}}" class="btn btn-info">Projelerime yönlen</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Ödeme Adımı</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="invoice">
+                                <div class="invoice-header mb-3">
+                                    <strong>Fatura Tarihi: {{ date('d.m.Y') }}</strong>
+                                </div>
+
+                                <div class="invoice-body">
+                                    <table class="table table-bordered d-none d-md-table"> <!-- Tabloyu sadece tablet ve daha büyük ekranlarda göster -->
+                                        <thead>
+                                            <tr>
+                                                <th>Ürün Adı</th>
+                                                <th>Miktar</th>
+                                                <th>Fiyat</th>
+                                                <th>Toplam</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Doping Ücreti</td>
+                                                <td>1</td>
+                                                <td>2500 ₺</td>
+                                                <td>2500 ₺</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                        
+                                    <!-- Mobilde sadece alt alta liste göster -->
+                                    <div class="d-md-none">
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <strong>Ürün Adı:</strong> Doping Ücreti
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Miktar:</strong> 1
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Fiyat:</strong> 2500 ₺
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Toplam:</strong> 2500 ₺
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="invoice-total mt-3">
+                                    <strong class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</strong>
+                                    <div class="row mb-3 px-5 mt-3">
+                                        @foreach ($bankAccounts as $bankAccount)
+                                            <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
+                                                data-iban="{{ $bankAccount->iban }}"
+                                                data-title="{{ $bankAccount->receipent_full_name }}">
+                                                <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
+                                                    style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div id="ibanInfo"></div>
+                                    <strong>Ödeme işlemini tamamlamak için, lütfen bu
+                                        <span style="color:red" id="uniqueCode"></span> kodu kullanarak ödemenizi
+                                        yapın. IBAN açıklama
+                                        alanına
+                                        bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak işlemi
+                                        bitirin.</strong>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
+                                class="btn btn-primary btn-lg btn-block mb-3" id="completePaymentButton">Satın Al
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
+                aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="finalConfirmationModalLabel">Ödeme Onayı</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</p>
+                            <ol>
+                                <li>
+                                    <strong style="color:red" id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
+                                    alanına yazdığınızdan emin olun.
+                                </li>
+                                <li>
+                                    Son olarak, işlemi bitirmek için aşağıdaki butona tıklayın: <br>
+                                    <button type="submit" class="btn btn-primary without-doping mt-3">Ödemeyi Tamamla
+                                        <svg viewBox="0 0 576 512" style="width: 16px;color: #fff;fill: #fff;" class="svgIcon">
+                                            <path
+                                                d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                            </path>
+                                        </svg></button>
+                                </li>
+                            </ol>
                         </div>
                     </div>
                 </div>
@@ -382,6 +500,59 @@
         <script src="{{ URL::to('/') }}/adminassets/assets/js/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="{{ URL::to('/') }}/adminassets/assets/js/jquery.daterangepicker.min.js"></script>
         <script>
+            var selectedDopings = [];
+            function generateUniqueCode() {
+                return Math.random().toString(36).substring(2, 10).toUpperCase();
+            }
+            $('.payment-area').click(function(){
+                var totalPrice = '';
+                for(var i = 0; i < selectedDopings.length; i++){
+                    totalPrice += parseFloat(selectedDopings[i].price);
+                }
+                $('.invoice-body table tbody tr').eq(0).find('td').eq(2).html(totalPrice+'₺')
+                $('.invoice-body table tbody tr').eq(0).find('td').eq(3).html(totalPrice+'₺')
+                $('#paymentModal').addClass('show')
+                $('#paymentModal').css('display','block')
+                
+                var uniqueCode = generateUniqueCode();
+                $('#uniqueCode').text(uniqueCode);
+                $('#uniqueCodeRetry').text(uniqueCode);
+                $("#orderKey").val(uniqueCode);
+                changeData(uniqueCode,"key");
+            })
+
+            $(document).ready(function() {
+                // Başlangıçta ödeme düğmesini devre dışı bırak
+                $('#completePaymentButton').prop('disabled', true);
+
+
+                $('.bank-account').on('click', function() {
+                    // Tüm banka görsellerini seçim olmadı olarak ayarla
+                    $('.bank-account').removeClass('selected');
+
+                    // Seçilen banka görselini işaretle
+                    $(this).addClass('selected');
+
+                    // İlgili IBAN bilgisini al
+                    var selectedBankIban = $(this).data('iban');
+                    var selectedBankIbanID = $(this).data('id');
+                    var selectedBankTitle = $(this).data('title');
+                    $('#bankaID').val(selectedBankIbanID);
+                    changeData(selectedBankIbanID,"bank_id");
+
+                    // IBAN bilgisini ekranda göster
+                    $('#ibanInfo').text(selectedBankTitle + " : " + selectedBankIban);
+                    // Ödeme düğmesini etkinleştir
+                    $('#completePaymentButton').prop('disabled', false);
+                });
+
+                $('#completePaymentButton').on('click', function() {
+                    $('#paymentModal').removeClass('show');
+                    $('#paymentModal').css('display','none');
+                    $('#finalConfirmationModal').modal('show');
+                });
+            });
+
             @if(!isset($tempDataFull) || !isset($tempData) || !isset($tempData->top_row))
                 changeData(0,"top_row");
             @endif
@@ -415,13 +586,32 @@
             $('.doping-square select').change(function(e) {
                 var dataId = $(this).closest('.doping-square').attr('data-id')
                 if(dataId == "1"){
+                    var itemType = 1;
                     changeData(1,"featured");
                     changeData($(this).val(),'featured_data_day')
                 }else{
+                    var itemType = 2;
                     changeData(1,"top_row");
                     changeData($(this).val(),'top_row_data_day')
                 }
+
+                $.ajax({
+                    url: '{{route("institutional.temp.order.get.doping.price")}}?day='+$(this).val()+'&item_type='+itemType,
+                    type: 'GET',
+                    success: function(response) {
+                        response = response;
+                        var newSelectedDopings = selectedDopings.filter((doping) => {return doping.item_type != response.item_type})
+                        newSelectedDopings.push(response);
+
+                        selectedDopings = newSelectedDopings;
+                        console.log(selectedDopings);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                    }
+                });
             })
+
             changeData(1,'pricing-type')
             var nextTemp = false;
             var housingTypeTitle = "";
@@ -581,14 +771,13 @@
                             }
 
                             $('.next-house-bottom').click(function(){
-                                if(parseInt($('.house_order_input').val()) + 1 > houseCount){
-                                    $.toast({
-                                        heading: 'Hata',
-                                        text: 'Son konut sayısına ulaştınız',
-                                        position: 'top-right',
-                                        stack: false
-                                    })
-                                }else{
+                                if(!$(this).hasClass('disabled-button')){
+                                    if(parseInt($('.house_order_input').val()) + 1 == houseCount){
+                                        $(this).addClass('disabled-button')
+                                    }else{
+                                        $(this).removeClass('disabled-button')
+                                    }
+
                                     var nextHousing = true;
                                     $('.tab-pane.active input[required="required"]').map((key,item) => {
                                         if(!$(item).val() && $(item).attr('type') != "file"){
@@ -671,7 +860,7 @@
                                                 }
 
                                                 confirmHousings();
-
+                                                $('.prev-house-bottom').removeClass('disabled-button')
                                                 $('.house_order_input').val(parseInt($('.house_order_input').val()) + 1)
                                                 $('.room-order-progress').html(parseInt($('.house_order_input').val()))
                                                 $('.error-border').removeClass('error-border');
@@ -683,86 +872,84 @@
                                         });
                                     }
                                 }
-                                
                             })
 
                             $('.prev-house-bottom').click(function(){
-                                if(parseInt($('.house_order_input').val()) == 1){
-                                    $.toast({
-                                        heading: 'Hata',
-                                        text: 'İlk konuttasınız',
-                                        position: 'top-right',
-                                        stack: false
-                                    })
+                                if(!$(this).hasClass('disabled-button')){
+                                    if(parseInt($('.house_order_input').val()) == 1){
+                                    $(this).addClass('disabled-button')
                                 }else{
-                                    var indexItem = $('.tab-pane.active').index();
-                                    $('.tab-pane.active').removeClass('active');
-                                    $('.tab-pane').eq(indexItem - 1).addClass('active');
-                                    
-                                    $('.item-left-area p').removeClass('active');
-                                    $('.item-left-area').eq(indexItem - 1).find('p').addClass('active');
-                                    $('html, body').animate({
-                                        scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
-                                    }, 100);
+                                    $(this).removeClass('disabled-button')
+                                }
 
-                                    $.ajax({
-                                        url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+($('.house_order_input').val() - 2), // AJAX isteği yapılacak URL
-                                        type: "GET", // GET isteği
-                                        dataType: "json", // Gelen veri tipi JSON
-                                        success: function (data) {
-                                            for(var i = 0 ; i < data.length; i++){
-                                                var key = Object.keys(data[i])
-                                                if(data[i].type == "select"){
-                                                    $('select[name="'+key[0]+'[]"]')
-                                                    if(data[i][key[0]] == null){
-                                                        $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
+                                var indexItem = $('.tab-pane.active').index();
+                                $('.tab-pane.active').removeClass('active');
+                                $('.tab-pane').eq(indexItem - 1).addClass('active');
+                                
+                                $('.item-left-area p').removeClass('active');
+                                $('.item-left-area').eq(indexItem - 1).find('p').addClass('active');
+                                $('html, body').animate({
+                                    scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
+                                }, 100);
+                                $('.next-house-bottom').removeClass('disabled-button')
+                                $.ajax({
+                                    url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+($('.house_order_input').val() - 2), // AJAX isteği yapılacak URL
+                                    type: "GET", // GET isteği
+                                    dataType: "json", // Gelen veri tipi JSON
+                                    success: function (data) {
+                                        for(var i = 0 ; i < data.length; i++){
+                                            var key = Object.keys(data[i])
+                                            if(data[i].type == "select"){
+                                                $('select[name="'+key[0]+'[]"]')
+                                                if(data[i][key[0]] == null){
+                                                    $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
+                                                }else{
+                                                    $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                                }
+                                            }else{
+                                                if(data[i].type != "file"){
+                                                    if(data[i].type == "checkbox-group"){
+                                                        if(data[i][key[0]] == null){
+                                                            $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
+                                                        }else{
+                                                            $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
+                                                                $(item).prop('checked',false);
+                                                                for(var k = 0 ; k < data[i][key[0]].length; k++){
+                                                                    if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                        $(item).prop('checked',true);
+                                                                    }
+                                                                }
+                                                                
+                                                            })
+                                                        }
                                                     }else{
-                                                        $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                                        console.log(data[i][key[0]]);
+                                                        if(data[i][key[0]] == null){
+                                                            $('input[name="'+key[0]+'[]"]').val("");
+                                                        }else{
+                                                            $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                                        }
                                                     }
                                                 }else{
-                                                    if(data[i].type != "file"){
-                                                        if(data[i].type == "checkbox-group"){
-                                                            if(data[i][key[0]] == null){
-                                                                $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
-                                                            }else{
-                                                                $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
-                                                                    $(item).prop('checked',false);
-                                                                    for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                                        if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                                            $(item).prop('checked',true);
-                                                                        }
-                                                                    }
-                                                                    
-                                                                })
-                                                            }
-                                                        }else{
-                                                            console.log(data[i][key[0]]);
-                                                            if(data[i][key[0]] == null){
-                                                                $('input[name="'+key[0]+'[]"]').val("");
-                                                            }else{
-                                                                $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
-                                                            }
-                                                        }
+                                                    if(data[i][key[0]] == null){
+                                                        $('.project_imaget img').remove();
                                                     }else{
-                                                        if(data[i][key[0]] == null){
-                                                            $('.project_imaget img').remove();
-                                                        }else{
-                                                            $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
-                                                        }
+                                                        $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
                                                     }
                                                 }
                                             }
-
-                                            confirmHousings();
-                                            $('.house_order_input').val(parseInt($('.house_order_input').val()) - 1)
-                                            $('.room-order-progress').html(parseInt($('.house_order_input').val()))
-                                        },
-                                        error: function (xhr, status, error) {
-                                            // İstek hata verdiğinde çalışacak fonksiyon
-                                            console.error(xhr.statusText);
                                         }
-                                    });
-                                }
+
+                                        confirmHousings();
+                                        $('.house_order_input').val(parseInt($('.house_order_input').val()) - 1)
+                                        $('.room-order-progress').html(parseInt($('.house_order_input').val()))
+                                    },
+                                    error: function (xhr, status, error) {
+                                        // İstek hata verdiğinde çalışacak fonksiyon
+                                        console.error(xhr.statusText);
+                                    }
+                                });
+                                } 
                             })
 
                             
@@ -987,7 +1174,10 @@
                                     var csrfToken = $("meta[name='csrf-token']").attr("content");
                                     formData.append('_token', csrfToken);
                                     formData.append('value',$(this).val());
-                                    
+                                    if($(this).hasClass('only-one')){
+                                        formData.append('only-one',"1");
+                                        $(this).closest('.form-group').find('.only-one[value!="'+$(this).val()+'"]').prop('checked',false);
+                                    }
                                     console.log($(this).attr('name'))
                                     formData.append('order',parseInt($('.house_order_input').val()) - 1);
                                     formData.append('item_type',1);
@@ -1174,11 +1364,14 @@
                     var confirm = 0;
                     var confirmCount = 0;
                     $('.tab-pane').eq(0).find('input[required="required"]').map((key,item) => {
-                        if(!$(item).val() && $(item).attr('type') != "file"){
-                            confirmCount += 1;
-                        }else{
-                            confirm += 1;
-                            confirmCount += 1;
+                        if($(item).attr('type') != "file"){
+                            if(!$(item).val()){
+                                confirmCount += 1;
+                            }else{
+                                console.log($(item));
+                                confirm += 1;
+                                confirmCount += 1;
+                            }
                         }
                     })
                     $('.tab-pane').eq(0).find('select[required="required"]').map((key,item) => {
@@ -1186,12 +1379,14 @@
                             confirmCount += 1;
                         }else{
                             confirm += 1;
+                            console.log("select");
                             confirmCount += 1;
                         }
                     })
                     if($('.tab-pane').eq(0).find('input[type="file"]').closest('.formbuilder-file').find('.project_imaget img').length == 0){
                         confirmCount += 1;
                     }else{
+                        console.log("file");
                         confirm += 1;
                         confirmCount += 1;
                     }
@@ -1199,7 +1394,6 @@
                 var percent = (100 * confirm) / confirmCount;
                 $('.percent-housing').html((percent.toFixed(2)))
                 $('.full-load').css('width',percent+'%')
-                console.log(confirm,confirmCount);
             }
 
             $('#cities').change(function(){
@@ -1943,103 +2137,117 @@
                         }
 
                         $('.next-house-bottom').click(function(){
-                            var nextHousing = true;
-                            $('.tab-pane.active input[required="required"]').map((key,item) => {
-                                if(!$(item).val() && $(item).attr('type') != "file"){
-                                    nextHousing = false;
-                                    $(item).addClass("error-border")
+                            if(!$(this).hasClass('disabled-button')){
+                                if(parseInt($('.house_order_input').val()) + 1 == houseCount){
+                                    $(this).addClass('disabled-button')
+                                }else{
+                                    $(this).removeClass('disabled-button')
                                 }
-                            })
-                            $('.tab-pane.active select[required="required"]').map((key,item) => {
-                                if(!$(item).val() || $(item).val() == "Seçiniz"){
-                                    nextHousing = false;
-                                    $(item).addClass("error-border")
+
+                                var nextHousing = true;
+                                $('.tab-pane.active input[required="required"]').map((key,item) => {
+                                    if(!$(item).val() && $(item).attr('type') != "file"){
+                                        nextHousing = false;
+                                        $(item).addClass("error-border")
+                                    }
+                                })
+                                $('.tab-pane.active select[required="required"]').map((key,item) => {
+                                    if(!$(item).val() || $(item).val() == "Seçiniz"){
+                                        nextHousing = false;
+                                        $(item).addClass("error-border")
+                                    }
+                                })
+
+                                
+                                $('.tab-pane.active input[type="file"]').map((key,item) => {
+                                    if($(item).parent('div').find('.project_imaget').length == 0){
+                                        nextHousing = false;
+                                        $(item).addClass("error-border")
+                                    }
+                                })
+
+                                var indexItem = $('.tab-pane.active').index();
+                                if(nextHousing){
+                                    $('html, body').animate({
+                                        scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
+                                    }, 100);
+                                }else{
+                                    $('html, body').animate({
+                                        scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
+                                    }, 100);
                                 }
-                            })
 
-                            
-                            $('.tab-pane.active input[type="file"]').map((key,item) => {
-                                if($(item).parent('div').find('.project_imaget').length == 0){
-                                    nextHousing = false;
-                                    $(item).addClass("error-border")
-                                }
-                            })
-
-                            var indexItem = $('.tab-pane.active').index();
-                            if(nextHousing){
-                                $('html, body').animate({
-                                    scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
-                                }, 100);
-                            }else{
-                                $('html, body').animate({
-                                    scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
-                                }, 100);
-                            }
-
-                            if(nextHousing){
-                                $.ajax({
-                                    url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+($('.house_order_input').val()), // AJAX isteği yapılacak URL
-                                    type: "GET", // GET isteği
-                                    dataType: "json", // Gelen veri tipi JSON
-                                    success: function (data) {
-                                        for(var i = 0 ; i < data.length; i++){
-                                            var key = Object.keys(data[i])
-                                            if(data[i].type == "select"){
-                                                $('select[name="'+key[0]+'[]"]')
-                                                if(data[i][key[0]] == null){
-                                                    $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
-                                                }else{
-                                                    $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
-                                                }
-                                            }else{
-                                                if(data[i].type != "file"){
-                                                    if(data[i].type == "checkbox-group"){
-                                                        if(data[i][key[0]] == null){
-                                                            $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
-                                                        }else{
-                                                            $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
-                                                                $(item).prop('checked',false)
-                                                                for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                                    if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                                        $(item).prop('checked',true);
-                                                                    }
-                                                                }
-                                                                
-                                                            })
-                                                        }
+                                if(nextHousing){
+                                    $.ajax({
+                                        url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+($('.house_order_input').val()), // AJAX isteği yapılacak URL
+                                        type: "GET", // GET isteği
+                                        dataType: "json", // Gelen veri tipi JSON
+                                        success: function (data) {
+                                            for(var i = 0 ; i < data.length; i++){
+                                                var key = Object.keys(data[i])
+                                                if(data[i].type == "select"){
+                                                    $('select[name="'+key[0]+'[]"]')
+                                                    if(data[i][key[0]] == null){
+                                                        $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
                                                     }else{
-                                                        if(data[i][key[0]] == null){
-                                                            $('input[name="'+key[0]+'[]"]').val("");
-                                                        }else{
-                                                            $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
-                                                        }
+                                                        $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
                                                     }
                                                 }else{
-                                                    if(data[i][key[0]] == null){
-                                                        $('.project_imaget img').remove();
+                                                    if(data[i].type != "file"){
+                                                        if(data[i].type == "checkbox-group"){
+                                                            if(data[i][key[0]] == null){
+                                                                $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
+                                                            }else{
+                                                                $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
+                                                                    $(item).prop('checked',false)
+                                                                    for(var k = 0 ; k < data[i][key[0]].length; k++){
+                                                                        if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                            $(item).prop('checked',true);
+                                                                        }
+                                                                    }
+                                                                    
+                                                                })
+                                                            }
+                                                        }else{
+                                                            if(data[i][key[0]] == null){
+                                                                $('input[name="'+key[0]+'[]"]').val("");
+                                                            }else{
+                                                                $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                                            }
+                                                        }
                                                     }else{
-                                                        $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                                        if(data[i][key[0]] == null){
+                                                            $('.project_imaget img').remove();
+                                                        }else{
+                                                            $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                                        }
                                                     }
                                                 }
                                             }
+
+                                            confirmHousings();
+                                            $('.prev-house-bottom').removeClass('disabled-button')
+                                            $('.house_order_input').val(parseInt($('.house_order_input').val()) + 1)
+                                            $('.room-order-progress').html(parseInt($('.house_order_input').val()))
+                                            $('.error-border').removeClass('error-border');
+                                        },
+                                        error: function (xhr, status, error) {
+                                            // İstek hata verdiğinde çalışacak fonksiyon
+                                            console.error(xhr.statusText);
                                         }
-
-                                        confirmHousings();
-
-                                        $('.house_order_input').val(parseInt($('.house_order_input').val()) + 1)
-                                        $('.room-order-progress').html(parseInt($('.house_order_input').val()))
-                                        $('.error-border').removeClass('error-border');
-                                    },
-                                    error: function (xhr, status, error) {
-                                        // İstek hata verdiğinde çalışacak fonksiyon
-                                        console.error(xhr.statusText);
-                                    }
-                                });
+                                    });
+                                }
                             }
                         })
 
                         $('.prev-house-bottom').click(function(){
-                            
+                            if(!$(this).hasClass('disabled-button')){
+                                if(parseInt($('.house_order_input').val()) == 1){
+                                $(this).addClass('disabled-button')
+                            }else{
+                                $(this).removeClass('disabled-button')
+                            }
+
                             var indexItem = $('.tab-pane.active').index();
                             $('.tab-pane.active').removeClass('active');
                             $('.tab-pane').eq(indexItem - 1).addClass('active');
@@ -2049,7 +2257,7 @@
                             $('html, body').animate({
                                 scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
                             }, 100);
-
+                            $('.next-house-bottom').removeClass('disabled-button')
                             $.ajax({
                                 url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+($('.house_order_input').val() - 2), // AJAX isteği yapılacak URL
                                 type: "GET", // GET isteği
@@ -2081,6 +2289,7 @@
                                                         })
                                                     }
                                                 }else{
+                                                    console.log(data[i][key[0]]);
                                                     if(data[i][key[0]] == null){
                                                         $('input[name="'+key[0]+'[]"]').val("");
                                                     }else{
@@ -2106,6 +2315,7 @@
                                     console.error(xhr.statusText);
                                 }
                             });
+                            } 
                         })
                         
                         confirmHousings();
@@ -2268,6 +2478,10 @@
                                 console.log($(this).attr('name'))
                                 formData.append('order',parseInt($('.house_order_input').val()) - 1);
                                 formData.append('item_type',1);
+                                if($(this).hasClass('only-one')){
+                                    formData.append('only-one',"1");
+                                    $(this).closest('.form-group').find('.only-one[value!="'+$(this).val()+'"]').prop('checked',false);
+                                }
                                 if($(this).attr('type') == "checkbox"){
                                     formData.append('checkbox',"1");
                                     formData.append('key',$(this).attr('name').replace("[]", "").replace("[]", "").slice(0, -1)+$('.house_order_input').val());

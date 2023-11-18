@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\DefaultMessage;
 use App\Models\DocumentNotification;
+use App\Models\DopingOrder;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\Log;
 use App\Models\Project;
 use App\Models\ProjectHousings;
+use App\Models\StandOutUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -101,6 +105,25 @@ class ProjectController extends Controller
                     'is_visible' => true,
                 ]
             );
+
+            if($project->status == 2){
+                foreach($project->dopingOrder as $doping){
+                    $startDate = Carbon::createFromFormat('Y-m-d', $doping->standOut->start_date);
+                    $endDate = Carbon::createFromFormat('Y-m-d', $doping->standOut->end_date);
+                    $dayCount = $startDate->diffInDays($endDate);
+                    $now = Carbon::now();
+                    $endDate = Carbon::now()->addDays($dayCount);
+                    DopingOrder::where('id',$doping->id)->update([
+                        "status" => 1,
+                        "admin_id" => Auth::user()->id
+                    ]);
+
+                    StandOutUser::where('id',$doping->standOut->id)->update([
+                        "start_date" => $now->format('y-m-d'),
+                        "end_date" => $endDate->format('y-m-d'),
+                    ]);
+                }
+            }
         } else {
             DocumentNotification::create(
                 [
@@ -134,7 +157,7 @@ class ProjectController extends Controller
     public function setStatusGet($projectId)
     {
         $project = Project::where('id', $projectId)->with("user")->firstOrFail();
-        if ($project->status == 0 || $project->status == 2) {
+        if ($project->status == 0 || $project->status == 2 || $project->status == 3) {
             Project::where('id', $projectId)->update([
                 "status" => 1,
             ]);
@@ -148,6 +171,27 @@ class ProjectController extends Controller
                     'is_visible' => true,
                 ]
             );
+
+            if($project->status == 2){
+                foreach($project->dopingOrder as $doping){
+                    $startDate = Carbon::createFromFormat('Y-m-d', $doping->standOut->start_date);
+                    $endDate = Carbon::createFromFormat('Y-m-d', $doping->standOut->end_date);
+                    $dayCount = $startDate->diffInDays($endDate);
+                    $now = Carbon::now();
+                    $endDate = Carbon::now()->addDays($dayCount);
+                    DopingOrder::where('id',$doping->id)->update([
+                        "status" => 1,
+                        "admin_id" => Auth::user()->id
+                    ]);
+
+                    StandOutUser::where('id',$doping->standOut->id)->update([
+                        "start_date" => $now->format('y-m-d'),
+                        "end_date" => $endDate->format('y-m-d'),
+                    ]);
+                }
+            }
+
+            
         } else {
             DocumentNotification::create(
                 [

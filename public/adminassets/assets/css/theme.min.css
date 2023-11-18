@@ -41561,3 +41561,12 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .doping-square.selected span, .doping-square.selected h4{
     color: #fff;
 }
+
+.disabled-button{
+    background: gray !important;
+    cursor: not-allowed;
+}
+
+#paymentModal{
+    background-color: #33333347;
+}

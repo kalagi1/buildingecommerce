@@ -11,6 +11,8 @@ use App\Models\City;
 use App\Models\County;
 use App\Models\District;
 use App\Models\DocumentNotification;
+use App\Models\DopingOrder;
+use App\Models\DopingPricing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
@@ -112,13 +114,7 @@ class ProjectController extends Controller
             $hasTemp = false;
         }
         $areaSlugs = [];
-        if (isset($tempDataFull) && $tempData->step1_slug) {
-            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug', $tempData->step1_slug)->first();
-            array_push($areaSlugs, $topParent->title);
-            $secondAreaList = HousingTypeParent::where('parent_id', $topParent->id)->get();
-        } else {
-            $secondAreaList = null;
-        }
+        
 
         if (isset($tempData->housing_type_id) && $tempData->housing_type_id) {
             $housingTypeTempX = HousingType::where('id', $tempData->housing_type_id)->first();
@@ -126,19 +122,27 @@ class ProjectController extends Controller
             $housingTypeTempX = null;
         }
 
-        if (isset($tempDataFull) && $tempData->step2_slug) {
-            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug', $tempData->step1_slug)->first();
-            $topParentSecond = HousingTypeParent::where('parent_id', $topParent->id)->where('slug', $tempData->step2_slug)->first();
-            array_push($areaSlugs, $topParentSecond->title);
-            $housingTypes = HousingTypeParentConnection::where("parent_id", $topParentSecond->id)->join('housing_types', 'housing_types.id', "=", "housing_type_parent_connections.housing_type_id")->get();
-        } else {
-            $housingTypes = null;
+        if(isset($tempDataFull) && isset($tempData->step1_slug) && $tempData->step1_slug){
+            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
+            array_push($areaSlugs,$topParent->title);
+            $secondAreaList = HousingTypeParent::where('parent_id',$topParent->id)->get();
+        }else{
+            $secondAreaList = null;
         }
 
-        if (isset($tempDataFull) && $tempData->step3_slug) {
-            $housingTypeTemp = HousingTypeParentConnection::where('slug', $tempData->step3_slug)->where("parent_id", $topParentSecond->id)->join('housing_types', 'housing_types.id', "=", "housing_type_parent_connections.housing_type_id")->first();
-
-            array_push($areaSlugs, $housingTypeTemp->title);
+        if(isset($tempDataFull) && isset($tempData->step2_slug) && $tempData->step2_slug){
+            $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
+            $topParentSecond = HousingTypeParent::where('parent_id',$topParent->id)->where('slug',$tempData->step2_slug)->first();
+            array_push($areaSlugs,$topParentSecond->title);
+            $housingTypes = HousingTypeParentConnection::where("parent_id",$topParentSecond->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->get();
+        }else{
+            $housingTypes = null;
+        }
+        
+        if(isset($tempDataFull) && isset($tempData->step3_slug) && $tempData->step3_slug){
+            $housingTypeTemp = HousingTypeParentConnection::where('slug',$tempData->step3_slug)->where("parent_id",$topParentSecond->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->first();
+            
+            array_push($areaSlugs,$housingTypeTemp->title);
         }
 
         if ($tempDataFull && isset($tempData->statuses)) {
@@ -151,9 +155,11 @@ class ProjectController extends Controller
         } else {
             $tempDataFull = json_decode('{"step_order" : 1}');
         }
-
+        $bankAccounts = BankAccount::all();
         $userPlan = UserPlan::where('user_id', auth()->user()->id)->first();
-        return view('institutional.projects.createv2', compact('housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan', 'hasTemp', 'secondAreaList', 'housingTypes', 'areaSlugs', 'housingTypeTempX'));
+        $featuredPrices = DopingPricing::where('item_type',1)->get();
+        $topRowPrices = DopingPricing::where('item_type',2)->get();
+        return view('institutional.projects.createv2', compact('topRowPrices','featuredPrices','housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull','bankAccounts', 'selectedStatuses', 'userPlan', 'hasTemp', 'secondAreaList', 'housingTypes', 'areaSlugs', 'housingTypeTempX'));
     }
 
     public function editV2($slug)
@@ -300,6 +306,7 @@ class ProjectController extends Controller
                 ]);
             }
 
+
             foreach ($tempOrder->images as $key => $image) {
                 $eskiDosyaAdi = public_path('project_images/' . $image); // Mevcut dosyanın yolu
                 $extension = explode('.', $image);
@@ -395,21 +402,11 @@ class ProjectController extends Controller
                 }
             }
 
-            if (!$request->without_doping) {
-                StandOutUser::create([
-                    "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
-                    "project_id" => $project->id,
-                    "item_order" => $tempOrder->doping_order,
-                    "housing_status_id" => $tempOrder->doping_statuses,
-                    "start_date" => date('Y-m-d', strtotime($tempOrder->doping_start_date)),
-                    "end_date" => date('Y-m-d', strtotime($tempOrder->doping_end_date)),
-                ]);
-            }
 
             if (isset($tempOrder->top_row) && $tempOrder->top_row) {
                 $now = Carbon::now();
                 $endDate = Carbon::now()->addDays($tempOrder->top_row_data_day);
-                StandOutUser::create([
+                $standOut = StandOutUser::create([
                     "user_id" => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
                     "item_id" => $project->id,
                     "item_type" => 1,
@@ -417,18 +414,40 @@ class ProjectController extends Controller
                     "start_date" => $now->format('y-m-d'),
                     "end_date" => $endDate->format('y-m-d'),
                 ]);
+
+                $pricing = DopingPricing::where('item_type',2)->where('day',$tempOrder->top_row_data_day)->first();
+                DopingOrder::create([
+                    "stand_out_id" => $standOut->id,
+                    "project_id" => $project->id,
+                    "key" => $tempOrder->key,
+                    "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
+                    "bank_id" => $tempOrder->bank_id,
+                    "price" => $pricing->price,
+                    "status" => 0,
+                ]);
             }
 
             if (isset($tempOrder->featured) && $tempOrder->featured) {
                 $now = Carbon::now();
                 $endDate = Carbon::now()->addDays($tempOrder->featured_data_day);
-                StandOutUser::create([
+                $standOut = StandOutUser::create([
                     "user_id" => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
                     "item_id" => $project->id,
                     "item_type" => 1,
                     "housing_type_id" => 0,
                     "start_date" => $now->format('y-m-d'),
                     "end_date" => $endDate->format('y-m-d'),
+                ]);
+
+                $pricing = DopingPricing::where('item_type',1)->where('day',$tempOrder->featured_data_day)->first();
+                DopingOrder::create([
+                    "stand_out_id" => $standOut->id,
+                    "project_id" => $project->id,
+                    "key" => $tempOrder->key,
+                    "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
+                    "bank_id" => $tempOrder->bank_id,
+                    "price" => $pricing->price,
+                    "status" => 0,
                 ]);
             }
 
