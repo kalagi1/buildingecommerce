@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Institutional;
 use App\Http\Controllers\Controller;
 use App\Jobs\AdvertTimeJob;
 use App\Models\BankAccount;
+use App\Models\Block;
 use App\Models\Brand;
 use App\Models\CartOrder;
 use App\Models\City;
@@ -278,6 +279,17 @@ class ProjectController extends Controller
                 $month = 2;
             }
 
+            if($tempOrder->has_blocks){
+                $houseCount = 0;
+                for($j = 0 ; $j < count($tempOrder->blocks); $j++){
+                    if(isset($tempOrder->{"house_count".$j}) && $tempOrder->{"house_count".$j} ){
+                        $houseCount += $tempOrder->{"house_count".$j};
+                    }
+                }
+            }else{
+                $houseCount = $tempOrder->house_count;
+            }
+
             $instUser = User::where("id", Auth::user()->id)->first();
             $project = Project::create([
                 "housing_type_id" => $housingType->id,
@@ -288,7 +300,7 @@ class ProjectController extends Controller
                 "address" => "asd",
                 "location" => $tempOrder->location,
                 "description" => $tempOrder->description,
-                "room_count" => $tempOrder->house_count,
+                "room_count" => $houseCount,
                 "city_id" => $tempOrder->city_id,
                 "county_id" => $tempOrder->county_id,
                 "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
@@ -297,6 +309,7 @@ class ProjectController extends Controller
                 'document' => $newDocument,
                 "end_date" => $endDate->format('Y-m-d'),
                 "status" => 2,
+                "have_blocks" => isset($tempOrder->has_blocks) ? ($tempOrder->has_blocks ? true : false) : false
             ]);
 
             foreach ($tempOrder->statuses as $status) {
@@ -304,6 +317,17 @@ class ProjectController extends Controller
                     "project_id" => $project->id,
                     "housing_type_id" => $status,
                 ]);
+            }
+
+            if(isset($tempOrder->has_blocks) && $tempOrder->has_blocks){
+                foreach($tempOrder->blocks as $key => $block){
+                    Block::create([
+                        "project_id" => $project->id,
+                        "block_name" => $block,
+                        "housing_count" => $tempOrder->{"house_count".$key}
+                    ]);
+                }
+                
             }
 
 
@@ -323,7 +347,7 @@ class ProjectController extends Controller
                 }
             }
             $paymentPlanOrder = 0;
-            for ($i = 0; $i < $tempOrder->house_count; $i++) {
+            for ($i = 0; $i < $houseCount; $i++) {
                 for ($j = 0; $j < count($housingTypeInputs); $j++) {
                     if ($housingTypeInputs[$j]->type != "checkbox-group" && $housingTypeInputs[$j]->type != "file") {
                         if ($housingTypeInputs[$j]->name == "installments[]" || $housingTypeInputs[$j]->name == "advance[]" || $housingTypeInputs[$j]->name == "installments-price[]") {
