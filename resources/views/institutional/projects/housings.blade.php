@@ -93,16 +93,22 @@
                                         {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}₺
                                     </td>
                                     <td class="sold">
-                                        @if ($sold && $sold[0]->status == 1)
-                                            <button class="btn btn-danger">Satıldı</button>
-                                        @elseif ($sold && $sold[0]->status == 0)
-                                            <button class="btn btn-warning">Ödeme Bekleniyor</button>
-                                        @elseif ($sold && $sold[0]->status == 2)
-                                            <button class="btn btn-success">Tekrar Satışta</button>
+                                        @if (getData($project, 'off_sale[]', $i + 1)->value != "[]")
+                                            <button class="btn btn-danger">Satışa Kapatıldı</button>
+                                            <p style="color: red;margin-top:10px;width:200px;">Alıcılara satıldı olarak gözükecektir.</p>
                                         @else
-                                            <button class="btn btn-success">Satışa Açık</button>
+                                            @if ($sold && $sold[0]->status == 1)
+                                                <button class="btn btn-danger">Satıldı</button>
+                                            @elseif ($sold && $sold[0]->status == 0)
+                                                <button class="btn btn-warning">Ödeme Bekleniyor</button>
+                                            @elseif ($sold && $sold[0]->status == 2)
+                                                <button class="btn btn-success">Tekrar Satışta</button>
+                                            @else
+                                                <button class="btn btn-success">Satışa Açık</button>
+                                            @endif
                                         @endif
                                     </td>
+                                    
                                 </tr>
                             @endfor
                         </tbody>

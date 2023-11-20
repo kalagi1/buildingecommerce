@@ -67,8 +67,10 @@
                                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                                             </svg>
                                                         @endif
+                                                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                         {{ number_format(getData($housing, 'price') - $discountAmount, 0, ',', '.') }}
                                                         ₺
+                                                        @endif
                                                     </h4>
                                                 </div>
                                             </div>
@@ -112,8 +114,10 @@
                                                             <polyline points="17 18 23 18 23 12"></polyline>
                                                         </svg>
                                                     @endif
+                                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                     {{ number_format(getData($housing, 'price') - $discountAmount, 0, ',', '.') }}
                                                     ₺
+                                                    @endif
                                                 </h4>
                                             </div>
                                         </div>
@@ -144,7 +148,13 @@
                             </div>
                         </div>
                         <div class="col-md-10 col-10">
-
+                            @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                            <button class="btn second-btn CartBtn" disabled
+                                style="background: red !important;width:100%;color:White">
+        
+                                <span class="text">Satıldı</span>
+                            </button>
+                        @else
                             @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
                             @php
                                 $buttonStyle = '';
@@ -168,6 +178,7 @@
                                 </span>
                                 <span class="text">Sepete Ekle</span>
                             </button>
+                        @endif
                         @endif
                         
 
@@ -216,6 +227,7 @@
                                 </div>
                             </div>
 
+                            @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                             @if ($sold)
                             @if ($sold[0]->status != '0' && $sold[0]->status != '1')
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -532,6 +544,10 @@
                                                             'titledeedstatus' => 'Tapu Durumu',
                                                             'external_features1' => 'Dış Özellikler',
                                                             'swap' => 'Takas',
+                                                            "islandnumber" => "Ada No",
+                                                            "parcelnumber" => "Parsel No",
+                                                            "sheetnumber" => "Pafta No",
+                                                            "floorprovision" => "Kat Karşılığı",
                                                             'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
                                                             'internal_features1' => 'İç Özellikler',
                                                             'floorlocation' => 'Kat Sayısı',
@@ -576,28 +592,32 @@
         
                                             @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
                                                 @php
-                                                    $turkceKarsilik = [
-                                                        'price' => 'Fiyat',
-                                                        'numberoffloors' => 'Bulunduğu Kat',
-                                                        'squaremeters' => 'm² (Net)',
-                                                        'room_count' => 'Oda Sayısı',
-                                                        'front1' => 'Cephe',
-                                                        'm2gross' => 'm² (Brüt)',
-                                                        'buildingage' => 'Bina Yaşı',
-                                                        'heating' => 'Isıtma',
-                                                        'balcony' => 'Balkon',
-                                                        'numberofbathrooms' => 'Banyo Sayısı',
-                                                        'usingstatus' => 'Kullanım Durumu',
-                                                        'dues' => 'Aidat',
-                                                        'titledeedstatus' => 'Tapu Durumu',
-                                                        'external_features1' => 'Dış Özellikler',
-                                                        'swap' => 'Takas',
-                                                        'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
-                                                        'internal_features1' => 'İç Özellikler',
-                                                        'floorlocation' => 'Kat Sayısı',
-                                                        'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
-                                                        'furnished1' => 'Eşyalı',
-                                                    ];
+                                                  $turkceKarsilik = [
+                                                            'price' => 'Fiyat',
+                                                            'numberoffloors' => 'Bulunduğu Kat',
+                                                            'squaremeters' => 'm² (Net)',
+                                                            'room_count' => 'Oda Sayısı',
+                                                            'front1' => 'Cephe',
+                                                            'm2gross' => 'm² (Brüt)',
+                                                            'buildingage' => 'Bina Yaşı',
+                                                            'heating' => 'Isıtma',
+                                                            'balcony' => 'Balkon',
+                                                            'numberofbathrooms' => 'Banyo Sayısı',
+                                                            'usingstatus' => 'Kullanım Durumu',
+                                                            'dues' => 'Aidat',
+                                                            'titledeedstatus' => 'Tapu Durumu',
+                                                            'external_features1' => 'Dış Özellikler',
+                                                            'swap' => 'Takas',
+                                                            "islandnumber" => "Ada No",
+                                                            "parcelnumber" => "Parsel No",
+                                                            "sheetnumber" => "Pafta No",
+                                                            "floorprovision" => "Kat Karşılığı",
+                                                            'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
+                                                            'internal_features1' => 'İç Özellikler',
+                                                            'floorlocation' => 'Kat Sayısı',
+                                                            'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
+                                                            'furnished1' => 'Eşyalı',
+                                                        ];
         
                                                     $key = $turkceKarsilik[$key] ?? $key;
                                                 @endphp
@@ -756,6 +776,7 @@
                                 </div>
                             </div>
                         @endif
+                        @endif
 
                         </div>
                     </div>
@@ -833,7 +854,7 @@
 
                             </div>
                         </div>
-                        <div class="widget-boxed popular mt-5">
+                        {{-- <div class="widget-boxed popular mt-5">
                             <div class="widget-boxed-header">
                                 <h4>Mağazanın Diğer Konutları</h4>
                             </div>
@@ -846,7 +867,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         @if (count($housing->user->banners) > 0)
                             <div class="widget-boxed popular mt-5">
                                 <div class="widget-boxed-header">

@@ -92,8 +92,11 @@
                                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                                             </svg>
                                                         @endif
+                                                        @if (getData($project, 'off_sale[]', $housingOrder)->value == "[]")
+
                                                         {{ number_format(getData($project, 'price[]', $housingOrder)->value - $discountAmount, 0, ',', '.') }}
                                                         ₺
+                                                        @endif
                                                     </h4>
                                                 </div>
                                             </div>
@@ -154,8 +157,11 @@
                                                             <polyline points="17 18 23 18 23 12"></polyline>
                                                         </svg>
                                                     @endif
+                                                    @if (getData($project, 'off_sale[]', $housingOrder)->value == "[]")
+
                                                     {{ number_format(getData($project, 'price[]', $housingOrder)->value - $discountAmount, 0, ',', '.') }}
                                                     ₺
+                                                    @endif
                                                 </h4>
                                             </div>
                                         </div>
@@ -175,6 +181,15 @@
                             </div>
                         </div>
                         <div class="col-md-10">
+                            @if (getData($project, 'off_sale[]', $housingOrder)->value != "[]")
+                            <button class="btn second-btn soldBtn"  disabled
+                                style="background: red !important;width:100%;color:White">
+                                <span class="IconContainer">
+                                    <img src="{{ asset('sc.png') }}" alt="">
+                                </span>
+                                <span class="text">Satıldı</span>
+                            </button>
+                        @else
                             @if ($sold && $sold[0]->status != '2')
                                 <button class="btn second-btn soldBtn" disabled
                                     @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
@@ -194,6 +209,7 @@
                                     </span>
                                     <span class="text">Sepete Ekle</span>
                                 </button>
+                            @endif
                             @endif
 
                         </div>
@@ -415,11 +431,20 @@
                                                                 data-project-id="{{ $project->id }}">
                                                                 <i class="fa fa-heart-o"></i>
                                                             </a>
+                                                            @if (getData($project, 'off_sale[]', $i + 1)->value != "[]")
+                                                            <button class="btn   mobileBtn  second-btn CartBtn" disabled
+                                                                style="background: red !important;width:100%;color:White">
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                </span>
+                                                                <span class="text">Satıldı</span>
+                                                            </button>
+                                                        @else
                                                             @if ($sold && $sold[0]->status != '2')
                                                                 <button class="btn mobileBtn second-btn CartBtn" disabled
                                                                     @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
-                                                        @else 
-                                                        style="background: red !important;width:100%;color:White" @endif>
+                                                                    @else 
+                                                                    style="background: red !important;width:100%;color:White" @endif>
                                                                     <span class="IconContainer">
                                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                                     </span>
@@ -440,6 +465,7 @@
                                                                     <span class="text">Sepete Ekle</span>
                                                                 </button>
                                                             @endif
+                                                            @endif
 
                                                         </div>
                                                         <span class="ml-auto text-primary priceFont">
@@ -454,6 +480,7 @@
                                                                     </polyline>
                                                                 </svg>
                                                             @endif
+                                                            @if (getData($project, 'off_sale[]', $i + 1)->value == "[]")
                                                             @if ($sold)
                                                                 @if ($sold[0]->status != '0' && $sold[0]->status != '1')
                                                                     {{ number_format(getData($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
@@ -462,6 +489,7 @@
                                                             @else
                                                                 {{ number_format(getData($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
                                                                 ₺
+                                                            @endif
                                                             @endif
 
                                                         </span>
@@ -618,6 +646,8 @@
 
             </div>
 
+            @if (getData($project, 'off_sale[]', $housingOrder)->value == "[]")
+
             <div class="mobile-hidden">
                 <div class="row" style="width:100%">
                     <div class="col-md-12">
@@ -760,7 +790,7 @@
                                                             @php
                                                                 $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
                                                             @endphp
-
+                                    
                                                             <div class="col-md-12 col-12">
                                                                 <div class="project-card mb-3">
                                                                     <div class="row">
@@ -776,24 +806,20 @@
                                                                                     </div>
                                                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate"
                                                                                         data-aos="fade-up">
-                                                                                        <div
-                                                                                            class="project-inner project-head">
-
+                                                                                        <div class="project-inner project-head">
+                                    
                                                                                             <div class="button-effect">
                                                                                                 <div href="javascript:void()"
                                                                                                     class="btn toggle-project-favorite bg-white"
                                                                                                     data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                                                     data-project-id={{ $project->id }}>
-                                                                                                    <i
-                                                                                                        class="fa fa-heart-o"></i>
+                                                                                                    <i class="fa fa-heart-o"></i>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div
-                                                                                                class="homes position-relative">
+                                                                                            <div class="homes position-relative">
                                                                                                 <!-- homes img -->
                                                                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
-                                                                                                    alt="home-1"
-                                                                                                    class="img-responsive"
+                                                                                                    alt="home-1" class="img-responsive"
                                                                                                     style="height: 120px !important;object-fit:cover">
                                                                                                 @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                                                                     <div
@@ -801,68 +827,56 @@
                                                                                                         <div
                                                                                                             style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
                                                                                                             {{ '%' . round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100) }}
-                                                                                                            <svg viewBox="0 0 24 24"
-                                                                                                                width="16"
-                                                                                                                height="16"
-                                                                                                                stroke="currentColor"
-                                                                                                                stroke-width="2"
-                                                                                                                fill="none"
-                                                                                                                stroke-linecap="round"
-                                                                                                                stroke-linejoin="round"
+                                                                                                            <svg viewBox="0 0 24 24" width="16"
+                                                                                                                height="16" stroke="currentColor"
+                                                                                                                stroke-width="2" fill="none"
+                                                                                                                stroke-linecap="round" stroke-linejoin="round"
                                                                                                                 class="css-i6dzq1"
                                                                                                                 style="transform: rotate(45deg);">
-                                                                                                                <polyline
-                                                                                                                    points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                                                                                                                 </polyline>
-                                                                                                                <polyline
-                                                                                                                    points="17 18 23 18 23 12">
+                                                                                                                <polyline points="17 18 23 18 23 12">
                                                                                                                 </polyline>
                                                                                                             </svg>
                                                                                                         </div>
-
+                                    
                                                                                                     </div>
                                                                                                 @endif
                                                                                             </div>
-
+                                    
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </a>
                                                                         </div>
-
-
+                                    
+                                    
                                                                         <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
                                                                             data-aos="fade-up"
                                                                             @if ($sold) style="background: #EEE !important;" @endif>
-
-                                                                            <div
-                                                                                class="row align-items-center justify-content-between mobile-position">
+                                    
+                                                                            <div class="row align-items-center justify-content-between mobile-position">
                                                                                 <div class="col-md-8">
-
+                                    
                                                                                     <div class="homes-list-div">
-
-                                                                                        <ul
-                                                                                            class="homes-list clearfix pb-3 d-flex">
-                                                                                            <li
-                                                                                                class="the-icons custom-width">
-                                                                                                <i class="fa fa-circle circleIcon mr-1"
-                                                                                                    style="color: black;"
+                                                                                        <ul class="homes-list clearfix pb-3 d-flex">
+                                                                                            <li class="the-icons custom-width flex-1">
+                                                                                                <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                                                                                     aria-hidden="true"></i>
                                                                                                 <span>{{ $project->housingType->title }}</span>
                                                                                             </li>
                                                                                             @if (isset($project->listItemValues) &&
                                                                                                     isset($project->listItemValues->column1_name) &&
                                                                                                     $project->listItemValues->column1_name)
-                                                                                                <li
-                                                                                                    class="the-icons custom-width">
-                                                                                                    <i
-                                                                                                        class="fa fa-circle circleIcon mr-1"></i>
+                                                                                                <li class="the-icons custom-width flex-1">
+                                                                                                    <i class="fa fa-circle circleIcon mr-1"
+                                                                                                        aria-hidden="true"></i>
                                                                                                     <span>
                                                                                                         {{ getData($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
                                                                                                         @if (isset($project->listItemValues) &&
                                                                                                                 isset($project->listItemValues->column1_additional) &&
                                                                                                                 $project->listItemValues->column1_additional)
-                                                                                                            {{ $project->listItemValues->column2_additional }}
+                                                                                                            {{ $project->listItemValues->column1_additional }}
                                                                                                         @endif
                                                                                                     </span>
                                                                                                 </li>
@@ -870,11 +884,11 @@
                                                                                             @if (isset($project->listItemValues) &&
                                                                                                     isset($project->listItemValues->column2_name) &&
                                                                                                     $project->listItemValues->column2_name)
-                                                                                                <li
-                                                                                                    class="the-icons custom-width">
+                                                                                                <li class="the-icons custom-width flex-1">
                                                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                                                         aria-hidden="true"></i>
-                                                                                                    <span>{{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
+                                                                                                    <span>
+                                                                                                        {{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
                                                                                                         @if (isset($project->listItemValues) &&
                                                                                                                 isset($project->listItemValues->column2_additional) &&
                                                                                                                 $project->listItemValues->column2_additional)
@@ -886,10 +900,9 @@
                                                                                             @if (isset($project->listItemValues) &&
                                                                                                     isset($project->listItemValues->column3_name) &&
                                                                                                     $project->listItemValues->column3_name)
-                                                                                                <li
-                                                                                                    class="the-icons custom-width ">
-                                                                                                    <i
-                                                                                                        class="fa fa-circle circleIcon mr-1"></i>
+                                                                                                <li class="the-icons custom-width flex-1">
+                                                                                                    <i class="fa fa-circle circleIcon mr-1"
+                                                                                                        aria-hidden="true"></i>
                                                                                                     <span>
                                                                                                         {{ getData($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
                                                                                                         @if (isset($project->listItemValues) &&
@@ -900,11 +913,32 @@
                                                                                                     </span>
                                                                                                 </li>
                                                                                             @endif
-                                                                                            <li
-                                                                                                class="the-icons mobile-hidden">
+                                    
+                                                                                            <li class="the-icons mobile-hidden">
                                                                                                 <span>
-                                                                                                    @if ($sold)
-                                                                                                        @if ($sold[0]->status != '0' && $sold[0]->status != '1')
+                                                                                                    @if (getData($project, 'off_sale[]', $i + 1)->value == "[]")
+                                                                                                        @if ($sold)
+                                                                                                            @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                                                                @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                    <h6
+                                                                                                                        style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
+                                                                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
+                                                                                                                        ₺</h6>
+                                                                                                                    <h6
+                                                                                                                        style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
+                                                                                                                        ₺
+                                    
+                                                                                                                    </h6>
+                                                                                                                @else
+                                                                                                                    <h6
+                                                                                                                        style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
+                                                                                                                        ₺
+                                                                                                                    </h6>
+                                                                                                                @endif
+                                                                                                            @endif
+                                                                                                        @else
                                                                                                             @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                                                                                 <h6
                                                                                                                     style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
@@ -914,7 +948,7 @@
                                                                                                                     style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
                                                                                                                     {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                                                     ₺
-
+                                    
                                                                                                                 </h6>
                                                                                                             @else
                                                                                                                 <h6
@@ -924,116 +958,116 @@
                                                                                                                 </h6>
                                                                                                             @endif
                                                                                                         @endif
-                                                                                                    @else
-                                                                                                        @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
-                                                                                                            <h6
-                                                                                                                style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
-                                                                                                                ₺</h6>
-                                                                                                            <h6
-                                                                                                                style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
-                                                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
-                                                                                                                ₺
-
-                                                                                                            </h6>
-                                                                                                        @else
-                                                                                                            <h6
-                                                                                                                style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
-                                                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
-                                                                                                                ₺
-                                                                                                            </h6>
-                                                                                                        @endif
                                                                                                     @endif
-
+                                    
+                                    
                                                                                                 </span>
                                                                                             </li>
-
-
+                                    
+                                    
                                                                                         </ul>
-
+                                    
                                                                                     </div>
                                                                                     <div class="footer">
                                                                                         <a
                                                                                             href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">
                                                                                             <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}"
-                                                                                                alt=""
-                                                                                                class="mr-2">
-                                                                                            {{ $project->user->name }}
+                                                                                                alt="" class="mr-2"> {{ $project->user->name }}
                                                                                         </a>
                                                                                         <span class="price-mobile">
-                                                                                            @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
-                                                                                                <h6
-                                                                                                    style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
-                                                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
-                                                                                                    ₺
-                                                                                                </h6>
-                                                                                                <h6
-                                                                                                    style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:20px;">
-                                                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
-
-                                                                                                    ₺</h6>
-                                                                                            @else
-                                                                                                <h6
-                                                                                                    style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
-                                                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
-                                                                                                </h6>
+                                                                                            @if (getData($project, 'off_sale[]', $i + 1)->value == "[]")
+                                                                                                @if ($sold)
+                                                                                                    @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                                                        @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                            <h6
+                                                                                                                style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
+                                                                                                                ₺
+                                                                                                            </h6>
+                                                                                                            <h6
+                                                                                                                style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:20px;">
+                                                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
+                                    
+                                                                                                                ₺</h6>
+                                                                                                        @else
+                                                                                                            <h6
+                                                                                                                style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
+                                                                                                            </h6>
+                                                                                                        @endif
+                                                                                                    @endif
+                                                                                                @else
+                                                                                                    @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                        <h6
+                                                                                                            style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
+                                                                                                            ₺
+                                                                                                        </h6>
+                                                                                                        <h6
+                                                                                                            style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:20px;">
+                                                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
+                                    
+                                                                                                            ₺</h6>
+                                                                                                    @else
+                                                                                                        <h6
+                                                                                                            style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
+                                                                                                        </h6>
+                                                                                                    @endif
+                                                                                                @endif
                                                                                             @endif
+                                    
+                                    
                                                                                         </span>
                                                                                     </div>
                                                                                 </div>
-
-                                                                                <div class="col-md-3 mobile-hidden"
-                                                                                    style="height: 120px;padding:0">
-                                                                                    <div class="homes-button"
-                                                                                        style="width:100%;height:100%">
-                                                                                        <button
-                                                                                            class="first-btn payment-plan-button"
-                                                                                            project-id="{{ $project->id }}"
-                                                                                            order="{{ $i }}">
+                                    
+                                                                                <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
+                                                                                    <div class="homes-button" style="width:100%;height:100%">
+                                                                                        <button class="first-btn payment-plan-button"
+                                                                                            project-id="{{ $project->id }}" order="{{ $i }}">
                                                                                             Ödeme Detayları </button>
-                                                                                        @if ($sold && $sold[0]->status != '2')
-                                                                                            <button
-                                                                                                class="btn second-btn soldBtn"
-                                                                                                disabled
-                                                                                                @if ($sold[0]->status == '0') style="background: orange !important;color:White"
-                                                                        @else 
-                                                                        style="background: red !important;color:White" @endif>
-                                                                                                @if ($sold[0]->status == '0')
-                                                                                                    <span
-                                                                                                        class="text">Onay
-                                                                                                        Bekleniyor</span>
-                                                                                                @else
-                                                                                                    <span
-                                                                                                        class="text">Satıldı</span>
-                                                                                                @endif
+                                                                                        @if (getData($project, 'off_sale[]', $i + 1)->value != "[]")
+                                                                                            <button class="btn second-btn CartBtn" disabled
+                                                                                                style="background: red !important;width:100%;color:White;height: auto !important">
+                                    
+                                                                                                <span class="text">Satıldı</span>
                                                                                             </button>
                                                                                         @else
-                                                                                            <button
-                                                                                                class="CartBtn second-btn"
-                                                                                                data-type='project'
-                                                                                                style="height: auto !important"
-                                                                                                data-project='{{ $project->id }}'
-                                                                                                data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                                                <span
-                                                                                                    class="IconContainer">
-                                                                                                    <img src="{{ asset('sc.png') }}"
-                                                                                                        alt="">
-                                                                                                </span>
-                                                                                                <span class="text">Sepete
-                                                                                                    Ekle</span>
-                                                                                            </button>
+                                                                                            @if ($sold && $sold[0]->status != '2')
+                                                                                                <button class="btn second-btn soldBtn" disabled
+                                                                                                    @if ($sold[0]->status == '0') style="background: orange !important;color:White"
+                                                                                    @else 
+                                                                                    style="background: red !important;color:White" @endif>
+                                                                                                    @if ($sold[0]->status == '0')
+                                                                                                        <span class="text">Onay Bekleniyor</span>
+                                                                                                    @else
+                                                                                                        <span class="text">Satıldı</span>
+                                                                                                    @endif
+                                                                                                </button>
+                                                                                            @else
+                                                                                                <button class="CartBtn second-btn" data-type='project'
+                                                                                                    data-project='{{ $project->id }}'
+                                                                                                    style="height: auto !important"
+                                                                                                    data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                    <span class="IconContainer">
+                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                    </span>
+                                                                                                    <span class="text">Sepete Ekle</span>
+                                                                                                </button>
+                                                                                            @endif
                                                                                         @endif
-
+                                    
                                                                                     </div>
                                                                                 </div>
-
-
+                                    
+                                    
                                                                             </div>
-
-
+                                    
+                                    
                                                                         </div>
                                                                     </div>
-
+                                    
                                                                 </div>
                                                             </div>
                                                         @endfor
@@ -1041,7 +1075,7 @@
                                                 </div>
                                             </div>
                                             <div class="mobile-show">
-                                                <div class="list">
+                                                <div class="container">
                                                     @for ($i = 0; $i < $project->room_count; $i++)
                                                         @php
                                                             $room_order = getData($project, 'squaremeters[]', $i + 1)->room_order;
@@ -1053,22 +1087,16 @@
                                                                     ->where('end_date', '>=', date('Y-m-d H:i:s'))
                                                                     ->first()->discount_amount ?? 0;
                                                         @endphp
-                                                        @php
-                                                            $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
-                                                        @endphp
                                                         <div class="d-flex" style="flex-wrap: nowrap">
-                                                            <div class="align-items-center d-flex"
-                                                                style="padding-right:0; width: 110px;">
+                                                            <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                                                                 <div class="project-inner project-head">
-                                                                    <a
-                                                                        href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
+                                                                    <a href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                                                         <div class="homes">
                                                                             <!-- homes img -->
                                                                             <div class="homes-img h-100 d-flex align-items-center"
                                                                                 style="width: 130px; height: 128px;">
                                                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
-                                                                                    alt="{{ $project->housingType->title }}"
-                                                                                    class="img-responsive"
+                                                                                    alt="{{ $project->housingType->title }}" class="img-responsive"
                                                                                     style="height: 100px !important;">
                                                                             </div>
                                                                         </div>
@@ -1076,96 +1104,88 @@
                                                                 </div>
                                                             </div>
                                                             <div class="w-100" style="padding-left:0;">
-                                                                <div
-                                                                    class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
+                                                                <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                                                     <a style="text-decoration: none; height: 100%"
                                                                         href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                                                         <h3>
-                                                                            @if (getData($project, 'advertise_title[]', $housingOrder)->value ?? null)
-                                                                                <span>
-                                                                                    {{ getData($project, 'advertise_title[]', $housingOrder)->value }}</span>
+                                                                            @if (isset(getData($project, 'advertise_title[]', $i + 1)->value))
+                                                                                {{ getData($project, 'advertise_title[]', $i + 1)->value }}
                                                                             @else
-                                                                                <span>
-                                                                                    {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                                </span><br>
-                                                                                {{ $housingOrder }} {{ "No'lu" }}
-                                                                                {{ $project->step1_slug }}
+                                                                                {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                                                Projesinde
+                                                                                {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                                                             @endif
                                                                         </h3>
                                                                     </a>
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="d-flex" style="gap: 8px;">
-                                                                            <a href="#"
-                                                                                class="btn toggle-project-favorite bg-white"
+                                                                            <a href="#" class="btn toggle-project-favorite bg-white"
                                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
-                                                                                style="color: white;"
-                                                                                data-project-id="{{ $project->id }}">
-                                                                                <i class="fa fa-heart-o"></i>
+                                                                                style="color: white;" data-project-id="{{ $project->id }}">
+                                                                                <i class="fa fa-heart-o-o"></i>
                                                                             </a>
-                                                                            @if ($sold && $sold[0]->status != '2')
-                                                                                <button
-                                                                                    class="btn mobileBtn second-btn CartBtn"
-                                                                                    disabled
-                                                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
-                                                            @else 
-                                                            style="background: red !important;width:100%;color:White" @endif>
+                                                                            @if (getData($project, 'off_sale[]', $i + 1)->value != "[]")
+                                                                                <button class="btn   mobileBtn  second-btn CartBtn" disabled
+                                                                                    style="background: red !important;width:100%;color:White">
                                                                                     <span class="IconContainer">
-                                                                                        <img src="{{ asset('sc.png') }}"
-                                                                                            alt="">
+                                                                                        <img src="{{ asset('sc.png') }}" alt="">
                                                                                     </span>
-                                                                                    @if ($sold[0]->status == '0')
-                                                                                        <span class="text">Onay
-                                                                                            Bekleniyor</span>
-                                                                                    @else
-                                                                                        <span class="text">Satıldı</span>
-                                                                                    @endif
+                                                                                    <span class="text">Satıldı</span>
                                                                                 </button>
                                                                             @else
-                                                                                <button class="CartBtn mobileBtn"
-                                                                                    data-type='project'
-                                                                                    data-project='{{ $project->id }}'
-                                                                                    data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                                    <span class="IconContainer">
-                                                                                        <img src="{{ asset('sc.png') }}"
-                                                                                            alt="">
-                                                                                    </span>
-                                                                                    <span class="text">Sepete Ekle</span>
-                                                                                </button>
+                                                                                @if ($sold && $sold[0]->status != '2')
+                                                                                    <button class="btn mobileBtn second-btn CartBtn" disabled
+                                                                                        @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                                                @else 
+                                                                style="background: red !important;width:100%;color:White" @endif>
+                                                                                        <span class="IconContainer">
+                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                                        </span>
+                                                                                        @if ($sold[0]->status == '0')
+                                                                                            <span class="text">Onay Bekleniyor</span>
+                                                                                        @else
+                                                                                            <span class="text">Satıldı</span>
+                                                                                        @endif
+                                                                                    </button>
+                                                                                @else
+                                                                                    <button class="CartBtn mobileBtn" data-type='project'
+                                                                                        data-project='{{ $project->id }}'
+                                                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                        <span class="IconContainer">
+                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                                        </span>
+                                                                                        <span class="text">Sepete Ekle</span>
+                                                                                    </button>
+                                                                                @endif
                                                                             @endif
-
+                                    
                                                                         </div>
                                                                         <span class="ml-auto text-primary priceFont">
                                                                             @if ($discount_amount)
-                                                                                <svg viewBox="0 0 24 24" width="24"
-                                                                                    height="24" stroke="currentColor"
-                                                                                    stroke-width="2" fill="none"
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round"
-                                                                                    class="css-i6dzq1">
-                                                                                    <polyline
-                                                                                        points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                                    </polyline>
-                                                                                    <polyline points="17 18 23 18 23 12">
-                                                                                    </polyline>
+                                                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                                                    stroke-width="2" fill="none" stroke-linecap="round"
+                                                                                    stroke-linejoin="round" class="css-i6dzq1">
+                                                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                                    <polyline points="17 18 23 18 23 12"></polyline>
                                                                                 </svg>
                                                                             @endif
-                                                                            @if ($sold)
-                                                                                @if ($sold[0]->status != '0' && $sold[0]->status != '1')
-                                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
+                                                                            @if (getData($project, 'off_sale[]', $i + 1)->value == "[]")
+                                                                                @if ($sold)
+                                                                                    @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                                                        ₺
+                                                                                    @endif
+                                                                                @else
+                                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
                                                                                     ₺
                                                                                 @endif
-                                                                            @else
-                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
-                                                                                ₺
                                                                             @endif
-
                                                                         </span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="w-100"
-                                                            style="height: 40px; background-color: #8080802e; margin-top: 20px">
+                                                        <div class="w-100" style="height: 40px; background-color: #8080802e; margin-top: 20px">
                                                             <ul class="d-flex justify-content-around align-items-center h-100"
                                                                 style="list-style: none; padding: 0; font-weight: 600">
                                                                 <li class="d-flex align-items-center itemCircleFont">
@@ -1174,8 +1194,7 @@
                                                                 </li>
                                                                 <li class="d-flex align-items-center itemCircleFont">
                                                                     <i class="fa fa-circle circleIcon"></i>
-                                                                    {{ getData($project, 'squaremeters[]', $i + 1)->value }}
-                                                                    m2
+                                                                    {{ getData($project, 'squaremeters[]', $i + 1)->value }} m2
                                                                 </li>
                                                                 <li class="d-flex align-items-center itemCircleFont">
                                                                     <i class="fa fa-circle circleIcon"></i>
@@ -1183,8 +1202,7 @@
                                                                 </li>
                                                                 <li class="d-flex align-items-center itemCircleFont">
                                                                     <i class="fa fa-circle circleIcon"></i>
-                                                                    {{ $project->city->title }} {{ '/' }}
-                                                                    {{ $project->county->ilce_title }}
+                                                                    {{ $project->city->title }} {{ '/' }} {{ $project->county->ilce_title }}
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -1352,7 +1370,7 @@
                                                         @php
                                                             $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
                                                         @endphp
-
+                                
                                                         <div class="col-md-12 col-12">
                                                             <div class="project-card mb-3">
                                                                 <div class="row">
@@ -1368,24 +1386,20 @@
                                                                                 </div>
                                                                                 <div class="project-single mb-0 bb-0 aos-init aos-animate"
                                                                                     data-aos="fade-up">
-                                                                                    <div
-                                                                                        class="project-inner project-head">
-
+                                                                                    <div class="project-inner project-head">
+                                
                                                                                         <div class="button-effect">
                                                                                             <div href="javascript:void()"
                                                                                                 class="btn toggle-project-favorite bg-white"
                                                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                                                 data-project-id={{ $project->id }}>
-                                                                                                <i
-                                                                                                    class="fa fa-heart-o"></i>
+                                                                                                <i class="fa fa-heart-o"></i>
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div
-                                                                                            class="homes position-relative">
+                                                                                        <div class="homes position-relative">
                                                                                             <!-- homes img -->
                                                                                             <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
-                                                                                                alt="home-1"
-                                                                                                class="img-responsive"
+                                                                                                alt="home-1" class="img-responsive"
                                                                                                 style="height: 120px !important;object-fit:cover">
                                                                                             @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                                                                 <div
@@ -1393,68 +1407,56 @@
                                                                                                     <div
                                                                                                         style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
                                                                                                         {{ '%' . round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100) }}
-                                                                                                        <svg viewBox="0 0 24 24"
-                                                                                                            width="16"
-                                                                                                            height="16"
-                                                                                                            stroke="currentColor"
-                                                                                                            stroke-width="2"
-                                                                                                            fill="none"
-                                                                                                            stroke-linecap="round"
-                                                                                                            stroke-linejoin="round"
+                                                                                                        <svg viewBox="0 0 24 24" width="16"
+                                                                                                            height="16" stroke="currentColor"
+                                                                                                            stroke-width="2" fill="none"
+                                                                                                            stroke-linecap="round" stroke-linejoin="round"
                                                                                                             class="css-i6dzq1"
                                                                                                             style="transform: rotate(45deg);">
-                                                                                                            <polyline
-                                                                                                                points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                                                                                                             </polyline>
-                                                                                                            <polyline
-                                                                                                                points="17 18 23 18 23 12">
+                                                                                                            <polyline points="17 18 23 18 23 12">
                                                                                                             </polyline>
                                                                                                         </svg>
                                                                                                     </div>
-
+                                
                                                                                                 </div>
                                                                                             @endif
                                                                                         </div>
-
+                                
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </a>
                                                                     </div>
-
-
+                                
+                                
                                                                     <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
                                                                         data-aos="fade-up"
                                                                         @if ($sold) style="background: #EEE !important;" @endif>
-
-                                                                        <div
-                                                                            class="row align-items-center justify-content-between mobile-position">
+                                
+                                                                        <div class="row align-items-center justify-content-between mobile-position">
                                                                             <div class="col-md-8">
-
+                                
                                                                                 <div class="homes-list-div">
-
-                                                                                    <ul
-                                                                                        class="homes-list clearfix pb-3 d-flex">
-                                                                                        <li class="the-icons custom-width">
-                                                                                            <i class="fa fa-circle circleIcon mr-1"
-                                                                                                style="color: black;"
+                                                                                    <ul class="homes-list clearfix pb-3 d-flex">
+                                                                                        <li class="the-icons custom-width flex-1">
+                                                                                            <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                                                                                 aria-hidden="true"></i>
                                                                                             <span>{{ $project->housingType->title }}</span>
                                                                                         </li>
-
                                                                                         @if (isset($project->listItemValues) &&
                                                                                                 isset($project->listItemValues->column1_name) &&
                                                                                                 $project->listItemValues->column1_name)
-                                                                                            <li
-                                                                                                class="the-icons custom-width">
-                                                                                                <i
-                                                                                                    class="fa fa-circle circleIcon mr-1"></i>
+                                                                                            <li class="the-icons custom-width flex-1">
+                                                                                                <i class="fa fa-circle circleIcon mr-1"
+                                                                                                    aria-hidden="true"></i>
                                                                                                 <span>
                                                                                                     {{ getData($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
                                                                                                     @if (isset($project->listItemValues) &&
                                                                                                             isset($project->listItemValues->column1_additional) &&
                                                                                                             $project->listItemValues->column1_additional)
-                                                                                                        {{ $project->listItemValues->column2_additional }}
+                                                                                                        {{ $project->listItemValues->column1_additional }}
                                                                                                     @endif
                                                                                                 </span>
                                                                                             </li>
@@ -1462,11 +1464,11 @@
                                                                                         @if (isset($project->listItemValues) &&
                                                                                                 isset($project->listItemValues->column2_name) &&
                                                                                                 $project->listItemValues->column2_name)
-                                                                                            <li
-                                                                                                class="the-icons custom-width">
+                                                                                            <li class="the-icons custom-width flex-1">
                                                                                                 <i class="fa fa-circle circleIcon mr-1"
                                                                                                     aria-hidden="true"></i>
-                                                                                                <span>{{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
+                                                                                                <span>
+                                                                                                    {{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
                                                                                                     @if (isset($project->listItemValues) &&
                                                                                                             isset($project->listItemValues->column2_additional) &&
                                                                                                             $project->listItemValues->column2_additional)
@@ -1478,10 +1480,9 @@
                                                                                         @if (isset($project->listItemValues) &&
                                                                                                 isset($project->listItemValues->column3_name) &&
                                                                                                 $project->listItemValues->column3_name)
-                                                                                            <li
-                                                                                                class="the-icons custom-width ">
-                                                                                                <i
-                                                                                                    class="fa fa-circle circleIcon mr-1"></i>
+                                                                                            <li class="the-icons custom-width flex-1">
+                                                                                                <i class="fa fa-circle circleIcon mr-1"
+                                                                                                    aria-hidden="true"></i>
                                                                                                 <span>
                                                                                                     {{ getData($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
                                                                                                     @if (isset($project->listItemValues) &&
@@ -1492,12 +1493,32 @@
                                                                                                 </span>
                                                                                             </li>
                                                                                         @endif
-
-                                                                                        <li
-                                                                                            class="the-icons mobile-hidden">
+                                
+                                                                                        <li class="the-icons mobile-hidden">
                                                                                             <span>
-                                                                                                @if ($sold)
-                                                                                                    @if ($sold[0]->status != '0' && $sold[0]->status != '1')
+                                                                                                @if (getData($project, 'off_sale[]', $i + 1)->value == "[]")
+                                                                                                    @if ($sold)
+                                                                                                        @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                                                            @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                <h6
+                                                                                                                    style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
+                                                                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
+                                                                                                                    ₺</h6>
+                                                                                                                <h6
+                                                                                                                    style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
+                                                                                                                    ₺
+                                
+                                                                                                                </h6>
+                                                                                                            @else
+                                                                                                                <h6
+                                                                                                                    style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
+                                                                                                                    ₺
+                                                                                                                </h6>
+                                                                                                            @endif
+                                                                                                        @endif
+                                                                                                    @else
                                                                                                         @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
                                                                                                             <h6
                                                                                                                 style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
@@ -1507,7 +1528,7 @@
                                                                                                                 style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
                                                                                                                 {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                                                 ₺
-
+                                
                                                                                                             </h6>
                                                                                                         @else
                                                                                                             <h6
@@ -1517,116 +1538,256 @@
                                                                                                             </h6>
                                                                                                         @endif
                                                                                                     @endif
-                                                                                                @else
-                                                                                                    @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
-                                                                                                        <h6
-                                                                                                            style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
-                                                                                                            ₺</h6>
-                                                                                                        <h6
-                                                                                                            style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
-                                                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
-                                                                                                            ₺
-
-                                                                                                        </h6>
-                                                                                                    @else
-                                                                                                        <h6
-                                                                                                            style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
-                                                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
-                                                                                                            ₺
-                                                                                                        </h6>
-                                                                                                    @endif
                                                                                                 @endif
-
+                                
+                                
                                                                                             </span>
                                                                                         </li>
-
-
+                                
+                                
                                                                                     </ul>
-
+                                
                                                                                 </div>
                                                                                 <div class="footer">
                                                                                     <a
                                                                                         href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">
                                                                                         <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}"
-                                                                                            alt="" class="mr-2">
-                                                                                        {{ $project->user->name }}
+                                                                                            alt="" class="mr-2"> {{ $project->user->name }}
                                                                                     </a>
                                                                                     <span class="price-mobile">
-                                                                                        @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
-                                                                                            <h6
-                                                                                                style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
-                                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
-                                                                                                ₺
-                                                                                            </h6>
-                                                                                            <h6
-                                                                                                style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:20px;">
-                                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
-
-                                                                                                ₺</h6>
-                                                                                        @else
-                                                                                            <h6
-                                                                                                style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
-                                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
-                                                                                            </h6>
+                                                                                        @if (getData($project, 'off_sale[]', $i + 1)->value == "[]")
+                                                                                            @if ($sold)
+                                                                                                @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                                                    @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                        <h6
+                                                                                                            style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
+                                                                                                            ₺
+                                                                                                        </h6>
+                                                                                                        <h6
+                                                                                                            style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:20px;">
+                                                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
+                                
+                                                                                                            ₺</h6>
+                                                                                                    @else
+                                                                                                        <h6
+                                                                                                            style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                                            {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
+                                                                                                        </h6>
+                                                                                                    @endif
+                                                                                                @endif
+                                                                                            @else
+                                                                                                @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                    <h6
+                                                                                                        style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
+                                                                                                        ₺
+                                                                                                    </h6>
+                                                                                                    <h6
+                                                                                                        style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:20px;">
+                                                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
+                                
+                                                                                                        ₺</h6>
+                                                                                                @else
+                                                                                                    <h6
+                                                                                                        style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
+                                                                                                    </h6>
+                                                                                                @endif
+                                                                                            @endif
                                                                                         @endif
+                                
+                                
                                                                                     </span>
                                                                                 </div>
                                                                             </div>
-
-                                                                            <div class="col-md-3 mobile-hidden"
-                                                                                style="height: 120px;padding:0">
-                                                                                <div class="homes-button"
-                                                                                    style="width:100%;height:100%">
-                                                                                    <button
-                                                                                        class="first-btn payment-plan-button"
-                                                                                        project-id="{{ $project->id }}"
-                                                                                        order="{{ $i }}">
+                                
+                                                                            <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
+                                                                                <div class="homes-button" style="width:100%;height:100%">
+                                                                                    <button class="first-btn payment-plan-button"
+                                                                                        project-id="{{ $project->id }}" order="{{ $i }}">
                                                                                         Ödeme Detayları </button>
-                                                                                    @if ($sold && $sold[0]->status != '2')
-                                                                                        <button
-                                                                                            class="btn second-btn soldBtn"
-                                                                                            disabled
-                                                                                            @if ($sold[0]->status == '0') style="background: orange !important;color:White"
-                                                                        @else 
-                                                                        style="background: red !important;color:White" @endif>
-                                                                                            @if ($sold[0]->status == '0')
-                                                                                                <span class="text">Onay
-                                                                                                    Bekleniyor</span>
-                                                                                            @else
-                                                                                                <span
-                                                                                                    class="text">Satıldı</span>
-                                                                                            @endif
+                                                                                    @if (getData($project, 'off_sale[]', $i + 1)->value != "[]")
+                                                                                        <button class="btn second-btn CartBtn" disabled
+                                                                                            style="background: red !important;width:100%;color:White;height: auto !important">
+                                
+                                                                                            <span class="text">Satıldı</span>
                                                                                         </button>
                                                                                     @else
-                                                                                        <button class="CartBtn second-btn"
-                                                                                            data-type='project'
-                                                                                            style="height: auto !important"
-                                                                                            data-project='{{ $project->id }}'
-                                                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                                            <span class="IconContainer">
-                                                                                                <img src="{{ asset('sc.png') }}"
-                                                                                                    alt="">
-                                                                                            </span>
-                                                                                            <span class="text">Sepete
-                                                                                                Ekle</span>
-                                                                                        </button>
+                                                                                        @if ($sold && $sold[0]->status != '2')
+                                                                                            <button class="btn second-btn soldBtn" disabled
+                                                                                                @if ($sold[0]->status == '0') style="background: orange !important;color:White"
+                                                                                @else 
+                                                                                style="background: red !important;color:White" @endif>
+                                                                                                @if ($sold[0]->status == '0')
+                                                                                                    <span class="text">Onay Bekleniyor</span>
+                                                                                                @else
+                                                                                                    <span class="text">Satıldı</span>
+                                                                                                @endif
+                                                                                            </button>
+                                                                                        @else
+                                                                                            <button class="CartBtn second-btn" data-type='project'
+                                                                                                data-project='{{ $project->id }}'
+                                                                                                style="height: auto !important"
+                                                                                                data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                <span class="IconContainer">
+                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                </span>
+                                                                                                <span class="text">Sepete Ekle</span>
+                                                                                            </button>
+                                                                                        @endif
                                                                                     @endif
-
+                                
                                                                                 </div>
                                                                             </div>
-
-
+                                
+                                
                                                                         </div>
-
-
+                                
+                                
                                                                     </div>
                                                                 </div>
-
+                                
                                                             </div>
                                                         </div>
                                                     @endfor
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="mobile-show">
+                                            <div class="container">
+                                                @for ($i = 0; $i < $project->room_count; $i++)
+                                                    @php
+                                                        $room_order = getData($project, 'squaremeters[]', $i + 1)->room_order;
+                                                        $discount_amount =
+                                                            App\Models\Offer::where('type', 'project')
+                                                                ->where('project_id', $project->id)
+                                                                ->where('project_housings', 'LIKE', "%\"{$room_order}\"%")
+                                                                ->where('start_date', '<=', date('Y-m-d H:i:s'))
+                                                                ->where('end_date', '>=', date('Y-m-d H:i:s'))
+                                                                ->first()->discount_amount ?? 0;
+                                                    @endphp
+                                                    <div class="d-flex" style="flex-wrap: nowrap">
+                                                        <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
+                                                            <div class="project-inner project-head">
+                                                                <a href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
+                                                                    <div class="homes">
+                                                                        <!-- homes img -->
+                                                                        <div class="homes-img h-100 d-flex align-items-center"
+                                                                            style="width: 130px; height: 128px;">
+                                                                            <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
+                                                                                alt="{{ $project->housingType->title }}" class="img-responsive"
+                                                                                style="height: 100px !important;">
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="w-100" style="padding-left:0;">
+                                                            <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
+                                                                <a style="text-decoration: none; height: 100%"
+                                                                    href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
+                                                                    <h3>
+                                                                        @if (isset(getData($project, 'advertise_title[]', $i + 1)->value))
+                                                                            {{ getData($project, 'advertise_title[]', $i + 1)->value }}
+                                                                        @else
+                                                                            {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                                            Projesinde
+                                                                            {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
+                                                                        @endif
+                                                                    </h3>
+                                                                </a>
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="d-flex" style="gap: 8px;">
+                                                                        <a href="#" class="btn toggle-project-favorite bg-white"
+                                                                            data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                            style="color: white;" data-project-id="{{ $project->id }}">
+                                                                            <i class="fa fa-heart-o-o"></i>
+                                                                        </a>
+                                                                        @if (getData($project, 'off_sale[]', $i + 1)->value != "[]")
+                                                                            <button class="btn   mobileBtn  second-btn CartBtn" disabled
+                                                                                style="background: red !important;width:100%;color:White">
+                                                                                <span class="IconContainer">
+                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                </span>
+                                                                                <span class="text">Satıldı</span>
+                                                                            </button>
+                                                                        @else
+                                                                            @if ($sold && $sold[0]->status != '2')
+                                                                                <button class="btn mobileBtn second-btn CartBtn" disabled
+                                                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                                            @else 
+                                                            style="background: red !important;width:100%;color:White" @endif>
+                                                                                    <span class="IconContainer">
+                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                    </span>
+                                                                                    @if ($sold[0]->status == '0')
+                                                                                        <span class="text">Onay Bekleniyor</span>
+                                                                                    @else
+                                                                                        <span class="text">Satıldı</span>
+                                                                                    @endif
+                                                                                </button>
+                                                                            @else
+                                                                                <button class="CartBtn mobileBtn" data-type='project'
+                                                                                    data-project='{{ $project->id }}'
+                                                                                    data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                    <span class="IconContainer">
+                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                    </span>
+                                                                                    <span class="text">Sepete Ekle</span>
+                                                                                </button>
+                                                                            @endif
+                                                                        @endif
+                                
+                                                                    </div>
+                                                                    <span class="ml-auto text-primary priceFont">
+                                                                        @if ($discount_amount)
+                                                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                                                stroke-width="2" fill="none" stroke-linecap="round"
+                                                                                stroke-linejoin="round" class="css-i6dzq1">
+                                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                                <polyline points="17 18 23 18 23 12"></polyline>
+                                                                            </svg>
+                                                                        @endif
+                                                                        @if (getData($project, 'off_sale[]', $i + 1)->value == "[]")
+                                                                            @if ($sold)
+                                                                                @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                                                    ₺
+                                                                                @endif
+                                                                            @else
+                                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                                                ₺
+                                                                            @endif
+                                                                        @endif
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="w-100" style="height: 40px; background-color: #8080802e; margin-top: 20px">
+                                                        <ul class="d-flex justify-content-around align-items-center h-100"
+                                                            style="list-style: none; padding: 0; font-weight: 600">
+                                                            <li class="d-flex align-items-center itemCircleFont">
+                                                                <i class="fa fa-circle circleIcon"></i>
+                                                                {{ $room_order }} <span> No'lu</span>
+                                                            </li>
+                                                            <li class="d-flex align-items-center itemCircleFont">
+                                                                <i class="fa fa-circle circleIcon"></i>
+                                                                {{ getData($project, 'squaremeters[]', $i + 1)->value }} m2
+                                                            </li>
+                                                            <li class="d-flex align-items-center itemCircleFont">
+                                                                <i class="fa fa-circle circleIcon"></i>
+                                                                {{ getData($project, 'room_count[]', $i + 1)->value }}
+                                                            </li>
+                                                            <li class="d-flex align-items-center itemCircleFont">
+                                                                <i class="fa fa-circle circleIcon"></i>
+                                                                {{ $project->city->title }} {{ '/' }} {{ $project->county->ilce_title }}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <hr>
+                                                @endfor
                                             </div>
                                         </div>
 
@@ -1657,6 +1818,8 @@
 
                 </div>
             </div>
+
+            @endif
 
 
         </div>

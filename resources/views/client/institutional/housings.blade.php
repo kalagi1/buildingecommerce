@@ -178,277 +178,329 @@
     </div>
 
 
-
-
-    <!-- START SECTION RECENTLY PROPERTIES -->
-    <section class="featured portfolio rec-pro disc bg-white">
-        <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div class="section-title">
-                    <h2>Emlak İlanları</h2>
-                </div>
+   <!-- START SECTION RECENTLY PROPERTIES -->
+   <section class="featured portfolio rec-pro disc bg-white">
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="section-title">
+                <h2>Emlak İlanları</h2>
             </div>
-            <div class="mobile-show">
-                @foreach ($secondhandHousings as $project)
-                    @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $project->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+        </div>
+        <div class="mobile-show">
+            @foreach ($secondhandHousings as $housing)
+                @php(
+$discount_amount =
+    App\Models\Offer::where('type', 'housing')->where('housing_id', $housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
-                    @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$project->id]))
+                @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$housing->id]))
 
+                <div class="d-flex" style="flex-wrap: nowrap">
+                    <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
+                        <div class="project-inner project-head">
+                            <a href="{{ route('housing.show', $housing->id) }}">
+                                <div class="homes">
+                                    <!-- homes img -->
 
-                    <div class="d-flex" style="flex-wrap: nowrap">
-                        <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
-                            <div class="project-inner project-head">
-                                <a href="{{ route('housing.show', [$project->id]) }}">
-                                    <div class="homes">
-                                        <!-- homes img -->
-
-                                        <div class="homes-img h-100 d-flex align-items-center"
-                                            style="width: 130px; height: 128px;">
-                                            <img src="{{ URL::to('/') . '/housing_images/' . json_decode($project->housing_type_data)->image }}"
-                                                alt="{{ $project->housing_title }}" class="img-responsive"
-                                                style="height: 100px !important;">
-                                        </div>
+                                    <div class="homes-img h-100 d-flex align-items-center"
+                                        style="width: 130px; height: 128px;">
+                                        <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
+                                            alt="{{ $housing->housing_title }}" class="img-responsive"
+                                            style="height: 100px !important;">
                                     </div>
-                                </a>
-                            </div>
+                                </div>
+                            </a>
                         </div>
-                        <div class="w-100" style="padding-left:0;">
-                            <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
+                    </div>
+                    <div class="w-100" style="padding-left:0;">
+                        <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
-                                <a style="text-decoration: none;height:100%"
-                                    href="{{ route('housing.show', [$project->id]) }}">
-                                    <h3>
-                                        {{ mb_convert_case($project->housing_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}
-                                        {{ json_decode($project->housing_type_data)->squaremeters[0] ?? '?' }}m2
-                                        {{ json_decode($project->housing_type_data)->room_count[0] ?? '?' }}
-                                    </h3>
-                                </a>
-                                <div class="d-flex">
-                                    <div class="d-flex" style="gap: 8px;">
-                                        <a href="#" class="btn toggle-favorite bg-white"
-                                            data-housing-id="{{ $project->id }}" style="color: white;">
-                                            <i class="fa fa-heart-o"></i>
-                                        </a>
-                                        @if ($sold && $sold[0]->status != '2')
-                                        <button class="btn second-btn mobileBtn CartBtn" disabled
-                                            @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
-                                @else 
-                                style="background: red !important;width:100%;color:White" @endif>
+                            <a style="text-decoration: none;height:100%"
+                                href="{{ route('housing.show', $housing->id) }}">
+                                <h3>
+                                    {{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}
+                                    {{ json_decode($housing->housing_type_data)->squaremeters[0] ?? '?' }}m2
+                                    {{ json_decode($housing->housing_type_data)->room_count[0] ?? '?' }}
+                                </h3>
+                            </a>
+                            <div class="d-flex">
+                                <div class="d-flex" style="gap: 8px;">
+                                    <a href="#" class="btn toggle-favorite bg-white"
+                                        data-housing-id="{{ $housing->id }}" style="color: white;">
+                                        <i class="fa fa-heart-o"></i>
+                                    </a>
+                                    @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                        <button class="btn   mobileBtn  second-btn CartBtn" disabled
+                                            style="background: red !important;width:100%;color:White">
                                             <span class="IconContainer">
                                                 <img src="{{ asset('sc.png') }}" alt="">
                                             </span>
-                                            @if ($sold[0]->status == '0')
-                                                <span class="text">Onay Bekleniyor</span>
-                                            @else
-                                                <span class="text">Satıldı</span>
-                                            @endif
+                                            <span class="text">Satıldı</span>
                                         </button>
                                     @else
-                                    <button class="CartBtn  mobile px-2"
-                                    style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                    data-type='housing' data-id='{{ $project->id }}'>
-                                    <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
-                                        height="24px" style="width: 24px !important; height: 24px !important;" />
-                                </button>
-                                    @endif
-                                   
-                                    </div>
-                                    <span class="ml-auto text-primary priceFont">
-                                        @if ($discount_amount)
-                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                                stroke-width="2" fill="none" stroke-linecap="round"
-                                                stroke-linejoin="round" class="css-i6dzq1">
-                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                <polyline points="17 18 23 18 23 12"></polyline>
-                                            </svg>
+                                        @if ($sold && $sold[0]->status != '2')
+                                            <button class="btn mobileBtn second-btn CartBtn" disabled
+                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                            @else 
+                            style="background: red !important;width:100%;color:White" @endif>
+                                                <span class="IconContainer">
+                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                </span>
+                                                @if ($sold[0]->status == '0')
+                                                    <span class="text">Onay Bekleniyor</span>
+                                                @else
+                                                    <span class="text">Satıldı</span>
+                                                @endif
+                                            </button>
+                                        @else
+                                            <button class="CartBtn  mobile px-2"
+                                                style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
+                                                data-type='housing' data-id='{{ $housing->id }}'>
+                                                <img src="{{ asset('images/sc.png') }}" alt="sc"
+                                                    width="24px" height="24px"
+                                                    style="width: 24px !important; height: 24px !important;" />
+                                            </button>
                                         @endif
-                                        @if ($sold)
-                                        @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                        {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 0, ',', '.') }}
-
-                                        ₺
-                                        @endif
-                                    @else
-                                    {{ number_format(json_decode($project->housing_type_data)->price[0] - $discount_amount, 0, ',', '.') }}
-
-                                    ₺
                                     @endif
-                                      
-                                    </span>
+
                                 </div>
+                                <span class="ml-auto text-primary priceFont">
+                                    @if ($discount_amount)
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                            stroke-width="2" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round" class="css-i6dzq1">
+                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                        </svg>
+                                    @endif
+                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                        @if ($sold)
+                                            @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                {{ number_format(json_decode($housing->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
+
+                                                ₺
+                                            @endif
+                                        @else
+                                            {{ number_format(json_decode($housing->housing_type_data)->price[0] - $discount_amount, 2, ',', '.') }}
+
+                                            ₺
+                                        @endif
+                                    @endif
+
+                                </span>
                             </div>
                         </div>
                     </div>
-                    <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
-                        <ul class="d-flex justify-content-around align-items-center h-100"
-                            style="list-style: none;padding:0;font-weight:600">
-                            <li class="d-flex align-items-center itemCircleFont">
-                                <i class="fa fa-circle circleIcon"></i>
-                                No: {{ $project->id }}
-                            </li>
-                            <li class="d-flex align-items-center itemCircleFont">
-                                <i class="fa fa-circle circleIcon"></i>
-                                {{ json_decode($project->housing_type_data)->squaremeters[0] ?? null }} m2
-                            </li>
-                            <li class="d-flex align-items-center itemCircleFont">
-                                <i class="fa fa-circle circleIcon"></i>
-                                {{ json_decode($project->housing_type_data)->room_count[0] ?? null }}
-                            </li>
-                            <li class="d-flex align-items-center itemCircleFont">
-                                <i class="fa fa-circle circleIcon"></i>
-                                {{ $project->city_title }} {{ '/' }} {{ $project->county_title }}
-                            </li>
+                </div>
+                <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
+                    <ul class="d-flex justify-content-around align-items-center h-100"
+                        style="list-style: none;padding:0;font-weight:600">
+                        <li class="d-flex align-items-center itemCircleFont">
+                            <i class="fa fa-circle circleIcon"></i>
+                            No: {{ $housing->id }}
+                        </li>
+                        <li class="d-flex align-items-center itemCircleFont">
+                            <i class="fa fa-circle circleIcon"></i>
+                            {{ json_decode($housing->housing_type_data)->squaremeters[0] ?? null }} m2
+                        </li>
+                        <li class="d-flex align-items-center itemCircleFont">
+                            <i class="fa fa-circle circleIcon"></i>
+                            {{ json_decode($housing->housing_type_data)->room_count[0] ?? null }}
+                        </li>
+                        <li class="d-flex align-items-center itemCircleFont">
+                            <i class="fa fa-circle circleIcon"></i>
+                            {{ $housing->city_title }} {{ '/' }} {{ $housing->county_title }}
+                        </li>
 
 
 
-                        </ul>
-                    </div>
-                    <hr>
-                @endforeach
-            </div>
-            <div class="mobile-hidden">
-                @if (count($secondhandHousings))
-                    <section class="properties-right list featured portfolio blog  pb-5 bg-white">
-                        <a href="{{ route('housing.show', [$project->id]) }}" class="text-decoration-none">
-                            <div class="container">
-                                <div class="row project-filter-reverse blog-pots secondhand-housings-web">
-                                    @foreach ($secondhandHousings as $project)
-                                        <div data-aos="fade-up" data-aos-delay="150">
-                                            <div class="landscapes">
-                                                <div class="project-single">
-                                                    <div class="project-inner project-head">
-                                                        <div class="homes">
-                                                            <!-- homes img -->
-
-                                                            <div class="homes-img">
-                                                                <div class="homes-tag button alt featured">Öne
-                                                                    Çıkan
-                                                                </div>
-                                                                @if ($discount_amount)
-                                                                    <div class="homes-tag button alt sale"
-                                                                        style="background-color:#EA2B2E!important">İNDİRİM
-                                                                    </div>
-                                                                @endif
-
-                                                                <img src="{{ URL::to('/') . '/housing_images/' . json_decode($project->housing_type_data)->image }}"
-                                                                    alt="Housing {{ $project->id }}"
-                                                                    class="img-responsive">
-                                                            </div>
-                                                        </div>
-                                                        <div class="button-effect">
-                                                            <span class="btn toggle-favorite bg-white"
-                                                                data-housing-id={{ $project->id }}>
-                                                                <i class="fa fa-heart-o"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <!-- homes content -->
-                                                    <div class="homes-content p-3" style="padding:20px !important">
-                                                        <span style="text-decoration: none">
-
-                                                            <h4>{{ mb_convert_case($project->housing_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                            </h4>
-
-                                                            <p class="homes-address mb-3">
-
-
-                                                                <i class="fa fa-map-marker"></i>
-                                                                <span> {{ $project->city_title }} {{ '/' }}
-                                                                    {{ $project->county_title }}
-                                                                </span>
-
-                                                            </p>
-                                                        </span>
-                                                        <!-- homes List -->
-                                                        <ul class="homes-list clearfix pb-0"
-                                                            style="display: flex;justify-content:space-between">
-                                                            <li class="sude-the-icons" style="width:auto !important">
-                                                                <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                <span>{{ json_decode($project->housing_type_data)->room_count[0] ?? null }}</span>
-                                                            </li>
-                                                            @if ($project->step1_slug == 'konut')
-                                                            <li class="sude-the-icons" style="width:auto !important">
-                                                                <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                <span>{{ json_decode($project->housing_type_data)->numberoffloors[0] ?? null }}
-                                                                    .Kat
-                                                                </span>
-                                                            </li>
-                                                        @endif
-                                                            <li class="sude-the-icons" style="width:auto !important">
-                                                                <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                <span>{{ json_decode($project->housing_type_data)->squaremeters[0] ?? null }}
-                                                                    m2</span>
-                                                            </li>
-                                                        </ul>
-                                                        <ul class="homes-list clearfix pb-0"
-                                                            style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                            <li
-                                                                style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
-                                                                @if ($discount_amount)
-                                                                    <svg viewBox="0 0 24 24" width="24"
-                                                                        height="24" stroke="currentColor"
-                                                                        stroke-width="2" fill="none"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="css-i6dzq1">
-                                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                        </polyline>
-                                                                        <polyline points="17 18 23 18 23 12"></polyline>
-                                                                    </svg>
-                                                                @endif
-                                                                @if ($sold)
-                                                                    @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                        {{ number_format(json_decode($project->housing_type_data)->price[0], 0, ',', '.') }}
-                                                                        ₺
-                                                                    @endif
-                                                                @else
-                                                                    {{ number_format(json_decode($project->housing_type_data)->price[0], 0, ',', '.') }}
-                                                                    ₺
-                                                                @endif
-
-                                                            </li>
-                                                            <li style="display: flex; justify-content: right;width:100%">
-                                                                {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
-                                                            </li>
-                                                        </ul>
-                                                        @if ($sold && $sold[0]->status != '2')
-                                                            <button class="btn second-btn CartBtn" disabled
-                                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
-                                                    @else 
-                                                    style="background: red !important;width:100%;color:White" @endif>
-                                                                @if ($sold[0]->status == '0')
-                                                                    <span class="text">Onay Bekleniyor</span>
-                                                                @else
-                                                                    <span class="text">Satıldı</span>
-                                                                @endif
-                                                            </button>
-                                                        @else
-                                                            <button class="CartBtn" data-type='housing'
-                                                                data-id='{{ $project->id }}'>
-                                                                <span class="IconContainer">
-                                                                    <img src="{{ asset('sc.png') }}" alt="">
-
-                                                                </span>
-                                                                <span class="text">Sepete Ekle</span>
-                                                            </button>
-                                                        @endif
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </a>
-                    </section>
-                @else
-                    <p>Henüz İlan Yayınlanmadı</p>
-                @endif
-            </div>
+                    </ul>
+                </div>
+                <hr>
+            @endforeach
         </div>
-    </section>
+        <div class="mobile-hidden">
+            @if (count($secondhandHousings))
+                <section class="properties-right list featured portfolio blog  pb-5 bg-white">
+                    <div class="container">
+                        <div class="row project-filter-reverse blog-pots secondhand-housings-web">
+                            @foreach ($secondhandHousings as $housing)
+                                <a href="{{ route('housing.show', [$housing->id]) }}" class="text-decoration-none">
+                                    <div data-aos="fade-up" data-aos-delay="150">
+                                        <div class="landscapes">
+                                            <div class="project-single">
+                                                <div class="project-inner project-head">
+                                                    <div class="homes">
+                                                        <div class="homes-img">
+                                                            <div class="homes-tag button alt featured">Öne
+                                                                Çıkan
+                                                            </div>
+                                                            <div class="type-tag button alt featured">
+                                                                @if ($housing->step2_slug == 'kiralik')
+                                                                    Kiralık
+                                                                @else
+                                                                    Satılık
+                                                                @endif
+                                                            </div>
+                                                            @if ($discount_amount)
+                                                                <div class="homes-tag button alt sale"
+                                                                    style="background-color:#EA2B2E!important">İNDİRİM
+                                                                </div>
+                                                        </div>
+                            @endif
+                            <div class="button-effect">
+                                <span class="btn toggle-favorite bg-white" data-housing-id={{ $housing->id }}>
+                                    <i class="fa fa-heart-o"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- homes content -->
+                        <div class="homes-content">
+
+                            <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
+                                alt="Housing {{ $housing->id }}" class="img-responsive">
+                        </div>
+                    </div>
+                    <div class="button-effect">
+                        <span class="btn toggle-favorite bg-white" data-housing-id={{ $housing->id }}>
+                            <i class="fa fa-heart-o"></i>
+                        </span>
+                    </div>
+        </div>
+        <!-- homes content -->
+        <div class="homes-content p-3" style="padding:20px !important">
+            <span style="text-decoration: none">
+
+                <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
+                </h4>
+
+                <p class="homes-address mb-3">
+
+
+                    <i class="fa fa-map-marker"></i>
+                    <span> {{ $housing->city_title }} {{ '/' }}
+                        {{ $housing->county_title }}
+                    </span>
+
+                </p>
+            </span>
+            <!-- homes List -->
+            <ul class="homes-list clearfix pb-0" style="display: flex;justify-content:space-between">
+                <li class="sude-the-icons" style="width:auto !important">
+                    <i class="fa fa-circle circleIcon mr-1"></i>
+                    <span>
+                        {{ json_decode($housing->housing_type_data)->{$housing->column1_name}[0] ?? null }}
+                        @if ($housing->column1_additional)
+                            {{ $housing->column1_additional }}
+                        @endif
+                    </span>
+                </li>
+                @if ($housing->column2_name)
+                    <li class="sude-the-icons" style="width:auto !important">
+                        <i class="fa fa-circle circleIcon mr-1"></i>
+                        <span>{{ json_decode($housing->housing_type_data)->{$housing->column2_name}[0] ?? null }}
+                            @if ($housing->column2_additional)
+                                {{ $housing->column2_additional }}
+                            @endif
+                        </span>
+                    </li>
+                @endif
+
+                @if ($housing->column3_name)
+                    <li class="sude-the-icons" style="width:auto !important">
+                        <i class="fa fa-circle circleIcon mr-1"></i>
+                        <span>{{ json_decode($housing->housing_type_data)->{$housing->column3_name}[0] ?? null }}
+                            @if ($housing->column3_additional)
+                                {{ $housing->column3_additional }}
+                            @endif
+                        </span>
+                    </li>
+                @endif
+
+                @if ($housing->column4_name)
+                    <li class="sude-the-icons" style="width:auto !important">
+                        <i class="fa fa-circle circleIcon mr-1"></i>
+                        <span>{{ json_decode($housing->housing_type_data)->{$housing->column4_name}[0] ?? null }}
+                            @if ($housing->column4_additional)
+                                {{ $housing->column4_additional }}
+                            @endif
+                        </span>
+                    </li>
+                @endif
+            </ul>
+            <ul class="homes-list clearfix pb-0"
+                style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
+                    @if ($discount_amount)
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                            class="css-i6dzq1">
+                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
+                            </polyline>
+                            <polyline points="17 18 23 18 23 12"></polyline>
+                        </svg>
+                    @endif
+
+                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                        @if ($sold)
+                            @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
+                                ₺
+                            @endif
+                        @else
+                            {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
+                            ₺
+                        @endif
+                    @endif
+
+
+                </li>
+                <li style="display: flex; justify-content: right;width:100%">
+                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at)) . ' ' . date('Y', strtotime($housing->created_at))) }}
+                </li>
+            </ul>
+            @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                <button class="btn second-btn CartBtn" disabled
+                    style="background: red !important;width:100%;color:White">
+
+                    <span class="text">Satıldı</span>
+                </button>
+            @else
+                @if ($sold && $sold[0]->status != '2')
+                    <button class="btn second-btn CartBtn" disabled
+                        @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
+                        @if ($sold[0]->status == '0')
+                            <span class="text">Onay Bekleniyor</span>
+                        @else
+                            <span class="text">Satıldı</span>
+                        @endif
+                    </button>
+                @else
+                    <button class="CartBtn" data-type='housing' data-id='{{ $housing->id }}'>
+                        <span class="IconContainer">
+                            <img src="{{ asset('sc.png') }}" alt="">
+
+                        </span>
+                        <span class="text">Sepete Ekle</span>
+                    </button>
+                @endif
+            @endif
+
+        </div>
+    </div>
+    </div>
+    </div>
+    </a>
+    @endforeach
+    </div>
+    </div>
+</section>
+@else
+<p>Henüz İlan Yayınlanmadı</p>
+@endif
+</div>
+</div>
+</section>
+<!-- END SECTION RECENTLY PROPERTIES -->
 
 @endsection
 

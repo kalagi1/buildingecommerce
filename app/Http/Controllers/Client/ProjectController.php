@@ -207,7 +207,7 @@ class ProjectController extends Controller
 
         if ($slug) {
             if ($is_project) {
-                $oncelikliProjeler = StandOutUser::where('housing_status_id', $slug)->pluck('project_id')->toArray();
+                $oncelikliProjeler = StandOutUser::where('housing_type_id', $slug)->pluck('item_id')->toArray();
                 $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
 
                 $query = Project::query()->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
@@ -229,8 +229,8 @@ class ProjectController extends Controller
                 });
 
                 $anotherProjects = $query->get();
-                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.project_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
-                    ->orderBy('item_order', 'asc')
+                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
+                    ->orderBy('id', 'asc')
                     ->get()
                     ->concat($anotherProjects);
 
@@ -308,15 +308,15 @@ class ProjectController extends Controller
                 $projects = [];
                 $secondhandHousings = Housing::with('images', "city", "county")->get();
             } else {
-                $oncelikliProjeler = StandOutUser::where('housing_status_id', $status->id)->pluck('project_id')->toArray();
+                $oncelikliProjeler = StandOutUser::where('housing_type_id', $status->id)->pluck('item_id')->toArray();
                 $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
 
                 $anotherProjects = Project::with("city", "county")->whereNotIn('id', $oncelikliProjeler)
-                    ->orderBy('created_at', 'desc') // Eklenme tarihine göre sırala (en son eklenenler en üstte olur)
+                    ->orderBy('created_at', 'desc') 
                     ->get();
 
-                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.project_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
-                    ->orderBy('item_order', 'asc') // Öne çıkarılma sırasına göre sırala
+                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
+                    ->orderBy('id', 'asc')
                     ->get()
                     ->concat($anotherProjects);
             }

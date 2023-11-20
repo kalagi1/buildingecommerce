@@ -3208,6 +3208,7 @@ section.portfolio {
 .portfolio .homes-content h3 {
     font-size: 1.1rem;
     font-weight: 600;
+    height: 50px;
     color: #444;
     margin-bottom: 3px;
 }
@@ -3246,7 +3247,7 @@ section.portfolio {
 }
 
 .portfolio .homes-content .homes-address a span {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     margin: 0 0 1px;
     text-decoration: none;
@@ -3588,7 +3589,7 @@ section.portfolio {
 /*------------------------------------*/
 
 section.popular-places {
-    padding: 2.6rem 0;
+    padding: 1rem 0;
     background: #fff;
 }
 
@@ -4997,7 +4998,7 @@ section.counterup {
 }
 
 .first-footer .logo img {
-    width: 100%;
+    width: 50%;
     height: auto;
     margin-bottom: 1.6rem;
 }
@@ -15889,7 +15890,7 @@ a.button {
 }
 
 .detail-wrapper-body {
-    width:80%
+    width:70%
 }
 .single.detail-wrapper {
     width: 20%

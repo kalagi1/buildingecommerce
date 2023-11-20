@@ -78,13 +78,37 @@ class ProjectController extends Controller
             ->where("status", "1")
             ->get();
 
+            $paymentPendingCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+            ->whereIn(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $userProjectIds)
+            ->groupBy('project_id')
+            ->where("status", "0")
+            ->get();
 
-        // Projeleri ilgili sipariş sayısı ile eşleştirin
+            $offSaleCount = 0; // off_sale değeri [] olmayan projelerin sayacı
+  // Projeleri ilgili sipariş sayısı ile eşleştirin ve off_sale değerini kontrol et
+  $projects = $projects->map(function ($project) use ( &$offSaleCount) {
+    foreach ($project->housings as $housing) {
+        if ($housing->off_sale != "[]") {
+            $project->status = "Satışa Kapatıldı";
+            $project->offSale = $offSaleCount++;
+            break; // Bir kez bulduktan sonra döngüden çık
+        }
+    }
+
+    return $project;
+});
+        
         $projects = $projects->map(function ($project) use ($projectCounts) {
             $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+            $project->totalAmount = CartOrder::where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)->where("status","1")->sum("amount");
+            
             return $project;
         });
 
+        $projects = $projects->map(function ($project) use ($paymentPendingCounts) {
+            $project->paymentPending = $paymentPendingCounts->where('project_id', $project->id)->first()->count ?? 0;
+            return $project;
+        });
 
         return view('institutional.projects.index', compact('projects', 'bankAccounts'));
     }

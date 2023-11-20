@@ -15,6 +15,7 @@ use App\Models\Project;
 use App\Models\Slider;
 use App\Models\StandOutUser;
 use App\Models\User;
+use App\Models\CartOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -519,6 +520,15 @@ class HomeController extends Controller
             if (Auth::check()) {
                 $isFavorite = HousingFavorite::where("housing_id", $item->id)->where("user_id", Auth::user()->id)->first();
             }
+
+                $cartStatus = CartOrder::whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.type')) = 'housing'")
+                ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->id])
+                ->value('status');
+
+            $action = $cartStatus ? ( ($cartStatus == 0) ? 'payment_await' : (($cartStatus == 1) ? 'sold' : (($cartStatus == 2) ? 'tryBuy' : ''))) : "noCart";
+            $housingTypeData = json_decode($item->housing_type_data, true);
+
+            $offSale = isset($housingTypeData['off_sale1']);
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
                 'housing_type_title' => $item->housing_type_title,
@@ -533,6 +543,8 @@ class HomeController extends Controller
                 'city' => $item->city,
                 'county' => $item->county,
                 'created_at' => $item->created_at,
+                "action" => $cartStatus,
+                'offSale' => $offSale,
                 'housing_type' =>
                 [
                     'has_discount' => $discount_amount > 0,

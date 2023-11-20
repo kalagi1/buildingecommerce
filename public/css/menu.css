@@ -40,13 +40,13 @@ img {
 
 /* Header Widget */
 
-/* .header-widget {
+.header-widget {
     position: relative;
     height: 100%;
     width: 100%;
     justify-content: end;
     align-items: center;
-} */
+}
 
 .header-widget a {
     color: black;

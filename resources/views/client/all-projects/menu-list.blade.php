@@ -821,31 +821,45 @@
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
                                                         <li style="font-size: 15px; font-weight: 700;flex:1;" class="priceFont">
-                                                            ${numberFormat(res.housing_type.price)} ₺
-
+                                                            ${res.offSale || (res.action === 'payment_await' || res.action === 'sold') ?
+                                                                " " : numberFormat(res.housing_type.price) + "₺"} 
                                                         </li>
+
                                                         <li style="display: flex; justify-content: center;flex:1;">
                                                             ${formatDate(res.created_at)}
 
                                                         </li>
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
-                                                        ${res.sold ?
+                                                    ${res.offSale ?
+                                                        `<button
+                                                        class="btn second-btn CartBtn" disabled
+                                                        style="background: red !important;width:100%;color:White">Satıldı
+                                                        </button>`
+                                                        :
+                                                        res.action === 'payment_await' ?
                                                             `<button
-                                                                style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                            class="btn second-btn CartBtn" disabled
+                                                            style="background: orange !important;width:100%;color:White">Onay Bekleniyor
                                                             </button>`
-                                                            : 
-                                                            
-                                                            `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                data-id='${res.id}'>
-                                                                <span class="IconContainer">
-                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                            :
+                                                            res.action === 'sold' ?
+                                                                `<button
+                                                                class="btn second-btn CartBtn" disabled
+                                                                    style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                </button>`
+                                                                :
+                                                                `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                    data-id='${res.id}'>
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                    </span>
+                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                </button>`
+                                                    }
+                                                </ul>
 
-                                                                </span>
-                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                            </button>`
-                                                            }
-                                                    </ul>
+
                                                 </div>
                                             </div>
                                         </div>
