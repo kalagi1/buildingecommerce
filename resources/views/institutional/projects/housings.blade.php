@@ -53,8 +53,8 @@
                                             alt="home-1" class="img-responsive"
                                             style="height: 100px !important;object-fit:cover">
                                     </td>
-                                    @if(isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
-                                        <td class="room_count">
+                                    <td class="room_count">
+                                            @if(isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
                                             <i
                                                 class="fa fa-circle circleIcon mr-1"></i>
                                             <span>
@@ -63,10 +63,10 @@
                                                     {{$project->listItemValues->column2_additional}}
                                                 @endif
                                             </span>
+                                            @endif
                                         </td>
-                                    @endif
-                                    @if(isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
                                         <td class="room_count">
+                                            @if(isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
                                             <i class="fa fa-circle circleIcon mr-1"
                                                 aria-hidden="true"></i>
                                             <span>{{ getData($project, $project->listItemValues->column2_name.'[]', $i + 1)->value }}
@@ -74,10 +74,10 @@
                                                     {{$project->listItemValues->column2_additional}}
                                                 @endif
                                             </span>
+                                            @endif
                                         </td>
-                                    @endif
-                                    @if(isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
                                         <td class="room_count">
+                                            @if(isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
                                             <i
                                                 class="fa fa-circle circleIcon mr-1"></i>
                                             <span>
@@ -86,8 +86,8 @@
                                                     {{$project->listItemValues->column3_additional}}
                                                 @endif
                                             </span>
+                                            @endif
                                         </td>
-                                    @endif
                                    
                                     <td class="price">
                                         {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}₺

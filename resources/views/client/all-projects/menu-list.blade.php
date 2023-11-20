@@ -767,7 +767,7 @@
                             @else
                                 var featuredHtml = '';
                                 if(res.doping_time){
-                                    var featuredHtml = '<div class="homes-tag button alt featured">Öne Çıkan </div>';
+                                    var featuredHtml = '<div class="homes-tag button alt featured">Sponsorlu </div>';
                                 }
                                 $('.pp-row').append(
                                     `

@@ -64,7 +64,6 @@ class ProjectController extends Controller
     {
         $bankAccounts = BankAccount::all();
 
-        // Tüm projeleri çek ve ilişkiyi yükle
         $projects = Project::where('user_id', Auth::user()->id)
             ->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')
             ->orderByDesc('created_at')
@@ -84,19 +83,20 @@ class ProjectController extends Controller
             ->where("status", "0")
             ->get();
 
-            $offSaleCount = 0; // off_sale değeri [] olmayan projelerin sayacı
-  // Projeleri ilgili sipariş sayısı ile eşleştirin ve off_sale değerini kontrol et
-  $projects = $projects->map(function ($project) use ( &$offSaleCount) {
-    foreach ($project->housings as $housing) {
-        if ($housing->off_sale != "[]") {
-            $project->status = "Satışa Kapatıldı";
-            $project->offSale = $offSaleCount++;
-            break; // Bir kez bulduktan sonra döngüden çık
-        }
-    }
+            $offSaleCount = 0; 
+            $projects = $projects->map(function ($project) use ( &$offSaleCount) {
+                foreach ($project->housings as $housing) {
+                    if($housing->name == "off_sale[]" && $housing->value != []) {
+                        $project->status = "Satışa Kapatıldı";
+                    $total = $offSaleCount++;
+                        break; 
+                    }
+                }
+                $project->offSale = $offSaleCount;
+                return $project;
+            });
 
-    return $project;
-});
+
         
         $projects = $projects->map(function ($project) use ($projectCounts) {
             $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;

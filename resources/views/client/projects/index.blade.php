@@ -99,7 +99,7 @@
                 <div class="news-item news-item-sm">
                     <div class="news-img-link">
                         <div class="news-item-img homes">
-                            <div class="homes-tag button alt featured">
+                            <div class="homes-tag button alt featured" style="width:150px !important">
                                 <a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
                                     style="color:White">{{ $project->user->name }}</a>
                             </div>
@@ -235,7 +235,7 @@
 
                                     <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
                                         data-aos="fade-up"
-                                        @if ($sold) style="background: #EEE !important;" @endif>
+                                        @if ($sold || getData($project, 'off_sale[]', $i + 1)->value != "[]") style="background: #EEE !important;" @endif>
 
                                         <div class="row align-items-center justify-content-between mobile-position">
                                             <div class="col-md-8">
@@ -413,7 +413,7 @@
                                                         <button class="btn second-btn CartBtn" disabled
                                                             style="background: red !important;width:100%;color:White;height: auto !important">
 
-                                                            <span class="text">Satıldı</span>
+                                                            <span class="text">Satışa Kapatıldı</span>
                                                         </button>
                                                     @else
                                                         @if ($sold && $sold[0]->status != '2')
@@ -512,7 +512,7 @@
                                                 <span class="IconContainer">
                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                 </span>
-                                                <span class="text">Satıldı</span>
+                                                <span class="text">Satışa Kapatıldı</span>
                                             </button>
                                         @else
                                             @if ($sold && $sold[0]->status != '2')

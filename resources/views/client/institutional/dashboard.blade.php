@@ -660,7 +660,7 @@
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div class="section-title">
-                    <h2>Yapım Aşamasındaki Projeler</h2>
+                    <h2>Devam Eden Projeler</h2>
                 </div>
             </div>
             <div class="mobile-show">
@@ -676,7 +676,7 @@
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                                 <div class="project-inner project-head">
-                                    <a href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}">
+                                    <a href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                         <div class="homes">
                                             <!-- homes img -->
 
@@ -707,16 +707,15 @@
                                                 {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                             @endif
                                         </h3>
-
-
                                     </a>
                                     <div class="d-flex align-items-center">
                                         <div class="d-flex" style="gap: 8px;">
                                             <a href="#" class="btn toggle-project-favorite bg-white"
-                                                data-project-housing-id="{{ $i + 1 }}" style="color: white;"
+                                                data-project-housing-id="{{ $room_order }}" style="color: white;"
                                                 data-project-id="{{ $project->id }}">
                                                 <i class="fa fa-heart-o"></i>
                                             </a>
+
                                            @if (getHouse($project, 'off_sale[]', $i + 1)->value != "[]")
                                                 <button class="btn   mobileBtn  second-btn CartBtn" disabled
                                                     style="background: red !important;width:100%;color:White">
@@ -761,14 +760,16 @@
                                                     <polyline points="17 18 23 18 23 12"></polyline>
                                                 </svg>
                                             @endif
-                                            @if ($sold)
-                                                @if ($sold[0]->status != '0' && $sold[0]->status != '1')
+                                            @if (getHouse($project, 'off_sale[]', $i + 1)->value == "[]")
+                                                @if ($sold)
+                                                    @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                                        {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
+                                                        ₺
+                                                    @endif
+                                                @else
                                                     {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
                                                     ₺
                                                 @endif
-                                            @else
-                                                {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 2, ',', '.') }}
-                                                ₺
                                             @endif
                                     </div>
                                 </div>
@@ -777,18 +778,51 @@
                         <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
                             <ul class="d-flex justify-content-around align-items-center h-100"
                                 style="list-style: none;padding:0;font-weight:600">
-                                <li class="d-flex align-items-center itemCircleFont">
-                                    <i class="fa fa-circle circleIcon"></i>
-                                    No: {{ $i + 1 }}
-                                </li>
-                                <li class="d-flex align-items-center itemCircleFont">
-                                    <i class="fa fa-circle circleIcon"></i>
-                                    {{ getHouse($project, 'squaremeters[]', $i + 1)->value }} m2
-                                </li>
-                                <li class="d-flex align-items-center itemCircleFont">
-                                    <i class="fa fa-circle circleIcon"></i>
-                                    {{ getHouse($project, 'room_count[]', $i + 1)->value }}
-                                </li>
+                                @if (isset($project->listItemValues) &&
+                                        isset($project->listItemValues->column1_name) &&
+                                        $project->listItemValues->column1_name)
+                                    <li class="sude-the-icons" style="width:auto !important">
+                                        <i class="fa fa-circle circleIcon mr-1"></i>
+                                        <span>
+                                            {{ getHouse($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
+                                            @if (isset($project->listItemValues) &&
+                                                    isset($project->listItemValues->column1_additional) &&
+                                                    $project->listItemValues->column1_additional)
+                                                {{ $project->listItemValues->column1_additional }}
+                                            @endif
+                                        </span>
+                                    </li>
+                                @endif
+                                @if (isset($project->listItemValues) &&
+                                        isset($project->listItemValues->column2_name) &&
+                                        $project->listItemValues->column2_name)
+                                    <li class="sude-the-icons" style="width:auto !important">
+                                        <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                        <span>
+                                            {{ getHouse($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
+                                            @if (isset($project->listItemValues) &&
+                                                    isset($project->listItemValues->column2_additional) &&
+                                                    $project->listItemValues->column2_additional)
+                                                {{ $project->listItemValues->column2_additional }}
+                                            @endif
+                                        </span>
+                                    </li>
+                                @endif
+                                @if (isset($project->listItemValues) &&
+                                        isset($project->listItemValues->column3_name) &&
+                                        $project->listItemValues->column3_name)
+                                    <li class="sude-the-icons" style="width:auto !important">
+                                        <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                        <span>
+                                            {{ getHouse($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
+                                            @if (isset($project->listItemValues) &&
+                                                    isset($project->listItemValues->column3_additional) &&
+                                                    $project->listItemValues->column3_additional)
+                                                {{ $project->listItemValues->column3_additional }}
+                                            @endif
+                                        </span>
+                                    </li>
+                                @endif
                                 <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon"></i>
                                     {{ $project->city->title }} {{ '/' }} {{ $project->county->ilce_title }}
