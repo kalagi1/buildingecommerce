@@ -68,9 +68,32 @@ class TempOrderController extends Controller
     }
 
     public function getDopingPrice(Request $request){
-        $dopingPrice = DopingPricing::where('day',$request->input('day'))->where('item_type',$request->input('item_type'))->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
 
-        return $dopingPrice;
+        if(!$tempOrder){
+            $tempData = [
+                "images" => []
+            ];
+
+            $tempData = json_encode($tempData);
+            $tempData = json_decode($tempData);
+        }else{
+            $tempData = json_decode($tempOrder->data);
+        }
+
+        $datas = [];
+
+        if(isset($tempData->featured) && $tempData->featured){
+            $dopingPrice = DopingPricing::where('day',$tempData->featured_data_day)->where('item_type',1)->first();
+            array_push($datas,$dopingPrice);
+        }
+
+        if(isset($tempData->top_row) && $tempData->top_row){
+            $dopingPrice = DopingPricing::where('day',$tempData->top_row_data_day)->where('item_type',1)->first();
+            array_push($datas,$dopingPrice);
+        }
+
+        return $datas;
     }
 
     public function projectHousingDataChange(Request $request){
@@ -474,7 +497,6 @@ class TempOrderController extends Controller
         if($request->input('item_type') != 3){
             $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
             $tempData = json_decode($tempOrder->data);
-
             if($request->hasFile('file')){
                 $imageCount = 0;
                 if(isset($tempData->roomInfoKeys) && isset($tempData->roomInfoKeys->image)){
@@ -491,6 +513,7 @@ class TempOrderController extends Controller
             if(isset($data->roomInfoKeys) ){
                 if(isset($data->roomInfoKeys->image)){
                     $data->roomInfoKeys->image[$request->input('order')] = $imageName;
+                    $tempData->roomInfoKeys->image = array_values($tempData->roomInfoKeys->image);
                 }else{
                     $data->roomInfoKeys->image = [$imageName];
                 }
@@ -666,24 +689,48 @@ class TempOrderController extends Controller
         $housingType = HousingType::where('id',$data->housing_type_id)->first();
         $formJson = json_decode($housingType->form_json);
         $errors = [];
-        if(isset($data->house_count) && $data->house_count){
-            for($i = 0; $i < $data->house_count; $i++){
-                foreach($formJson as $json){
-                    if($json->required){
-                        if(isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}) && isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i]) && $data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i] != "Seçiniz"){
-
-                        }else{
-                            array_push($errors,"Lütfen sonraki aşamaya geçmeden önce".($i+1).'. '.$housingType->title.' '.$json->label.' değerini doldurmanız gerekiyor');
-                        };
+        if(!$data->has_blocks){
+            if(isset($data->house_count) && $data->house_count ){
+                for($i = 0; $i < $data->house_count; $i++){
+                    foreach($formJson as $json){
+                        if($json->required){
+                            if(isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}) && isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i]) && $data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i] != "Seçiniz"){
+    
+                            }else{
+                                array_push($errors,"Lütfen sonraki aşamaya geçmeden önce".($i+1).'. '.$housingType->title.' '.$json->label.' değerini doldurmanız gerekiyor');
+                            };
+                        }
                     }
                 }
+            }else{
+                return json_encode([
+                    "status" => false,
+                    "message" => "Sonraki aşamaya geçmeden önce lütfen ".$housingType->title.' sayısını belirtiniz ve içeriklerini doldurunuz'
+                ]);
             }
         }else{
-            return json_encode([
-                "status" => false,
-                "message" => "Sonraki aşamaya geçmeden önce lütfen ".$housingType->title.' sayısını belirtiniz ve içeriklerini doldurunuz'
-            ]);
+            for($j = 0 ; $j < count($data->blocks); $j++){
+                if(isset($data->{"house_count".$j}) && $data->{"house_count".$j} ){
+                    for($i = 0; $i < $data->{"house_count".$j}; $i++){
+                        foreach($formJson as $json){
+                            if($json->required){
+                                if(isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}) && isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i]) && $data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i] != "Seçiniz"){
+        
+                                }else{
+                                    array_push($errors,"Lütfen sonraki aşamaya geçmeden önce".($i+1).'. '.$housingType->title.' '.$json->label.' değerini doldurmanız gerekiyor');
+                                };
+                            }
+                        }
+                    }
+                }else{
+                    return json_encode([
+                        "status" => false,
+                        "message" => "Sonraki aşamaya geçmeden önce lütfen ".$data->blocks[$i]." ".$housingType->title.' sayısını belirtiniz ve içeriklerini doldurunuz'
+                    ]);
+                }
+            }
         }
+        
         
         if(count($errors) > 0){
             return json_encode([
@@ -696,5 +743,35 @@ class TempOrderController extends Controller
             ]);
         }
         return ;
+    }
+
+    public function addBlockHousing(Request $request){
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempData = json_decode($tempOrder->data);
+        $data = $tempData;
+        if(isset($data->blocks)){
+            array_push($data->blocks,$request->input('block'));
+        }else{
+            $data->blocks = [$request->input('block')];
+        }
+
+        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            "data" => json_encode($data),
+        ]);
+    }
+
+    public function getBlockData(Request $request){
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempData = json_decode($tempOrder->data);
+        $blockHousingCounts = 0;
+        for($i = 0; $i < intval($request->input('block_index')); $i++){
+            $blockHousingCounts += $tempData->{"house_count".$i};
+        }
+        $dataCopyItem = $this->getHouseDataFunc($blockHousingCounts,$request->input('item_type'));
+
+        return json_encode([
+            "housing_count" => isset($tempData->{"house_count".$request->input('block_index')}) ? $tempData->{"house_count".$request->input('block_index')} : 0,
+            "data" => $dataCopyItem
+        ]);
     }
 }
