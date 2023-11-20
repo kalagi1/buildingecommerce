@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\Chat;
 use App\Models\City;
 use App\Models\EmailTemplate;
 use App\Models\SubscriptionPlan;

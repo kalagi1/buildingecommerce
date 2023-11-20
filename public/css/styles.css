@@ -8370,7 +8370,6 @@ html input[disabled] {
     font-size: 16px;
     text-align: center;
     text-decoration: none;
-    margin-top: 30px;
 }
 
 .hd-white .header-widget.sign-in a,
@@ -8414,7 +8413,6 @@ a.button {
     padding: 0 10px 0 20px;
     border-left: 1px solid #fff;
     border-right: 1px solid #fff;
-    margin-top: 20px;
     margin-left: 0px !important;
     margin-right: 55px;
     display: inline-block;

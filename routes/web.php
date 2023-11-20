@@ -174,6 +174,8 @@ Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRe
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
     Route::put('/users/{user}/block', [UserController::class, 'blockUser'])->name('users.block');
     Route::get('/messages', [UserController::class, 'messages'])->name('messages');
+    Route::post('/messages/store', [SupportChatController::class, 'adminStore'])->name('messages.store');
+    Route::post('/upload-endpoint', [UserController::class, "upload"])->name("ckeditor.upload");
 
     Route::get('/notification-history', [InfoController::class, 'notificationHistory'])->name('notification-history');
 
@@ -923,6 +925,7 @@ Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}', [ClientProjectContro
 // Kullanıcı sayfası
 Route::get('/user-chat', [SupportChatController::class, 'userChat']);
 Route::post('/messages/store', [SupportChatController::class, 'store'])->name('messages.store');
+
 
 // Admin sayfası
 Route::get('/admin-chat', [SupportChatController::class, 'adminChat']);
