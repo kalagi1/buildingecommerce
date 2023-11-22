@@ -40948,6 +40948,15 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     z-index: 9999;
 }
 
+.pop-up-v4 {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+}
+
 .pop-up-v2 {
     position: fixed;
     width: 100%;
@@ -41386,7 +41395,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     opacity: 0.55;
 }
 
-.load-area {
+.load-area2 {
     position: fixed;
     top: 0;
     width: 50%;
@@ -42234,4 +42243,33 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     background: green;
     color: #fff;
     padding: 3px;
+}
+
+.load-area2 {
+    position: fixed;
+    top: 0;
+    width: 50%;
+    height: 70px;
+    background: #e54242;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 9999;
+    left: 25%;
+}
+
+.progress2 {
+    margin: 10px 10px;
+    height: 20px;
+    background: #fff;
+}
+
+.progress-bar2 {
+    background: #333;
+}
+
+.load-area2 span {
+    display: block;
+    text-align: center;
+    color: #fff;
+    margin: 10px 0;
 }
