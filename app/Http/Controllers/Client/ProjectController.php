@@ -24,7 +24,7 @@ class ProjectController extends Controller
     public function index($slug)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $slug)->with("brand",'listItemValues', "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $slug)->with("brand","blocks",'listItemValues', "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         $project->roomInfo = $project->roomInfo;
         $project->brand = $project->brand;
         $project->housingType = $project->housingType;
@@ -42,6 +42,7 @@ class ProjectController extends Controller
             ->where("status", "1")
             ->get();
         $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+
         return view('client.projects.index', compact('menu', "offer", 'project'));
     }
 

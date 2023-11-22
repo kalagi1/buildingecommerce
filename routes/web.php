@@ -33,6 +33,7 @@ use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChan
 use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboardController;
 use App\Http\Controllers\ClientPanel\ProfileController as ClientPanelProfileController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\ReservationController;
 use App\Http\Controllers\Client\CountyController;
 use App\Http\Controllers\Client\FavoriteController;
 use App\Http\Controllers\Client\HomeController;
@@ -84,6 +85,7 @@ Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
+Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
 
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
 Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");

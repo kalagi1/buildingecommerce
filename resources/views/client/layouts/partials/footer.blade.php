@@ -620,7 +620,12 @@
 <!-- Slider Revolution scripts -->
 <script src="{{ URL::to('/') }}/revolution/js/jquery.themepunch.tools.min.js"></script>
 <script src="{{ URL::to('/') }}/revolution/js/jquery.themepunch.revolution.min.js"></script>
+    <!-- lightbox2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <!-- jQuery -->
 
+    <!-- lightbox2 JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <!-- MAIN JS -->
 <script src="{{ URL::to('/') }}/js/script.js"></script>
 
@@ -684,8 +689,8 @@
 
                             },
                             error: function(error) {
-                                toastr.error("Lütfen Giriş Yapınız");
-                                console.error(error);
+                                window.location.href = "/giris-yap"; 
+                                                                console.error(error);
                             }
                         });
                     }
@@ -716,7 +721,7 @@
 
                             },
                             error: function(error) {
-                                toastr.error("Lütfen Giriş Yapınız");
+                               window.location.href = "/giris-yap";
                                 console.error(error);
                             }
                         });
@@ -913,7 +918,7 @@
                         }
                     },
                     error: function(error) {
-                        toastr.error("Lütfen Giriş Yapınız");
+                       window.location.href = "/giris-yap";
                         console.error(error);
                     }
                 });
@@ -955,7 +960,7 @@
                     }
                 },
                 error: function(error) {
-                    toastr.error("Lütfen Giriş Yapınız");
+                   window.location.href = "/giris-yap";
                     console.error(error);
                 }
             });

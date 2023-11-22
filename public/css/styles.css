@@ -5718,13 +5718,6 @@ element.style {
     justify-content: flex-start;
 }
 
-.homepage-2 .nav-item a.active,
-.homepage-2 .nav-item a:hover,
-.homepage-2 .nav-item a.active:before,
-.homepage-2 .btn.btn-yellow {
-    background: black;
-}
-
 .homepage-2 .form-group .nice-select {
     margin: 0;
     height: 50px;
@@ -8347,7 +8340,8 @@ html input[disabled] {
     .mobileBtn{
         width:40px !important
     }
-   .mobileBtn .IconContainer{
+   .mobileBtn .IconContainer,
+   .reservationBtn .IconContainer{
         left:5px !important;
     }
 
@@ -15890,10 +15884,10 @@ a.button {
 }
 
 .detail-wrapper-body {
-    width:70%
+    width:100%
 }
 .single.detail-wrapper {
-    width: 25%
+    width: 100%
 }
 
 .inner-pages.hp-6.full .single.detail-wrapper {
@@ -17280,17 +17274,29 @@ section.headings-2 {
 }
 
 .inner-pages .headings-2 .listing-title-bar h3 {
-    font-size: 22px;
+    font-size: 18px;
     line-height: 34px;
     font-weight: 600;
     color: #222;
+    margin-bottom: 0 !important;
     text-transform: capitalize !important;
+}
+
+.reservation-list{
+    width:100%;
+}
+
+.reservation-list li {
+    width:50% !important;
 }
 
 .inner-pages .headings-2 .listing-title-bar h4 {
     font-size: 24px;
     font-weight: 600;
-    color: #dc3545;
+    color: #274abb;
+    display:flex;
+    align-items:center;
+    justify-content:start;
     text-transform: capitalize !important;
 }
 
@@ -17997,7 +18003,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     line-height: 36px;
     list-style: none;
     justify-content: center;
-    color: #e54242;
+    color: #274abb;
 }
 
 .inner-pages .blog .homes-content .homes-list li:last-child {
@@ -18005,7 +18011,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .inner-pages .blog .homes-content.details-2 {
-    background: #303441;
+    background: black;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -18017,6 +18023,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .inner-pages .blog .homes-content.details-2.mb-4 {
     margin-bottom: 30px !important;
+    padding: 3px 30px;
 }
 
 .inner-pages .portfolio .homes-content .homes-list {
@@ -20820,6 +20827,10 @@ select:focus {
 }
 
 @media screen and (max-width: 768px) {
+    .reservation-list li {
+        width:100%;
+    }
+    
     .portfolio .homes-content .homes-list li{
         width:50% !important;
     }
@@ -24811,7 +24822,6 @@ section.ui-element {
     padding: 13px;
     display: inline-block;
     text-align: center;
-    border-radius: 9px;
     width: auto;
     background: #f3f3f3;
     -webkit-user-select: none;
@@ -24827,11 +24837,10 @@ section.ui-element {
 }
 
 .ui-elements .button-tabs .tab-title span {
-    font-size: 16px;
+    font-size: 13px;
     line-height: 24px;
     color: black;
-    font-weight: 400;
-    text-transform: capitalize;
+    font-weight: 600;
     letter-spacing: 2px;
 }
 
@@ -27195,6 +27204,7 @@ input[type="checkbox"]::before {
 }
 
 .CartBtn ,
+.reservationBtn,
 .soldBtn {
     width: 100%;
     height: 40px;
@@ -27256,12 +27266,24 @@ input[type="checkbox"]::before {
     z-index: 2;
     transition-duration: .5s;
 }
-
+.flatpickr-day{
+    margin:2px !important;
+    border-radius: 0 !important;
+}
 .CartBtn .icon {
     border-radius: 1px;
 }
+.yellow-bg{
+    background: orange !important;
+    color:White !important;
+}
+.red-bg{
+    background: red !important;
+    color:White !important;
 
+}
 .CartBtn .text ,
+.reservationBtn .text,
 .soldBtn .text{
     height: 100%;
     width: fit-content;
@@ -28465,10 +28487,10 @@ input[type="checkbox"]::before {
   
   .type-tag{
     background: #EA2B2E !important;
-    right: 15px;
+    right: 10px;
     text-align: center;
-    width: 60px !important;
-    margin-top: 15px;
+    width: auto !important;
+    margin-top: 10px;
     position: absolute;
   }
 
