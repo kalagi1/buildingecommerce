@@ -28,6 +28,19 @@
     </div>
     @endif
     
+    <div class="pop-up-v4 d-none">
+        <div class="pop-back">
+
+        </div>
+        <div class="pop-content">
+            <div class="load-area2">
+                <div class="progress2">
+                    <div class="progress-bar2"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <span>Konut Değiştiriliyor</span>
+            </div>
+        </div>
+    </div>
     
 
     <div class="pop-up-v3 d-none">
@@ -63,6 +76,11 @@
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
                         </select>
                     </div>
                     <div class="col-md-5">
@@ -107,7 +125,7 @@
                         </li>
                         <li @if(isset($tempDataFull) && $tempDataFull->step_order == 2) class="current" @elseif($tempDataFull->step_order > 2) class="done" @endif>
                             <a href="" class="step-counter"><i class="fa fa-star"></i> <span>2</span></a>
-                            <a href="">İlan Detayları</a>
+                            <a href="">Proje Detayları</a>
                         </li>
                         <li @if(isset($tempDataFull) && $tempDataFull->step_order == 3) class="current" @elseif($tempDataFull->step_order > 3) class="done" @endif>
                             <a href="" class="step-counter"><i class="fa fa-star"></i> <span>3</span></a>
@@ -186,7 +204,7 @@
                         </div>
                     </div>
                     <div class="form-area mt-4">
-                        <span class="section-title">İlan Detayları</span>
+                        <span class="section-title">Proje Detayları</span>
                         
                         <div class="form-group">
                             <label for="">Proje Adı <span class="required">*</span></label>
@@ -562,6 +580,7 @@
         <script>
             var selectedDopings = [];
             var selectedBlock = 0;
+            var copyHousings = [];
             @if(isset($tempData->has_blocks))
                 @if($tempData->has_blocks)
                     var hasBlocks = true;
@@ -572,6 +591,7 @@
                 var hasBlocks = false;
             @endif
             var blockHouseCount = [];
+            var blockNames = [];
 
             $('.has_blocks_input').change(function(){
                 if($(this).val() == "1"){
@@ -591,6 +611,7 @@
                 @foreach($tempData->blocks as $key=>$block)
                     @if(isset($tempData->{'house_count'.$key}))
                         blockHouseCount.push({{($tempData->{'house_count'.$key})}});
+                        blockNames.push("{{$block}}");
                     @endif
                 @endforeach
             @endif
@@ -601,7 +622,6 @@
             $('.housing_count_input').keyup(function(){
                 if(hasBlocks){
                     blockHouseCount[selectedBlock] = this.value;
-                    console.log(blockHouseCount);
                     changeData(this.value,'house_count'+selectedBlock)
                 }else{
                     changeData(this.value,'house_count')
@@ -612,9 +632,12 @@
                 $('.pop-up-v3').removeClass('d-none');
             })
 
+            var houseCount = 0;
+
             $('.confirm-button-block').click(function(){
                 var blockName = $('.block-name').val();
                 var housingCount = $('.block-count').val();
+                
                 $.ajax({
                     url: '{{route("institutional.temp.order.add.house.block")}}',
                     type: 'POST',
@@ -631,18 +654,24 @@
                         $('.blocks').append(html);
 
                         changeData($('.block-count').val(),'house_count'+blockHouseCount.length)
+                        blockNames.push(blockName);
                         blockHouseCount.push($('.block-count').val());
+                        confirmHousings();
+                        
+                        
                         $('.pop-up-v3').addClass('d-none')
                         if(blockHouseCount.length == 1){
                             $('.block').addClass('active');
                             $('.total-house-text').html($('.block-count').val())
                             $('.bottom-housing-area').removeClass('d-none')
                             
-                            const houseCount = parseInt($('.block-count').val());
+                            houseCount = parseInt($('.block-count').val());
 
                             if (isNaN(houseCount) || houseCount <= 0) {
                                 alert('Lütfen geçerli bir sayı girin.');
                             }
+
+
                             var htmlContent = '';
                             $.ajax({
                                 method: "GET",
@@ -710,12 +739,9 @@
                                 }
 
                                 $('.next-house-bottom').click(function(){
+                                    var thisx = $(this);
                                     if(!$(this).hasClass('disabled-button')){
-                                        if(parseInt($('.house_order_input').val()) + 1 == houseCount){
-                                            $(this).addClass('disabled-button')
-                                        }else{
-                                            $(this).removeClass('disabled-button')
-                                        }
+                                        
 
                                         var nextHousing = true;
                                         $('.tab-pane.active input[required="required"]').map((key,item) => {
@@ -753,15 +779,39 @@
                                         var lastOrders = 0;
                                         if(hasBlocks){
                                             for(var i = 0 ; i < selectedBlock; i++){
-                                                lastOrders += blockHouseCount[i];
+                                                lastOrders += parseInt(blockHouseCount[i]);
                                             }
                                         }
 
                                         if(nextHousing){
+                                            $('.pop-up-v4').removeClass('d-none');
+                                            var lastOrders = 0;
+                                            if(hasBlocks){
+                                                for(var i = 0 ; i < selectedBlock; i++){
+                                                    if(i == 0){
+                                                        lastOrders += 1;
+                                                    }
+                                                    lastOrders += blockHouseCount[i];
+                                                }
+                                            }
                                             $.ajax({
                                                 url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+(lastOrders + parseInt($('.house_order_input').val())), // AJAX isteği yapılacak URL
                                                 type: "GET", // GET isteği
                                                 dataType: "json", // Gelen veri tipi JSON
+                                                xhr: function() {
+                                                    var xhr = new window.XMLHttpRequest();
+                                                    console.log(xhr);
+                                                    // İlerleme durumu değiştikçe çalışacak olan fonksiyon
+                                                    xhr.upload.addEventListener('progress', function(evt) {
+                                                        console.log(evt)
+                                                        if (evt.lengthComputable) {
+                                                            var percentComplete = (evt.loaded / evt.total) * 100;
+                                                            $('.progress-bar2').css('width',percentComplete+'%');
+                                                        }
+                                                    }, false);
+
+                                                    return xhr;
+                                                },
                                                 success: function (data) {
                                                     for(var i = 0 ; i < data.length; i++){
                                                         var key = Object.keys(data[i])
@@ -804,6 +854,13 @@
                                                             }
                                                         }
                                                     }
+                                                    
+                                                    if((parseInt($('.house_order_input').val())+1) == houseCount){
+                                                        thisx.addClass('disabled-button')
+                                                    }else{
+                                                        thisx.removeClass('disabled-button')
+                                                    }
+                                                    $('.pop-up-v4').addClass('d-none');
 
                                                     confirmHousings();
                                                     $('.prev-house-bottom').removeClass('disabled-button')
@@ -822,11 +879,7 @@
 
                                 $('.prev-house-bottom').click(function(){
                                     if(!$(this).hasClass('disabled-button')){
-                                        if(parseInt($('.house_order_input').val()) == 1){
-                                        $(this).addClass('disabled-button')
-                                    }else{
-                                        $(this).removeClass('disabled-button')
-                                    }
+                                    var thisx = $(this);
 
                                     var indexItem = $('.tab-pane.active').index();
                                     $('.tab-pane.active').removeClass('active');
@@ -838,8 +891,17 @@
                                         scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
                                     }, 100);
                                     $('.next-house-bottom').removeClass('disabled-button')
+                                    var lastOrders = 0;
+                                    if(hasBlocks){
+                                        for(var i = 0 ; i < selectedBlock; i++){
+                                            if(i == 0){
+                                                lastOrders += 1;
+                                            }
+                                            lastOrders += blockHouseCount[i];
+                                        }
+                                    }
                                     $.ajax({
-                                        url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+($('.house_order_input').val() - 2), // AJAX isteği yapılacak URL
+                                        url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+(lastOrders + parseInt($('.house_order_input').val()) - 2), // AJAX isteği yapılacak URL
                                         type: "GET", // GET isteği
                                         dataType: "json", // Gelen veri tipi JSON
                                         success: function (data) {
@@ -885,7 +947,11 @@
                                                     }
                                                 }
                                             }
-
+                                            if(parseInt($('.house_order_input').val()) == 1){
+                                                thisx.addClass('disabled-button')
+                                            }else{
+                                                thisx.removeClass('disabled-button')
+                                            }
                                             confirmHousings();
                                             $('.house_order_input').val(parseInt($('.house_order_input').val()) - 1)
                                             $('.room-order-progress').html(parseInt($('.house_order_input').val()))
@@ -973,7 +1039,6 @@
 
                                 
                                 $('.copy-item').change(function(){
-                                    console.log("kopya 1")
                                     var transactionIndex = 0;
                                     $('.tab-pane').prepend('<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>');
                                     var order = parseInt($(this).val()) - 1;
@@ -1232,6 +1297,7 @@
                         $('.block-count').val("");
                         $('.block').click(function(){
                             var index = $(this).index();
+                            houseCount = blockHouseCount[index];
                             var thisx = $(this);
                             $.ajax({
                                 url: '{{route("institutional.temp.order.get.block.data")}}',
@@ -1243,65 +1309,76 @@
                                 },
                                 success: function(response) {
                                     response = JSON.parse(response);
-                                    if(response.housing_count){
-                                        $('.housing_count_input').val(response.housing_count);
-                                        $('.total-house-text').html(response.housing_count);
-                                    }else{
-                                        $('.housing_count_input').val("");
-                                        $('.tab-content').html("");
-                                    }
-                                    selectedBlock = index;
-                                    $('.block').removeClass('active');
-                                    thisx.addClass('active');
-                                    var data = response.data;
-                                    for(var i = 0 ; i < data.length; i++){
-                                        var key = Object.keys(data[i])
-                                        if(data[i].type == "select"){
-                                            $('select[name="'+key[0]+'[]"]')
-                                            if(data[i][key[0]] == null){
-                                                $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
-                                            }else{
-                                                $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
-                                            }
+                                    console.log(response);
+                                    if(response.status){
+                                        if(response.housing_count){
+                                            $('.housing_count_input').val(response.housing_count);
+                                            $('.total-house-text').html(response.housing_count);
                                         }else{
-                                            if(data[i].type != "file"){
-                                                if(data[i].type == "checkbox-group"){
-                                                    if(data[i][key[0]] == null){
-                                                        $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
-                                                    }else{
-                                                        $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
-                                                            $(item).prop('checked',false)
-                                                            for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                                if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                                    $(item).prop('checked',true);
-                                                                }
-                                                            }
-                                                            
-                                                        })
-                                                    }
+                                            $('.housing_count_input').val("");
+                                            $('.tab-content').html("");
+                                        }
+                                        selectedBlock = index;
+                                        $('.block').removeClass('active');
+                                        thisx.addClass('active');
+                                        var data = response.data;
+                                        for(var i = 0 ; i < data.length; i++){
+                                            var key = Object.keys(data[i])
+                                            if(data[i].type == "select"){
+                                                $('select[name="'+key[0]+'[]"]')
+                                                if(data[i][key[0]] == null){
+                                                    $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
                                                 }else{
-                                                    if(data[i][key[0]] == null){
-                                                        $('input[name="'+key[0]+'[]"]').val("");
-                                                    }else{
-                                                        $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
-                                                    }
+                                                    $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
                                                 }
                                             }else{
-                                                if(data[i][key[0]] == null){
-                                                    $('.project_imaget img').remove();
+                                                if(data[i].type != "file"){
+                                                    if(data[i].type == "checkbox-group"){
+                                                        if(data[i][key[0]] == null){
+                                                            $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
+                                                        }else{
+                                                            $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
+                                                                $(item).prop('checked',false)
+                                                                for(var k = 0 ; k < data[i][key[0]].length; k++){
+                                                                    if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                        $(item).prop('checked',true);
+                                                                    }
+                                                                }
+                                                                
+                                                            })
+                                                        }
+                                                    }else{
+                                                        if(data[i][key[0]] == null){
+                                                            $('input[name="'+key[0]+'[]"]').val("");
+                                                        }else{
+                                                            $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                                        }
+                                                    }
                                                 }else{
-                                                    $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                                    if(data[i][key[0]] == null){
+                                                        $('.project_imaget img').remove();
+                                                    }else{
+                                                        $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
 
-                                    confirmHousings();
-                                    $('.prev-house-bottom').addClass('disabled-button')
-                                    $('.next-house-bottom').removeClass('disabled-button')
-                                    $('.house_order_input').val(1)
-                                    $('.room-order-progress').html(parseInt($('.house_order_input').val()))
-                                    $('.error-border').removeClass('error-border');
+                                        confirmHousings();
+                                        $('.prev-house-bottom').addClass('disabled-button')
+                                        $('.next-house-bottom').removeClass('disabled-button')
+                                        $('.house_order_input').val(1)
+                                        $('.room-order-progress').html(parseInt($('.house_order_input').val()))
+                                        $('.error-border').removeClass('error-border');
+                                    }else{
+                                        $.toast({
+                                            heading: 'Hata',
+                                            text: response.message,
+                                            position: 'top-right',
+                                            stack: false
+                                        })
+                                    }
+                                    
                                 },
                                 error: function(xhr, status, error) {
                                     console.error("Ajax isteği sırasında bir hata oluştu: " + error);
@@ -1313,7 +1390,7 @@
                         console.error("Ajax isteği sırasında bir hata oluştu: " + error);
                     }
                 });
-                })
+            })
 
             $('.block').click(function(){
                 var index = $(this).index();
@@ -1329,65 +1406,152 @@
                     },
                     success: function(response) {
                         response = JSON.parse(response);
-                        if(response.housing_count){
-                            $('.housing_count_input').val(response.housing_count);
-                            $('.total-house-text').html(response.housing_count);
-                        }else{
-                            $('.housing_count_input').val("");
-                            $('.tab-content').html("");
-                        }
-                        selectedBlock = index;
-                        $('.block').removeClass('active');
-                        thisx.addClass('active');
-                        var data = response.data;
-                        for(var i = 0 ; i < data.length; i++){
-                            var key = Object.keys(data[i])
-                            if(data[i].type == "select"){
-                                $('select[name="'+key[0]+'[]"]')
-                                if(data[i][key[0]] == null){
-                                    $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
-                                }else{
-                                    $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
-                                }
+                        if(response.status){
+                            if(response.housing_count){
+                                $('.housing_count_input').val(response.housing_count);
+                                $('.total-house-text').html(response.housing_count);
                             }else{
-                                if(data[i].type != "file"){
-                                    if(data[i].type == "checkbox-group"){
-                                        if(data[i][key[0]] == null){
-                                            $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
-                                        }else{
-                                            $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
-                                                $(item).prop('checked',false)
-                                                for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                    if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                        $(item).prop('checked',true);
-                                                    }
-                                                }
-                                                
-                                            })
-                                        }
+                                $('.housing_count_input').val("");
+                                $('.tab-content').html("");
+                            }
+                            selectedBlock = index;
+                            $('.block').removeClass('active');
+                            thisx.addClass('active');
+                            var data = response.data;
+                            for(var i = 0 ; i < data.length; i++){
+                                var key = Object.keys(data[i])
+                                if(data[i].type == "select"){
+                                    $('select[name="'+key[0]+'[]"]')
+                                    if(data[i][key[0]] == null){
+                                        $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
                                     }else{
-                                        if(data[i][key[0]] == null){
-                                            $('input[name="'+key[0]+'[]"]').val("");
-                                        }else{
-                                            $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
-                                        }
+                                        $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
                                     }
                                 }else{
-                                    if(data[i][key[0]] == null){
-                                        $('.project_imaget img').remove();
+                                    if(data[i].type != "file"){
+                                        if(data[i].type == "checkbox-group"){
+                                            if(data[i][key[0]] == null){
+                                                $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
+                                            }else{
+                                                $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
+                                                    $(item).prop('checked',false)
+                                                    for(var k = 0 ; k < data[i][key[0]].length; k++){
+                                                        if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                            $(item).prop('checked',true);
+                                                        }
+                                                    }
+                                                    
+                                                })
+                                            }
+                                        }else{
+                                            if(data[i][key[0]] == null){
+                                                $('input[name="'+key[0]+'[]"]').val("");
+                                            }else{
+                                                $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                            }
+                                        }
                                     }else{
-                                        $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                        if(data[i][key[0]] == null){
+                                            $('.project_imaget img').remove();
+                                        }else{
+                                            $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                        }
+                                    }
+                                }
+                            }
+
+                            confirmHousings();
+                            $('.prev-house-bottom').addClass('disabled-button')
+                            $('.next-house-bottom').removeClass('disabled-button')
+                            $('.house_order_input').val(1)
+                            $('.room-order-progress').html(parseInt($('.house_order_input').val()))
+                            $('.error-border').removeClass('error-border');
+                        }else{
+                            $.toast({
+                                heading: 'Hata',
+                                text: response.message,
+                                position: 'top-right',
+                                stack: false
+                            })
+                        }
+                        
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                    }
+                });
+            })
+            $(document).on('click', '.remove-block', function(e) {
+                e.stopPropagation();
+                var thisx = $(this);
+                var isActiveBlock = 0;
+                if(thisx.closest('.block').hasClass('active')){
+                    isActiveBlock = 1;
+                }
+                $.ajax({
+                    url: '{{route("institutional.temp.order.remove.block.data")}}?item_type='+1+'&block_index='+($(this).closest('.block').index())+'&is_active_block='+isActiveBlock,
+                    type: 'GET',
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        blockHouseCount.splice(thisx.closest('.block').index(),1);
+                        blockNames.splice(thisx.closest('.block').index(),1);
+                        
+                        confirmHousings();
+                        if(response.status){
+                            thisx.parent('.block').remove();
+                            if(isActiveBlock){
+                                var data = response.data;
+                                $('.block').eq(0).addClass('active');
+                                $('.housing_count_input').val(response.housing_count);
+                                $('.total-house-text').html(response.housing_count);
+                                houseCount = response.housing_count;
+                                $('.house_order_input').val(1)
+                                $('.room-order-progress').html(parseInt($('.house_order_input').val()))
+                                $('.error-border').removeClass('error-border');
+                                selectedBlock = 0;
+                                for(var i = 0 ; i < data.length; i++){
+                                    var key = Object.keys(data[i])
+                                    if(data[i].type == "select"){
+                                        $('select[name="'+key[0]+'[]"]')
+                                        if(data[i][key[0]] == null){
+                                            $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
+                                        }else{
+                                            $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                        }
+                                    }else{
+                                        if(data[i].type != "file"){
+                                            if(data[i].type == "checkbox-group"){
+                                                if(data[i][key[0]] == null){
+                                                    $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
+                                                }else{
+                                                    $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
+                                                        $(item).prop('checked',false)
+                                                        for(var k = 0 ; k < data[i][key[0]].length; k++){
+                                                            if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                $(item).prop('checked',true);
+                                                            }
+                                                        }
+                                                        
+                                                    })
+                                                }
+                                            }else{
+                                                if(data[i][key[0]] == null){
+                                                    $('input[name="'+key[0]+'[]"]').val("");
+                                                }else{
+                                                    $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                                }
+                                            }
+                                        }else{
+                                            if(data[i][key[0]] == null){
+                                                $('.project_imaget img').remove();
+                                            }else{
+                                                $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-
-                        confirmHousings();
-                        $('.prev-house-bottom').addClass('disabled-button')
-                        $('.next-house-bottom').removeClass('disabled-button')
-                        $('.house_order_input').val(1)
-                        $('.room-order-progress').html(parseInt($('.house_order_input').val()))
-                        $('.error-border').removeClass('error-border');
                     },
                     error: function(xhr, status, error) {
                         console.error("Ajax isteği sırasında bir hata oluştu: " + error);
@@ -1700,12 +1864,9 @@
                             }
 
                             $('.next-house-bottom').click(function(){
+                                    var thisx = $(this);
                                 if(!$(this).hasClass('disabled-button')){
-                                    if(parseInt($('.house_order_input').val()) + 1 == houseCount){
-                                        $(this).addClass('disabled-button')
-                                    }else{
-                                        $(this).removeClass('disabled-button')
-                                    }
+                                    
 
                                     var nextHousing = true;
                                     $('.tab-pane.active input[required="required"]').map((key,item) => {
@@ -1741,18 +1902,34 @@
                                     }
 
                                     if(nextHousing){
+                                        $('.pop-up-v4').removeClass('d-none');
                                         var lastOrders = 0;
                                         if(hasBlocks){
                                             for(var i = 0 ; i < selectedBlock; i++){
+                                                if(i == 0){
+                                                    lastOrders += 1;
+                                                }
                                                 lastOrders += blockHouseCount[i];
                                             }
                                         }
-                                        console.log(blockHouseCount);
-
                                         $.ajax({
                                             url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+(lastOrders + parseInt($('.house_order_input').val())), // AJAX isteği yapılacak URL
                                             type: "GET", // GET isteği
                                             dataType: "json", // Gelen veri tipi JSON
+                                            xhr: function() {
+                                                var xhr = new window.XMLHttpRequest();
+                                                console.log(xhr)
+                                                // İlerleme durumu değiştikçe çalışacak olan fonksiyon
+                                                xhr.upload.addEventListener('progress', function(evt) {
+                                                        console.log(evt)
+                                                    if (evt.lengthComputable) {
+                                                        var percentComplete = (evt.loaded / evt.total) * 100;
+                                                        $('.progress-bar2').css('width',percentComplete+'%');
+                                                    }
+                                                }, false);
+
+                                                return xhr;
+                                            },
                                             success: function (data) {
                                                 for(var i = 0 ; i < data.length; i++){
                                                     var key = Object.keys(data[i])
@@ -1795,7 +1972,13 @@
                                                         }
                                                     }
                                                 }
-
+                                                
+                                                if((parseInt($('.house_order_input').val())+1) == houseCount){
+                                                    thisx.addClass('disabled-button')
+                                                }else{
+                                                    thisx.removeClass('disabled-button')
+                                                }
+                                                $('.pop-up-v4').addClass('d-none');
                                                 confirmHousings();
                                                 $('.prev-house-bottom').removeClass('disabled-button')
                                                 $('.house_order_input').val(parseInt($('.house_order_input').val()) + 1)
@@ -1813,11 +1996,7 @@
 
                             $('.prev-house-bottom').click(function(){
                                 if(!$(this).hasClass('disabled-button')){
-                                    if(parseInt($('.house_order_input').val()) == 1){
-                                    $(this).addClass('disabled-button')
-                                }else{
-                                    $(this).removeClass('disabled-button')
-                                }
+                                var thisx = $(this);    
 
                                 var indexItem = $('.tab-pane.active').index();
                                 $('.tab-pane.active').removeClass('active');
@@ -1885,7 +2064,11 @@
                                                 }
                                             }
                                         }
-
+                                        if(parseInt($('.house_order_input').val()) == 1){
+                                            thisx.addClass('disabled-button')
+                                        }else{
+                                            thisx.removeClass('disabled-button')
+                                        }
                                         confirmHousings();
                                         $('.house_order_input').val(parseInt($('.house_order_input').val()) - 1)
                                         $('.room-order-progress').html(parseInt($('.house_order_input').val()))
@@ -2040,6 +2223,7 @@
 
                             
                             $('.copy-item').change(function(){
+                                console.log($(this).val())
                                 var transactionIndex = 0;
                                 $('.tab-pane').prepend('<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>');
                                 var order = parseInt($(this).val()) - 1;
@@ -2357,6 +2541,23 @@
                 var percent = (100 * confirm) / confirmCount;
                 $('.percent-housing').html((percent.toFixed(2)))
                 $('.full-load').css('width',percent+'%')
+                var htmlCopyItems = "<option value=''>Daire bilgilerini kopyala</option>";
+                var tempX = 1;
+                if(hasBlocks){
+                    for(var i = 0; i < blockHouseCount.length; i++){
+                        for(var j = 0; j < blockHouseCount[i]; j++){
+                            htmlCopyItems += "<option value='"+(tempX)+"'>"+blockNames[i]+" Blok "+(j+1)+" Nolu Konut</option>";
+                            tempX++;
+                        }
+                    }
+                    console.log(htmlCopyItems);
+                    $('.copy-item').html(htmlCopyItems);
+                }else{
+                    for(var i = 0; i < houseCount; i++){
+                        htmlCopyItems += "<option value='"+(i+1)+"'>"+(i+1)+" Nolu Konut </option>";
+                    }
+                    $('.copy-item').html(htmlCopyItems);
+                }
             }
 
             $('#cities').change(function(){
@@ -3105,13 +3306,9 @@
                         }
 
                         $('.next-house-bottom').click(function(){
+                                    var thisx = $(this);
                             if(!$(this).hasClass('disabled-button')){
-                                if(parseInt($('.house_order_input').val()) + 1 == houseCount){
-                                    $(this).addClass('disabled-button')
-                                }else{
-                                    $(this).removeClass('disabled-button')
-                                }
-
+                                
                                 var nextHousing = true;
                                 $('.tab-pane.active input[required="required"]').map((key,item) => {
                                     if(!$(item).val() && $(item).attr('type') != "file"){
@@ -3146,10 +3343,34 @@
                                 }
 
                                 if(nextHousing){
+                                    $('.pop-up-v4').removeClass('d-none');
+                                    var lastOrders = 0;
+                                    if(hasBlocks){
+                                        for(var i = 0 ; i < selectedBlock; i++){
+                                            if(i == 0){
+                                                lastOrders += 1;
+                                            }
+                                            lastOrders += blockHouseCount[i];
+                                        }
+                                    }
                                     $.ajax({
-                                        url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+($('.house_order_input').val()), // AJAX isteği yapılacak URL
+                                        url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+(lastOrders + parseInt($('.house_order_input').val())), // AJAX isteği yapılacak URL
                                         type: "GET", // GET isteği
                                         dataType: "json", // Gelen veri tipi JSON
+                                        xhr: function() {
+                                            var xhr = new window.XMLHttpRequest();
+                                            console.log(xhr)
+                                            // İlerleme durumu değiştikçe çalışacak olan fonksiyon
+                                            xhr.upload.addEventListener('progress', function(evt) {
+                                                        console.log(evt)
+                                                if (evt.lengthComputable) {
+                                                    var percentComplete = (evt.loaded / evt.total) * 100;
+                                                    $('.progress-bar2').css('width',percentComplete+'%');
+                                                }
+                                            }, false);
+
+                                            return xhr;
+                                        },
                                         success: function (data) {
                                             for(var i = 0 ; i < data.length; i++){
                                                 var key = Object.keys(data[i])
@@ -3192,6 +3413,13 @@
                                                     }
                                                 }
                                             }
+                                            
+                                            if((parseInt($('.house_order_input').val())+1) == houseCount){
+                                                thisx.addClass('disabled-button')
+                                            }else{
+                                                thisx.removeClass('disabled-button')
+                                            }
+                                            $('.pop-up-v4').addClass('d-none');
 
                                             confirmHousings();
                                             $('.prev-house-bottom').removeClass('disabled-button')
@@ -3210,11 +3438,7 @@
 
                         $('.prev-house-bottom').click(function(){
                             if(!$(this).hasClass('disabled-button')){
-                                if(parseInt($('.house_order_input').val()) == 1){
-                                $(this).addClass('disabled-button')
-                            }else{
-                                $(this).removeClass('disabled-button')
-                            }
+                            var thisx = $(this);    
 
                             var indexItem = $('.tab-pane.active').index();
                             $('.tab-pane.active').removeClass('active');
@@ -3226,8 +3450,17 @@
                                 scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
                             }, 100);
                             $('.next-house-bottom').removeClass('disabled-button')
+                            var lastOrders = 0;
+                            if(hasBlocks){
+                                for(var i = 0 ; i < selectedBlock; i++){
+                                    if(i == 0){
+                                        lastOrders += 1;
+                                    }
+                                    lastOrders += blockHouseCount[i];
+                                }
+                            }
                             $.ajax({
-                                url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+($('.house_order_input').val() - 2), // AJAX isteği yapılacak URL
+                                url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+(lastOrders + parseInt($('.house_order_input').val()) - 2), // AJAX isteği yapılacak URL
                                 type: "GET", // GET isteği
                                 dataType: "json", // Gelen veri tipi JSON
                                 success: function (data) {
@@ -3273,7 +3506,11 @@
                                             }
                                         }
                                     }
-
+                                    if(parseInt($('.house_order_input').val()) == 1){
+                                        thisx.addClass('disabled-button')
+                                    }else{
+                                        thisx.removeClass('disabled-button')
+                                    }
                                     confirmHousings();
                                     $('.house_order_input').val(parseInt($('.house_order_input').val()) - 1)
                                     $('.room-order-progress').html(parseInt($('.house_order_input').val()))

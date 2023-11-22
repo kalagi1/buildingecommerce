@@ -764,14 +764,142 @@ class TempOrderController extends Controller
         $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
         $blockHousingCounts = 0;
-        for($i = 0; $i < intval($request->input('block_index')); $i++){
-            $blockHousingCounts += $tempData->{"house_count".$i};
+        $housingTypeForm = HousingType::where('id',$tempData->housing_type_id)->first();
+        $housingTypeFormData = json_decode($housingTypeForm->form_json);
+        $lastHousings = 0;
+        $blockIndex = $request->input('block_index');
+        $check = true;
+        for($i = 0; $i < $blockIndex - 1; $i++){
+            $lastHousings += $tempData->{"house_count".$i};
         }
-        $dataCopyItem = $this->getHouseDataFunc($blockHousingCounts,$request->input('item_type'));
+        
+        if($blockIndex != 0){
+            $blockHousingCount = $tempData->{"house_count".$blockIndex - 1};
+        }else{
+            $blockHousingCount = 0;
+        }
+        for($i = $lastHousings; $i < ($lastHousings + $blockHousingCount); $i++){
+            foreach($housingTypeFormData as $formData){
+                if($formData->type == "checkbox-group"){
+                    if(isset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name).$i+1})){
+                    }
+                }else{
+                    if($formData->required){
+                        if(isset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name)}[$i])){
+                            
+                        }else{
+                            $check = false;
+                        }
+                    }
+                    
+                }
+            }
+        }
+    
+        if($check){
+            for($i = 0; $i < intval($request->input('block_index')); $i++){
+                $blockHousingCounts += $tempData->{"house_count".$i};
+            }
+            $dataCopyItem = $this->getHouseDataFunc($blockHousingCounts,$request->input('item_type'));
+    
+            return json_encode([
+                "status" => true,
+                "housing_count" => isset($tempData->{"house_count".$request->input('block_index')}) ? $tempData->{"house_count".$request->input('block_index')} : 0,
+                "data" => $dataCopyItem
+            ]);
+        }else{
+            return json_encode([
+                "status" => false,
+                "message" => "Önceki bloktaki konutların tüm alanlarının doldurulması gerekiyor"
+            ]);
+        }
+        
+    }
 
+    public function removeBlock(Request $request){
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempData = json_decode($tempOrder->data);
+        $housingTypeForm = HousingType::where('id',$tempData->housing_type_id)->first();
+        $housingTypeFormData = json_decode($housingTypeForm->form_json);
+        $lastHousings = 0;
+        for($i = 0; $i < $request->input('block_index'); $i++){
+            $lastHousings += $tempData->{"house_count".$i};
+        }
+        $tempCount = $lastHousings;
+        for($i = $lastHousings; $i < ($lastHousings + $tempData->{"house_count".$request->input('block_index')}); $i++){
+            foreach($housingTypeFormData as $formData){
+                if($formData->type == "checkbox-group"){
+                    if(isset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name).$i+1})){
+                        unset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name).($i+1)});
+                    }
+                }else{
+                    if(isset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name)}[$tempCount])){
+                        unset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name)}[$tempCount]);
+                        $tempData->roomInfoKeys->{str_replace('[]','',$formData->name)} = array_values($tempData->roomInfoKeys->{str_replace('[]','',$formData->name)});
+                    }
+                }
+            }
+        }
+
+        $lastHousings = 0;
+        $lastHousingsEnd = 0;
+        for($i = 0; $i < $request->input('block_index'); $i++){
+            $lastHousings += $tempData->{"house_count".$i};
+        }
+
+        for($j = intval($request->input('block_index')) + 1; $j < count($tempData->blocks); $j++){
+            $lastHousingsEnd += $tempData->{"house_count".$j};
+        }
+
+        for($i = 0; $i < $lastHousingsEnd; $i++){
+            foreach($housingTypeFormData as $formData){
+                if($formData->type == "checkbox-group"){
+                    if(isset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name).($i+$tempData->{"house_count".$request->input('block_index')}+$lastHousings+1)})){
+                        $tempData->roomInfoKeys->{str_replace('[]','',$formData->name).($i + $lastHousings + 1)} = $tempData->roomInfoKeys->{str_replace('[]','',$formData->name).($i+$tempData->{"house_count".$request->input('block_index')}+$lastHousings + 1)};
+                    }
+                }
+            }
+        }
+
+        
+        for($i = ($lastHousings+$lastHousingsEnd+intval($tempData->{"house_count".$request->input('block_index')})); $i > ($lastHousings+$lastHousingsEnd); $i--){
+            foreach($housingTypeFormData as $formData){
+                if($formData->type == "checkbox-group"){
+                    if(isset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name).($i)})){
+                        unset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name).($i)});
+                    }
+                }
+            }
+        }
+
+
+        if(count($tempData->blocks) == intval($request->input('block_index')) + 1){
+            unset($tempData->{"house_count".intval($request->input('block_index'))});
+        }else{
+            for($j = intval($request->input('block_index')); $j <= count($tempData->blocks); $j++){
+                if(isset($tempData->{"house_count".$j+1})){
+                    $tempData->{"house_count".($j)} = $tempData->{"house_count".$j+1};
+                    unset($tempData->{"house_count".$j+1});
+                }
+            }
+        }
+
+        
+        $dataCopyItem = [];
+        $housingCount = 0;
+        
+        
+        unset($tempData->blocks[$request->input('block_index')]);
+        $tempData->blocks = array_values($tempData->blocks);
+        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            "data" => json_encode($tempData),
+        ]);
+        
         return json_encode([
-            "housing_count" => isset($tempData->{"house_count".$request->input('block_index')}) ? $tempData->{"house_count".$request->input('block_index')} : 0,
-            "data" => $dataCopyItem
+            "status" => true,
+            "data" => $dataCopyItem,
+            "housing_count" => $housingCount
         ]);
     }
+    
 }
