@@ -7475,6 +7475,30 @@ textarea.form-control.is-invalid {
     border-radius: var(--phoenix-breadcrumb-border-radius)
 }
 
+.breadcrumb-v2 {
+    --phoenix-breadcrumb-padding-x: 0;
+    --phoenix-breadcrumb-padding-y: 0;
+    --phoenix-breadcrumb-margin-bottom: 1rem;
+    --phoenix-breadcrumb-font-size: 0.8rem;
+    --phoenix-breadcrumb-bg: ;
+    --phoenix-breadcrumb-border-radius: ;
+    --phoenix-breadcrumb-divider-color: #6e7891;
+    --phoenix-breadcrumb-item-padding-x: 0.5rem;
+    --phoenix-breadcrumb-item-active-color: var(--phoenix-gray-900);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: var(--phoenix-breadcrumb-padding-y) var(--phoenix-breadcrumb-padding-x);
+    margin-bottom: var(--phoenix-breadcrumb-margin-bottom);
+    font-size: var(--phoenix-breadcrumb-font-size);
+    list-style: none;
+    background-color: var(--phoenix-breadcrumb-bg);
+    border-radius: var(--phoenix-breadcrumb-border-radius);
+    font-weight: 700;
+}
+
 .breadcrumb-item+.breadcrumb-item {
     padding-left: var(--phoenix-breadcrumb-item-padding-x)
 }
@@ -40703,6 +40727,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .progress-line ol {
     list-style: none;
     height: 60px;
+    padding: 0;
 }
 
 .progress-line ol li.done a.step-counter svg {
@@ -40783,16 +40808,16 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .progress-line.step1 ol:before {
-    width: 15%;
+    width: 12.5%;
 }
 
 
 .progress-line.step2 ol:before {
-    width: 40%;
+    width: 37.5%;
 }
 
 .progress-line.step3 ol:before {
-    width: 64.5%;
+    width: 62.5%;
 }
 
 .progress-line.step4 ol:before {
@@ -42265,6 +42290,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
 .progress-bar2 {
     background: #333;
+    height: 100%;
 }
 
 .load-area2 span {

@@ -188,7 +188,7 @@
                         </div>
                         <span class="section-title mt-4">Kapak Fotoğrafı</span>
                         <div class="cover-photo-full card py-2 px-5">
-                            <input type="file" name="cover-image" class="cover_image d-none">
+                            <input type="file" name="cover-image" accept="image/*" class="cover_image d-none">
                             <div class="upload-container col-md-3 cover-photo-area">
                                 <div class="border-container">
                                   <div class="icons fa-4x">
@@ -208,7 +208,7 @@
                         </div>
                         <span class="section-title mt-4">İlan Galerisi</span>
                         <div class="photo card py-2 px-5">
-                            <input type="file" multiple name="project-images" class="project_image d-none">
+                            <input type="file" multiple name="project-images" accept="image/*" class="project_image d-none">
                             <div class="upload-container col-md-3 photo-area">
                                 <div class="border-container">
                                   <div class="icons fa-4x">
@@ -233,7 +233,7 @@
                         </div>
                         <span class="section-title mt-4">Ruhsat Belgesi / Tapu Belgesi</span>
                         <div class="cover-photo-full card py-2 px-5">
-                            <input type="file" name="cover-image" class="document d-none">
+                            <input type="file" name="cover-image" class="document d-none" accept="application/pdf,application/vnd.ms-excel">
                             <div class="upload-container col-md-3 cover-document-area">
                                 <div class="border-container">
                                   <div class="icons fa-4x mb-4">
@@ -390,6 +390,26 @@
             @endif
         @else
             var isRent = 0;
+        @endif
+
+        @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
+            @if($tempData->step2_slug == "gunluk-kiralik")
+                var isDailyRent = 1;
+            @else
+                var isDailyRent = 0;
+            @endif
+        @else
+            var isDailyRent = 0;
+        @endif
+
+        @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
+            @if($tempData->step2_slug == "satilik")
+                var isSale = 1;
+            @else
+                var isSale = 0;
+            @endif
+        @else
+            var isSale = 0;
         @endif
 
         var nextTemp = false;
@@ -1060,6 +1080,12 @@
                             @endif
                         @endif
 
+                        @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
+                            @if($tempData->step2_slug == "gunluk-kiralik")
+                                $('.daily-rent-disabled').closest('.form-group').remove();
+                            @endif
+                        @endif
+
                         $('.copy-item').change(function() {
                             var order = parseInt($(this).val()) - 1;
                             var currentOrder = parseInt($(this).closest('a').attr('data-bs-target')
@@ -1123,6 +1149,10 @@
                             formData.append('key', $(this).attr('name').replace("[]", "").replace("[]",
                                 ""));
                             formData.append('item_type', 2);
+                            if($(this).hasClass('only-one')){
+                                formData.append('only-one',"1");
+                                $(this).closest('.form-group').find('.only-one[value!="'+$(this).val()+'"]').prop('checked',false);
+                            }
                             if ($(this).attr('type') == "checkbox") {
                                 formData.append('checkbox', "1");
                             }
@@ -1913,7 +1943,7 @@
             })
 
             $('.tab-pane.active select[required="required"]').map((key, item) => {
-                if (!$(item).val()) {
+                if (!$(item).val() || $(item).val() == "Seçiniz") {
                     next = false;
                     if (topError) {
                         if ($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
@@ -2094,6 +2124,7 @@
             $('.breadcrumb').find('.breadcrumb-after-item').remove()
             $('.breadcrumb').find('.breadcrumb-after-item').remove()
             $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+            $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
             $.ajax({
                 url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
@@ -2109,6 +2140,7 @@
 
                     $('.area-list').eq(1).addClass('active');
                     thisx.addClass('selected');
+                    thisx.find('.loading-icon').remove();
 
                     $('.area-list').eq(2).removeClass('active');
                     $('.area-list').eq(3).removeClass('active');
@@ -2120,12 +2152,25 @@
                         }else{
                             isRent = false;
                         }
+
+                        if(itemSlug == "gunluk-kiralik"){
+                            isDailyRent = true;
+                        }else{
+                            isDailyRent = false;
+                        }
+
+                        if(itemSlug == "satilik"){
+                            isSale = true;
+                        }else{
+                            isSale = false;
+                        }
                         var thisx = $(this);
                         changeData(itemSlug,'step2_slug')
                         changeData("",'step3_slug')
                         $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
                         $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
                         $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                        $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
                         $.ajax({
                             url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug+'?parent_slug='+$('.area-list').eq(0).find('li.selected').attr('slug'), // AJAX isteği yapılacak URL
                             type: "GET", // GET isteği
@@ -2142,6 +2187,7 @@
 
                                 $('.area-list').eq(2).addClass('active');
                                 thisx.addClass('selected');
+                                thisx.find('.loading-icon').remove();
 
                                 $('.area-list').eq(2).find('li').click(function(){
                                     itemSlug = $(this).attr('slug');
@@ -2149,6 +2195,7 @@
                                     changeData(itemSlug,'step3_slug')
                                     $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
                                     $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                                    $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
                                     $.ajax({
                                         url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
                                         type: "GET", // GET isteği
@@ -2157,6 +2204,7 @@
                                             $('.area-list').eq(2).find('li').removeClass('selected');
                                             changeData(data,'housing_type_id');
                                             selectedid = data;
+                                            thisx.find('.loading-icon').remove();
                                             if (selectedid) {
                                                 $('.rendered-area').removeClass('d-none')
                                             } else {
@@ -2317,6 +2365,14 @@
                                                         $('.rent-disabled').closest('.form-group').remove();
                                                     }
 
+                                                    if(isDailyRent){
+                                                        $('.daily-rent-disabled').closest('.form-group').remove();
+                                                    }
+
+                                                    if(isSale){
+                                                        $('.sale-disabled').closest('.form-group').remove();
+                                                    }
+
                                                     $('.copy-item').change(function() {
                                                         var order = parseInt($(this).val()) - 1;
                                                         var currentOrder = parseInt($(this).closest('a').attr('data-bs-target')
@@ -2379,6 +2435,10 @@
                                                             .replace('TabContent', "")) - 1);
                                                         formData.append('key', $(this).attr('name').replace("[]", "").replace("[]",
                                                             ""));
+                                                        if($(this).hasClass('only-one')){
+                                                            formData.append('only-one',"1");
+                                                            $(this).closest('.form-group').find('.only-one[value!="'+$(this).val()+'"]').prop('checked',false);
+                                                        }
                                                         formData.append('item_type', 2);
                                                         if ($(this).attr('type') == "checkbox") {
                                                             formData.append('checkbox', "1");
@@ -2502,6 +2562,18 @@
             }else{
                 isRent = false;
             }
+            if(itemSlug == "gunluk-kiralik"){
+                isDailyRent = true;
+            }else{
+                isDailyRent = false;
+            }
+
+            if(itemSlug == "satilik"){
+                isSale = true;
+            }else{
+                isSale = false;
+            }
+            
             var thisx = $(this);
             console.log("asd");
             changeData(itemSlug,'step2_slug')
@@ -2509,6 +2581,7 @@
             $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
             $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
             $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+            $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
             $.ajax({
                 url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug+'?parent_slug='+$('.area-list').eq(0).find('li.selected').attr('slug'), // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
@@ -2525,6 +2598,7 @@
 
                     $('.area-list').eq(2).addClass('active');
                     thisx.addClass('selected');
+                    thisx.find('.loading-icon').remove();
 
                     $('.area-list').eq(2).find('li').click(function(){
                         itemSlug = $(this).attr('slug');
@@ -2532,6 +2606,7 @@
                         changeData(itemSlug,'step3_slug')
                         $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
                         $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                        $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
                         $.ajax({
                             url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
                             type: "GET", // GET isteği
@@ -2550,6 +2625,7 @@
                                         stack: false
                                     })
                                 }
+                                thisx.find('.loading-icon').remove();
                                 const houseCount = 1;
 
                                 if (isNaN(houseCount) || houseCount <= 0) {
@@ -2700,6 +2776,14 @@
                                             $('.rent-disabled').closest('.form-group').remove();
                                         }
 
+                                        if(isDailyRent){
+                                            $('.daily-rent-disabled').closest('.form-group').remove();
+                                        }
+
+                                        if(isSale){
+                                            $('.sale-disabled').closest('.form-group').remove();
+                                        }
+
                                         $('.copy-item').change(function() {
                                             var order = parseInt($(this).val()) - 1;
                                             var currentOrder = parseInt($(this).closest('a').attr('data-bs-target')
@@ -2763,6 +2847,10 @@
                                             formData.append('key', $(this).attr('name').replace("[]", "").replace("[]",
                                                 ""));
                                             formData.append('item_type', 2);
+                                            if($(this).hasClass('only-one')){
+                                                formData.append('only-one',"1");
+                                                $(this).closest('.form-group').find('.only-one[value!="'+$(this).val()+'"]').prop('checked',false);
+                                            }
                                             if ($(this).attr('type') == "checkbox") {
                                                 formData.append('checkbox', "1");
                                             }
@@ -2875,6 +2963,7 @@
             changeData(itemSlug,'step3_slug')
             $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
             $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+            $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
             $.ajax({
                 url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
@@ -2895,6 +2984,7 @@
                         })
                     }
                     const houseCount = 1;
+                    thisx.find('.loading-icon').remove();
 
                     if (isNaN(houseCount) || houseCount <= 0) {
                         alert('Lütfen geçerli bir sayı girin.');
@@ -3043,6 +3133,14 @@
                                 $('.rent-disabled').closest('.form-group').remove();
                             }
 
+                            if(isDailyRent){
+                                $('.daily-rent-disabled').closest('.form-group').remove();
+                            }
+                            
+                            if(isSale){
+                                $('.sale-disabled').closest('.form-group').remove();
+                            }
+
                             $('.copy-item').change(function() {
                                 var order = parseInt($(this).val()) - 1;
                                 var currentOrder = parseInt($(this).closest('a').attr('data-bs-target')
@@ -3105,6 +3203,10 @@
                                     .replace('TabContent', "")) - 1);
                                 formData.append('key', $(this).attr('name').replace("[]", "").replace("[]",
                                     ""));
+                                if($(this).hasClass('only-one')){
+                                    formData.append('only-one',"1");
+                                    $(this).closest('.form-group').find('.only-one[value!="'+$(this).val()+'"]').prop('checked',false);
+                                }
                                 formData.append('item_type', 2);
                                 if ($(this).attr('type') == "checkbox") {
                                     formData.append('checkbox', "1");
