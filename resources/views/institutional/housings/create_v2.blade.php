@@ -402,6 +402,16 @@
             var isDailyRent = 0;
         @endif
 
+        @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
+            @if($tempData->step2_slug == "satilik")
+                var isSale = 1;
+            @else
+                var isSale = 0;
+            @endif
+        @else
+            var isSale = 0;
+        @endif
+
         var nextTemp = false;
         var descriptionText =
             @if (isset($tempData) && isset($tempData->description))
@@ -2148,6 +2158,12 @@
                         }else{
                             isDailyRent = false;
                         }
+
+                        if(itemSlug == "satilik"){
+                            isSale = true;
+                        }else{
+                            isSale = false;
+                        }
                         var thisx = $(this);
                         changeData(itemSlug,'step2_slug')
                         changeData("",'step3_slug')
@@ -2353,6 +2369,10 @@
                                                         $('.daily-rent-disabled').closest('.form-group').remove();
                                                     }
 
+                                                    if(isSale){
+                                                        $('.sale-disabled').closest('.form-group').remove();
+                                                    }
+
                                                     $('.copy-item').change(function() {
                                                         var order = parseInt($(this).val()) - 1;
                                                         var currentOrder = parseInt($(this).closest('a').attr('data-bs-target')
@@ -2542,6 +2562,18 @@
             }else{
                 isRent = false;
             }
+            if(itemSlug == "gunluk-kiralik"){
+                isDailyRent = true;
+            }else{
+                isDailyRent = false;
+            }
+
+            if(itemSlug == "satilik"){
+                isSale = true;
+            }else{
+                isSale = false;
+            }
+            
             var thisx = $(this);
             console.log("asd");
             changeData(itemSlug,'step2_slug')
@@ -2746,6 +2778,10 @@
 
                                         if(isDailyRent){
                                             $('.daily-rent-disabled').closest('.form-group').remove();
+                                        }
+
+                                        if(isSale){
+                                            $('.sale-disabled').closest('.form-group').remove();
                                         }
 
                                         $('.copy-item').change(function() {
@@ -3099,6 +3135,10 @@
 
                             if(isDailyRent){
                                 $('.daily-rent-disabled').closest('.form-group').remove();
+                            }
+                            
+                            if(isSale){
+                                $('.sale-disabled').closest('.form-group').remove();
                             }
 
                             $('.copy-item').change(function() {
