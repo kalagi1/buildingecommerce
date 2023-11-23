@@ -548,6 +548,7 @@ class HomeController extends Controller
                 'step1_slug' => $item->step1_slug,
                 'housing_address' => $item->address,
                 'doping_time' => $item->doping_time,
+                'step2_slug' => $item->step2_slug,
                 'city' => $item->city,
                 'county' => $item->county,
                 'created_at' => $item->created_at,
@@ -558,10 +559,12 @@ class HomeController extends Controller
                     'has_discount' => $discount_amount > 0,
                     'title' => $item->housing_type->title,
                     'room_count' => getData($item, 'room_count'),
+                    'daily_rent' => ($item->step2_slug == "gunluk-kiralik" && getData($item, 'daily_rent')) ? getData($item, 'daily_rent') : null,
                     'squaremeters' => getData($item, 'squaremeters'),
                     'price' => getData($item, 'price') - $discount_amount,
                     'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
-                ],
+                ]
+                
             ];
         }));
     }

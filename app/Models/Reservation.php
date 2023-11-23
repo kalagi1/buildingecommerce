@@ -13,4 +13,14 @@ class Reservation extends Model
     {
         return $this->belongsTo(Housing::class);
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, "id", "user_id");
+    }
+
+    public function owner()
+    {
+        return $this->hasOne(User::class, "id", "owner_id");
+    }
 }

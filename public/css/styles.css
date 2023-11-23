@@ -17296,7 +17296,7 @@ section.headings-2 {
     color: #274abb;
     display:flex;
     align-items:center;
-    justify-content:start;
+    justify-content:center;
     text-transform: capitalize !important;
 }
 

@@ -415,8 +415,7 @@
                                                                         <div class="homes-img">
                                                                             @if ($project->doping_time)
                                                                                 <div class="homes-tag button alt featured">
-                                                                                    Öne
-                                                                                    Çıkan
+                                                                                    Sponsorlu
                                                                                 </div>
                                                                             @endif
                                                                             @if ($discount_amount)
@@ -830,8 +829,7 @@
                                                                         <div class="homes-img">
                                                                             @if ($project->doping_time)
                                                                                 <div class="homes-tag button alt featured">
-                                                                                    Öne
-                                                                                    Çıkan
+                                                                                    Sponsorlu
                                                                                 </div>
                                                                             @endif
                                                                             @if ($discount_amount)
@@ -1244,8 +1242,7 @@
                                                                         <div class="homes-img">
                                                                             @if ($project->doping_time)
                                                                                 <div class="homes-tag button alt featured">
-                                                                                    Öne
-                                                                                    Çıkan
+                                                                                    Sponsorlu
                                                                                 </div>
                                                                             @endif
                                                                             @if ($discount_amount)
@@ -1611,8 +1608,7 @@
                                                     <div class="project-inner project-head">
                                                         <div class="homes">
                                                             <div class="homes-img">
-                                                                <div class="homes-tag button alt featured">Öne
-                                                                    Çıkan
+                                                                <div class="homes-tag button alt featured">Sponsorlu
                                                                 </div>
                                                                 <div class="type-tag button alt featured">
                                                                     @if ($housing->step2_slug == 'kiralik')
@@ -1808,6 +1804,7 @@
             </div>
         </div>
     </section>
+
     <!-- END SECTION RECENTLY PROPERTIES -->
 
 
