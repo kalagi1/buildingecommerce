@@ -42186,6 +42186,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     }
 
     #rulesOpenModal{
+        z-index: 99999;
         background-color: #33333347;
     }
 

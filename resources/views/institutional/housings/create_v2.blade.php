@@ -3136,7 +3136,7 @@
                             if(isDailyRent){
                                 $('.daily-rent-disabled').closest('.form-group').remove();
                             }
-                            
+                             
                             if(isSale){
                                 $('.sale-disabled').closest('.form-group').remove();
                             }
