@@ -1274,7 +1274,15 @@ img {
     }
 }
 
+ul.the-agents-details li{
+        font-size:12px !important;
+        font-weight:500 !important;
+}
 /* Sizes */
+
+b, strong{
+    font-weight:500 !important;
+}
 
 .button--size-s {
     font-size: 15px;
