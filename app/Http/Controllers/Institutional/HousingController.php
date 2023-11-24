@@ -158,6 +158,11 @@ class HousingController extends Controller
                         "status" => 2,
                     ]
                 );
+                $defaultHousingconnection = HousingStatus::where('is_default',1)->where('is_housing',1)->first();
+                HousingStatusConnection::create([
+                    "housing_status_id" => $defaultHousingconnection->id,
+                    "housing_id" => $project->id
+                ]);
 
                 if (isset($tempOrder->top_row) && $tempOrder->top_row) {
                     $now = Carbon::now();
