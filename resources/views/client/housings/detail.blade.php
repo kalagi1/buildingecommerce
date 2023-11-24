@@ -225,91 +225,86 @@
                                                     <div class="single homes-content">
                                                         <!-- title -->
                                                         <h5 class="mb-4">Özellikler</h5>
-                                                        <table class="table table-striped table-bordered">
-                                                            <tbody>
+                                                        <table class="table table-bordered">
+                                                            <tbody class="trStyle"> 
+                                                                @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
                                                                 @php
-                                                                    $count = 0;
+                                                                    $turkceKarsilik = [
+                                                                        'price' => 'Fiyat',
+                                                                        'numberoffloors' => 'Bulunduğu Kat',
+                                                                        'squaremeters' => 'm² (Net)',
+                                                                        'room_count' => 'Oda Sayısı',
+                                                                        'front1' => 'Cephe',
+                                                                        'm2gross' => 'm² (Brüt)',
+                                                                        'buildingage' => 'Bina Yaşı',
+                                                                        'heating' => 'Isıtma',
+                                                                        'balcony' => 'Balkon',
+                                                                        'daily_rent' => 'Günlük Fiyat',
+                                                                        'max_user' => 'Kişi Sayısı',
+                                                                        'deposit' => 'Depozito',
+                                                                        'end_time' => 'Çıkış Saati',
+                                                                        'start_time' => 'Giriş Saati',
+                                                                        'ulasim1' => 'Ulaşım',
+                                                                        'muhit1' => 'Muhit',
+                                                                        'konut_tipi1' => 'Konut Tipi',
+                                                                        'manzara1' => 'Manzara',
+                                                                        'engelliye_uygun1' => 'Engelliye Uygun',
+                                                                        'numberofbathrooms' => 'Banyo Sayısı',
+                                                                        'usingstatus' => 'Kullanım Durumu',
+                                                                        'dues' => 'Aidat',
+                                                                        'titledeedstatus' => 'Tapu Durumu',
+                                                                        'external_features1' => 'Dış Özellikler',
+                                                                        'swap' => 'Takas',
+                                                                        'internal_features1' => 'İç Özellikler',
+                                                                        'floorlocation' => 'Kat Sayısı',
+                                                                        'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
+                                                                        'furnished1' => 'Eşyalı',
+                                                                    ];
+                                                                    $key = $turkceKarsilik[$key] ?? $key;
                                                                 @endphp
 
-                                                                @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
-                                                                    @php
-                                                                        $turkceKarsilik = [
-                                                                            'price' => 'Fiyat',
-                                                                            'numberoffloors' => 'Bulunduğu Kat',
-                                                                            'squaremeters' => 'm² (Net)',
-                                                                            'room_count' => 'Oda Sayısı',
-                                                                            'front1' => 'Cephe',
-                                                                            'm2gross' => 'm² (Brüt)',
-                                                                            'buildingage' => 'Bina Yaşı',
-                                                                            'heating' => 'Isıtma',
-                                                                            'balcony' => 'Balkon',
-                                                                            'numberofbathrooms' => 'Banyo Sayısı',
-                                                                            'usingstatus' => 'Kullanım Durumu',
-                                                                            'dues' => 'Aidat',
-                                                                            'titledeedstatus' => 'Tapu Durumu',
-                                                                            'external_features1' => 'Dış Özellikler',
-                                                                            'swap' => 'Takas',
-                                                                            'internal_features1' => 'İç Özellikler',
-                                                                            'floorlocation' => 'Kat Sayısı',
-                                                                            'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
-                                                                            'furnished1' => 'Eşyalı',
-                                                                        ];
-                                                                        $key = $turkceKarsilik[$key] ?? $key;
-                                                                    @endphp
+                                                                @if (
+                                                                    $key != 'image' &&
+                                                                        $key != 'images' &&
+                                                                        $key != 'İç Özellikler' &&
+                                                                        $key != 'Dış Özellikler' &&
+                                                                        $key != 'Muhit' &&
+                                                                        $key != 'Ulaşım' &&
+                                                                        $key != 'Engelliye Uygun' &&
+                                                                        $key != 'Konut Tipi' &&
+                                                                        $key != 'payment-plan1')
+                                                                
 
-                                                                    @if (
-                                                                        $key != 'image' &&
-                                                                            $key != 'images' &&
-                                                                            $key != 'İç Özellikler' &&
-                                                                            $key != 'Dış Özellikler' &&
-                                                                            $key != 'payment-plan1')
-                                                                        @if ($count % 2 === 0)
-                                                                            <tr>
-                                                                        @endif
-
-                                                                        <td>
-                                                                            @if ($key == 'Fiyat')
-                                                                                <span
-                                                                                    class="font-weight-bold mr-1">{{ $key }}:</span>
-                                                                                <span class="det"
-                                                                                    style="color: black; font-weight: bold;">
-                                                                                    {{ number_format($val[0], 0, ',', '.') }}
-                                                                                    ₺
-                                                                                </span>
+                                                                        </tr>
+                                                                    <td>
+                                                                        @if ($key == 'Fiyat')
+                                                                            <span
+                                                                                class=" mr-1">{{ $key }}:</span>
+                                                                            <span class="det"
+                                                                                style="color: black; ">
+                                                                                {{ number_format($val[0], 0, ',', '.') }} ₺
+                                                                            </span>
+                                                                        @else
+                                                                            <span
+                                                                                class=" mr-1">{{ $key }}:</span>
+                                                                            @if ($key == 'm² (Net)')
+                                                                                <span class="det">{{ $val[0] }}
+                                                                                    m2</span>
+                                                                            @elseif ($key == 'Özellikler')
+                                                                                <ul>
+                                                                                    @foreach ($val as $ozellik)
+                                                                                        <li>{{ $ozellik }}</li>
+                                                                                    @endforeach
+                                                                                </ul>
                                                                             @else
                                                                                 <span
-                                                                                    class="font-weight-bold mr-1">{{ $key }}:</span>
-                                                                                @if ($key == 'm² (Net)')
-                                                                                    <span
-                                                                                        class="det">{{ $val[0] }}
-                                                                                        m2</span>
-                                                                                @elseif ($key == 'Özellikler')
-                                                                                    <ul>
-                                                                                        @foreach ($val as $ozellik)
-                                                                                            <li>{{ $ozellik }}</li>
-                                                                                        @endforeach
-                                                                                    </ul>
-                                                                                @else
-                                                                                    <span
-                                                                                        class="det">{{ $val[0] }}</span>
-                                                                                @endif
+                                                                                    class="det">{{ $val[0] }}</span>
                                                                             @endif
-                                                                        </td>
-
-                                                                        @if (($count + 1) % 2 === 0)
-                                                                            </tr>
                                                                         @endif
+                                                                    </td></tr>
 
-                                                                        @php
-                                                                            $count++;
-                                                                        @endphp
-                                                                    @endif
-                                                                @endforeach
-
-                                                                {{-- Close the row if the total number of items is not a multiple of 4 --}}
-                                                                @if ($count % 4 !== 0)
-                                                                    </tr>
                                                                 @endif
+                                                            @endforeach
                                                             </tbody>
                                                         </table>
 
@@ -327,6 +322,16 @@
                                                                     'buildingage' => 'Bina Yaşı',
                                                                     'heating' => 'Isıtma',
                                                                     'balcony' => 'Balkon',
+                                                                    'daily_rent' => 'Günlük Fiyat',
+                                                                    'max_user' => 'Kişi Sayısı',
+                                                                    'deposit' => 'Depozito',
+                                                                    'end_time' => 'Çıkış Saati',
+                                                                    'start_time' => 'Giriş Saati',
+                                                                    'ulasim1' => 'Ulaşım',
+                                                                    'muhit1' => 'Muhit',
+                                                                    'konut_tipi1' => 'Konut Tipi',
+                                                                    'manzara1' => 'Manzara',
+                                                                    'engelliye_uygun1' => 'Engelliye Uygun',
                                                                     'numberofbathrooms' => 'Banyo Sayısı',
                                                                     'usingstatus' => 'Kullanım Durumu',
                                                                     'dues' => 'Aidat',
@@ -374,7 +379,7 @@
                                                                 style="border-bottom: 1px solid #E6E6E6 !important; ">
                                                                 <div class="head d-flex w-full">
                                                                     <div>
-                                                                        <div class="font-weight-bold">
+                                                                        <div class="">
                                                                             {{ $comment->user->name }}</div>
                                                                         <i
                                                                             class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
@@ -545,11 +550,8 @@
                                                 <div class="single homes-content">
                                                     <!-- title -->
                                                     <h5 class="mb-4">Özellikler</h5>
-                                                    <table class="table table-striped table-bordered">
-                                                        <tbody>
-                                                            @php
-                                                                $count = 0;
-                                                            @endphp
+                                                    <table class="table table-bordered">
+                                                        <tbody class="trStyle">
 
                                                             @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
                                                                 @php
@@ -563,6 +565,16 @@
                                                                         'buildingage' => 'Bina Yaşı',
                                                                         'heating' => 'Isıtma',
                                                                         'balcony' => 'Balkon',
+                                                                        'daily_rent' => 'Günlük Fiyat',
+                                                                        'max_user' => 'Kişi Sayısı',
+                                                                        'deposit' => 'Depozito',
+                                                                        'end_time' => 'Çıkış Saati',
+                                                                        'start_time' => 'Giriş Saati',
+                                                                        'ulasim1' => 'Ulaşım',
+                                                                        'muhit1' => 'Muhit',
+                                                                        'konut_tipi1' => 'Konut Tipi',
+                                                                        'manzara1' => 'Manzara',
+                                                                        'engelliye_uygun1' => 'Engelliye Uygun',
                                                                         'numberofbathrooms' => 'Banyo Sayısı',
                                                                         'usingstatus' => 'Kullanım Durumu',
                                                                         'dues' => 'Aidat',
@@ -582,51 +594,45 @@
                                                                         $key != 'images' &&
                                                                         $key != 'İç Özellikler' &&
                                                                         $key != 'Dış Özellikler' &&
+                                                                        $key != 'Muhit' &&
+                                                                        $key != 'Ulaşım' &&
+                                                                        $key != 'Engelliye Uygun' &&
+                                                                        $key != 'Konut Tipi' &&
                                                                         $key != 'payment-plan1')
-                                                                    @if ($count % 2 === 0)
-                                                                        <tr>
-                                                                    @endif
+                                                                
 
-                                                                    <td>
-                                                                        @if ($key == 'Fiyat')
-                                                                            <span
-                                                                                class="font-weight-bold mr-1">{{ $key }}:</span>
-                                                                            <span class="det"
-                                                                                style="color: black; font-weight: bold;">
-                                                                                {{ number_format($val[0], 0, ',', '.') }} ₺
-                                                                            </span>
-                                                                        @else
-                                                                            <span
-                                                                                class="font-weight-bold mr-1">{{ $key }}:</span>
-                                                                            @if ($key == 'm² (Net)')
-                                                                                <span class="det">{{ $val[0] }}
-                                                                                    m2</span>
-                                                                            @elseif ($key == 'Özellikler')
-                                                                                <ul>
-                                                                                    @foreach ($val as $ozellik)
-                                                                                        <li>{{ $ozellik }}</li>
-                                                                                    @endforeach
-                                                                                </ul>
+                                                                    </tr>
+                                                                        <td>
+                                                                            @if ($key == 'Fiyat')
+                                                                                <span
+                                                                                    class=" mr-1">{{ $key }}:</span>
+                                                                                <span class="det"
+                                                                                    style="color: black; ">
+                                                                                    {{ number_format($val[0], 0, ',', '.') }} ₺
+                                                                                </span>
                                                                             @else
                                                                                 <span
-                                                                                    class="det">{{ $val[0] }}</span>
+                                                                                    class=" mr-1">{{ $key }}:</span>
+                                                                                @if ($key == 'm² (Net)')
+                                                                                    <span class="det">{{ $val[0] }}
+                                                                                        m2</span>
+                                                                                @elseif ($key == 'Özellikler')
+                                                                                    <ul>
+                                                                                        @foreach ($val as $ozellik)
+                                                                                            <li>{{ $ozellik }}</li>
+                                                                                        @endforeach
+                                                                                    </ul>
+                                                                                @else
+                                                                                    <span
+                                                                                        class="det">{{ $val[0] }}</span>
+                                                                                @endif
                                                                             @endif
-                                                                        @endif
-                                                                    </td>
+                                                                        </td>
+                                                                </tr>
 
-                                                                    @if (($count + 1) % 2 === 0)
-                                                                        </tr>
-                                                                    @endif
-
-                                                                    @php
-                                                                        $count++;
-                                                                    @endphp
                                                                 @endif
                                                             @endforeach
 
-                                                            @if ($count % 4 !== 0)
-                                                                </tr>
-                                                            @endif
                                                         </tbody>
                                                     </table>
 
@@ -644,8 +650,19 @@
                                                                 'buildingage' => 'Bina Yaşı',
                                                                 'heating' => 'Isıtma',
                                                                 'balcony' => 'Balkon',
+                                                                'daily_rent' => 'Günlük Fiyat',
+                                                                'max_user' => 'Kişi Sayısı',
+                                                                'deposit' => 'Depozito',
+                                                                'end_time' => 'Çıkış Saati',
+                                                                'start_time' => 'Giriş Saati',
                                                                 'numberofbathrooms' => 'Banyo Sayısı',
                                                                 'usingstatus' => 'Kullanım Durumu',
+                                                                'ulasim1' => 'Ulaşım',
+                                                                'muhit1' => 'Muhit',
+                                                                'konut_tipi1' => 'Konut Tipi',
+                                                                'manzara1' => 'Manzara',
+                                                                'engelliye_uygun1' => 'Engelliye Uygun',
+
                                                                 'dues' => 'Aidat',
                                                                 'titledeedstatus' => 'Tapu Durumu',
                                                                 'external_features1' => 'Dış Özellikler',
@@ -692,7 +709,7 @@
                                                             style="border-bottom: 1px solid #E6E6E6 !important; ">
                                                             <div class="head d-flex w-full">
                                                                 <div>
-                                                                    <div class="font-weight-bold">
+                                                                    <div class="">
                                                                         {{ $comment->user->name }}</div>
                                                                     <i class="small">{{ $comment->created_at }}</i>
                                                                 </div>
@@ -913,7 +930,7 @@
                                         </div>
 
                                         <button type="button"
-                                            @if (!Auth::check()) onclick="redirectToPage()" @else  data-toggle="modal" data-target="#paymentModal" @endif 
+                                            @if (!Auth::check()) onclick="redirectToPage()" @else  data-toggle="modal" data-target="#paymentModal" @endif
                                             class=" reservationBtn reservation btn-radius full-width mrg-top-10 text-white">Rezervasyon
                                             Yap</button>
                                     </form>
@@ -1147,7 +1164,7 @@
         </div>
     </div>
 
-  
+
 
     <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
         aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
@@ -1198,9 +1215,10 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-         function redirectToPage() {
+        function redirectToPage() {
             window.location.href = "/giris-yap";
-    }
+        }
+
         function submitForm() {
             var formData = new FormData($('#commentForm')[0]);
             $.ajax({
@@ -1396,17 +1414,17 @@
                             key: key
                         },
                         success: function(response) {
-                        $('#finalConfirmationModal').modal('hide');
-                        $('.modal-backdrop').removeClass('show');
+                            $('#finalConfirmationModal').modal('hide');
+                            $('.modal-backdrop').removeClass('show');
 
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Başarılı!',
-                            text: response.message,
-                        }).then(function () {
-                            location.reload(); // Sayfayı yenile
-                        });
-                    },
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı!',
+                                text: response.message,
+                            }).then(function() {
+                                location.reload(); // Sayfayı yenile
+                            });
+                        },
                         error: function(error) {
                             // Hata durumunda burada gerekli işlemleri yapabilirsiniz
                             console.log(error);
@@ -1528,30 +1546,79 @@
             var today = new Date().toISOString().split("T")[0];
             var reservationCalendar;
 
-function updateCalendarView() {
-    var isMobile = window.innerWidth <= 768; // Örnek bir mobil genişlik sınıfı
-    var showMonths = isMobile ? 1 : 2;
+            function updateCalendarView() {
+                var isMobile = window.innerWidth <= 768; // Örnek bir mobil genişlik sınıfı
+                var showMonths = isMobile ? 1 : 2;
 
-    if (reservationCalendar) {
-        reservationCalendar.destroy();
-    }
+                if (reservationCalendar) {
+                    reservationCalendar.destroy();
+                }
+                // Bu fonksiyon, iki tarih aralığı seçildiğinde tetiklenir
+                function onSelectDates(selectedDates, dateStr, instance) {
+                    var checkinDate = selectedDates[0];
+                    var checkoutDate = selectedDates[selectedDates.length - 1];
 
-    reservationCalendar = flatpickr("#reservation-calendar", {
-        mode: "range",
-        dateFormat: "Y-m-d",
-        inline: true,
-        locale: 'tr',
-        showMonths: showMonths,
-        minDate: today, // Bugünden önceki tarihleri disable et
-        onReady: applyClassesToDates,
-        onChange: applyClassesToDates,
-        onMonthChange: applyClassesToDates
-    });
-}
+                    // Eğer her iki tarih de seçilmişse, input alanlarına yazdır
+                    if (checkinDate && checkoutDate) {
+                        document.getElementById('date-checkin').value = formatDate(checkinDate);
+                        document.getElementById('date-checkout').value = formatDate(checkoutDate);
 
-// Sayfa yüklendiğinde ve pencere boyutu değiştiğinde kontrolü güncelle
-document.addEventListener('DOMContentLoaded', updateCalendarView);
-window.addEventListener('resize', updateCalendarView);
+                        var price = parseInt("{{ getData($housing, 'daily_rent') }}");
+                        var startDate = new Date(checkinDate);
+                        var endDate = new Date(checkoutDate);
+
+                        // Eğer seçilen tarihler aynı değilse, işlemleri yap
+                        if (endDate.getTime() !== startDate.getTime()) {
+                            var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+                            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                            if (diffDays < 7) {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Uyarı!',
+                                    text: 'Minimum 7 gün tarih aralığı olmalı!',
+                                });
+                            } else {
+                                $(".showPrice").removeClass("d-none");
+                                $("#totalPrice").html(price * diffDays + " ₺");
+                            }
+                        }
+                    }
+                }
+
+                // Bu fonksiyon, tarihi belirli bir formata dönüştürür
+                function formatDate(date) {
+                    var day = date.getDate();
+                    var month = date.getMonth() + 1;
+                    var year = date.getFullYear();
+
+                    // Gerekirse ayları ve günleri iki basamaklı hale getirin
+                    if (day < 10) {
+                        day = '0' + day;
+                    }
+
+                    if (month < 10) {
+                        month = '0' + month;
+                    }
+
+                    return year + '-' + month + '-' + day;
+                }
+                reservationCalendar = flatpickr("#reservation-calendar", {
+                    mode: "range",
+                    dateFormat: "Y-m-d",
+                    inline: true,
+                    locale: 'tr',
+                    showMonths: showMonths,
+                    minDate: today, // Bugünden önceki tarihleri disable et
+                    onReady: applyClassesToDates,
+                    onChange: onSelectDates,
+                    onMonthChange: applyClassesToDates
+                });
+            }
+
+            // Sayfa yüklendiğinde ve pencere boyutu değiştiğinde kontrolü güncelle
+            document.addEventListener('DOMContentLoaded', updateCalendarView);
+            window.addEventListener('resize', updateCalendarView);
 
 
             var dateCheckin = flatpickr("#date-checkin", {
@@ -1577,6 +1644,23 @@ window.addEventListener('resize', updateCalendarView);
 
 @section('styles')
     <style>
+        .trStyle
+        ,.trStyle tr {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .trStyle tr{
+            width: 50%;
+        }
+        .trStyle tr td{ 
+            width: 100%;
+            font-size: 13px;
+        }
+        @media (max-width:768px) {
+            .trStyle tr{
+            width: 100%;
+        }
+        }
         .flatpickr-day.flatpickr-disabled,
         .flatpickr-day.flatpickr-disabled:hover {
             background: #f8e7e7;

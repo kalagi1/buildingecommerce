@@ -79,10 +79,6 @@
         justify-content: start;
     }
 
-    .homes-content h4 {
-        height: 50px;
-    }
-
     .circleIcon {
         font-size: 5px !important;
         color: #e54242 !important;

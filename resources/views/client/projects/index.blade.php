@@ -184,13 +184,15 @@
                     @foreach ($project->blocks as $key => $block)
                         <div id="content-{{ $block['id'] }}" class="tab-content{{ $loop->first ? ' active' : '' }}">
                             @php
+                            $j = -1; 
                                 $blockHousingCount = $block['housing_count'];
                                 if ($key > 0) {
                                     $previousBlockHousingCount = $project->blocks[$key - 1]['housing_count'];
-                                    $i = $previousBlockHousingCount; // Bir önceki bloğun housing_count değerinden başlat
+                                    $i = $previousBlockHousingCount;
+                                    $j = -1; // Bir önceki bloğun housing_count değerinden başlat
                                     $blockHousingCount += $previousBlockHousingCount; // Toplam konut sayısına bir önceki bloğun housing_count'ını ekle
                             } else {
-                                $i = 0; // İlk blok ise $i'yi sıfırla
+                                $i = 0; 
                                                                 }
                             @endphp
 
@@ -199,6 +201,7 @@
                                     <div class="row project-filter-reverse blog-pots">
                                         @for (; $i < $blockHousingCount; $i++)
                                             @php
+                                                $j++;
                                                 $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
                                             @endphp
 
@@ -213,7 +216,7 @@
                                                                         style="background-color: #dc3545 !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                         <p
                                                                             style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
-                                                                            {{ $i + 1 }}</p>
+                                                                            {{ $j + 1 }}</p>
                                                                     </div>
                                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate"
                                                                         data-aos="fade-up">
@@ -581,9 +584,9 @@
                                                                     <button class="btn mobileBtn second-btn CartBtn"
                                                                         disabled
                                                                         @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
-                        @else 
-                        style="background: red !important;width:100%;color:White" @endif>
-                                                                        <span class="IconContainer">
+                                        @else 
+                                        style="background: red !important;width:100%;color:White" @endif>
+                                                                                        <span class="IconContainer">
                                                                             <img src="{{ asset('sc.png') }}"
                                                                                 alt="">
                                                                         </span>
@@ -1327,9 +1330,6 @@ out center;`;
             flex-wrap: wrap
         }
 
-        .soldBtn {
-            height: auto !important
-        }
 
         .mobile-hidden {
             display: flex;

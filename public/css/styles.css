@@ -91,7 +91,7 @@ html {
 }
 
 body {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     font-weight: 400;
     color: #666;
@@ -109,7 +109,7 @@ p {
 }
 
 h1 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1.2rem;
@@ -117,7 +117,7 @@ h1 {
 }
 
 h2 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #222;
     font-size: 2rem;
     font-weight: 800;
@@ -130,15 +130,15 @@ h2 span {
 }
 
 h3 {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
     color: #333;
     font-weight: 600;
 }
 
 h4 {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
     color: #333;
     font-weight: 600;
 }
@@ -335,13 +335,13 @@ button {
 }
 
 .section-title h3 {
-    font-size: 18px;
+    font-size: 14px;
     color: #111;
     text-transform: uppercase;
 }
 
 .section-title h2 {
-    font-size: 20px;
+    font-size: 18px;
     color: #274abb;
     margin-bottom: 0 !important;
     text-transform: uppercase;
@@ -442,7 +442,7 @@ img {
 .header-top p {
     margin-right: 2rem;
     color: #fff;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     margin-bottom: 0px;
 }
@@ -1092,8 +1092,8 @@ img {
 }
 
 .tp-caption.font-p {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
     font-weight: 400;
 }
 
@@ -1108,7 +1108,7 @@ img {
     font-weight: 600;
     background-color: #121B22;
     border-color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     padding: 13px 32px;
     margin-top: .8rem;
     margin-right: 1rem;
@@ -1127,7 +1127,7 @@ img {
     color: #fff;
     background-color: black;
     border-color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     padding: 13px 32px;
     margin-top: .8rem;
@@ -1280,11 +1280,11 @@ img {
 }
 
 .button--size-m {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .button--size-l {
-    font-size: 18px;
+    font-size: 14px;
 }
 
 /* Typography and Roundedness */
@@ -1535,7 +1535,7 @@ section.recently.portfolio {
 }
 
 .recently .homes .button {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     padding: 6px 14px;
     border-radius: 2px;
@@ -1675,7 +1675,7 @@ section.recently.portfolio {
 }
 
 .recently .homes-content .homes-address a span {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     margin: 0 0 1px;
     text-decoration: none;
@@ -1724,7 +1724,7 @@ section.recently.portfolio {
     background: none;
     border-top: 1px solid #ebebeb;
     padding-top: 1rem;
-    font-size: 13px;
+    font-size: 14px;
     color: #666;
 }
 
@@ -1757,7 +1757,7 @@ section.recently.portfolio {
 
 .house-details.thehp-1 i {
     color: black;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 500;
 }
 
@@ -1862,12 +1862,12 @@ section.recently.portfolio {
 
 .homepage-1 .portfolio .homes-content .homes-list li i {
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .homepage-1 .portfolio .footer i {
     color: #2D2D2D;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .homepage-1 .portfolio.full-l .project-head:before {
@@ -1988,7 +1988,7 @@ section.recently.portfolio {
 }
 
 .hp1 label {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     font-weight: 400;
     margin-bottom: 5px;
@@ -2621,7 +2621,7 @@ section.welcome {
 
 .welcome-content>p span {
     color: #666;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -2793,7 +2793,7 @@ section.welcome {
     }
 
     .welcome-title h4 {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .welcome-content>p span {
@@ -3208,7 +3208,6 @@ section.portfolio {
 .portfolio .homes-content h3 {
     font-size: 14px;
     font-weight: 600;
-    height: 55px;
     color: #444;
     margin-bottom: 3px;
 }
@@ -3291,7 +3290,7 @@ section.portfolio {
     background: none;
     border-top: 1px solid #e8e8e8;
     padding-top: 1rem;
-    font-size: 13px;
+    font-size: 14px;
     color: #666;
 }
 
@@ -3307,7 +3306,7 @@ section.portfolio {
 .portfolio .footer i {
     margin-right: 5px;
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 /*----- HOVER EFFECT -----*/
@@ -3380,7 +3379,7 @@ section.portfolio {
 
 .portfolio .project-bottom h4 {
     text-transform: uppercase;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     color: #fff;
     opacity: 0;
@@ -3553,7 +3552,7 @@ section.portfolio {
     background-color: black;
     color: #fff;
     border-color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     border-radius: 3rem;
     padding: .9rem 2.5rem .9rem 2rem;
@@ -3633,7 +3632,7 @@ section.popular-places {
     right: 0;
     width: 100%;
     display: block;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     padding: 0px;
     overflow: hidden;
@@ -3685,7 +3684,7 @@ section.popular-places {
 }
 
 .popular-places .img-box-content span {
-    font-size: 16px;
+    font-size: 14px;
     color: #fff;
 }
 
@@ -3997,7 +3996,7 @@ section.team {
     text-transform: capitalize;
     margin-bottom: 0px;
     color: #444;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .team-content p {
@@ -4093,7 +4092,7 @@ section.team {
     transition: all 1s;
     position: relative;
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .team-wrap:hover .team-content span a {
@@ -4450,7 +4449,7 @@ section.blog-section {
 .blog-section .news-item .date {
     display: block;
     margin-bottom: 9px;
-    font-size: 13px;
+    font-size: 14px;
     color: #333;
 }
 
@@ -4474,7 +4473,7 @@ section.blog-section {
 }
 
 .blog-section .admin p {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     margin-top: .5rem;
     margin-right: 1rem;
@@ -4936,7 +4935,7 @@ section.counterup {
 }
 
 .counterup .count-me h3 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     text-transform: capitalize;
     color: #121B22;
     font-size: 1.1rem;
@@ -5729,7 +5728,7 @@ element.style {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 14px;
 }
@@ -6018,10 +6017,10 @@ element.style {
 
 .login-and-register-form .main-register h3 span {
     font-weight: 800;
-    font-size: 18px;
+    font-size: 14px;
     color: #121B22;
     text-transform: uppercase;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .login-and-register-form .main-register {
@@ -6068,7 +6067,7 @@ element.style {
 
 .login-and-register-form .soc-log p {
     margin-bottom: 13px;
-    font-size: 18px;
+    font-size: 14px;
     color: #454545;
     font-weight: 600;
 }
@@ -6121,7 +6120,7 @@ element.style {
 .login-and-register-form .log-separator span {
     position: relative;
     width: 100%;
-    font-size: 16px;
+    font-size: 14px;
     display: inline-block;
     background: #fff;
     z-index: 2;
@@ -6250,7 +6249,7 @@ element.style {
     padding: 15px 20px 15px 55px;
     border-radius: 6px;
     color: #666;
-    font-size: 13px;
+    font-size: 14px;
     -webkit-appearance: none;
 }
 
@@ -6544,7 +6543,7 @@ a.button,
 }
 
 .homepage-3 .popular-searchs li a .box span {
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
     color: #fff;
     margin-top: 10px;
@@ -6701,7 +6700,7 @@ a.button,
 
 .homepage-3 .portfolio .homes-content .homes-list li i {
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .homepage-3 img {
@@ -6740,7 +6739,7 @@ a.button,
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: #666;
     max-width: 550px;
@@ -6897,7 +6896,7 @@ a.button,
     height: 43px;
     border: 2px solid #ddd;
     border-radius: 50%;
-    font-size: 18px;
+    font-size: 14px;
     color: #70778b;
     line-height: 43px;
     background: transparent;
@@ -6955,7 +6954,7 @@ a.button,
     }
 
     .download-page .welcome-intro p {
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 
@@ -6974,7 +6973,7 @@ a.button,
     }
 
     .download-page .welcome-intro p {
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 
@@ -7109,12 +7108,12 @@ a.button,
 
 .homepage-4 .portfolio .homes-content .homes-list li i {
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .homepage-4 .portfolio .footer i {
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .the-icons,
@@ -7778,7 +7777,7 @@ a.button,
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: #666;
     max-width: 550px;
@@ -7886,7 +7885,7 @@ a.button,
 .main-search-field .at-input-price {
     background-color: transparent;
     border: none;
-    font-size: 16px;
+    font-size: 14px;
     color: #fff;
     height: 25px;
     width: 180px;
@@ -7911,7 +7910,7 @@ a.button,
 /* BTN CSS START*/
 
 .main-search-field .at-btn-default {
-    font-size: 18px;
+    font-size: 14px;
     background: #fff;
     color: #ffffff;
     border: none;
@@ -8007,7 +8006,7 @@ html input[disabled] {
 
 .parallax-search .welcome-text p {
     color: #fff;
-    font-size: 18px;
+    font-size: 14px;
     text-transform: capitalize;
     font-weight: 500;
 }
@@ -8054,7 +8053,7 @@ html input[disabled] {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 14px;
 }
@@ -8264,7 +8263,7 @@ html input[disabled] {
     padding: 10px 10px 10px 0;
     position: relative;
     z-index: 106;
-    font-size: 13px;
+    font-size: 14px;
     border: 1px solid transparent;
 }
 
@@ -8362,7 +8361,7 @@ html input[disabled] {
 
 .header-widget.sign-in a {
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
     text-decoration: none;
 }
@@ -8416,7 +8415,7 @@ a.button {
 .show-lang span strong {
     padding-left: 10px;
     top: -2px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     position: relative;
 }
@@ -8624,7 +8623,7 @@ a.button {
 .homepage-12 .header-image .left p {
     color: #fff;
     text-align: center;
-    font-size: 18px;
+    font-size: 14px;
     width: 100%;
 }
 
@@ -8845,7 +8844,7 @@ a.button {
 
 .hp-6 .range-slider label {
     color: #333;
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 25px;
 }
 
@@ -8977,7 +8976,7 @@ a.button {
     padding-left: 28px;
     margin-right: 20px;
     margin-bottom: 0;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #666;
     font-size: 14.5px;
 }
@@ -9012,7 +9011,7 @@ a.button {
 .hp-6 .checkboxes input[type=checkbox]:checked+label:before {
     content: "\f00c";
     font-family: "FontAwesome";
-    font-size: 13px;
+    font-size: 14px;
     color: #fff;
     text-align: center;
     line-height: 15px;
@@ -9299,7 +9298,7 @@ a.button {
     color: #757575;
     font-family: 'Nunito', sans-serif;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .search-2 .form-group .nice-select:hover {
@@ -9347,7 +9346,7 @@ a.button {
     color: #757575;
     font-family: 'Nunito', sans-serif;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .main-search-input-item {
@@ -10121,7 +10120,7 @@ a.button {
 }
 
 .swiper_imgbox .swipper_img>h4 {
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 8px;
     text-transform: uppercase;
     color: #c18847;
@@ -10176,14 +10175,14 @@ a.button {
 .swiper_imgbox .homes-list li {
     width: 45%;
     float: left;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 40px;
     list-style: none;
     color: #fff;
 }
 
 .swiper_imgbox .homes-list li i {
-    font-size: 16px;
+    font-size: 14px;
     margin-right: 8px;
     color: #fff;
 }
@@ -10775,7 +10774,7 @@ a.int_btn,
 .listing-img-content .listing-price i {
     display: block;
     font-style: normal;
-    font-size: 16px;
+    font-size: 14px;
     padding: 0;
     margin: -4px 0 0 0;
 }
@@ -10789,7 +10788,7 @@ a.int_btn,
     right: 0;
     width: 100%;
     display: block;
-    font-size: 13px;
+    font-size: 14px;
     padding: 0px;
     overflow: hidden;
     height: 100px;
@@ -11121,7 +11120,7 @@ a.button {
 }
 
 .int_white_bg .swiper_imgbox .swipper_img>h4 {
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 8px;
     text-transform: uppercase;
     color: #c18847;
@@ -11161,7 +11160,7 @@ a.button {
 .int_white_bg .swiper_imgbox .homes-list li,
 .int_white_bg .swiper_imgbox .homes-list li i {
     color: #333;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .int_white_bg .swiper_imgbox .swipper_img>h3>.banner_span1 {
@@ -11387,7 +11386,7 @@ a.button {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: #666;
     max-width: 550px;
@@ -11426,12 +11425,12 @@ a.button {
 
 .hmp7 .portfolio .homes-content .homes-list li i {
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .hmp7 .portfolio .footer i {
     color: #2D2D2D;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .hmp7 .rp2 .slick-dots li.slick-active,
@@ -11513,7 +11512,7 @@ a.button {
 }
 
 .th-15 .house-details {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: #fff;
 }
@@ -11548,7 +11547,7 @@ a.button {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: #666;
     max-width: 550px;
@@ -11636,7 +11635,7 @@ a.button {
 
 .parallax-searchs.home15 .welcome-text p {
     color: rgba(255, 255, 255, 0.89);
-    font-size: 18px;
+    font-size: 14px;
     max-width: 600px;
     margin: 0 auto;
     text-align: center;
@@ -11652,7 +11651,7 @@ a.button {
 
 .parallax-searchs .welcome-text p {
     color: #fff;
-    font-size: 18px;
+    font-size: 14px;
     text-transform: capitalize;
     font-weight: 500;
 }
@@ -11699,7 +11698,7 @@ a.button {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 14px;
 }
@@ -11967,7 +11966,7 @@ a.button {
     -webkit-transition: .4s;
     transition: .4s;
     margin: 15px 0;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .single-featured-box p {
@@ -12446,7 +12445,7 @@ section.featured.home15 {
 }
 
 .featured.home15 .homes-content .homes-address a span {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     margin: 0 0 1px;
     text-decoration: none;
@@ -12469,7 +12468,7 @@ section.featured.home15 {
 .featured.home15 .homes-content .homes-list li {
     width: 33%;
     float: left;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 40px;
     list-style: none;
     color: black;
@@ -12489,7 +12488,7 @@ section.featured.home15 {
     background: none;
     border-top: 1px solid #d8d8d8;
     padding-top: 1rem;
-    font-size: 13px;
+    font-size: 14px;
     color: #666;
 }
 
@@ -12569,7 +12568,7 @@ section.featured.home15 {
 
 .featured.home15 .project-bottom h4 {
     text-transform: capitalize;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     color: #fff;
     opacity: 0;
@@ -12723,7 +12722,7 @@ section.featured.home15 {
 }
 
 .info-help .info-head .info-text p {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 35px;
     color: #fff;
@@ -12750,7 +12749,7 @@ section.featured.home15 {
     }
 
     .info-help .info-head .info-text p {
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 
@@ -12813,7 +12812,7 @@ section.visited-cities {
     right: 0;
     width: 100%;
     display: block;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     padding: 0px;
     overflow: hidden;
@@ -12830,7 +12829,7 @@ section.visited-cities {
     position: relative;
     text-align: center;
     width: 200px;
-    font-size: 13px;
+    font-size: 14px;
     margin: 0;
 }
 
@@ -12885,7 +12884,7 @@ section.visited-cities {
 }
 
 .visited-cities .img-box-content span {
-    font-size: 16px;
+    font-size: 14px;
     color: #fff;
 }
 
@@ -13005,7 +13004,7 @@ section.visited-cities {
 
 .recent-price {
     color: #fff;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     margin-bottom: 6px;
 }
@@ -13133,7 +13132,7 @@ section.visited-cities {
     color: #fff;
     font-size: 45px;
     line-height: 66px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     margin-bottom: 30px;
     text-transform: capitalize;
@@ -13246,7 +13245,7 @@ section.visited-cities {
 
 .rld-single-input.left-icon:before {
     content: '\f041';
-    font-size: 18px;
+    font-size: 14px;
     font-family: fontawesome;
     color: black;
     position: absolute;
@@ -13339,7 +13338,7 @@ section.visited-cities {
     color: #fff;
     border-radius: 30px;
     top: -10px;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 25px;
 }
 
@@ -13579,7 +13578,7 @@ section.team {
 
 .team-block .inner-box .lower-box h3 {
     position: relative;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     line-height: 1.2em;
     margin-bottom: 0px;
@@ -13600,7 +13599,7 @@ section.team {
 .team-block .inner-box .lower-box .designation {
     position: relative;
     color: #666;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     padding-top: 2px;
     text-transform: capitalize;
@@ -13837,7 +13836,7 @@ a.button,
 
 .homepage-6 .portfolio .homes-content .homes-list li i {
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .home-11 .portfolio .project-single {
@@ -13922,7 +13921,7 @@ a.button {
 }
 
 .home-18.th-8 .google-maps .filter .button {
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .home-18.th-8 .google-maps .filter .button:hover {
@@ -13976,7 +13975,7 @@ a.button {
 }
 
 label {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     font-weight: 400;
     margin-bottom: 5px;
@@ -14076,7 +14075,7 @@ form label.error {
     }
 
     .th-8 .header-image .left h1 {
-        font-size: 18px;
+        font-size: 14px;
         margin-bottom: 0px;
         padding-top: 20px;
     }
@@ -14133,7 +14132,7 @@ form label.error {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 14px;
 }
@@ -14182,9 +14181,9 @@ form label.error {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .th-8 .main-search-input-item {
@@ -14285,7 +14284,7 @@ select {
     border-radius: 3px;
     font-weight: 400;
     color: #000;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: #f8f8f8;
 }
 
@@ -14334,7 +14333,7 @@ select {
 
 .th-8 .range-slider label {
     color: #333;
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 25px;
 }
 
@@ -14779,7 +14778,7 @@ section.h18.testimonials {
 
 .h18.testimonials .client-info h2 {
     color: #fff;
-    font-size: 18px;
+    font-size: 14px;
     margin-bottom: 5px;
     text-transform: capitalize;
     font-weight: 600;
@@ -14787,7 +14786,7 @@ section.h18.testimonials {
 
 .h18.testimonials .client-info span {
     color: #fff;
-    font-size: 13px;
+    font-size: 14px;
     display: inline-block;
     text-transform: uppercase;
 }
@@ -14861,7 +14860,7 @@ section.h18.testimonials {
 
 .h18.testimonials .client-reviews i {
     color: #e54242;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .h18.testimonials .client-comment>ul {
@@ -14918,7 +14917,7 @@ section.h18.testimonials {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: #fff;
     max-width: 550px;
@@ -14955,7 +14954,7 @@ section.h18.testimonials {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: #333;
     max-width: 550px;
@@ -15148,7 +15147,7 @@ a.button {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     color: #666;
     max-width: 550px;
@@ -15496,7 +15495,7 @@ a.button {
 }
 
 .homepage-23 .popular-searchs li a .box span {
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
     color: #fff;
     margin-top: 10px;
@@ -15543,7 +15542,7 @@ a.button {
 }
 
 .homepage-24 .header-image .left p {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 27px;
     color: #666;
@@ -16052,7 +16051,7 @@ a.button {
 }
 
 .inner-pages .project-single .homes-content .homes-list li i {
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .inner-pages .project-single .fa-user,
@@ -16107,6 +16106,7 @@ a.button {
 .homes-button .first-btn {
     padding: 15px;
     color: white;
+    font-size:13px;
     background-color: black;
     font-weight: 600;
     border: none;
@@ -16116,11 +16116,16 @@ a.button {
     width: 100%;
 }
 
+.slick-initialized .slick-slide{
+    padding: 10px;
+}
+
 .homes-button .second-btn {
     position: absolute;
     bottom: 0;
     border-radius:0 !important;
     right: 0;
+    font-size:13px;
     padding: 15px;
     color: white;
     background-color: #274abb;
@@ -16271,7 +16276,7 @@ a.button {
     color: #999;
     margin-right: 5px;
     margin-bottom: 0px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 300;
     outline: none;
 }
@@ -16289,7 +16294,7 @@ a.button {
 }
 
 .inner-pages .blog .block-heading .sorting {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 300;
     padding: 5px 13px;
     border: solid 1px #e7e7e7;
@@ -16387,7 +16392,7 @@ a.button {
 .inner-pages .blog .main-search-field h5,
 .inner-pages .blog .main-search-field-2 h5,
 .inner-pages .blog .section-heading .media .media-body h5 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     text-transform: capitalize;
 }
@@ -16593,11 +16598,11 @@ a.button {
 }
 
 .inner-pages .widget .more-search-options-trigger {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .inner-pages .widget .more-search-options-trigger {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .inner-pages .margin-bottom-10 {
@@ -16633,9 +16638,9 @@ a.button {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .inner-pages .main-search-input-item {
@@ -16667,7 +16672,7 @@ a.button {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     font-size: 15px;
 }
@@ -16707,7 +16712,7 @@ a.button {
 
 .inner-pages .range-slider label {
     color: #333;
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 25px;
 }
 
@@ -16837,7 +16842,7 @@ a.button {
     padding-left: 28px;
     margin-right: 20px;
     margin-bottom: 0;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #666;
     font-size: 14.5px;
 }
@@ -16872,7 +16877,7 @@ a.button {
 .inner-pages .checkboxes input[type=checkbox]:checked+label:before {
     content: "\f00c";
     font-family: "FontAwesome";
-    font-size: 13px;
+    font-size: 14px;
     color: #fff;
     text-align: center;
     line-height: 15px;
@@ -17153,7 +17158,7 @@ section.headings-2 {
 }
 .inner-pages .headings-2 .listing-title-bar h3 span {
     border-bottom: 4px solid black !important;
-    font-size:28px !important;
+    font-size:23px !important;
 }
 
 
@@ -17274,7 +17279,7 @@ section.headings-2 {
 }
 
 .inner-pages .headings-2 .listing-title-bar h3 {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 34px;
     font-weight: 600;
     color: #222;
@@ -17620,7 +17625,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .sidebar-widget .author__title {
-    font-size: 18px;
+    font-size: 14px;
     color: #222;
     font-weight: 600;
     margin-top: 24px;
@@ -17629,7 +17634,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .sidebar-widget .author-box .author__title {
     margin-top: 18px;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .sidebar .sidebar-widget .author__meta {
@@ -17642,7 +17647,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     color: #666;
     margin-bottom: 10px;
     font-weight: 400;
-    font-size: 15px;
+    font-size: 12px;
 }
 
 .sidebar-widget .author__contact li span i {
@@ -17653,7 +17658,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     background-color: #fff;
     color: black;
     border-radius: 50%;
-    font-size: 18px;
+    font-size: 14px;
     margin-right: 10px;
     -webkit-transition: all .3s;
     transition: all .3s;
@@ -17704,7 +17709,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     background-color: rgba(128, 137, 150, 0.2);
     color: black;
     border-radius: 50%;
-    font-size: 16px;
+    font-size: 14px;
     -webkit-transition: all .3s;
     transition: all .3s;
 }
@@ -17726,7 +17731,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .widget-boxed .input-group .fa {
-    font-size: 18px !important;
+    font-size: 16px !important;
     color: black;
 }
 
@@ -17742,7 +17747,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .widget-boxed-header h4 {
     color: #222 !important;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     margin: 0;
 }
@@ -17773,7 +17778,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .agent-contact-form-sidebar h4 {
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 20px;
 }
 
@@ -17947,12 +17952,17 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     margin-bottom: 30px !important;
 }
 
+.table td, .table th, .nav-tabs .nav-link{
+    font-size:14px;
+}
+
 .inner-pages .blog .blog-info.details h4,
 .inner-pages .blog .blog-info.details h5,
 .inner-pages .carousel-inner h5,
 .wprt-image-video.w50.pro h5 {
     color: #000;
-    font-family: 'Quicksand', sans-serif;
+    font-size:14px;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     text-transform: capitalize;
 }
@@ -17999,11 +18009,15 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .inner-pages .blog .homes-content .homes-list li {
     width: 33%;
     float: left;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 36px;
     list-style: none;
     justify-content: center;
     color: #274abb;
+}
+
+span{
+    font-size:12px !important;
 }
 
 .inner-pages .blog .homes-content .homes-list li:last-child {
@@ -18038,11 +18052,11 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 @media screen and (max-width: 1024px) {
     .inner-pages .headings-2 .listing-title-bar h3 {
-        font-size: 18px;
+        font-size: 14px;
     }
 
     .inner-pages .headings-2 .listing-title-bar h4 {
-        font-size: 18px;
+        font-size: 14px;
     }
 
     .widget-boxed .slick-prev {
@@ -18064,6 +18078,10 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     .inner-pages .headings-2 .listing-title-bar h3 {
         font-size: 24px;
     }
+}
+
+.text-primary {
+    color: #274abb !important;
 }
 
 @media screen and (max-width: 500px) {
@@ -18133,8 +18151,9 @@ div.datedropper.my-style.picker-lkd .pick-submit {
         font-size: 15px !important;
     }
 
-    .inner-pages .single.homes-content .homes-list li {
-        width: 100%;
+    .inner-pages .single.homes-content .homes-list li,
+    .inner-pages .portfolio .homes-content .homes-list li {
+        width: 100% !important;
         line-height: 27px;
         margin-bottom: 13px;
     }
@@ -18217,14 +18236,14 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .inner-pages .blog .sorting-options span {
     color: #121B22;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     text-transform: uppercase;
 }
 
 .inner-pages .blog .sorting-options h5 {
     color: black;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     margin-top: 0px;
 }
@@ -18246,7 +18265,8 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .ag-de .blog-section h5,
 .inner-pages .carousel h5 {
     color: #000;
-    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     text-transform: capitalize;
 }
@@ -18529,7 +18549,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     margin-right: 3px;
     -webkit-transition: .3s;
     transition: .3s;
-    font-size: 16px;
+    font-size: 14px;
     position: relative;
     top: 2px;
 }
@@ -18541,7 +18561,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .inner-pages a.rate-review {
     border: 1px solid #e0e0e0;
     border-radius: 50px;
-    font-size: 13px;
+    font-size: 14px;
     color: #666;
     font-weight: 500;
     padding: 5px 20px;
@@ -18908,7 +18928,7 @@ h2.white {
     text-transform: capitalize;
     margin-bottom: 0px;
     color: #444;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .inner-pages .team-content p {
@@ -19004,7 +19024,7 @@ h2.white {
     transition: all 1s;
     position: relative;
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .inner-pages .team-wrap:hover .team-content span a {
@@ -19354,7 +19374,7 @@ ul.the-agents-details li a {
 }
 
 .inner-pages .agent-row-sidebar .agent-text {
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .inner-pages .agent-row-sidebar .agent-content {
@@ -19432,11 +19452,11 @@ ul.the-agents-details li a {
 
 .inner-pages .homes-address span {
     color: #666;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .inner-pages .homes-content .homes-list li i {
-    font-size: 18px;
+    font-size: 14px;
     margin-right: 5px;
 }
 
@@ -19608,7 +19628,7 @@ section.single-proper.details {
 }
 
 .agents.det .text-heading.text-left a {
-    font-size: 16px;
+    font-size: 14px;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
 }
@@ -19636,7 +19656,7 @@ section.single-proper.details {
 }
 
 .agents.det .text-heading.text-left span {
-    font-size: 16px;
+    font-size: 14px;
     color: black;
 }
 
@@ -19679,7 +19699,7 @@ section.single-proper.details {
 }
 
 .inner-pages .agent-details .footer a {
-    font-size: 13px;
+    font-size: 14px;
     color: #666;
 }
 
@@ -19767,7 +19787,7 @@ a.button {
     color: #aeb7c2;
     text-transform: capitalize;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .user-profile-box .header h4 {
@@ -19801,7 +19821,7 @@ a.button {
     padding: 12px 50px;
     display: block;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
 }
 
@@ -19955,7 +19975,7 @@ a.button {
     text-transform: capitalize;
     font-weight: 400;
     padding-top: 15px;
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 30px;
     color: #aeb7c2;
     text-align: center;
@@ -20132,7 +20152,7 @@ body.dashboard-bd {
     position: absolute;
     color: #666;
     bottom: 1px;
-    font-size: 13px;
+    font-size: 14px;
     right: -16px;
     -webkit-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
@@ -20391,7 +20411,7 @@ body.dashboard-bd {
 .messages .message .body h6,
 .reviews .review .body h6,
 .reviews .review .body h4 {
-    font-size: 18px;
+    font-size: 14px;
     margin-bottom: .2rem;
     color: #111;
 }
@@ -20524,7 +20544,7 @@ body.dashboard-bd {
 
 .my-properties table thead tr th:first-child {
     color: #333;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     padding-left: 30px;
 }
@@ -20539,7 +20559,7 @@ body.dashboard-bd {
 
 .my-properties table h2 {
     border: none;
-    font-size: 16px;
+    font-size: 14px;
     color: #444;
     text-decoration: none;
     text-transform: capitalize;
@@ -20579,11 +20599,11 @@ body.dashboard-bd {
 }
 
 .my-properties table tbody tr td .inner figure i {
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .my-properties table tbody tr td .price {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
 }
 
@@ -20829,6 +20849,9 @@ select:focus {
 @media screen and (max-width: 768px) {
     .reservation-list li {
         width:100%;
+    }
+    .schedule.widget-boxed.mt-33{
+        margin-top:30px !important;
     }
     
     .portfolio .homes-content .homes-list li{
@@ -21132,7 +21155,7 @@ header.payment-card-header .pull-right img {
 
 .payment-card-title.flexbox h4 {
     margin: 0;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .include-features {
@@ -21143,7 +21166,7 @@ header.payment-card-header .pull-right img {
     background-color: #eaedf3;
     border-radius: 0 2px 2px 0;
     display: inline-block;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     line-height: 1.2727272727;
     margin: 2px 15px 5px 0;
@@ -21191,7 +21214,7 @@ header.payment-card-header .pull-right img {
 }
 
 .booking-price-detail h5 {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -21281,7 +21304,7 @@ header.payment-card-header .pull-right img {
     }
 
     .payment-card-title.flexbox h4 {
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 
@@ -21471,7 +21494,7 @@ header.payment-card-header .pull-right img {
     color: #666;
     background: #fff;
     font-weight: 400;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .inner-pages .services .top-headings-section.se h2 {
@@ -21599,7 +21622,7 @@ main.services-2 {
 }
 
 .inner-pages .panel .panel-heading {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
 }
 
@@ -21661,7 +21684,7 @@ section.pricing-table {
 }
 
 .plan-name {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
     display: block;
     font-size: 24px;
@@ -21715,15 +21738,15 @@ section.pricing-table {
 }
 
 .plan-name small {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     display: block;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     line-height: normal;
 }
 
 .plan-price sub {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 700;
 }
 
@@ -22069,7 +22092,7 @@ a.btn_1 {
 
     #login .checkboxes label,
     a#forgot {
-        font-size: 13px;
+        font-size: 14px;
     }
 }
 
@@ -22135,7 +22158,7 @@ a.btn_1 {
 }
 
 .font-16 {
-    font-size: 16px;
+    font-size: 14px;
     margin-right: 2rem;
 }
 
@@ -22204,7 +22227,7 @@ a.btn_1 {
 }
 
 .font-16 {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .font-36 {
@@ -22330,7 +22353,7 @@ a.btn_1 {
 .inner-pages .blog-section .news-item .date {
     display: block;
     margin-bottom: 10px;
-    font-size: 13px;
+    font-size: 14px;
     color: black;
 }
 
@@ -22818,7 +22841,7 @@ a.btn_1 {
 
 .inner-pages .info-img h6 {
     color: #333;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 1.1rem;
     font-weight: 400;
 }
@@ -22861,7 +22884,7 @@ a.btn_1 {
 
 .ud-btn i {
     margin-left: 10px;
-    font-size: 16px;
+    font-size: 14px;
     -webkit-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);
     transform: rotate(-45deg)
@@ -22892,7 +22915,7 @@ a.btn_1 {
 
 .ud-btn2 i {
     margin-left: 10px;
-    font-size: 16px;
+    font-size: 14px;
     -webkit-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);
     transform: rotate(-45deg)
@@ -23128,7 +23151,7 @@ a.btn_1 {
 }
 
 .inner-pages .info-img h6 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     color: #222;
     font-weight: 400;
@@ -23339,7 +23362,7 @@ section.leve-comments {
 .inner-pages .leve-comments .btn {
     background: black;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     border: none;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
@@ -23426,7 +23449,7 @@ section.leve-comments {
 }
 
 label {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 24px;
     font-weight: 600;
     margin-bottom: 5px;
@@ -23780,7 +23803,7 @@ form label.error {
     color: #fff;
     cursor: pointer;
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     height: 100%;
     padding: 10px 20px;
@@ -24025,7 +24048,7 @@ form label.error {
 .map-popup-content-wrapper .close {
     color: #fff;
     display: block;
-    font-size: 13px;
+    font-size: 14px;
     opacity: 1;
     position: absolute;
     right: 15px;
@@ -24305,7 +24328,7 @@ form label.error {
 .noUi-horizontal .noUi-tooltip {
     bottom: auto;
     top: 23px;
-    font-size: 13px;
+    font-size: 14px;
     background: rgba(0, 0, 0, 0.05);
     border: none;
     padding: 3px 4px;
@@ -24434,7 +24457,7 @@ form label.error {
 
 @media screen and (max-width: 991px) {
     .google-maps .slider_amount {
-        font-size: 13px;
+        font-size: 14px;
     }
 
     .info-box {
@@ -24459,7 +24482,7 @@ form label.error {
     }
 
     .info-box p {
-        font-size: 13px;
+        font-size: 14px;
         text-align: center;
     }
 
@@ -24541,7 +24564,7 @@ form label.error {
     border: none;
     font-weight: 400;
     color: #000;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: white;
 }
 
@@ -24629,7 +24652,7 @@ textarea.border,
 
 .form-block label .error {
     color: #EA2B2E;
-    font-size: 13px;
+    font-size: 14px;
     margin-left: 10px;
 }
 
@@ -24653,7 +24676,7 @@ textarea.border,
 
 .button.small {
     padding: 6px 23px 6px 23px;
-    font-size: 13px;
+    font-size: 14px;
     color: #fff;
     background: black;
     display: inline-block;
@@ -24743,7 +24766,7 @@ section.ui-element {
 }
 
 .ui-elements .accordion-1 .title span {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 24px;
     font-weight: 400;
     text-transform: uppercase;
@@ -24837,11 +24860,9 @@ section.ui-element {
 }
 
 .ui-elements .button-tabs .tab-title span {
-    font-size: 13px;
-    line-height: 24px;
+    font-size: 14px;
     color: black;
     font-weight: 600;
-    letter-spacing: 2px;
 }
 
 .ui-elements .button-tabs .active .tab-title {
@@ -24900,7 +24921,7 @@ section.ui-element {
     font-family: source_sans_proregular, sans-serif;
     font-style: normal;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 20px;
     color: #333
 }
@@ -24980,7 +25001,7 @@ section.ui-element {
 }
 
 .ui-elements .text-tabs .tab-title span {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 24px;
     font-weight: 400;
     text-transform: uppercase;
@@ -25377,7 +25398,7 @@ section.ui-element {
 
 .ui-elements .ui-buttons h4.effect {
     font-family: Lato, sans-serif;
-    font-size: 18px;
+    font-size: 14px;
     color: #444;
     font-weight: 400;
 }
@@ -25632,7 +25653,7 @@ section.ui-element {
     outline: none;
     padding-left: 20px;
     position: relative;
-    font-size: 13px;
+    font-size: 14px;
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 1px;
@@ -25699,7 +25720,7 @@ section.ui-element {
     letter-spacing: 2px;
     margin-right: -2px;
     font-family: Lato, sans-serif;
-    font-size: 18px;
+    font-size: 14px;
     color: #444;
     font-weight: 400;
     margin-bottom: 24px;
@@ -25729,7 +25750,7 @@ section.ui-element {
 }
 
 .ui-elements .radio-option+span {
-    font-size: 13px;
+    font-size: 14px;
     top: 0;
 }
 
@@ -25822,7 +25843,7 @@ section.ui-element {
 .ui-elements .barfiller .tip {
     margin-top: -30px;
     padding: 2px 4px;
-    font-size: 13px;
+    font-size: 14px;
     color: #fff;
     left: 0px;
     position: absolute;
@@ -26328,7 +26349,7 @@ section.ui-element {
     }
 
     .section-title h3 {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .section-title {
@@ -26336,7 +26357,7 @@ section.ui-element {
     }
 
     .section-title h2 {
-        font-size: 18px;
+        font-size: 14px;
     }
 
     .who-we-are .who img {
@@ -26432,7 +26453,7 @@ section.ui-element {
     text-align: center;
     margin-top: 10px;
     color: #333;
-    font-size: 13px;
+    font-size: 14px;
     display: block;
     transition: all ease 0.2s;
     /* line-height: 14px; */
@@ -26450,7 +26471,7 @@ section.ui-element {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     line-height: 15px;
     white-space: nowrap;
@@ -26476,7 +26497,7 @@ section.ui-element {
     border-radius: 10px;
     border: none;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .special-button-content button:hover {
@@ -26592,7 +26613,7 @@ section.ui-element {
     text-transform: uppercase;
     font-weight: bold;
     transition: all 0.3s ease;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .loginItems .q-label {
@@ -27202,7 +27223,6 @@ input[type="checkbox"]::before {
     position: relative;
     overflow: hidden;
 }
-
 .CartBtn ,
 .reservationBtn,
 .soldBtn {
@@ -27465,7 +27485,7 @@ input[type="checkbox"]::before {
     display: none;
   }
   #orders-container .header-bar h1 {
-    font-size: 18px;
+    font-size: 14px;
   }
   #orders-container .header-bar .sorting {
     width: 130px;
@@ -27520,7 +27540,7 @@ input[type="checkbox"]::before {
   #orders-container .order .order-header .order-header-info {
     color: #666;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 14px;
     display: flex;
   }
   #orders-container .order .order-header .order-header-info b {
@@ -27816,7 +27836,7 @@ input[type="checkbox"]::before {
   #orders-container .orders-error button {
     width: 300px;
     height: 38px;
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 10px;
   }
   #orders-container .icon.creating:before {
@@ -27955,7 +27975,7 @@ input[type="checkbox"]::before {
     color: #000000;
   }
   #orders-container .empty-order-search-container .eos-desc {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     color: #000000;
   }
@@ -28090,7 +28110,7 @@ input[type="checkbox"]::before {
     font-family: source_sans_prosemibold, sans-serif;
   }
   #orders-container .collection-point-information-banner .i-warning1-fill {
-    font-size: 16px;
+    font-size: 14px;
     padding-bottom: 1px;
     margin: 0 15px 0 20px;
   }
@@ -28135,7 +28155,7 @@ input[type="checkbox"]::before {
     color: #f27a1a;
   }
   #orders-container .no-order-container .no-desc {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     color: #666;
   }
@@ -28213,7 +28233,7 @@ input[type="checkbox"]::before {
     -webkit-font-smoothing: antialiased;
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 14px;
   }
   #orders-container .group-deal-info {
     display: flex;
@@ -28250,7 +28270,7 @@ input[type="checkbox"]::before {
     font-family: source_sans_proregular, sans-serif;
   }
   #orders-container .group-deal-info .gdi-details .gdi-d-content div.gdi-d-c-title {
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 4px;
   }
   #orders-container .group-deal-info .gdi-details .gdi-d-content div.gdi-d-c-details {
@@ -28274,7 +28294,7 @@ input[type="checkbox"]::before {
   #orders-container .group-deal-share-modal .gd-sm-header h1 {
     width: 300px;
     margin: 0 auto;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     text-align: center;
   }
@@ -28306,7 +28326,7 @@ input[type="checkbox"]::before {
     margin-left: 12px;
   }
   #orders-container .gd-share-description-item .gd-sdi-description-container h2 {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
   }
   #orders-container .gd-share-description-item .gd-sdi-description-container p {
@@ -28348,7 +28368,7 @@ input[type="checkbox"]::before {
     cursor: pointer;
   }
   #orders-container .gd-copy-link-box .gd-cp-lb-container button .i-copy-filled {
-    font-size: 18px;
+    font-size: 14px;
     vertical-align: middle;
   }
   #orders-container .gd-copy-link-box .gd-cp-lb-container button span {
@@ -28357,7 +28377,7 @@ input[type="checkbox"]::before {
     margin-left: 5px;
   }
   #orders-container .gd-copy-link-box .gd-cp-lb-container .i-check {
-    font-size: 18px;
+    font-size: 14px;
   }
   #orders-container .gd-copy-link-box .gd-cp-lb-container .i-check i {
     font-style: normal;
@@ -28726,7 +28746,7 @@ input[type="checkbox"]::before {
                 height: calc(16px + 16px / 2);
                 padding: 0 calc(16px / 2);
                 font-family: inherit;
-                font-size: 16px;
+                font-size: 14px;
                 line-height: calc(16px + 16px / 2);
                 color: #888;
                 background-color: transparent;
@@ -28895,7 +28915,7 @@ input[type="checkbox"]::before {
                 transform: translateX(20px);
                 color: #fff;
                 font-weight: 600;
-                line-height: 14px;
+              font-size: 12px;
             }
 
             .buyUserRequest .buyUserRequest__icon {
@@ -28997,7 +29017,7 @@ input[type="checkbox"]::before {
                 background: white;
                 text-decoration: none;
                 line-height: 40px;
-                font-size: 13px;
+                font-size: 14px;
                 font-weight: 600;
                 font-weight: bold;
                 color: black background-color: #FFF;

@@ -561,7 +561,7 @@ class HomeController extends Controller
                     'room_count' => getData($item, 'room_count'),
                     'daily_rent' => ($item->step2_slug == "gunluk-kiralik" && getData($item, 'daily_rent')) ? getData($item, 'daily_rent') : null,
                     'squaremeters' => getData($item, 'squaremeters'),
-                    'price' => getData($item, 'price') - $discount_amount,
+                    'price' => $item->step2_slug != "gunluk-kiralik" ? getData($item, 'price') - $discount_amount : null ,
                     'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
                 ]
                 

@@ -210,10 +210,10 @@
                     @for ($i = 0; $i < $project->room_count; $i++)
                         @php($room_order = $i + 1)
                         @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
-                        @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
+                                                $discount_amount =
+                                                    App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                            )
+                                                @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                         @if (getHouse($project, 'off_sale[]', $i + 1)->value == '[]')
                             @if (!$sold || $sold[0]->status != '1')
@@ -243,7 +243,7 @@
                                                 <h3>
                                                     @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
-                                                    @if ($advertiseTitle)
+                                                    @if (isset(getHouse($project, 'advertise_title[]', $i + 1)->value))
                                                         {{ $advertiseTitle }}
                                                     @else
                                                         {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
@@ -396,10 +396,10 @@
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         @php($room_order = $i + 1)
                                         @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
-                                        @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
+                                                $discount_amount =
+                                                    App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                            )
+                                                                @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                                         @if (getHouse($project, 'off_sale[]', $i + 1)->value == '[]')
                                             @if (!$sold || $sold[0]->status != '1')
@@ -446,6 +446,7 @@
                                                                             @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
                                                                             @if ($advertiseTitle)
+                                                                            
                                                                                 {{ $advertiseTitle }}
                                                                             @else
                                                                                 {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
@@ -624,10 +625,10 @@
                     @for ($i = 0; $i < $project->room_count; $i++)
                         @php($room_order = $i + 1)
                         @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
-                        @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
+                                                $discount_amount =
+                                                    App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                            )
+                                                @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                         @if (getHouse($project, 'off_sale[]', $i + 1)->value == '[]')
                             @if (!$sold || $sold[0]->status != '1')
@@ -657,7 +658,7 @@
                                                 <h3>
                                                     @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
-                                                    @if ($advertiseTitle)
+                                                    @if (isset(getHouse($project, 'advertise_title[]', $i + 1)->value))
                                                         {{ $advertiseTitle }}
                                                     @else
                                                         {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
@@ -810,10 +811,10 @@
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         @php($room_order = $i + 1)
                                         @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
-                                        @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
+                                                $discount_amount =
+                                                    App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                            )
+                                                                @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                                         @if (getHouse($project, 'off_sale[]', $i + 1)->value == '[]')
                                             @if (!$sold || $sold[0]->status != '1')
@@ -859,7 +860,7 @@
                                                                         <h3>
                                                                             @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
-                                                                            @if ($advertiseTitle)
+                                                                            @if (isset(getHouse($project, 'advertise_title[]', $i + 1)->value))
                                                                                 {{ $advertiseTitle }}
                                                                             @else
                                                                                 {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
@@ -1037,10 +1038,10 @@
                     @for ($i = 0; $i < $project->room_count; $i++)
                         @php($room_order = $i + 1)
                         @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
-                        @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
+                                                $discount_amount =
+                                                    App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                            )
+                                                @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                         @if (getHouse($project, 'off_sale[]', $i + 1)->value == '[]')
                             @if (!$sold || $sold[0]->status != '1')
@@ -1070,7 +1071,7 @@
                                                 <h3>
                                                     @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
-                                                    @if ($advertiseTitle)
+                                                    @if (isset(getHouse($project, 'advertise_title[]', $i + 1)->value))
                                                         {{ $advertiseTitle }}
                                                     @else
                                                         {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
@@ -1223,10 +1224,10 @@
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         @php($room_order = $i + 1)
                                         @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
-                                        @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
+                                                $discount_amount =
+                                                    App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                            )
+                                                                @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                                         @if (getHouse($project, 'off_sale[]', $i + 1)->value == '[]')
                                             @if (!$sold || $sold[0]->status != '1')
@@ -1272,7 +1273,7 @@
                                                                         <h3>
                                                                             @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
-                                                                            @if ($advertiseTitle)
+                                                                            @if (isset(getHouse($project, 'advertise_title[]', $i + 1)->value))
                                                                                 {{ $advertiseTitle }}
                                                                             @else
                                                                                 {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
@@ -1448,9 +1449,9 @@
             <div class="mobile-show">
                 @foreach ($secondhandHousings as $housing)
                     @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
+                        $discount_amount =
+                            App\Models\Offer::where('type', 'housing')->where('housing_id', $housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                    )
                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$housing->id]))
 
                     <div class="d-flex" style="flex-wrap: nowrap">
@@ -1458,8 +1459,6 @@
                             <div class="project-inner project-head">
                                 <a href="{{ route('housing.show', $housing->id) }}">
                                     <div class="homes">
-                                        <!-- homes img -->
-
                                         <div class="homes-img h-100 d-flex align-items-center"
                                             style="width: 130px; height: 128px;">
                                             <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
@@ -1475,11 +1474,8 @@
 
                                 <a style="text-decoration: none;height:100%"
                                     href="{{ route('housing.show', $housing->id) }}">
-                                    <h3>
-                                        {{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}
-                                        {{ json_decode($housing->housing_type_data)->squaremeters[0] ?? '?' }}m2
-                                        {{ json_decode($housing->housing_type_data)->room_count[0] ?? '?' }}
-                                    </h3>
+                                    <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
+                                    </h4>
                                 </a>
                                 <div class="d-flex" style="align-items:Center">
                                     <div class="d-flex" style="gap: 8px;">
@@ -1548,7 +1544,7 @@
                                                 @if ($sold[0]->status != '1' && $sold[0]->status != '0')
                                                 @if($housing->step2_slug == 'gunluk-kiralik')
                                                 {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }} ₺
-                                                <span style="font-size:12px; color:Red">/1 Gece</span>
+                                                <span style="font-size:11px; color:Red">/ 1 Gece</span>
                                                 @else
                                                 {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }} ₺
                                                 @endif
@@ -1556,7 +1552,7 @@
                                             @else
                                             @if($housing->step2_slug == 'gunluk-kiralik')
                                             {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }} ₺
-                                            <span style="font-size:12px; color:Red">/1 Gece</span>
+                                            <span style="font-size:11px; color:Red">/ 1 Gece</span>
                                             @else
                                             {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }} ₺
                                             @endif
@@ -1638,8 +1634,18 @@
                                                     <div class="homes-content p-3" style="padding:20px !important">
                                                         <span style="text-decoration: none">
 
-                                                            <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                            <h4 style="height:30px">
+                                                                {{
+                                                                    mb_substr(
+                                                                        mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8'),
+                                                                        0,
+                                                                        45,
+                                                                        'UTF-8'
+                                                                    )
+                                                                }}
+                                                                {{ mb_strlen($housing->housing_title, 'UTF-8') > 25 ? '...' : '' }}
                                                             </h4>
+                                                            
 
                                                             <p class="homes-address mb-3">
 
@@ -1717,7 +1723,7 @@
                                                                         @if ($sold[0]->status != '1' && $sold[0]->status != '0')
                                                                         @if($housing->step2_slug == 'gunluk-kiralik')
                                                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }} ₺
-                                                                        <span style="font-size:12px; color:#EA2B2E">/1 Gece</span>
+                                                                        <span style="font-size:11px; color:#EA2B2E">/ 1 Gece</span>
                                                                         @else
                                                                         {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }} ₺
                                                                         @endif
@@ -1726,7 +1732,7 @@
                                                                         
                                                                         @if($housing->step2_slug == 'gunluk-kiralik')
                                                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }} ₺
-                                                                        <span style="font-size:12px; color:#EA2B2E">/1 Gece</span>
+                                                                        <span style="font-size:11px; color:#EA2B2E">/ 1 Gece</span>
                                                                         @else
                                                                         {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }} ₺
                                                                         @endif
@@ -1737,7 +1743,7 @@
 
                                                             </li>
                                                             <li style="display: flex; justify-content: right;width:100%">
-                                                                {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at)) . ' ' . date('Y', strtotime($housing->created_at))) }}
+                                                                {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at)) ) }}
                                                             </li>
                                                         </ul>
 
