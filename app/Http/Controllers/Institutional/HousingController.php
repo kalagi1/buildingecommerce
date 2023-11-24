@@ -19,10 +19,12 @@ use App\Models\StandOutUser;
 use App\Models\TempOrder;
 use App\Models\UserPlan;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -39,6 +41,9 @@ class HousingController extends Controller
 
     public function createV2()
     {
+        
+
+        
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type', 2)->get();
         $cities = City::get();
@@ -118,6 +123,9 @@ class HousingController extends Controller
                 $latitude = $location[0];
                 $longitude = $location[1];
                 $tempOrder->roomInfoKeys->price = str_replace('.','',$tempOrder->roomInfoKeys->price);
+                if(isset($tempOrder->roomInfoKeys->{"daily_rent"})){
+                    $tempOrder->roomInfoKeys->daily_rent = str_replace('.','',$tempOrder->roomInfoKeys->daily_rent);
+                }
                 $postData = $tempOrder->roomInfoKeys;
                 $postData->image = $newCoverImage;
                 $tempImageNames = [];

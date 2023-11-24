@@ -581,6 +581,7 @@
             var selectedDopings = [];
             var selectedBlock = 0;
             var copyHousings = [];
+            var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
             @if(isset($tempData->has_blocks))
                 @if($tempData->has_blocks)
                     var hasBlocks = true;
@@ -684,6 +685,7 @@
                             changeData($('.block-count').val(),'house_count'+blockHouseCount.length)
                             blockNames.push(blockName);
                             blockHouseCount.push($('.block-count').val());
+                            console.log(blockHouseCount.length);
                             confirmHousings();
                             $('.pop-up-v4').addClass('d-none');
                             if(blockHouseCount.length == 1){
@@ -697,7 +699,7 @@
                                     alert('Lütfen geçerli bir sayı girin.');
                                 }
 
-
+                                console.log(selectedid);
                                 var htmlContent = '';
                                 $.ajax({
                                     method: "GET",
@@ -706,6 +708,7 @@
                                         id: selectedid
                                     },
                                     success: function(response) {
+                                        console.log(response);
                                         for(var i = 0 ; i < 1; i++ ){
                                             htmlContent += '<div class="tab-pane fade show '+(i == 0 ? 'active' : '')+'" id="TabContent'+(i+1)+'" role="tabpanel">'+
                                                 '<div id="renderForm'+(i+1)+'"></div>'+
@@ -1045,8 +1048,13 @@
 
                                             var formData = new FormData();
                                             var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                            
-                                            formData.append('order',($('.house_order_input').val() - 1));
+                                            var lastOrders = 0;
+                                            if(hasBlocks){
+                                                for(var i = 0 ; i < selectedBlock; i++){
+                                                    lastOrders += parseInt(blockHouseCount[i]);
+                                                }
+                                            }
+                                            formData.append('order',(lastOrders + parseInt($('.house_order_input').val()) - 1));
                                             formData.append('_token', csrfToken);
                                             formData.append('file',this.files[0]);
                                             formData.append('item_type',1);
@@ -1102,6 +1110,14 @@
                             console.error("Ajax isteği sırasında bir hata oluştu: " + error);
                         }
                     });
+                }
+
+                if($('.block').length == 0){
+                    if(housingCount == 1){
+                        $('.next-house-bottom').addClass('disabled-button')
+                    }else{
+                        $('.next-house-bottom').removeClass('disabled-button')
+                    }
                 }
 
                 
@@ -1179,7 +1195,11 @@
                                         if(data[i][key[0]] == null){
                                             $('.project_imaget img').remove();
                                         }else{
-                                            $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                            if($('.project_imaget img').length > 0){
+                                                $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                            }else{
+                                                $('.project_imaget').html('<img src="{{URL::to("/")}}/storage/project_images/'+data[i][key[0]]+'"/>')
+                                            }
                                         }
                                     }
                                 }
@@ -1187,7 +1207,11 @@
 
                             confirmHousings();
                             $('.prev-house-bottom').addClass('disabled-button')
-                            $('.next-house-bottom').removeClass('disabled-button')
+                            if(houseCount == 1){
+                                $('.next-house-bottom').addClass('disabled-button')
+                            }else{
+                                $('.next-house-bottom').removeClass('disabled-button')
+                            }
                             $('.house_order_input').val(1)
                             $('.room-order-progress').html(parseInt($('.house_order_input').val()))
                             $('.error-border').removeClass('error-border');
@@ -1215,6 +1239,11 @@
                 if(thisx.closest('.block').hasClass('active')){
                     isActiveBlock = 1;
                 }
+
+                if($('.block').length == 1){
+                    $('.tab-pane').remove();
+                }
+
                 $.ajax({
                     url: '{{route("institutional.temp.order.remove.block.data")}}?item_type='+1+'&block_index='+($(this).closest('.block').index())+'&is_active_block='+isActiveBlock,
                     type: 'GET',
@@ -1273,7 +1302,11 @@
                                             if(data[i][key[0]] == null){
                                                 $('.project_imaget img').remove();
                                             }else{
-                                                $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                                if($('.project_imaget img').length > 0){
+                                                    $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                                }else{
+                                                    $('.project_imaget').html('<img src="{{URL::to("/")}}/storage/project_images/'+data[i][key[0]]+'"/>')
+                                                }
                                             }
                                         }
                                     }
@@ -1305,7 +1338,7 @@
                 var lastOrders = 0;
                 if(hasBlocks){
                     for(var i = 0 ; i < selectedBlock; i++){
-                        lastOrders += blockHouseCount[i];
+                        lastOrders += parseInt(blockHouseCount[i]);
                     }
                 }
                 $.ajax({
@@ -1339,7 +1372,6 @@
                                             })
                                         }
                                     }else{
-                                        console.log(data[i][key[0]]);
                                         if(data[i][key[0]] == null){
                                             $('input[name="'+key[0]+'[]"]').val("");
                                         }else{
@@ -1350,7 +1382,11 @@
                                     if(data[i][key[0]] == null){
                                         $('.project_imaget img').remove();
                                     }else{
-                                        $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                        if($('.project_imaget img').length > 0){
+                                            $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                        }else{
+                                            $('.project_imaget').html('<img src="{{URL::to("/")}}/storage/project_images/'+data[i][key[0]]+'"/>')
+                                        }
                                     }
                                 }
                             }
@@ -1417,7 +1453,7 @@
                         var lastOrders = 0;
                         if(hasBlocks){
                             for(var i = 0 ; i < selectedBlock; i++){
-                                lastOrders += blockHouseCount[i];
+                                lastOrders += parseInt(blockHouseCount[i]);
                             }
                         }
                         $.ajax({
@@ -1475,7 +1511,11 @@
                                             if(data[i][key[0]] == null){
                                                 $('.project_imaget img').remove();
                                             }else{
-                                                $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                                if($('.project_imaget img').length > 0){
+                                                    $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                                }else{
+                                                    $('.project_imaget').html('<img src="'+"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]]+'">')
+                                                }
                                             }
                                         }
                                     }
@@ -1654,7 +1694,6 @@
             var housingTypeTitle = "";
             var housingImages = [];
             var descriptionText = @if(isset($tempData) && isset($tempData->description)) 'evet var' @else "" @endif;
-            var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
 
             $('.after_step_housing').click(function(){
                 $.ajax({
@@ -1876,6 +1915,10 @@
                                 }
                                 $('.dropzone2').eq(i-1).parent('div').append('<div class="d-none"><input housing_order="'+i+'" type="file" class="new_file_on_drop"></div>')
                                 $('.dropzone2').eq(i-1).html(images);
+                            }
+
+                            if(houseCount == 1){
+                                $('.next-house-bottom').addClass('disabled-button');
                             }
 
                             var csrfToken = "{{ csrf_token() }}";
@@ -2150,16 +2193,17 @@
                                 var input = this;
                                 if (input.files && input.files[0]) {
                                     $(this).removeClass('error-border');
-                                    var lastOrders = 0;
-                                    for(var i = 0 ; i < selectedBlock; i++){
-                                        lastOrders += blockHouseCount[i];
-                                    }
                                     confirmHousings();
                                     var reader = new FileReader();
 
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                    
+                                    var lastOrders = 0;
+                                    if(hasBlocks){
+                                        for(var i = 0 ; i < selectedBlock; i++){
+                                            lastOrders += parseInt(blockHouseCount[i]);
+                                        }
+                                    }
                                     formData.append('order',(lastOrders + parseInt($('.house_order_input').val()) - 1));
                                     formData.append('_token', csrfToken);
                                     formData.append('file',this.files[0]);
@@ -2957,7 +3001,7 @@
                             stack: false
                         })
                     }
-                    const houseCount = parseInt(houseCountInput.value);
+                    houseCount = parseInt(houseCountInput.value);
 
                     if (isNaN(houseCount) || houseCount <= 0) {
                         alert('Lütfen geçerli bir sayı girin.');
@@ -3300,8 +3344,13 @@
 
                                 var formData = new FormData();
                                 var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                
-                                formData.append('order',($('.house_order_input').val() - 1));
+                                var lastOrders = 0;
+                                if(hasBlocks){
+                                    for(var i = 0 ; i < selectedBlock; i++){
+                                        lastOrders += parseInt(blockHouseCount[i]);
+                                    }
+                                }
+                                formData.append('order',(lastOrders + parseInt($('.house_order_input').val()) - 1));
                                 formData.append('_token', csrfToken);
                                 formData.append('file',this.files[0]);
                                 formData.append('item_type',1);
