@@ -24,7 +24,7 @@ class ProjectController extends Controller
     public function index($slug)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $slug)->with("brand",'listItemValues', "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $slug)->with("brand","blocks",'listItemValues', "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         $project->roomInfo = $project->roomInfo;
         $project->brand = $project->brand;
         $project->housingType = $project->housingType;
@@ -42,6 +42,7 @@ class ProjectController extends Controller
             ->where("status", "1")
             ->get();
         $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+
         return view('client.projects.index', compact('menu', "offer", 'project'));
     }
 
@@ -169,14 +170,16 @@ class ProjectController extends Controller
         foreach ($parameters as $paramValue) {
             if ($paramValue) {
 
-                if ($paramValue == "satilik" || $paramValue == "kiralik") {
+                if ($paramValue == "satilik" || $paramValue == "kiralik" || $paramValue == "gunluk-kiralik") {
                     $opt = $paramValue;
                     if ($opt) {
                         $opt = $opt;
                         if ($opt == "kiralik") {
                             $optName = "Kiralık";
-                        } else {
+                        }elseif ($opt == "satilik")  {
                             $optName = "Satılık";
+                        }else {
+                            $optName = "Günlük Kiralık";
                         }
                     }
                 } else {
@@ -207,7 +210,7 @@ class ProjectController extends Controller
 
         if ($slug) {
             if ($is_project) {
-                $oncelikliProjeler = StandOutUser::where('housing_status_id', $slug)->pluck('project_id')->toArray();
+                $oncelikliProjeler = StandOutUser::where('housing_type_id', $slug)->pluck('item_id')->toArray();
                 $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
 
                 $query = Project::query()->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
@@ -229,8 +232,8 @@ class ProjectController extends Controller
                 });
 
                 $anotherProjects = $query->get();
-                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.project_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
-                    ->orderBy('item_order', 'asc')
+                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
+                    ->orderBy('id', 'asc')
                     ->get()
                     ->concat($anotherProjects);
 
@@ -308,15 +311,15 @@ class ProjectController extends Controller
                 $projects = [];
                 $secondhandHousings = Housing::with('images', "city", "county")->get();
             } else {
-                $oncelikliProjeler = StandOutUser::where('housing_status_id', $status->id)->pluck('project_id')->toArray();
+                $oncelikliProjeler = StandOutUser::where('housing_type_id', $status->id)->pluck('item_id')->toArray();
                 $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
 
                 $anotherProjects = Project::with("city", "county")->whereNotIn('id', $oncelikliProjeler)
-                    ->orderBy('created_at', 'desc') // Eklenme tarihine göre sırala (en son eklenenler en üstte olur)
+                    ->orderBy('created_at', 'desc') 
                     ->get();
 
-                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.project_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
-                    ->orderBy('item_order', 'asc') // Öne çıkarılma sırasına göre sırala
+                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
+                    ->orderBy('id', 'asc')
                     ->get()
                     ->concat($anotherProjects);
             }

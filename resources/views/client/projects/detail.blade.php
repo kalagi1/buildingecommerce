@@ -485,11 +485,11 @@
                                 </a>
                                 <div class="d-flex align-items-center">
                                     <div class="d-flex" style="gap: 8px;">
-                                        <a href="#" class="btn toggle-project-favorite bg-white"
+                                        <span class="btn toggle-project-favorite bg-white"
                                             data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                             style="color: white;" data-project-id="{{ $project->id }}">
                                             <i class="fa fa-heart-o"></i>
-                                        </a>
+                                        </span>
                                         <button class="addToCart mobile px-2"
                                             style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
                                             data-type='project' data-project='{{ $project->id }}'

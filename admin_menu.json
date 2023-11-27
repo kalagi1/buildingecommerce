@@ -48,12 +48,22 @@
     {
         "id": "order",
         "label": "EMLAK SEPETTE",
+        "icon": "calendar",
+        "text": "Konut Rezervasyonları",
+        "key": "GetReservations",
+        "url": "admin.reservations",
+        "activePath": "admin/reservations"
+    },
+    {
+        "id": "order",
+        "label": "EMLAK SEPETTE",
         "icon": "shopping-bag",
         "text": "Konut Siparişleri",
         "key": "GetOrders",
         "url": "admin.orders",
         "activePath": "admin/orders"
     },
+  
     {
         "id": "order",
         "label": "EMLAK SEPETTE",

@@ -94,17 +94,21 @@
         <div class="container">
             <div class="row">
                 @foreach ($institutional->projects as $project)
-                    <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                        <!-- Image Box -->
-                        <a href="{{ route('project.detail', $project->slug) }}" class="img-box hover-effect">
-                            <div class="listing-img-content">
-                                <span class="listing-compact-title">{{$project->project_title}}</span>
-                              
-                            </div>
-                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                class="img-fluid w100" alt="">
-                        </a>
+                <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150"
+                style="height:200px">
+                    <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
+                        <div class="listing-item compact" style="height:100%">
+                            <a href="{{ route('project.detail', $project->slug) }}" class="listing-img-container">
+                                <div class="listing-img-content">
+                                    <span class="listing-compact-title">{{$project->project_title}}</span>
+                                  
+                                </div>
+                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}" alt=""
+                                style="height:100%;object-fit:cover">
+                            </a>
+                        </div>
                     </div>
+                </div>
                 @endforeach
 
 
@@ -130,4 +134,11 @@
 @endsection
 
 @section('styles')
+<style>
+
+@media (max-width: 768px) {
+            .projectMobileMargin{
+                margin-bottom:20px
+            }}
+    </style>
 @endsection

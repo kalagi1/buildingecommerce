@@ -40,19 +40,19 @@ img {
 
 /* Header Widget */
 
-/* .header-widget {
+.header-widget {
     position: relative;
     height: 100%;
     width: 100%;
     justify-content: end;
     align-items: center;
-} */
+}
 
 .header-widget a {
     color: black;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .header-widget a svg {
@@ -469,7 +469,8 @@ a.button {
 #navigation ul#responsive {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    align-items: flex-start;
 }
 
 #navigation ul a {
@@ -490,14 +491,14 @@ a.button {
     visibility: hidden;
     position: absolute;
     top: 100%;
-    left: 0;
+    left: -40px;
     padding: 0;
     z-index: 99999;
 }
 
 #navigation ul ul li {
     float: none;
-    width: 208px;
+    width: 150px;
 }
 
 #navigation ul ul ul {
@@ -541,12 +542,12 @@ a.button {
 #navigation ul ul li a:after {
     font-family: "FontAwesome";
 }
-
+/* 
 #navigation ul ul li a:after {
     content: '\f105';
     position: absolute;
     right: 15px;
-}
+} */
 
 #navigation ul li a:after:hover {
     color: #fff;
@@ -583,7 +584,7 @@ a.button {
 #navigation ul li:hover ul a,
 #navigation ul ul a {
     line-height: 27px !important;
-    padding: 10px 30px 10px 15px !important;
+    padding:  5px 10px !important;
     color: #707070 !important;
 }
 
@@ -664,7 +665,7 @@ a.button {
 #navigation.style-1 ul a {
     font-weight: 600;
     color: #333;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 34px;
     padding: 0;
     display: flex;
@@ -1254,7 +1255,7 @@ li.mm-vertical.mm-opened>.mm-panel {
 
 .mm-listview {
     font: inherit;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px
 }
 
@@ -1366,7 +1367,7 @@ li.mm-vertical.mm-opened>.mm-panel {
     color: #fff;
     text-transform: uppercase;
     font-weight: 400;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .mm-menu .mm-btn:after,
@@ -1521,7 +1522,7 @@ html.mm-opening .mm-menu.mm-opened~.mm-slideout {
 
 em.mm-counter {
     font: inherit;
-    font-size: 14px;
+    font-size: 12px;
     font-style: normal;
     text-indent: 0;
     line-height: 20px;
@@ -1576,7 +1577,7 @@ em.mm-counter+a.mm-fullsubopen+span {
     border-radius: 50%;
     color: #fff;
     line-height: 23px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
 }
 

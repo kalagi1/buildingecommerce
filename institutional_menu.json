@@ -53,6 +53,24 @@
     {
         "id": "order",
         "label": "Emlak Sepette",
+        "icon": "calendar",
+        "text": "Gelen Rezervasyonlar",
+        "key": "GetReservations",
+        "url": "institutional.reservations",
+        "activePath": "institutional/reservations"
+    },
+    {
+        "id": "order",
+        "label": "Emlak Sepette",
+        "icon": "calendar",
+        "text": "Benim Rezervasyonlarım",
+        "key": "GetReservations",
+        "url": "institutional.myreservations",
+        "activePath": "institutional/my-reservations"
+    },
+    {
+        "id": "order",
+        "label": "Emlak Sepette",
         "icon": "shopping-bag",
         "text": "Gelen Siparişlerim",
         "key": "GetOrders",
@@ -66,7 +84,7 @@
         "text": "Benim Siparişlerim",
         "key": "ShowCartOrders",
         "url": "institutional.profile.cart-orders",
-        "activePath": "institutional/get-orders"
+        "activePath": "institutional/my-orders"
     },
     {
         "id": "user",

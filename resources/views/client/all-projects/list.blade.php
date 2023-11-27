@@ -894,7 +894,7 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 14px;
+                font-size: 12px;
             }
         }
     </style>

@@ -24,6 +24,11 @@ class Housing extends Model
         return $this->hasMany(HousingStatusConnection::class, "housing_id", "id");
     }
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, "housing_id", "id");
+    }
+
     public function brand()
     {
         return $this->hasOne(Brand::class, "id", "brand_id");

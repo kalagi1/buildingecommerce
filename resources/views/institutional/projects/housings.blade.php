@@ -68,10 +68,10 @@
                                                     {{$project->listItemValues->column2_additional}}
                                                 @endif
                                             </span>
+                                            @endif
                                         </td>
-                                    @endif
-                                    @if(isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
                                         <td class="room_count">
+                                            @if(isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
                                             <i class="fa fa-circle circleIcon mr-1"
                                                 aria-hidden="true"></i>
                                             <span>{{ getData($project, $project->listItemValues->column2_name.'[]', $i + 1)->value }}
@@ -79,10 +79,10 @@
                                                     {{$project->listItemValues->column2_additional}}
                                                 @endif
                                             </span>
+                                            @endif
                                         </td>
-                                    @endif
-                                    @if(isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
                                         <td class="room_count">
+                                            @if(isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
                                             <i
                                                 class="fa fa-circle circleIcon mr-1"></i>
                                             <span>
@@ -91,21 +91,26 @@
                                                     {{$project->listItemValues->column3_additional}}
                                                 @endif
                                             </span>
+                                            @endif
                                         </td>
-                                    @endif
                                    
                                     <td class="price">
                                         {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}₺
                                     </td>
                                     <td class="sold">
-                                        @if ($sold && $sold[0]->status == 1)
-                                            <button class="badge badge-phoenix badge-phoenix-danger">Satıldı</button>
-                                        @elseif ($sold && $sold[0]->status == 0)
-                                            <button class="badge badge-phoenix badge-phoenix-warning">Ödeme Bekleniyor</button>
-                                        @elseif ($sold && $sold[0]->status == 2)
-                                            <button class="badge badge-phoenix badge-phoenix-success">Tekrar Satışta</button>
+                                    @if (getData($project, 'off_sale[]', $i + 1)->value != "[]")
+                                            <button class="btn btn-danger">Satışa Kapatıldı</button>
+                                            <p style="color: red;margin-top:10px;width:200px;">Alıcılara satıldı olarak gözükecektir.</p>
                                         @else
-                                            <button class="badge badge-phoenix badge-phoenix-success">Satışa Açık</button>
+                                            @if ($sold && $sold[0]->status == 1)
+                                                <button class="btn btn-danger">Satıldı</button>
+                                            @elseif ($sold && $sold[0]->status == 0)
+                                                <button class="btn btn-warning">Ödeme Bekleniyor</button>
+                                            @elseif ($sold && $sold[0]->status == 2)
+                                                <button class="btn btn-success">Tekrar Satışta</button>
+                                            @else
+                                                <button class="btn btn-success">Satışa Açık</button>
+                                            @endif
                                         @endif
                                     </td>
                                    

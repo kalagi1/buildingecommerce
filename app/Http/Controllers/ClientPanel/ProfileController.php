@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\CartOrder;
 use App\Models\DocumentNotification;
+use App\Models\Reservation;
 use App\Models\SubscriptionPlan;
 use App\Models\UpgradeLog;
 use App\Models\User;
@@ -17,6 +18,13 @@ use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
+    public function getReservations() {
+        $housingReservations = Reservation::with("user", "housing")
+        ->where("user_id",auth()->user()->id)
+        ->get();
+
+        return view('client.client-panel.profile.reservations', compact('housingReservations'));
+    }
     public function cartOrders()
     {
         $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice")->orderBy("id", "desc")->get();

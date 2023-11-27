@@ -41,11 +41,11 @@
                         @else
                             @foreach ($favorites as $key => $item)
                                 @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $item->housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
+                                        $discount_amount =
+                                            App\Models\Offer::where('type', 'housing')->where('housing_id', $item->housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                    )
 
-@php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$item->housing->id]))
+                                    @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$item->housing->id]))
 
                                 <tr>
                                     <td class="image myelist">
@@ -74,12 +74,22 @@
                                             @endif
                                             @if ($sold)
                                             @if ($sold[0]->status != '1' && $sold[0]->status != '0')
+                                            @if($item->housing->step2_slug == 'gunluk-kiralik')
+                                            {{ number_format(json_decode($item->housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
+                                            ₺                                            <span style="font-size:11px; color:Red">/ 1 Gece</span>
+                                            @else
                                             {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                            ₺
+                                            ₺                                            @endif
+                                          
                                             @endif
                                         @else
+                                        @if($item->housing->step2_slug == 'gunluk-kiralik')
+                                        {{ number_format(json_decode($item->housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
+                                        ₺                                            <span style="font-size:11px; color:Red">/ 1 Gece</span>
+                                        @else
                                         {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                        ₺
+                                        ₺                                            @endif
+                                      
                                         @endif
                                            
                                         </span>
@@ -90,6 +100,7 @@
                                                 class="far fa-trash-alt"></i></a>
                                     </td>
                                     <td>
+                                        @if ($item->housing->step2_slug != 'gunluk-kiralik')
                                         <button class="CartBtn" data-type='housing' data-id='{{ $item->housing->id }}'>
                                             <span class="IconContainer">
                                                 <img src="{{ asset('sc.png') }}" alt="">
@@ -97,6 +108,20 @@
                                             </span>
                                             <span class="text">Sepete Ekle</span>
                                         </button>
+                                        @else
+                                        <button onclick="redirectToReservation()" class="reservationBtn">
+                                            <span class="IconContainer">
+                                                <img src="{{ asset('sc.png') }}" alt="">
+                                            </span>
+                                            <span class="text">Rezervasyon Yap</span>
+                                        </button>
+                                        
+                                        <script>
+                                            function redirectToReservation() {
+                                                                window.location.href = "{{ route('housing.show', [ $item->housing->id]) }}";
+                                            }
+                                        </script>
+                                        @endif
                                     </td>
 
                                 </tr>
@@ -105,9 +130,9 @@
                                 @php($data = $item->projectHousing->pluck('value', 'key')->toArray())
 
                                 @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'project')->where('project_id', $item->project->id)->where('project_housings', 'LIKE', "%\"{$item->project->housing_type_id}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
+                                    $discount_amount =
+                                        App\Models\Offer::where('type', 'project')->where('project_id', $item->project->id)->where('project_housings', 'LIKE', "%\"{$item->project->housing_type_id}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                )
 
                                 @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, "$.type")) = "project" AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.housing")) = ? AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) = ? LIMIT 1', [getHouse($item->project, 'price[]', $item->housing_id)->room_order, $item->project->id]))
 
@@ -148,7 +173,7 @@
                              
                                     <td class="actions">
                                         <a href="#" class="remove-from-project-cart"
-                                            data-project-housing-id="{{ $item->room_order }}"
+                                            data-project-housing-id="{{ getHouse($item->project, 'price[]', $item->housing_id)->room_order }}"
                                             data-project-id="{{ $item->project_id }}" style="float: left"><i
                                                 class="far fa-trash-alt"></i></a>
                                     </td>
@@ -260,13 +285,9 @@
             var confirmation = confirm("Ürünü favorilerden kaldırmak istiyor musunuz?");
 
             if (confirmation) {
-                // Ürünü sepetten kaldırmak için Ajax isteği gönderme
                 var housingId = this.getAttribute("data-project-housing-id");
-                console.log(housingId)
                 var projectId = this.getAttribute("data-project-id");
 
-
-                // AJAX isteği gönderme
                 $.ajax({
                     url: "{{ route('add.project.housing.to.favorites', ['id' => ':id']) }}"
                         .replace(':id',
@@ -274,7 +295,8 @@
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",
-                        project_id: projectId // project_id'yi AJAX isteği ile gönder
+                        project_id: projectId,
+                        housing_id :housingId 
                     },
                     success: function(response) {
                         console.log(response);

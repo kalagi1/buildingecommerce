@@ -7,6 +7,8 @@ use App\Models\City;
 use App\Models\Housing;
 use App\Models\HousingComment;
 use App\Models\HousingType;
+use App\Models\BankAccount;
+
 use App\Models\Menu;
 use App\Models\ProjectHouseSetting;
 use Illuminate\Http\Request;
@@ -91,10 +93,12 @@ class HousingController extends Controller {
     public function show($id)
     {
         $menu = Menu::getMenuItems();
-        $housing = Housing::with('images', "user.housings", "user.banners", "brand", "city", "county")->where("id", $id)->first();
+        $bankAccounts = BankAccount::all();
+
+        $housing = Housing::with('images', "reservations","user.housings", "user.banners", "brand", "city", "county")->where("id", $id)->first();
         $housingSetting = ProjectHouseSetting::where('house_type', $housing->housing_type_id)->get();
         $housingComments = HousingComment::where('housing_id', $id)->where('status', 1)->with('user')->get();
-        return view('client.housings.detail', compact('housing', 'menu', 'housingSetting', 'id', 'housingComments'));
+        return view('client.housings.detail', compact('housing',"bankAccounts", 'menu', 'housingSetting', 'id', 'housingComments'));
     }
 
     public function list(Request $request)

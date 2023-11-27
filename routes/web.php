@@ -33,6 +33,7 @@ use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChan
 use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboardController;
 use App\Http\Controllers\ClientPanel\ProfileController as ClientPanelProfileController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\ReservationController;
 use App\Http\Controllers\Client\CountyController;
 use App\Http\Controllers\Client\FavoriteController;
 use App\Http\Controllers\Client\HomeController;
@@ -84,6 +85,7 @@ Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
+Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
 
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
 Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");
@@ -226,10 +228,16 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::middleware(['checkPermission:GetOrders'])->group(function () {
         Route::get('/orders', [AdminHomeController::class, 'getOrders'])->name('orders');
+        Route::get('/reservations', [AdminHomeController::class, 'getReservations'])->name('reservations');
+
         Route::get('/package-orders', [AdminHomeController::class, 'getPackageOrders'])->name('packageOrders');
 
         Route::get('/order/approve/{cartOrder}', [AdminHomeController::class, 'approveOrder'])->name('approve-order');
         Route::get('/order/unapprove/{cartOrder}', [AdminHomeController::class, 'unapproveOrder'])->name('unapprove-order');
+
+
+        Route::get('/reservation/approve/{reservation}', [AdminHomeController::class, 'approveReservation'])->name('approve-reservation');
+        Route::get('/reservation/unapprove/{reservation}', [AdminHomeController::class, 'unapproveReservation'])->name('unapprove-reservation');
 
         Route::get('/order/approve/package/{userPlan}', [AdminHomeController::class, 'approvePackageOrder'])->name('approve-package-order');
         Route::get('/order/unapprove/package/{userPlan}', [AdminHomeController::class, 'unapprovePackageOrder'])->name('unapprove-package-order');
@@ -642,6 +650,8 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
     Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
     Route::get('/orders', [DashboardController::class, 'getOrders'])->name('orders');
+    Route::get('/reservations', [DashboardController::class, 'getReservations'])->name('reservations');
+
     Route::get('/projects/{project_id}/housings', [InstitutionalProjectController::class, 'housings'])->name('projects.housings');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
@@ -843,9 +853,10 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::middleware(['checkPermission:ListHousingInstitutional'])->group(function () {
         Route::get('/housings', [InstitutionalHousingController::class, 'index'])->name('housing.list');
     });
+    Route::get('/my-reservations', [DashboardController::class, 'getMyReservations'])->name('myreservations');
 
     Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
-        Route::get('/get-orders', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
+        Route::get('/my-orders', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
         Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
 
@@ -857,6 +868,7 @@ Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
 Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
 
 Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client', 'checkAccountStatus']], function () {
+    Route::get('/reservations', [ClientPanelProfileController::class, 'getReservations'])->name('reservations');
 
     Route::get('/verify', [ClientPanelProfileController::class, 'verify'])->name('account-verification');
     Route::post('/verify', [ClientPanelProfileController::class, 'verifyAccount'])->name('verify-account');

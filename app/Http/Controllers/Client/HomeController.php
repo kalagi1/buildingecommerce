@@ -15,6 +15,7 @@ use App\Models\Project;
 use App\Models\Slider;
 use App\Models\StandOutUser;
 use App\Models\User;
+use App\Models\CartOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -57,11 +58,14 @@ class HomeController extends Controller
             ->orderByDesc('doping_time')
             ->orderByDesc('housings.created_at')
             ->get();
+
         $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))->where('end_date', ">=", date("Y-m-d"))->where('item_type',1)->orderByDesc("created_at")->where('housing_type_id',0)->get();
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->get();
         $sliders = Slider::all();
         $footerSlider = FooterSlider::all();
+
+
         $finishProjects = Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
         ->with("city", "county")
         ->whereHas('housingStatus', function ($query) {
@@ -71,6 +75,8 @@ class HomeController extends Controller
         ->orderBy("created_at", "desc")
         ->where('status', 1)
         ->get();
+
+
         $continueProjects = Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
         ->with("city", "county")
         ->whereHas('housingStatus', function ($query) {
@@ -302,14 +308,16 @@ class HomeController extends Controller
 
         foreach ($parameters as $paramValue) {
             if ($paramValue) {
-                if ($request->input($paramValue) == "satilik" || $request->input($paramValue) == "kiralik") {
+                if ($request->input($paramValue) == "satilik" || $request->input($paramValue) == "kiralik" || $request->input($paramValue) == "gunluk-kiralik") {
                     $opt = $request->input($paramValue);
                     if ($opt) {
                         $opt = $opt;
-                        if ($opt == "satilik") {
-                            $optName = "Satılık";
-                        } else {
+                        if ($opt == "kiralik") {
                             $optName = "Kiralık";
+                        }elseif ($opt == "satilik")  {
+                            $optName = "Satılık";
+                        }else {
+                            $optName = "Günlük Kiralık";
                         }
                     }
                 } else {
@@ -337,8 +345,10 @@ class HomeController extends Controller
             }
         }
 
-        $obj = Housing::select('housings.*')->with('images', "city", "county")->where('housings.status', 1)->whereRaw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) IS NULL');
+        $obj = Housing::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),'housings.*')->with('images', "city", "county")->where('housings.status', 1)
+        ->whereRaw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) IS NULL');
 
+        
         if ($request->input("slug") == "al-sat-acil") {
             $obj = $obj->whereJsonContains('housing_type_data->buysellurgent1', "Evet");
         }
@@ -513,12 +523,22 @@ class HomeController extends Controller
 
         $itemPerPage = 12;
         $obj = $obj->paginate($itemPerPage);
+        
         return response()->json($obj->through(function ($item) use ($request) {
             $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
             $isFavorite = 0;
             if (Auth::check()) {
                 $isFavorite = HousingFavorite::where("housing_id", $item->id)->where("user_id", Auth::user()->id)->first();
             }
+
+                $cartStatus = CartOrder::whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.type')) = 'housing'")
+                ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->id])
+                ->value('status');
+
+            $action = $cartStatus ? ( ($cartStatus == 0) ? 'payment_await' : (($cartStatus == 1) ? 'sold' : (($cartStatus == 2) ? 'tryBuy' : ''))) : "noCart";
+            $housingTypeData = json_decode($item->housing_type_data, true);
+
+            $offSale = isset($housingTypeData['off_sale1']);
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
                 'housing_type_title' => $item->housing_type_title,
@@ -530,18 +550,23 @@ class HomeController extends Controller
                 'step1_slug' => $item->step1_slug,
                 'housing_address' => $item->address,
                 'doping_time' => $item->doping_time,
+                'step2_slug' => $item->step2_slug,
                 'city' => $item->city,
                 'county' => $item->county,
                 'created_at' => $item->created_at,
+                "action" => $cartStatus,
+                'offSale' => $offSale,
                 'housing_type' =>
                 [
                     'has_discount' => $discount_amount > 0,
                     'title' => $item->housing_type->title,
                     'room_count' => getData($item, 'room_count'),
+                    'daily_rent' => ($item->step2_slug == "gunluk-kiralik" && getData($item, 'daily_rent')) ? getData($item, 'daily_rent') : null,
                     'squaremeters' => getData($item, 'squaremeters'),
-                    'price' => getData($item, 'price') - $discount_amount,
+                    'price' => $item->step2_slug != "gunluk-kiralik" ? getData($item, 'price') - $discount_amount : null ,
                     'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
-                ],
+                ]
+                
             ];
         }));
     }
