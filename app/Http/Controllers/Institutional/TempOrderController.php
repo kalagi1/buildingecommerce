@@ -693,7 +693,7 @@ class TempOrderController extends Controller
             if(isset($data->house_count) && $data->house_count ){
                 for($i = 0; $i < $data->house_count; $i++){
                     foreach($formJson as $json){
-                        if($json->required){
+                        if($json->required && !str_contains($json->className, 'project-disabled')){
                             if(isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}) && isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i]) && $data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i] != "Seçiniz"){
     
                             }else{
@@ -713,7 +713,7 @@ class TempOrderController extends Controller
                 if(isset($data->{"house_count".$j}) && $data->{"house_count".$j} ){
                     for($i = 0; $i < $data->{"house_count".$j}; $i++){
                         foreach($formJson as $json){
-                            if($json->required){
+                            if($json->required && !str_contains($json->className, 'project-disabled')){
                                 if(isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}) && isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i]) && $data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i] != "Seçiniz"){
         
                                 }else{
@@ -784,7 +784,7 @@ class TempOrderController extends Controller
                     if(isset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name).$i+1})){
                     }
                 }else{
-                    if($formData->required && !str_contains($formData->className, 'project-disabled')){
+                    if($formData->required && str_contains($formData->className, 'project-disabled')){
                         if(isset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name)}[$i])){
                             
                         }else{
