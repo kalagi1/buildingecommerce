@@ -891,7 +891,6 @@
                                                     }
                                                 }
                                             }else{
-                                                    console.log(data[i][key[0]]);
                                                 if(data[i][key[0]] == null){
                                                     $('.project_imaget img').remove();
                                                 }else{
@@ -912,6 +911,8 @@
                             });
                             console.log(transactionIndex);
                         })
+                        
+                        $('.project-disabled').closest('.form-group').remove();
                         
                         $('.rendered-form input').change(function(){
                             if($(this).attr('type') != "file"){
@@ -1381,6 +1382,11 @@
                                         console.log(transactionIndex);
                                     })
                                     
+                        
+                                    $('.project-disabled').closest('.form-group').remove();
+                                    
+                        
+                                    $('.project-disabled').closest('.form-group').remove();
                                     $('.rendered-form input').change(function(){
                                         if($(this).attr('type') != "file"){
                                             var formData = new FormData();
