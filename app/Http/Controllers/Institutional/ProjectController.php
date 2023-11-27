@@ -104,7 +104,7 @@ class ProjectController extends Controller
                             }
                         }
                     } else {
-                        if ($housingTypeInputs[$j]->type != "checkbox-group") {
+                        if ($housingTypeInputs[$j]->type != "checkbox-group" && !str_contains($housingTypeInputs[$j]->className, 'project-disabled')) {
                             if (isset($housingTypeInputs[$j]->name) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null) {
                                 ProjectHousing::create([
                                     "key" => $housingTypeInputs[$j]->label,

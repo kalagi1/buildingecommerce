@@ -219,7 +219,7 @@
                         }
                         
                         $('.second-payment-plan').closest('div').addClass('d-none')
-                        if($project->step2_slug != "kiralık")
+                        @if($project->step2_slug != "kiralık" && getData($project, 'payment-plan[]', $roomOrder))
                         @foreach(json_decode(getData($project, 'payment-plan[]', $roomOrder)->value) as $paymentPlan)
 
                             @if($paymentPlan[0] == "taksitli")
