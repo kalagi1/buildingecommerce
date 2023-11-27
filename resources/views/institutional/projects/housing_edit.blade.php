@@ -267,6 +267,9 @@
                             }
                         })
 
+                        
+                        $('.project-disabled').closest('.form-group').remove();
+
 
                         $('.prev_house').click(function() {
 

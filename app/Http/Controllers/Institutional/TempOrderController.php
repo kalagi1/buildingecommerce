@@ -712,6 +712,7 @@ class TempOrderController extends Controller
             for($j = 0 ; $j < count($data->blocks); $j++){
                 if(isset($data->{"house_count".$j}) && $data->{"house_count".$j} ){
                     for($i = 0; $i < $data->{"house_count".$j}; $i++){
+                        
                         foreach($formJson as $json){
                             if($json->required && !str_contains($json->className, 'project-disabled')){
                                 if(isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}) && isset($data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i]) && $data->roomInfoKeys->{str_replace('[]','',$json->name)}[$i] != "Seçiniz"){
@@ -725,7 +726,7 @@ class TempOrderController extends Controller
                 }else{
                     return json_encode([
                         "status" => false,
-                        "message" => "Sonraki aşamaya geçmeden önce lütfen ".$data->blocks[$i]." ".$housingType->title.' sayısını belirtiniz ve içeriklerini doldurunuz'
+                        "message" => "Sonraki aşamaya geçmeden önce lütfen ".$data->blocks[$j]." ".$housingType->title.' sayısını belirtiniz ve içeriklerini doldurunuz'
                     ]);
                 }
             }
