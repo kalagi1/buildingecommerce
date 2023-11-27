@@ -29035,8 +29035,8 @@ input[type="checkbox"]::before {
                 line-height: 40px;
                 font-size: 12px;
                 font-weight: 600;
-                font-weight: bold;
-                color: black background-color: #FFF;
+                color: black ;
+        
             }
 
             .dropdown li {
