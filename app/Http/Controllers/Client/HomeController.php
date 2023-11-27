@@ -59,6 +59,7 @@ class HomeController extends Controller
             ->orderByDesc('housings.created_at')
             ->get();
 
+
         $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))->where('end_date', ">=", date("Y-m-d"))->where('item_type',1)->orderByDesc("created_at")->where('housing_type_id',0)->get();
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->get();
