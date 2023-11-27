@@ -33,6 +33,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Görsel</th>
+                                <th class="sort" data-sort="room_count">İlan Adı</th>
                                 <th class="sort" data-sort="room_count">Oda Sayısı</th>
                                 <th class="sort" data-sort="number_of_floors">Kat Sayısı</th>
                                 <th class="sort" data-sort="squaremeters">Metrekare (m<sup>2</sup>)</th>
@@ -54,8 +55,11 @@
                                             alt="home-1" class="img-responsive"
                                             style="height: 100px !important;object-fit:cover">
                                     </td>
-                                    <td class="room_count">
-                                            @if(isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
+                                    <td class="image">
+                                        {{getData($project, 'advertise-title[]', $i + 1)->value }}
+                                    </td>
+                                    @if(isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
+                                        <td class="room_count">
                                             <i
                                                 class="fa fa-circle circleIcon mr-1"></i>
                                             <span>
@@ -112,7 +116,7 @@
                                    
                                     <td class="price">
                                         <a href="{{route('institutional.projects.edit.housing',["project_id" => $project->id ,"room_order" => $i+1])}}" class="badge badge-phoenix badge-phoenix-primary">Düzenle</a>
-                                        <a href="" class="badge badge-phoenix badge-phoenix-danger">Sil</a>
+                                        <a href="{{route('institutional.projects.delete.housing',["project_id" => $project->id ,"room_order" => $i+1])}}" class="badge badge-phoenix badge-phoenix-danger">Sil</a>
                                     </td>
                                 </tr>
                             @endfor

@@ -237,15 +237,9 @@
             exportLink.textContent = "Düzenle";
             var divider = document.createElement("div");
             divider.className = "dropdown-divider";
-            var removeLink = document.createElement("a");
-            removeLink.className = "badge badge-phoenix badge-phoenix-danger ml-3";
-            removeLink.href = "#!";
-            removeLink.textContent = "Sil";
-            removeLink.setAttribute("data-project-id", project.id);
 
             actionsDiv.appendChild(viewLink);
             actionsDiv.appendChild(exportLink);
-            actionsDiv.appendChild(removeLink);
             actionsCell.appendChild(actionsDiv);
 
             row.appendChild(numberCell);
