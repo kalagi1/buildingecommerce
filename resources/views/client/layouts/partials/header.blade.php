@@ -124,8 +124,85 @@
                         </div>
                         <div class="rightSide d-xl-block d-none d-lg-block ">
                             <div class="header-widget d-flex">
-                                
+                               
                                 @if (Auth::user())
+                                @php
+                                $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->where("owner_id",Auth::user()->id)->limit(10)->get();
+                                @endphp
+        <div class = "notification">
+            <a href = "#">
+            <div class = "notBtn" href = "#">
+              <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
+                @php
+                $unreadNotifications = $notifications->where('readed', 0);
+                $unreadCount = $unreadNotifications->count();
+                @endphp
+
+                @if($unreadCount)
+                <div class = "number"> {{$unreadCount}}  </div>
+                @endif
+                
+             
+              <i class="fas fa-bell"></i>
+                <div class = "box">
+                  <div class = "display">
+                    <div class="card position-relative border-0">
+                        <div class="card-header p-2">
+                          <div class="d-flex justify-content-between">
+                            <h5 class="text-black mb-0" style="font-size:12px">Bildirimler</h5>
+                          </div>
+                        </div>
+                        <div class="card-body p-0">
+                          <div class="scrollbar-overlay" style="height: 27rem;">
+                            <div class="border-300">
+                                @if (count($notifications) == 0)
+                                <div class="p-3 text-center">Bildirim Yok</div>
+                            @else
+                               @foreach ($notifications as $notification)
+                               <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{$notification->readed == 0 ? "unread":"read" }} border-bottom"
+                                data-id="{{ $notification->id }}"
+                                data-link="{{ $notification->link }}">
+                                <div class="d-flex align-items-center justify-content-between position-relative">
+                                  <div class="d-flex">
+                                    <div class="avatar avatar-m status-online me-3">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                    </div>
+                                    <div class="flex-1 me-sm-3">
+                                      <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">  {!! $notification->text !!}</p>
+                                      @php
+                                      // Örnek bir tarih zamanı, notification->created_at'ı buraya ekleyin
+                                      $notificationCreatedAt = $notification->created_at;
+                                      
+                                      // Saat dilimini ayarlayın
+                                      date_default_timezone_set('Europe/Istanbul');
+                                      
+                                      // Tarih formatını Türkiye biçimine dönüştürme
+                                      $notificationCreatedAtDate = date("d.m.Y", strtotime($notificationCreatedAt));
+                                      $notificationCreatedAtTime = date("H:i", strtotime($notificationCreatedAt)); // 24 saatlik saat biçimi
+                                      
+                                      // Saati 12 saatlik biçime dönüştürme (AM/PM eklemek için)
+                                      $notificationCreatedAtTime12Hour = date("h:i A", strtotime($notificationCreatedAt));
+                                      @endphp
+                                      
+                                      
+                                      
+                                                                              </div>
+                                  </div>
+                                </div>
+                              </div>
+                                @endforeach
+
+                            @endif
+                           
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+               </div>
+            </div>
+              </a>
+          </div>
                                     @if (Auth::user()->type == 1)
                                         <a href="{{ route('client.index') }}" class="userIcon">
                                             <svg viewBox="0 0 24 24" width="24" height="24"
@@ -346,6 +423,7 @@
 
         </header>
         <div class="clearfix"></div>
+        
 
 
 

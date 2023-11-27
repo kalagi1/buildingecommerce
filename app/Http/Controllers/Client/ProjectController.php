@@ -170,14 +170,16 @@ class ProjectController extends Controller
         foreach ($parameters as $paramValue) {
             if ($paramValue) {
 
-                if ($paramValue == "satilik" || $paramValue == "kiralik") {
+                if ($paramValue == "satilik" || $paramValue == "kiralik" || $paramValue == "gunluk-kiralik") {
                     $opt = $paramValue;
                     if ($opt) {
                         $opt = $opt;
                         if ($opt == "kiralik") {
                             $optName = "Kiralık";
-                        } else {
+                        }elseif ($opt == "satilik")  {
                             $optName = "Satılık";
+                        }else {
+                            $optName = "Günlük Kiralık";
                         }
                     }
                 } else {

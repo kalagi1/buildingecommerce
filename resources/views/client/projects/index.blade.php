@@ -562,13 +562,13 @@
                                                     </a>
                                                     <div class="d-flex align-items-center">
                                                         <div class="d-flex" style="gap: 8px;">
-                                                            <a href="#"
+                                                            <span
                                                                 class="btn toggle-project-favorite bg-white"
                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                 style="color: white;"
                                                                 data-project-id="{{ $project->id }}">
                                                                 <i class="fa fa-heart-o-o"></i>
-                                                            </a>
+                                                            </span>
                                                             @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                                 <button class="btn   mobileBtn  second-btn CartBtn"
                                                                     disabled
@@ -1015,11 +1015,11 @@
                             </a>
                             <div class="d-flex align-items-center">
                                 <div class="d-flex" style="gap: 8px;">
-                                    <a href="#" class="btn toggle-project-favorite bg-white"
+                                    <span class="btn toggle-project-favorite bg-white"
                                         data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                         style="color: white;" data-project-id="{{ $project->id }}">
                                         <i class="fa fa-heart-o-o"></i>
-                                    </a>
+                                    </span>
                                     @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                         <button class="btn   mobileBtn  second-btn CartBtn" disabled
                                             style="background: red !important;width:100%;color:White">

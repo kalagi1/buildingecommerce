@@ -24,7 +24,6 @@ class FavoriteController extends Controller
         $user = User::where("id", Auth::user()->id)->first();
         $housing = ProjectHousing::where("room_order", $id)->where("project_id", $request->input("project_id"))->get();
 
-        // Kullanıcının favorileri içinde bu konut zaten var mı kontrol et
         $existingFavorite = ProjectFavorite::where('user_id', $user->id)
             ->where('housing_id', $id)
             ->where("project_id", $request->input("project_id"))
@@ -37,7 +36,7 @@ class FavoriteController extends Controller
         } else {
             ProjectFavorite::create([
                 "user_id" => $user->id,
-                'housing_id' => $id,
+                'housing_id' =>  $request->input("housing_id"),
                 "project_id" => $request->input("project_id"),
             ]);
             $message = "Ürün favorilere eklendi.";

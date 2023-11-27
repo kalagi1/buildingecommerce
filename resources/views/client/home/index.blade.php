@@ -257,11 +257,11 @@
                                             </a>
                                             <div class="d-flex align-items-center">
                                                 <div class="d-flex" style="gap: 8px;">
-                                                    <a href="#" class="btn toggle-project-favorite bg-white"
+                                                    <span class="btn toggle-project-favorite bg-white"
                                                         data-project-housing-id="{{ $i + 1 }}" style="color: white;"
                                                         data-project-id="{{ $project->id }}">
                                                         <i class="fa fa-heart-o"></i>
-                                                    </a>
+                                                    </span>
                                                     @if (getHouse($project, 'off_sale[]', $i + 1)->value != '[]')
                                                         <button class="btn   mobileBtn  second-btn CartBtn" disabled
                                                             style="background: red !important;width:100%;color:White">
@@ -672,11 +672,11 @@
                                             </a>
                                             <div class="d-flex align-items-center">
                                                 <div class="d-flex" style="gap: 8px;">
-                                                    <a href="#" class="btn toggle-project-favorite bg-white"
+                                                    <span class="btn toggle-project-favorite bg-white"
                                                         data-project-housing-id="{{ $i + 1 }}"
                                                         style="color: white;" data-project-id="{{ $project->id }}">
                                                         <i class="fa fa-heart-o"></i>
-                                                    </a>
+                                                    </span>
                                                     @if (getHouse($project, 'off_sale[]', $i + 1)->value != '[]')
                                                         <button class="btn   mobileBtn  second-btn CartBtn" disabled
                                                             style="background: red !important;width:100%;color:White">
@@ -1085,11 +1085,11 @@
                                             </a>
                                             <div class="d-flex align-items-center">
                                                 <div class="d-flex" style="gap: 8px;">
-                                                    <a href="#" class="btn toggle-project-favorite bg-white"
+                                                    <span class="btn toggle-project-favorite bg-white"
                                                         data-project-housing-id="{{ $i + 1 }}"
                                                         style="color: white;" data-project-id="{{ $project->id }}">
                                                         <i class="fa fa-heart-o"></i>
-                                                    </a>
+                                                    </span>
                                                     @if (getHouse($project, 'off_sale[]', $i + 1)->value != '[]')
                                                         <button class="btn   mobileBtn  second-btn CartBtn" disabled
                                                             style="background: red !important;width:100%;color:White">
@@ -2241,7 +2241,7 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 14px;
+                font-size: 12px;
                 color:#274abb !important;
             }
         }

@@ -40472,7 +40472,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
 .finish-text p {
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
     margin: 20px 0;
 }
@@ -41219,7 +41219,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     border-radius: 3px;
     background: green;
     color: #fff;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     z-index: 999;
 }
@@ -41784,7 +41784,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
         float: left;
         color: white;
         width: 100%;
-        font-size: 14px;
+        font-size: 12px;
     }
 
 

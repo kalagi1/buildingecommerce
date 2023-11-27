@@ -71,8 +71,223 @@
         </div>
     </div>
 </footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(".box").hide();
+    $(".notification").click(function(){
+            $(".box").toggle();
+        });
+  document.addEventListener("DOMContentLoaded", function() {
+    var notificationCards = document.querySelectorAll(".notification-card");
+
+    notificationCards.forEach(function(card) {
+        card.addEventListener("click", function() {
+            var notificationId = card.getAttribute("data-id");
+            var notificationLink = $(this).data('link');
+            
+            // AJAX ile bildirimi işaretle
+            fetch('/mark-notification-as-read/' + notificationId, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                }
+            })
+            .then(function(response) {
+             
+                    if (notificationLink) {
+                    window.location.href = notificationLink;
+                }
+                    card.classList.remove("unread");
+                    card.classList.add("read");
+                
+            })
+            .catch(function(error) {
+                console.error('Bir hata oluştu:', error);
+            });
+        });
+    });
+});
+
+    </script>
 
 <style>
+    .notification-card.unread {
+    background-color: #eff2f6;
+}
+    .notification-card{
+        cursor:pointer;
+    }
+    .box::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+  border-radius: 5px
+}
+
+.box::-webkit-scrollbar
+{
+	width: 7px;
+	background-color: #F5F5F5;
+  border-radius: 5px
+}
+
+.box::-webkit-scrollbar-thumb
+{
+	background-color: #787373;
+	border: 1px solid rgba(0, 0, 0, .03);
+  border-radius: 5px
+}
+
+
+.icons{
+  display: inline;
+  float: right
+}
+
+.notification{
+  padding-top: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.number{
+  height: 22px;
+  width:  22px;
+  background-color: #d63031;
+  border-radius: 20px;
+  color: white;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 60px;
+  padding: 3px;
+  border-style: solid;
+  border-width: 2px;
+}
+
+.number:empty {
+   display: none;
+}
+
+.notBtn{
+  transition: 0.5s;
+  cursor: pointer
+}
+
+.fa-bell{
+  font-size: 18px;
+  padding-bottom: 10px;
+  color: black;
+  margin-right: 40px;
+  margin-left: 40px;
+}
+.fs--1{
+    text-align: left;
+    font-size: 11px;
+    line-height: 11px;  
+    margin-bottom:0 !important;
+}
+.box{
+    width: 250px;
+    z-index: 9999;
+    height: 200px;
+    border-radius: 10px;
+    transition: 0.5s;
+    position: absolute;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+  padding: 0px;
+  left: -42px;
+  margin-top: 5px;
+  background-color: #F4F4F4;
+  -webkit-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
+  box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
+  cursor: context-menu;
+}
+
+.fas:hover {
+  color: #d63031;
+}
+
+
+.gry{
+  background-color: #F4F4F4;
+}
+
+.top{
+  color: black;
+  padding: 10px
+}
+
+
+.cont{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #F4F4F4;
+}
+
+.cont:empty{
+  display: none;
+}
+
+.stick{
+  text-align: center;  
+  display: block;
+  font-size: 50pt;
+  padding-top: 70px;
+  padding-left: 80px
+}
+
+.stick:hover{
+  color: black;
+}
+
+.cent{
+  text-align: center;
+  display: block;
+}
+
+.sec{
+  padding: 25px 10px;
+  background-color: #F4F4F4;
+  transition: 0.5s;
+}
+
+.profCont{
+  padding-left: 15px;
+}
+
+.profile{
+  -webkit-clip-path: circle(50% at 50% 50%);
+  clip-path: circle(50% at 50% 50%);
+  width: 75px;
+  float: left;
+}
+
+.txt{
+  vertical-align: top;
+  font-size: 1.25rem;
+  padding: 5px 10px 0px 115px;
+}
+
+.sub{
+  font-size: 1rem;
+  color: grey;
+}
+
+.new{
+  border-style: none none solid none;
+  border-color: red;
+}
+
+.sec:hover{
+  background-color: #BFBFBF;
+}
     .filter-date {
         display: flex;
         align-items: center;
@@ -879,10 +1094,10 @@
         document.querySelectorAll(".toggle-project-favorite").forEach(function(button) {
             button.addEventListener("click", function(event) {
                 event.preventDefault();
+                console.log("s");
                 var housingId = this.getAttribute("data-project-housing-id");
                 var projectId = this.getAttribute("data-project-id");
 
-                // AJAX isteği gönderme
                 $.ajax({
                     url: "{{ route('add.project.housing.to.favorites', ['id' => ':id']) }}"
                         .replace(':id',
@@ -890,7 +1105,8 @@
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",
-                        project_id: projectId // project_id'yi AJAX isteği ile gönder
+                        project_id: projectId,
+                        housing_id :housingId
                     },
                     success: function(response) {
                         if (response.status === 'added') {
@@ -914,8 +1130,8 @@
                         }
                     },
                     error: function(error) {
-                       window.location.href = "/giris-yap";
-                        console.error(error);
+                    //    window.location.href = "/giris-yap";
+                    //     console.error(error);
                     }
                 });
             });
@@ -926,7 +1142,6 @@
             event.preventDefault();
             var housingId = this.getAttribute("data-housing-id");
             var button = this;
-            // AJAX isteği gönderme
             $.ajax({
                 url: "{{ route('add.housing.to.favorites', ['id' => ':id']) }}"
                     .replace(':id',

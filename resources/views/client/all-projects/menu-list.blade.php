@@ -619,6 +619,7 @@
 @endsection
 
 @section('scripts')
+
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         let last_page;
@@ -779,101 +780,101 @@
                             // Metni kırp ve üç nokta ekle
                             var kisaltilmisBaslik = kisalt(res.title, 45);
                             $('.pp-row').append(`
-    <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
-        <a href="${res.housing_url}" tabindex="0" class="text-decoration-none">
-            <div class="landscapes">
-                <div class="project-single">
-                    <div class="project-inner project-head">
-                        <div class="homes">
-                            <!-- homes img -->
-                            <div class="homes-img">
-                                ${featuredHtml}
-                                <img src="${res.image}" alt="${res.housing_type_title}" class="img-responsive">
-                            </div>
-                        </div>
-                        <div class="button-effect">
-                            <!-- Örneğin Kalp İkonu -->
-                            <div href="" class="btn toggle-favorite bg-white ${res.in_favorites ? 'bg-white' : ''}" data-housing-id="${res.id}">
-                                <i class="fa fa-heart-o ${res.in_favorites ? 'text-danger' : ''}"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- homes content -->
-                    <div class="homes-content p-3" style="padding: 20px !important; ${res.sold ? 'background: #EEE !important;' : ''}">
-                        <!-- homes address -->
-                        <a href="${res.housing_url}">
-                            <h4>${kisaltilmisBaslik}</h4>
-                        </a>
-                        <p class="homes-address mb-3">
-                            <a href="${res.housing_url}">
-                                <i class="fa fa-map-marker"></i><span>${res.city.title} ${"/"} ${res.county.ilce_title}</span>
-                            </a>
-                        </p>
-                        <ul class="homes-list clearfix pb-0" style="display: flex;justify-content:space-between">
-                                                        <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>${res.housing_type.title} </span>
-                                                        </li>
-                                                        <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>${res.housing_type.room_count}</span>
-                                                        </li>
-                                                        <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>${res.housing_type.squaremeters} m2</span>
-                                                        </li>
-                                                    </ul>
-                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                            <li style="font-size: 15px; font-weight: 700; flex: 1;" class="priceFont">
-                                ${res.step2_slug !== "gunluk-kiralik" ? 
-                                    res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
-                                    : numberFormat(res.housing_type.price) + " ₺"
-                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
-                                }
-                            </li>
-                        </ul>
-                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
-                            ${res.step2_slug !== "gunluk-kiralik" ?
-                                res.offSale ?
-                                    `<button
-                                        class="btn second-btn CartBtn" disabled
-                                        style="background: red !important;width:100%;color:White">Satıldı
-                                    </button>`
-                                    :
-                                    res.action === 'payment_await' ?
-                                        `<button
-                                            class="btn second-btn CartBtn" disabled
-                                            style="background: orange !important;width:100%;color:White">Onay Bekleniyor
-                                        </button>`
-                                        :
-                                        res.action === 'sold' ?
-                                            `<button
-                                                class="btn second-btn CartBtn" disabled
-                                                style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                            </button>`
-                                            :
-                                `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                    data-id='${res.id}'>
-                                    <span class="IconContainer">
-                                        <img src="{{ asset('sc.png') }}" alt="">
-                                    </span>
-                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                </button>` :
-                            `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
-                                <span class="IconContainer">
-                                    <img src="{{ asset('sc.png') }}" alt="">
-                                </span>
-                                <span class="text" style="color: white;">Rezervasyon Yap</span>
-                            </button>`
-                            }
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </div>
-</div>
-`);
+                                                <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
+                                                    <a href="${res.housing_url}" tabindex="0" class="text-decoration-none">
+                                                        <div class="landscapes">
+                                                            <div class="project-single">
+                                                                <div class="project-inner project-head">
+                                                                    <div class="homes">
+                                                                        <!-- homes img -->
+                                                                        <div class="homes-img">
+                                                                            ${featuredHtml}
+                                                                            <img src="${res.image}" alt="${res.housing_type_title}" class="img-responsive">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="button-effect">
+                                                                        <!-- Örneğin Kalp İkonu -->
+                                                                        <div href="" class="btn toggle-favorite bg-white ${res.in_favorites ? 'bg-white' : ''}" data-housing-id="${res.id}">
+                                                                            <i class="fa fa-heart-o ${res.in_favorites ? 'text-danger' : ''}"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- homes content -->
+                                                                <div class="homes-content p-3" style="padding: 20px !important; ${res.sold ? 'background: #EEE !important;' : ''}">
+                                                                    <!-- homes address -->
+                                                                    <a href="${res.housing_url}">
+                                                                        <h4>${kisaltilmisBaslik}</h4>
+                                                                    </a>
+                                                                    <p class="homes-address mb-3">
+                                                                        <a href="${res.housing_url}">
+                                                                            <i class="fa fa-map-marker"></i><span>${res.city.title} ${"/"} ${res.county.ilce_title}</span>
+                                                                        </a>
+                                                                    </p>
+                                                                    <ul class="homes-list clearfix pb-0" style="display: flex;justify-content:space-between">
+                                                                                                    <li class="sude-the-icons" style="width:auto !important">
+                                                                                                        <i class="fa fa-circle circleIcon mr-1"></i>
+                                                                                                        <span>${res.housing_type.title} </span>
+                                                                                                    </li>
+                                                                                                    <li class="sude-the-icons" style="width:auto !important">
+                                                                                                        <i class="fa fa-circle circleIcon mr-1"></i>
+                                                                                                        <span>${res.housing_type.room_count}</span>
+                                                                                                    </li>
+                                                                                                    <li class="sude-the-icons" style="width:auto !important">
+                                                                                                        <i class="fa fa-circle circleIcon mr-1"></i>
+                                                                                                        <span>${res.housing_type.squaremeters} m2</span>
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                                        <li style="font-size: 15px; font-weight: 700; flex: 1;" class="priceFont">
+                                                                            ${res.step2_slug !== "gunluk-kiralik" ? 
+                                                                                res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
+                                                                                : numberFormat(res.housing_type.price) + " ₺"
+                                                                                : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
+                                                                            }
+                                                                        </li>
+                                                                    </ul>
+                                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
+                                                                        ${res.step2_slug !== "gunluk-kiralik" ?
+                                                                            res.offSale ?
+                                                                                `<button
+                                                                                    class="btn second-btn CartBtn" disabled
+                                                                                    style="background: red !important;width:100%;color:White">Satıldı
+                                                                                </button>`
+                                                                                :
+                                                                                res.action === 'payment_await' ?
+                                                                                    `<button
+                                                                                        class="btn second-btn CartBtn" disabled
+                                                                                        style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                                    </button>`
+                                                                                    :
+                                                                                    res.action === 'sold' ?
+                                                                                        `<button
+                                                                                            class="btn second-btn CartBtn" disabled
+                                                                                            style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                        </button>`
+                                                                                        :
+                                                                            `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                                data-id='${res.id}'>
+                                                                                <span class="IconContainer">
+                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                </span>
+                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                            </button>` :
+                                                                        `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
+                                                                            <span class="IconContainer">
+                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                            </span>
+                                                                            <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                        </button>`
+                                                                        }
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            `);
 
 
                                                         $('.pp-col').append(`
@@ -1216,7 +1217,7 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 14px;
+                font-size: 12px;
             }
         }
     </style>

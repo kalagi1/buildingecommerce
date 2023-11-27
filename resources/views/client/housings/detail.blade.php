@@ -188,17 +188,23 @@
                                 </div>
                             </div>
 
-                            @if ($housing->step2_slug == 'gunluk-kiralik')
-                                <div id="reservation-calendar"></div>
-                            @endif
+                         
 
 
                             @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                 @if ($sold)
                                     @if ($sold[0]->status != '0' && $sold[0]->status != '1')
                                         <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            @if ($housing->step2_slug == 'gunluk-kiralik')
+                                            <div id="reservation-calendar"></div>
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                                <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#rez" type="button" role="tab"
+                                                    aria-controls="rez" aria-selected="true"> Takvim</button>
+                                            </li>
+                                        @endif
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif" id="home-tab" data-bs-toggle="tab"
                                                     data-bs-target="#home" type="button" role="tab"
                                                     aria-controls="home" aria-selected="true">Açıklama</button>
                                             </li>
@@ -214,7 +220,15 @@
                                             </li>
                                         </ul>
                                         <div class="tab-content" id="myTabContent">
-                                            <div class="tab-pane fade show active blog-info details mb-30" id="home"
+                                            @if ($housing->step2_slug == 'gunluk-kiralik')
+                                          
+                                            <div class="tab-pane fade show active blog-info details mb-30" id="rez"
+                                            role="tabpanel" aria-labelledby="rez-tab">
+                                            <div id="reservation-calendar"></div>
+                                        </div>
+                                        @endif
+                                        
+                                            <div class="tab-pane fade blog-info details mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif" id="home"
                                                 role="tabpanel" aria-labelledby="home-tab">
                                                 {!! $housing->description !!}
                                             </div>
@@ -522,8 +536,15 @@
                                     @endif
                                 @else
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        @if ($housing->step2_slug == 'gunluk-kiralik')
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                            <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
+                                                data-bs-target="#rez" type="button" role="tab"
+                                                aria-controls="rez" aria-selected="true"> Takvim</button>
+                                        </li>
+                                    @endif
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif" id="home-tab" data-bs-toggle="tab"
                                                 data-bs-target="#home" type="button" role="tab"
                                                 aria-controls="home" aria-selected="true">Açıklama</button>
                                         </li>
@@ -539,7 +560,15 @@
                                         </li>
                                     </ul>
                                     <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active blog-info details mb-30" id="home"
+                                        @if ($housing->step2_slug == 'gunluk-kiralik')
+                                          
+                                        <div class="tab-pane fade show active blog-info details mb-30" id="rez"
+                                        role="tabpanel" aria-labelledby="rez-tab">
+                                        <div id="reservation-calendar"></div>
+                                    </div>
+                                    @endif
+                                    
+                                        <div class="tab-pane fade blog-info details mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif" id="home"
                                             role="tabpanel" aria-labelledby="home-tab">
                                             {!! $housing->description !!}
                                         </div>

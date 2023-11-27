@@ -308,14 +308,16 @@ class HomeController extends Controller
 
         foreach ($parameters as $paramValue) {
             if ($paramValue) {
-                if ($request->input($paramValue) == "satilik" || $request->input($paramValue) == "kiralik") {
+                if ($request->input($paramValue) == "satilik" || $request->input($paramValue) == "kiralik" || $request->input($paramValue) == "gunluk-kiralik") {
                     $opt = $request->input($paramValue);
                     if ($opt) {
                         $opt = $opt;
-                        if ($opt == "satilik") {
-                            $optName = "Satılık";
-                        } else {
+                        if ($opt == "kiralik") {
                             $optName = "Kiralık";
+                        }elseif ($opt == "satilik")  {
+                            $optName = "Satılık";
+                        }else {
+                            $optName = "Günlük Kiralık";
                         }
                     }
                 } else {

@@ -208,7 +208,7 @@
                 <div class="col-lg-8 col-md-12 blog-pots">
                     <div class="row">
                         <div class="col-md-12">
-                            <!-- main slider carousel items -->
+                           
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                 <div class="carousel-inner">
 
@@ -274,6 +274,7 @@
                                     <div class="mt-2">
                                         {!! $project->description !!}
                                         <hr>
+                                        @if (count($projectHousingSetting))
                                         <div class="single homes-content">
                                             <table class="table table-striped table-bordered">
                                                 <tbody class="trStyle"> 
@@ -379,7 +380,9 @@
                                                     @endif
                                                 @endif
                                             @endforeach
-                                        </div>
+                                        </div> 
+                                        @endif
+                                       
                                     </div>
 
                                 </div>
@@ -436,11 +439,11 @@
                                                     </a>
                                                     <div class="d-flex align-items-center">
                                                         <div class="d-flex" style="gap: 8px;">
-                                                            <a href="#" class="btn toggle-project-favorite bg-white"
+                                                            <span class="btn toggle-project-favorite bg-white"
                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                 data-project-id="{{ $project->id }}">
                                                                 <i class="fa fa-heart-o"></i>
-                                                            </a>
+                                                            </span>
                                                             @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                                 <button class="btn   mobileBtn  second-btn CartBtn"
                                                                     disabled
@@ -551,7 +554,7 @@
 
                 </div>
                 <aside class="col-md-4  car">
-                    <div class="single widget">
+                    <div class="single widget buyBtn">
                         <div class="schedule widget-boxed mt-33 mt-0">
 
 
@@ -603,7 +606,7 @@
                     </div>
 
 
-                    <div class="single widget" style="margin-top:30px">
+                    <div class="single widget storeInfo">
                         <div class="widget-boxed">
                             <div class="widget-boxed-header">
                                 <h4>Mağaza Bilgileri</h4>
@@ -1250,13 +1253,13 @@
                                                                                                 </a>
                                                                                                 <div class="d-flex align-items-center">
                                                                                                     <div class="d-flex" style="gap: 8px;">
-                                                                                                        <a href="#"
+                                                                                                        <span
                                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                                             data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                                                             style="color: white;"
                                                                                                             data-project-id="{{ $project->id }}">
                                                                                                             <i class="fa fa-heart-o-o"></i>
-                                                                                                        </a>
+                                                                                                        </span>
                                                                                                         @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                                                                             <button class="btn   mobileBtn  second-btn CartBtn"
                                                                                                                 disabled
@@ -1703,11 +1706,11 @@
                                                                             </a>
                                                                             <div class="d-flex align-items-center">
                                                                                 <div class="d-flex" style="gap: 8px;">
-                                                                                    <a href="#" class="btn toggle-project-favorite bg-white"
+                                                                                    <span class="btn toggle-project-favorite bg-white"
                                                                                         data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                                         style="color: white;" data-project-id="{{ $project->id }}">
                                                                                         <i class="fa fa-heart-o-o"></i>
-                                                                                    </a>
+                                                                                    </span>
                                                                                     @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                                                         <button class="btn   mobileBtn  second-btn CartBtn" disabled
                                                                                             style="background: red !important;width:100%;color:White">
@@ -2366,13 +2369,13 @@
                                                                                         </a>
                                                                                         <div class="d-flex align-items-center">
                                                                                             <div class="d-flex" style="gap: 8px;">
-                                                                                                <a href="#"
+                                                                                                <span
                                                                                                     class="btn toggle-project-favorite bg-white"
                                                                                                     data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                                                     style="color: white;"
                                                                                                     data-project-id="{{ $project->id }}">
                                                                                                     <i class="fa fa-heart-o-o"></i>
-                                                                                                </a>
+                                                                                                </span>
                                                                                                 @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                                                                     <button class="btn   mobileBtn  second-btn CartBtn"
                                                                                                         disabled
@@ -2819,11 +2822,11 @@
                                                                     </a>
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="d-flex" style="gap: 8px;">
-                                                                            <a href="#" class="btn toggle-project-favorite bg-white"
+                                                                            <span class="btn toggle-project-favorite bg-white"
                                                                                 data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
                                                                                 style="color: white;" data-project-id="{{ $project->id }}">
                                                                                 <i class="fa fa-heart-o-o"></i>
-                                                                            </a>
+                                                                            </span>
                                                                             @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                                                 <button class="btn   mobileBtn  second-btn CartBtn" disabled
                                                                                     style="background: red !important;width:100%;color:White">
@@ -2953,6 +2956,13 @@
     </script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
+        if ($(window).width() <= 768) {
+
+       var buyBtn =  $(".buyBtn").html();
+        $("#listingDetailsSlider").after(buyBtn);
+        $(".buyBtn").css("display", "none");
+
+    };
         $('.listingDetailsSliderNav').slick({
             slidesToShow: 5,
             slidesToScroll: 4,
@@ -3251,6 +3261,9 @@ out center;`;
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        .storeInfo{
+            margin-top:30px;
+        }
            .trStyle
         ,.trStyle tr {
             display: flex;
@@ -3265,8 +3278,9 @@ out center;`;
 
         }
         @media (max-width:768px) {
-            .widget-boxed{
-                margin-top:30px !important
+          
+            .storeInfo{
+                margin-top: 0 !important;
             }
             .trStyle tr{
             width: 100%;
@@ -3312,6 +3326,9 @@ out center;`;
         }
 
         @media (max-width: 768px) {
+            .widget-boxed {
+                margin-bottom: 30px;
+            }
             .car {
                 margin-top: 10px
             }
@@ -3350,6 +3367,10 @@ out center;`;
 
         .loading-spinner {
             text-align: center
+        }
+
+        .buttonDetail{
+            width:100%;
         }
     </style>
 @endsection

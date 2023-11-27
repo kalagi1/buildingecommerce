@@ -183,7 +183,7 @@
             padding: 8px;
             margin-bottom: 20px;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 12px;
             transition: all .15s ease;
         }
 

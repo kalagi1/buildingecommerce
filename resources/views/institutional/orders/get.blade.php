@@ -160,7 +160,7 @@
             padding: 8px;
             margin-bottom: 20px;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 12px;
             transition: all .15s ease;
         }
 
@@ -275,7 +275,7 @@
     padding: 15px 20px;
     justify-content: space-between;
     align-items: center;
-    font-size: 14px;
+    font-size: 12px;
     color: #2a2a2a;
     font-weight: bold;
     margin-bottom: 20px;
@@ -331,7 +331,7 @@
     right: 9px;
     top: 9px;
     color: #f27a1a;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
   }
   #orders-container .header-bar .ty-input {
@@ -439,7 +439,7 @@
     flex-direction: column;
     width: 80%;
     color: #333;
-    font-size: 14px;
+    font-size: 12px;
   }
   #orders-container .order .order-item .order-item-status .title {
     display: flex;
@@ -673,7 +673,7 @@
     }
   }
   #orders-container .orders-error {
-    font-size: 14px;
+    font-size: 12px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -813,7 +813,7 @@
     margin: 20px;
     border-radius: 6px;
     background-color: #f27a1a;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
   }
   #orders-container .empty-order-search-container .eos-icon {
@@ -843,7 +843,7 @@
   }
   #orders-container .order-search-info {
     margin: 0 0 15px 20px;
-    font-size: 14px;
+    font-size: 12px;
     color: #2a2a2a;
   }
   #orders-container .order-search-info .highlighted {
@@ -911,7 +911,7 @@
     margin: 15px 20px 0 20px;
   }
   #orders-container .orders-collection-point-description .delivery-point-desc {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     letter-spacing: -0.1px;
     color: #333333;
@@ -962,7 +962,7 @@
     margin-top: 15px;
   }
   #orders-container .collection-point-information-banner .collection-point-information {
-    font-size: 14px;
+    font-size: 12px;
     color: #333333;
   }
   #orders-container .collection-point-information-banner .collection-point-information strong {
@@ -992,7 +992,7 @@
     height: 44px;
     margin: 20px;
     border-radius: 6px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
   }
   #orders-container .no-order-container .no-icon {
@@ -1048,7 +1048,7 @@
     color: #333333;
     font-family: source_sans_prosemibold, sans-serif;
     -webkit-font-smoothing: antialiased;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     transition: all 0.4s ease;
     margin-right: 10px;
@@ -1133,7 +1133,7 @@
     margin-bottom: 4px;
   }
   #orders-container .group-deal-info .gdi-details .gdi-d-content div.gdi-d-c-details {
-    font-size: 14px;
+    font-size: 12px;
   }
   #orders-container .group-deal-info .gdi-details .gdi-d-content div.gdi-d-c-details span {
     font-family: source_sans_prosemibold, sans-serif;
@@ -1190,7 +1190,7 @@
   }
   #orders-container .gd-share-description-item .gd-sdi-description-container p {
     margin-top: 6px;
-    font-size: 14px;
+    font-size: 12px;
   }
   #orders-container .gd-copy-link-box {
     margin-top: 30px;
@@ -1214,7 +1214,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 14px;
+    font-size: 12px;
     flex-shrink: 0;
   }
   #orders-container .gd-copy-link-box .gd-cp-lb-container button {
