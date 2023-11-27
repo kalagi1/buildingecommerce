@@ -109,26 +109,7 @@
                             <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')"
                                 class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea>
                         </div>
-                        <h4 class="mb-3 d-none">Kaç Adet Konutunuz Var</h4><input
-                            value="{{ isset($tempData->room_count) ? $tempData->room_count : '' }}"
-                            onkeyup="changeData(this.value,'house_count')" class="form-control mb-5 d-none" type="text"
-                            id="house_count" name="house_count" value="{{ old('house_count') }}"
-                            placeholder="Kaç Adet Konutunuz Var" />
-                        <span id="generate_tabs" class=" d-none btn btn-primary mb-5">Daireleri Oluştur</span>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div id="tablist"
-                                    class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab h-100"
-                                    role="tablist" aria-orientation="vertical">
-
-                                </div>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="tab-content" id="pricingTabContent" role="tabpanel">
-                                    <div id="renderForm"></div>
-                                </div>
-                            </div>
-                        </div>
+                       
                         <div class="address">
                             <span class="section-title">Adres Bilgileri</span>
                             <div class="card">

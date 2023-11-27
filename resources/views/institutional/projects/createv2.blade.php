@@ -2014,6 +2014,8 @@
                 }
             })
 
+            
+
             $('#paymentModal').click(function(){
                 $(this).removeClass('show')
                 $(this).removeClass('d-block')

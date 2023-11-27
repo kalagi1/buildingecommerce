@@ -135,6 +135,45 @@ class ProjectController extends Controller
         
     }
 
+    public function deleteHousingPost($projectId,$roomOrder){
+        $project = Project::where('id', $projectId)->first();
+        if($project->have_blocks){
+            $blockCount = 0;
+            $tempBlockCount = 0;
+            for($i = 0; $i < count($project->blocks); $i++){
+                $tempBlockCount = $blockCount;
+                $blockCount += $project->blocks[$i]->housing_count;
+                if($roomOrder <= $blockCount && $roomOrder = $tempBlockCount){
+                    $block = $project->blocks[$i]->block_name; 
+                    
+                    $blockId = $project->blocks[$i]->id; 
+                    
+                    $block = Block::where('id',$blockId)->first();
+                    Block::where('id',$blockId)->update([
+                        "housing_count" => $block->housing_count - 1
+                    ]);
+                }
+            }
+        }
+
+        ProjectHousing::where('room_order',$roomOrder)->where('project_id',$projectId)->delete();
+        for($i = 0 ; $i < $project->room_count; $i++){
+            if($i + 1 > $roomOrder){
+                ProjectHousing::where('project_id',$projectId)->where('room_order',$i+1)->update([
+                    "room_order" => $i
+                ]);
+            }
+        }
+
+        $project->update([
+            "room_count" => $project->room_count - 1
+        ]);
+
+       
+        return redirect()->route('institutional.projects.housings',$projectId);
+    }
+
+
     public function index()
     {
         $bankAccounts = BankAccount::all();

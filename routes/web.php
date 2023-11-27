@@ -774,6 +774,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/projects/{project_id}/housings', [InstitutionalProjectController::class, 'housings'])->name('projects.housings');
     Route::get('/projects/{project_id}/housings/edit/{room_order}', [InstitutionalProjectController::class, 'editHousing'])->name('projects.edit.housing');
     Route::post('/projects/{project_id}/housings/edit/{room_order}', [InstitutionalProjectController::class, 'editHousingPost'])->name('projects.edit.housing.post');
+    Route::get('/projects/{project_id}/housings/edit/{room_order}/delete', [InstitutionalProjectController::class, 'deleteHousingPost'])->name('projects.delete.housing');
 
     Route::post('/end_extend_time', [PaymentTempController::class, "createPaymentTemp"])->name('create.payment.end.temp');
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
