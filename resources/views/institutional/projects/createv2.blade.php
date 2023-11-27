@@ -1385,8 +1385,6 @@
                         
                                     $('.project-disabled').closest('.form-group').remove();
                                     
-                        
-                                    $('.project-disabled').closest('.form-group').remove();
                                     $('.rendered-form input').change(function(){
                                         if($(this).attr('type') != "file"){
                                             var formData = new FormData();
@@ -2540,6 +2538,7 @@
                                 console.log(transactionIndex);
                             })
                             
+                            $('.project-disabled').closest('.form-group').remove();
                             $('.rendered-form input').change(function(){
                                 if($(this).attr('type') != "file"){
                                     var lastOrders = 0;
