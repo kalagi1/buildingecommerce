@@ -784,7 +784,7 @@ class TempOrderController extends Controller
                     if(isset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name).$i+1})){
                     }
                 }else{
-                    if($formData->required){
+                    if($formData->required && !str_contains($formData->className, 'project-disabled')){
                         if(isset($tempData->roomInfoKeys->{str_replace('[]','',$formData->name)}[$i])){
                             
                         }else{
