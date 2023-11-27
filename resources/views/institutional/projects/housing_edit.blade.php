@@ -219,12 +219,14 @@
                         }
                         
                         $('.second-payment-plan').closest('div').addClass('d-none')
+                        if($project->step2_slug != "kiralık")
                         @foreach(json_decode(getData($project, 'payment-plan[]', $roomOrder)->value) as $paymentPlan)
 
                             @if($paymentPlan[0] == "taksitli")
                                 $('.second-payment-plan').closest('div').removeClass('d-none')
                             @endif
                         @endforeach
+                        @endif
 
                         $('.next_house').click(function() {
                             var nextHousing = true;
