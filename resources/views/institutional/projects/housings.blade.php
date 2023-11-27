@@ -38,6 +38,7 @@
                                 <th class="sort" data-sort="squaremeters">Metrekare (m<sup>2</sup>)</th>
                                 <th class="sort" data-sort="price">Fiyat</th>
                                 <th class="sort" data-sort="sold">Satış Durumu</th>
+                                <th class="sort" data-sort="sold">İşlemler</th>
                             </tr>
                         </thead>
                         <tbody class="list" id="products-table-body">
@@ -93,7 +94,7 @@
                                         {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}₺
                                     </td>
                                     <td class="sold">
-                                        @if (getData($project, 'off_sale[]', $i + 1)->value != "[]")
+                                    @if (getData($project, 'off_sale[]', $i + 1)->value != "[]")
                                             <button class="btn btn-danger">Satışa Kapatıldı</button>
                                             <p style="color: red;margin-top:10px;width:200px;">Alıcılara satıldı olarak gözükecektir.</p>
                                         @else
@@ -108,7 +109,11 @@
                                             @endif
                                         @endif
                                     </td>
-                                    
+                                   
+                                    <td class="price">
+                                        <a href="{{route('institutional.projects.edit.housing',["project_id" => $project->id ,"room_order" => $i+1])}}" class="badge badge-phoenix badge-phoenix-primary">Düzenle</a>
+                                        <a href="" class="badge badge-phoenix badge-phoenix-danger">Sil</a>
+                                    </td>
                                 </tr>
                             @endfor
                         </tbody>

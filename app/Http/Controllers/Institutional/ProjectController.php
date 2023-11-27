@@ -38,7 +38,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
+use Throwable;
 
 class ProjectController extends Controller
 {
@@ -61,6 +63,78 @@ class ProjectController extends Controller
         return view('institutional.projects.housings', compact('menu', "offer", 'project'));
 
     }
+
+    public function editHousing($projectId,$roomOrder){
+        $project = Project::where('id',$projectId)->first();
+        $housingType = HousingType::where('id',$project->housing_type_id)->first();
+        $housing = ProjectHousing::where('project_id',$projectId)->where('room_order',$roomOrder)->get();
+        return view('institutional.projects.housing_edit',compact('project','housingType','housing','roomOrder'));
+    }
+
+    public function editHousingPost(Request $request,$projectId,$roomOrder){
+        try{
+            $project = Project::where('id', $projectId)->first();
+            $housingType = HousingType::where('id', $project->housing_type_id)->firstOrFail();
+            $housingTypeInputs = json_decode($housingType->form_json);
+            if ($request->file('image')) {
+                ProjectHousing::where('project_id', $projectId)->where('name', '!=', 'images[]')->where('room_order','=',$roomOrder)->delete();
+            } else {
+                ProjectHousing::where('project_id', $projectId)->where('name', '!=', 'images[]')->where('name', '!=', 'image[]')->where('room_order','=',$roomOrder)->delete();
+            }
+            for ($i = 0; $i < 1; $i++) {
+                for ($j = 0; $j < count($housingTypeInputs); $j++) {
+                    if ($housingTypeInputs[$j]->type == "file") {
+                        if ($request->hasFile(substr($housingTypeInputs[$j]->name, 0, -2))) {
+                            $images = $request->file(substr($housingTypeInputs[$j]->name, 0, -2));
+    
+                            foreach ($images as $key => $image) {
+                                if ($image->isValid()) {
+                                    $imageName = Str::slug(Str::slug($request->input('name'))) . '-' . ($key + 1) . time() . '.' . $image->getClientOriginalExtension();
+                                    $image->move(public_path('/project_housing_images'), $imageName);
+                                    ProjectHousing::create([
+                                        "key" => $housingTypeInputs[$j]->label,
+                                        "name" => $housingTypeInputs[$j]->name,
+                                        "value" => $imageName,
+                                        "project_id" => $project->id,
+                                        "room_order" => $roomOrder,
+                                    ]);
+                                } else {
+    
+                                }
+                            }
+                        }
+                    } else {
+                        if ($housingTypeInputs[$j]->type != "checkbox-group") {
+                            if (isset($housingTypeInputs[$j]->name) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null) {
+                                ProjectHousing::create([
+                                    "key" => $housingTypeInputs[$j]->label,
+                                    "name" => $housingTypeInputs[$j]->name,
+                                    "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2))) ? $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0] : $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0],
+                                    "project_id" => $project->id,
+                                    "room_order" => $roomOrder,
+                                ]);
+                            }
+                        } else {
+                            ProjectHousing::create([
+                                "key" => $housingTypeInputs[$j]->label,
+                                "name" => $housingTypeInputs[$j]->name,
+                                "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1))) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($roomOrder))) ? json_encode($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($roomOrder))) : '',
+                                "project_id" => $project->id,
+                                "room_order" => $roomOrder,
+                            ]);
+                        }
+    
+                    }
+                }
+            }
+
+            return redirect()->route('institutional.projects.housings',$project->id);
+        }catch(Throwable $e){
+            return Redirect::back()->withErrors(['msg' => $e->getMessage()]);
+        }
+        
+    }
+
     public function index()
     {
         $bankAccounts = BankAccount::all();
@@ -327,6 +401,7 @@ class ProjectController extends Controller
                 "room_count" => $houseCount,
                 "city_id" => $tempOrder->city_id,
                 "county_id" => $tempOrder->county_id,
+                "neighbourhood_id" => $tempOrder->neighbourhood_id,
                 "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
                 "status_id" => 1,
                 "image" => 'public/project_images/'.$newCoverImage,

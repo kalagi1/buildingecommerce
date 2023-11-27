@@ -42300,3 +42300,40 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     color: #fff;
     margin: 10px 0;
 }
+
+.admin-house-count{
+    display: flex;
+    align-items: center;
+}
+
+.admin-house-count p{
+    padding: 5px 10px;
+    background: blue;
+    color: #fff;
+    margin-left: 5px;
+    border-radius: 5px;
+}
+
+.admin-blocks ul{
+    padding: 0;
+    display: flex;
+}
+
+.admin-blocks li{
+    padding: 5px 0;
+    list-style: none;
+    width: 120px;
+    border: 1px solid #ea2a28;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #ea2a28;
+    margin: 0 5px;
+}
+
+.admin-blocks li.active{
+    background: #ea2a28;
+    color: #fff;
+}
