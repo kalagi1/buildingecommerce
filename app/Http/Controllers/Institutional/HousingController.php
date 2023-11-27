@@ -122,7 +122,11 @@ class HousingController extends Controller
                 $location = explode(',', $tempOrder->location);
                 $latitude = $location[0];
                 $longitude = $location[1];
-                $tempOrder->roomInfoKeys->price = str_replace('.','',$tempOrder->roomInfoKeys->price);
+                if(isset($tempOrder->roomInfoKeys->price))
+                {
+                    $tempOrder->roomInfoKeys->price = str_replace('.','',$tempOrder->roomInfoKeys->price);
+
+                }
                 if(isset($tempOrder->roomInfoKeys->{"daily_rent"})){
                     $tempOrder->roomInfoKeys->daily_rent = str_replace('.','',$tempOrder->roomInfoKeys->daily_rent);
                 }

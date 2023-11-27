@@ -3,7 +3,7 @@
 @section('content')
     <div class="content">
         <div id="tableExample"
-        data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
+        data-list='{"valueNames":["name","email","age"],"page":20,"pagination":true}'>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
 
             <div class="table-responsive scrollbar mx-n1 px-1">

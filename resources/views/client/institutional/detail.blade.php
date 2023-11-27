@@ -333,7 +333,7 @@
         .product-review-container__redirect__span-wrapper p {
             font-family: source_sans_proregular, sans-serif;
             font-style: normal;
-            font-size: 14px;
+            font-size: 12px;
             overflow: hidden;
             text-overflow: ellipsis;
             margin: 0;

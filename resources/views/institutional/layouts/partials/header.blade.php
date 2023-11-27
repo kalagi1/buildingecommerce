@@ -74,6 +74,25 @@
     <link href="{{ URL::to('/') }}/adminassets/vendors/leaflet.markercluster/MarkerCluster.Default.css"
         rel="stylesheet">
     @yield('css')
+    <style>
+ .mobile-show {
+        display: none !important;
+    }
+
+    .mobile-hidden {
+        display: block !important;
+    }
+
+    @media (max-width: 768px) {
+        .mobile-show {
+        display: block !important;
+    }
+    .mobile-hidden {
+        display: show !important;
+    }
+    }
+
+        </style>
 </head>
 
 <body>
@@ -377,7 +396,10 @@
                     <li class="nav-item" style="margin-right:10px">
                         <a href="{{ url('institutional/choise-advertise-type') }}">
                             <button type="button" class="buyUserRequest">
-                                <span class="buyUserRequest__text"> İlan Ekle</span>
+                                <span class="buyUserRequest__text"> 
+                                    <div class="mobile-show"><i class="fa fa-plus"></i></div>
+                                    <div class="mobile-hidden">İlan Ekle</div>
+                                </span>
                                 <span class="buyUserRequest__icon">
                                     <img src="{{ asset('sc.png') }}" alt="" srcset="">
                                 </span>

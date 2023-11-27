@@ -1028,7 +1028,7 @@ html {
 }
 
 body {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 h1,
@@ -1070,7 +1070,7 @@ h4 {
 }
 
 h5 {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 h6 {
@@ -1156,7 +1156,7 @@ figure {
 .ps-document ul li,
 .ps-document ol li {
     color: #666;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.6em;
 }
 
@@ -1206,7 +1206,7 @@ figure {
 .ps-document blockquote p {
     margin-bottom: 0;
     font-family: "Libre Baskerville", serif;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     line-height: 1.8em;
     color: #666;
@@ -1226,7 +1226,7 @@ figure {
     margin-bottom: 0;
     text-align: center;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 12px;
     color: #000;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -1454,7 +1454,7 @@ body {
     position: relative;
     display: block;
     padding-left: 30px;
-    font-size: 14px;
+    font-size: 12px;
     color: #313131;
 }
 
@@ -1520,7 +1520,7 @@ body {
     display: block;
     padding-left: 15px;
     font-family: "Work Sans", sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     letter-spacing: 0.5px;
     color: #626262;
 }
@@ -2106,7 +2106,7 @@ button.ps-btn:active.ps-btn--black {
 
 #back2top i {
     z-index: 10001;
-    font-size: 14px;
+    font-size: 12px;
     margin-bottom: -2px;
     color: #000;
 }
@@ -2126,7 +2126,7 @@ button.ps-btn:active.ps-btn--black {
 .form-control {
     outline: none;
     height: 50px;
-    font-size: 14px;
+    font-size: 12px;
     padding: 0 20px;
     border: none;
     height: 50px;
@@ -2622,7 +2622,7 @@ textarea.form-control {
 }
 
 .tooltip .tooltip-inner {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .form-group {
@@ -2713,7 +2713,7 @@ textarea.form-control {
     height: 40px;
     padding: 0 25px;
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
     color: #000;
     border-radius: 50px;
     background-color: transparent;
@@ -3412,7 +3412,7 @@ textarea.form-control {
     }
 
     .ps-post--detail .ps-post__header p {
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
@@ -3504,7 +3504,7 @@ textarea.form-control {
     background-color: #f5f5f5;
     color: #000;
     vertical-align: middle;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .pagination li>a i {
@@ -3568,7 +3568,7 @@ textarea.form-control {
 
 .ps-breadcrumb .breadcrumb li {
     display: inline-block;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
     color: #000;
 }
@@ -3627,7 +3627,7 @@ textarea.form-control {
 
 .ps-breadcrumb--2 .breadcrumb li {
     display: inline-block;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
     color: black;
 }
@@ -3705,7 +3705,7 @@ textarea.form-control {
     }
 
     .ps-block--download-app p {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .ps-block--download-app .download-link {
@@ -4260,7 +4260,7 @@ textarea.form-control {
 
 .ps-block--testimonial .ps-block__content h4 span {
     margin-left: 10px;
-    font-size: 14px;
+    font-size: 12px;
     color: #999999;
 }
 
@@ -4959,7 +4959,7 @@ textarea.form-control {
 
     .ps-block--categories-box .ps-block__item p {
         margin-bottom: 0;
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .ps-block--categories-box .ps-block__header h3 {
@@ -5197,7 +5197,7 @@ textarea.form-control {
 
 .ps-block--menu-categories .ps-list--menu-cateogories .sub-menu>li>a {
     padding: 5px 0;
-    font-size: 14px;
+    font-size: 12px;
     color: #666;
     border-bottom: none;
 }
@@ -5298,7 +5298,7 @@ textarea.form-control {
     margin-bottom: 16px;
     font-weight: 600;
     color: #333333;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .ps-block--comment>.ps-block__content h5 small {
@@ -5392,7 +5392,7 @@ textarea.form-control {
     }
 
     .ps-block--icon-box p {
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
@@ -5657,7 +5657,7 @@ textarea.form-control {
     }
 
     .ps-block--vendor-milestone .ps-block__left ul li {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .ps-block--vendor-milestone .ps-block__right {
@@ -5784,7 +5784,7 @@ textarea.form-control {
 .ps-block--shopping-total .ps-block__product .ps-block__estimate a {
     display: block;
     margin-left: 40px;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .ps-block--shopping-total h3 {
@@ -5861,7 +5861,7 @@ textarea.form-control {
 .ps-block--bought-toggether .ps-block__total .ps-btn {
     padding: 10px 20px;
     margin-bottom: 10px;
-    font-size: 14px;
+    font-size: 12px;
     min-width: 180px;
     text-align: center;
     font-weight: 500;
@@ -6036,7 +6036,7 @@ textarea.form-control {
 .ps-block--promotion-header .ps-btn {
     background-color: #f14705;
     color: #ffffff;
-    font-size: 14px;
+    font-size: 12px;
     padding: 8px 20px;
 }
 
@@ -6392,7 +6392,7 @@ textarea.form-control {
 
 .ps-block--icon p {
     margin-bottom: 0;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.2em;
 }
 
@@ -6417,7 +6417,7 @@ textarea.form-control {
 }
 
 .ps-block--top-photographer .ps-block__header p {
-    font-size: 14px;
+    font-size: 12px;
     color: #666;
 }
 
@@ -6465,7 +6465,7 @@ textarea.form-control {
 }
 
 .ps-block--top-photographer .ps-block__footer a i {
-    font-size: 14px;
+    font-size: 12px;
     margin-left: 6px;
 }
 
@@ -6715,7 +6715,7 @@ textarea.form-control {
     border-radius: 5px;
     color: #fff;
     background-color: #f05025;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .ps-block--store-banner .ps-block__content {
@@ -6894,7 +6894,7 @@ textarea.form-control {
 }
 
 .ps-block--checkout-order figure figcaption strong {
-    font-size: 14px;
+    font-size: 12px;
     color: #000;
     font-weight: 600;
     text-transform: uppercase;
@@ -6921,7 +6921,7 @@ textarea.form-control {
 }
 
 .ps-block--checkout-order .ps-block__items>a small {
-    font-size: 14px;
+    font-size: 12px;
     color: #000;
 }
 
@@ -7013,7 +7013,7 @@ textarea.form-control {
     }
 
     .ps-block--shipping figure small {
-        font-size: 14px;
+        font-size: 12px;
         max-width: 10em;
     }
 
@@ -7387,7 +7387,7 @@ textarea.form-control {
 
 .widget_shop .ps-checkbox small {
     color: #999999;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .widget_shop .ps-checkbox input[type=checkbox]:checked~label {
@@ -7580,7 +7580,7 @@ textarea.form-control {
     margin-right: 10px;
     margin-bottom: 10px;
     padding: 5px 15px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 15px;
     color: #303030;
     background-color: transparent;
@@ -7716,7 +7716,7 @@ textarea.form-control {
 }
 
 .widget_best-sale .ps-product--horizontal .ps-product__price {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .widget_best-sale .ps-product--horizontal .ps-product__price del {
@@ -8665,7 +8665,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     top: 0;
     right: 0;
     color: #fff;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     line-height: 20px;
     padding: 5px 10px;
@@ -8686,7 +8686,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     margin: 0;
     display: block;
     padding: 0 0 5px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.2em;
     color: #06c;
     --max-lines: 2;
@@ -8843,7 +8843,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-product--wide .ps-product__vendor {
     text-transform: none;
-    font-size: 14px;
+    font-size: 12px;
     border: none;
 }
 
@@ -8982,7 +8982,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .ps-product--horizontal .ps-product__title {
     margin: 0;
     padding: 0 0 5px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.2em;
     color: #06c;
 }
@@ -9254,7 +9254,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-product--detail .ps-product__meta .ps-product__rating .br-wrapper a {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .ps-product--detail .ps-product__meta .ps-product__rating span {
@@ -9317,13 +9317,13 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-product--detail .ps-product__desc .ps-tag--in-stock {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .ps-product--detail .ps-product__desc .ps-tag--out-stock {
     color: #EA2B2E;
     text-transform: none;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .ps-product--detail .ps-product__desc ul {
@@ -9672,7 +9672,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-product--detail .ps-product__variations figure figcaption {
     margin-bottom: 15px;
-    font-size: 14px;
+    font-size: 12px;
     color: #666;
     font-weight: 400;
 }
@@ -9792,7 +9792,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 @media (max-width: 767px) {
     .ps-product--detail .ps-product__countdown figure figcaption {
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 500;
         line-height: 1.6em;
     }
@@ -10385,7 +10385,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     .ps-product--hot-deal .ps-countdown li span {
         width: 40px;
         height: 40px;
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
@@ -10406,7 +10406,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     .ps-product--hot-deal .ps-countdown li span {
         width: 30px;
         height: 30px;
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .ps-product--hot-deal .ps-countdown p {
@@ -10458,7 +10458,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .ps-product--full-content .ps-product__price-right .ps-product__actions a {
     display: block;
     margin-right: 0;
-    font-size: 14px;
+    font-size: 12px;
     text-align: center;
     color: #666;
 }
@@ -10543,7 +10543,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-product--cart-mobile .ps-product__content small {
-    font-size: 14px;
+    font-size: 12px;
     color: #000;
 }
 
@@ -10684,7 +10684,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .ps-product--header-sticky .ps-product__price del {
     display: block;
     color: #666;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .ps-product--header-sticky .ps-product__thumbnail {
@@ -11668,7 +11668,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 @media (max-width: 767px) {
     .ps-table--product-groupped .title {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .ps-table--product-groupped tbody tr td {
@@ -11684,7 +11684,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-table--vendor thead tr th {
     padding: 10px 16px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     color: #000;
     background-color: #f4f4f4;
@@ -12311,7 +12311,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-form--review .form-group__rating .br-wrapper a {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .ps-form--review .form-group__rating .br-wrapper.br-theme-fontawesome-stars .br-widget {
@@ -12595,7 +12595,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-form--vendor-datetimepicker .input-group .input-group-text {
     padding: 0 20px;
-    font-size: 14px;
+    font-size: 12px;
     min-width: 60px;
     text-align: center;
     font-weight: 500;
@@ -12681,22 +12681,22 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-form--photo-search .form-group--icon input::-webkit-input-placeholder {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .ps-form--photo-search .form-group--icon input::-moz-placeholder {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .ps-form--photo-search .form-group--icon input:-moz-placeholder {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .ps-form--photo-search .form-group--icon input:-ms-input-placeholder {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .ps-form--photo-search .ps-form__content {
@@ -12964,7 +12964,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-section--vendor .ps-section__header p {
-        font-size: 14px;
+        font-size: 12px;
         margin-bottom: 10px;
     }
 
@@ -13533,7 +13533,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-search-trending .ps-section__header h3 span {
-    font-size: 14px;
+    font-size: 12px;
     margin-left: 10px;
     color: #666;
 }
@@ -13768,7 +13768,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-about-intro .ps-section__header p {
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
@@ -13900,7 +13900,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-about-awards .ps-section__header p {
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
@@ -14215,7 +14215,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-vendor-best-fees .ps-section__desc ul li {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .ps-vendor-best-fees .ps-section__highlight {
@@ -14228,7 +14228,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-vendor-best-fees .ps-section__highlight figure p {
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
@@ -14360,7 +14360,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-order-tracking .ps-section__header p {
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
@@ -14581,7 +14581,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-vendor-dashboard .ps-section__header p {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .ps-vendor-dashboard .ps-section__links li {
@@ -15124,7 +15124,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 #homepage-1 .ps-deal-of-day .ps-product .ps-product__price del {
     margin-left: 10px;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 #homepage-1 .ps-deal-of-day .ps-product .ps-product__price small {
@@ -15373,7 +15373,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-page--404 p {
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
@@ -15666,7 +15666,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     display: inline-block;
     padding: 6px 20px;
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     color: #000;
     text-transform: capitalize;
     transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
@@ -15747,7 +15747,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     color: #000;
     line-height: 20px;
     padding: 5px 0;
-    font-size: 14px;
+    font-size: 12px;
     background-color: transparent;
 }
 
@@ -16328,7 +16328,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .header--standard .header__top-links .ps-block--user-header .ps-block__left i {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .header--standard .header__top-links .ps-block--user-header .ps-block__right a {
@@ -16737,7 +16737,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     justify-content: center;
     height: 30px;
     background-color: transparent;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .header--mobile-categories .header__filter button:after {

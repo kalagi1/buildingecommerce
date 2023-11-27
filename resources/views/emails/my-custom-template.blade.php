@@ -83,7 +83,7 @@
 
     .menu li a {
         font-weight: bold;
-        font-size: 14px;
+        font-size: 12px;
         line-height: 19px;
         color: #252525;
         text-transform: capitalize;
@@ -147,7 +147,7 @@
 
     .pera {
         font-weight: 600;
-        font-size: 14px;
+        font-size: 12px;
         line-height: calc(21px + (23 - 21) * ((100vw - 320px) / (1920 - 320)));
         text-align: center;
         color: #939393;

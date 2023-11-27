@@ -54,8 +54,8 @@ class LoginController extends Controller
                         return redirect()->intended('/admin'); // Admin paneline yönlendir
                     } elseif ($user->type != 1 && $user->type != "3") {
                         // Giriş başarılı
-                        return redirect()->intended('/institutional'); // Admin paneline yönlendir
-                    } else {
+                        return redirect()->intended(route('index'));
+                                        } else {
                         // Oturumda saklanan sepeti kontrol et
                         $cart = session('cart', []);
                         if (count($cart) != 0) {
@@ -67,8 +67,9 @@ class LoginController extends Controller
 
             }
         }else{
-            return redirect()->back()->withInput()->withErrors(['login_error' => "Giriş başarısız. Lütfen bilgilerinizi kontrol edin."]);
+            session()->flash('warning', 'Giriş Başarısız. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
 
+            return redirect()->route('client.login');
         }
 
     }
