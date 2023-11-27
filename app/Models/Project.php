@@ -98,4 +98,8 @@ class Project extends Model
     public function confirmDopingOrder(){
         return $this->hasOne(DopingOrder::class,"project_id","id")->where('status',0);
     }
+
+    public function blocks(){
+        return $this->hasMany(Block::class,"project_id","id");
+    }
 }

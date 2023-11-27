@@ -156,25 +156,25 @@
                                 @endforeach
                             </ul>
                         </div>
-                        <div class="area-list @if(isset($tempDataFull->data) && $tempData->step1_slug) active @endif">
+                        <div class="area-list @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && $tempData->step1_slug) active @endif">
                             <ul>
-                                @if(isset($tempDataFull->data) && $tempData->step1_slug)
+                                @if(isset($tempDataFull->data) && isset($tempData->step1_slug) &&$tempData->step1_slug)
                                     @foreach($secondAreaList as $secondAreaItem)
                                         <li @if($tempData->step2_slug == $secondAreaItem->slug) class="selected" @endif slug="{{$secondAreaItem->slug}}">{{$secondAreaItem->title}}</li>
                                     @endforeach
                                 @endif
                             </ul>
                         </div>
-                        <div class="area-list @if(isset($tempDataFull->data) && $tempData->step2_slug) active @endif">
+                        <div class="area-list @if(isset($tempDataFull->data) && isset($tempData->step2_slug) && $tempData->step2_slug) active @endif">
                             <ul>
-                                @if(isset($tempDataFull->data) && $tempData->step1_slug && $tempData->step2_slug)
+                                @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
                                     @foreach($housingTypes as $housingType)
                                         <li @if($tempData->step3_slug == $housingType->slug) class="selected" @endif slug="{{$housingType->slug}}">{{$housingType->title}}</li>
                                     @endforeach
                                 @endif
                             </ul>
                         </div>
-                        <div class="area-list @if(isset($tempDataFull->data) && $tempData->step3_slug) active @endif">
+                        <div class="area-list @if(isset($tempDataFull->data) && isseT($tempData->step3_slug) && $tempData->step3_slug) active @endif">
                             <div class="finish-category-select">
                                 <div class="finish-icon-area">
                                     <i class="fa fa-check"></i>

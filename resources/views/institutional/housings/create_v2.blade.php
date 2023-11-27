@@ -8,13 +8,13 @@
             </div>
             <div class="pop-content">
                 <div class="pop-content-inner">
-                    <h2 class="text-center">Proje üzerinde önceden bir düzenleme yapmışsınız</h2>
+                    <h2 class="text-center">Önceden ilan vermeye başlamışsınız. Kaldığınız yerden devam etmek ister misiniz?</h2>
                     <div class="choises">
                         <div class="choise choise-1">
                             Kaldığım Yerden Devam Et
                         </div>
                         <div class="choise choise-2">
-                            Yeni Proje Oluştur
+                            Yeni İlan Oluştur
                         </div>
                     </div>
                 </div>

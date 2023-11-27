@@ -38,6 +38,7 @@
                                 <th class="sort" data-sort="squaremeters">Metrekare (m<sup>2</sup>)</th>
                                 <th class="sort" data-sort="price">Fiyat</th>
                                 <th class="sort" data-sort="sold">Satış Durumu</th>
+                                <th class="sort" data-sort="sold">İşlemler</th>
                             </tr>
                         </thead>
                         <tbody class="list" id="products-table-body">
@@ -94,14 +95,19 @@
                                     </td>
                                     <td class="sold">
                                         @if ($sold && $sold[0]->status == 1)
-                                            <button class="btn btn-danger">Satıldı</button>
+                                            <button class="badge badge-phoenix badge-phoenix-danger">Satıldı</button>
                                         @elseif ($sold && $sold[0]->status == 0)
-                                            <button class="btn btn-warning">Ödeme Bekleniyor</button>
+                                            <button class="badge badge-phoenix badge-phoenix-warning">Ödeme Bekleniyor</button>
                                         @elseif ($sold && $sold[0]->status == 2)
-                                            <button class="btn btn-success">Tekrar Satışta</button>
+                                            <button class="badge badge-phoenix badge-phoenix-success">Tekrar Satışta</button>
                                         @else
-                                            <button class="btn btn-success">Satışa Açık</button>
+                                            <button class="badge badge-phoenix badge-phoenix-success">Satışa Açık</button>
                                         @endif
+                                    </td>
+                                   
+                                    <td class="price">
+                                        <a href="{{route('institutional.projects.edit.housing',["project_id" => $project->id ,"room_order" => $i+1])}}" class="badge badge-phoenix badge-phoenix-primary">Düzenle</a>
+                                        <a href="" class="badge badge-phoenix badge-phoenix-danger">Sil</a>
                                     </td>
                                 </tr>
                             @endfor
