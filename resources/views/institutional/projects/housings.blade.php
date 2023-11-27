@@ -56,7 +56,7 @@
                                             style="height: 100px !important;object-fit:cover">
                                     </td>
                                     <td class="image">
-                                        {{getData($project, 'advertise-title[]', $i + 1)->value }}
+                                        {{getData($project, 'advertise_title[]', $i + 1)->value }}
                                     </td>
                                     @if(isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
                                         <td class="room_count">
@@ -100,7 +100,7 @@
                                     <td class="sold">
                                     @if (getData($project, 'off_sale[]', $i + 1)->value != "[]")
                                             <button class="btn btn-danger">Satışa Kapatıldı</button>
-                                            <p style="color: red;margin-top:10px;width:200px;">Alıcılara satıldı olarak gözükecektir.</p>
+                                            <p style="color: red;margin-top:10px;width:200px;">Alıcılara satışa kapalı olarak gözükecektir.</p>
                                         @else
                                             @if ($sold && $sold[0]->status == 1)
                                                 <button class="btn btn-danger">Satıldı</button>

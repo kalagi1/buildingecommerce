@@ -71,6 +71,11 @@ class Project extends Model
         return $this->hasOne(District::class, "ilce_key", "county_id");
     }
 
+    public function blocks()
+    {
+        return $this->hasMany(Block::class);
+    }
+
     public function favorites()
     {
         return $this->belongsToMany(User::class, 'project_favorites', 'project_id', 'user_id');
