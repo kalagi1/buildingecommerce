@@ -118,7 +118,7 @@ class ProjectController extends Controller
                             ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
-                                "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1))) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($roomOrder))) ? json_encode($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($roomOrder))) : '[]',
+                                "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1))) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($roomOrder))) ? json_encode(array_reduce($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($roomOrder)), 'array_merge', [])) : '[]',
                                 "project_id" => $project->id,
                                 "room_order" => $roomOrder,
                             ]);
