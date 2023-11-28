@@ -232,7 +232,7 @@ class ProjectController extends Controller
                 });
 
                 $anotherProjects = $query->get();
-                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
+                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('item_id', $oncelikliProjeler)
                     ->orderBy('id', 'asc')
                     ->get()
                     ->concat($anotherProjects);
@@ -339,7 +339,7 @@ class ProjectController extends Controller
         $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
-        $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
+        $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
         return view('client.projects.project_housing', compact('menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 

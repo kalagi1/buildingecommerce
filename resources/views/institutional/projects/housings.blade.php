@@ -115,7 +115,7 @@
                                     </td>
                                    
                                     <td class="price">
-                                        <a href="{{route('institutional.projects.edit.housing',["project_id" => $project->id ,"room_order" => $i+1])}}" class="badge badge-phoenix badge-phoenix-primary">Düzenle</a>
+                                        <a href="{{route('institutional.projects.edit.housing',["project_id" => $project->id ,"room_order" => $i+1])}}" class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a>
                                         <a href="{{route('institutional.projects.delete.housing',["project_id" => $project->id ,"room_order" => $i+1])}}" class="badge badge-phoenix badge-phoenix-danger">Sil</a>
                                     </td>
                                 </tr>

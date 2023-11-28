@@ -224,6 +224,7 @@ class ProjectController extends Controller
             return $project;
         });
 
+
         return view('institutional.projects.index', compact('projects', 'bankAccounts'));
     }
 

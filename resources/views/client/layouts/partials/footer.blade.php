@@ -161,7 +161,7 @@
   position: absolute;
   top: 0;
   left: 60px;
-  padding: 3px;
+  padding: 0;
   border-style: solid;
   border-width: 2px;
 }

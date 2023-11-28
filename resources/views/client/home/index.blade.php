@@ -239,7 +239,7 @@
                                         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                             <a style="text-decoration: none;height:100%"
-                                                href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+                                                href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}">
                                                 <h3>
                                                     @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
@@ -654,7 +654,7 @@
                                         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                             <a style="text-decoration: none;height:100%"
-                                                href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+                                                href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}">
                                                 <h3>
                                                     @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
@@ -1067,7 +1067,7 @@
                                         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                             <a style="text-decoration: none;height:100%"
-                                                href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'squaremeters[]', $i + 1)->room_order]) }}">
+                                                href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}">
                                                 <h3>
                                                     @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
@@ -2327,7 +2327,7 @@
         $('.finish-projects-web').slick({
             infinite: false,
             slidesToShow: 4,
-            slidesToScroll: 1,
+            slidesToScroll: 4,
             dots: false,
             arrows: true,
             adaptiveHeight: true,
@@ -2364,7 +2364,7 @@
         $('.continue-projects-web').slick({
             infinite: false,
             slidesToShow: 4,
-            slidesToScroll: 1,
+            slidesToScroll: 4,
             dots: false,
             arrows: true,
             adaptiveHeight: true,
@@ -2401,7 +2401,7 @@
         $('.secondhand-housings-web').slick({
             infinite: false,
             slidesToShow: 4,
-            slidesToScroll: 1,
+            slidesToScroll: 4,
             dots: false,
             arrows: true,
             adaptiveHeight: true,
