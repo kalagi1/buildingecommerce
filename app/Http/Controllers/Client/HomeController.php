@@ -18,7 +18,6 @@ use App\Models\User;
 use App\Models\CartOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class HomeController extends Controller
@@ -59,7 +58,6 @@ class HomeController extends Controller
         ->orderByDesc('doping_time')
         ->orderByDesc('housings.created_at')
         ->get();
-        
 
 
         $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))->where('end_date', ">=", date("Y-m-d"))->where('item_type',1)->orderByDesc("created_at")->where('housing_type_id',0)->get();
@@ -68,41 +66,30 @@ class HomeController extends Controller
         $sliders = Slider::all();
         $footerSlider = FooterSlider::all();
 
-        $finishProjects = Cache::rememberForever('users', function () {
-            $project = Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
-            ->with("city", "county")
-            ->whereHas('housingStatus', function ($query) {
-                $query->where('housing_type_id', '2');
-            })->with("housings", 'brand', 'roomInfo','listItemValues', 'housingType')
-            ->orderBy("doping_time", "desc")
-            ->orderBy("created_at", "desc")
-            ->where('status', 1)
-            ->get();
 
-            $project->city;
-            $project->county;
-        });
-        
+        $finishProjects = Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
+        ->with("city", "county")
+        ->whereHas('housingStatus', function ($query) {
+            $query->where('housing_type_id', '2');
+        })->with("housings", 'brand', 'roomInfo','listItemValues', 'housingType')
+        ->orderBy("doping_time", "desc")
+        ->orderBy("created_at", "desc")
+        ->where('status', 1)
+        ->get();
 
-        $continueProjects = Cache::rememberForever('users', function () {
-            return  Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
-            ->with("city", "county")
-            ->whereHas('housingStatus', function ($query) {
-                $query->where('housing_type_id', '3');
-            })->with("housings", 'brand', 'roomInfo', 'housingType')
-            ->where('status', 1)
-            ->orderBy("created_at", "desc")
-            ->get();
-        });
 
-        $continueProjects = Cache::rememberForever('users', function () {
-            return Project::with("city", "county")->whereHas('housingStatus', function ($query) {
-                $query->where('housing_type_id', '5');
-            })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
-        });
-        
+        $continueProjects = Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
+        ->with("city", "county")
+        ->whereHas('housingStatus', function ($query) {
+            $query->where('housing_type_id', '3');
+        })->with("housings", 'brand', 'roomInfo', 'housingType')
+        ->where('status', 1)
+        ->orderBy("created_at", "desc")
+        ->get();
 
-        
+        $soilProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
+            $query->where('housing_type_id', '5');
+        })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
         return view('client.home.index', compact('menu', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 
