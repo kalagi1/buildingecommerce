@@ -405,7 +405,7 @@
                                 <div class="list">
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         @php
-                                            $room_order = getData($project, 'squaremeters[]', $i + 1)->room_order;
+                                            $room_order = $i + 1;
                                             $discount_amount =
                                                 App\Models\Offer::where('type', 'project')
                                                     ->where('project_id', $project->id)
@@ -453,7 +453,7 @@
                                                     <div class="d-flex align-items-center">
                                                         <div class="d-flex" style="gap: 8px;">
                                                             <span class="btn toggle-project-favorite bg-white"
-                                                                data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                data-project-housing-id="{{ $i + 1 }}"
                                                                 data-project-id="{{ $project->id }}">
                                                                 <i class="fa fa-heart-o"></i>
                                                             </span>
@@ -937,7 +937,7 @@
                                                                                                                         <div class="button-effect">
                                                                                                                             <div href="javascript:void()"
                                                                                                                                 class="btn toggle-project-favorite bg-white"
-                                                                                                                                data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                                                                                data-project-housing-id="{{ $i + 1 }}"
                                                                                                                                 data-project-id={{ $project->id }}>
                                                                                                                                 <i class="fa fa-heart-o"></i>
                                                                                                                             </div>
@@ -948,7 +948,7 @@
                                                                                                                                 alt="home-1"
                                                                                                                                 class="img-responsive"
                                                                                                                                 style="height: 120px !important;object-fit:cover">
-                                                                                                                            @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                            @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                                 <div
                                                                                                                                     style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
                                                                                                                                     <div
@@ -1057,7 +1057,7 @@
                                                                                                                                 @if (getData($project, 'off_sale[]', $i + 1)->value == '[]')
                                                                                                                                     @if ($sold)
                                                                                                                                         @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                                                                                            @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                                            @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                                                 <h6
                                                                                                                                                     style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
                                                                                                                                                     {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
@@ -1077,7 +1077,7 @@
                                                                                                                                             @endif
                                                                                                                                         @endif
                                                                                                                                     @else
-                                                                                                                                        @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                                        @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                                             <h6
                                                                                                                                                 style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
                                                                                                                                                 {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
@@ -1117,7 +1117,7 @@
                                                                                                                         @if (getData($project, 'off_sale[]', $i + 1)->value == '[]')
                                                                                                                             @if ($sold)
                                                                                                                                 @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                                                                                    @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                                    @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                                         <h6
                                                                                                                                             style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                                                             {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
@@ -1136,7 +1136,7 @@
                                                                                                                                     @endif
                                                                                                                                 @endif
                                                                                                                             @else
-                                                                                                                                @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                                @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                                     <h6
                                                                                                                                         style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                                                         {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
@@ -1228,7 +1228,7 @@
                                                                             <div class="container">
                                                                                 @for (; $i < $blockHousingCount; $i++)
                                                                                     @php
-                                                                                        $room_order = getData($project, 'squaremeters[]', $i + 1)->room_order;
+                                                                                        $room_order = $i + 1;
                                                                                         $discount_amount =
                                                                                             App\Models\Offer::where('type', 'project')
                                                                                                 ->where('project_id', $project->id)
@@ -1276,7 +1276,7 @@
                                                                                                     <div class="d-flex" style="gap: 8px;">
                                                                                                         <span
                                                                                                             class="btn toggle-project-favorite bg-white"
-                                                                                                            data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                                                            data-project-housing-id="{{ $i + 1 }}"
                                                                                                             style="color: white;"
                                                                                                             data-project-id="{{ $project->id }}">
                                                                                                             <i class="fa fa-heart-o-o"></i>
@@ -1419,7 +1419,7 @@
                                                                                                     <div class="button-effect">
                                                                                                         <div href="javascript:void()"
                                                                                                             class="btn toggle-project-favorite bg-white"
-                                                                                                            data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                                                            data-project-housing-id="{{ $i + 1 }}"
                                                                                                             data-project-id={{ $project->id }}>
                                                                                                             <i class="fa fa-heart-o"></i>
                                                                                                         </div>
@@ -1429,7 +1429,7 @@
                                                                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
                                                                                                             alt="home-1" class="img-responsive"
                                                                                                             style="height: 120px !important;object-fit:cover">
-                                                                                                        @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                        @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                             <div
                                                                                                                 style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
                                                                                                                 <div
@@ -1527,7 +1527,7 @@
                                                                                                             @if (getData($project, 'off_sale[]', $i + 1)->value == '[]')
                                                                                                                 @if ($sold)
                                                                                                                     @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                                                                        @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                        @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                             <h6
                                                                                                                                 style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
                                                                                                                                 {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
@@ -1547,7 +1547,7 @@
                                                                                                                         @endif
                                                                                                                     @endif
                                                                                                                 @else
-                                                                                                                    @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                    @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                         <h6
                                                                                                                             style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
                                                                                                                             {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
@@ -1586,7 +1586,7 @@
                                                                                                     @if (getData($project, 'off_sale[]', $i + 1)->value == '[]')
                                                                                                         @if ($sold)
                                                                                                             @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                                                                @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                     <h6
                                                                                                                         style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                                         {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
@@ -1605,7 +1605,7 @@
                                                                                                                 @endif
                                                                                                             @endif
                                                                                                         @else
-                                                                                                            @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                            @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                 <h6
                                                                                                                     style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                                     {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
@@ -1686,7 +1686,7 @@
                                                         <div class="container">
                                                             @for ($i = 0; $i < $project->room_count; $i++)
                                                                 @php
-                                                                    $room_order = getData($project, 'squaremeters[]', $i + 1)->room_order;
+                                                                    $room_order = $i + 1;
                                                                     $discount_amount =
                                                                         App\Models\Offer::where('type', 'project')
                                                                             ->where('project_id', $project->id)
@@ -1728,7 +1728,7 @@
                                                                             <div class="d-flex align-items-center">
                                                                                 <div class="d-flex" style="gap: 8px;">
                                                                                     <span class="btn toggle-project-favorite bg-white"
-                                                                                        data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                                        data-project-housing-id="{{ $i + 1 }}"
                                                                                         style="color: white;" data-project-id="{{ $project->id }}">
                                                                                         <i class="fa fa-heart-o-o"></i>
                                                                                     </span>
@@ -2063,7 +2063,7 @@
                                                                                                                 <div class="button-effect">
                                                                                                                     <div href="javascript:void()"
                                                                                                                         class="btn toggle-project-favorite bg-white"
-                                                                                                                        data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                                                                        data-project-housing-id="{{ $i + 1 }}"
                                                                                                                         data-project-id={{ $project->id }}>
                                                                                                                         <i class="fa fa-heart-o"></i>
                                                                                                                     </div>
@@ -2074,7 +2074,7 @@
                                                                                                                         alt="home-1"
                                                                                                                         class="img-responsive"
                                                                                                                         style="height: 120px !important;object-fit:cover">
-                                                                                                                    @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                    @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                         <div
                                                                                                                             style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
                                                                                                                             <div
@@ -2183,7 +2183,7 @@
                                                                                                                         @if (getData($project, 'off_sale[]', $i + 1)->value == '[]')
                                                                                                                             @if ($sold)
                                                                                                                                 @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                                                                                    @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                                    @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                                         <h6
                                                                                                                                             style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
                                                                                                                                             {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
@@ -2203,7 +2203,7 @@
                                                                                                                                     @endif
                                                                                                                                 @endif
                                                                                                                             @else
-                                                                                                                                @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                                @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                                     <h6
                                                                                                                                         style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
                                                                                                                                         {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
@@ -2243,7 +2243,7 @@
                                                                                                                 @if (getData($project, 'off_sale[]', $i + 1)->value == '[]')
                                                                                                                     @if ($sold)
                                                                                                                         @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                                                                            @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                            @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                                 <h6
                                                                                                                                     style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                                                     {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
@@ -2262,7 +2262,7 @@
                                                                                                                             @endif
                                                                                                                         @endif
                                                                                                                     @else
-                                                                                                                        @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                        @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                             <h6
                                                                                                                                 style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                                                 {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
@@ -2354,7 +2354,7 @@
                                                                     <div class="container">
                                                                         @for (; $i < $blockHousingCount; $i++)
                                                                             @php
-                                                                                $room_order = getData($project, 'squaremeters[]', $i + 1)->room_order;
+                                                                                $room_order = $i + 1;
                                                                                 $discount_amount =
                                                                                     App\Models\Offer::where('type', 'project')
                                                                                         ->where('project_id', $project->id)
@@ -2402,7 +2402,7 @@
                                                                                             <div class="d-flex" style="gap: 8px;">
                                                                                                 <span
                                                                                                     class="btn toggle-project-favorite bg-white"
-                                                                                                    data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                                                    data-project-housing-id="{{ $i + 1 }}"
                                                                                                     style="color: white;"
                                                                                                     data-project-id="{{ $project->id }}">
                                                                                                     <i class="fa fa-heart-o-o"></i>
@@ -2545,7 +2545,7 @@
                                                                                             <div class="button-effect">
                                                                                                 <div href="javascript:void()"
                                                                                                     class="btn toggle-project-favorite bg-white"
-                                                                                                    data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                                                    data-project-housing-id="{{ $i + 1 }}"
                                                                                                     data-project-id={{ $project->id }}>
                                                                                                     <i class="fa fa-heart-o"></i>
                                                                                                 </div>
@@ -2555,7 +2555,7 @@
                                                                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
                                                                                                     alt="home-1" class="img-responsive"
                                                                                                     style="height: 120px !important;object-fit:cover">
-                                                                                                @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                     <div
                                                                                                         style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
                                                                                                         <div
@@ -2653,7 +2653,7 @@
                                                                                                     @if (getData($project, 'off_sale[]', $i + 1)->value == '[]')
                                                                                                         @if ($sold)
                                                                                                             @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                                                                @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                                @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                     <h6
                                                                                                                         style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
                                                                                                                         {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
@@ -2673,7 +2673,7 @@
                                                                                                                 @endif
                                                                                                             @endif
                                                                                                         @else
-                                                                                                            @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                            @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                                 <h6
                                                                                                                     style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
                                                                                                                     {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
@@ -2712,7 +2712,7 @@
                                                                                             @if (getData($project, 'off_sale[]', $i + 1)->value == '[]')
                                                                                                 @if ($sold)
                                                                                                     @if ($sold[0]->status != '1' && $sold[0]->status != '0')
-                                                                                                        @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                        @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                             <h6
                                                                                                                 style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                                 {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
@@ -2731,7 +2731,7 @@
                                                                                                         @endif
                                                                                                     @endif
                                                                                                 @else
-                                                                                                    @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                                                    @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                         <h6
                                                                                                             style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                             {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
@@ -2812,7 +2812,7 @@
                                                 <div class="container">
                                                     @for ($i = 0; $i < $project->room_count; $i++)
                                                         @php
-                                                            $room_order = getData($project, 'squaremeters[]', $i + 1)->room_order;
+                                                            $room_order = $i + 1;
                                                             $discount_amount =
                                                                 App\Models\Offer::where('type', 'project')
                                                                     ->where('project_id', $project->id)
@@ -2854,7 +2854,7 @@
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="d-flex" style="gap: 8px;">
                                                                             <span class="btn toggle-project-favorite bg-white"
-                                                                                data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                                data-project-housing-id="{{ $i + 1 }}"
                                                                                 style="color: white;" data-project-id="{{ $project->id }}">
                                                                                 <i class="fa fa-heart-o-o"></i>
                                                                             </span>
