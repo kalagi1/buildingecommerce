@@ -68,7 +68,7 @@ class HomeController extends Controller
         $footerSlider = FooterSlider::all();
 
         $finishProjects = Cache::rememberForever('users', function () {
-            return Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
+            $project = Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
             ->with("city", "county")
             ->whereHas('housingStatus', function ($query) {
                 $query->where('housing_type_id', '2');
@@ -77,6 +77,9 @@ class HomeController extends Controller
             ->orderBy("created_at", "desc")
             ->where('status', 1)
             ->get();
+
+            $project->city;
+            $project->county;
         });
         
 
