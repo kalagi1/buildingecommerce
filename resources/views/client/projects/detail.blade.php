@@ -322,23 +322,48 @@
                                                                 aria-hidden="true"></i>
                                                             <span>{{ $project->housingType->title }}</span>
                                                         </li>
-                                                        <li class="the-icons custom-width">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
+                                                    @if (isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
+                                                        <li class="the-icons custom-width flex-1">
+                                                            <i class="fa fa-circle circleIcon mr-1"
+                                                                aria-hidden="true"></i>
+                                                            <span>
+                                                                {{ getData($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
+                                                                @if (isset($project->listItemValues) &&
+                                                                        isset($project->listItemValues->column1_additional) &&
+                                                                        $project->listItemValues->column1_additional)
+                                                                    {{ $project->listItemValues->column1_additional }}
+                                                                @endif
+                                                            </span>
                                                         </li>
-                                                        @if ($project->step1_slug != 'arsa')
-                                                            <li class="the-icons custom-width">
-                                                                <i class="fa fa-circle circleIcon mr-1"
-                                                                    aria-hidden="true"></i>
-                                                                <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                    .Kat
-                                                                </span>
-                                                            </li>
-                                                        @endif
-                                                        <li class="the-icons custom-width ">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
+                                                    @endif
+                                                    @if (isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
+                                                        <li class="the-icons custom-width flex-1">
+                                                            <i class="fa fa-circle circleIcon mr-1"
+                                                                aria-hidden="true"></i>
+                                                            <span>
+                                                                {{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
+                                                                @if (isset($project->listItemValues) &&
+                                                                        isset($project->listItemValues->column2_additional) &&
+                                                                        $project->listItemValues->column2_additional)
+                                                                    {{ $project->listItemValues->column2_additional }}
+                                                                @endif
+                                                            </span>
                                                         </li>
+                                                    @endif
+                                                    @if (isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
+                                                        <li class="the-icons custom-width flex-1">
+                                                            <i class="fa fa-circle circleIcon mr-1"
+                                                                aria-hidden="true"></i>
+                                                            <span>
+                                                                {{ getData($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
+                                                                @if (isset($project->listItemValues) &&
+                                                                        isset($project->listItemValues->column3_additional) &&
+                                                                        $project->listItemValues->column3_additional)
+                                                                    {{ $project->listItemValues->column3_additional }}
+                                                                @endif
+                                                            </span>
+                                                        </li>
+                                                    @endif
 
                                                         <li class="the-icons mobile-hidden">
                                                             <span>
@@ -521,18 +546,54 @@
                                 <i class="fa fa-circle circleIcon"></i>
                                 {{ $room_order }} <span> No'lu</span>
                             </li>
-                            <li class="d-flex align-items-center itemCircleFont">
-                                <i class="fa fa-circle circleIcon"></i>
-                                {{ getData($project, 'squaremeters[]', $i + 1)->value }} m2
-                            </li>
-                            <li class="d-flex align-items-center itemCircleFont">
-                                <i class="fa fa-circle circleIcon"></i>
-                                {{ getData($project, 'room_count[]', $i + 1)->value }}
-                            </li>
-                            <li class="d-flex align-items-center itemCircleFont">
-                                <i class="fa fa-circle circleIcon"></i>
-                                {{ $project->city->title }} {{ '/' }} {{ $project->county->ilce_title }}
-                            </li>
+                            @if (isset($project->listItemValues) &&
+                                    isset($project->listItemValues->column1_name) &&
+                                    $project->listItemValues->column1_name)
+                                <li class="the-icons custom-width flex-1">
+                                    <i class="fa fa-circle circleIcon mr-1"
+                                        aria-hidden="true"></i>
+                                    <span>
+                                        {{ getData($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
+                                        @if (isset($project->listItemValues) &&
+                                                isset($project->listItemValues->column1_additional) &&
+                                                $project->listItemValues->column1_additional)
+                                            {{ $project->listItemValues->column1_additional }}
+                                        @endif
+                                    </span>
+                                </li>
+                            @endif
+                            @if (isset($project->listItemValues) &&
+                                    isset($project->listItemValues->column2_name) &&
+                                    $project->listItemValues->column2_name)
+                                <li class="the-icons custom-width flex-1">
+                                    <i class="fa fa-circle circleIcon mr-1"
+                                        aria-hidden="true"></i>
+                                    <span>
+                                        {{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
+                                        @if (isset($project->listItemValues) &&
+                                                isset($project->listItemValues->column2_additional) &&
+                                                $project->listItemValues->column2_additional)
+                                            {{ $project->listItemValues->column2_additional }}
+                                        @endif
+                                    </span>
+                                </li>
+                            @endif
+                            @if (isset($project->listItemValues) &&
+                                    isset($project->listItemValues->column3_name) &&
+                                    $project->listItemValues->column3_name)
+                                <li class="the-icons custom-width flex-1">
+                                    <i class="fa fa-circle circleIcon mr-1"
+                                        aria-hidden="true"></i>
+                                    <span>
+                                        {{ getData($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
+                                        @if (isset($project->listItemValues) &&
+                                                isset($project->listItemValues->column3_additional) &&
+                                                $project->listItemValues->column3_additional)
+                                            {{ $project->listItemValues->column3_additional }}
+                                        @endif
+                                    </span>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                     <hr>
