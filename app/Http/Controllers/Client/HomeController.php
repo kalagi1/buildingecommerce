@@ -344,11 +344,41 @@ class HomeController extends Controller
                 }
 
             }
-        }
+        }   
 
-        $obj = Housing::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),'housings.*')->with('images', "city", "county")->where('housings.status', 1)
-        ->whereRaw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) IS NULL');
-
+        $obj =  Housing::with('images', "city", "county")
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.created_at',
+            'housings.step1_slug',
+            'housings.step2_slug',
+            'housing_types.title as housing_type_title',
+            'housings.housing_type_data',
+            'project_list_items.column1_name as column1_name',
+            'project_list_items.column2_name as column2_name',
+            'project_list_items.column3_name as column3_name',
+            'project_list_items.column4_name as column4_name',
+            'project_list_items.column1_additional as column1_additional',
+            'project_list_items.column2_additional as column2_additional',
+            'project_list_items.column3_additional as column3_additional',
+            'project_list_items.column4_additional as column4_additional',
+            'housings.address',
+            \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+            \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
+            'cities.title AS city_title', 
+            'districts.ilce_title AS county_title'
+        )
+        ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+        ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+        ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+        ->leftJoin('cities', 'cities.id', '=', 'housings.city_id') 
+        ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
+        ->where('housings.status', 1)
+        ->whereRaw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) IS NULL')
+        ->where('project_list_items.item_type', 2)
+        ->orderByDesc('doping_time')
+        ->orderByDesc('housings.created_at');
         
         if ($request->input("slug") == "al-sat-acil") {
             $obj = $obj->whereJsonContains('housing_type_data->buysellurgent1', "Evet");
@@ -547,23 +577,28 @@ class HomeController extends Controller
                 'in_cart' => $request->session()->get('cart') && $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
                 'is_favorite' => $isFavorite ? 1 : 0,
                 'housing_url' => route('housing.show', $item->id),
-                'title' => $item->title,
+                'title' => $item->housing_title,
                 'step1_slug' => $item->step1_slug,
                 'housing_address' => $item->address,
                 'doping_time' => $item->doping_time,
                 'step2_slug' => $item->step2_slug,
-                'city' => $item->city,
-                'county' => $item->county,
+                'city' => $item->city_title,
+                'county' => $item->county_title,
                 'created_at' => $item->created_at,
                 "action" => $cartStatus,
                 'offSale' => $offSale,
+                "column1_additional" => $item->column1_additional ?? null,
+                "column2_additional" => $item->column2_additional ?? null,
+                "column3_additional" => $item->column3_additional ?? null,
+                "column1" => json_decode($item->housing_type_data)->{$item->column1_name}[0] ?? null,
+                "column2" => json_decode($item->housing_type_data)->{$item->column2_name}[0] ?? null,
+                "column3" => json_decode($item->housing_type_data)->{$item->column3_name}[0] ?? null,
                 'housing_type' =>
                 [
                     'has_discount' => $discount_amount > 0,
-                    'title' => $item->housing_type->title,
-                    'room_count' => getData($item, 'room_count'),
+                    // 'room_count' => getData($item, 'room_count') ? getData($item, 'room_count') : null,
                     'daily_rent' => ($item->step2_slug == "gunluk-kiralik" && getData($item, 'daily_rent')) ? getData($item, 'daily_rent') : null,
-                    'squaremeters' => getData($item, 'squaremeters'),
+                    // 'squaremeters' => getData($item, 'squaremeters') ? getData($item, 'squaremeters') : null,
                     'price' => $item->step2_slug != "gunluk-kiralik" ? getData($item, 'price') - $discount_amount : null ,
                     'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
                 ]

@@ -3377,6 +3377,7 @@ width:100%;
     z-index: 2;
     height: 100%;
     object-fit: cover;
+    margin: 0 auto ;
     border-radius: 50%;
 }
 
@@ -17657,6 +17658,10 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     font-size: 12px;
 }
 
+.author__meta{
+    font-size:12px !important;
+}
+
 .sidebar .sidebar-widget .author__meta {
     font-size: 15px;
     color: #666;
@@ -20558,7 +20563,8 @@ body.dashboard-bd {
 }
 
 .my-properties table thead tr th {
-    font-size: 15px;
+    font-size: 12px !important;
+    text-align: center !important;
     color: #222;
     background-color: #f5f6ff;
     border: none;
@@ -20575,6 +20581,7 @@ body.dashboard-bd {
 
 .my-properties table tbody tr td {
     border-top: none;
+    text-align:center !important;
     border-bottom: 1px solid #f3f3f3;
     padding: 30px 20px 30px 0;
     vertical-align: middle;
@@ -27403,7 +27410,7 @@ input[type="checkbox"]::before {
 }
 
 .payment-plan-pop-content {
-    width: 90%;
+    width: 70% !important;
     background-color: white;
     z-index: 9999;
     position: relative;

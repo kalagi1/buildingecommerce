@@ -157,36 +157,49 @@
 
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                 <div class="carousel-inner">
+                            
+                                    {{-- Kapak Görseli --}}
+                                    <div class="item carousel-item active" data-slide-number="0">
+                                        <a href="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}" data-lightbox="image-gallery">
+                                            <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}" class="img-fluid" alt="slider-listing">
+                                        </a>
+                                    </div>
+                            
+                                    {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $key => $image)
-                                        <div class="item carousel-item {{ $key == 0 ? 'active' : '' }}"
-                                            data-slide-number="{{ $key }}">
-                                            <a href="{{ asset('housing_images/' . $image) }}"
-                                                data-lightbox="image-gallery">
-                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
-                                                    alt="slider-listing">
+                                        <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
+                                            <a href="{{ asset('housing_images/' . $image) }}" data-lightbox="image-gallery">
+                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid" alt="slider-listing">
                                             </a>
                                         </div>
                                     @endforeach
-
-                                    <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
-                                            class="fa fa-angle-left"></i></a>
-                                    <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
-                                            class="fa fa-angle-right"></i></a>
+                            
+                                    {{-- Carousel Kontrolleri --}}
+                                    <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i class="fa fa-angle-left"></i></a>
+                                    <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i class="fa fa-angle-right"></i></a>
                                 </div>
-
+                            
+                                {{-- Küçük Resim Navigasyonu --}}
                                 <div class="listingDetailsSliderNav mt-3">
+                                    {{-- Kapak Görseli --}}
+                                    <div class="item active" style="margin: 10px; cursor: pointer">
+                                        <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
+                                            <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}" class="img-fluid altSlider" alt="listing-small">
+                                        </a>
+                                    </div>
+                            
+                                    {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $imageKey => $image)
-                                        <div class="item {{ $imageKey == 0 ? 'active' : '' }}"
-                                            style="margin: 10px; cursor: pointer">
-                                            <a id="carousel-selector-{{ $imageKey }}"
-                                                data-slide-to="{{ $imageKey }}" data-target="#listingDetailsSlider">
-                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid altSlider"
-                                                    alt="listing-small">
+                                        <div class="item" style="margin: 10px; cursor: pointer">
+                                            <a id="carousel-selector-{{ $imageKey + 1 }}" data-slide-to="{{ $imageKey + 1 }}" data-target="#listingDetailsSlider">
+                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid altSlider" alt="listing-small">
                                             </a>
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
+                            
+                            
 
                          
 
@@ -291,14 +304,19 @@
                                                                         "meeting1" => "Toplantı & Kongre",
                                                                         "proximity1" => "Yakınlık",
                                                                         "transportation1" => "Ulaşım",
-                                                                        "facilities1" => "Tesis Aktiviteleri"
+                                                                        "facilities1" => "Tesis Aktiviteleri",
+                                                                        "availableforLoan" => "Krediye Uygun",
+                                                                        "images" => "Galeri",
+                                                                        "usagePurpose1" => "Kullanım Amacı",
+                                                                        "generalFeatures1" => "Genel Özellikler",
+                                                                        "infrastructure1" => "Altyapı"
                                                                     ];
                                                                     $key = $turkceKarsilik[$key] ?? $key;
                                                                 @endphp
 
                                                                 @if (
                                                                     $key != 'image' &&
-                                                                        $key != 'images' &&
+                                                                        $key != 'Galeri' &&
                                                                         $key != 'İç Özellikler' &&
                                                                         $key != 'Dış Özellikler' &&
                                                                         $key != 'Muhit' &&
@@ -399,7 +417,12 @@
                                                                         "meeting1" => "Toplantı & Kongre",
                                                                         "proximity1" => "Yakınlık",
                                                                         "transportation1" => "Ulaşım",
-                                                                        "facilities1" => "Tesis Aktiviteleri"
+                                                                        "facilities1" => "Tesis Aktiviteleri",
+                                                                        "availableforLoan" => "Krediye Uygun",
+                                                                        "images" => "Galeri",
+                                                                        "usagePurpose1" => "Kullanım Amacı",
+                                                                        "generalFeatures1" => "Genel Özellikler",
+                                                                        "infrastructure1" => "Altyapı"
                                                                     
                                                                 ];
 
@@ -407,18 +430,21 @@
                                                             @endphp
 
 
-                                                            @if (is_array($val))
-                                                                @if (count($val) > 1)
-                                                                    <h5 class="mt-5">{{ $key }}</h5>
-                                                                    <ul class="homes-list clearfix">
-                                                                        @foreach ($val as $item)
-                                                                            <li><i class="fa fa-check-square"
-                                                                                    aria-hidden="true"></i><span>{{ $item }}</span>
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                @endif
-                                                            @endif
+@if (is_array($val))
+@if (count($val) > 1)
+@if($key != "Galeri")
+    <h5 class="mt-5">{{ $key }}</h5>
+    <ul class="homes-list clearfix">
+        @foreach ($val as $item)
+            <li><i class="fa fa-check-square"
+                    aria-hidden="true"></i><span>{{ $item }}</span>
+            </li>
+        @endforeach
+    </ul>
+@endif
+@endif
+
+@endif
                                                         @endforeach
                                                     </div>
                                                 </div>
@@ -673,7 +699,12 @@
                                                                         "meeting1" => "Toplantı & Kongre",
                                                                         "proximity1" => "Yakınlık",
                                                                         "transportation1" => "Ulaşım",
-                                                                        "facilities1" => "Tesis Aktiviteleri"
+                                                                        "facilities1" => "Tesis Aktiviteleri",
+                                                                        "availableforLoan" => "Krediye Uygun",
+                                                                        "images" => "Galeri",
+                                                                        "usagePurpose1" => "Kullanım Amacı",
+                                                                        "generalFeatures1" => "Genel Özellikler",
+                                                                        "infrastructure1" => "Altyapı"
                                                                         
                                                                     ];
                                                                     $key = $turkceKarsilik[$key] ?? $key;
@@ -681,7 +712,7 @@
 
                                                                 @if (
                                                                     $key != 'image' &&
-                                                                        $key != 'images' &&
+                                                                        $key != 'Galeri' &&
                                                                         $key != 'İç Özellikler' &&
                                                                         $key != 'Dış Özellikler' &&
                                                                         $key != 'Muhit' &&
@@ -785,7 +816,12 @@
                                                                         "meeting1" => "Toplantı & Kongre",
                                                                         "proximity1" => "Yakınlık",
                                                                         "transportation1" => "Ulaşım",
-                                                                        "facilities1" => "Tesis Aktiviteleri"
+                                                                        "facilities1" => "Tesis Aktiviteleri",
+                                                                        "availableforLoan" => "Krediye Uygun",
+                                                                        "images" => "Galeri",
+                                                                        "usagePurpose1" => "Kullanım Amacı",
+                                                                        "generalFeatures1" => "Genel Özellikler",
+                                                                        "infrastructure1" => "Altyapı"
                                                                 
                                                             ];
 
@@ -795,6 +831,7 @@
 
                                                         @if (is_array($val))
                                                             @if (count($val) > 1)
+                                                            @if($key != "Galeri")
                                                                 <h5 class="mt-5">{{ $key }}</h5>
                                                                 <ul class="homes-list clearfix">
                                                                     @foreach ($val as $item)
@@ -804,6 +841,8 @@
                                                                     @endforeach
                                                                 </ul>
                                                             @endif
+                                                            @endif
+
                                                         @endif
                                                     @endforeach
 

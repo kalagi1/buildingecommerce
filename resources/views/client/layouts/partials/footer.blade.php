@@ -1055,6 +1055,7 @@
 
             favoriteButtons.forEach(function(button) {
                 var housingId = button.getAttribute("data-housing-id");
+                console.log(housingId);
                 $.ajax({
                     url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
                         .replace(':id', housingId),
@@ -1090,7 +1091,6 @@
             });
         }
 
-        // Favoriye Ekle/Kaldır İşlemi
         document.querySelectorAll(".toggle-project-favorite").forEach(function(button) {
             button.addEventListener("click", function(event) {
                 event.preventDefault();
@@ -1137,7 +1137,6 @@
             });
         });
 
-        // Favoriye Ekle/Kaldır İşlemi
         $('body').on("click", ".toggle-favorite", function(event) {
             event.preventDefault();
             var housingId = this.getAttribute("data-housing-id");
