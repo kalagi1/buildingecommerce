@@ -55,22 +55,23 @@
                                 if ($key > 0) {
                                     $previousBlockHousingCount = $project->blocks[$key - 1]['housing_count'];
                                     $i = $previousBlockHousingCount;
-                                    $j = -1; // Bir önceki bloğun housing_count değerinden başlat
-                                    $blockHousingCount += $previousBlockHousingCount; // Toplam konut sayısına bir önceki bloğun housing_count'ını ekle
-                            } else {
-                                $i = 0; 
+                                    $j = -1; 
+                                    $blockHousingCount += $previousBlockHousingCount; 
+                                } else {
+                                $i = 0;  
                                                                 }
                             @endphp
-
+                        
                           
                                     <tbody class="list" id="products-table-body">
-                                        @for ($i = 0; $i < $blockHousingCount; $i++)
+                                        @for (; $i < $blockHousingCount; $i++)
                                             @php
+                                             $j++;
                                                 $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
                                             @endphp
 
                                             <tr>
-                                                <td>{{$i + 1}}</td>
+                                                <td>{{$j + 1}}</td>
                                                 <td class="image">
                                                     <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
                                                         alt="home-1" class="img-responsive"
