@@ -180,7 +180,7 @@
                                             style="margin: 10px; cursor: pointer">
                                             <a id="carousel-selector-{{ $imageKey }}"
                                                 data-slide-to="{{ $imageKey }}" data-target="#listingDetailsSlider">
-                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
+                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid altSlider"
                                                     alt="listing-small">
                                             </a>
                                         </div>
@@ -273,6 +273,7 @@
                                                                         'floorlocation' => 'Kat Sayısı',
                                                                         'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                         'furnished1' => 'Eşyalı',
+                                                                        'furnished' => 'Eşyalı',
                                                                     ];
                                                                     $key = $turkceKarsilik[$key] ?? $key;
                                                                 @endphp
@@ -361,6 +362,7 @@
                                                                     'floorlocation' => 'Kat Sayısı',
                                                                     'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                     'furnished1' => 'Eşyalı',
+                                                                    'furnished' => 'Eşyalı',
                                                                 ];
 
                                                                 $key = $turkceKarsilik[$key] ?? $key;
@@ -614,6 +616,7 @@
                                                                         'floorlocation' => 'Kat Sayısı',
                                                                         'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                         'furnished1' => 'Eşyalı',
+                                                                        'furnished' => 'Eşyalı',
                                                                     ];
                                                                     $key = $turkceKarsilik[$key] ?? $key;
                                                                 @endphp
@@ -705,6 +708,7 @@
                                                                 'floorlocation' => 'Kat Sayısı',
                                                                 'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                 'furnished1' => 'Eşyalı',
+                                                                'furnished' => 'Eşyalı',
                                                             ];
 
                                                             $key = $turkceKarsilik[$key] ?? $key;
@@ -1582,12 +1586,71 @@
                 if (reservationCalendar) {
                     reservationCalendar.destroy();
                 }
-                // Bu fonksiyon, iki tarih aralığı seçildiğinde tetiklenir
                 function onSelectDates(selectedDates, dateStr, instance) {
+                    var reservations = {!! json_encode($housing->reservations) !!};
+                var bookedDates = reservations.map(function(reservation) {
+                    return {
+                        from: reservation.check_in_date,
+                        to: reservation.check_out_date,
+                        status: reservation.status
+                    };
+                });
+
+                var container = instance.calendarContainer;
+
+                container.querySelectorAll(".flatpickr-day").forEach(function(day) {
+                    var targetDate = day.dateObj;
+                    if (targetDate) {
+                        var booking = bookedDates.find(function(reservation) {
+                            return targetDate >= new Date(reservation.from) && targetDate <= new Date(
+                                reservation.to);
+                        });
+
+                        if (booking) {
+                            if (booking.status === 0) {
+                                day.classList.add("yellow-bg");
+                                addWarningTooltip(day, booking);
+                                if (targetDate == new Date(booking.from) || targetDate > new Date(booking.from)) {
+                                    day.classList.add("flatpickr-disabled");
+                                    day.addEventListener("click", function(event) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                    });
+                                }
+                            } else if (booking.status === 1) {
+                                day.classList.add("red-bg");
+                                // Disable etme
+                                day.addEventListener("click", function(event) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                });
+                            } else if (booking.status === 2) {
+                                day.classList.remove("flatpickr-disabled");
+                                // Tıklanmaya izin verme
+                                day.addEventListener("click", function(event) {
+                                    event.stopPropagation();
+                                });
+                            } else {
+                                day.classList.remove("yellow-bg", "red-bg", "disable-day");
+                            }
+                        }
+
+                        bookedDates.forEach(function(reservation) {
+                            if (targetDate >= new Date(reservation.from) && targetDate == new Date(reservation
+                                    .from) &&
+                                targetDate <= new Date(reservation.to)) {
+                                if (reservation.status === 0) {
+                                    day.classList.add("bg-yellow");
+                                } else if (reservation.status === 1) {
+                                    day.classList.add("bg-red");
+                                }
+                            }
+                        });
+                    }
+                });
                     var checkinDate = selectedDates[0];
                     var checkoutDate = selectedDates[selectedDates.length - 1];
 
-                    // Eğer her iki tarih de seçilmişse, input alanlarına yazdır
                     if (checkinDate && checkoutDate) {
                         document.getElementById('date-checkin').value = formatDate(checkinDate);
                         document.getElementById('date-checkout').value = formatDate(checkoutDate);
@@ -1615,13 +1678,11 @@
                     }
                 }
 
-                // Bu fonksiyon, tarihi belirli bir formata dönüştürür
                 function formatDate(date) {
                     var day = date.getDate();
                     var month = date.getMonth() + 1;
                     var year = date.getFullYear();
 
-                    // Gerekirse ayları ve günleri iki basamaklı hale getirin
                     if (day < 10) {
                         day = '0' + day;
                     }
@@ -1638,14 +1699,13 @@
                     inline: true,
                     locale: 'tr',
                     showMonths: showMonths,
-                    minDate: today, // Bugünden önceki tarihleri disable et
+                    minDate: today, 
                     onReady: applyClassesToDates,
                     onChange: onSelectDates,
                     onMonthChange: applyClassesToDates
                 });
             }
 
-            // Sayfa yüklendiğinde ve pencere boyutu değiştiğinde kontrolü güncelle
             document.addEventListener('DOMContentLoaded', updateCalendarView);
             window.addEventListener('resize', updateCalendarView);
 
@@ -1653,7 +1713,7 @@
             var dateCheckin = flatpickr("#date-checkin", {
                 dateFormat: 'Y-m-d',
                 locale: 'tr',
-                minDate: today, // Bugünden önceki tarihleri disable et
+                minDate: today, 
                 onReady: applyClassesToDates,
                 onChange: applyClassesToDates,
                 onMonthChange: applyClassesToDates
@@ -1662,7 +1722,7 @@
             var dateCheckout = flatpickr("#date-checkout", {
                 dateFormat: 'Y-m-d',
                 locale: 'tr',
-                minDate: today, // Bugünden önceki tarihleri disable et
+                minDate: today,
                 onReady: applyClassesToDates,
                 onChange: applyClassesToDates,
                 onMonthChange: applyClassesToDates
@@ -1715,6 +1775,13 @@
         #totalPrice {
             color: #274abb;
             font-weight: 600;
+        }
+
+        .altSlider{
+            width: 100%;
+            height: 85px !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
     </style>
 @endsection

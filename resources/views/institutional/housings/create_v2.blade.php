@@ -25,10 +25,10 @@
         <h4 class="mb-2 lh-sm @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
         
 
-            @if ($user->plan)
+            @if ($userPlan)
                 Kalan Konut Oluşturma Hakkınız :
-                {{ $user->plan->housing_limit }} Adet
-                @if ($user->plan->housing_limit === 0)
+                {{ $userPlan->housing_limit }} Adet
+                @if ($userPlan->housing_limit === 0)
                     - Hakkınız Kalmadı
                 @endif
             @else
@@ -635,14 +635,14 @@
 
 
         $('.finish-button-first').click(function() {
-            @if ($user->plan && $user->plan->housing_limit === 0)
+            @if ($userPlan && $userPlan->housing_limit === 0)
                 $.toast({
                     heading: 'Hata',
                     text: 'Hakkınız kalmadığı için bu işlemi gerçekleştiremezsiniz.',
                     position: 'top-right',
                     stack: false
                 });
-            @elseif (!$user->plan)
+            @elseif (!$userPlan)
                 $.toast({
                     heading: 'Hata',
                     text: 'Konut eklemek için paket satın almalısınız.',
@@ -1077,6 +1077,12 @@
                         @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
                             @if($tempData->step2_slug == "kiralik")
                                 $('.rent-disabled').closest('.form-group').remove();
+                            @endif
+                        @endif
+
+                        @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
+                            @if($tempData->step2_slug == "satilik")
+                                $('.project-disabled').closest('.form-group').remove();
                             @endif
                         @endif
 
@@ -2371,6 +2377,7 @@
 
                                                     if(isSale){
                                                         $('.sale-disabled').closest('.form-group').remove();
+                                                        $('.project-disabled').closest('.form-group').remove();
                                                     }
 
                                                     $('.copy-item').change(function() {
@@ -2782,6 +2789,8 @@
 
                                         if(isSale){
                                             $('.sale-disabled').closest('.form-group').remove();
+                                            $('.project-disabled').closest('.form-group').remove();
+
                                         }
 
                                         $('.copy-item').change(function() {
@@ -3139,6 +3148,7 @@
                              
                             if(isSale){
                                 $('.sale-disabled').closest('.form-group').remove();
+                                $('.project-disabled').closest('.form-group').remove();
                             }
 
                             $('.copy-item').change(function() {

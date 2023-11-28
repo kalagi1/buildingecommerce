@@ -108,7 +108,19 @@
         </div>
     </div>
     <div class="content">
-        <h2 class="mb-2 lh-sm  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">Adım Adım Kategori Seç</h2>
+        <h4 class="mb-2 lh-sm @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
+        
+
+            @if ($userPlan)
+                Kalan Proje Oluşturma Hakkınız :
+                {{ $userPlan->project_limit }} Adet
+                @if ($userPlan->project_limit === 0)
+                    - Hakkınız Kalmadı
+                @endif
+            @else
+            Proje eklemek için bir paket satın almanız gerekiyor.
+            @endif
+        </h4>
         <div class="breadcrumb  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
             <span>Emlak</span>
             @foreach($areaSlugs as $slug)
@@ -2921,9 +2933,25 @@
                 })
             }
 
-            $('.finish-button-first').click(function(){
+            $('.finish-button-first').click(function() {
+            @if ($userPlan && $userPlan->project_limit === 0)
+                $.toast({
+                    heading: 'Hata',
+                    text: 'Hakkınız kalmadığı için bu işlemi gerçekleştiremezsiniz.',
+                    position: 'top-right',
+                    stack: false
+                });
+            @elseif (!$userPlan)
+                $.toast({
+                    heading: 'Hata',
+                    text: 'Proje eklemek için paket satın almalısınız.',
+                    position: 'top-right',
+                    stack: false
+                });
+            @else
                 toSecondArea();
-            })
+            @endif
+        });
 
             $('.doping_statuses').change(function(){
                 if($(this).val() != ""){

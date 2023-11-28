@@ -30,14 +30,14 @@
             <div class="col">
                 <h3 class="mb-0 text-primary position-relative fw-bold">
                     <span class="bg-soft pe-2">
-                        @if ($userLog->plan && $userLog->plan->status != 2 && $userLog->plan->subscription_plan_id != null)
-                            @if ($userLog->plan->status == 0)
-                                <span class="bg-soft pe-2 @if ($userLog->plan->status == 0) text-orange @endif">
+                        @if ($hasPlan && $hasPlan->status != 2 && $hasPlan->subscription_plan_id != null)
+                            @if ($hasPlan->status == 0)
+                                <span class="bg-soft pe-2 @if ($hasPlan->status == 0) text-orange @endif">
                                     Ödeme site yöneticisi tarafından onaylandığında paketiniz aktif olacaktır.
                                 </span>
                             @else
                                 <span class="bg-soft pe-2">
-                                    {{ $userLog->plan->subscriptionPlan->name }} Paketi
+                                    {{ $hasPlan->subscriptionPlan->name }} Paketi
                                 </span>
                             @endif
                         @else
@@ -49,7 +49,8 @@
                         @endif
                     </span><span
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
-                </h3>
+                </h3>  
+              
                 <p class="mb-0">Bu alanda istatistik içeriklerinizi kolaylıkla görüntüleyebilirsiniz.</p>
             </div>
         </div>

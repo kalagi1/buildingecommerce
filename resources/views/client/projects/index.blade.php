@@ -9,7 +9,7 @@
                         <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}" alt=""
                             class="brand-logo">
                         <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
-                                style="color:White">
+                                style="color:White;">
                                 {{ $project->user->name }}
                                 <style type="text/css">
                                     .st0 {
@@ -101,7 +101,7 @@
                         <div class="news-item-img homes">
                             <div class="homes-tag button alt featured" style="width:150px !important">
                                 <a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
-                                    style="color:White">{{ $project->user->name }}</a>
+                                    style="color:White;">{{ $project->user->name }}</a>
                             </div>
                             <img class="resp-img"
                                 src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
@@ -469,9 +469,9 @@
                                                                             @if ($sold && $sold[0]->status != '2')
                                                                                 <button class="btn second-btn soldBtn"
                                                                                     disabled
-                                                                                    @if ($sold[0]->status == '0') style="background: orange !important;color:White"
+                                                                                    @if ($sold[0]->status == '0') style="background: orange !important;color:White;"
                                             @else 
-                                            style="background: red !important;color:White" @endif>
+                                            style="background: red !important;color:White;height: auto !important" @endif>
                                                                                     @if ($sold[0]->status == '0')
                                                                                         <span class="text">Onay
                                                                                             Bekleniyor</span>
@@ -572,7 +572,7 @@
                                                             @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                                 <button class="btn   mobileBtn  second-btn CartBtn"
                                                                     disabled
-                                                                    style="background: red !important;width:100%;color:White">
+                                                                    style="background: red !important;width:100%;color:White;">
                                                                     <span class="IconContainer">
                                                                         <img src="{{ asset('sc.png') }}"
                                                                             alt="">
@@ -583,9 +583,9 @@
                                                                 @if ($sold && $sold[0]->status != '2')
                                                                     <button class="btn mobileBtn second-btn CartBtn"
                                                                         disabled
-                                                                        @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                                                        @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White;"
                                         @else 
-                                        style="background: red !important;width:100%;color:White" @endif>
+                                        style="background: red !important;width:100%;color:White;height: auto !important" @endif>
                                                                                         <span class="IconContainer">
                                                                             <img src="{{ asset('sc.png') }}"
                                                                                 alt="">
@@ -932,9 +932,9 @@
                                                 @else
                                                     @if ($sold && $sold[0]->status != '2')
                                                         <button class="btn second-btn soldBtn" disabled
-                                                            @if ($sold[0]->status == '0') style="background: orange !important;color:White"
-                                            @else 
-                                            style="background: red !important;color:White" @endif>
+                                                            @if ($sold[0]->status == '0') style="background: orange !important;color:White;height: auto !important"
+                                                            @else 
+                                                            style="background: red !important;color:White;height: auto !important" @endif>
                                                             @if ($sold[0]->status == '0')
                                                                 <span class="text">Onay Bekleniyor</span>
                                                             @else
@@ -1022,7 +1022,7 @@
                                     </span>
                                     @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                         <button class="btn   mobileBtn  second-btn CartBtn" disabled
-                                            style="background: red !important;width:100%;color:White">
+                                            style="background: red !important;width:100%;color:White;">
                                             <span class="IconContainer">
                                                 <img src="{{ asset('sc.png') }}" alt="">
                                             </span>
@@ -1031,9 +1031,9 @@
                                     @else
                                         @if ($sold && $sold[0]->status != '2')
                                             <button class="btn mobileBtn second-btn CartBtn" disabled
-                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White;"
                         @else 
-                        style="background: red !important;width:100%;color:White" @endif>
+                        style="background: red !important;width:100%;color:White;height: auto !important" @endif>
                                                 <span class="IconContainer">
                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                 </span>

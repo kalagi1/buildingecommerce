@@ -34,7 +34,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (count($favorites) && count($projectFavorites) == 0)
+                        @if (count($favorites)  == 0 && count($projectFavorites) == 0)
                             <tr>
                                 <td colspan="5">Favorileriniz Bulunmuyor</td>
                             </tr>
@@ -159,6 +159,8 @@
                                     <td>
                                         <span style="color:#e54242; font-weight:600">
 
+                                            
+                                        @if (getHouse($item->project, 'off_sale[]',  $item->housing_id)->value == '[]')
                                         @if ($sold)
                                             @if ($sold[0]->status != '1' && $sold[0]->status != '0')
                                                 {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 0, ',', '.') }}
@@ -168,6 +170,8 @@
                                             {{ number_format(getHouse($item->project, 'price[]', $item->housing_id)->value - $discount_amount, 0, ',', '.') }}
                                             ₺
                                         @endif
+                                        @endif
+
                                         </span>
                                     </td>
                              
@@ -178,6 +182,16 @@
                                                 class="far fa-trash-alt"></i></a>
                                     </td>
                                     <td>
+                                        @if (getHouse($item->project, 'off_sale[]',  $item->housing_id)->value != '[]')
+
+                                        <button class="btn mobileBtn  second-btn CartBtn" disabled
+                                        style="background: red !important;width:100%;color:White">
+                                        <span class="IconContainer">
+                                            <img src="{{ asset('sc.png') }}" alt="">
+                                        </span>
+                                        <span class="text">Satışa Kapatıldı</span>
+                                    </button>
+                                    @else
                                         @if ($sold && $sold[0]->status != '2')
                                             <button class="btn second-btn soldBtn" disabled
                                                 @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
@@ -200,6 +214,7 @@
                                             </button>
                                         @endif
 
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
