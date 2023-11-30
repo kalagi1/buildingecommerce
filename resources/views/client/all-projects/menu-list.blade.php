@@ -747,10 +747,13 @@
                         $('.next-page').removeClass('d-none');
 
                     if (response.data.length > 0) {
-                        console.log(response);
+
                         var assetPath = "{{ asset('images/sc.png') }}";
 
                         response.data.forEach((res) => {
+                            if (typeof res === "boolean")
+                                return true;
+
                             @if (!$secondhandHousings)
                                 $('.pp-row').append(
                                     `
