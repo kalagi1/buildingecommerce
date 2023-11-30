@@ -988,8 +988,9 @@
         window.location.href = '{{ route("housing.show", ["resIdPlaceholder"]) }}'.replace('resIdPlaceholder', resId);
     }
         // Sıralama seçenekleri için
-        $('#sort-select').on('change', function() {
-            var selectedValue = $(this).val();
+
+        function sortSelectFilters(val) {
+            var selectedValue = val;
             var filters = {};
 
             switch (selectedValue) {
@@ -1010,10 +1011,8 @@
                     break;
             }
 
-            drawList(filters);
-        });
-
-
+            return filters.sort;
+        }
 
         $(function() {
             drawList();
@@ -1065,8 +1064,11 @@
                     post_date,
                     from_owner,
                     bathroom_count,
+                    sort: sortSelectFilters($('#sort-select').val()),
                 });
             }
+
+            $('#sort-select').on('change', filterNow);
 
             $('#clear-filters').on('click', function() {
                 $('#city').val('#');
