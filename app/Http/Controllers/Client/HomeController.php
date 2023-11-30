@@ -381,10 +381,11 @@ class HomeController extends Controller
             $obj->where("step1_slug", $housingTypeSlug);
         }
 
+        /*
         if ($housingType) {
             $obj->select(\Illuminate\Support\Facades\DB::raw('(SELECT start_date FROM stand_out_users WHERE stand_out_users.item_type = 2 AND stand_out_users.item_id = housings.id AND housings.housing_type_id = '.$housingType.') as doping_time'));
             $obj->where('housings.housing_type_id', $housingType);
-        }
+        }*/
 
         if ($opt) {
             $obj->where('step2_slug', $opt);
@@ -604,7 +605,7 @@ class HomeController extends Controller
                     'price' => $item->step2_slug != "gunluk-kiralik" ? getData($item, 'price') - $discount_amount : null ,
                     'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
                 ]
-                
+
             ];
         }));
     }
