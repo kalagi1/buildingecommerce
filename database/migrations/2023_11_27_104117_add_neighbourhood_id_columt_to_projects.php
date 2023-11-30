@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->unsignedBigInteger('neighbourhood_id')->after('county_id');
-        });
+        // Schema::table('projects', function (Blueprint $table) {
+        //     $table->unsignedBigInteger('neighbourhood_id')->after('county_id');
+        // });
     }
 
     /**
