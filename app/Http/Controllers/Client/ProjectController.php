@@ -17,33 +17,97 @@ use App\Models\ProjectHouseSetting;
 use App\Models\ProjectImage;
 use App\Models\StandOutUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
-    public function index($slug)
+    public function index($slug,Request $request)
     {
-        $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $slug)->with("brand","blocks",'listItemValues', "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
-        $project->roomInfo = $project->roomInfo;
-        $project->brand = $project->brand;
-        $project->housingType = $project->housingType;
-        $project->listItemValues = $project->listItemValues;
-        $project->county = $project->county;
-        $project->city = $project->city;
-        $project->user = $project->user;
-        $project->user->housings = $project->user->housings;
-        $project->user->brands = $project->user->brands;
-        $project->images = $project->images;
+        $menu = Cache::rememberForever('menu', function() {
+            return Menu::getMenuItems();
+        });
+
+        $project = Project::where('slug', $slug)
+        ->with("brand","blocks",'listItemValues', "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
+        ->firstOrFail();
+
+        $projectCartOrders = DB::table('cart_orders')
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get()
+        ->keyBy("housing_id");
+
+
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
             ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
             ->groupBy('project_id')
             ->where("status", "1")
             ->get();
-        $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
 
-        return view('client.projects.index', compact('menu', "offer", 'project'));
+        $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+        $selectedPage = $request->input('selected_page') ?? 0;
+        $blockIndex = $request->input('block_id') ?? 0;
+        $startIndex = 0;
+        if($project->have_blocks){
+            $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+        }else{
+            $currentBlockHouseCount = 0;
+        }
+        for($i = 0; $i < $blockIndex; $i++){
+            $startIndex += $project->blocks[$i]->housing_count;
+        }
+        $endIndex = $startIndex + 10;
+
+        return view('client.projects.index', compact('currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+    }
+    
+    public function ajaxIndex($slug,Request $request){
+        $menu = Cache::rememberForever('menu', function() {
+            return Menu::getMenuItems();
+        });
+
+        $project = Project::where('slug', $slug)
+        ->with("brand","blocks",'listItemValues', "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
+        ->firstOrFail();
+
+        $projectCartOrders = DB::table('cart_orders')
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get()
+        ->keyBy("housing_id");
+
+
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+        $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+            ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+            ->groupBy('project_id')
+            ->where("status", "1")
+            ->get();
+
+        $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+        $selectedPage = $request->input('selected_page') ?? 0;
+        $blockIndex = $request->input('block_id') ?? 0;
+        $startIndex = 0;
+        for($i = 0; $i < $blockIndex; $i++){
+            $startIndex += $project->blocks[$i]->housing_count;
+        }
+        $blockHousingCount = 0;
+        for($i = 0; $i < $blockIndex + 1; $i++){
+            $blockHousingCount += $project->blocks[$i]->housing_count;
+        }
+        $startIndex = $startIndex + ($selectedPage * 10);
+        $endIndex = $startIndex + 10;
+        if($endIndex > $blockHousingCount ){
+            $endIndex = $blockHousingCount;
+        }
+        $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+        return view('client.projects.index', compact('currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','endIndex','blockIndex','startIndex'))->render();
     }
 
     public function detail($slug)
@@ -333,14 +397,35 @@ class ProjectController extends Controller
         return view('client.all-projects.list', compact('menu', 'projects', 'secondhandHousings', 'housingTypes', 'housingStatuses', 'cities', 'title'));
     }
 
-    public function projectHousingDetail($projectSlug, $housingOrder)
+    public function projectHousingDetail($projectSlug, $housingOrder,Request $request)
     {
         $menu = Menu::getMenuItems();
         $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
         $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
-        return view('client.projects.project_housing', compact('menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+        $projectCartOrders = DB::table('cart_orders')
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get()
+        ->keyBy("housing_id");
+        
+        $selectedPage = $request->input('selected_page') ?? 0;
+        $blockIndex = $request->input('block_id') ?? 0;
+        $startIndex = 0;
+        if($project->have_blocks){
+            $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+        }else{
+            $currentBlockHouseCount = 0;
+        }
+        for($i = 0; $i < $blockIndex; $i++){
+            $startIndex += $project->blocks[$i]->housing_count;
+        }
+        $endIndex = $startIndex + 10;
+        
+        return view('client.projects.project_housing', compact('projectCartOrders','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
     public function propertyProjects(Request $request, $property)
