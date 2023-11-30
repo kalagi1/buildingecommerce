@@ -3062,8 +3062,9 @@
         
         $('.project-housing-pagination li').click(function(){
             $('.loading-full').removeClass('d-none')
+            console.log($(this).index());
             $.ajax({
-                url: "{{ URL::to('/') }}/proje_ajax/{{$project->slug}}?selected_page="+$(this).index()+"&block_id="+$('.tabs .nav-item.active').index(), // Sepete veri eklemek için uygun URL'yi belirtin
+                url: "{{ URL::to('/') }}/proje_konut_detayi_ajax/{{$project->slug}}/{{$housingOrder}}?selected_page="+$(this).index()+"&block_id="+$('.tabs .nav-item.active').index(), // Sepete veri eklemek için uygun URL'yi belirtin
                 type: "GET", // Veriyi göndermek için POST kullanabilirsiniz
                 success: function(response) {
                     $('.loading-full').addClass('d-none')
@@ -3080,7 +3081,7 @@
         $('.tabs .nav-item').click(function(){
             $('.loading-full').removeClass('d-none')
             $.ajax({
-                url: "{{ URL::to('/') }}/proje_ajax/{{$project->slug}}?selected_page=0"+"&block_id="+$(this).index(), // Sepete veri eklemek için uygun URL'yi belirtin
+                url: "{{ URL::to('/') }}/proje_konut_detayi_ajax/{{$project->slug}}/{{$housingOrder}}?selected_page=0"+"&block_id="+$(this).index(), // Sepete veri eklemek için uygun URL'yi belirtin
                 type: "GET", // Veriyi göndermek için POST kullanabilirsiniz
                 success: function(response) {
                     $('.loading-full').addClass('d-none')
