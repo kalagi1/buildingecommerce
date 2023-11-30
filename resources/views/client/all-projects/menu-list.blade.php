@@ -694,18 +694,27 @@
             var title = @json($housingTypeSlug ?? null);
             var optional = @json($opt ?? null);
 
+            var data = Object.assign({}, filters, {
+                _token: "{{ csrf_token() }}",
+                slug: slug,
+                type: type,
+                title: title,
+                optional: optional,
+                loc: @json($nslug ?? null),
+            });
+
+            let currentData = {};
+
+            Object.keys(data).map(e =>
+            {
+                if (data[e])
+                    currentData[e] = data[e];
+            });
 
             $.ajax({
                 method: "POST",
                 url: "{{ route($secondhandHousings ? 'get-rendered-secondhandhousings' : 'get-rendered-projects') }}",
-                data: Object.assign({}, filters, {
-                    _token: "{{ csrf_token() }}",
-                    slug: slug,
-                    type: type,
-                    title: title,
-                    optional: optional
-
-                }),
+                data: currentData,
                 success: function(response) {
                     $('.pp-row').empty();
                     $('.pp-col').empty();
@@ -771,7 +780,7 @@
                                     var featuredHtml = '<div class="homes-tag button alt featured">Sponsorlu </div>';
                                 }
                                 function kisalt(text, uzunluk) {
-                                if (text.length > uzunluk) {
+                                if (typeof text == "string" && text.length > uzunluk) {
                                     return text.substring(0, uzunluk - 3) + "...";
                                 }
                                 return text;
