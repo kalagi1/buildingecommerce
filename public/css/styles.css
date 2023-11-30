@@ -3377,6 +3377,7 @@ width:100%;
     z-index: 2;
     height: 100%;
     object-fit: cover;
+    margin: 0 auto ;
     border-radius: 50%;
 }
 
@@ -17509,7 +17510,7 @@ h4.widget_author__name {
     max-width: 100%;
     height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .single-proper .mb-30,
@@ -17655,6 +17656,10 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .sidebar-widget .author-box .author__title {
     margin-top: 18px;
     font-size: 12px;
+}
+
+.author__meta{
+    font-size:12px !important;
 }
 
 .sidebar .sidebar-widget .author__meta {
@@ -18034,6 +18039,10 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     list-style: none;
     justify-content: center;
     color: #274abb;
+}
+
+.homes-address span{
+    font-size:9px !important;
 }
 
 span{
@@ -20554,7 +20563,8 @@ body.dashboard-bd {
 }
 
 .my-properties table thead tr th {
-    font-size: 15px;
+    font-size: 12px !important;
+    text-align: center !important;
     color: #222;
     background-color: #f5f6ff;
     border: none;
@@ -20571,6 +20581,7 @@ body.dashboard-bd {
 
 .my-properties table tbody tr td {
     border-top: none;
+    text-align:center !important;
     border-bottom: 1px solid #f3f3f3;
     padding: 30px 20px 30px 0;
     vertical-align: middle;
@@ -27399,7 +27410,7 @@ input[type="checkbox"]::before {
 }
 
 .payment-plan-pop-content {
-    width: 90%;
+    width: 70% !important;
     background-color: white;
     z-index: 9999;
     position: relative;
@@ -29035,8 +29046,8 @@ input[type="checkbox"]::before {
                 line-height: 40px;
                 font-size: 12px;
                 font-weight: 600;
-                font-weight: bold;
-                color: black background-color: #FFF;
+                color: black ;
+        
             }
 
             .dropdown li {

@@ -17,11 +17,7 @@ class Project extends Model
         return $this->hasMany(ProjectHousings::class);
     }
 
-    public function blocks()
-    {
-        return $this->hasMany(Block::class);
-    }
-
+    
     public function images()
     {
         return $this->hasMany(ProjectImage::class, "project_id", "id");
@@ -73,6 +69,11 @@ class Project extends Model
     public function county()
     {
         return $this->hasOne(District::class, "ilce_key", "county_id");
+    }
+
+    public function blocks()
+    {
+        return $this->hasMany(Block::class);
     }
 
     public function favorites()

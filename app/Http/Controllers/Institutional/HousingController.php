@@ -99,7 +99,7 @@ class HousingController extends Controller
     public function finishByTemp(Request $request)
     {
             DB::beginTransaction();
-            $tempOrderFull = TempOrder::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where('item_type', 2)->first();
+            $tempOrderFull = TempOrder::where('user_id',  auth()->user()->id)->where('item_type', 2)->first();
             $tempOrder = json_decode($tempOrderFull->data);
             $housingType = HousingType::where('slug', $tempOrder->step3_slug)->firstOrFail();
             $housingTypeInputs = json_decode($housingType->form_json);
@@ -227,6 +227,7 @@ class HousingController extends Controller
 
     public function index()
     {
+
         $housing = Housing::select(
             'housings.id',
             'housings.brand_id as brand_id',
@@ -240,7 +241,7 @@ class HousingController extends Controller
         )
             ->with("brand")
             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)
+            ->where('user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id)
             ->orderByDesc('created_at')
             ->get();
 

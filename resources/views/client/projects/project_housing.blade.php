@@ -16,7 +16,10 @@
 
         function implodeData($array)
         {
+           
             $html = '';
+
+            
 
             for ($i = 0; $i < count($array); $i++) {
                 if ($i == 0) {
@@ -219,40 +222,54 @@
                            
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                 <div class="carousel-inner">
-
+                            
+                                    {{-- Kapak Görseli --}}
+                                    <div class="item carousel-item active" data-slide-number="-1">
+                                        <a href="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $housingOrder)->value }}"
+                                            data-lightbox="image-gallery">
+                                            <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $housingOrder)->value }}"
+                                                class="img-fluid" alt="slider-listing">
+                                        </a>
+                                    </div>
+                            
+                                    {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
-                                        <div class="@if ($key == 0) active @endif item carousel-item"
-                                            data-slide-number="{{ $key }}">
+                                        <div class="item carousel-item" data-slide-number="{{ $key }}">
                                             <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 data-lightbox="image-gallery">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                     class="img-fluid" alt="slider-listing">
                                             </a>
-
                                         </div>
                                     @endforeach
-
-
-                                    <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
-                                            class="fa fa-angle-left"></i></a>
-                                    <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
-                                            class="fa fa-angle-right"></i></a>
-
+                            
+                                    {{-- Carousel Kontrolleri --}}
+                                    <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i class="fa fa-angle-left"></i></a>
+                                    <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i class="fa fa-angle-right"></i></a>
                                 </div>
+                            
+                                {{-- Küçük Resim Navigasyonu --}}
                                 <div class="listingDetailsSliderNav mt-3">
+                                    {{-- Kapak Görseli --}}
+                                    <div class="item active" style="margin: 10px; cursor: pointer">
+                                        <a id="carousel-selector--1" data-slide-to="-1" data-target="#listingDetailsSlider">
+                                            <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $housingOrder)->value }}"
+                                                class="img-fluid carousel-indicator-image" alt="listing-small">
+                                        </a>
+                                    </div>
+                            
+                                    {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
-                                        <div class="item {{ $key == 0 ? 'active' : '' }}"
-                                            style="margin: 10px; cursor: pointer">
-                                            <a id="carousel-selector-{{ $key }}"
-                                                data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
+                                        <div class="item" style="margin: 10px; cursor: pointer">
+                                            <a id="carousel-selector-{{ $key }}" data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                     class="img-fluid carousel-indicator-image" alt="listing-small">
                                             </a>
                                         </div>
                                     @endforeach
                                 </div>
-                                <!-- main slider carousel items -->
                             </div>
+                            
 
 
 
@@ -284,7 +301,7 @@
                                         <hr>
                                         @if (count($projectHousingSetting))
                                         <div class="single homes-content">
-                                            <table class="table table-striped table-bordered">
+                                            <table class="table table-bordered">
                                                 <tbody class="trStyle"> 
                                                     @foreach ($projectHousingSetting as $key => $housingSetting)
                                                         @php
@@ -292,14 +309,19 @@
                                                             $onProject = false;
                                                             $valueArray = [];
 
-                                                            if ($isArrayCheck) {
+                                                         
+                                                                if ($isArrayCheck) {
                                                                 $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                                                $value = implodeData($valueArray);
+                                                                if(isset($valueArray))
+                                                                {
+                                                                     $value = implodeData($valueArray);
+                                                                }
+                                                               
                                                             } elseif ($housingSetting->is_parent_table) {
                                                                 $value = $project[$housingSetting->column_name];
                                                                 $onProject = true;
                                                             } else {
-                                                                 foreach ($project->roomInfo as $roomInfo) {
+                                                                foreach ($project->roomInfo as $roomInfo) {
                                                                 if ($roomInfo->room_order == $housingOrder) {
                                                                     if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
                                                                     if ($roomInfo['value'] == '["on"]') {
@@ -311,29 +333,31 @@
                                                                     }
                                                                     $onProject = true;
                                                                 }
-                                                                }
-                                                             
                                                             }
+                                                         
+                                                        }
+                                                            
                                                             }
+                                                           
                                                         @endphp
 
-                                                        @if (!$isArrayCheck && (isset($value) && $value !== ''))
-                                                        <tr>
-                                                            @if ($housingSetting->label  == 'Fiyat')
-                                                           <td> <span
-                                                            class=" mr-1">{{ $housingSetting->label  }}:</span>
-                                                        <span class="det"
-                                                            style="color: black; ">
-                                                            {{ number_format($value, 0, ',', '.') }} ₺
-                                                        </span></td>
-                                                        @else
-                                                            <td> <span
-                                                                class=" mr-1">{{ $housingSetting->label }}:</span>{{ $value }}</td>
-                                                                @endif
-                                                        </tr>
-                                                           
+                                                            @if (!$isArrayCheck && (isset($value) && $value !== ''))
+                                                            <tr>
+                                                                @if ($housingSetting->label  == 'Fiyat')
+                                                            <td>  <span
+                                                                class=" mr-1">{{ $housingSetting->label  }}:</span>
+                                                            <span class="det"
+                                                                style="color: black; ">
+                                                                {{ number_format($value, 0, ',', '.') }} ₺
+                                                            </span></td>
+                                                            @else
+                                                                <td> <span
+                                                                    class=" mr-1">{{ $housingSetting->label }}:</span>{{ $value }}</td>
+                                                                    @endif
+                                                            </tr>
+                                                            
 
-                                                        @endif
+                                                            @endif
                                                     @endforeach
 
                                                 </tbody>
@@ -349,31 +373,34 @@
 
                                                     if ($isArrayCheck) {
                                                         $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                                        $value = implodeData($valueArray);
+                                                        if(isset($valueArray))
+                                                                {
+                                                                     $value = implodeData($valueArray);
+                                                                }
                                                     } elseif ($housingSetting->is_parent_table) {
                                                         $value = $project[$housingSetting->column_name];
                                                         $onProject = true;
                                                     } else {
                                                         foreach ($project->roomInfo as $roomInfo) {
-                                                                if ($roomInfo->room_order == $housingOrder) {
-                                                                    if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
-                                                                    if ($roomInfo['value'] == '["on"]') {
-                                                                        $value = 'Evet';
-                                                                    } elseif ($roomInfo['value'] == '["off"]') {
-                                                                        $value = 'Hayır';
-                                                                    } else {
-                                                                        $value = $roomInfo['value'];
-                                                                    }
-                                                                    $onProject = true;
+                                                            if ($roomInfo->room_order == $housingOrder) {
+                                                                if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                                if ($roomInfo['value'] == '["on"]') {
+                                                                    $value = 'Evet';
+                                                                } elseif ($roomInfo['value'] == '["off"]') {
+                                                                    $value = 'Hayır';
+                                                                } else {
+                                                                    $value = $roomInfo['value'];
                                                                 }
-                                                                }
-                                                             
+                                                                $onProject = true;
                                                             }
+                                                            }
+                                                         
+                                                        }
                                                     }
                                                 @endphp
 
                                                 @if ($isArrayCheck)
-                                                    @if (count($valueArray))
+                                                    @if (isset($valueArray))
                                                         <div class="mt-5">
                                                             <h5>{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:
                                                             </h5>
@@ -752,98 +779,106 @@
                                                 <div class="single homes-content">
 
                                                     <h5 class="mb-4">Özellikler</h5>
-
-                                                    <table class="table  table-bordered">
-                                                        <tbody class="trStyle">
+                                                    <table class="table table-bordered">
+                                                        <tbody class="trStyle"> 
                                                             @foreach ($projectHousingSetting as $key => $housingSetting)
                                                                 @php
                                                                     $isArrayCheck = $housingSetting->is_array;
                                                                     $onProject = false;
                                                                     $valueArray = [];
-
-                                                                    if ($isArrayCheck) {
+    
+                                                                 
+                                                                        if ($isArrayCheck) {
                                                                         $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                                                        $value = implodeData($valueArray);
+                                                                        if(isset($valueArray))
+                                                                        {
+                                                                             $value = implodeData($valueArray);
+                                                                        }
+                                                                       
                                                                     } elseif ($housingSetting->is_parent_table) {
                                                                         $value = $project[$housingSetting->column_name];
                                                                         $onProject = true;
                                                                     } else {
                                                                         foreach ($project->roomInfo as $roomInfo) {
-                                                                if ($roomInfo->room_order == $housingOrder) {
-                                                                    if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
-                                                                    if ($roomInfo['value'] == '["on"]') {
-                                                                        $value = 'Evet';
-                                                                    } elseif ($roomInfo['value'] == '["off"]') {
-                                                                        $value = 'Hayır';
-                                                                    } else {
-                                                                        $value = $roomInfo['value'];
+                                                                        if ($roomInfo->room_order == $housingOrder) {
+                                                                            if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                                            if ($roomInfo['value'] == '["on"]') {
+                                                                                $value = 'Evet';
+                                                                            } elseif ($roomInfo['value'] == '["off"]') {
+                                                                                $value = 'Hayır';
+                                                                            } else {
+                                                                                $value = $roomInfo['value'];
+                                                                            }
+                                                                            $onProject = true;
+                                                                        }
                                                                     }
-                                                                    $onProject = true;
+                                                                 
                                                                 }
-                                                                }
-                                                             
-                                                            }
+                                                                    
                                                                     }
+                                                                   
                                                                 @endphp
-
-                                       
-@if (!$isArrayCheck && (isset($value) && $value !== ''))
-<tr>
-    @if ($housingSetting->label  == 'Fiyat')
-  <td> <span
-    class=" mr-1">{{ $housingSetting->label  }}:</span>
-<span class="det"
-    style="color: black; ">
-    {{ number_format($value, 0, ',', '.') }} ₺
-</span></td>
-@else
-    <td> <span
-        class=" mr-1">{{ $housingSetting->label }}:</span>{{ $value }}</td>
-        @endif
-</tr>
-   
-
-@endif
+    
+                                                                    @if (!$isArrayCheck && (isset($value) && $value !== ''))
+                                                                    <tr>
+                                                                        @if ($housingSetting->label  == 'Fiyat')
+                                                                    <td>  <span
+                                                                        class=" mr-1">{{ $housingSetting->label  }}:</span>
+                                                                    <span class="det"
+                                                                        style="color: black; ">
+                                                                        {{ number_format($value, 0, ',', '.') }} ₺
+                                                                    </span></td>
+                                                                    @else
+                                                                        <td> <span
+                                                                            class=" mr-1">{{ $housingSetting->label }}:</span>{{ $value }}</td>
+                                                                            @endif
+                                                                    </tr>
+                                                                    
+    
+                                                                    @endif
                                                             @endforeach
-
+    
                                                         </tbody>
                                                     </table>
-
-
-
+    
+    
+     
                                                     @foreach ($projectHousingSetting as $housingSetting)
                                                         @php
                                                             $isArrayCheck = $housingSetting->is_array;
                                                             $onProject = false;
                                                             $valueArray = [];
-
+    
                                                             if ($isArrayCheck) {
                                                                 $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                                                $value = implodeData($valueArray);
+                                                                if(isset($valueArray))
+                                                                        {
+                                                                             $value = implodeData($valueArray);
+                                                                        }
                                                             } elseif ($housingSetting->is_parent_table) {
                                                                 $value = $project[$housingSetting->column_name];
                                                                 $onProject = true;
                                                             } else {
-                                                                 foreach ($project->roomInfo as $roomInfo) {
-                                                                if ($roomInfo->room_order == $housingOrder) {
-                                                                    if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
-                                                                    if ($roomInfo['value'] == '["on"]') {
-                                                                        $value = 'Evet';
-                                                                    } elseif ($roomInfo['value'] == '["off"]') {
-                                                                        $value = 'Hayır';
-                                                                    } else {
-                                                                        $value = $roomInfo['value'];
+                                                                foreach ($project->roomInfo as $roomInfo) {
+                                                                    if ($roomInfo->room_order == $housingOrder) {
+                                                                        if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                                        if ($roomInfo['value'] == '["on"]') {
+                                                                            $value = 'Evet';
+                                                                        } elseif ($roomInfo['value'] == '["off"]') {
+                                                                            $value = 'Hayır';
+                                                                        } else {
+                                                                            $value = $roomInfo['value'];
+                                                                        }
+                                                                        $onProject = true;
                                                                     }
-                                                                    $onProject = true;
+                                                                    }
+                                                                 
                                                                 }
-                                                                }
-                                                             
-                                                            }
                                                             }
                                                         @endphp
-
+    
                                                         @if ($isArrayCheck)
-                                                            @if (count($valueArray))
+                                                            @if (isset($valueArray))
                                                                 <div class="mt-5">
                                                                     <h5>{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:
                                                                     </h5>
@@ -1868,7 +1903,7 @@
                                             <div class="single homes-content">
                                                 <h5 class="mb-4">Özellikler</h5>
 
-                                                <table class="table table-bordered">
+                                               <table class="table table-bordered">
                                                     <tbody class="trStyle"> 
                                                         @foreach ($projectHousingSetting as $key => $housingSetting)
                                                             @php
@@ -1876,29 +1911,36 @@
                                                                 $onProject = false;
                                                                 $valueArray = [];
 
-                                                                if ($isArrayCheck) {
+                                                             
+                                                                    if ($isArrayCheck) {
                                                                     $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                                                    $value = implodeData($valueArray);
+                                                                    if(isset($valueArray))
+                                                                    {
+                                                                         $value = implodeData($valueArray);
+                                                                    }
+                                                                   
                                                                 } elseif ($housingSetting->is_parent_table) {
                                                                     $value = $project[$housingSetting->column_name];
                                                                     $onProject = true;
                                                                 } else {
                                                                     foreach ($project->roomInfo as $roomInfo) {
-                                                                if ($roomInfo->room_order == $housingOrder) {
-                                                                    if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
-                                                                    if ($roomInfo['value'] == '["on"]') {
-                                                                        $value = 'Evet';
-                                                                    } elseif ($roomInfo['value'] == '["off"]') {
-                                                                        $value = 'Hayır';
-                                                                    } else {
-                                                                        $value = $roomInfo['value'];
+                                                                    if ($roomInfo->room_order == $housingOrder) {
+                                                                        if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                                        if ($roomInfo['value'] == '["on"]') {
+                                                                            $value = 'Evet';
+                                                                        } elseif ($roomInfo['value'] == '["off"]') {
+                                                                            $value = 'Hayır';
+                                                                        } else {
+                                                                            $value = $roomInfo['value'];
+                                                                        }
+                                                                        $onProject = true;
                                                                     }
-                                                                    $onProject = true;
-                                                                }
                                                                 }
                                                              
                                                             }
+                                                                
                                                                 }
+                                                               
                                                             @endphp
 
                                                                 @if (!$isArrayCheck && (isset($value) && $value !== ''))
@@ -1924,7 +1966,7 @@
                                                 </table>
 
 
-
+ 
                                                 @foreach ($projectHousingSetting as $housingSetting)
                                                     @php
                                                         $isArrayCheck = $housingSetting->is_array;
@@ -1933,7 +1975,10 @@
 
                                                         if ($isArrayCheck) {
                                                             $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                                            $value = implodeData($valueArray);
+                                                            if(isset($valueArray))
+                                                                    {
+                                                                         $value = implodeData($valueArray);
+                                                                    }
                                                         } elseif ($housingSetting->is_parent_table) {
                                                             $value = $project[$housingSetting->column_name];
                                                             $onProject = true;
@@ -1957,7 +2002,7 @@
                                                     @endphp
 
                                                     @if ($isArrayCheck)
-                                                        @if (count($valueArray))
+                                                        @if (isset($valueArray))
                                                             <div class="mt-5">
                                                                 <h5>{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:
                                                                 </h5>

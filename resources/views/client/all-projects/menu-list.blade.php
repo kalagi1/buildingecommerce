@@ -302,7 +302,7 @@
                                             </svg>
                                         </div>
                                     </div>
-                                    
+
                                 @endif
 
 
@@ -694,18 +694,27 @@
             var title = @json($housingTypeSlug ?? null);
             var optional = @json($opt ?? null);
 
+            var data = Object.assign({}, filters, {
+                _token: "{{ csrf_token() }}",
+                slug: slug,
+                type: type,
+                title: title,
+                optional: optional,
+                loc: @json($nslug ?? null),
+            });
+
+            let currentData = {};
+
+            Object.keys(data).map(e =>
+            {
+                if (data[e])
+                    currentData[e] = data[e];
+            });
 
             $.ajax({
                 method: "POST",
                 url: "{{ route($secondhandHousings ? 'get-rendered-secondhandhousings' : 'get-rendered-projects') }}",
-                data: Object.assign({}, filters, {
-                    _token: "{{ csrf_token() }}",
-                    slug: slug,
-                    type: type,
-                    title: title,
-                    optional: optional
-
-                }),
+                data: currentData,
                 success: function(response) {
                     $('.pp-row').empty();
                     $('.pp-col').empty();
@@ -771,7 +780,7 @@
                                     var featuredHtml = '<div class="homes-tag button alt featured">Sponsorlu </div>';
                                 }
                                 function kisalt(text, uzunluk) {
-                                if (text.length > uzunluk) {
+                                if (typeof text == "string" && text.length > uzunluk) {
                                     return text.substring(0, uzunluk - 3) + "...";
                                 }
                                 return text;
@@ -807,26 +816,19 @@
                                                                     </a>
                                                                     <p class="homes-address mb-3">
                                                                         <a href="${res.housing_url}">
-                                                                            <i class="fa fa-map-marker"></i><span>${res.city.title} ${"/"} ${res.county.ilce_title}</span>
+                                                                            <i class="fa fa-map-marker"></i><span>${res.city} ${"/"} ${res.county}</span>
                                                                         </a>
                                                                     </p>
-                                                                    <ul class="homes-list clearfix pb-0" style="display: flex;justify-content:space-between">
-                                                                                                    <li class="sude-the-icons" style="width:auto !important">
-                                                                                                        <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                                                        <span>${res.housing_type.title} </span>
-                                                                                                    </li>
-                                                                                                    <li class="sude-the-icons" style="width:auto !important">
-                                                                                                        <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                                                        <span>${res.housing_type.room_count}</span>
-                                                                                                    </li>
-                                                                                                    <li class="sude-the-icons" style="width:auto !important">
-                                                                                                        <i class="fa fa-circle circleIcon mr-1"></i>
-                                                                                                        <span>${res.housing_type.squaremeters} m2</span>
-                                                                                                    </li>
-                                                                                                </ul>
+                                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between">
+                                                                        ${res.column1 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column1} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
+    ${res.column2 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column2} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
+    ${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column3} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
+
+</ul>
+
                                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
                                                                         <li style="font-size: 15px; font-weight: 700; flex: 1;" class="priceFont">
-                                                                            ${res.step2_slug !== "gunluk-kiralik" ? 
+                                                                            ${res.step2_slug !== "gunluk-kiralik" ?
                                                                                 res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                                 : numberFormat(res.housing_type.price) + " ₺"
                                                                                 : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
@@ -898,7 +900,7 @@
                                                                     <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                                                         <a style="text-decoration: none;height:100%" href="${res.housing_url}">
                                                                             <h4>
-                                                                                ${res.title} ${' '}${res.housing_type.squaremeters ?? '?' }m2 ${res.housing_type.room_count ?? '?' }
+                                                                                ${res.title}
                                                                             </h4>
                                                                         </a>
                                                                         <div class="d-flex" style="align-items:Center">
@@ -906,7 +908,7 @@
                                                                                 <a href="#" class="btn toggle-favorite bg-white" data-housing-id="${res.id}" style="color: white;">
                                                                                     <i class="fa fa-heart-o"></i>
                                                                                 </a>
-                                                                                
+
                                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                             res.offSale ?
                                                                 `<button
@@ -942,8 +944,8 @@
                                                                             </div>
                                                                             <span class="ml-auto text-primary priceFont">
                                                                                 ${
-                                                                res.step2_slug !== "gunluk-kiralik" 
-                                                                ? res.offSale || (res.action === 'payment_await' || res.action === 'sold') 
+                                                                res.step2_slug !== "gunluk-kiralik"
+                                                                ? res.offSale || (res.action === 'payment_await' || res.action === 'sold')
                                                                     ? " "
                                                                     : numberFormat(res.housing_type.price) + " ₺"
                                                                 : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
@@ -956,22 +958,11 @@
                                                             <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
                                                                 <ul class="d-flex justify-content-around align-items-center h-100"
                                                                     style="list-style: none;padding:0;font-weight:600">
-                                                                    <li class="d-flex align-items-center itemCircleFont">
-                                                                        <i class="fa fa-circle circleIcon"></i>
-                                                                    No: ${res.id}
-                                                                    </li>
-                                                                    <li class="d-flex align-items-center itemCircleFont">
-                                                                        <i class="fa fa-circle circleIcon"></i>
-                                                                        ${res.housing_type.squaremeters ?? null } m2
-                                                                    </li>
-                                                                    <li class="d-flex align-items-center itemCircleFont">
-                                                                        <i class="fa fa-circle circleIcon"></i>
-                                                                        ${res.housing_type.room_count ?? null }
-                                                                    </li>
-                                                                    <li class="d-flex align-items-center itemCircleFont" >
-                                                                        <i class="fa fa-circle circleIcon"></i>
-                                                                        ${res.city.title} ${"/"} ${res.county.ilce_title}
-                                                                    </li>
+                                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between">
+                                                                        ${res.column1 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column1} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
+    ${res.column2 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column2} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
+    ${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column3} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
+</ul>
                                                                 </ul>
                                                             </div>
                                                             <hr>
@@ -1125,6 +1116,49 @@
             $('.filter-now').on('change', filterNow);
             $('.bathroom-count-item').on('click', filterNow);
         });
+
+        checkFavorites();
+
+        function checkFavorites() {
+            var favoriteButtons = document.querySelectorAll(".toggle-favorite");
+
+            favoriteButtons.forEach(function(button) {
+                var housingId = button.getAttribute("data-housing-id");
+                console.log(housingId);
+                $.ajax({
+                    url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
+                        .replace(':id', housingId),
+                    type: "GET",
+                    success: function(response) {
+                        if (response.is_favorite) {
+                            button.querySelector("i").classList.remove(
+                                "fa-heart-o");
+                            button.querySelector("i").classList.add(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "text-danger");
+                            button.classList.add("bg-white");
+                        } else {
+                            button.querySelector("i").classList.remove(
+                                "text-danger");
+                            button.querySelector("i").classList.remove(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "fa-heart-o");
+                        }
+                    },
+                    error: function(error) {
+                        button.querySelector("i").classList.remove(
+                            "text-danger");
+                        button.querySelector("i").classList.remove(
+                            "fa-heart");
+                        button.querySelector("i").classList.add(
+                            "fa-heart-o");
+                        console.error(error);
+                    }
+                });
+            });
+        }
     </script>
 @endsection
 

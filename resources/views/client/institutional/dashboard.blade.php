@@ -1600,6 +1600,8 @@
                         <div class="container">
                             <div class="row project-filter-reverse blog-pots secondhand-housings-web">
                                 @foreach ($secondhandHousings as $housing)
+                                @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$housing->id]))
+
                                     <a href="{{ route('housing.show', [$housing->id]) }}" class="text-decoration-none">
                                         <div data-aos="fade-up" data-aos-delay="150">
                                             <div class="landscapes">

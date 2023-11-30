@@ -17,7 +17,7 @@
                         <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}" alt=""
                             class="brand-logo">
                         <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
-                                style="color:White">
+                                style="color:White;">
                                 {{ $project->user->name }}
                                 <style type="text/css">
                                     .st0 {
@@ -109,7 +109,7 @@
                         <div class="news-item-img homes">
                             <div class="homes-tag button alt featured" style="width:150px !important">
                                 <a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
-                                    style="color:White">{{ $project->user->name }}</a>
+                                    style="color:White;">{{ $project->user->name }}</a>
                             </div>
                             <img class="resp-img"
                                 src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
@@ -589,7 +589,7 @@
                                                             @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                                 <button class="btn   mobileBtn  second-btn CartBtn"
                                                                     disabled
-                                                                    style="background: red !important;width:100%;color:White">
+                                                                    style="background: red !important;width:100%;color:White;">
                                                                     <span class="IconContainer">
                                                                         <img src="{{ asset('sc.png') }}"
                                                                             alt="">
@@ -602,7 +602,7 @@
                                                                         disabled
                                                                         @if ($sold->status == '0') style="background: orange !important;width:100%;color:White"
                                         @else 
-                                        style="background: red !important;width:100%;color:White" @endif>
+                                        style="background: red !important;width:100%;color:White;height: auto !important" @endif>
                                                                                         <span class="IconContainer">
                                                                             <img src="{{ asset('sc.png') }}"
                                                                                 alt="">
@@ -1065,7 +1065,7 @@
                                     </span>
                                     @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                         <button class="btn   mobileBtn  second-btn CartBtn" disabled
-                                            style="background: red !important;width:100%;color:White">
+                                            style="background: red !important;width:100%;color:White;">
                                             <span class="IconContainer">
                                                 <img src="{{ asset('sc.png') }}" alt="">
                                             </span>

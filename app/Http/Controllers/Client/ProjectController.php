@@ -175,6 +175,8 @@ class ProjectController extends Controller
             $deneme = "al-sat-acil";
         }
 
+        $nslug = HousingType::where('slug', ['konut' => 'daire'][$slug] ?? $slug)->first()->id ?? 0;
+
         $parameters = [$slug, $type, $optional, $title];
         $secondhandHousings = [];
         $projects = [];
@@ -296,7 +298,7 @@ class ProjectController extends Controller
                 });
 
                 $anotherProjects = $query->get();
-                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
+                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('item_id', $oncelikliProjeler)
                     ->orderBy('id', 'asc')
                     ->get()
                     ->concat($anotherProjects);
@@ -344,7 +346,7 @@ class ProjectController extends Controller
         $cities = City::get();
         $menu = Menu::getMenuItems();
 
-        return view('client.all-projects.menu-list', compact('menu', "opt", "housingTypeSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
+        return view('client.all-projects.menu-list', compact('nslug', 'menu', "opt", "housingTypeSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
     }
 
     public function allProjects($slug)

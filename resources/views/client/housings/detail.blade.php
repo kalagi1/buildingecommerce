@@ -157,36 +157,49 @@
 
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                 <div class="carousel-inner">
+                            
+                                    {{-- Kapak Görseli --}}
+                                    <div class="item carousel-item active" data-slide-number="0">
+                                        <a href="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}" data-lightbox="image-gallery">
+                                            <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}" class="img-fluid" alt="slider-listing">
+                                        </a>
+                                    </div>
+                            
+                                    {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $key => $image)
-                                        <div class="item carousel-item {{ $key == 0 ? 'active' : '' }}"
-                                            data-slide-number="{{ $key }}">
-                                            <a href="{{ asset('housing_images/' . $image) }}"
-                                                data-lightbox="image-gallery">
-                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
-                                                    alt="slider-listing">
+                                        <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
+                                            <a href="{{ asset('housing_images/' . $image) }}" data-lightbox="image-gallery">
+                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid" alt="slider-listing">
                                             </a>
                                         </div>
                                     @endforeach
-
-                                    <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
-                                            class="fa fa-angle-left"></i></a>
-                                    <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
-                                            class="fa fa-angle-right"></i></a>
+                            
+                                    {{-- Carousel Kontrolleri --}}
+                                    <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i class="fa fa-angle-left"></i></a>
+                                    <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i class="fa fa-angle-right"></i></a>
                                 </div>
-
+                            
+                                {{-- Küçük Resim Navigasyonu --}}
                                 <div class="listingDetailsSliderNav mt-3">
+                                    {{-- Kapak Görseli --}}
+                                    <div class="item active" style="margin: 10px; cursor: pointer">
+                                        <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
+                                            <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}" class="img-fluid altSlider" alt="listing-small">
+                                        </a>
+                                    </div>
+                            
+                                    {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $imageKey => $image)
-                                        <div class="item {{ $imageKey == 0 ? 'active' : '' }}"
-                                            style="margin: 10px; cursor: pointer">
-                                            <a id="carousel-selector-{{ $imageKey }}"
-                                                data-slide-to="{{ $imageKey }}" data-target="#listingDetailsSlider">
-                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
-                                                    alt="listing-small">
+                                        <div class="item" style="margin: 10px; cursor: pointer">
+                                            <a id="carousel-selector-{{ $imageKey + 1 }}" data-slide-to="{{ $imageKey + 1 }}" data-target="#listingDetailsSlider">
+                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid altSlider" alt="listing-small">
                                             </a>
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
+                            
+                            
 
                          
 
@@ -260,6 +273,16 @@
                                                                         'start_time' => 'Giriş Saati',
                                                                         'ulasim1' => 'Ulaşım',
                                                                         'muhit1' => 'Muhit',
+                                                                        "star_count" => "Yıldız Sayısı",
+                                                                        'kitchen_settings1' => 'Mutfak Özellikleri',
+                                                                        'room_settings1' => 'Oda Özellikleri',
+                                                                        'room_types1' => "Oda Çeşitleri",
+                                                                        "facility_settings1" => "Tesis Özellikleri",
+                                                                        "bath_settings1" => "Banyo Özellikleri",
+                                                                        "use_withs1" => "Ortak Kullanım",
+                                                                        "views1" =>"Manzara",
+                                                                        "infrastructures1" => "Altyapılar",
+                                                                        "activities1" => "Aktiviteler",
                                                                         'konut_tipi1' => 'Konut Tipi',
                                                                         'manzara1' => 'Manzara',
                                                                         'engelliye_uygun1' => 'Engelliye Uygun',
@@ -269,17 +292,31 @@
                                                                         'titledeedstatus' => 'Tapu Durumu',
                                                                         'external_features1' => 'Dış Özellikler',
                                                                         'swap' => 'Takas',
+                                                                        'swap1' => 'Takas',
                                                                         'internal_features1' => 'İç Özellikler',
                                                                         'floorlocation' => 'Kat Sayısı',
                                                                         'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                         'furnished1' => 'Eşyalı',
+                                                                        "buysellurgent1" => "Acil Satılık",
+                                                                        "structure" => "Yapının Durumu",
+                                                                        "bed_count" => "Yatak Sayısı",
+                                                                        "food_drink1" => "Yeme İçme",
+                                                                        "meeting1" => "Toplantı & Kongre",
+                                                                        "proximity1" => "Yakınlık",
+                                                                        "transportation1" => "Ulaşım",
+                                                                        "facilities1" => "Tesis Aktiviteleri",
+                                                                        "availableforLoan" => "Krediye Uygun",
+                                                                        "images" => "Galeri",
+                                                                        "usagePurpose1" => "Kullanım Amacı",
+                                                                        "generalFeatures1" => "Genel Özellikler",
+                                                                        "infrastructure1" => "Altyapı"
                                                                     ];
                                                                     $key = $turkceKarsilik[$key] ?? $key;
                                                                 @endphp
 
                                                                 @if (
                                                                     $key != 'image' &&
-                                                                        $key != 'images' &&
+                                                                        $key != 'Galeri' &&
                                                                         $key != 'İç Özellikler' &&
                                                                         $key != 'Dış Özellikler' &&
                                                                         $key != 'Muhit' &&
@@ -343,6 +380,16 @@
                                                                     'start_time' => 'Giriş Saati',
                                                                     'ulasim1' => 'Ulaşım',
                                                                     'muhit1' => 'Muhit',
+                                                                    "star_count" => "Yıldız Sayısı",
+                                                                    'kitchen_settings1' => 'Mutfak Özellikleri',
+                                                                        'room_settings1' => 'Oda Özellikleri',
+                                                                        'room_types1' => "Oda Çeşitleri",
+                                                                        "facility_settings1" => "Tesis Özellikleri",
+                                                                        "bath_settings1" => "Banyo Özellikleri",
+                                                                        "use_withs1" => "Ortak Kullanım",
+                                                                        "views1" =>"Manzara",
+                                                                        "infrastructures1" => "Altyapılar",
+                                                                        "activities1" => "Aktiviteler",
                                                                     'konut_tipi1' => 'Konut Tipi',
                                                                     'manzara1' => 'Manzara',
                                                                     'engelliye_uygun1' => 'Engelliye Uygun',
@@ -352,6 +399,7 @@
                                                                     'titledeedstatus' => 'Tapu Durumu',
                                                                     'external_features1' => 'Dış Özellikler',
                                                                     'swap' => 'Takas',
+                                                                    'swap1' => 'Takas',
                                                                     'islandnumber' => 'Ada No',
                                                                     'parcelnumber' => 'Parsel No',
                                                                     'sheetnumber' => 'Pafta No',
@@ -361,24 +409,42 @@
                                                                     'floorlocation' => 'Kat Sayısı',
                                                                     'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                     'furnished1' => 'Eşyalı',
+                                                                      'furnished' => 'Eşyalı',
+                                                                        "buysellurgent1" => "Acil Satılık",
+                                                                        "structure" => "Yapının Durumu",
+                                                                        "bed_count" => "Yatak Sayısı",
+                                                                        "food_drink1" => "Yeme İçme",
+                                                                        "meeting1" => "Toplantı & Kongre",
+                                                                        "proximity1" => "Yakınlık",
+                                                                        "transportation1" => "Ulaşım",
+                                                                        "facilities1" => "Tesis Aktiviteleri",
+                                                                        "availableforLoan" => "Krediye Uygun",
+                                                                        "images" => "Galeri",
+                                                                        "usagePurpose1" => "Kullanım Amacı",
+                                                                        "generalFeatures1" => "Genel Özellikler",
+                                                                        "infrastructure1" => "Altyapı"
+                                                                    
                                                                 ];
 
                                                                 $key = $turkceKarsilik[$key] ?? $key;
                                                             @endphp
 
 
-                                                            @if (is_array($val))
-                                                                @if (count($val) > 1)
-                                                                    <h5 class="mt-5">{{ $key }}</h5>
-                                                                    <ul class="homes-list clearfix">
-                                                                        @foreach ($val as $item)
-                                                                            <li><i class="fa fa-check-square"
-                                                                                    aria-hidden="true"></i><span>{{ $item }}</span>
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                @endif
-                                                            @endif
+@if (is_array($val))
+@if (count($val) > 1)
+@if($key != "Galeri")
+    <h5 class="mt-5">{{ $key }}</h5>
+    <ul class="homes-list clearfix">
+        @foreach ($val as $item)
+            <li><i class="fa fa-check-square"
+                    aria-hidden="true"></i><span>{{ $item }}</span>
+            </li>
+        @endforeach
+    </ul>
+@endif
+@endif
+
+@endif
                                                         @endforeach
                                                     </div>
                                                 </div>
@@ -601,6 +667,16 @@
                                                                         'start_time' => 'Giriş Saati',
                                                                         'ulasim1' => 'Ulaşım',
                                                                         'muhit1' => 'Muhit',
+                                                                        "star_count" => "Yıldız Sayısı",
+                                                                        'kitchen_settings1' => 'Mutfak Özellikleri',
+                                                                        'room_settings1' => 'Oda Özellikleri',
+                                                                        'room_types1' => "Oda Çeşitleri",
+                                                                        "facility_settings1" => "Tesis Özellikleri",
+                                                                        "bath_settings1" => "Banyo Özellikleri",
+                                                                        "use_withs1" => "Ortak Kullanım",
+                                                                        "views1" =>"Manzara",
+                                                                        "infrastructures1" => "Altyapılar",
+                                                                        "activities1" => "Aktiviteler",
                                                                         'konut_tipi1' => 'Konut Tipi',
                                                                         'manzara1' => 'Manzara',
                                                                         'engelliye_uygun1' => 'Engelliye Uygun',
@@ -610,17 +686,33 @@
                                                                         'titledeedstatus' => 'Tapu Durumu',
                                                                         'external_features1' => 'Dış Özellikler',
                                                                         'swap' => 'Takas',
+                                                                        'swap1' => 'Takas',
                                                                         'internal_features1' => 'İç Özellikler',
                                                                         'floorlocation' => 'Kat Sayısı',
                                                                         'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                         'furnished1' => 'Eşyalı',
+                                                                          'furnished' => 'Eşyalı',
+                                                                        "buysellurgent1" => "Acil Satılık",
+                                                                        "structure" => "Yapının Durumu",
+                                                                        "bed_count" => "Yatak Sayısı",
+                                                                        "food_drink1" => "Yeme İçme",
+                                                                        "meeting1" => "Toplantı & Kongre",
+                                                                        "proximity1" => "Yakınlık",
+                                                                        "transportation1" => "Ulaşım",
+                                                                        "facilities1" => "Tesis Aktiviteleri",
+                                                                        "availableforLoan" => "Krediye Uygun",
+                                                                        "images" => "Galeri",
+                                                                        "usagePurpose1" => "Kullanım Amacı",
+                                                                        "generalFeatures1" => "Genel Özellikler",
+                                                                        "infrastructure1" => "Altyapı"
+                                                                        
                                                                     ];
                                                                     $key = $turkceKarsilik[$key] ?? $key;
                                                                 @endphp
 
                                                                 @if (
                                                                     $key != 'image' &&
-                                                                        $key != 'images' &&
+                                                                        $key != 'Galeri' &&
                                                                         $key != 'İç Özellikler' &&
                                                                         $key != 'Dış Özellikler' &&
                                                                         $key != 'Muhit' &&
@@ -688,6 +780,16 @@
                                                                 'usingstatus' => 'Kullanım Durumu',
                                                                 'ulasim1' => 'Ulaşım',
                                                                 'muhit1' => 'Muhit',
+                                                                "star_count" => "Yıldız Sayısı",
+                                                                'kitchen_settings1' => 'Mutfak Özellikleri',
+                                                                        'room_settings1' => 'Oda Özellikleri',
+                                                                        'room_types1' => "Oda Çeşitleri",
+                                                                        "facility_settings1" => "Tesis Özellikleri",
+                                                                        "bath_settings1" => "Banyo Özellikleri",
+                                                                        "use_withs1" => "Ortak Kullanım",
+                                                                        "views1" =>"Manzara",
+                                                                        "infrastructures1" => "Altyapılar",
+                                                                        "activities1" => "Aktiviteler",
                                                                 'konut_tipi1' => 'Konut Tipi',
                                                                 'manzara1' => 'Manzara',
                                                                 'engelliye_uygun1' => 'Engelliye Uygun',
@@ -696,6 +798,7 @@
                                                                 'titledeedstatus' => 'Tapu Durumu',
                                                                 'external_features1' => 'Dış Özellikler',
                                                                 'swap' => 'Takas',
+                                                                'swap1' => 'Takas',
                                                                 'islandnumber' => 'Ada No',
                                                                 'parcelnumber' => 'Parsel No',
                                                                 'sheetnumber' => 'Pafta No',
@@ -705,6 +808,21 @@
                                                                 'floorlocation' => 'Kat Sayısı',
                                                                 'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                 'furnished1' => 'Eşyalı',
+                                                                  'furnished' => 'Eşyalı',
+                                                                        "buysellurgent1" => "Acil Satılık",
+                                                                        "structure" => "Yapının Durumu",
+                                                                        "bed_count" => "Yatak Sayısı",
+                                                                        "food_drink1" => "Yeme İçme",
+                                                                        "meeting1" => "Toplantı & Kongre",
+                                                                        "proximity1" => "Yakınlık",
+                                                                        "transportation1" => "Ulaşım",
+                                                                        "facilities1" => "Tesis Aktiviteleri",
+                                                                        "availableforLoan" => "Krediye Uygun",
+                                                                        "images" => "Galeri",
+                                                                        "usagePurpose1" => "Kullanım Amacı",
+                                                                        "generalFeatures1" => "Genel Özellikler",
+                                                                        "infrastructure1" => "Altyapı"
+                                                                
                                                             ];
 
                                                             $key = $turkceKarsilik[$key] ?? $key;
@@ -713,6 +831,7 @@
 
                                                         @if (is_array($val))
                                                             @if (count($val) > 1)
+                                                            @if($key != "Galeri")
                                                                 <h5 class="mt-5">{{ $key }}</h5>
                                                                 <ul class="homes-list clearfix">
                                                                     @foreach ($val as $item)
@@ -722,6 +841,8 @@
                                                                     @endforeach
                                                                 </ul>
                                                             @endif
+                                                            @endif
+
                                                         @endif
                                                     @endforeach
 
@@ -1582,12 +1703,71 @@
                 if (reservationCalendar) {
                     reservationCalendar.destroy();
                 }
-                // Bu fonksiyon, iki tarih aralığı seçildiğinde tetiklenir
                 function onSelectDates(selectedDates, dateStr, instance) {
+                    var reservations = {!! json_encode($housing->reservations) !!};
+                var bookedDates = reservations.map(function(reservation) {
+                    return {
+                        from: reservation.check_in_date,
+                        to: reservation.check_out_date,
+                        status: reservation.status
+                    };
+                });
+
+                var container = instance.calendarContainer;
+
+                container.querySelectorAll(".flatpickr-day").forEach(function(day) {
+                    var targetDate = day.dateObj;
+                    if (targetDate) {
+                        var booking = bookedDates.find(function(reservation) {
+                            return targetDate >= new Date(reservation.from) && targetDate <= new Date(
+                                reservation.to);
+                        });
+
+                        if (booking) {
+                            if (booking.status === 0) {
+                                day.classList.add("yellow-bg");
+                                addWarningTooltip(day, booking);
+                                if (targetDate == new Date(booking.from) || targetDate > new Date(booking.from)) {
+                                    day.classList.add("flatpickr-disabled");
+                                    day.addEventListener("click", function(event) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                    });
+                                }
+                            } else if (booking.status === 1) {
+                                day.classList.add("red-bg");
+                                // Disable etme
+                                day.addEventListener("click", function(event) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                });
+                            } else if (booking.status === 2) {
+                                day.classList.remove("flatpickr-disabled");
+                                // Tıklanmaya izin verme
+                                day.addEventListener("click", function(event) {
+                                    event.stopPropagation();
+                                });
+                            } else {
+                                day.classList.remove("yellow-bg", "red-bg", "disable-day");
+                            }
+                        }
+
+                        bookedDates.forEach(function(reservation) {
+                            if (targetDate >= new Date(reservation.from) && targetDate == new Date(reservation
+                                    .from) &&
+                                targetDate <= new Date(reservation.to)) {
+                                if (reservation.status === 0) {
+                                    day.classList.add("bg-yellow");
+                                } else if (reservation.status === 1) {
+                                    day.classList.add("bg-red");
+                                }
+                            }
+                        });
+                    }
+                });
                     var checkinDate = selectedDates[0];
                     var checkoutDate = selectedDates[selectedDates.length - 1];
 
-                    // Eğer her iki tarih de seçilmişse, input alanlarına yazdır
                     if (checkinDate && checkoutDate) {
                         document.getElementById('date-checkin').value = formatDate(checkinDate);
                         document.getElementById('date-checkout').value = formatDate(checkoutDate);
@@ -1615,13 +1795,11 @@
                     }
                 }
 
-                // Bu fonksiyon, tarihi belirli bir formata dönüştürür
                 function formatDate(date) {
                     var day = date.getDate();
                     var month = date.getMonth() + 1;
                     var year = date.getFullYear();
 
-                    // Gerekirse ayları ve günleri iki basamaklı hale getirin
                     if (day < 10) {
                         day = '0' + day;
                     }
@@ -1638,14 +1816,13 @@
                     inline: true,
                     locale: 'tr',
                     showMonths: showMonths,
-                    minDate: today, // Bugünden önceki tarihleri disable et
+                    minDate: today, 
                     onReady: applyClassesToDates,
                     onChange: onSelectDates,
                     onMonthChange: applyClassesToDates
                 });
             }
 
-            // Sayfa yüklendiğinde ve pencere boyutu değiştiğinde kontrolü güncelle
             document.addEventListener('DOMContentLoaded', updateCalendarView);
             window.addEventListener('resize', updateCalendarView);
 
@@ -1653,7 +1830,7 @@
             var dateCheckin = flatpickr("#date-checkin", {
                 dateFormat: 'Y-m-d',
                 locale: 'tr',
-                minDate: today, // Bugünden önceki tarihleri disable et
+                minDate: today, 
                 onReady: applyClassesToDates,
                 onChange: applyClassesToDates,
                 onMonthChange: applyClassesToDates
@@ -1662,7 +1839,7 @@
             var dateCheckout = flatpickr("#date-checkout", {
                 dateFormat: 'Y-m-d',
                 locale: 'tr',
-                minDate: today, // Bugünden önceki tarihleri disable et
+                minDate: today,
                 onReady: applyClassesToDates,
                 onChange: applyClassesToDates,
                 onMonthChange: applyClassesToDates
@@ -1715,6 +1892,13 @@
         #totalPrice {
             color: #274abb;
             font-weight: 600;
+        }
+
+        .altSlider{
+            width: 100%;
+            height: 85px !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
     </style>
 @endsection

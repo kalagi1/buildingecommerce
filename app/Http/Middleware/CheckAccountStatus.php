@@ -29,6 +29,7 @@ class CheckAccountStatus
      */
     public function handle(Request $request, Closure $next): Response
     {
+        /*
         if (auth()->user()->corporate_account_status == 0 && auth()->user()->type == 1 && !in_array(request()->route()->getName(), $this->whitelist))
         {
             return redirect()->route('client.account-verification');
@@ -37,7 +38,7 @@ class CheckAccountStatus
         {
             return redirect()->route('index');
         }
-        
+        */
         return $next($request);
     }
 }

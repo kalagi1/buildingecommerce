@@ -12,9 +12,9 @@
         <meta name="author" content="{{ $pageInfo->meta_author }}">
         <title>{{ $pageInfo->meta_title }}</title>
     @else
-        <meta name="description" content="Emlak Sepeti">
+        <meta name="description" content="Emlak Sepette">
         <meta name="author" content="">
-        <title>Emlak Sepeti</title>
+        <title>Emlak Sepette</title>
     @endif
 
 

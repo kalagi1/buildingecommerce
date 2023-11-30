@@ -48,7 +48,7 @@ class ProjectController extends Controller
     public function housings($project_id)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('id', $project_id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('id', $project_id)->with("brand", "blocks", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         $project->roomInfo = $project->roomInfo;
         $project->brand = $project->brand;
         $project->housingType = $project->housingType;
@@ -178,7 +178,7 @@ class ProjectController extends Controller
     {
         $bankAccounts = BankAccount::all();
 
-        $projects = Project::where('user_id', Auth::user()->id)
+        $projects = Project::where('user_id', auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id)
             ->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')
             ->orderByDesc('created_at')
             ->get();
@@ -224,12 +224,13 @@ class ProjectController extends Controller
             return $project;
         });
 
+
         return view('institutional.projects.index', compact('projects', 'bankAccounts'));
     }
 
     public function create()
     {
-        $brands = Brand::where('user_id', Auth::user()->id)->where('status', 1)->get();
+        $brands = Brand::where('user_id', auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id)->where('status', 1)->get();
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
         $cities = City::get();
@@ -294,7 +295,7 @@ class ProjectController extends Controller
             $tempDataFull = json_decode('{"step_order" : 1}');
         }
         $bankAccounts = BankAccount::all();
-        $userPlan = UserPlan::where('user_id', auth()->user()->id)->first();
+        $userPlan = UserPlan::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->first();
         $featuredPrices = DopingPricing::where('item_type',1)->get();
         $topRowPrices = DopingPricing::where('item_type',2)->get();
         return view('institutional.projects.createv2', compact('topRowPrices','featuredPrices','housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull','bankAccounts', 'selectedStatuses', 'userPlan', 'hasTemp', 'secondAreaList', 'housingTypes', 'areaSlugs', 'housingTypeTempX'));
@@ -865,7 +866,7 @@ class ProjectController extends Controller
 
         $project->roomInfoKeys = $groupedData;
 
-        $brands = Brand::where('user_id', Auth::user()->id)->where('status', 1)->get();
+        $brands = Brand::where('user_id', auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id)->where('status', 1)->get();
         $housing_types = HousingType::all();
         $housing_status = HousingStatus::all();
         $cities = City::get();
