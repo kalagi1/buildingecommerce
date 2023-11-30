@@ -302,7 +302,7 @@
                                             </svg>
                                         </div>
                                     </div>
-                                    
+
                                 @endif
 
 
@@ -819,7 +819,7 @@
 
                                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
                                                                         <li style="font-size: 15px; font-weight: 700; flex: 1;" class="priceFont">
-                                                                            ${res.step2_slug !== "gunluk-kiralik" ? 
+                                                                            ${res.step2_slug !== "gunluk-kiralik" ?
                                                                                 res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                                 : numberFormat(res.housing_type.price) + " ₺"
                                                                                 : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
@@ -891,7 +891,7 @@
                                                                     <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                                                         <a style="text-decoration: none;height:100%" href="${res.housing_url}">
                                                                             <h4>
-                                                                                ${res.title} 
+                                                                                ${res.title}
                                                                             </h4>
                                                                         </a>
                                                                         <div class="d-flex" style="align-items:Center">
@@ -899,7 +899,7 @@
                                                                                 <a href="#" class="btn toggle-favorite bg-white" data-housing-id="${res.id}" style="color: white;">
                                                                                     <i class="fa fa-heart-o"></i>
                                                                                 </a>
-                                                                                
+
                                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                             res.offSale ?
                                                                 `<button
@@ -935,8 +935,8 @@
                                                                             </div>
                                                                             <span class="ml-auto text-primary priceFont">
                                                                                 ${
-                                                                res.step2_slug !== "gunluk-kiralik" 
-                                                                ? res.offSale || (res.action === 'payment_await' || res.action === 'sold') 
+                                                                res.step2_slug !== "gunluk-kiralik"
+                                                                ? res.offSale || (res.action === 'payment_await' || res.action === 'sold')
                                                                     ? " "
                                                                     : numberFormat(res.housing_type.price) + " ₺"
                                                                 : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"

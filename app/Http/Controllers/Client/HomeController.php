@@ -237,7 +237,6 @@ class HomeController extends Controller
 
     public function getRenderedSecondhandHousings(Request $request)
     {
-
         function convertMonthToTurkishCharacter($date)
         {
             $aylar = [
@@ -366,6 +365,7 @@ class HomeController extends Controller
             'housings.address',
             \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
             \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
+            \Illuminate\Support\Facades\DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) as price'),
             'cities.title AS city_title', 
             'districts.ilce_title AS county_title'
         )
@@ -376,9 +376,7 @@ class HomeController extends Controller
         ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
         ->where('housings.status', 1)
         ->whereRaw('(SELECT 1 FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id LIMIT 1) IS NULL')
-        ->where('project_list_items.item_type', 2)
-        ->orderByDesc('doping_time')
-        ->orderByDesc('housings.created_at');
+        ->where('project_list_items.item_type', 2);
         
         if ($request->input("slug") == "al-sat-acil") {
             $obj = $obj->whereJsonContains('housing_type_data->buysellurgent1', "Evet");
@@ -442,6 +440,10 @@ class HomeController extends Controller
 
         if ($request->input('county')) {
             $obj = $obj->where('county_id', $request->input('county'));
+        }
+
+        if ($request->input('neighborhood')) {
+            $obj = $obj->where('neighborhood_id', $request->input('neighborhood'));
         }
 
         if ($request->input('neighborhood')) {
@@ -529,7 +531,7 @@ class HomeController extends Controller
             }
         }
 
-        if ($request->input('sort')) {
+        if ($request->has('sort')) {
             switch ($request->input('sort')) {
                 case 'date-asc':
                     $obj = $obj->orderBy('created_at', 'asc');
@@ -540,12 +542,10 @@ class HomeController extends Controller
                     $obj = $obj->orderBy('doping_time', 'asc');
                     break;
                 case 'price-asc':
-                    $obj = $obj->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.price[0]")) AS DECIMAL(10, 2)) ASC');
-                    $obj = $obj->orderBy('doping_time', 'asc');
+                    $obj = $obj->orderByRaw('price ASC');
                     break;
                 case 'price-desc':
-                    $obj = $obj->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.price[0]")) AS DECIMAL(10, 2)) DESC');
-                    $obj = $obj->orderBy('doping_time', 'asc');
+                    $obj = $obj->orderByRaw('price DESC');
                     break;
             }
         }else{
@@ -554,7 +554,8 @@ class HomeController extends Controller
 
         $itemPerPage = 12;
         $obj = $obj->paginate($itemPerPage);
-        
+
+
         return response()->json($obj->through(function ($item) use ($request) {
             $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
             $isFavorite = 0;
