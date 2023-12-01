@@ -93,8 +93,16 @@ class FavoriteController extends Controller
     {
         $user = User::where("id", Auth::user()->id)->with("housingFavorites.housing", 'housingFavorites.housing.city', 'housingFavorites.housing.brand')->first();
         $favorites = $user->housingFavorites;
-        $projectFavorites = ProjectFavorite::where("user_id", Auth::user()->id)->with('project.roomInfo', 'projectHousing')->get();
-        return view('client.favorites.index', compact('user', 'favorites', 'projectFavorites'));
+        $projectFavorites = ProjectFavorite::where("user_id", Auth::user()->id)
+            ->with('project.roomInfo', 'projectHousing')
+            ->orderBy("created_at", "desc")
+            ->get();
+        
+        $mergedFavorites = $favorites->merge($projectFavorites);
+        
+        $mergedFavorites = $mergedFavorites->sortByDesc('created_at');
+        
+        return view('client.favorites.index', compact('user', 'favorites', 'projectFavorites','mergedFavorites'));
     }
 
     public function getHousingFavoriteStatus($id)

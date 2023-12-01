@@ -495,6 +495,8 @@
 <script>
     $('.payment-plan-button').click(function() {
         var order = $(this).attr('order');
+        var soldStatus = $(this).data('sold');
+
         var cart = {
             project_id: $(this).attr('project-id'),
             order: $(this).attr('order'),
@@ -517,11 +519,18 @@
             return a;
 
         }
-        // Ajax isteği gönderme
-        $.ajax({
+        if(soldStatus =="1" ) {
+            Swal.fire({
+        icon: 'warning',
+        title: 'Uyarı',
+        text: 'Bu ürün için ödeme detay bilgisi gösterilemiyor.',
+        confirmButtonText: 'Kapat'
+    });
+        }else{
+            $.ajax({
             url: "{{ route('get.housing.payment.plan') }}", // Sepete veri eklemek için uygun URL'yi belirtin
             type: "get", // Veriyi göndermek için POST kullanabilirsiniz
-            data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
+            data: cart, 
             success: function(response) {
                 for (var i = 0; i < response.room_info.length; i++) {
                     if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
@@ -596,6 +605,8 @@
                 console.error("Hata oluştu: " + error);
             }
         });
+        }
+       
     })
     $(document).ready(function() {
         const searchInput = $(".search-input");
