@@ -268,7 +268,7 @@
             @endphp
             <div class="mobile-show">
                 @foreach ($finishProjects as $project)
-                    @for ($i = 0; $i < $project->room_count; $i++)
+                    @for ($i = 0; $i < 1; $i++)
                         @php($room_order = $i + 1)
                         @php(
     $discount_amount =
@@ -446,7 +446,7 @@
                         <div class="container">
                             <div class="row project-filter-reverse blog-pots finish-projects-web">
                                 @foreach ($finishProjects as $project)
-                                    @for ($i = 0; $i < $project->room_count; $i++)
+                                    @for ($i = 0; $i < 1; $i++)
                                         @php($room_order = $i + 1)
                                         @php(
     $discount_amount =
@@ -665,7 +665,7 @@
             </div>
             <div class="mobile-show">
                 @foreach ($continueProjects as $project)
-                    @for ($i = 0; $i < $project->room_count; $i++)
+                    @for ($i = 0; $i < 1; $i++)
                         @php($room_order = $i + 1)
                         @php(
     $discount_amount =
@@ -843,7 +843,7 @@
                         <div class="container">
                             <div class="row project-filter-reverse blog-pots finish-projects-web">
                                 @foreach ($continueProjects as $project)
-                                    @for ($i = 0; $i < $project->room_count; $i++)
+                                    @for ($i = 0; $i < 1; $i++)
                                         @php($room_order = $i + 1)
                                         @php(
     $discount_amount =
@@ -1058,7 +1058,7 @@
             </div>
             <div class="mobile-show">
                 @foreach ($soilProjects as $project)
-                    @for ($i = 0; $i < $project->room_count; $i++)
+                    @for ($i = 0; $i < 1; $i++)
                         @php($room_order = $i + 1)
                         @php(
     $discount_amount =
@@ -1237,7 +1237,7 @@
                         <div class="container">
                             <div class="row project-filter-reverse blog-pots finish-projects-web">
                                 @foreach ($soilProjects as $project)
-                                    @for ($i = 0; $i < $project->room_count; $i++)
+                                    @for ($i = 0; $i < 1; $i++)
                                         @php($room_order = $i + 1)
                                         @php(
     $discount_amount =

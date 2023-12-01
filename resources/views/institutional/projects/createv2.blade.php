@@ -2934,24 +2934,8 @@
             }
 
             $('.finish-button-first').click(function() {
-            @if ($userPlan && $userPlan->project_limit === 0)
-                $.toast({
-                    heading: 'Hata',
-                    text: 'Hakkınız kalmadığı için bu işlemi gerçekleştiremezsiniz.',
-                    position: 'top-right',
-                    stack: false
-                });
-            @elseif (!$userPlan)
-                $.toast({
-                    heading: 'Hata',
-                    text: 'Proje eklemek için paket satın almalısınız.',
-                    position: 'top-right',
-                    stack: false
-                });
-            @else
                 toSecondArea();
-            @endif
-        });
+            });
 
             $('.doping_statuses').change(function(){
                 if($(this).val() != ""){
