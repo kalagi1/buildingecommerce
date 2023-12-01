@@ -165,13 +165,21 @@
                     @if (count($dashboardProjects))
                         <div class="row">
                             @foreach ($dashboardProjects as $project)
-                                <div class="col-sm-12 col-md-4 col-lg-4 col-12" data-aos="zoom-in" data-aos-delay="150">
-                                    <!-- Image Box -->
-                                    <a href="{{ route('project.detail', $project->project->slug) }}"
-                                        class="img-box hover-effect">
-                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"
-                                            class="img-fluid w100" alt="">
-                                    </a>
+                                <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150"
+                                style="height:200px">
+                                    <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
+                                        <div class="listing-item compact" style="height:100%">
+                                            <a href="{{ route('project.detail', $project->project->slug) }}" class="listing-img-container">
+                                                <img class="project_brand_profile_image" src="{{URL::to('/').'/storage/profile_images/'.$project->project->user->profile_image}}" alt="">
+                                                <div class="listing-img-content">
+                                                    <span class="badge badge-phoenix">{{$project->project->project_title}} <span class="d-block"><small>{{$project->project->city->title}} / {{$project->project->county->ilce_title}}</small></span></span>
+                                                
+                                                </div>
+                                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}" alt=""
+                                                style="height:100%;object-fit:cover">
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             @endforeach
                         </div>

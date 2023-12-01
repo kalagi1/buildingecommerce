@@ -126,10 +126,9 @@
                                     {!! $project->county->ilce_title !!} </li>
                                 <li><strong> Toplam {{ ucfirst($project->step1_slug) }}
                                         Sayısı:</strong> {{ $project->room_count }} </li>
-                                <li><strong> Satışa Açık {{ ucfirst($project->step1_slug) }}
-                                        Sayısı:</strong> {{ $project->room_count - $project->cartOrders }} </li>
-                                <li><strong> Satılan {{ ucfirst($project->step1_slug) }}
-                                        Sayısı:</strong> {{ $project->cartOrders }} </li>
+                                <li><strong> Satışa Açık {{ ucfirst($project->step1_slug) }} Sayısı:</strong> {{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }} </li>
+                                <li><strong> Satılan {{ ucfirst($project->step1_slug) }} Sayısı:</strong> {{ $project->cartOrders }} </li>
+                                <li><strong> Satışa Kapalı {{ ucfirst($project->step1_slug) }} Sayısı:</strong> {{ $salesCloseProjectHousingCount }} </li>
                                 <li><strong> {{ ucfirst($project->step1_slug) }} Tipi:</strong>
                                     {{ $project->housingtype->title }}
                                 </li>
