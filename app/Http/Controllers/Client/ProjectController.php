@@ -14,6 +14,7 @@ use App\Models\Menu;
 use App\Models\Offer;
 use App\Models\Project;
 use App\Models\ProjectHouseSetting;
+use App\Models\ProjectHousing;
 use App\Models\ProjectImage;
 use App\Models\StandOutUser;
 use Illuminate\Http\Request;
@@ -40,6 +41,8 @@ class ProjectController extends Controller
         ->get()
         ->keyBy("housing_id");
 
+        $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
+        $lastHousingCount = 0;
 
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
@@ -62,7 +65,7 @@ class ProjectController extends Controller
         }
         $endIndex = $startIndex + 10;
 
-        return view('client.projects.index', compact('currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+        return view('client.projects.index', compact('salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
     }
     
     public function ajaxIndex($slug,Request $request){
@@ -94,8 +97,10 @@ class ProjectController extends Controller
         $selectedPage = $request->input('selected_page') ?? 0;
         $blockIndex = $request->input('block_id') ?? 0;
         $startIndex = 0;
+        $lastHousingCount = 0;
         for($i = 0; $i < $blockIndex; $i++){
             $startIndex += $project->blocks[$i]->housing_count;
+            $lastHousingCount += $project->blocks[$i]->housing_count;
         }
         $blockHousingCount = 0;
         for($i = 0; $i < $blockIndex + 1; $i++){
@@ -106,8 +111,9 @@ class ProjectController extends Controller
         if($endIndex > $blockHousingCount ){
             $endIndex = $blockHousingCount;
         }
+        $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
         $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
-        return view('client.projects.index', compact('currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','endIndex','blockIndex','startIndex'))->render();
+        return view('client.projects.index', compact('salesCloseProjectHousingCount','currentBlockHouseCount','lastHousingCount','menu', "offer", 'project','projectCartOrders','endIndex','blockIndex','startIndex'))->render();
     }
 
     public function detail($slug)
@@ -402,7 +408,7 @@ class ProjectController extends Controller
     public function projectHousingDetail($projectSlug, $housingOrder,Request $request)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
         $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
@@ -413,10 +419,11 @@ class ProjectController extends Controller
         ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
         ->get()
         ->keyBy("housing_id");
-        
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         $selectedPage = $request->input('selected_page') ?? 0;
         $blockIndex = $request->input('block_id') ?? 0;
         $startIndex = 0;
+        $lastHousingCount = 0;
         if($project->have_blocks){
             $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
         }else{
@@ -426,8 +433,66 @@ class ProjectController extends Controller
             $startIndex += $project->blocks[$i]->housing_count;
         }
         $endIndex = $startIndex + 10;
-        
-        return view('client.projects.project_housing', compact('projectCartOrders','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+
+        return view('client.projects.project_housing', compact('lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+    }
+
+    public function projectHousingDetailAjax($projectSlug,$housingOrder,Request $request)
+    {
+        $menu = Menu::getMenuItems();
+        $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $projectHousing = $project->roomInfo->keyBy('name');
+        $projectImages = ProjectImage::where('project_id', $project->id)->get();
+        $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
+
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+        $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+            ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+            ->groupBy('project_id')
+            ->where("status", "1")
+            ->get();
+
+        $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+        $selectedPage = $request->input('selected_page') ?? 0;
+        $blockIndex = $request->input('block_id') ?? 0;
+        $startIndex = 0;
+        $lastHousingCount = 0;
+        for($i = 0; $i < $blockIndex; $i++){
+            $startIndex += $project->blocks[$i]->housing_count;
+            $lastHousingCount += $project->blocks[$i]->housing_count;
+        }
+        $blockHousingCount = 0;
+        for($i = 0; $i < $blockIndex + 1; $i++){
+            $blockHousingCount += $project->blocks[$i]->housing_count;
+        }
+        $startIndex = $startIndex + ($selectedPage * 10);
+        $endIndex = $startIndex + 10;
+        if($endIndex > $blockHousingCount ){
+            $endIndex = $blockHousingCount;
+        }
+        $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+        $projectCartOrders = DB::table('cart_orders')
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get()
+        ->keyBy("housing_id");
+        $selectedPage = $request->input('selected_page') ?? 0;
+        $blockIndex = $request->input('block_id') ?? 0;
+        $startIndex = 0;
+        $lastHousingCount = 0;
+        if($project->have_blocks){
+            $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+        }else{
+            $currentBlockHouseCount = 0;
+        }
+        for($i = 0; $i < $blockIndex; $i++){
+            $startIndex += $project->blocks[$i]->housing_count;
+        }
+        $endIndex = $startIndex + 10;
+
+        return view('client.projects.project_housing', compact('lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
     public function propertyProjects(Request $request, $property)

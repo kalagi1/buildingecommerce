@@ -41420,7 +41420,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     opacity: 0.55;
 }
 
-.load-area2 {
+.load-area {
     position: fixed;
     top: 0;
     width: 50%;

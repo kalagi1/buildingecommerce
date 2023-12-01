@@ -1,6 +1,12 @@
 @extends('institutional.layouts.master')
 
 @section('content')
+    <div class="load-area d-none">
+        <div class="progress">
+            <div class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <span>Proje Güncelleniyor</span>
+    </div>
     @if ($tempUpdateHas)
         <div class="pop-up-v2">
             <div class="pop-back">
@@ -151,7 +157,7 @@
                         <span class="section-title mt-4">Kapak Fotoğrafı</span>
                         <div class="cover-photo-full card py-2 px-5">
                             <input type="file" name="cover-image" class="cover_image d-none">
-                            <div class="upload-container col-md-2 cover-photo-area">
+                            <div class="upload-container col-md-3 cover-photo-area">
                                 <div class="border-container">
                                     <div class="icons fa-4x">
                                         <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
@@ -172,7 +178,7 @@
                         <span class="section-title mt-4">Proje Galerisi</span>
                         <div class="photo card py-2 px-5">
                             <input type="file" name="project-images" class="project_image d-none">
-                            <div class="upload-container col-md-2 photo-area">
+                            <div class="upload-container col-md-3 photo-area">
                                 <div class="border-container">
                                     <div class="icons fa-4x">
                                         <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
@@ -2313,7 +2319,8 @@
             });
         });
     </script>
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/c2puh97n9lsir0u2h6xn3id7sk6y0tbhze4ahy5uwt0u4r9e/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
 
     <script>
         tinymce.init({
@@ -2573,6 +2580,7 @@
                 }
             }
             if (next) {
+                $('.load-area').removeClass('d-none');
                 nextTemp = true;
                 $.ajax({
                     method: "POST",

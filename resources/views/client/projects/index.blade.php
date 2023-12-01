@@ -126,10 +126,9 @@
                                     {!! $project->county->ilce_title !!} </li>
                                 <li><strong> Toplam {{ ucfirst($project->step1_slug) }}
                                         Sayısı:</strong> {{ $project->room_count }} </li>
-                                <li><strong> Satışa Açık {{ ucfirst($project->step1_slug) }}
-                                        Sayısı:</strong> {{ $project->room_count - $project->cartOrders }} </li>
-                                <li><strong> Satılan {{ ucfirst($project->step1_slug) }}
-                                        Sayısı:</strong> {{ $project->cartOrders }} </li>
+                                <li><strong> Satışa Açık {{ ucfirst($project->step1_slug) }} Sayısı:</strong> {{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }} </li>
+                                <li><strong> Satılan {{ ucfirst($project->step1_slug) }} Sayısı:</strong> {{ $project->cartOrders }} </li>
+                                <li><strong> Satışa Kapalı {{ ucfirst($project->step1_slug) }} Sayısı:</strong> {{ $salesCloseProjectHousingCount }} </li>
                                 <li><strong> {{ ucfirst($project->step1_slug) }} Tipi:</strong>
                                     {{ $project->housingtype->title }}
                                 </li>
@@ -224,7 +223,7 @@
                                                                         style="background-color: #dc3545 !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                         <p
                                                                             style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
-                                                                            {{ $i + 1 }}</p>
+                                                                            {{ $i + 1 - $lastHousingCount}}</p>
                                                                     </div>
                                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate"
                                                                         data-aos="fade-up">
