@@ -29117,3 +29117,74 @@ input[type="checkbox"]::before {
             .dropdown.toggle>input:checked~ul li:first-child {
                 padding-top: 15px;
             }
+
+
+    .project-housing-pagination{
+        padding-left: 15px;
+    }
+
+
+    .project-housing-pagination li{
+        list-style: none;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border:1px solid #dc3545;
+        color: #dc3545;
+        margin-right: 8px;
+        cursor: pointer;
+    }
+
+    .project-housing-pagination li.active{
+        color: #fff;
+        background: #dc3545;
+    }
+
+    .project-housing-pagination ul{
+        display: flex;
+    }
+
+    .loading-full{
+        position: fixed;
+        width:100%;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loading-full .back-opa{
+        position: absolute;
+        background: #33333357;
+        width: 100%;
+        height: 100%;
+    }
+
+    .content-loading{
+        width: 40%;
+        height: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+
+    .content-loading i{
+        font-size: 100px;
+        color: #fff;
+        animation: infiniteAnimation 5s infinite; 
+    }
+
+    @keyframes infiniteAnimation {
+        0% {
+          transform: rotate(0);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
