@@ -126,10 +126,9 @@
                                     {!! $project->county->ilce_title !!} </li>
                                 <li><strong> Toplam {{ ucfirst($project->step1_slug) }}
                                         Sayısı:</strong> {{ $project->room_count }} </li>
-                                <li><strong> Satışa Açık {{ ucfirst($project->step1_slug) }}
-                                        Sayısı:</strong> {{ $project->room_count - $project->cartOrders }} </li>
-                                <li><strong> Satılan {{ ucfirst($project->step1_slug) }}
-                                        Sayısı:</strong> {{ $project->cartOrders }} </li>
+                                <li><strong> Satışa Açık {{ ucfirst($project->step1_slug) }} Sayısı:</strong> {{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }} </li>
+                                <li><strong> Satılan {{ ucfirst($project->step1_slug) }} Sayısı:</strong> {{ $project->cartOrders }} </li>
+                                <li><strong> Satışa Kapalı {{ ucfirst($project->step1_slug) }} Sayısı:</strong> {{ $salesCloseProjectHousingCount }} </li>
                                 <li><strong> {{ ucfirst($project->step1_slug) }} Tipi:</strong>
                                     {{ $project->housingtype->title }}
                                 </li>
@@ -462,9 +461,12 @@
                                                                     <div class="homes-button"
                                                                         style="width:100%;height:100%">
                                                                         <button class="first-btn payment-plan-button"
-                                                                            project-id="{{ $project->id }}"
-                                                                            order="{{ $i }}">
-                                                                            Ödeme Detayları </button>
+                                                                        project-id="{{ $project->id }}"
+                                                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) || getData($project, 'off_sale[]', $i + 1)->value != '[]') ? '1' : '0' }}"
+                                                                        order="{{ $i }}">
+                                                                        Ödeme Detayları
+                                                                </button>
+                                                                
                                                                         @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                                             <button class="btn second-btn CartBtn"
                                                                                 disabled
@@ -477,7 +479,7 @@
                                                                             @if ($sold && $sold->status != '2')
                                                                                 <button class="btn second-btn soldBtn"
                                                                                     disabled
-                                                                                    @if ($sold->status == '0') style="background: orange !important;color:White" @else  style="background: red !important;color:White" @endif>
+                                                                                    @if ($sold->status == '0') style="background: orange !important;color:White;height: auto !important" @else  style="background: red !important;color:White;height: auto !important" @endif>
                                                                                     @if ($sold->status == '0')
                                                                                         <span class="text">Onay
                                                                                             Bekleniyor</span>
@@ -971,8 +973,12 @@
                                         <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
                                             <div class="homes-button" style="width:100%;height:100%">
                                                 <button class="first-btn payment-plan-button"
-                                                    project-id="{{ $project->id }}" order="{{ $i }}">
-                                                    Ödeme Detayları </button>
+                                                                        project-id="{{ $project->id }}"
+                                                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) || getData($project, 'off_sale[]', $i + 1)->value != '[]') ? '1' : '0' }}"
+                                                                        order="{{ $i }}">
+                                                                        Ödeme Detayları
+                                                                </button>
+                                        
                                                 @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                     <button class="btn second-btn CartBtn" disabled
                                                         style="background: red !important;width:100%;color:White;height: auto !important">
@@ -982,9 +988,9 @@
                                                 @else
                                                     @if ($sold && $sold->status != '2')
                                                         <button class="btn second-btn soldBtn" disabled
-                                                            @if ($sold->status == '0') style="background: orange !important;color:White"
+                                                            @if ($sold->status == '0') style="background: orange !important;color:White;height: auto !important"
                                             @else 
-                                            style="background: red !important;color:White" @endif>
+                                            style="background: red !important;color:White;height: auto !important" @endif>
                                                             @if ($sold->status == '0')
                                                                 <span class="text">Onay Bekleniyor</span>
                                                             @else

@@ -127,7 +127,7 @@
                                
                                 @if (Auth::user())
                                 @php
-                                $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->where("owner_id",Auth::user()->id)->limit(10)->get();
+                                $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->where("owner_id",Auth::user()->id)->where('readed', '0')->limit(10)->get();
                                 @endphp
         <div class = "notification">
             <a href = "#">

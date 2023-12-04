@@ -14,6 +14,7 @@ use App\Models\Menu;
 use App\Models\Offer;
 use App\Models\Project;
 use App\Models\ProjectHouseSetting;
+use App\Models\ProjectHousing;
 use App\Models\ProjectImage;
 use App\Models\StandOutUser;
 use Illuminate\Http\Request;
@@ -40,6 +41,7 @@ class ProjectController extends Controller
         ->get()
         ->keyBy("housing_id");
 
+        $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
         $lastHousingCount = 0;
 
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
@@ -63,7 +65,7 @@ class ProjectController extends Controller
         }
         $endIndex = $startIndex + 10;
 
-        return view('client.projects.index', compact('lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+        return view('client.projects.index', compact('salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
     }
     
     public function ajaxIndex($slug,Request $request){
@@ -109,8 +111,9 @@ class ProjectController extends Controller
         if($endIndex > $blockHousingCount ){
             $endIndex = $blockHousingCount;
         }
+        $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
         $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
-        return view('client.projects.index', compact('currentBlockHouseCount','lastHousingCount','menu', "offer", 'project','projectCartOrders','endIndex','blockIndex','startIndex'))->render();
+        return view('client.projects.index', compact('salesCloseProjectHousingCount','currentBlockHouseCount','lastHousingCount','menu', "offer", 'project','projectCartOrders','endIndex','blockIndex','startIndex'))->render();
     }
 
     public function detail($slug)

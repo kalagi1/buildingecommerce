@@ -423,6 +423,7 @@
                                             <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
                                                 <div class="homes-button" style="width:100%;height:100%">
                                                     <button class="first-btn payment-plan-button"
+                                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) || getData($project, 'off_sale[]', $i + 1)->value != '[]') ? '1' : '0' }}
                                                         project-id="{{ $project->id }}" order="{{ $i }}">
                                                         Ödeme Detayları </button>
                                                     @if ($sold && $sold[0]->status != '2')

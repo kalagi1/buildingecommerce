@@ -24,16 +24,7 @@
     <div class="content">
         <h4 class="mb-2 lh-sm @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
         
-
-            @if ($userPlan)
-                Kalan Konut Oluşturma Hakkınız :
-                {{ $userPlan->housing_limit }} Adet
-                @if ($userPlan->housing_limit === 0)
-                    - Hakkınız Kalmadı
-                @endif
-            @else
-                Konut eklemek için bir paket satın almanız gerekiyor.
-            @endif
+Emlak İlanı Ekle    
         </h4>
 
         <div class="breadcrumb  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
@@ -635,23 +626,7 @@
 
 
         $('.finish-button-first').click(function() {
-            @if ($userPlan && $userPlan->housing_limit === 0)
-                $.toast({
-                    heading: 'Hata',
-                    text: 'Hakkınız kalmadığı için bu işlemi gerçekleştiremezsiniz.',
-                    position: 'top-right',
-                    stack: false
-                });
-            @elseif (!$userPlan)
-                $.toast({
-                    heading: 'Hata',
-                    text: 'Konut eklemek için paket satın almalısınız.',
-                    position: 'top-right',
-                    stack: false
-                });
-            @else
-                toSecondArea();
-            @endif
+            toSecondArea();
         });
 
         $('.doping_statuses').change(function() {

@@ -3,15 +3,15 @@
 
 @section('content')
     <div class="content">
+        @if (isset($userLog->parent))
         <div class="row gy-3 mb-6 justify-content-between">
             <div class="col-md-12 col-auto">
-                <h2 class="mb-2 text-1100">{{ $userLog->name }} Hoş Geldiniz.</h2>
-                @if (isset($userLog->parent))
                     <span class="badge bg-info "> Kurumsal Hesap:
                         {{ $userLog->parent->name }}</span>
-                @endif
+             
             </div>
         </div>
+        @endif
         <div class="d-flex mb-5 " id="scrollspyStats"><span class="fa-stack me-2 ms-n1"><svg
                     class="svg-inline--fa fa-circle fa-stack-2x text-primary" aria-hidden="true" focusable="false"
                     data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
@@ -30,23 +30,7 @@
             <div class="col">
                 <h3 class="mb-0 text-primary position-relative fw-bold">
                     <span class="bg-soft pe-2">
-                        @if ($hasPlan && $hasPlan->status != 2 && $hasPlan->subscription_plan_id != null)
-                            @if ($hasPlan->status == 0)
-                                <span class="bg-soft pe-2 @if ($hasPlan->status == 0) text-orange @endif">
-                                    Ödeme site yöneticisi tarafından onaylandığında paketiniz aktif olacaktır.
-                                </span>
-                            @else
-                                <span class="bg-soft pe-2">
-                                    {{ $hasPlan->subscriptionPlan->name }} Paketi
-                                </span>
-                            @endif
-                        @else
-                            <span class="bg-soft pe-2">
-                                Henüz paket almadınız
-                            </span>
-                            <a href="{{ route('institutional.profile.upgrade') }}" class="btn btn-primary">Paket Satın Al</a>
-
-                        @endif
+                        {{ $userLog->name }} Hoş Geldiniz.
                     </span><span
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                 </h3>  
@@ -54,70 +38,6 @@
                 <p class="mb-0">Bu alanda istatistik içeriklerinizi kolaylıkla görüntüleyebilirsiniz.</p>
             </div>
         </div>
-        @if ($remainingPackage)
-            <div class="card mb-5">
-                <div class="card-body">
-                    <div class="row g-4 g-xl-1 g-xxl-3 justify-content-between">
-                        <div class="col-sm-auto">
-                            <div
-                                class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center">
-                                <div class="d-flex bg-success-100 rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
-                                    style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg" width="16px"
-                                        height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-home text-success-600 dark__text-success-300"
-                                        style="width:24px; height:24px">
-                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                    </svg></div>
-                                <div>
-                                    <p class="fw-bold mb-1">Proje Oluşturma Limiti</p>
-                                    <h4 class="fw-bolder text-nowrap">{{ $remainingPackage->project_limit }}</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-auto">
-                            <div
-                                class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5">
-                                <div class="d-flex bg-info-100 rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
-                                    style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg" width="16px"
-                                        height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-code text-info-600 dark__text-info-300"
-                                        style="width:24px; height:24px">
-                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="9" cy="7" r="4"></circle>
-                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                    </svg></div>
-                                <div>
-                                    <p class="fw-bold mb-1">Alt Kullanıcı Oluşturma Limiti</p>
-                                    <h4 class="fw-bolder text-nowrap">{{ $remainingPackage->user_limit }}</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-auto">
-                            <div
-                                class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5">
-                                <div class="d-flex bg-primary-100 rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
-                                    style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg" width="16px"
-                                        height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-layout text-primary-600 dark__text-primary-300"
-                                        style="width:24px; height:24px">
-                                        <polyline points="9 11 12 14 22 4"></polyline>
-                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                    </svg></div>
-                                <div>
-                                    <p class="fw-bold mb-1">Konut Oluşturma Limiti</p>
-                                    <h4 class="fw-bolder text-nowrap">{{ $remainingPackage->housing_limit }}</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
 
 
         <div class="row">

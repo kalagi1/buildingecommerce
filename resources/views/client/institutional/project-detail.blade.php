@@ -136,9 +136,9 @@
 @section('styles')
 <style>
 
-@media (max-width: 768px) {
-            .projectMobileMargin{
-                margin-bottom:20px
-            }}
+.projectMobileMargin{
+                margin-bottom:20px !important;
+            }
+
     </style>
 @endsection

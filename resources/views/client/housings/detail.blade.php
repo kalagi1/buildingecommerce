@@ -1165,7 +1165,7 @@
                                             <h4 class="author__title">{!! $housing->user->name !!}</h4>
                                         </a>
 
-                                        <p class="author__meta">{{ $housing->user->corporate_type }}</p>
+                                        <p class="author__meta">{{ $housing->user->corporate_type == "Emlakçı" ? "Gayrimenkul Ofisi" : $housing->user->corporate_type }}</p>
                                     </div>
                                     <ul class="author__contact">
                                         <li><span class="la la-map-marker"><i
