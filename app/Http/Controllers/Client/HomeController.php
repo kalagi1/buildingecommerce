@@ -18,6 +18,7 @@ use App\Models\User;
 use App\Models\CartOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 class HomeController extends Controller
@@ -206,7 +207,7 @@ class HomeController extends Controller
         }
 
         if ($request->input('neighborhood')) {
-            $query->where('neighborhood_id', $request->input('neighborhood'));
+            $query->where('neighbourhood_id', $request->input('neighborhood'));
         }
 
         // Sıralama seçeneğini kontrol et
@@ -228,6 +229,9 @@ class HomeController extends Controller
             return [
                 'image' => url(str_replace('public/', 'storage/', $item->image)),
                 'url' => route('project.detail', $item->slug),
+                'city' => $item->city,
+                'county' => $item->county,
+                'profile_user_image' => URL::to('/').'/storage/profile_images/'.$item->user->profile_image,
                 "title" => $item->project_title,
             ];
         });
