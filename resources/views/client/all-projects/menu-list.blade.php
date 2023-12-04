@@ -15,7 +15,10 @@
             border: 2px solid #dddddd;
             border-radius: 100%;
         }
-
+        .filtreArea {
+            max-height: 150px;
+            overflow-y: auto;
+        }
         input[type=radio]:checked {
             background: #0A0A0A;
         }
@@ -55,7 +58,7 @@
                 padding: 0 1rem;
             }
 
-            .filters-input-area .mobile-title
+            .filters-input-area .mobile-title widget-boxed-header
             {
                 background: #E0E0E0;
                 border: 0;
@@ -64,10 +67,6 @@
 
             .filters-input-area .mobile-input
             {
-                padding-top: 24px !important;
-                padding-bottom: 24px !important;
-                padding-left: 18px !important;
-                padding-right: 18px !important;
                 border-radius: 0 !important;
             }
 
@@ -160,10 +159,10 @@
 
                         <div>
 
-                            <div class="">
+                            <div class="px-3">
                                 <div class="trip-search">
-                                    <div class="widget-boxed-header mobile-title">
-                                        <b>Adres</b>
+                                    <div class="widget-boxed-header mobile-title widget-boxed-header" style="margin-bottom: 0 !important">
+                                        <span>Adres</span>
                                     </div>
                                     <div class="mt-md-4">
                                         <select id="city" class="bg-white filter-now mobile-button">
@@ -173,7 +172,7 @@
                                             @endforeach
                                         </select>
                                         <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
-                                            style="float: right; margin-top: -46px; padding: 10px; cursor: pointer;">
+                                            style="float: right; margin-top: -37px; padding: 6px; cursor: pointer;">
                                             <svg viewBox="0 0 384 512" width="16" height="16"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path fill="#AAA"
@@ -187,7 +186,7 @@
                                         </select>
 
                                         <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
-                                             style="float: right; margin-top: -46px; padding: 10px; cursor: pointer;">
+                                             style="float: right; margin-top: -37px; padding: 6px; cursor: pointer;">
                                             <svg viewBox="0 0 384 512" width="16" height="16"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path fill="#AAA"
@@ -201,7 +200,7 @@
                                         </select>
 
                                         <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
-                                             style="float: right; margin-top: -46px; padding: 10px; cursor: pointer;">
+                                             style="float: right; margin-top: -37px; padding: 6px; cursor: pointer;">
                                             <svg viewBox="0 0 384 512" width="16" height="16"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path fill="#AAA"
@@ -214,10 +213,10 @@
                                 @if ($secondhandHousings)
                                     <div class="mt-md-4">
                                         <div class="trip-search">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Fiyat Aralığı</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Fiyat Aralığı</span>
                                             </div>
-                                            <div class="d-flex align-items-center mt-md-2">
+                                            <div class="d-flex align-items-center mt-md-4">
                                                 <span id="slider-range-value1">
                                                     <input type="number" id="price-min" min="0" placeholder="Min"
                                                         class="filter-now form-control mobile-input">
@@ -234,10 +233,10 @@
 
                                     <div class="mt-md-4">
                                         <div class="trip-search">
-                                            <div class="head d-flex mobile-title">
-                                                <b>M<sup>2</sup> (brüt)</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>M<sup>2</sup> (brüt)</span>
                                             </div>
-                                            <div class="d-flex align-items-center mt-md-2"><span id="slider-range-value1">
+                                            <div class="d-flex align-items-center mt-md-4"><span id="slider-range-value1">
                                                     <input type="number" id="msq-min" min="0" placeholder="Min"
                                                         class="filter-now form-control mobile-input"> </span><i
                                                     class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
@@ -251,8 +250,8 @@
 
                                     @if ($housingTypeSlugName == 'Konut')
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Oda Sayısı</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Oda Sayısı</span>
                                             </div>
                                             <div class="mt-2 d-flex align-items-center p-3 p-md-0" style="flex-wrap: wrap">
                                                 @for ($i = 1; $i <= 15; $i++)
@@ -268,10 +267,10 @@
 
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Bina Yaşı</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Bina Yaşı</span>
                                             </div>
-                                            <div class="mt-md-2">
+                                            <div class="mt-md-4 filtreArea">
                                                 @for ($i = 0; $i <= 5; $i++)
                                                     <div class="mb-2 d-flex align-items-center w-50">
                                                         <input type="checkbox" class="filter-now form-control"
@@ -290,91 +289,91 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Bulunduğu Kat</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Bulunduğu Kat</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll !important; max-height: 300px !important;">
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                            <div class="mt-md-4 filtreArea" >
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
                                                            class="form-check-label w-100 ml-4">Giriş Altı Kat 4</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
                                                            class="form-check-label w-100 ml-4">Giriş Altı Kat 3</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
                                                            class="form-check-label w-100 ml-4">Giriş Altı Kat 2</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
                                                            class="form-check-label w-100 ml-4">Giriş Altı Kat 1</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
                                                            class="form-check-label w-100 ml-4">Bodrum</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
                                                            class="form-check-label w-100 ml-4">Zemin</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
                                                            class="form-check-label w-100 ml-4">Bahçe</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
                                                            class="form-check-label w-100 ml-4">Giriş</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
                                                            class="form-check-label w-100 ml-4">Yüksek Giriş</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
                                                            class="form-check-label w-100 ml-4">Müstakil</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
                                                            class="form-check-label w-100 ml-4">Villa Tipi</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
                                                            class="form-check-label w-100 ml-4">Çatı Katı</label>
                                                 </div>
                                                 @for ($i = 1; $i < 30; ++$i)
-                                                    <div class="mb-2 d-flex align-items-center w-50">
+                                                    <div class="mb-2 d-flex align-items-center">
                                                         <input type="checkbox" class="filter-now form-control"
                                                                id="4" />
                                                         <label for="4"
                                                                class="form-check-label w-100 ml-4">{{$i}}</label>
                                                     </div>
                                                 @endfor
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="4" />
                                                     <label for="4"
@@ -384,10 +383,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Kat Sayısı</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Kat Sayısı</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea d-flex flex-wrap" >
                                                 @for ($i = 1; $i <= 20; $i++)
                                                     <div class="mb-2 d-flex align-items-center w-50">
                                                         <input type="checkbox" class="filter-now form-control"
@@ -400,107 +399,107 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Isıtma</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Isıtma</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                            <div class="mt-md-4 filtreArea" >
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Yok</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Soba</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Doğalgaz Sobası</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Kat Kaloriferi</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Merkezi</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Merkezi (Pay Ölçer)</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Kombi (Doğalgaz)</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Kombi (Elektrik)</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Yerden Isıtma</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Klima</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Fancoil Ünitesi</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Güneş Enerjisi</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Elektrikli Radyatör</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Jeotermal</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">Şömine</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
                                                            class="form-check-label w-100 ml-4">VRV</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="{{ $i }}" />
                                                     <label for="{{ $i }}"
@@ -510,26 +509,26 @@
                                         </div>
 
                                         <div class="mt-md-4" id="number_of_bathrooms">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Banyo Sayısı</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Banyo Sayısı</span>
                                             </div>
-                                            <div class="mt-md-2">
+                                            <div class="mt-md-4 filtreArea">
                                                 <div class="d-flex current-page"
                                                      style="border: 1px solid #CCC; cursor: pointer; border-radius: 8px;">
                                                     <div style="border-radius: 8px 0 0 8px;"
-                                                         class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
+                                                         class="bathroom-count-item cursor-pointer border-right py-2 px-3  w-100 text-center">
                                                         1
                                                     </div>
                                                     <div
-                                                            class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
+                                                            class="bathroom-count-item cursor-pointer border-right py-2 px-3  w-100 text-center">
                                                         2
                                                     </div>
                                                     <div
-                                                            class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
+                                                            class="bathroom-count-item cursor-pointer border-right py-2 px-3  w-100 text-center">
                                                         3
                                                     </div>
                                                     <div style="border-radius: 0px 8px 8px 0;"
-                                                         class="bathroom-count-item cursor-pointer py-2 px-3 font-weight-bold w-100 text-center">
+                                                         class="bathroom-count-item cursor-pointer py-2 px-3  w-100 text-center">
                                                         4+
                                                     </div>
                                                 </div>
@@ -537,10 +536,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Balkon</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Balkon</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
@@ -557,10 +556,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Eşyalı</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Eşyalı</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
@@ -577,23 +576,23 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Kullanım Durumu</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Kullanım Durumu</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                            <div class="mt-md-4 filtreArea" >
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
                                                     <label for=""
                                                            class="form-check-label w-100 ml-4">Boş</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
                                                     <label for=""
                                                            class="form-check-label w-100 ml-4">Kiracılı</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
                                                     <label for=""
@@ -603,10 +602,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Site İçerisinde</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Site İçerisinde</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
@@ -623,10 +622,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Krediye Uygun</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Krediye Uygun</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
@@ -643,41 +642,41 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Tapu Durumu</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Tapu Durumu</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                            <div class="mt-md-4 filtreArea" >
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
                                                     <label for=""
                                                            class="form-check-label w-100 ml-4">Kat Mülkiyetli</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
                                                     <label for=""
                                                            class="form-check-label w-100 ml-4">Kat İrtifaklı</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
                                                     <label for=""
                                                            class="form-check-label w-100 ml-4">Hisseli Tapulu</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
                                                     <label for=""
                                                            class="form-check-label w-100 ml-4">Müstakil Tapulu</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
                                                     <label for=""
                                                            class="form-check-label w-100 ml-4">Arsa Tapulu</label>
                                                 </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
+                                                <div class="mb-2 d-flex align-items-center ">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
                                                     <label for=""
@@ -687,10 +686,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Takaslı</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Takaslı</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
@@ -706,56 +705,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Fotoğraf, Video</b>
-                                            </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Videolu İlanlar</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Klipli İlanlar</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Sanal Tura sahip ilanlar</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">360 derece fotoğraflı ilanlar</label>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Haritalı</b>
-                                            </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Haritalı İlanlar</label>
-                                                </div>
-                                            </div>
-                                        </div>
+                                      
                                     @elseif ($housingTypeSlugName == 'Arsa')
                                     <div class="mt-md-4">
                                         <div class="trip-search">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Ada No</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Ada No</span>
                                             </div>
                                             <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
                                                     <input type="number" id="islandnumber-min" min="0"
@@ -770,10 +726,10 @@
                                     </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>İmar Durumu</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>İmar Durumu</span>
                                             </div>
-                                            <div class="mt-md-2">
+                                            <div class="mt-md-4 filtreArea">
                                                 <div class="d-flex align-items-center w-50">
                                                     <select name="" id="">
                                                         <option value="#" selected disabled>Seçilmedi</option>
@@ -809,10 +765,10 @@
 
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Kaks (Emsal)</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Kaks (Emsal)</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 @for ($i = .25; $i <= 5; $i += .25)
                                                     <div class="mb-2 d-flex align-items-center w-50">
                                                         <input type="checkbox" class="filter-now form-control"
@@ -825,10 +781,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Gabar</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Gabar</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 @for ($i = 3.50; $i <= 36; $i += 1)
                                                     <div class="mb-2 d-flex align-items-center w-50">
                                                         <input type="checkbox" class="filter-now form-control"
@@ -841,10 +797,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Tapu Durumu</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Tapu Durumu</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
@@ -873,10 +829,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Kat Karşılığı</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Kat Karşılığı</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
@@ -893,10 +849,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Krediye Uygunluk</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Krediye Uygunluk</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
@@ -919,10 +875,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Takaslı</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Takaslı</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
@@ -939,10 +895,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Fotoğraf, Video</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Fotoğraf, Video</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
@@ -965,10 +921,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Harita</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Harita</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <input type="checkbox" class="filter-now form-control"
                                                            id="" />
@@ -980,10 +936,10 @@
 
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Altyapı</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Altyapı</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <select name="" class="form-control" id="">
                                                         <option value="true" name="a517">Elektrik</option>
@@ -1004,10 +960,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Konumu</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Konumu</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <select name="" class="form-control" id="">
                                                         <option value="true" name="a517">Denize Yakın</option>
@@ -1020,10 +976,10 @@
                                             </div>
                                         </div>
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Genel Özellikler</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Genel Özellikler</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <select name="" class="form-control" id="">
                                                         <option value="İfrazlı">İfrazlı</option>
@@ -1036,10 +992,10 @@
                                         </div>
 
                                         <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Manzara</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Manzara</span>
                                             </div>
-                                            <div class="mt-md-2" style="overflow-y: scroll; max-height: 300px;">
+                                            <div class="mt-md-4 filtreArea" >
                                                 <div class="mb-2 d-flex align-items-center w-50">
                                                     <select name="" class="form-control" id="">
                                                         <option value="İfrazlı">Şehir</option>
@@ -1054,8 +1010,8 @@
 
                                         <div class="mt-md-4">
                                         <div class="trip-search">
-                                            <div class="head d-flex mobile-title">
-                                                <b>Parsel No</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>Parsel No</span>
                                             </div>
                                             <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
                                                     <input type="number" id="parcelnumber-min" min="0"
@@ -1069,8 +1025,8 @@
                                         </div>
                                     </div>
                                         <div class="mt-md-4 trip-search" id="from_owner_field">
-                                            <div class="head d-flex mobile-title">
-                                                <b>İmar Durumu</b>
+                                            <div class="head d-flex mobile-title widget-boxed-header">
+                                                <span>İmar Durumu</span>
                                             </div>
 
                                             <select id="zoning" class="bg-white filter-now mt-2">
@@ -1086,7 +1042,7 @@
 
                                             <div onclick="$(this).parent().find('select').trigger('click');"
                                                 class="border-left"
-                                                style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
+                                                style="float: right; margin-top: -43px; padding: 6px; cursor: pointer;">
                                                 <svg viewBox="0 0 384 512" width="16" height="16"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path fill="#AAA"
@@ -1098,7 +1054,7 @@
                                         <div class="mt-md-4">
                                             <div class="trip-search">
                                                 <div class="head d-flex">
-                                                    <b>m2 Fiyatı</b>
+                                                    <span>m2 Fiyatı</span>
                                                     <span class="ml-auto"
                                                           onclick="$(this).parent().parent().find('.mt-md-4').slideToggle();">
                                         <svg width="16px" height="16px" viewBox="0 0 384 512"
@@ -1108,7 +1064,7 @@
                                         </svg>
                                     </span>
                                                 </div>
-                                                <div class="d-flex align-items-center mt-md-2">
+                                                <div class="d-flex align-items-center mt-md-4">
                                     <span id="slider-range-value1"> <input type="number" id="price-min" min="0"
                                                                            placeholder="Min" class="filter-now form-control"></span><i
                                                             class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
@@ -1131,25 +1087,25 @@
 
 
                                     <div class="mt-md-4" id="from_owner_field">
-                                        <div class="head d-flex mobile-title">
-                                            <b>Kimden</b>
+                                        <div class="head d-flex mobile-title widget-boxed-header">
+                                            <span>Kimden</span>
                                         </div>
-                                        <div class="mt-md-2 p-3 p-md-0">
-                                            <div class="mb-2 d-flex align-items-center w-100">
+                                        <div class="mt-md-4 p-3 p-md-0">
+                                            <div class="mb-2 d-flex align-items-center w-50 w-100">
                                                 <input type="radio" name="whose" id="from_owner" class="filter-now" />
                                                 <label for="from_owner" class="form-check-label w-100 ml-2">Turizm</label>
                                             </div>
-                                            <div class="mb-2 d-flex align-items-center w-100">
+                                            <div class="mb-2 d-flex align-items-center w-50 w-100">
                                                 <input type="radio" name="whose" id="from_office" class="filter-now" />
                                                 <label for="from_office" class="form-check-label w-100 ml-2">Emlak
                                                     Ofisinden</label>
                                             </div>
-                                            <div class="mb-2 d-flex align-items-center w-100">
+                                            <div class="mb-2 d-flex align-items-center w-50 w-100">
                                                 <input type="radio" name="whose" id="from_company" class="filter-now" />
                                                 <label for="from_company" class="form-check-label w-100 ml-2">İnşaat
                                                     Firmasından</label>
                                             </div>
-                                            <div class="mb-2 d-flex align-items-center w-100">
+                                            <div class="mb-2 d-flex align-items-center w-50 w-100">
                                                 <input type="radio" name="whose" id="from_bank" class="filter-now" />
                                                 <label for="from_bank" class="form-check-label w-100 ml-2">Bankadan</label>
                                             </div>
@@ -1158,8 +1114,8 @@
                                 @endif
                                 @if ($projects)
                                     <div class="trip-search mt-md-4">
-                                        <div class="widget-boxed-header border-0 mobile-title">
-                                            <b>Proje Durumu</b>
+                                        <div class="widget-boxed-header border-0 mobile-title widget-boxed-header">
+                                            <span>Proje Durumu</span>
                                         </div>
                                         <div>
                                             <select id="project_type" class="form-control bg-white filter-now">
@@ -1171,7 +1127,7 @@
 
                                             <div onclick="$(this).parent().find('select').trigger('click');"
                                                 class="border-left"
-                                                style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
+                                                style="float: right; margin-top: -43px; padding: 6px; cursor: pointer;">
                                                 <svg viewBox="0 0 384 512" width="16" height="16"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path fill="#AAA"
@@ -1183,8 +1139,8 @@
                                 @endif
 
                                 <div class="trip-search mt-md-4">
-                                    <div class="widget-boxed-header border-0 mobile-title">
-                                        <b>İlan Tarihi</b>
+                                    <div class="widget-boxed-header border-0 mobile-title widget-boxed-header">
+                                        <span>İlan Tarihi</span>
                                     </div>
                                     <div style="display: grid;" class="p-3 p-md-0">
                                         <label class="filter-date d-flex align-items-center">
@@ -1311,7 +1267,7 @@
                     <div class="widget-boxed main-search-field">
                         <div class="trip-search">
                             <div class="head d-flex">
-                                <b>Adres </b>
+                                <span>Adres </span>
                                 <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
                                     <svg width="16px" height="16px" viewBox="0 0 384 512"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -1341,7 +1297,7 @@
                         <div class="widget-boxed main-search-field mt-4">
                             <div class="trip-search">
                                 <div class="head d-flex">
-                                    <b>Fiyat Aralığı</b>
+                                    <span>Fiyat Aralığı</span>
                                     <span class="ml-auto"
                                         onclick="$(this).parent().parent().find('.mt-md-4').slideToggle();">
                                         <svg width="16px" height="16px" viewBox="0 0 384 512"
@@ -1351,7 +1307,7 @@
                                         </svg>
                                     </span>
                                 </div>
-                                <div class="d-flex align-items-center mt-md-2">
+                                <div class="d-flex align-items-center mt-md-4">
                                     <span id="slider-range-value1"> <input type="number" id="price-min" min="0"
                                             placeholder="Min" class="filter-now form-control"></span><i
                                         class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
@@ -1367,8 +1323,8 @@
 
                         <div class="widget-boxed main-search-field mt-md-4">
                             <div class="trip-search">
-                                <div class="head d-flex mobile-title">
-                                    <b>m<sup>2</sup> (brüt)</b>
+                                <div class="head d-flex mobile-title widget-boxed-header">
+                                    <span>m<sup>2</sup> (brüt)</span>
                                 </div>
                                 <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
                                         <input type="number" id="msq-min" min="0" placeholder="Min"
@@ -1381,10 +1337,10 @@
                         </div>
 
                         <div class="mt-md-4" id="room_count_field">
-                            <div class="head d-flex mobile-title">
-                                <b>Oda Sayısı</b>
+                            <div class="head d-flex mobile-title widget-boxed-header">
+                                <span>Oda Sayısı</span>
                             </div>
-                            <div class="mt-md-2 d-flex align-items-center" style="flex-wrap: wrap">
+                            <div class="mt-md-4 d-flex align-items-center" style="flex-wrap: wrap">
                                 @for ($i = 1; $i <= 15; $i++)
                                     <div class="mb-2 d-flex align-items-center w-50">
                                         <input type="checkbox" class="filter-now form-control"
@@ -1396,8 +1352,8 @@
                             </div>
                         </div>
                         <div class="widget-boxed mt-md-4" id="from_owner_field">
-                            <div class="head d-flex mobile-title">
-                                <b>Kimden</b>
+                            <div class="head d-flex mobile-title widget-boxed-header">
+                                <span>Kimden</span>
                                 <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
                                     <svg width="16px" height="16px" viewBox="0 0 384 512"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -1407,21 +1363,21 @@
                                 </span>
                             </div>
                             <div class="mt-md-4" style="display: none;">
-                                <div class="mb-2 d-flex align-items-center w-100">
+                                <div class="mb-2 d-flex align-items-center w-50 w-100">
                                     <input type="radio" name="whose" id="from_owner" class="filter-now" />
                                     <label for="from_owner" class="form-check-label w-100 ml-2">Turizm</label>
                                 </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
+                                <div class="mb-2 d-flex align-items-center w-50 w-100">
                                     <input type="radio" name="whose" id="from_office" class="filter-now" />
                                     <label for="from_office" class="form-check-label w-100 ml-2">Emlak
                                         Ofisinden</label>
                                 </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
+                                <div class="mb-2 d-flex align-items-center w-50 w-100">
                                     <input type="radio" name="whose" id="from_company" class="filter-now" />
                                     <label for="from_company" class="form-check-label w-100 ml-2">İnşaat
                                         Firmasından</label>
                                 </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
+                                <div class="mb-2 d-flex align-items-center w-50 w-100">
                                     <input type="radio" name="whose" id="from_bank" class="filter-now" />
                                     <label for="from_bank" class="form-check-label w-100 ml-2">Bankadan</label>
                                 </div>
@@ -1794,10 +1750,10 @@
                                                 });
                                             } else {
                                                 $('.pp-row').html(`
-                                                <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
+                                                <div class="col-12 text-center my-4  p-3">Sonuç bulunamadı.</div>
                                                 `);
                                                 $('.pp-col').html(`
-                                                <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
+                                                <div class="col-12 text-center my-4  p-3">Sonuç bulunamadı.</div>
                                                 `);
                                             }
                                         }
@@ -2054,6 +2010,13 @@
         }
 
         @media (max-width:768px) {
+            .mobile-title{
+                padding-bottom: 10px;
+                padding-top: 10px;
+
+                margin-bottom: 10px;
+
+            }
             #sort-select {
                 margin: 15px 0;
                 width: 200px;
