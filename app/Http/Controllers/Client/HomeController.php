@@ -359,7 +359,6 @@ class HomeController extends Controller
             'project_list_items.column4_additional as column4_additional',
             \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
             \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housings.housing_type_id = 0) as doping_time'),
-            \Illuminate\Support\Facades\DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) as price'),
         )
         ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
         ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
@@ -541,10 +540,10 @@ class HomeController extends Controller
                     $obj = $obj->orderBy('doping_time', 'asc');
                     break;
                 case 'price-asc':
-                    $obj = $obj->orderByRaw('price ASC');
+                    $obj = $obj->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) ASC');
                     break;
                 case 'price-desc':
-                    $obj = $obj->orderByRaw('price DESC');
+                    $obj = $obj->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) DESC');
                     break;
             }
         }else{
