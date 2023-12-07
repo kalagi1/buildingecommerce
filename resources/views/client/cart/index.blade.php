@@ -86,7 +86,7 @@
                                         <li>Ürün Fiyatı<strong
                                                 class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])), 0, ',', '.') }}
                                                 TL</strong></li>
-                                        <li>%1'si<strong
+                                        <li>%1'i<strong
                                                 class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}
                                                 TL</strong></li>
                                     </ul>

@@ -187,6 +187,8 @@
             offSaleCell.textContent = project.offSale;
 
 
+       
+
             var totalAmountCell = document.createElement("td");
             totalAmountCell.className = "align-middle title";
             totalAmountCell.textContent = project.totalAmount + "₺";
