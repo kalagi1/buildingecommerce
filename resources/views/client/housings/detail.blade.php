@@ -349,7 +349,7 @@
                                                                                 </ul>
                                                                             @else
                                                                                 <span
-                                                                                    class="det">{{ $val[0] }}</span>
+                                                                                    class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
                                                                             @endif
                                                                         @endif
                                                                     </td></tr>
@@ -430,21 +430,21 @@
                                                             @endphp
 
 
-@if (is_array($val))
-@if (count($val) > 1)
-@if($key != "Galeri")
-    <h5 class="mt-5">{{ $key }}</h5>
-    <ul class="homes-list clearfix">
-        @foreach ($val as $item)
-            <li><i class="fa fa-check-square"
-                    aria-hidden="true"></i><span>{{ $item }}</span>
-            </li>
-        @endforeach
-    </ul>
-@endif
-@endif
+                                                            @if (is_array($val))
+                                                                @if (count($val) > 1)
+                                                                    @if($key != "Galeri")
+                                                                        <h5 class="mt-5">{{ $key }}</h5>
+                                                                        <ul class="homes-list clearfix">
+                                                                            @foreach ($val as $item)
+                                                                                <li><i class="fa fa-check-square"
+                                                                                        aria-hidden="true"></i><span>{{ $item }}</span>
+                                                                                </li>
+                                                                            @endforeach
+                                                                        </ul>
+                                                                    @endif
+                                                                @endif
 
-@endif
+                                                            @endif
                                                         @endforeach
                                                     </div>
                                                 </div>
@@ -603,12 +603,12 @@
                                 @else
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
-                                                data-bs-target="#rez" type="button" role="tab"
-                                                aria-controls="rez" aria-selected="true"> Takvim</button>
-                                        </li>
-                                    @endif
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#rez" type="button" role="tab"
+                                                    aria-controls="rez" aria-selected="true"> Takvim</button>
+                                            </li>
+                                        @endif
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif" id="home-tab" data-bs-toggle="tab"
                                                 data-bs-target="#home" type="button" role="tab"
@@ -628,11 +628,11 @@
                                     <div class="tab-content" id="myTabContent">
                                         @if ($housing->step2_slug == 'gunluk-kiralik')
                                           
-                                        <div class="tab-pane fade show active blog-info details mb-30" id="rez"
-                                        role="tabpanel" aria-labelledby="rez-tab">
-                                        <div id="reservation-calendar"></div>
-                                    </div>
-                                    @endif
+                                            <div class="tab-pane fade show active blog-info details mb-30" id="rez"
+                                            role="tabpanel" aria-labelledby="rez-tab">
+                                            <div id="reservation-calendar"></div>
+                                        </div>
+                                        @endif
                                     
                                         <div class="tab-pane fade blog-info details mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif" id="home"
                                             role="tabpanel" aria-labelledby="home-tab">
@@ -691,7 +691,7 @@
                                                                         'floorlocation' => 'Kat Sayısı',
                                                                         'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                         'furnished1' => 'Eşyalı',
-                                                                          'furnished' => 'Eşyalı',
+                                                                        'furnished' => 'Eşyalı',
                                                                         "buysellurgent1" => "Acil Satılık",
                                                                         "structure" => "Yapının Durumu",
                                                                         "bed_count" => "Yatak Sayısı",
@@ -704,8 +704,8 @@
                                                                         "images" => "Galeri",
                                                                         "usagePurpose1" => "Kullanım Amacı",
                                                                         "generalFeatures1" => "Genel Özellikler",
-                                                                        "infrastructure1" => "Altyapı"
-                                                                        
+                                                                        "infrastructure1" => "Altyapı",
+                                                                        "off_sale1" => "Satışa Kapalı"
                                                                     ];
                                                                     $key = $turkceKarsilik[$key] ?? $key;
                                                                 @endphp
@@ -745,7 +745,7 @@
                                                                                     </ul>
                                                                                 @else
                                                                                     <span
-                                                                                        class="det">{{ $val[0] }}</span>
+                                                                                        class="det">{{ isset($val[0]) ? $val[0] : 'Hayır' }}</span>
                                                                                 @endif
                                                                             @endif
                                                                         </td>
@@ -1165,7 +1165,7 @@
                                             <h4 class="author__title">{!! $housing->user->name !!}</h4>
                                         </a>
 
-                                        <p class="author__meta">{{ $housing->user->corporate_type }}</p>
+                                        <p class="author__meta">{{ $housing->user->corporate_type == "Emlakçı" ? "Gayrimenkul Ofisi" : $housing->user->corporate_type }}</p>
                                     </div>
                                     <ul class="author__contact">
                                         <li><span class="la la-map-marker"><i

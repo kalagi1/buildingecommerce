@@ -1926,10 +1926,11 @@
             padding: 0 !important;
         }
 
-        @media (max-width: 768px) {
-            .projectMobileMargin{
-                margin-bottom:20px
+        .projectMobileMargin{
+                margin-bottom:20px !important;
             }
+
+        @media (max-width: 768px) {
 
             .bannerResize,
             .bannerResizeGrid {

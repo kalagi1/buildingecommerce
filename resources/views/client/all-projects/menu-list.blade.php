@@ -15,7 +15,10 @@
             border: 2px solid #dddddd;
             border-radius: 100%;
         }
-
+        .filtreArea {
+            max-height: 150px;
+            overflow-y: auto;
+        }
         input[type=radio]:checked {
             background: #0A0A0A;
         }
@@ -35,14 +38,51 @@
             .filters-input-area {
                 position: fixed;
                 top: 0;
-                right: 0;
-                width: 90%;
+                left: 0;
+                width: 100%;
                 height: 100%;
                 z-index: 999999999;
                 background-color: white;
-                padding: 16px;
                 box-shadow: 0 0 48px rgba(0, 0, 0, .3);
                 overflow-y: scroll;
+                padding-top: 0 !important;
+            }
+
+            .filters-input-area .mobile-button
+            {
+                border-radius: 0;
+                border-right: 0;
+                border-left: 0;
+                border-top: 0;
+                border-color: #EEE;
+                padding: 0 1rem;
+            }
+
+            .filters-input-area .mobile-title widget-boxed-header
+            {
+                background: #E0E0E0;
+                border: 0;
+                padding: 1rem;
+            }
+
+            .filters-input-area .mobile-input
+            {
+                border-radius: 0 !important;
+            }
+
+            .filters-input-area .bathroom-count-item
+            {
+                border-radius: 0 !important;
+            }
+
+            .filters-input-area .current-page
+            {
+                border-radius: 0 !important;
+            }
+
+            .mobile-header
+            {
+                background: #2d67bd; color: #FFF; padding: 12px 16px;
             }
         }
     </style>
@@ -104,298 +144,195 @@
 
             <div class="row project-filter-reverse pb-5">
                 <aside class="col-lg-3 col-md-12 order-2 order-md-1 ">
-                    <div class="widget filters-input-area" style="display: none;">
-                        <svg height="24px" id="Layer_1" onclick="$(this).parent().slideToggle();" class="d-md-none"
-                            style="float: left; margin-top: -24px; margin-bottom: 24px;enable-background:new 0 0 512 512;cursor: pointer;"
-                            version="1.1" viewBox="0 0 512 512" width="24px" xml:space="preserve"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <path
-                                d="M437.5,386.6L306.9,256l130.6-130.6c14.1-14.1,14.1-36.8,0-50.9c-14.1-14.1-36.8-14.1-50.9,0L256,205.1L125.4,74.5  c-14.1-14.1-36.8-14.1-50.9,0c-14.1,14.1-14.1,36.8,0,50.9L205.1,256L74.5,386.6c-14.1,14.1-14.1,36.8,0,50.9  c14.1,14.1,36.8,14.1,50.9,0L256,306.9l130.6,130.6c14.1,14.1,36.8,14.1,50.9,0C451.5,423.4,451.5,400.6,437.5,386.6z" />
-                        </svg>
-                        <!-- Search Fields -->
+                    <div class="filters-input-area" style="display: none;">
+                        <div style="position: relative;" class="d-flex mobile-header">
+                            <svg height="24px" id="Layer_1" onclick="$(this).parent().parent().slideToggle();" class="d-md-none"
+                                 style="position: absolute; left: 16px; enable-background:new 0 0 512 512;cursor: pointer;"
+                                 version="1.1" viewBox="0 0 512 512" width="24px" xml:space="preserve"
+                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path fill="#FFF"
+                                    d="M437.5,386.6L306.9,256l130.6-130.6c14.1-14.1,14.1-36.8,0-50.9c-14.1-14.1-36.8-14.1-50.9,0L256,205.1L125.4,74.5  c-14.1-14.1-36.8-14.1-50.9,0c-14.1,14.1-14.1,36.8,0,50.9L205.1,256L74.5,386.6c-14.1,14.1-14.1,36.8,0,50.9  c14.1,14.1,36.8,14.1,50.9,0L256,306.9l130.6,130.6c14.1,14.1,36.8,14.1,50.9,0C451.5,423.4,451.5,400.6,437.5,386.6z" />
+                            </svg>
+                            <div class="d-md-none" style="margin: 0 auto; font-weight: bold; color: #FFF;">FİLTRELE</div>
+                            <!-- Search Fields -->
+                        </div>
 
-                        <div class="widget-boxed main-search-field mt-4">
-                            <div class="trip-search">
-                                <div class="widget-boxed-header border-0">
-                                    <b>Adres</b>
-                                </div>
-                                <div>
-                                    <select id="city" class="bg-white filter-now">
-                                        <option value="#" class="selected" selected disabled>İl</option>
-                                        @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}">{{ $city->title }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
-                                        style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                        <svg viewBox="0 0 384 512" width="16" height="16"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path fill="#AAA"
-                                                d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                        </svg>
+                        <div>
+
+                            <div class="px-3">
+                                <div class="trip-search">
+                                    <div class="widget-boxed-header mobile-title widget-boxed-header" style="margin-bottom: 0 !important">
+                                        <span>Adres</span>
                                     </div>
-                                </div>
-                                <div class="mt-4">
-                                    <select id="county" class="bg-white filter-now">
-                                        <option value="#" class="selected" selected disabled>İlçe</option>
-                                    </select>
-
-                                    <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
-                                        style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                        <svg viewBox="0 0 384 512" width="16" height="16"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path fill="#AAA"
-                                                d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="mt-4">
-                                    <select id="neighborhood" class="bg-white filter-now">
-                                        <option value="#" class="selected" selected disabled>Mahalle</option>
-                                    </select>
-
-                                    <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
-                                        style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                        <svg viewBox="0 0 384 512" width="16" height="16"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path fill="#AAA"
-                                                d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            @if ($secondhandHousings)
-                                <div class="mt-4">
-                                    <div class="trip-search">
-                                        <div class="head d-flex">
-                                            <b>Fiyat Aralığı</b>
-                                        </div>
-                                        <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
-                                                <input type="number" id="price-min" min="0" placeholder="Min"
-                                                    class="filter-now form-control"> </span><i
-                                                class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                                id="slider-range-value2">
-                                                <input type="number" id="price-max" min="0" placeholder="Max"
-                                                    class="filter-now form-control"></span></div>
-
-
-                                    </div>
-                                </div>
-
-                                <div class="mt-4">
-                                    <div class="trip-search">
-                                        <div class="head d-flex">
-                                            <b>M<sup>2</sup> (brüt)</b>
-                                        </div>
-                                        <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
-                                                <input type="number" id="msq-min" min="0" placeholder="Min"
-                                                    class="filter-now form-control"> </span><i
-                                                class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                                id="slider-range-value2">
-                                                <input type="number" id="msq-max" min="0" placeholder="Max"
-                                                    class="filter-now form-control"></span></div>
-
-
-                                    </div>
-                                </div>
-
-                                @if ($housingTypeSlugName == 'Konut')
-                                    <div class="mt-4" id="room_count_field">
-                                        <div class="head d-flex">
-                                            <b>Oda Sayısı</b>
-                                        </div>
-                                        <div class="mt-2 d-flex align-items-center" style="flex-wrap: wrap">
-                                            @for ($i = 1; $i <= 15; $i++)
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="form-check-input filter-now form-control"
-                                                        id="{{ $i }}+1" />
-                                                    <label for="{{ $i }}+1"
-                                                        class="form-check-label w-100 ml-4">{{ $i }}+1</label>
-                                                </div>
-                                            @endfor
+                                    <div class="mt-md-4">
+                                        <select id="city" class="bg-white filter-now mobile-button">
+                                            <option value="#" class="selected" selected disabled>İl</option>
+                                            @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}">{{ $city->title }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
+                                            style="float: right; margin-top: -37px; padding: 6px; cursor: pointer;">
+                                            <svg viewBox="0 0 384 512" width="16" height="16"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill="#AAA"
+                                                    d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
+                                            </svg>
                                         </div>
                                     </div>
+                                    <div class="mt-md-4">
+                                        <select id="county" class="bg-white filter-now mobile-button">
+                                            <option value="#" class="selected" selected disabled>İlçe</option>
+                                        </select>
 
-                                    <div class="mt-4" id="number_of_bathrooms">
-                                        <div class="head d-flex">
-                                            <b>Banyo Sayısı</b>
+                                        <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
+                                             style="float: right; margin-top: -37px; padding: 6px; cursor: pointer;">
+                                            <svg viewBox="0 0 384 512" width="16" height="16"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill="#AAA"
+                                                    d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
+                                            </svg>
                                         </div>
-                                        <div class="mt-2">
-                                            <div class="d-flex current-page"
-                                                style="border: 1px solid #CCC; cursor: pointer; border-radius: 8px;">
-                                                <div style="border-radius: 8px 0 0 8px;"
-                                                    class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
-                                                    1
-                                                </div>
-                                                <div
-                                                    class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
-                                                    2
-                                                </div>
-                                                <div
-                                                    class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
-                                                    3
-                                                </div>
-                                                <div style="border-radius: 0px 8px 8px 0;"
-                                                    class="bathroom-count-item cursor-pointer py-2 px-3 font-weight-bold w-100 text-center">
-                                                    4+
-                                                </div>
+                                    </div>
+                                    <div class="mt-md-4">
+                                        <select id="neighborhood" class="bg-white filter-now mobile-button">
+                                            <option value="#" class="selected" selected disabled>Mahalle</option>
+                                        </select>
+
+                                        <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
+                                             style="float: right; margin-top: -37px; padding: 6px; cursor: pointer;">
+                                            <svg viewBox="0 0 384 512" width="16" height="16"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill="#AAA"
+                                                    d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+                                @if ($projects)
+                                    
+                                    <div class="trip-search mt-md-4">
+                                        <div class="widget-boxed-header border-0 mobile-title widget-boxed-header">
+                                            <span>Proje Durumu</span>
+                                        </div>
+                                        <div>
+                                            <select id="project_type" class="form-control bg-white filter-now">
+                                                <option value="#" selected disabled>Proje Durumu</option>
+                                                <option value="2">Tamamlanan Projeler</option>
+                                                <option value="3">Devam Eden Projeler</option>
+                                                <option value="5">Topraktan Projeler</option>
+                                            </select>
+
+                                            <div onclick="$(this).parent().find('select').trigger('click');"
+                                                class="border-left"
+                                                style="float: right; margin-top: -43px; padding: 6px; cursor: pointer;">
+                                                <svg viewBox="0 0 384 512" width="16" height="16"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill="#AAA"
+                                                        d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
+                                                </svg>
                                             </div>
                                         </div>
                                     </div>
-                                @elseif ($housingTypeSlugName == 'Arsa')
-                                <div class="mt-4">
-                                    <div class="trip-search">
-                                        <div class="head d-flex">
-                                            <b>Ada No</b>
-                                        </div>
-                                        <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
-                                                <input type="number" id="islandnumber-min" min="0"
-                                                    placeholder="Min" class="filter-now form-control"> </span><i
-                                                class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                                id="slider-range-value2">
-                                                <input type="number" id="islandnumber-max" min="0"
-                                                    placeholder="Max" class="filter-now form-control"></span></div>
-
-
-                                    </div>
-                                </div>
-                                <div class="mt-4">
-                                    <div class="trip-search">
-                                        <div class="head d-flex">
-                                            <b>Parsel No</b>
-                                        </div>
-                                        <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
-                                                <input type="number" id="parcelnumber-min" min="0"
-                                                    placeholder="Min" class="filter-now form-control"> </span><i
-                                                class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                                id="slider-range-value2">
-                                                <input type="number" id="parcelnumber-max" min="0"
-                                                    placeholder="Max" class="filter-now form-control"></span></div>
-
-
-                                    </div>
-                                </div>
-                                    <div class="mt-4 trip-search" id="from_owner_field">
-                                        <div class="head d-flex">
-                                            <b>İmar Durumu</b>
-                                        </div>
-
-                                        <select id="zoning" class="bg-white filter-now mt-2">
-                                            <option value="#" class="selected" selected disabled>Seçiniz</option>
-                                            <option value="Ada">Ada</option>
-                                            <option value="A-Lejantlı">A-Lejantlı</option>
-                                            <option value="Arazi">Arazi</option>
-                                            <option value="Bağ & Bahçe">Bağ & Bahçe</option>
-                                            <option value="Depo & Antrepo">Depo & Antrepo</option>
-                                            <option value="Eğitim">Eğitim</option>
-                                            <option value="Tarla">Tarla</option>
-                                        </select>
-
-                                        <div onclick="$(this).parent().find('select').trigger('click');"
-                                            class="border-left"
-                                            style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                            <svg viewBox="0 0 384 512" width="16" height="16"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill="#AAA"
-                                                    d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                            </svg>
-                                        </div>
-                                    </div>
-
                                 @endif
 
-
-
-
-
-
-                                <div class="mt-4" id="from_owner_field">
-                                    <div class="head d-flex">
-                                        <b>Kimden</b>
+                                
+                                @foreach($filters as $filter)
+                                <div class="mt-md-4" id="room_count_field">
+                                    
+                                    @if($filter['type'] != 'text')
+                                    <div class="head d-flex mobile-title widget-boxed-header">
+                                        <span>{!! $filter['label'] !!}</span>
                                     </div>
-                                    <div class="mt-2">
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="whose" id="from_owner" class="filter-now" />
-                                            <label for="from_owner" class="form-check-label w-100 ml-2">Turizm</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="whose" id="from_office" class="filter-now" />
-                                            <label for="from_office" class="form-check-label w-100 ml-2">Emlak
-                                                Ofisinden</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="whose" id="from_company" class="filter-now" />
-                                            <label for="from_company" class="form-check-label w-100 ml-2">İnşaat
-                                                Firmasından</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="whose" id="from_bank" class="filter-now" />
-                                            <label for="from_bank" class="form-check-label w-100 ml-2">Bankadan</label>
-                                        </div>
+                                    <div class="mt-md-4 filtreArea">
+                                            @foreach($filter['values'] as $key => $value)
+                                                @if($filter['type'] == 'select')
+                                                    @if($key != 0)
+                                                        <div class="mb-2 d-flex align-items-center">
+                                                            <input name="{{$filter['name']}}[]" type="checkbox" value="{{$value->value}}" class="filter-now form-control" id="{{$filter['name'].$key}}">
+                                                            <label for="{{$filter['name'].$key}}" class="form-check-label w-100 ml-4">{{$value->label}}</label>
+                                                        </div>
+                                                    @endif
+                                                @elseif($filter['type'] == 'checkbox-group')
+                                                    <div class="mb-2 d-flex align-items-center">
+                                                        <input name="{{$filter['name']}}[]" type="checkbox" value="{{$value->value}}" class="filter-now form-control" id="{{$filter['name'].$key}}">
+                                                        <label for="{{$filter['name'].$key}}" class="form-check-label w-100 ml-4">{{$value->label}}</label>
+                                                    </div>
+                                                @endif
+                                            @endforeach
                                     </div>
-                                </div>
-                            @endif
-                            @if ($projects)
-                                <div class="trip-search mt-4">
-                                    <div class="widget-boxed-header border-0">
-                                        <b>Proje Durumu</b>
-                                    </div>
-                                    <div>
-                                        <select id="project_type" class="form-control bg-white filter-now">
-                                            <option value="#" selected disabled>Proje Durumu</option>
-                                            <option value="2">Tamamlanan Projeler</option>
-                                            <option value="3">Devam Eden Projeler</option>
-                                            <option value="5">Topraktan Projeler</option>
-                                        </select>
-
-                                        <div onclick="$(this).parent().find('select').trigger('click');"
-                                            class="border-left"
-                                            style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                            <svg viewBox="0 0 384 512" width="16" height="16"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill="#AAA"
-                                                    d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                            </svg>
+                                    @endif
+                                    @if($filter['type'] == 'text')
+                                        <div class="trip-search">
+                                            <div class="head d-flex">
+                                                <span>{!! $filter['label'] !!}</span>
+                                                <span class="ml-auto"
+                                                    onclick="$(this).parent().parent().find('.mt-md-4').slideToggle();">
+                                                    <svg width="16px" height="16px" viewBox="0 0 384 512"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                            <div class="d-flex align-items-center mt-md-4">
+                                                @if($filter['text_style'] == 'min-max')
+                                                    <span id="slider-range-value1"> 
+                                                        <input type="number" name="{{str_replace('[]','',$filter['name'])}}-min" id="{{str_replace('[]','',$filter['name'])}}-min" min="0"placeholder="Min" class="filter-now form-control">
+                                                    </span>
+                                                    <i class="fa fa-solid fa-minus mx-2 dark-color icon"></i>
+                                                    <span id="slider-range-value2">
+                                                        <input type="number" id="{{str_replace('[]','',$filter['name'])}}-max" min="0" placeholder="Max" class="filter-now form-control" name="{{str_replace('[]','',$filter['name'])}}-max">
+                                                    </span>
+                                                @else
+                                                    <span class="w-100"> 
+                                                        <input type="text" name="{{str_replace('[]','',$filter['name'])}}" id="{{str_replace('[]','',$filter['name'])}}" class="filter-now form-control">
+                                                    </span>
+                                                    
+                                                @endif
+                                                
+                                            </div>
                                         </div>
+                                    @endif
+                                </div>
+                            @endforeach
+
+                                <div class="trip-search mt-md-4">
+                                    <div class="widget-boxed-header border-0 mobile-title widget-boxed-header">
+                                        <span>İlan Tarihi</span>
                                     </div>
-                                </div>
-                            @endif
+                                    <div style="display: grid;" class="p-3 p-md-0">
+                                        <label class="filter-date d-flex align-items-center">
+                                            <input name="filter-date" class="filter-date filter-now" type="radio"
+                                                value="last3Days">
+                                            <span class="fs-13 ml-2">Son 3 Gün</span>
+                                        </label>
+                                        <label class="filter-date d-flex align-items-center">
+                                            <input name="filter-date" class="filter-date filter-now" type="radio"
+                                                value="lastWeek">
+                                            <span class="fs-13 ml-2">Son Bir Hafta</span>
+                                        </label>
+                                        <label class="filter-date d-flex align-items-center">
+                                            <input name="filter-date" type="radio" class="filter-date filter-now"
+                                                value="lastMonth">
+                                            <span class="fs-13 ml-2">Son Bir Ay</span>
+                                        </label>
+                                    </div>
 
-                            <div class="trip-search mt-4">
-                                <div class="widget-boxed-header border-0">
-                                    <b>İlan Tarihi</b>
                                 </div>
-                                <div style="display: grid;">
-                                    <label class="filter-date d-flex align-items-center">
-                                        <input name="filter-date" class="filter-date filter-now" type="radio"
-                                            value="last3Days">
-                                        <span class="fs-13 ml-2">Son 3 Gün</span>
-                                    </label>
-                                    <label class="filter-date d-flex align-items-center">
-                                        <input name="filter-date" class="filter-date filter-now" type="radio"
-                                            value="lastWeek">
-                                        <span class="fs-13 ml-2">Son Bir Hafta</span>
-                                    </label>
-                                    <label class="filter-date d-flex align-items-center">
-                                        <input name="filter-date" type="radio" class="filter-date filter-now"
-                                            value="lastMonth">
-                                        <span class="fs-13 ml-2">Son Bir Ay</span>
-                                    </label>
-                                </div>
-
                             </div>
+
+                            <button type="button" class=" btn bg-white btn-lg btn-block mt-md-4 mb-4e btn-transition"
+                                style="border: 1px solid #CCC;" id="clear-filters">Temizle</button>
+
+                            <button type="button" onclick="$('.filters-input-area').slideToggle();"
+                                style="background: #e54242 !important"
+                                class="btn btn-secondary btn-lg btn-block mt-md-4 d-md-none mb-4"
+                                id="close-filters">Kapat</button>
+
                         </div>
-
-
-
-                        <button type="button" class=" btn bg-white btn-lg btn-block mt-4 mb-4e btn-transition"
-                            style="border: 1px solid #CCC;" id="clear-filters">Temizle</button>
-
-                        <button type="button" onclick="$('.filters-input-area').slideToggle();"
-                            style="background: #e54242 !important"
-                            class="btn btn-secondary btn-lg btn-block mt-4 d-md-none mb-4"
-                            id="close-filters">Kapat</button>
 
                     </div>
                 </aside>
@@ -491,7 +428,7 @@
                     <div class="widget-boxed main-search-field">
                         <div class="trip-search">
                             <div class="head d-flex">
-                                <b>Adres </b>
+                                <span>Adres </span>
                                 <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
                                     <svg width="16px" height="16px" viewBox="0 0 384 512"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -516,98 +453,6 @@
                             </div>
                         </div>
                     </div>
-
-                    @if ($secondhandHousings)
-                        <div class="widget-boxed main-search-field mt-4">
-                            <div class="trip-search">
-                                <div class="head d-flex">
-                                    <b>Fiyat Aralığı</b>
-                                    <span class="ml-auto"
-                                        onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
-                                        <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="d-flex align-items-center mt-2">
-                                    <span id="slider-range-value1"> <input type="number" id="price-min" min="0"
-                                            placeholder="Min" class="filter-now form-control"></span><i
-                                        class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                        id="slider-range-value2">
-                                        <input type="number" id="price-max" min="0" placeholder="Max"
-                                            class="filter-now form-control"></span>
-                                </div>
-
-
-
-                            </div>
-                        </div>
-
-                        <div class="widget-boxed main-search-field mt-4">
-                            <div class="trip-search">
-                                <div class="head d-flex">
-                                    <b>m<sup>2</sup> (brüt)</b>
-                                </div>
-                                <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
-                                        <input type="number" id="msq-min" min="0" placeholder="Min"
-                                            class="filter-now form-control"> </span><i
-                                        class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                        id="slider-range-value2">
-                                        <input type="number" id="msq-max" min="0" placeholder="Max"
-                                            class="filter-now form-control"></span></div>
-                            </div>
-                        </div>
-
-                        <div class="mt-4" id="room_count_field">
-                            <div class="head d-flex">
-                                <b>Oda Sayısı</b>
-                            </div>
-                            <div class="mt-2 d-flex align-items-center" style="flex-wrap: wrap">
-                                @for ($i = 1; $i <= 15; $i++)
-                                    <div class="mb-2 d-flex align-items-center w-50">
-                                        <input type="checkbox" class="form-check-input filter-now form-control"
-                                            id="{{ $i }}+1" />
-                                        <label for="{{ $i }}+1"
-                                            class="form-check-label w-100 ml-4">{{ $i }}+1</label>
-                                    </div>
-                                @endfor
-                            </div>
-                        </div>
-                        <div class="widget-boxed mt-4" id="from_owner_field">
-                            <div class="head d-flex">
-                                <b>Kimden</b>
-                                <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
-                                    <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div class="mt-4" style="display: none;">
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="whose" id="from_owner" class="filter-now" />
-                                    <label for="from_owner" class="form-check-label w-100 ml-2">Turizm</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="whose" id="from_office" class="filter-now" />
-                                    <label for="from_office" class="form-check-label w-100 ml-2">Emlak
-                                        Ofisinden</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="whose" id="from_company" class="filter-now" />
-                                    <label for="from_company" class="form-check-label w-100 ml-2">İnşaat
-                                        Firmasından</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="whose" id="from_bank" class="filter-now" />
-                                    <label for="from_bank" class="form-check-label w-100 ml-2">Bankadan</label>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
 
                     <button type="button" class="btn btn-primary btn-lg btn-block mt-4 mb-4"
                         id="clear-filters">Temizle</button>
@@ -1057,7 +902,27 @@
                         return false;
                     }
                 });
-
+                var filterValues = {}
+                @foreach($filters as $filter)
+                    @if($filter['type'] == 'select' || $filter['type'] == 'checkbox-group')
+                        var checkedValues = [];
+                        $('input[name="{{$filter["name"]}}[]').each(function() {
+                            if($(this).is(':checked')){
+                                checkedValues.push($(this).val());
+                            }
+                        });
+                        
+                        filterValues["{{$filter['name']}}"] = checkedValues;
+                    @else
+                        
+                        @if($filter['text_style'] == 'min-max')
+                            filterValues["{{$filter['name']}}-min"] = $('input[name="{{$filter['name']}}-min"]').val();
+                            filterValues["{{$filter['name']}}-max"] = $("input[name='{{$filter['name']}}-max']").val();
+                        @else 
+                            filterValues["{{$filter['name']}}"] = $('input[name="{{$filter['name']}}"]').val();
+                        @endif
+                    @endif
+                @endforeach
                 drawList({
                     page: current_page,
                     city: $('#city').val(),
@@ -1066,19 +931,8 @@
                     neighborhood: $('#neighborhood').val(),
                     filterDate: $(".filter-date:checked").val(),
                     zoning: $("#zoning").val(),
-                    islandnumber_min: $('#islandnumber-min').val(),
-                    islandnumber_max: $('#islandnumber-max').val(),
-                    parcelnumber_min: $("#parcelnumber-min").val(),
-                    parcelnumber_max: $("#parcelnumber-max").val(),
-                    price_min: $('#price-min').val(),
-                    price_max: $('#price-max').val(),
-                    msq_min: $('#msq-min').val(),
-                    msq_max: $('#msq-max').val(),
-                    room_count,
-                    post_date,
-                    from_owner,
-                    bathroom_count,
                     sort: sortSelectFilters($('#sort-select').val()),
+                    ...filterValues
                 });
             }
 
@@ -1248,6 +1102,13 @@
         }
 
         @media (max-width:768px) {
+            .mobile-title{
+                padding-bottom: 10px;
+                padding-top: 10px;
+
+                margin-bottom: 10px;
+
+            }
             #sort-select {
                 margin: 15px 0;
                 width: 200px;

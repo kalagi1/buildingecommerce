@@ -61,6 +61,10 @@ class Project extends Model
             ->get();
     }
 
+    public function filterHousing($key,$value){
+        return $this->hasOne(ProjectHousing::class,'project_id','id')->where($key,$value);
+    }
+
     public function city()
     {
         return $this->hasOne(City::class, "id", "city_id");

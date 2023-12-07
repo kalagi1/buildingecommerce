@@ -418,7 +418,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         @php
-                        $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->where("owner_id",Auth::user()->id)->limit(10)->get();
+                        $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->where("owner_id",Auth::user()->id)->limit(10)->where('readed', '0')->get();
                         @endphp
 
                         <a class="nav-link" href="#" style="min-width: 2.5rem" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside">

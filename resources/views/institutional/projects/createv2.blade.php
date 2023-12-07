@@ -107,22 +107,12 @@
             </div>
         </div>
     </div>
-    <div class="content">
-        <h4 class="mb-2 lh-sm @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
+    <div class="content"> <h4 class="mb-2 lh-sm @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
         
-
-            @if ($userPlan)
-                Kalan Proje Oluşturma Hakkınız :
-                {{ $userPlan->project_limit }} Adet
-                @if ($userPlan->project_limit === 0)
-                    - Hakkınız Kalmadı
-                @endif
-            @else
-            Proje eklemek için bir paket satın almanız gerekiyor.
-            @endif
-        </h4>
+        Proje İlanı Ekle    
+                </h4>
         <div class="breadcrumb  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
-            <span>Emlak</span>
+            <span>Proje</span>
             @foreach($areaSlugs as $slug)
                 <span class="breadcrumb-after-item">{{$slug}}</span>
             @endforeach
