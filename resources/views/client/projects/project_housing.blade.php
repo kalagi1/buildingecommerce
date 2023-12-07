@@ -914,7 +914,7 @@
                                                                 </ul>
                                             
                                                                 @foreach ($project->blocks as $key => $block)
-                                                                    <div id="content-{{ $block['id'] }}" class="tab-content{{ $loop->first ? ' active' : '' }}">
+                                                                    <div id="content-{{ $block['id'] }}" class="tab-content{{ $key == 0 ? ' active' : '' }}">
                                                                         @php
                                                                         $j = -1; 
                                                                             $blockHousingCount = $block['housing_count'];
@@ -2118,7 +2118,8 @@
                                                             </ul>
                                         
                                                             @foreach ($project->blocks as $key => $block)
-                                                                <div id="content-{{ $block['id'] }}" class="tab-content{{ $loop->first ? ' active' : '' }}">
+                                                                @if($key == 0)
+                                                                <div id="content-{{ $block['id'] }}" class="tab-content{{ $key == 0 ? ' active' : '' }}">
                                                                     @php
                                                                     $j = -1; 
                                                                         $blockHousingCount = $block['housing_count'];
@@ -2650,6 +2651,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                @endif
                                                             @endforeach
                                                         </div>
                                                     </div>

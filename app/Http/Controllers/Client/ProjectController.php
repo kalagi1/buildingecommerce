@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\CartOrder;
 use App\Models\City;
+use App\Models\Filter;
 use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
@@ -348,11 +349,68 @@ class ProjectController extends Controller
             
             $secondhandHousings = $query->get();
         }
+        
+        $filters = [];
+
         $housingStatuses = HousingStatus::get();
         $cities = City::get();
         $menu = Menu::getMenuItems();
-
-        return view('client.all-projects.menu-list', compact('nslug', 'menu', "opt", "housingTypeSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
+        if($projects){
+            $housingType = HousingType::where('slug',$housingTypeSlug)->first();
+            $filtersDb = Filter::where('item_type',1)->where('housing_type_id',$housingType->id)->get()->keyBy('filter_name')->toArray();
+            $filtersDbx = array_keys($filtersDb);
+            if($housingTypeSlug){
+                $housingTypeData = json_decode($housingType->form_json);
+                foreach($housingTypeData as $data){
+                    if(in_array(str_replace('[]','',$data->name),$filtersDbx)){
+                        if($data->type == "select" || $data->type == "checkbox-group" ){
+                            array_push($filters,[
+                                "label" => $data->label,
+                                "values" => $data->values,
+                                "type" => $data->type,
+                                "name" => str_replace('[]','',$data->name),
+                            ]);
+                        }else if($data->type == "text"){
+                            array_push($filters,[
+                                "label" => $data->label,
+                                "type" => $data->type,
+                                "name" => str_replace('[]','',$data->name),
+                                'text_style' => $filtersDb[str_replace('[]','',$data->name)]['text_style']
+                            ]);
+                        }
+                    }
+                    
+                }
+            }
+        }else{
+            $housingType = HousingType::where('slug',$housingTypeSlug)->first();
+            $filtersDb = Filter::where('item_type',2)->where('housing_type_id',$housingType->id)->get()->keyBy('filter_name')->toArray();
+            $filtersDbx = array_keys($filtersDb);
+            if($housingTypeSlug){
+                $housingTypeData = json_decode($housingType->form_json);
+                foreach($housingTypeData as $data){
+                    if(in_array(str_replace('[]','',$data->name),$filtersDbx)){
+                        if($data->type == "select" || $data->type == "checkbox-group" ){
+                            array_push($filters,[
+                                "label" => $data->label,
+                                "values" => $data->values,
+                                "type" => $data->type,
+                                "name" => str_replace('[]','',$data->name),
+                            ]);
+                        }else if($data->type == "text"){
+                            array_push($filters,[
+                                "label" => $data->label,
+                                "type" => $data->type,
+                                "name" => str_replace('[]','',$data->name),
+                                'text_style' => $filtersDb[str_replace('[]','',$data->name)]['text_style']
+                            ]);
+                        }
+                    }
+                    
+                }
+            }
+        }
+        return view('client.all-projects.menu-list', compact('filters','nslug', 'menu', "opt", "housingTypeSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
     }
 
     public function allProjects($slug)
@@ -434,7 +492,7 @@ class ProjectController extends Controller
         }
         $endIndex = $startIndex + 10;
 
-        return view('client.projects.project_housing', compact('lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+        return view('client.projects.project_housing', compact('blockIndex','lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
     public function projectHousingDetailAjax($projectSlug,$housingOrder,Request $request)
@@ -482,17 +540,22 @@ class ProjectController extends Controller
         $blockIndex = $request->input('block_id') ?? 0;
         $startIndex = 0;
         $lastHousingCount = 0;
-        if($project->have_blocks){
-            $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
-        }else{
-            $currentBlockHouseCount = 0;
-        }
         for($i = 0; $i < $blockIndex; $i++){
             $startIndex += $project->blocks[$i]->housing_count;
+            $lastHousingCount += $project->blocks[$i]->housing_count;
         }
+        $blockHousingCount = 0;
+        for($i = 0; $i < $blockIndex + 1; $i++){
+            $blockHousingCount += $project->blocks[$i]->housing_count;
+        }
+        $startIndex = $startIndex + ($selectedPage * 10);
         $endIndex = $startIndex + 10;
+        if($endIndex > $blockHousingCount ){
+            $endIndex = $blockHousingCount;
+        }
 
-        return view('client.projects.project_housing', compact('lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+
+        return view('client.projects.project_housing', compact('blockIndex','lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
     public function propertyProjects(Request $request, $property)

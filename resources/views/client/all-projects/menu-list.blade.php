@@ -210,909 +210,9 @@
                                     </div>
                                 </div>
 
-                                @if ($secondhandHousings)
-                                    <div class="mt-md-4">
-                                        <div class="trip-search">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Fiyat Aralığı</span>
-                                            </div>
-                                            <div class="d-flex align-items-center mt-md-4">
-                                                <span id="slider-range-value1">
-                                                    <input type="number" id="price-min" min="0" placeholder="Min"
-                                                        class="filter-now form-control mobile-input">
-                                                </span>
-                                                <i
-                                                    class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                                    id="slider-range-value2">
-                                                <input type="number" id="price-max" min="0" placeholder="Max"
-                                                        class="filter-now form-control mobile-input">
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-md-4">
-                                        <div class="trip-search">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>M<sup>2</sup> (brüt)</span>
-                                            </div>
-                                            <div class="d-flex align-items-center mt-md-4"><span id="slider-range-value1">
-                                                    <input type="number" id="msq-min" min="0" placeholder="Min"
-                                                        class="filter-now form-control mobile-input"> </span><i
-                                                    class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                                    id="slider-range-value2">
-                                                    <input type="number" id="msq-max" min="0" placeholder="Max"
-                                                        class="filter-now form-control mobile-input"></span></div>
-
-
-                                        </div>
-                                    </div>
-
-                                    @if ($housingTypeSlugName == 'Konut')
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Oda Sayısı</span>
-                                            </div>
-                                            <div class="mt-2 d-flex align-items-center p-3 p-md-0" style="flex-wrap: wrap">
-                                                @for ($i = 1; $i <= 15; $i++)
-                                                    <div class="mb-2 d-flex align-items-center w-50">
-                                                        <input type="checkbox" class="filter-now form-control"
-                                                            id="{{ $i }}+1" />
-                                                        <label for="{{ $i }}+1"
-                                                            class="form-check-label w-100 ml-4">{{ $i }}+1</label>
-                                                    </div>
-                                                @endfor
-                                            </div>
-                                        </div>
-
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Bina Yaşı</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea">
-                                                @for ($i = 0; $i <= 5; $i++)
-                                                    <div class="mb-2 d-flex align-items-center w-50">
-                                                        <input type="checkbox" class="filter-now form-control"
-                                                               id="{{ $i }}" />
-                                                        <label for="{{ $i }}"
-                                                               class="form-check-label w-100 ml-4">{{ $i }}</label>
-                                                    </div>
-                                                @endfor
-                                                    <div class="mb-2 d-flex align-items-center w-50">
-                                                        <input type="checkbox" class="filter-now form-control"
-                                                               id="5" />
-                                                        <label for="5"
-                                                               class="form-check-label w-100 ml-4">5+</label>
-                                                    </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Bulunduğu Kat</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">Giriş Altı Kat 4</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">Giriş Altı Kat 3</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">Giriş Altı Kat 2</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">Giriş Altı Kat 1</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">Bodrum</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">Zemin</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">Bahçe</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">Giriş</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">Yüksek Giriş</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">Müstakil</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">Villa Tipi</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">Çatı Katı</label>
-                                                </div>
-                                                @for ($i = 1; $i < 30; ++$i)
-                                                    <div class="mb-2 d-flex align-items-center">
-                                                        <input type="checkbox" class="filter-now form-control"
-                                                               id="4" />
-                                                        <label for="4"
-                                                               class="form-check-label w-100 ml-4">{{$i}}</label>
-                                                    </div>
-                                                @endfor
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="4" />
-                                                    <label for="4"
-                                                           class="form-check-label w-100 ml-4">30 ve üzeri</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Kat Sayısı</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea d-flex flex-wrap" >
-                                                @for ($i = 1; $i <= 20; $i++)
-                                                    <div class="mb-2 d-flex align-items-center w-50">
-                                                        <input type="checkbox" class="filter-now form-control"
-                                                               id="{{ $i }}" />
-                                                        <label for="{{ $i }}"
-                                                               class="form-check-label w-100 ml-4">{{ $i }}</label>
-                                                    </div>
-                                                @endfor
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Isıtma</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Yok</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Soba</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Doğalgaz Sobası</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Kat Kaloriferi</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Merkezi</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Merkezi (Pay Ölçer)</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Kombi (Doğalgaz)</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Kombi (Elektrik)</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Yerden Isıtma</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Klima</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Fancoil Ünitesi</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Güneş Enerjisi</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Elektrikli Radyatör</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Jeotermal</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Şömine</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">VRV</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="{{ $i }}" />
-                                                    <label for="{{ $i }}"
-                                                           class="form-check-label w-100 ml-4">Isı Pompası</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="number_of_bathrooms">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Banyo Sayısı</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea">
-                                                <div class="d-flex current-page"
-                                                     style="border: 1px solid #CCC; cursor: pointer; border-radius: 8px;">
-                                                    <div style="border-radius: 8px 0 0 8px;"
-                                                         class="bathroom-count-item cursor-pointer border-right py-2 px-3  w-100 text-center">
-                                                        1
-                                                    </div>
-                                                    <div
-                                                            class="bathroom-count-item cursor-pointer border-right py-2 px-3  w-100 text-center">
-                                                        2
-                                                    </div>
-                                                    <div
-                                                            class="bathroom-count-item cursor-pointer border-right py-2 px-3  w-100 text-center">
-                                                        3
-                                                    </div>
-                                                    <div style="border-radius: 0px 8px 8px 0;"
-                                                         class="bathroom-count-item cursor-pointer py-2 px-3  w-100 text-center">
-                                                        4+
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Balkon</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Var</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Yok</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Eşyalı</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Evet</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Hayır</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Kullanım Durumu</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Boş</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Kiracılı</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Mülk Sahibi</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Site İçerisinde</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Evet</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Hayır</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Krediye Uygun</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Evet</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Hayır</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Tapu Durumu</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Kat Mülkiyetli</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Kat İrtifaklı</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Hisseli Tapulu</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Müstakil Tapulu</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Arsa Tapulu</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center ">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Bilinmiyor</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Takaslı</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Evet</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Hayır</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                      
-                                    @elseif ($housingTypeSlugName == 'Arsa')
-                                    <div class="mt-md-4">
-                                        <div class="trip-search">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Ada No</span>
-                                            </div>
-                                            <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
-                                                    <input type="number" id="islandnumber-min" min="0"
-                                                        placeholder="Min" class="filter-now form-control"> </span><i
-                                                    class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                                    id="slider-range-value2">
-                                                    <input type="number" id="islandnumber-max" min="0"
-                                                        placeholder="Max" class="filter-now form-control"></span></div>
-
-
-                                        </div>
-                                    </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>İmar Durumu</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea">
-                                                <div class="d-flex align-items-center w-50">
-                                                    <select name="" id="">
-                                                        <option value="#" selected disabled>Seçilmedi</option>
-                                                        <option value="70779">Ada </option>
-                                                        <option value="97231">A-Lejantlı </option>
-                                                        <option value="1210730">Arazi </option>
-                                                        <option value="70778">Bağ &amp; Bahçe </option>
-                                                        <option value="70780">Depo &amp; Antrepo </option>
-                                                        <option value="70787">Eğitim </option>
-                                                        <option value="1116194">Enerji Depolama </option>
-                                                        <option value="70782">Konut </option>
-                                                        <option value="70786">Muhtelif </option>
-                                                        <option value="70789">Özel Kullanım </option>
-                                                        <option value="70781">Sağlık </option>
-                                                        <option value="70783">Sanayi </option>
-                                                        <option value="1138378">Sera </option>
-                                                        <option value="70788">Sit Alanı </option>
-                                                        <option value="1139369">Spor Alanı </option>
-                                                        <option value="70790">Tarla </option>
-                                                        <option value="1263150">Tarla + Bağ </option>
-                                                        <option value="70784">Ticari </option>
-                                                        <option value="824988">Ticari + Konut </option>
-                                                        <option value="70791">Toplu Konut </option>
-                                                        <option value="70792">Turizm </option>
-                                                        <option value="1239902">Turizm + Konut </option>
-                                                        <option value="1252713">Turizm + Ticari </option>
-                                                        <option value="97232">Villa </option>
-                                                        <option value="1129624">Zeytinlik </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Kaks (Emsal)</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                @for ($i = .25; $i <= 5; $i += .25)
-                                                    <div class="mb-2 d-flex align-items-center w-50">
-                                                        <input type="checkbox" class="filter-now form-control"
-                                                               id="" />
-                                                        <label for=""
-                                                               class="form-check-label w-100 ml-4">{{$i}}</label>
-                                                    </div>
-                                                @endfor
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Gabar</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                @for ($i = 3.50; $i <= 36; $i += 1)
-                                                    <div class="mb-2 d-flex align-items-center w-50">
-                                                        <input type="checkbox" class="filter-now form-control"
-                                                               id="" />
-                                                        <label for=""
-                                                               class="form-check-label w-100 ml-4">{{$i}}</label>
-                                                    </div>
-                                                @endfor
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Tapu Durumu</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Hisseli Tapu</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Tahsis</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Müstakil Parsel</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Zilliyet</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Kat Karşılığı</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Evet</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Hayır</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Krediye Uygunluk</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Evet</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Hayır</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Bilinmiyor</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Takaslı</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Evet</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Hayır</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Fotoğraf, Video</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Videolu İlanlar</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">3D Sanal Tura Sahip İlanlar</label>
-                                                </div>
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">360 Derece Fotoğraflı İlanlar</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Harita</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <input type="checkbox" class="filter-now form-control"
-                                                           id="" />
-                                                    <label for=""
-                                                           class="form-check-label w-100 ml-4">Haritalı İlanlar</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Altyapı</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="true" name="a517">Elektrik</option>
-                                                        <option value="true" name="a86110">Sanayi Elektriği</option>
-                                                        <option value="true" name="a518">Su</option>
-                                                        <option value="true" name="a4235">Telefon</option>
-                                                        <option value="true" name="a4236">Doğalgaz</option>
-                                                        <option value="true" name="a4234">Kanalizasyon</option>
-                                                        <option value="true" name="a4237">Arıtma</option>
-                                                        <option value="true" name="a4238">Sondaj &amp; Kuyu</option>
-                                                        <option value="true" name="a513">Zemin Etüdü</option>
-                                                        <option value="true" name="a86106">Yolu Açılmış</option>
-                                                        <option value="true" name="a86104">Yolu Açılmamış</option>
-                                                        <option value="true" name="a86108">Yolu Yok</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Konumu</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="true" name="a517">Denize Yakın</option>
-                                                        <option value="true" name="a86110">Anayola Yakın</option>
-                                                        <option value="true" name="a518">Denize Sıfır</option>
-                                                        <option value="true" name="a4235">Havaalanına Yakın</option>
-                                                        <option value="true" name="a4236">Toplu Ulaşıma Yakın</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Genel Özellikler</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="İfrazlı">İfrazlı</option>
-                                                        <option value="İfrazlı">Projeli</option>
-                                                        <option value="İfrazlı">Parselli</option>
-                                                        <option value="İfrazlı">Köşe Parsel</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4" id="room_count_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Manzara</span>
-                                            </div>
-                                            <div class="mt-md-4 filtreArea" >
-                                                <div class="mb-2 d-flex align-items-center w-50">
-                                                    <select name="" class="form-control" id="">
-                                                        <option value="İfrazlı">Şehir</option>
-                                                        <option value="İfrazlı">Boğaz</option>
-                                                        <option value="İfrazlı">Deniz</option>
-                                                        <option value="İfrazlı">Göl</option>
-                                                        <option value="İfrazlı">Doğa</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4">
-                                        <div class="trip-search">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>Parsel No</span>
-                                            </div>
-                                            <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
-                                                    <input type="number" id="parcelnumber-min" min="0"
-                                                        placeholder="Min" class="filter-now form-control"> </span><i
-                                                    class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                                    id="slider-range-value2">
-                                                    <input type="number" id="parcelnumber-max" min="0"
-                                                        placeholder="Max" class="filter-now form-control"></span></div>
-
-
-                                        </div>
-                                    </div>
-                                        <div class="mt-md-4 trip-search" id="from_owner_field">
-                                            <div class="head d-flex mobile-title widget-boxed-header">
-                                                <span>İmar Durumu</span>
-                                            </div>
-
-                                            <select id="zoning" class="bg-white filter-now mt-2">
-                                                <option value="#" class="selected" selected disabled>Seçiniz</option>
-                                                <option value="Ada">Ada</option>
-                                                <option value="A-Lejantlı">A-Lejantlı</option>
-                                                <option value="Arazi">Arazi</option>
-                                                <option value="Bağ & Bahçe">Bağ & Bahçe</option>
-                                                <option value="Depo & Antrepo">Depo & Antrepo</option>
-                                                <option value="Eğitim">Eğitim</option>
-                                                <option value="Tarla">Tarla</option>
-                                            </select>
-
-                                            <div onclick="$(this).parent().find('select').trigger('click');"
-                                                class="border-left"
-                                                style="float: right; margin-top: -43px; padding: 6px; cursor: pointer;">
-                                                <svg viewBox="0 0 384 512" width="16" height="16"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill="#AAA"
-                                                        d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-md-4">
-                                            <div class="trip-search">
-                                                <div class="head d-flex">
-                                                    <span>m2 Fiyatı</span>
-                                                    <span class="ml-auto"
-                                                          onclick="$(this).parent().parent().find('.mt-md-4').slideToggle();">
-                                        <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                    d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                        </svg>
-                                    </span>
-                                                </div>
-                                                <div class="d-flex align-items-center mt-md-4">
-                                    <span id="slider-range-value1"> <input type="number" id="price-min" min="0"
-                                                                           placeholder="Min" class="filter-now form-control"></span><i
-                                                            class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                                            id="slider-range-value2">
-                                        <input type="number" id="price-max" min="0" placeholder="Max"
-                                               class="filter-now form-control"></span>
-                                                </div>
-
-
-
-                                            </div>
-                                        </div>
-
-
-                                    @endif
-
-
-
-
-
-
-                                    <div class="mt-md-4" id="from_owner_field">
-                                        <div class="head d-flex mobile-title widget-boxed-header">
-                                            <span>Kimden</span>
-                                        </div>
-                                        <div class="mt-md-4 p-3 p-md-0">
-                                            <div class="mb-2 d-flex align-items-center w-50 w-100">
-                                                <input type="radio" name="whose" id="from_owner" class="filter-now" />
-                                                <label for="from_owner" class="form-check-label w-100 ml-2">Turizm</label>
-                                            </div>
-                                            <div class="mb-2 d-flex align-items-center w-50 w-100">
-                                                <input type="radio" name="whose" id="from_office" class="filter-now" />
-                                                <label for="from_office" class="form-check-label w-100 ml-2">Emlak
-                                                    Ofisinden</label>
-                                            </div>
-                                            <div class="mb-2 d-flex align-items-center w-50 w-100">
-                                                <input type="radio" name="whose" id="from_company" class="filter-now" />
-                                                <label for="from_company" class="form-check-label w-100 ml-2">İnşaat
-                                                    Firmasından</label>
-                                            </div>
-                                            <div class="mb-2 d-flex align-items-center w-50 w-100">
-                                                <input type="radio" name="whose" id="from_bank" class="filter-now" />
-                                                <label for="from_bank" class="form-check-label w-100 ml-2">Bankadan</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
+                                
                                 @if ($projects)
+                                    
                                     <div class="trip-search mt-md-4">
                                         <div class="widget-boxed-header border-0 mobile-title widget-boxed-header">
                                             <span>Proje Durumu</span>
@@ -1137,6 +237,67 @@
                                         </div>
                                     </div>
                                 @endif
+
+                                
+                                @foreach($filters as $filter)
+                                <div class="mt-md-4" id="room_count_field">
+                                    
+                                    @if($filter['type'] != 'text')
+                                    <div class="head d-flex mobile-title widget-boxed-header">
+                                        <span>{!! $filter['label'] !!}</span>
+                                    </div>
+                                    <div class="mt-md-4 filtreArea">
+                                            @foreach($filter['values'] as $key => $value)
+                                                @if($filter['type'] == 'select')
+                                                    @if($key != 0)
+                                                        <div class="mb-2 d-flex align-items-center">
+                                                            <input name="{{$filter['name']}}[]" type="checkbox" value="{{$value->value}}" class="filter-now form-control" id="{{$filter['name'].$key}}">
+                                                            <label for="{{$filter['name'].$key}}" class="form-check-label w-100 ml-4">{{$value->label}}</label>
+                                                        </div>
+                                                    @endif
+                                                @elseif($filter['type'] == 'checkbox-group')
+                                                    <div class="mb-2 d-flex align-items-center">
+                                                        <input name="{{$filter['name']}}[]" type="checkbox" value="{{$value->value}}" class="filter-now form-control" id="{{$filter['name'].$key}}">
+                                                        <label for="{{$filter['name'].$key}}" class="form-check-label w-100 ml-4">{{$value->label}}</label>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                    </div>
+                                    @endif
+                                    @if($filter['type'] == 'text')
+                                        <div class="trip-search">
+                                            <div class="head d-flex">
+                                                <span>{!! $filter['label'] !!}</span>
+                                                <span class="ml-auto"
+                                                    onclick="$(this).parent().parent().find('.mt-md-4').slideToggle();">
+                                                    <svg width="16px" height="16px" viewBox="0 0 384 512"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                            <div class="d-flex align-items-center mt-md-4">
+                                                @if($filter['text_style'] == 'min-max')
+                                                    <span id="slider-range-value1"> 
+                                                        <input type="number" name="{{str_replace('[]','',$filter['name'])}}-min" id="{{str_replace('[]','',$filter['name'])}}-min" min="0"placeholder="Min" class="filter-now form-control">
+                                                    </span>
+                                                    <i class="fa fa-solid fa-minus mx-2 dark-color icon"></i>
+                                                    <span id="slider-range-value2">
+                                                        <input type="number" id="{{str_replace('[]','',$filter['name'])}}-max" min="0" placeholder="Max" class="filter-now form-control" name="{{str_replace('[]','',$filter['name'])}}-max">
+                                                    </span>
+                                                @else
+                                                    <span class="w-100"> 
+                                                        <input type="text" name="{{str_replace('[]','',$filter['name'])}}" id="{{str_replace('[]','',$filter['name'])}}" class="filter-now form-control">
+                                                    </span>
+                                                    
+                                                @endif
+                                                
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
 
                                 <div class="trip-search mt-md-4">
                                     <div class="widget-boxed-header border-0 mobile-title widget-boxed-header">
@@ -1293,98 +454,6 @@
                         </div>
                     </div>
 
-                    @if ($secondhandHousings)
-                        <div class="widget-boxed main-search-field mt-4">
-                            <div class="trip-search">
-                                <div class="head d-flex">
-                                    <span>Fiyat Aralığı</span>
-                                    <span class="ml-auto"
-                                        onclick="$(this).parent().parent().find('.mt-md-4').slideToggle();">
-                                        <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="d-flex align-items-center mt-md-4">
-                                    <span id="slider-range-value1"> <input type="number" id="price-min" min="0"
-                                            placeholder="Min" class="filter-now form-control"></span><i
-                                        class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                        id="slider-range-value2">
-                                        <input type="number" id="price-max" min="0" placeholder="Max"
-                                            class="filter-now form-control"></span>
-                                </div>
-
-
-
-                            </div>
-                        </div>
-
-                        <div class="widget-boxed main-search-field mt-md-4">
-                            <div class="trip-search">
-                                <div class="head d-flex mobile-title widget-boxed-header">
-                                    <span>m<sup>2</sup> (brüt)</span>
-                                </div>
-                                <div class="d-flex align-items-center mt-2"><span id="slider-range-value1">
-                                        <input type="number" id="msq-min" min="0" placeholder="Min"
-                                            class="filter-now form-control"> </span><i
-                                        class="fa fa-solid fa-minus mx-2 dark-color icon"></i><span
-                                        id="slider-range-value2">
-                                        <input type="number" id="msq-max" min="0" placeholder="Max"
-                                            class="filter-now form-control"></span></div>
-                            </div>
-                        </div>
-
-                        <div class="mt-md-4" id="room_count_field">
-                            <div class="head d-flex mobile-title widget-boxed-header">
-                                <span>Oda Sayısı</span>
-                            </div>
-                            <div class="mt-md-4 d-flex align-items-center" style="flex-wrap: wrap">
-                                @for ($i = 1; $i <= 15; $i++)
-                                    <div class="mb-2 d-flex align-items-center w-50">
-                                        <input type="checkbox" class="filter-now form-control"
-                                            id="{{ $i }}+1" />
-                                        <label for="{{ $i }}+1"
-                                            class="form-check-label w-100 ml-4">{{ $i }}+1</label>
-                                    </div>
-                                @endfor
-                            </div>
-                        </div>
-                        <div class="widget-boxed mt-md-4" id="from_owner_field">
-                            <div class="head d-flex mobile-title widget-boxed-header">
-                                <span>Kimden</span>
-                                <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
-                                    <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div class="mt-md-4" style="display: none;">
-                                <div class="mb-2 d-flex align-items-center w-50 w-100">
-                                    <input type="radio" name="whose" id="from_owner" class="filter-now" />
-                                    <label for="from_owner" class="form-check-label w-100 ml-2">Turizm</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-50 w-100">
-                                    <input type="radio" name="whose" id="from_office" class="filter-now" />
-                                    <label for="from_office" class="form-check-label w-100 ml-2">Emlak
-                                        Ofisinden</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-50 w-100">
-                                    <input type="radio" name="whose" id="from_company" class="filter-now" />
-                                    <label for="from_company" class="form-check-label w-100 ml-2">İnşaat
-                                        Firmasından</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-50 w-100">
-                                    <input type="radio" name="whose" id="from_bank" class="filter-now" />
-                                    <label for="from_bank" class="form-check-label w-100 ml-2">Bankadan</label>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
                     <button type="button" class="btn btn-primary btn-lg btn-block mt-4 mb-4"
                         id="clear-filters">Temizle</button>
 
@@ -1533,24 +602,40 @@
                             @if (!$secondhandHousings)
                                 $('.pp-row').append(
                                     `
-                                    <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
-                                        <!-- Image Box -->
-                                        <a href="${res.url}" class="img-box hover-effect">
-                                            <img src="${res.image}" class="img-fluid w100" alt="">
-
-                                        </a>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150" style="height:200px">
+                                        <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
+                                            <div class="listing-item compact" style="height:100%">
+                                                <a href="${res.profile_user_image}" class="listing-img-container">
+                                                    <img class="project_brand_profile_image" src="${res.image}" style="border-radius:7px;" alt="">
+                                                    <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
+                                                        <span class="badge badge-phoenix text-left">${res.title} <span class="d-block"><small>${res.city.title} / ${res.county.ilce_title}</small></span></span>
+                                                    
+                                                    </div>
+                                                    <img src="${res.image}" alt=""
+                                                    style="height:100%;object-fit:cover">
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                     `
                                 );
                                 $('.pp-col').append(
                                     `
-                                    <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
-                                        <!-- Image Box -->
-                                        <a href="${res.url}" class="img-box hover-effect">
-                                            <img src="${res.image}" class="img-fluid w100" alt="">
-
-                                        </a>
-                                    </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150" style="height:200px">
+                                            <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
+                                                <div class="listing-item compact" style="height:100%">
+                                                    <a href="${res.profile_user_image}" class="listing-img-container" >
+                                                        <img class="project_brand_profile_image" src="${res.image}" alt="" style="border-radius:7px;">
+                                                        <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
+                                                            <span class="badge badge-phoenix text-left">${res.title} <span class="d-block"><small>${res.city.title} / ${res.county.ilce_title}</small></span></span>
+                                                        
+                                                        </div>
+                                                        <img src="${res.image}" alt=""
+                                                        style="height:100%;object-fit:cover">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     `
                                 );
                             @else
@@ -1568,195 +653,193 @@
                             // Metni kırp ve üç nokta ekle
                             var kisaltilmisBaslik = kisalt(res.title, 45);
                             $('.pp-row').append(`
-                                                <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
-                                                    <a href="${res.housing_url}" tabindex="0" class="text-decoration-none">
-                                                        <div class="landscapes">
-                                                            <div class="project-single">
-                                                                <div class="project-inner project-head">
-                                                                    <div class="homes">
-                                                                        <!-- homes img -->
-                                                                        <div class="homes-img">
-                                                                            ${featuredHtml}
-                                                                            <img src="${res.image}" alt="${res.housing_type_title}" class="img-responsive">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="button-effect">
-                                                                        <!-- Örneğin Kalp İkonu -->
-                                                                        <div href="" class="btn toggle-favorite bg-white ${res.in_favorites ? 'bg-white' : ''}" data-housing-id="${res.id}">
-                                                                            <i class="fa fa-heart-o ${res.in_favorites ? 'text-danger' : ''}"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- homes content -->
-                                                                <div class="homes-content p-3" style="padding: 20px !important; ${res.sold ? 'background: #EEE !important;' : ''}">
-                                                                    <!-- homes address -->
-                                                                    <a href="${res.housing_url}">
-                                                                        <h4>${kisaltilmisBaslik}</h4>
-                                                                    </a>
-                                                                    <p class="homes-address mb-3">
-                                                                        <a href="${res.housing_url}">
-                                                                            <i class="fa fa-map-marker"></i><span>${res.city} ${"/"} ${res.county}</span>
-                                                                        </a>
-                                                                    </p>
-                                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between">
-                                                                        ${res.column1 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column1} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
-    ${res.column2 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column2} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
-    ${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column3} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
-
-</ul>
-
-                                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                                        <li style="font-size: 15px; font-weight: 700; flex: 1;" class="priceFont">
-                                                                            ${res.step2_slug !== "gunluk-kiralik" ?
-                                                                                res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
-                                                                                : numberFormat(res.housing_type.price) + " ₺"
-                                                                                : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
-                                                                            }
-                                                                        </li>
-                                                                    </ul>
-                                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
-                                                                        ${res.step2_slug !== "gunluk-kiralik" ?
-                                                                            res.offSale ?
-                                                                                `<button
-                                                                                    class="btn second-btn CartBtn" disabled
-                                                                                    style="background: red !important;width:100%;color:White">Satıldı
-                                                                                </button>`
-                                                                                :
-                                                                                res.action === 'payment_await' ?
-                                                                                    `<button
-                                                                                        class="btn second-btn CartBtn" disabled
-                                                                                        style="background: orange !important;width:100%;color:White">Onay Bekleniyor
-                                                                                    </button>`
-                                                                                    :
-                                                                                    res.action === 'sold' ?
-                                                                                        `<button
-                                                                                            class="btn second-btn CartBtn" disabled
-                                                                                            style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                        </button>`
-                                                                                        :
-                                                                            `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                data-id='${res.id}'>
-                                                                                <span class="IconContainer">
-                                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                                </span>
-                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                            </button>` :
-                                                                        `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
-                                                                            <span class="IconContainer">
-                                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                                            </span>
-                                                                            <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                                        </button>`
-                                                                        }
-                                                                    </ul>
-                                                                </div>
+                                    <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
+                                        <a href="${res.housing_url}" tabindex="0" class="text-decoration-none">
+                                            <div class="landscapes">
+                                                <div class="project-single">
+                                                    <div class="project-inner project-head">
+                                                        <div class="homes">
+                                                            <!-- homes img -->
+                                                            <div class="homes-img">
+                                                                ${featuredHtml}
+                                                                <img src="${res.image}" alt="${res.housing_type_title}" class="img-responsive">
                                                             </div>
                                                         </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            `);
+                                                        <div class="button-effect">
+                                                            <!-- Örneğin Kalp İkonu -->
+                                                            <div href="" class="btn toggle-favorite bg-white ${res.in_favorites ? 'bg-white' : ''}" data-housing-id="${res.id}">
+                                                                <i class="fa fa-heart-o ${res.in_favorites ? 'text-danger' : ''}"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- homes content -->
+                                                    <div class="homes-content p-3" style="padding: 20px !important; ${res.sold ? 'background: #EEE !important;' : ''}">
+                                                        <!-- homes address -->
+                                                        <a href="${res.housing_url}">
+                                                            <h4>${kisaltilmisBaslik}</h4>
+                                                        </a>
+                                                        <p class="homes-address mb-3">
+                                                            <a href="${res.housing_url}">
+                                                                <i class="fa fa-map-marker"></i><span>${res.city} ${"/"} ${res.county}</span>
+                                                            </a>
+                                                        </p>
+                                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between">
+                                                            ${res.column1 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column1} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
+                                                            ${res.column2 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column2} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
+                                                            ${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column3} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
+                                                        </ul>
 
-
-                                                        $('.pp-col').append(`
-
-                                                            <div class="d-flex" style="flex-wrap: nowrap;width:100%">
-                                                                <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
-                                                                    <div class="project-inner project-head">
-                                                                        <a href="${res.housing_url}">
-                                                                            <div class="homes">
-                                                                                <!-- homes img -->
-                                                                                <div class="homes-img h-100 d-flex align-items-center"
-                                                                                    style="width: 110px; height: 128px;">
-                                                                                    <img src="${res.image}" alt="${res.title}" class="img-responsive"
-                                                                                        style="height: 100px !important;">
-                                                                                </div>
-                                                                            </div>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="w-100" style="padding-left:0;">
-                                                                    <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
-                                                                        <a style="text-decoration: none;height:100%" href="${res.housing_url}">
-                                                                            <h4>
-                                                                                ${res.title}
-                                                                            </h4>
-                                                                        </a>
-                                                                        <div class="d-flex" style="align-items:Center">
-                                                                            <div class="d-flex" style="gap: 8px;">
-                                                                                <a href="#" class="btn toggle-favorite bg-white" data-housing-id="${res.id}" style="color: white;">
-                                                                                    <i class="fa fa-heart-o"></i>
-                                                                                </a>
-
-                                                                                ${res.step2_slug !== "gunluk-kiralik" ?
-                                                            res.offSale ?
-                                                                `<button
-                                                                    class="btn mobileBtn second-btn CartBtn" disabled
-                                                                    style="background: red !important;width:100%;color:White">Satıldı
-                                                                </button>`
-                                                                :
-                                                                res.action === 'payment_await' ?
+                                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                            <li style="font-size: 15px; font-weight: 700; flex: 1;" class="priceFont">
+                                                                ${res.step2_slug !== "gunluk-kiralik" ?
+                                                                    res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
+                                                                    : numberFormat(res.housing_type.price) + " ₺"
+                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
+                                                                }
+                                                            </li>
+                                                        </ul>
+                                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
+                                                            ${res.step2_slug !== "gunluk-kiralik" ?
+                                                                res.offSale ?
                                                                     `<button
-                                                                        class="btn mobileBtn second-btn CartBtn" disabled
-                                                                        style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                        class="btn second-btn CartBtn" disabled
+                                                                        style="background: red !important;width:100%;color:White">Satıldı
                                                                     </button>`
                                                                     :
-                                                                    res.action === 'sold' ?
+                                                                    res.action === 'payment_await' ?
                                                                         `<button
-                                                                            class="btn mobileBtn second-btn CartBtn" disabled
-                                                                            style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                            class="btn second-btn CartBtn" disabled
+                                                                            style="background: orange !important;width:100%;color:White">Onay Bekleniyor
                                                                         </button>`
                                                                         :
-                                                                        `<button class="CartBtn mobileBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                            data-id='${res.id}'>
-                                                                            <span class="IconContainer">
-                                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                                            </span>
-                                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                        </button>` :
-                                                                            `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileBtn">
-                                                                                <span class="IconContainer">
-                                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                                </span>
+                                                                        res.action === 'sold' ?
+                                                                            `<button
+                                                                                class="btn second-btn CartBtn" disabled
+                                                                                style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
                                                                             </button>`
-                                                                        }
-                                                                            </div>
-                                                                            <span class="ml-auto text-primary priceFont">
-                                                                                ${
-                                                                res.step2_slug !== "gunluk-kiralik"
-                                                                ? res.offSale || (res.action === 'payment_await' || res.action === 'sold')
-                                                                    ? " "
-                                                                    : numberFormat(res.housing_type.price) + " ₺"
-                                                                : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
+                                                                            :
+                                                                `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                    data-id='${res.id}'>
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                    </span>
+                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                </button>` :
+                                                            `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                </span>
+                                                                <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                            </button>`
                                                             }
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
-                                                                <ul class="d-flex justify-content-around align-items-center h-100"
-                                                                    style="list-style: none;padding:0;font-weight:600">
-                                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between">
-                                                                        ${res.column1 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column1} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
-    ${res.column2 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column2} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
-    ${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column3} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
-</ul>
-                                                                </ul>
-                                                            </div>
-                                                            <hr>
-                                                        `);
-                                                    @endif
-                                                });
-                                            } else {
-                                                $('.pp-row').html(`
-                                                <div class="col-12 text-center my-4  p-3">Sonuç bulunamadı.</div>
-                                                `);
-                                                $('.pp-col').html(`
-                                                <div class="col-12 text-center my-4  p-3">Sonuç bulunamadı.</div>
-                                                `);
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            `);
+
+
+                            $('.pp-col').append(`
+                                <div class="d-flex" style="flex-wrap: nowrap;width:100%">
+                                    <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
+                                        <div class="project-inner project-head">
+                                            <a href="${res.housing_url}">
+                                                <div class="homes">
+                                                    <!-- homes img -->
+                                                    <div class="homes-img h-100 d-flex align-items-center"
+                                                        style="width: 110px; height: 128px;">
+                                                        <img src="${res.image}" alt="${res.title}" class="img-responsive"
+                                                            style="height: 100px !important;">
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="w-100" style="padding-left:0;">
+                                        <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
+                                            <a style="text-decoration: none;height:100%" href="${res.housing_url}">
+                                                <h4>
+                                                    ${res.title}
+                                                </h4>
+                                            </a>
+                                            <div class="d-flex" style="align-items:Center">
+                                                <div class="d-flex" style="gap: 8px;">
+                                                    <a href="#" class="btn toggle-favorite bg-white" data-housing-id="${res.id}" style="color: white;">
+                                                        <i class="fa fa-heart-o"></i>
+                                                    </a>
+
+                                                    ${res.step2_slug !== "gunluk-kiralik" ?
+                                res.offSale ?
+                                    `<button
+                                        class="btn mobileBtn second-btn CartBtn" disabled
+                                        style="background: red !important;width:100%;color:White">Satıldı
+                                    </button>`
+                                    :
+                                    res.action === 'payment_await' ?
+                                        `<button
+                                            class="btn mobileBtn second-btn CartBtn" disabled
+                                            style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                        </button>`
+                                        :
+                                        res.action === 'sold' ?
+                                            `<button
+                                                class="btn mobileBtn second-btn CartBtn" disabled
+                                                style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                            </button>`
+                                            :
+                                            `<button class="CartBtn mobileBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                data-id='${res.id}'>
+                                                <span class="IconContainer">
+                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                </span>
+                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                            </button>` :
+                                                `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileBtn">
+                                                    <span class="IconContainer">
+                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                    </span>
+                                                </button>`
                                             }
-                                        }
+                                                </div>
+                                                <span class="ml-auto text-primary priceFont">
+                                                    ${
+                                    res.step2_slug !== "gunluk-kiralik"
+                                    ? res.offSale || (res.action === 'payment_await' || res.action === 'sold')
+                                        ? " "
+                                        : numberFormat(res.housing_type.price) + " ₺"
+                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
+                                }
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
+                                    <ul class="d-flex justify-content-around align-items-center h-100"
+                                        style="list-style: none;padding:0;font-weight:600">
+                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between">
+                                            ${res.column1 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column1} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
+                                            ${res.column2 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column2} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
+                                            ${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column3} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
+                                        </ul>
+                                    </ul>
+                                </div>
+                                <hr>
+                            `);
+                            @endif
+                        });
+                    } else {
+                        $('.pp-row').html(`
+                        <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
+                        `);
+                        $('.pp-col').html(`
+                        <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
+                        `);
+                    }
+                }
             });
         }
 
@@ -1819,7 +902,27 @@
                         return false;
                     }
                 });
-
+                var filterValues = {}
+                @foreach($filters as $filter)
+                    @if($filter['type'] == 'select' || $filter['type'] == 'checkbox-group')
+                        var checkedValues = [];
+                        $('input[name="{{$filter["name"]}}[]').each(function() {
+                            if($(this).is(':checked')){
+                                checkedValues.push($(this).val());
+                            }
+                        });
+                        
+                        filterValues["{{$filter['name']}}"] = checkedValues;
+                    @else
+                        
+                        @if($filter['text_style'] == 'min-max')
+                            filterValues["{{$filter['name']}}-min"] = $('input[name="{{$filter['name']}}-min"]').val();
+                            filterValues["{{$filter['name']}}-max"] = $("input[name='{{$filter['name']}}-max']").val();
+                        @else 
+                            filterValues["{{$filter['name']}}"] = $('input[name="{{$filter['name']}}"]').val();
+                        @endif
+                    @endif
+                @endforeach
                 drawList({
                     page: current_page,
                     city: $('#city').val(),
@@ -1828,19 +931,8 @@
                     neighborhood: $('#neighborhood').val(),
                     filterDate: $(".filter-date:checked").val(),
                     zoning: $("#zoning").val(),
-                    islandnumber_min: $('#islandnumber-min').val(),
-                    islandnumber_max: $('#islandnumber-max').val(),
-                    parcelnumber_min: $("#parcelnumber-min").val(),
-                    parcelnumber_max: $("#parcelnumber-max").val(),
-                    price_min: $('#price-min').val(),
-                    price_max: $('#price-max').val(),
-                    msq_min: $('#msq-min').val(),
-                    msq_max: $('#msq-max').val(),
-                    room_count,
-                    post_date,
-                    from_owner,
-                    bathroom_count,
                     sort: sortSelectFilters($('#sort-select').val()),
+                    ...filterValues
                 });
             }
 
