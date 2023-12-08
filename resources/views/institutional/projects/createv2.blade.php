@@ -652,6 +652,11 @@
                 var disabledBlocks = 0;
             @endif
 
+            $('.pop-back').click(function(){
+                console.log("asd");
+                $('.pop-up-v3').addClass('d-none')
+            })
+
 
             $('.has_blocks_input').change(function(){
                 if($(this).val() == "1"){
@@ -3615,11 +3620,12 @@
     <script>
         tinymce.init({
             selector: '#editor', // HTML elementinizi seçin
-            plugins: 'advlist autolink lists link image charmap print preview anchor',
+            plugins: 'advlist autolink lists link image charmap print preview anchor paste',
             toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | forecolor backcolor ',
             menubar: false, // Menü çubuğunu tamamen devre dışı bırakır
             contextmenu: "paste | link image inserttable | cell row column deletetable",
             language : "tr",
+            paste_as_text: true,
             // Görünümleri devre dışı bırakmak için aşağıdaki yapılandırmaları kullanın
             file_browser_callback_types: 'image media',
             file_browser_callback: function(field_name, url, type, win) {

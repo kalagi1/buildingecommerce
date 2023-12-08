@@ -882,6 +882,8 @@
                             $('.dropzone2').eq(i - 1).html(images);
                         }
 
+                        
+
                         var csrfToken = "{{ csrf_token() }}";
 
                         $('.add-new-project-house-image').click(function() {

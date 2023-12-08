@@ -366,6 +366,45 @@
 
                             }
                         }
+
+                        $('.price-only').keyup(function(){
+                            $('.price-only .error-text').remove();
+
+                            if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                                console.log("hatali")
+                                if($('.price-only').closest('.form-group').find('.error-text').length > 0){
+                                    $('.price-only').val("");
+                                }else{
+                                    $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
+                                    $('.price-only').val("");
+                                }
+                                
+                            }else{
+                                let inputValue = $(this).val();
+
+                                // Sadece sayı karakterlerine izin ver
+                                inputValue = inputValue.replace(/\D/g, '');
+
+                                // Her üç basamakta bir nokta ekleyin
+                                inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                                console.log(inputValue);
+                                $(this).val(inputValue)
+                                $(this).closest('.form-group').find('.error-text').remove();
+                            }
+                        })
+
+                        $('.price-only').map((key,item) => {
+                            console.log(item);
+                            let inputValue = $(item).val();
+                                console.log(inputValue)
+                            if(inputValue){
+                                inputValue = inputValue.replace(/\D/g, '');
+                                inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                            }
+                            $(item).val(inputValue)
+                        })
+
                         console.log($('.dropzonearea'))
                         $('.dropzonearea').closest('.formbuilder-file').remove();
                         for (let i = 1; i <= houseCount; i++) {
@@ -645,24 +684,6 @@
                                 success: function(response) {},
                             });
 
-                        })
-
-                        $('.price-only').keyup(function() {
-                            $('.price-only .error-text').remove();
-                            if ($('.price-only').val() != parseFloat($('.price-only').val())) {
-                                if ($('.price-only').closest('.form-group').find('.error-text').length >
-                                    0) {
-                                    $('.price-only').val("");
-                                } else {
-                                    $(this).closest('.form-group').append(
-                                        '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                    )
-                                    $('.price-only').val("");
-                                }
-
-                            } else {
-                                $(this).closest('.form-group').find('.error-text').remove();
-                            }
                         })
 
                         $('.number-only').keyup(function() {
