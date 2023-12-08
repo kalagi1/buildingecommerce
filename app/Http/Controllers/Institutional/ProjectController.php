@@ -106,13 +106,23 @@ class ProjectController extends Controller
                     } else {
                         if ($housingTypeInputs[$j]->type != "checkbox-group" && !str_contains($housingTypeInputs[$j]->className, 'project-disabled')) {
                             if (isset($housingTypeInputs[$j]->name) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null) {
-                                ProjectHousing::create([
-                                    "key" => $housingTypeInputs[$j]->label,
-                                    "name" => $housingTypeInputs[$j]->name,
-                                    "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2))) ? $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0] : $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0],
-                                    "project_id" => $project->id,
-                                    "room_order" => $roomOrder,
-                                ]);
+                                if (str_contains($housingTypeInputs[$j]->className, 'price-only')){
+                                    ProjectHousing::create([
+                                        "key" => $housingTypeInputs[$j]->label,
+                                        "name" => $housingTypeInputs[$j]->name,
+                                        "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2))) ? str_replace('.','',$request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0]) : str_replace('.','',$request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0]),
+                                        "project_id" => $project->id,
+                                        "room_order" => $roomOrder,
+                                    ]);
+                                }else{
+                                    ProjectHousing::create([
+                                        "key" => $housingTypeInputs[$j]->label,
+                                        "name" => $housingTypeInputs[$j]->name,
+                                        "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2))) ? $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0] : $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0],
+                                        "project_id" => $project->id,
+                                        "room_order" => $roomOrder,
+                                    ]);
+                                }
                             }
                         } else {
                             ProjectHousing::create([

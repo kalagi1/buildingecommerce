@@ -632,6 +632,32 @@
             var blockHouseCount = [];
             var blockNames = [];
 
+            @if(isset($tempDataFull->data) && isset($tempData->statuses) && $tempData->statuses)
+                @if(in_array('3',$tempData->statuses))
+                    var isContinueProject = 1;
+                @else
+                    var isContinueProject = 0;
+                @endif
+            @else
+                var isContinueProject = 0;
+            @endif
+
+            @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && $tempData->step1_slug )
+                @if($tempData->step1_slug == "arsa")
+                    var disabledBlocks = 1;
+                @else
+                    var disabledBlocks = 0;
+                @endif
+            @else
+                var disabledBlocks = 0;
+            @endif
+
+            $('.pop-back').click(function(){
+                console.log("asd");
+                $('.pop-up-v3').addClass('d-none')
+            })
+
+
             $('.has_blocks_input').change(function(){
                 if($(this).val() == "1"){
                     changeData(1,"has_blocks")
@@ -682,6 +708,7 @@
                     $('.total-house-text').html(houseCountInput.value)
                     $('.bottom-housing-area').removeClass('d-none')
                     $('.pop-up-v2').addClass('d-none')
+                    
                     if(selectedid){
                         $('.rendered-area').removeClass('d-none')
                     }else{
@@ -913,6 +940,10 @@
                             });
                             console.log(transactionIndex);
                         })
+
+                        if(isContinueProject){
+                            $('.continue-disabled').closest('.form-group').remove();
+                        }
                         
                         $('.project-disabled').closest('.form-group').remove();
                         
@@ -2232,7 +2263,10 @@
             $('.choise-1').click(function(){
                 $('.bottom-housing-area').removeClass('d-none')
                 $('.pop-up-v2').addClass('d-none')
-
+                if(disabledBlocks){
+                    $('.has_blocks_input').parent('.form-group').parent('.form-group').addClass("d-none");
+                    $('.has_blocks-close').removeClass("d-none");
+                }
                 if(!isNaN(houseCount) && houseCount > 0){
                     var houseType = {{isset($tempData->housing_type_id) ? $tempData->housing_type_id : 0}};
                     if(houseType != 0){
@@ -2537,7 +2571,6 @@
                                         confirmHousings();
                                     },
                                 });
-                                console.log(transactionIndex);
                             })
                             
                             $('.project-disabled').closest('.form-group').remove();
@@ -2656,6 +2689,12 @@
                                     $(this).removeClass('error-border')
                                 }
                             })
+
+                            if(isContinueProject){
+                                $('.continue-disabled').closest('.form-group').remove();
+                            }
+
+                            
 
                             
                             $('.cover-image-by-housing-type').change(function(){
@@ -3581,11 +3620,12 @@
     <script>
         tinymce.init({
             selector: '#editor', // HTML elementinizi seçin
-            plugins: 'advlist autolink lists link image charmap print preview anchor',
+            plugins: 'advlist autolink lists link image charmap print preview anchor paste',
             toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | forecolor backcolor ',
             menubar: false, // Menü çubuğunu tamamen devre dışı bırakır
             contextmenu: "paste | link image inserttable | cell row column deletetable",
             language : "tr",
+            paste_as_text: true,
             // Görünümleri devre dışı bırakmak için aşağıdaki yapılandırmaları kullanın
             file_browser_callback_types: 'image media',
             file_browser_callback: function(field_name, url, type, win) {
@@ -3889,6 +3929,11 @@
             var value = $(this).attr('attr-id');
             var key = "statuses";
             var isArray = 1; 
+
+            if($(this).attr('attr-id',3)){
+                isContinueProject = true;
+            }
+
             var formData = new FormData();
             var csrfToken = $("meta[name='csrf-token']").attr("content");
             formData.append('_token', csrfToken);
@@ -3922,7 +3967,14 @@
             changeData(itemSlug,'step1_slug')
             changeData("",'step3_slug')
             changeData("",'step2_slug')
-            
+            itemSlug = $(this).attr('slug');
+            if(itemSlug == "arsa"){
+                $('.has_blocks_input').parent('.form-group').parent('.form-group').addClass("d-none");
+                $('.has_blocks-close').removeClass("d-none");
+            }else{
+                $('.has_blocks_input').parent('.form-group').parent('.form-group').removeClass("d-none");
+                $('.has_blocks-close').addClass("d-none");
+            }
             $('.breadcrumb-v2').find('.breadcrumb-after-item').remove()
             $('.breadcrumb-v2').find('.breadcrumb-after-item').remove()
             $('.breadcrumb-v2').find('.breadcrumb-after-item').remove()
@@ -4034,7 +4086,6 @@
             $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
             itemSlug = $(this).attr('slug');
             var thisx = $(this);
-            console.log("asd");
             changeData(itemSlug,'step2_slug')
             changeData("",'step3_slug')
             $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()

@@ -1789,7 +1789,7 @@ Emlak İlanı Ekle
             });
         });
     </script>
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/c2puh97n9lsir0u2h6xn3id7sk6y0tbhze4ahy5uwt0u4r9e/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
     <script>
         tinymce.init({
