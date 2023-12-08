@@ -2,8 +2,12 @@
 
 @section('content')
     @php
-        $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $housingOrder)->room_order, $project->id]);
-    @endphp
+    
+    if(isset($projectCartOrders[$housingOrder])){
+                                                    $sold = $projectCartOrders[$housingOrder];
+                                                }else{
+                                                    $sold = null;
+                                                }    @endphp
     @php
         function getData($project, $key, $roomOrder)
         {
@@ -82,13 +86,6 @@
                                                         {{ $project->step1_slug }}
                                                     @endif
                                                 </h3>
-                                                <div class="mt-0">
-                                                    <a href="#listing-location" class="listing-address">
-                                                        <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
-                                                        {!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}
-                                                    </a>
-                                                </div>
-
 
                                             </div>
                                         </div>
@@ -165,23 +162,6 @@
                                                         @endif
                                                     </h4>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    @else
-                                        <div class="detail-wrapper-body">
-                                            <div class="listing-title-bar">
-
-                                                <h3>
-                                                    @if (getData($project, 'advertise_title[]', $housingOrder)->value ?? null)
-                                                        <span>
-                                                            {{ getData($project, 'advertise_title[]', $housingOrder)->value }}</span>
-                                                    @else
-                                                        <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}</span><br>
-                                                        {{ $housingOrder }} {{ "No'lu" }}
-                                                        {{ $project->step1_slug }}
-                                                    @endif
-
-                                                </h3>
                                             </div>
                                         </div>
                                     @endif
@@ -1012,7 +992,7 @@
                                             
                                                                                                     <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
                                                                                                         data-aos="fade-up"
-                                                                                                        @if ($sold || getData($project, 'off_sale[]', $i + 1)->value != '[]') style="background: #EEE !important;" @endif>
+                                                                                                        @if ($sold && $sold->status != "2" || getData($project, 'off_sale[]', $i + 1)->value != '[]') style="background: #EEE !important;" @endif>
                                             
                                                                                                         <div
                                                                                                             class="row align-items-center justify-content-between mobile-position">
@@ -1532,7 +1512,7 @@
                                             
                                                                             <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
                                                                                 data-aos="fade-up"
-                                                                                @if ($sold || getData($project, 'off_sale[]', $i + 1)->value != '[]') style="background: #EEE !important;" @endif>
+                                                                                @if ($sold && $sold->status != "2" || getData($project, 'off_sale[]', $i + 1)->value != '[]') style="background: #EEE !important;" @endif>
                                             
                                                                                 <div class="row align-items-center justify-content-between mobile-position">
                                                                                     <div class="col-md-8">
@@ -2217,7 +2197,7 @@
                                         
                                                                                                 <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
                                                                                                     data-aos="fade-up"
-                                                                                                    @if ($sold || getData($project, 'off_sale[]', $i + 1)->value != '[]') style="background: #EEE !important;" @endif>
+                                                                                                    @if ($sold  && $sold->status != "2"|| getData($project, 'off_sale[]', $i + 1)->value != '[]') style="background: #EEE !important;" @endif>
                                         
                                                                                                     <div
                                                                                                         class="row align-items-center justify-content-between mobile-position">
@@ -2738,7 +2718,7 @@
                                         
                                                                         <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
                                                                             data-aos="fade-up"
-                                                                            @if ($sold || getData($project, 'off_sale[]', $i + 1)->value != '[]') style="background: #EEE !important;" @endif>
+                                                                            @if ($sold && $sold->status != "2" || getData($project, 'off_sale[]', $i + 1)->value != '[]') style="background: #EEE !important;" @endif>
                                         
                                                                             <div class="row align-items-center justify-content-between mobile-position">
                                                                                 <div class="col-md-8">

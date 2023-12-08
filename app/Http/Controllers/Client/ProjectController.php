@@ -175,7 +175,7 @@ class ProjectController extends Controller
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
     }
 
-    public function allMenuProjects($slug = null, $type = null, $optional = null, $title = null)
+    public function allMenuProjects($slug = null, $type = null, $optional = null, $title = null, $check = null)
     {
         $deneme = null;
         if ($slug == "al-sat-acil") {
@@ -184,7 +184,7 @@ class ProjectController extends Controller
 
         $nslug = HousingType::where('slug', ['konut' => 'daire'][$slug] ?? $slug)->first()->id ?? 0;
 
-        $parameters = [$slug, $type, $optional, $title];
+        $parameters = [$slug, $type, $optional, $title, $check];
         $secondhandHousings = [];
         $projects = [];
         $slug = [];
@@ -198,6 +198,7 @@ class ProjectController extends Controller
         $housingTypeSlug = [];
 
         $opt = null;
+        $checkTitle = null;
         $is_project = null;
 
         $optName = [];
@@ -240,7 +241,7 @@ class ProjectController extends Controller
 
         }
 
-        foreach ($parameters as $paramValue) {
+        foreach ($parameters as $index => $paramValue) {
             if ($paramValue) {
 
                 if ($paramValue == "satilik" || $paramValue == "kiralik" || $paramValue == "gunluk-kiralik") {
@@ -259,6 +260,7 @@ class ProjectController extends Controller
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
                     $housingType = HousingType::where('slug', $paramValue)->first();
+        
 
                     if ($item1) {
                         $is_project = $item1->is_project;
@@ -268,7 +270,7 @@ class ProjectController extends Controller
 
                     if ($housingTypeParent) {
                         $housingTypeSlugName = $housingTypeParent->title;
-                        $housingTypeSlug = $housingTypeParent->slug;
+                        $housingTypeParentSlug = $housingTypeParent->slug;
                     }
 
                     if ($housingType) {
@@ -276,6 +278,13 @@ class ProjectController extends Controller
                         $housingTypeSlug = $housingType->slug;
                         $housingType = $housingType->id;
                     }
+
+                    
+                }
+
+                             
+                if ($housingTypeParent && $housingTypeParent->slug == "arsa") {
+                    $checkTitle = $parameters[count($parameters) - 2];
                 }
 
             }
@@ -288,8 +297,8 @@ class ProjectController extends Controller
 
                 $query = Project::query()->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
 
-                if ($housingTypeSlug) {
-                    $query->where("step1_slug", $housingTypeSlug);
+                if ($housingTypeParentSlug) {
+                    $query->where("step1_slug", $housingTypeParentSlug);
                 }
 
                 if ($opt) {
@@ -313,8 +322,8 @@ class ProjectController extends Controller
             } else {
                 $query = Housing::with('images', "city", "county");
 
-                if ($housingTypeSlug) {
-                    $query->where("step1_slug", $housingTypeSlug);
+                if ($housingTypeParentSlug) {
+                    $query->where("step1_slug", $housingTypeParentSlug);
                 }
 
                 if ($housingType) {
@@ -334,17 +343,22 @@ class ProjectController extends Controller
         } else {
             $query = Housing::with('images', "city", "county");
 
-            if ($housingTypeSlug) {
-                $query->where("step1_slug", $housingTypeSlug);
+            if ($housingTypeParentSlug) {
+                $query->where("step1_slug", $housingTypeParentSlug);
             }
 
             if ($housingType) {
-                $query->select(\Illuminate\Support\Facades\DB::raw('(SELECT start_date FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = '.$housingType.') as doping_time'));
                 $query->where('housing_type_id', $housingType);
             }
 
             if ($opt) {
                 $query->where('step2_slug', $opt);
+            }
+            if ($checkTitle) {
+                $query->where(function ($q) use ($checkTitle) {
+                    $q->orWhereJsonContains('housing_type_data->room_count', $checkTitle)
+                      ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, '$.room_count[0]')) = ?", [$checkTitle]);
+                });
             }
             
             $secondhandHousings = $query->get();
@@ -355,12 +369,12 @@ class ProjectController extends Controller
         $housingStatuses = HousingStatus::get();
         $cities = City::get();
         $menu = Menu::getMenuItems();
+        $newHousingType = HousingType::where('slug',$housingTypeSlug)->first();
         if($projects){
-            $housingType = HousingType::where('slug',$housingTypeSlug)->first();
-            $filtersDb = Filter::where('item_type',1)->where('housing_type_id',$housingType->id)->get()->keyBy('filter_name')->toArray();
-            $filtersDbx = array_keys($filtersDb);
-            if($housingTypeSlug){
-                $housingTypeData = json_decode($housingType->form_json);
+            if($housingTypeSlug && $newHousingType){
+                $filtersDb = Filter::where('item_type',1)->where('housing_type_id',$newHousingType->id)->get()->keyBy('filter_name')->toArray();
+                $filtersDbx = array_keys($filtersDb);
+                $housingTypeData = json_decode($newHousingType->form_json);
                 foreach($housingTypeData as $data){
                     if(in_array(str_replace('[]','',$data->name),$filtersDbx)){
                         if($data->type == "select" || $data->type == "checkbox-group" ){
@@ -383,11 +397,10 @@ class ProjectController extends Controller
                 }
             }
         }else{
-            $housingType = HousingType::where('slug',$housingTypeSlug)->first();
-            $filtersDb = Filter::where('item_type',2)->where('housing_type_id',$housingType->id)->get()->keyBy('filter_name')->toArray();
-            $filtersDbx = array_keys($filtersDb);
-            if($housingTypeSlug){
-                $housingTypeData = json_decode($housingType->form_json);
+            if($housingTypeSlug && $newHousingType){
+                $filtersDb = Filter::where('item_type',2)->where('housing_type_id',$newHousingType->id)->get()->keyBy('filter_name')->toArray();
+                $filtersDbx = array_keys($filtersDb);
+                $housingTypeData = json_decode($newHousingType->form_json);
                 foreach($housingTypeData as $data){
                     if(in_array(str_replace('[]','',$data->name),$filtersDbx)){
                         if($data->type == "select" || $data->type == "checkbox-group" ){
@@ -410,7 +423,9 @@ class ProjectController extends Controller
                 }
             }
         }
-        return view('client.all-projects.menu-list', compact('filters','nslug', 'menu', "opt", "housingTypeSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
+
+
+        return view('client.all-projects.menu-list', compact('filters','nslug','checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
     }
 
     public function allProjects($slug)

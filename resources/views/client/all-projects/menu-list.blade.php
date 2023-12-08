@@ -4,7 +4,6 @@
     <style>
         /* css */
         .trip-search select {
-            appearance: none;
             border: 1px solid #CCC;
             border-radius: 8px;
         }
@@ -15,10 +14,12 @@
             border: 2px solid #dddddd;
             border-radius: 100%;
         }
+
         .filtreArea {
             max-height: 150px;
             overflow-y: auto;
         }
+
         input[type=radio]:checked {
             background: #0A0A0A;
         }
@@ -35,6 +36,16 @@
         }
 
         @media (max-width: 767px) {
+
+            #clear-filters , #close-filters{
+                border: 1px solid #CCC;
+                width: 90%;
+                padding: 10px !important;
+                margin: 0 auto;
+                margin: 10px auto;
+                font-size: 11px;
+            }
+
             .filters-input-area {
                 position: fixed;
                 top: 0;
@@ -48,41 +59,35 @@
                 padding-top: 0 !important;
             }
 
-            .filters-input-area .mobile-button
-            {
-                border-radius: 0;
-                border-right: 0;
-                border-left: 0;
-                border-top: 0;
+            .filters-input-area .mobile-button {
                 border-color: #EEE;
                 padding: 0 1rem;
+                margin-top: 10px;
+                border-radius: 0 !important
             }
 
-            .filters-input-area .mobile-title widget-boxed-header
-            {
+            .filters-input-area .mobile-title widget-boxed-header {
                 background: #E0E0E0;
                 border: 0;
                 padding: 1rem;
             }
 
-            .filters-input-area .mobile-input
-            {
+            .filters-input-area .mobile-input {
                 border-radius: 0 !important;
             }
 
-            .filters-input-area .bathroom-count-item
-            {
+            .filters-input-area .bathroom-count-item {
                 border-radius: 0 !important;
             }
 
-            .filters-input-area .current-page
-            {
+            .filters-input-area .current-page {
                 border-radius: 0 !important;
             }
 
-            .mobile-header
-            {
-                background: #2d67bd; color: #FFF; padding: 12px 16px;
+            .mobile-header {
+                background: #2d67bd;
+                color: #FFF;
+                padding: 12px 16px;
             }
         }
     </style>
@@ -146,11 +151,12 @@
                 <aside class="col-lg-3 col-md-12 order-2 order-md-1 ">
                     <div class="filters-input-area" style="display: none;">
                         <div style="position: relative;" class="d-flex mobile-header">
-                            <svg height="24px" id="Layer_1" onclick="$(this).parent().parent().slideToggle();" class="d-md-none"
-                                 style="position: absolute; left: 16px; enable-background:new 0 0 512 512;cursor: pointer;"
-                                 version="1.1" viewBox="0 0 512 512" width="24px" xml:space="preserve"
-                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <path fill="#FFF"
+                            <svg height="24px" id="Layer_1" onclick="$(this).parent().parent().slideToggle();"
+                                class="d-md-none"
+                                style="position: absolute; left: 16px; enable-background:new 0 0 512 512;cursor: pointer;"
+                                version="1.1" viewBox="0 0 512 512" width="24px" xml:space="preserve"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <path fill="#FFF"
                                     d="M437.5,386.6L306.9,256l130.6-130.6c14.1-14.1,14.1-36.8,0-50.9c-14.1-14.1-36.8-14.1-50.9,0L256,205.1L125.4,74.5  c-14.1-14.1-36.8-14.1-50.9,0c-14.1,14.1-14.1,36.8,0,50.9L205.1,256L74.5,386.6c-14.1,14.1-14.1,36.8,0,50.9  c14.1,14.1,36.8,14.1,50.9,0L256,306.9l130.6,130.6c14.1,14.1,36.8,14.1,50.9,0C451.5,423.4,451.5,400.6,437.5,386.6z" />
                             </svg>
                             <div class="d-md-none" style="margin: 0 auto; font-weight: bold; color: #FFF;">FİLTRELE</div>
@@ -159,151 +165,166 @@
 
                         <div>
 
-                            <div class="px-3">
+                            <div>
                                 <div class="trip-search">
-                                    <div class="widget-boxed-header mobile-title widget-boxed-header" style="margin-bottom: 0 !important">
+                                    <div class="widget-boxed-header mobile-title widget-boxed-header"
+                                        style="margin-bottom: 0 !important">
                                         <span>Adres</span>
                                     </div>
-                                    <div class="mt-md-4">
+                                    <div class="mt-md-2">
                                         <select id="city" class="bg-white filter-now mobile-button">
                                             <option value="#" class="selected" selected disabled>İl</option>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}">{{ $city->title }}</option>
                                             @endforeach
                                         </select>
-                                        <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
-                                            style="float: right; margin-top: -37px; padding: 6px; cursor: pointer;">
-                                            <svg viewBox="0 0 384 512" width="16" height="16"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill="#AAA"
-                                                    d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                            </svg>
-                                        </div>
+
                                     </div>
-                                    <div class="mt-md-4">
+                                    <div class="mt-md-2">
                                         <select id="county" class="bg-white filter-now mobile-button">
                                             <option value="#" class="selected" selected disabled>İlçe</option>
                                         </select>
 
-                                        <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
-                                             style="float: right; margin-top: -37px; padding: 6px; cursor: pointer;">
-                                            <svg viewBox="0 0 384 512" width="16" height="16"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill="#AAA"
-                                                    d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                            </svg>
-                                        </div>
+
                                     </div>
-                                    <div class="mt-md-4">
+                                    <div class="mt-md-2">
                                         <select id="neighborhood" class="bg-white filter-now mobile-button">
                                             <option value="#" class="selected" selected disabled>Mahalle</option>
                                         </select>
 
-                                        <div onclick="$(this).parent().find('select').trigger('click');" class="border-left"
-                                             style="float: right; margin-top: -37px; padding: 6px; cursor: pointer;">
-                                            <svg viewBox="0 0 384 512" width="16" height="16"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill="#AAA"
-                                                    d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                            </svg>
-                                        </div>
+
                                     </div>
                                 </div>
 
-                                
+
                                 @if ($projects)
-                                    
-                                    <div class="trip-search mt-md-4">
-                                        <div class="widget-boxed-header border-0 mobile-title widget-boxed-header">
+                                    <div class="trip-search mt-md-2">
+                                        <div class="widget-boxed-header mobile-title widget-boxed-header">
                                             <span>Proje Durumu</span>
                                         </div>
-                                        <div>
+                                        <div class="mt-md-2">
                                             <select id="project_type" class="form-control bg-white filter-now">
                                                 <option value="#" selected disabled>Proje Durumu</option>
                                                 <option value="2">Tamamlanan Projeler</option>
                                                 <option value="3">Devam Eden Projeler</option>
                                                 <option value="5">Topraktan Projeler</option>
                                             </select>
-
-                                            <div onclick="$(this).parent().find('select').trigger('click');"
-                                                class="border-left"
-                                                style="float: right; margin-top: -43px; padding: 6px; cursor: pointer;">
-                                                <svg viewBox="0 0 384 512" width="16" height="16"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill="#AAA"
-                                                        d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                                </svg>
-                                            </div>
                                         </div>
                                     </div>
                                 @endif
 
-                                
-                                @foreach($filters as $filter)
-                                <div class="mt-md-4" id="room_count_field">
-                                    
-                                    @if($filter['type'] != 'text')
-                                    <div class="head d-flex mobile-title widget-boxed-header">
-                                        <span>{!! $filter['label'] !!}</span>
-                                    </div>
-                                    <div class="mt-md-4 filtreArea">
-                                            @foreach($filter['values'] as $key => $value)
-                                                @if($filter['type'] == 'select')
-                                                    @if($key != 0)
-                                                        <div class="mb-2 d-flex align-items-center">
-                                                            <input name="{{$filter['name']}}[]" type="checkbox" value="{{$value->value}}" class="filter-now form-control" id="{{$filter['name'].$key}}">
-                                                            <label for="{{$filter['name'].$key}}" class="form-check-label w-100 ml-4">{{$value->label}}</label>
-                                                        </div>
-                                                    @endif
-                                                @elseif($filter['type'] == 'checkbox-group')
-                                                    <div class="mb-2 d-flex align-items-center">
-                                                        <input name="{{$filter['name']}}[]" type="checkbox" value="{{$value->value}}" class="filter-now form-control" id="{{$filter['name'].$key}}">
-                                                        <label for="{{$filter['name'].$key}}" class="form-check-label w-100 ml-4">{{$value->label}}</label>
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                    </div>
-                                    @endif
-                                    @if($filter['type'] == 'text')
-                                        <div class="trip-search">
-                                            <div class="head d-flex">
-                                                <span>{!! $filter['label'] !!}</span>
-                                                <span class="ml-auto"
-                                                    onclick="$(this).parent().parent().find('.mt-md-4').slideToggle();">
-                                                    <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            <div class="d-flex align-items-center mt-md-4">
-                                                @if($filter['text_style'] == 'min-max')
-                                                    <span id="slider-range-value1"> 
-                                                        <input type="number" name="{{str_replace('[]','',$filter['name'])}}-min" id="{{str_replace('[]','',$filter['name'])}}-min" min="0"placeholder="Min" class="filter-now form-control">
-                                                    </span>
-                                                    <i class="fa fa-solid fa-minus mx-2 dark-color icon"></i>
-                                                    <span id="slider-range-value2">
-                                                        <input type="number" id="{{str_replace('[]','',$filter['name'])}}-max" min="0" placeholder="Max" class="filter-now form-control" name="{{str_replace('[]','',$filter['name'])}}-max">
-                                                    </span>
-                                                @else
-                                                    <span class="w-100"> 
-                                                        <input type="text" name="{{str_replace('[]','',$filter['name'])}}" id="{{str_replace('[]','',$filter['name'])}}" class="filter-now form-control">
-                                                    </span>
-                                                    
-                                                @endif
-                                                
-                                            </div>
-                                        </div>
-                                    @endif
-                                </div>
-                            @endforeach
+                                @foreach ($filters as $filter)
+                                    <div id="room_count_field" class="room_count_field">
 
-                                <div class="trip-search mt-md-4">
-                                    <div class="widget-boxed-header border-0 mobile-title widget-boxed-header">
+                                        @if ($filter['type'] != 'text')
+                                            <div class="trip-search mt-md-2">
+                                                <div class="head widget-boxed-header mobile-title widget-boxed-header"
+                                                    onclick="toggleFilter(this)">
+                                                    <span>{!! $filter['label'] !!}</span>
+                                                </div>
+                                                <div class="mt-md-2 filtreArea" style="display: none !important;">
+                                                    @foreach ($filter['values'] as $key => $value)
+                                                        @if ($filter['type'] == 'select')
+                                                            @if ($key != 0)
+                                                                <div class="mb-2 d-flex align-items-center">
+                                                                    <input name="{{ $filter['name'] }}[]" type="checkbox"
+                                                                        value="{{ $value->value }}"
+                                                                        class="filter-now form-control"
+                                                                        id="{{ $filter['name'] . $key }}">
+                                                                    <label for="{{ $filter['name'] . $key }}"
+                                                                        class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                                </div>
+                                                            @endif
+                                                        @elseif($filter['type'] == 'checkbox-group')
+                                                            <div class="mb-2 d-flex align-items-center">
+                                                                <input name="{{ $filter['name'] }}[]" type="checkbox"
+                                                                    value="{{ $value->value }}"
+                                                                    class="filter-now form-control"
+                                                                    id="{{ $filter['name'] . $key }}">
+                                                                <label for="{{ $filter['name'] . $key }}"
+                                                                    class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if ($filter['type'] == 'text')
+                                            <div class="trip-search mt-md-2">
+                                                <div class="head d-flex" onclick="toggleFilterDiv(this)">
+                                                    <div class="widget-boxed-header mobile-title widget-boxed-header">
+                                                        <span>{!! $filter['label'] !!}</span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="d-flex align-items-center mt-md-2"
+                                                    style="display: none !important;">
+                                                    @if ($filter['text_style'] == 'min-max')
+                                                        <span id="slider-range-value1">
+                                                            <input type="number"
+                                                                name="{{ str_replace('[]', '', $filter['name']) }}-min"
+                                                                id="{{ str_replace('[]', '', $filter['name']) }}-min"
+                                                                min="0" placeholder="Min"
+                                                                class="filter-now form-control">
+                                                        </span>
+                                                        <i class="fa fa-solid fa-minus mx-2 dark-color icon"></i>
+                                                        <span id="slider-range-value2">
+                                                            <input type="number"
+                                                                id="{{ str_replace('[]', '', $filter['name']) }}-max"
+                                                                min="0" placeholder="Max"
+                                                                class="filter-now form-control"
+                                                                name="{{ str_replace('[]', '', $filter['name']) }}-max">
+                                                        </span>
+                                                    @else
+                                                        <span class="w-100">
+                                                            <input type="text"
+                                                                name="{{ str_replace('[]', '', $filter['name']) }}"
+                                                                id="{{ str_replace('[]', '', $filter['name']) }}"
+                                                                class="filter-now form-control">
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <script>
+                                            function toggleFilterDiv(element) {
+                                                var filterContent = $(element).parent().find('.mt-md-2');
+                                                var filterIcon = $(element).find('#filter-icon');
+
+                                                if (filterContent.css('display') === 'none') {
+                                                    filterContent.attr('style', 'display: flex !important');
+                                                    filterIcon.attr('style', 'transform: rotate(180deg) !important');
+                                                } else {
+                                                    filterContent.attr('style', 'display: none !important');
+                                                    filterIcon.attr('style', 'transform: rotate(0deg) !important');
+                                                }
+                                            }
+
+                                            function toggleFilter(element) {
+                                                var filterContent = $(element).parent().find('.mt-md-2');
+                                                var filterIcon = $(element).find('#filter-icon');
+
+                                                if (filterContent.css('display') === 'none') {
+                                                    filterContent.attr('style', 'display: block !important');
+                                                    filterIcon.attr('style', 'transform: rotate(180deg) !important');
+                                                } else {
+                                                    filterContent.attr('style', 'display: none !important');
+                                                    filterIcon.attr('style', 'transform: rotate(0deg) !important');
+                                                }
+                                            }
+                                        </script>
+
+
+
+                                    </div>
+                                @endforeach
+
+                                <div class="trip-search mt-md-2">
+                                    <div class="widget-boxed-header mobile-title widget-boxed-header">
                                         <span>İlan Tarihi</span>
                                     </div>
-                                    <div style="display: grid;" class="p-3 p-md-0">
+                                    <div style="display: grid;" class="mt-md-2">
                                         <label class="filter-date d-flex align-items-center">
                                             <input name="filter-date" class="filter-date filter-now" type="radio"
                                                 value="last3Days">
@@ -324,12 +345,12 @@
                                 </div>
                             </div>
 
-                            <button type="button" class=" btn bg-white btn-lg btn-block mt-md-4 mb-4e btn-transition"
+                            <button type="button" class=" btn bg-white btn-lg btn-block mt-md-2 mb-4e btn-transition"
                                 style="border: 1px solid #CCC;" id="clear-filters">Temizle</button>
 
                             <button type="button" onclick="$('.filters-input-area').slideToggle();"
                                 style="background: #e54242 !important"
-                                class="btn btn-secondary btn-lg btn-block mt-md-4 d-md-none mb-4"
+                                class="btn btn-secondary btn-lg btn-block mt-md-2 d-md-none mb-4"
                                 id="close-filters">Kapat</button>
 
                         </div>
@@ -341,7 +362,8 @@
                     <section class="headings-2 pt-0 d-md-flex" style="display: grid;">
                         <div class="brand-head" style="padding-top: 0">
                             <div class="brands-square" style="position: relative; top: 0; left: 0">
-                                <p class="brand-name"><a href="{{ url('/') }}" style="color: black">Anasayfa</a></p>
+                                <p class="brand-name"><a href="{{ url('/') }}" style="color: black">Anasayfa</a>
+                                </p>
                                 @if ($slugName)
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
                                     <p class="brand-name" style="color: black">{{ $slugName }}</p>
@@ -358,6 +380,11 @@
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
                                     <p class="brand-name" style="color: black">{{ $housingTypeName }}</p>
                                 @endif
+                                @if ($checkTitle)
+                                <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
+                                <p class="brand-name" style="color: black">{{ ucwords(str_replace('-', ' ', $checkTitle)) }}</p>
+                            @endif
+                            
                             </div>
                         </div>
 
@@ -464,7 +491,6 @@
 @endsection
 
 @section('scripts')
-
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         let last_page;
@@ -521,23 +547,28 @@
         }
 
 
-
+        function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
 
         function drawList(filters = {}) {
             function formatDate(rawDate) {
                 const options = {
                     month: 'long',
                     day: 'numeric',
-                    year : 'numeric'
+                    year: 'numeric'
                 };
                 const date = new Date(rawDate);
                 return new Intl.DateTimeFormat('tr-TR', options).format(date);
             }
 
             var slug = @json($slug ?? null);
-            var type = @json($housingTypeSlug ?? null);
+            var type = @json($housingTypeParentSlug ?? null);
             var title = @json($housingTypeSlug ?? null);
             var optional = @json($opt ?? null);
+            var checkTitle = @json($checkTitle ?? null);
 
             var data = Object.assign({}, filters, {
                 _token: "{{ csrf_token() }}",
@@ -545,13 +576,12 @@
                 type: type,
                 title: title,
                 optional: optional,
-                loc: @json($nslug ?? null),
+                checkTitle: checkTitle
             });
 
             let currentData = {};
 
-            Object.keys(data).map(e =>
-            {
+            Object.keys(data).map(e => {
                 if (data[e])
                     currentData[e] = data[e];
             });
@@ -640,19 +670,23 @@
                                 );
                             @else
                                 var featuredHtml = '';
-                                if(res.doping_time){
-                                    var featuredHtml = '<div class="homes-tag button alt featured">Sponsorlu </div>';
+                                if (res.doping_time) {
+                                    var featuredHtml =
+                                        '<div class="homes-tag button alt featured">Sponsorlu </div>';
                                 }
-                                function kisalt(text, uzunluk) {
-                                if (typeof text == "string" && text.length > uzunluk) {
-                                    return text.substring(0, uzunluk - 3) + "...";
-                                }
-                                return text;
-                            }
 
-                            // Metni kırp ve üç nokta ekle
-                            var kisaltilmisBaslik = kisalt(res.title, 45);
-                            $('.pp-row').append(`
+                                function kisalt(text, uzunluk) {
+                                    if (typeof text == "string" && text.length > uzunluk) {
+                                        return text.substring(0, uzunluk - 3) + "...";
+                                    }
+                                    return text;
+                                }
+
+                             
+
+                                // Metni kırp ve üç nokta ekle
+                                var kisaltilmisBaslik = kisalt(res.title, 45);
+                                $('.pp-row').append(`
                                     <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
                                         <a href="${res.housing_url}" tabindex="0" class="text-decoration-none">
                                             <div class="landscapes">
@@ -683,10 +717,10 @@
                                                                 <i class="fa fa-map-marker"></i><span>${res.city} ${"/"} ${res.county}</span>
                                                             </a>
                                                         </p>
-                                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between">
-                                                            ${res.column1 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column1} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
-                                                            ${res.column2 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column2} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
-                                                            ${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column3} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
+                                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-evenly;align-items: center;width: 100%;">
+${res.column1 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
+${res.column2 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
+${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
                                                         </ul>
 
                                                         <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
@@ -702,35 +736,35 @@
                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
                                                                     `<button
-                                                                        class="btn second-btn CartBtn" disabled
-                                                                        style="background: red !important;width:100%;color:White">Satıldı
-                                                                    </button>`
+                                                                                                class="btn second-btn CartBtn" disabled
+                                                                                                style="background: red !important;width:100%;color:White">Satıldı
+                                                                                            </button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
                                                                         `<button
-                                                                            class="btn second-btn CartBtn" disabled
-                                                                            style="background: orange !important;width:100%;color:White">Onay Bekleniyor
-                                                                        </button>`
+                                                                                                    class="btn second-btn CartBtn" disabled
+                                                                                                    style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                                                </button>`
                                                                         :
                                                                         res.action === 'sold' ?
                                                                             `<button
-                                                                                class="btn second-btn CartBtn" disabled
-                                                                                style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                            </button>`
+                                                                                                        class="btn second-btn CartBtn" disabled
+                                                                                                        style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                    </button>`
                                                                             :
                                                                 `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                    data-id='${res.id}'>
-                                                                    <span class="IconContainer">
-                                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                                    </span>
-                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                </button>` :
+                                                                                            data-id='${res.id}'>
+                                                                                            <span class="IconContainer">
+                                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                                            </span>
+                                                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                        </button>` :
                                                             `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
-                                                                <span class="IconContainer">
-                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                </span>
-                                                                <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                            </button>`
+                                                                                        <span class="IconContainer">
+                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                                        </span>
+                                                                                        <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                    </button>`
                                                             }
                                                         </ul>
                                                     </div>
@@ -742,7 +776,7 @@
                             `);
 
 
-                            $('.pp-col').append(`
+                                $('.pp-col').append(`
                                 <div class="d-flex" style="flex-wrap: nowrap;width:100%">
                                     <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                                         <div class="project-inner project-head">
@@ -774,34 +808,34 @@
                                                     ${res.step2_slug !== "gunluk-kiralik" ?
                                 res.offSale ?
                                     `<button
-                                        class="btn mobileBtn second-btn CartBtn" disabled
-                                        style="background: red !important;width:100%;color:White">Satıldı
-                                    </button>`
+                                                                class="btn mobileBtn second-btn CartBtn" disabled
+                                                                style="background: red !important;width:100%;color:White">Satıldı
+                                                            </button>`
                                     :
                                     res.action === 'payment_await' ?
                                         `<button
-                                            class="btn mobileBtn second-btn CartBtn" disabled
-                                            style="background: orange !important;width:100%;color:White">Onay Bekleniyor
-                                        </button>`
+                                                                    class="btn mobileBtn second-btn CartBtn" disabled
+                                                                    style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                </button>`
                                         :
                                         res.action === 'sold' ?
                                             `<button
-                                                class="btn mobileBtn second-btn CartBtn" disabled
-                                                style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                            </button>`
+                                                                        class="btn mobileBtn second-btn CartBtn" disabled
+                                                                        style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                    </button>`
                                             :
                                             `<button class="CartBtn mobileBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                data-id='${res.id}'>
-                                                <span class="IconContainer">
-                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                </span>
-                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                            </button>` :
+                                                                        data-id='${res.id}'>
+                                                                        <span class="IconContainer">
+                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                        </span>
+                                                                        <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                    </button>` :
                                                 `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileBtn">
-                                                    <span class="IconContainer">
-                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                    </span>
-                                                </button>`
+                                                                            <span class="IconContainer">
+                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                            </span>
+                                                                        </button>`
                                             }
                                                 </div>
                                                 <span class="ml-auto text-primary priceFont">
@@ -820,10 +854,10 @@
                                 <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
                                     <ul class="d-flex justify-content-around align-items-center h-100"
                                         style="list-style: none;padding:0;font-weight:600">
-                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between">
-                                            ${res.column1 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column1} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
-                                            ${res.column2 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column2} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
-                                            ${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${res.column3} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
+                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-evenly;align-items: center;width: 100%;">
+${res.column1 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
+${res.column2 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
+${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
                                         </ul>
                                     </ul>
                                 </div>
@@ -833,10 +867,10 @@
                         });
                     } else {
                         $('.pp-row').html(`
-                        <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
+                        <div class="col-12 text-center my-4 p-3" style="font-size:12px">Sonuç bulunamadı.</div>
                         `);
                         $('.pp-col').html(`
-                        <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
+                        <div class="col-12 text-center my-4 p-3" style="font-size:12px">Sonuç bulunamadı.</div>
                         `);
                     }
                 }
@@ -844,8 +878,8 @@
         }
 
         function redirectToReservation(resId) {
-        window.location.href = '{{ route("housing.show", ["resIdPlaceholder"]) }}'.replace('resIdPlaceholder', resId);
-    }
+            window.location.href = '{{ route('housing.show', ['resIdPlaceholder']) }}'.replace('resIdPlaceholder', resId);
+        }
         // Sıralama seçenekleri için
 
         function sortSelectFilters(val) {
@@ -903,23 +937,26 @@
                     }
                 });
                 var filterValues = {}
-                @foreach($filters as $filter)
-                    @if($filter['type'] == 'select' || $filter['type'] == 'checkbox-group')
+                @foreach ($filters as $filter)
+                    @if ($filter['type'] == 'select' || $filter['type'] == 'checkbox-group')
                         var checkedValues = [];
-                        $('input[name="{{$filter["name"]}}[]').each(function() {
-                            if($(this).is(':checked')){
+                        $('input[name="{{ $filter['name'] }}[]').each(function() {
+                            if ($(this).is(':checked')) {
                                 checkedValues.push($(this).val());
                             }
                         });
-                        
-                        filterValues["{{$filter['name']}}"] = checkedValues;
+
+                        filterValues["{{ $filter['name'] }}"] = checkedValues;
                     @else
-                        
-                        @if($filter['text_style'] == 'min-max')
-                            filterValues["{{$filter['name']}}-min"] = $('input[name="{{$filter['name']}}-min"]').val();
-                            filterValues["{{$filter['name']}}-max"] = $("input[name='{{$filter['name']}}-max']").val();
-                        @else 
-                            filterValues["{{$filter['name']}}"] = $('input[name="{{$filter['name']}}"]').val();
+
+                        @if ($filter['text_style'] == 'min-max')
+                            filterValues["{{ $filter['name'] }}-min"] = $(
+                                'input[name="{{ $filter['name'] }}-min"]').val();
+                            filterValues["{{ $filter['name'] }}-max"] = $(
+                                "input[name='{{ $filter['name'] }}-max']").val();
+                        @else
+                            filterValues["{{ $filter['name'] }}"] = $('input[name="{{ $filter['name'] }}"]')
+                                .val();
                         @endif
                     @endif
                 @endforeach
@@ -941,6 +978,10 @@
             $('#clear-filters').on('click', function() {
                 $('#city').val('#');
                 $('#county').val('#');
+                $('#project_type').val('#');
+                $('input[type=radio]').prop('checked', false);
+                $('.form-check-input').prop('checked', false);
+
                 @if ($secondhandHousings)
                     $('#price-min').val('');
                     $('#price-max').val('');
@@ -948,6 +989,7 @@
                     $('#msq-max').val('');
                     $('.bathroom-count-item').removeClass('bg-dark').removeClass('text-white');
                     bathroom_count = null;
+
 
                     $('#room_count_field .mt-4 .mb-2').each(function() {
                         let i = $(this).find('.form-check-input');
@@ -1039,6 +1081,10 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        .projectMobileMargin {
+            margin-top: 20px;
+        }
+
         #pages {
             position: absolute;
             width: 100%;
@@ -1074,8 +1120,8 @@
             transition: all .2s ease-in-out
         }
 
-        .text-primary{
-            color:#274abb !important;
+        .text-primary {
+            color: #274abb !important;
         }
 
         .btn-transition:focus,
@@ -1102,13 +1148,24 @@
         }
 
         @media (max-width:768px) {
-            .mobile-title{
+
+            .mobile-title {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .room_count_field {
+                padding: 9px
+            }
+
+            .mobile-title {
                 padding-bottom: 10px;
                 padding-top: 10px;
 
                 margin-bottom: 10px;
 
             }
+
             #sort-select {
                 margin: 15px 0;
                 width: 200px;
@@ -1133,6 +1190,16 @@
                 font-weight: 600;
                 font-size: 12px;
             }
+        }
+
+        .head {
+            cursor: pointer;
+            align-items: center
+        }
+
+        .trip-search {
+            border: 1px solid #eaeff5;
+            padding: 9px
         }
     </style>
 @endsection

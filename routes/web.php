@@ -937,7 +937,7 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
 // Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
 //     ->name('all.project.list');
 
-Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}', [ClientProjectController::class, "allMenuProjects"])
+Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}', [ClientProjectController::class, "allMenuProjects"])
     ->name('all.menu.project.list');
 
 // Kullanıcı sayfası

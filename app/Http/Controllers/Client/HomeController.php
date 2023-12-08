@@ -62,7 +62,16 @@ class HomeController extends Controller
         ->get();
 
 
-        $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))->where('end_date', ">=", date("Y-m-d"))->where('item_type',1)->orderByDesc("created_at")->where('housing_type_id',0)->get();
+        $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))
+        ->where('end_date', ">=", date("Y-m-d"))
+        ->where('item_type', 1)
+        ->where('housing_type_id', 0)
+        ->whereHas('project', function ($query) {
+            $query->where('status', 1);
+        })
+        ->orderByDesc("created_at")
+        ->get();
+
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->get();
         $sliders = Slider::all();
@@ -92,6 +101,7 @@ class HomeController extends Controller
         $soilProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '5');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
+
         return view('client.home.index', compact('menu', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 
@@ -298,6 +308,7 @@ class HomeController extends Controller
 
     public function getRenderedSecondhandHousings(Request $request)
     {
+
         function convertMonthToTurkishCharacter($date)
         {
             $aylar = [
@@ -350,7 +361,7 @@ class HomeController extends Controller
             return $a;
         }
 
-        $parameters = ["slug", "type", "optional", "title"];
+        $parameters = ["slug", "type", "optional", "title","checkTitle"];
         $secondhandHousings = [];
         $projects = [];
         $slug = [];
@@ -364,10 +375,10 @@ class HomeController extends Controller
 
         $opt = null;
         $is_project = null;
-
+        $checkTitle = null;
         $optName = [];
 
-        foreach ($parameters as $paramValue) {
+        foreach ($parameters as $index => $paramValue) {
             if ($paramValue) {
                 if ($request->input($paramValue) == "satilik" || $request->input($paramValue) == "kiralik" || $request->input($paramValue) == "gunluk-kiralik") {
                     $opt = $request->input($paramValue);
@@ -394,15 +405,22 @@ class HomeController extends Controller
 
                     if ($housingTypeParent) {
                         $housingTypeSlugName = $housingTypeParent->title;
-                        $housingTypeSlug = $housingTypeParent->slug;
+                        $housingTypeParentSlug = $housingTypeParent->slug;
                     }
 
                     if ($housingType) {
                         $housingTypeName = $housingType->title;
+                        $housingTypeSlug = $housingType->slug;
                         $housingType = $housingType->id;
                     }
+
                 }
 
+            }
+
+                              
+            if ($housingTypeParent && $housingTypeParent->slug == "arsa") {
+                $checkTitle =$request->input($parameters[count($parameters) - 1]);
             }
         }
 
@@ -437,15 +455,21 @@ class HomeController extends Controller
             $obj = $obj->whereJsonContains('housing_type_data->buysellurgent1', "Evet");
         }
 
-        if ($housingTypeSlug) {
-            $obj->where("step1_slug", $housingTypeSlug);
+        if ($housingTypeParentSlug) {
+            $obj->where("step1_slug", $housingTypeParentSlug);
         }
 
         if ($housingType) {
-            // $obj->select(\Illuminate\Support\Facades\DB::raw('(SELECT MAX(start_date) FROM stand_out_users WHERE stand_out_users.item_type = 2 AND stand_out_users.item_id = housings.id AND housings.housing_type_id = '.$housingType.') as doping_time'));
             $obj->where('housings.housing_type_id', $housingType);
-            
         }
+        if ($checkTitle) {
+            $obj->where(function ($q) use ($checkTitle) {
+                $q->orWhereJsonContains('housing_type_data->room_count', $checkTitle)
+                  ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, '$.room_count[0]')) = ?", [$checkTitle]);
+            });
+        }
+        
+        
 
         if ($opt) {
             $obj->where('step2_slug', $opt);
@@ -507,48 +531,52 @@ class HomeController extends Controller
         }
         
         $housingTypeData = HousingType::where('id',$housingType)->first();
-        $formData = json_decode($housingTypeData->form_json);
-        $filtersDb = Filter::where('item_type',2)->where('housing_type_id',$housingType)->get()->keyBy('filter_name')->toArray();
-        $filtersDbx = array_keys($filtersDb);
-        foreach ($formData as $key => $data) {
-            if(in_array(str_replace('[]','',$data->name),$filtersDbx)){
-                if ($data->type == "select" || $data->type == "checkbox-group") {
-                    $inputName = str_replace('[]', '', $data->name);
-                    if ($request->input($inputName)) {
-                        $obj = $obj->where(function($query) use($obj, $request,$inputName)
-                        {
-                            $query->whereJsonContains('housing_type_data->'.$inputName, [$request->input($inputName)[0]]);
-                            $e = 0;
-                            foreach ($request->input($inputName) as $input) {
-                                if ($e == 0) {
-                                    $e = 1;
-                                    continue;
-                                }
-                                $query->orWhereJsonContains('housing_type_data->'.$inputName, [$input]);
-                            }
-                        });
-                    }
-                }else if($data->type == 'text'){
-                    if($filtersDb[str_replace('[]','',$data->name)]['text_style'] == 'min-max'){
-                        $inputName = str_replace('[]', '', $data->name);
-                        if ($request->input($inputName.'-min')) {
-                            $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.'.$inputName.'[0]")) AS FLOAT) >= ?', [$request->input($inputName.'-min')]);
-                        }
 
-                        if ($request->input($inputName.'-max')) {
-                            $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.'.$inputName.'[0]")) AS FLOAT) <= ?', [$request->input($inputName.'-max')]);
-                        }
-                    }else{
+        if ($housingTypeData) {
+            $formData = json_decode($housingTypeData->form_json);
+            $filtersDb = Filter::where('item_type',2)->where('housing_type_id',$housingType)->get()->keyBy('filter_name')->toArray();
+            $filtersDbx = array_keys($filtersDb);
+            foreach ($formData as $key => $data) {
+                if(in_array(str_replace('[]','',$data->name),$filtersDbx)){
+                    if ($data->type == "select" || $data->type == "checkbox-group") {
                         $inputName = str_replace('[]', '', $data->name);
                         if ($request->input($inputName)) {
-                            $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.'.$inputName.'[0]"))) = ?', $request->input($inputName));
+                            $obj = $obj->where(function($query) use($obj, $request,$inputName)
+                            {
+                                $query->whereJsonContains('housing_type_data->'.$inputName, [$request->input($inputName)[0]]);
+                                $e = 0;
+                                foreach ($request->input($inputName) as $input) {
+                                    if ($e == 0) {
+                                        $e = 1;
+                                        continue;
+                                    }
+                                    $query->orWhereJsonContains('housing_type_data->'.$inputName, [$input]);
+                                }
+                            });
                         }
+                    }else if($data->type == 'text'){
+                        if($filtersDb[str_replace('[]','',$data->name)]['text_style'] == 'min-max'){
+                            $inputName = str_replace('[]', '', $data->name);
+                            if ($request->input($inputName.'-min')) {
+                                $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.'.$inputName.'[0]")) AS FLOAT) >= ?', [$request->input($inputName.'-min')]);
+                            }
+    
+                            if ($request->input($inputName.'-max')) {
+                                $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.'.$inputName.'[0]")) AS FLOAT) <= ?', [$request->input($inputName.'-max')]);
+                            }
+                        }else{
+                            $inputName = str_replace('[]', '', $data->name);
+                            if ($request->input($inputName)) {
+                                $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.'.$inputName.'[0]"))) = ?', $request->input($inputName));
+                            }
+                        }
+                        
                     }
-                    
                 }
             }
+    
         }
-
+      
         
 
         if ($request->input('post_date')) {
@@ -598,11 +626,12 @@ class HomeController extends Controller
 
         $itemPerPage = 12;
         $obj = $obj->paginate($itemPerPage);
+        
 
 
         return response()->json($obj->through(function ($item) use ($request) {
-            if ($request->input('loc') && HousingType::find($request->input('loc'))->id !== $item->housing_type_id)
-                return true;
+            // if ($request->input('loc') && HousingType::find($request->input('loc'))->id !== $item->housing_type_id)
+            //     return true;
 
             $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
             $isFavorite = 0;
