@@ -397,7 +397,14 @@ class HomeController extends Controller
                 } else {
                     $item1 = HousingStatus::where('id', $request->input($paramValue))->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $request->input($paramValue))->first();
-                    $housingType = HousingType::where('slug', $request->input($paramValue))->first();
+                    if($request->input($paramValue)){
+                        $housingType = HousingType::where('slug', $request->input($paramValue))->first();
+                        if ($housingType) {
+                            $housingTypeName = $housingType->title;
+                            $housingTypeSlug = $housingType->slug;
+                            $housingType = $housingType->id;
+                        }
+                    }
 
                     if ($item1) {
                         $is_project = $item1->is_project;
@@ -410,15 +417,7 @@ class HomeController extends Controller
                         $housingTypeParentSlug = $housingTypeParent->slug;
                     }
 
-                    if ($housingType) {
-                        $housingTypeName = $housingType->title;
-                        $housingTypeSlug = $housingType->slug;
-                        $housingType = $housingType->id;
-                        $newId = $housingType;
-                    }
-
                 }
-
             }
 
             $lastParameter = $parameters[count($parameters) - 1];
@@ -433,6 +432,7 @@ class HomeController extends Controller
             
            
         }
+
 
         $obj =  Housing::with('images', "city", "county")
         ->select(

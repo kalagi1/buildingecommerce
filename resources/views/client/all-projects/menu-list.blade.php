@@ -262,18 +262,18 @@
                                                     style="display: none !important;">
                                                     @if ($filter['text_style'] == 'min-max')
                                                         <span id="slider-range-value1">
-                                                            <input type="number"
+                                                            <input type="text"
                                                                 name="{{ str_replace('[]', '', $filter['name']) }}-min"
                                                                 id="{{ str_replace('[]', '', $filter['name']) }}-min"
                                                                 min="0" placeholder="Min"
-                                                                class="filter-now form-control">
+                                                                class="filter-now form-control price-only">
                                                         </span>
                                                         <i class="fa fa-solid fa-minus mx-2 dark-color icon"></i>
                                                         <span id="slider-range-value2">
-                                                            <input type="number"
+                                                            <input type="text"
                                                                 id="{{ str_replace('[]', '', $filter['name']) }}-max"
                                                                 min="0" placeholder="Max"
-                                                                class="filter-now form-control"
+                                                                class="filter-now form-control price-only"
                                                                 name="{{ str_replace('[]', '', $filter['name']) }}-max">
                                                         </span>
                                                     @else
@@ -506,6 +506,30 @@
             $(this).addClass('bg-dark').addClass('text-white');
             bathroom_count = $(this).text();
         });
+
+        $('.price-only').keyup(function(){
+            $('.price-only .error-text').remove();
+            if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                if($('.price-only').closest('.form-group').find('.error-text').length > 0){
+                    $('.price-only').val("");
+                }else{
+                    $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
+                    $('.price-only').val("");
+                }
+                
+            }else{
+                let inputValue = $(this).val();
+
+                // Sadece sayı karakterlerine izin ver
+                inputValue = inputValue.replace(/\D/g, '');
+
+                // Her üç basamakta bir nokta ekleyin
+                inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                console.log(inputValue);
+                $(this).val(inputValue)
+                $(this).closest('.form-group').find('.error-text').remove();
+            }
+        })
 
         $('#city').on('change', function() {
             $.ajax({
@@ -950,10 +974,8 @@ ${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i cla
                     @else
 
                         @if ($filter['text_style'] == 'min-max')
-                            filterValues["{{ $filter['name'] }}-min"] = $(
-                                'input[name="{{ $filter['name'] }}-min"]').val();
-                            filterValues["{{ $filter['name'] }}-max"] = $(
-                                "input[name='{{ $filter['name'] }}-max']").val();
+                            filterValues["{{ $filter['name'] }}-min"] = $('input[name="{{ $filter['name'] }}-min"]').val().replace('.', "").replace('.', "").replace('.', "").replace('.', "").replace('.', "").replace('.', "");
+                            filterValues["{{ $filter['name'] }}-max"] = $("input[name='{{ $filter['name'] }}-max']").val().replace('.', "").replace('.', "").replace('.', "").replace('.', "").replace('.', "").replace('.', "");
                         @else
                             filterValues["{{ $filter['name'] }}"] = $('input[name="{{ $filter['name'] }}"]')
                                 .val();
