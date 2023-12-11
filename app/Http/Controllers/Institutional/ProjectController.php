@@ -842,32 +842,92 @@ class ProjectController extends Controller
 
     public function standOut($projectId)
     {
+        $bankAccounts = BankAccount::all();
         $project = Project::where('id', $projectId)->first();
         $featuredPrices = DopingPricing::where('item_type',1)->get();
         $topRowPrices = DopingPricing::where('item_type',2)->get();
 
-        return view('institutional.projects.stand_out', compact('projectId','project','topRowPrices','featuredPrices'));
+        return view('institutional.projects.stand_out', compact('projectId','project','topRowPrices','featuredPrices','bankAccounts'));
     }
 
-    public function standOutPost(){
+    public function standOutPost(Request $request,$projectId){
+        $request->validate([
+            "key" => "required",
+            "bank_id" => "required",
+            "price" => "required",
+        ]);
 
+        $project = Project::where('id',$projectId)->first();
+
+        if($request->input('is_featured')){
+            $standOutPrice = DopingPricing::where('day',$request->input('selected_featured_price'))->where('item_type',1)->first();
+            $now = Carbon::now();
+            $endDate = Carbon::now()->addDays($request->selected_featured_price);
+
+            $standOut = StandOutUser::create([
+                "user_id" => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
+                "item_id" => $projectId,
+                "item_type" => 1,
+                "housing_type_id" => 0,
+                "start_date" => $now->format('y-m-d'),
+                "end_date" => $endDate->format('y-m-d'),
+            ]);
+
+            DopingOrder::create([
+                "key" => $request->input('key'),
+                "bank_id" => $request->input('bank_id'),
+                "price" => $standOutPrice->price,
+                "project_id" => $projectId,
+                "stand_out_id" => $standOut->id,
+                "user_id" => auth()->user()->id,
+                "status" =>0,
+            ]);
+        }
+
+        if($request->input('is_top_row')){
+            $standOutPrice = DopingPricing::where('day',$request->input('selected_top_row_price'))->where('item_type',2)->first();
+
+            $now = Carbon::now();
+            $endDate = Carbon::now()->addDays($request->selected_top_row_price);
+
+            $standOut = StandOutUser::create([
+                "user_id" => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
+                "item_id" => $projectId,
+                "item_type" => 1,
+                "housing_type_id" => $project->housing_type_id,
+                "start_date" => $now->format('y-m-d'),
+                "end_date" => $endDate->format('y-m-d'),
+            ]);
+
+            DopingOrder::create([
+                "key" => $request->input('key'),
+                "bank_id" => $request->input('bank_id'),
+                "price" => $standOutPrice->price,
+                "project_id" => $projectId,
+                "stand_out_id" => $standOut->id,
+                "user_id" => auth()->user()->id,
+                "status" =>0,
+            ]);
+        }
+
+        return redirect()->route('institutional.projects.index');
     }
 
     public function getStandOutPrices(Request $request){
         $prices = [];
         if($request->input('featured')){
-            $priceFeatured = PricingStandOut::where('id',$request->input('featured_id'))->where('item_type',1)->first();
+            $priceFeatured = DopingPricing::where('day',$request->input('featured_id'))->where('item_type',1)->first();
 
             array_push($prices,$priceFeatured);
         }
 
         if($request->input('top_row')){
-            $pricingTopRow = PricingStandOut::where('id',$request->input('featured_id'))->where('item_type',1)->first();
+            $pricingTopRow = DopingPricing::where('day',$request->input('top_row_id'))->where('item_type',1)->first();
 
             array_push($prices,$pricingTopRow);
         }
 
-        return $prices
+        return $prices;
 
     }
 
