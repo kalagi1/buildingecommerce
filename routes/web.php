@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdBannerController;
 use App\Http\Controllers\Admin\BankAccountController;
 use App\Http\Controllers\Admin\ChangePasswordController;
+use App\Http\Controllers\Admin\DopingOrderController;
 use App\Http\Controllers\Admin\EmailTemplateController;
 use App\Http\Controllers\Admin\FooterLinkController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
@@ -645,6 +646,12 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::middleware(['checkPermission:PaymentTempStatusChange'])->group(function () {
         Route::post('/payment_temp_change_status/{id}', [AdminPaymentTempController::class, 'changeStatus'])->name('payment.temp.change.status');
+    });
+
+    Route::middleware(['checkPermission:DopingOrders'])->group(function () {
+        Route::get('/doping_orders', [DopingOrderController::class, 'index'])->name('doping.orders');
+        Route::get('/apply_doping_orders/{dopingId}', [DopingOrderController::class, 'apply'])->name('apply.doping.order');
+        Route::get('/unapply_doping_orders/{dopingId}', [DopingOrderController::class, 'unapply'])->name('unapply.doping.order');
     });
 
 });
