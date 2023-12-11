@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdBannerController;
 use App\Http\Controllers\Admin\BankAccountController;
 use App\Http\Controllers\Admin\ChangePasswordController;
+use App\Http\Controllers\Admin\DopingOrderController;
 use App\Http\Controllers\Admin\EmailTemplateController;
 use App\Http\Controllers\Admin\FooterLinkController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
@@ -145,6 +146,9 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
     Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
 });
+
+Route::get('/login_with_google', [ClientLoginController::class, "googleLogin"])->name('client.google.login');
+Route::get('/login-with-google', [ClientLoginController::class, "redirectGoogle"])->name('redirect.google.login');
 
 Route::middleware('auth')->group(function () {
     Route::get('/cikis-yap', [ClientLoginController::class, "logout"])->name('client.logout');
@@ -645,6 +649,12 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
     Route::middleware(['checkPermission:PaymentTempStatusChange'])->group(function () {
         Route::post('/payment_temp_change_status/{id}', [AdminPaymentTempController::class, 'changeStatus'])->name('payment.temp.change.status');
+    });
+
+    Route::middleware(['checkPermission:DopingOrders'])->group(function () {
+        Route::get('/doping_orders', [DopingOrderController::class, 'index'])->name('doping.orders');
+        Route::get('/apply_doping_orders/{dopingId}', [DopingOrderController::class, 'apply'])->name('apply.doping.order');
+        Route::get('/unapply_doping_orders/{dopingId}', [DopingOrderController::class, 'unapply'])->name('unapply.doping.order');
     });
 
 });

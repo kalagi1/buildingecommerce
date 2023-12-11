@@ -34,7 +34,7 @@ class HomeController extends Controller {
     }
 
     public function getOrders() {
-        $cartOrders = CartOrder::with( 'user' )->get();
+        $cartOrders = CartOrder::with( 'user' )->orderByDesc('created_at')->get();
         return view( 'admin.orders.index', compact( 'cartOrders' ) );
     }
 

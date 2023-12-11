@@ -1032,6 +1032,11 @@
                                                 role="tab" aria-controls="payment" project-id="{{ $project->id }}"
                                                 order="{{ $housingOrder }}" aria-selected="false">Ödeme Planı</button>
                                         </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                                data-bs-target="#map" type="button" role="tab"
+                                                aria-controls="contact" aria-selected="false">Harita</button>
+                                        </li>
                                     </ul>
                                     <div class="tab-content" id="myTabContent">
                                         <div class="tab-pane fade show active blog-info details mb-30" id="home"
@@ -1881,6 +1886,10 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        <div class="tab-pane fade blog-info details" id="map" role="tabpanel"
+                                            aria-labelledby="contact-tab">
+                                            <div id="map"></div>
+                                        </div>
                                     </div>
                                 @endif
                             @else
@@ -1906,6 +1915,11 @@
                                             data-bs-target="#payment" type="button" role="tab"
                                             aria-controls="payment" project-id="{{ $project->id }}"
                                             order="{{ $housingOrder }}" aria-selected="false">Ödeme Planı</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                            data-bs-target="#map" type="button" role="tab"
+                                            aria-controls="contact" aria-selected="false">Harita</button>
                                     </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
@@ -2759,6 +2773,10 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div class="tab-pane fade  blog-info details" id="map" role="tabpanel"
+                                        aria-labelledby="contact-tab">
+                                        <div id="map"></div>
+                                    </div>
                                 </div>
                             @endif
                         </div>
@@ -2778,7 +2796,39 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
+
+        function initMap() {
+            // İlk harita görüntüsü
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat : {{explode(',',$project->location)[0]}}, lng: {{explode(',',$project->location)[1]}} },
+                zoom: 8
+            });
+
+            // Harita üzerinde bir konum gösterme
+            var marker = new google.maps.Marker({
+                position: { lat : {{explode(',',$project->location)[0]}}, lng: {{explode(',',$project->location)[1]}} },
+                map: map,
+                title: 'Default Location'
+            });
+        }
+
+        function showLocation() {
+            var location = document.getElementById('locationInput').value;
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                    center: { lat : {{explode(',',$project->location)[0]}}, lng: {{explode(',',$project->location)[1]}} },
+                    zoom: 12
+                });
+
+                var marker = new google.maps.Marker({
+                    position: { lat : {{explode(',',$project->location)[0]}}, lng: {{explode(',',$project->location)[1]}} },
+                    map: map,
+                    title: location
+                });
+        }
+
         if ($(window).width() <= 768) {
 
        var buyBtn =  $(".buyBtn").html();

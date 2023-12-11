@@ -12,7 +12,7 @@ class DopingOrder extends Model
     protected $guarded = [];
 
     public function standOut(){
-        return $this->hasOne(StandOutUser::class,"id","stand_out_id");
+        return $this->hasOne(StandOutUser::class,"id","stand_out_id")->orderByDesc('created_at');
     }
 
     public function user(){

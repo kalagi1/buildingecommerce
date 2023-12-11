@@ -142,6 +142,8 @@
                 stack: false
             })
         @endif
+
+        console.log(projects);
         var tbody = document.getElementById("bulk-select-body");
         projects.forEach(function(project) {
             var row = document.createElement("tr");
@@ -206,7 +208,16 @@
             standOutCell.className = "align-middle status";
             console.log(project);
             if(project.stand_out){
-                standOutCell.innerHTML = "<a href='#' class='badge badge-phoenix badge-phoenix-success'>Sponsorlu</a>";
+                if(project.stand_out.doping_price_payment_wait){
+                    standOutCell.innerHTML = "<a href='#' class='badge badge-phoenix badge-phoenix-warning'>Ödeme Bekleniyor</a>";
+                }else{
+                    if(project.stand_out.doping_price_payment_cancel){
+                        standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" + project.id +
+                        "' class='badge badge-phoenix badge-phoenix-info'>Öne Çıkar</a>";
+                    }else{
+                        standOutCell.innerHTML = "<a href='#' class='badge badge-phoenix badge-phoenix-success'>Sponsorlu</a>";
+                    }
+                }
             }else{
                 standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" + project.id +
                 "' class='badge badge-phoenix badge-phoenix-info'>Öne Çıkar</a>";

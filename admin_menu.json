@@ -73,6 +73,16 @@
         "url": "admin.packageOrders",
         "activePath": "admin/package-orders"
     },
+  
+    {
+        "id": "order",
+        "label": "EMLAK SEPETTE",
+        "icon": "shopping-bag",
+        "text": "Doping Siparişleri",
+        "key": "DopingOrders",
+        "url": "admin.doping.orders",
+        "activePath": "admin/doping_orders"
+    },
     {
         "id": "ad-banners",
         "label": "EMLAK SEPETTE",
