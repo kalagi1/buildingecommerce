@@ -372,10 +372,12 @@ class HomeController extends Controller
 
         $housingType = [];
         $housingTypeName = [];
-
+        $housingTypeParentSlug = [];
         $opt = null;
         $is_project = null;
         $checkTitle = null;
+        $newId = null;
+
         $optName = [];
 
         foreach ($parameters as $index => $paramValue) {
@@ -415,15 +417,20 @@ class HomeController extends Controller
                         $housingTypeParentSlug = $housingTypeParent->slug;
                     }
 
-                    
-
                 }
             }
 
-                              
-            if ($housingTypeParent && $housingTypeParent->slug == "arsa") {
-                $checkTitle =$request->input($parameters[count($parameters) - 1]);
+            $lastParameter = $parameters[count($parameters) - 1];
+
+            if ($request->has($lastParameter)) {
+                $inputValue = $request->input($lastParameter);
+            
+                if ($housingTypeParent && $housingTypeParent->slug === "arsa") {
+                    $checkTitle = $inputValue;
+                }
             }
+            
+           
         }
 
 
@@ -450,9 +457,9 @@ class HomeController extends Controller
         ->where('project_list_items.item_type', 2)
         ->with(['city', 'county']);
 
-        if ($request->has('title') && in_array($request->input('title'), ['İmarlı','İmarsız'])) {
-            $obj = $obj->whereRaw('housings.housing_type_id = (SELECT id FROM housing_types WHERE title = ?)', [$request->input('title')]);
-        }
+        // if ($request->has('title') && in_array($request->input('title'), ['İmarlı','İmarsız'])) {
+        //     $obj = $obj->whereRaw('housings.housing_type_id = (SELECT id FROM housing_types WHERE title = ?)', [$request->input('title')]);
+        // }
 
         if ($request->input("slug") == "al-sat-acil") {
             $obj = $obj->whereJsonContains('housing_type_data->buysellurgent1', "Evet");
@@ -462,16 +469,17 @@ class HomeController extends Controller
             $obj->where("step1_slug", $housingTypeParentSlug);
         }
 
-        if ($housingType) {
-            $obj->where('housings.housing_type_id', $housingType);
+        if ($housingTypeName) {
+            $obj->where('housings.housing_type_id', $newId);
         }
+
+
         if ($checkTitle) {
             $obj->where(function ($q) use ($checkTitle) {
                 $q->orWhereJsonContains('housing_type_data->room_count', $checkTitle)
                   ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, '$.room_count[0]')) = ?", [$checkTitle]);
             });
         }
-        
         
 
         if ($opt) {
@@ -527,10 +535,6 @@ class HomeController extends Controller
 
         if ($request->input('neighborhood')) {
             $obj = $obj->where('housings.neighborhood_id', $request->input('neighborhood'));
-        }
-
-        if ($request->input('neighborhood')) {
-            $obj->where('neighborhood_id', $request->input('neighborhood'));
         }
         
         $housingTypeData = HousingType::where('id',$housingType)->first();
@@ -629,8 +633,8 @@ class HomeController extends Controller
 
         $itemPerPage = 12;
         $obj = $obj->paginate($itemPerPage);
-        
 
+       
 
         return response()->json($obj->through(function ($item) use ($request) {
             // if ($request->input('loc') && HousingType::find($request->input('loc'))->id !== $item->housing_type_id)

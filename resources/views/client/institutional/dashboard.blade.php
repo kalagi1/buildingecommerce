@@ -216,7 +216,7 @@
     @if (count($projects))
     <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
-            <div style="display: flex; justify-content: space-between;">
+            <div style="display: flex; justify-content: space-between;" class="mb-3">
                 <div class="section-title">
                     <h2>Tüm Projeler</h2>
                 </div>
@@ -1953,5 +1953,6 @@
                 font-size: 12px;
             }
         }
+
     </style>
 @endsection

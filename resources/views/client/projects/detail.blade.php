@@ -257,7 +257,8 @@
                                                 <div
                                                     style="background-color: #dc3545 !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                     <p
-                                                        style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
+                                                        style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
+                                                        No <br>
                                                         {{ $i + 1 }}</p>
                                                 </div>
                                                 <div class="project-single mb-0 bb-0 aos-init aos-animate"

@@ -3218,6 +3218,7 @@ section.portfolio {
     font-size: 12px;
     font-weight: 600;
     color: #444;
+    height: 40px !important;
     margin-bottom: 3px;
 }
 
@@ -17678,7 +17679,6 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .sidebar-widget .author__contact li {
     color: #666;
-    margin-bottom: 10px;
     font-weight: 400;
     font-size: 12px;
 }
