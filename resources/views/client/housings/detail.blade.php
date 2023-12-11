@@ -263,6 +263,15 @@
                                                         <h5 class="mb-4">Özellikler</h5>
                                                         <table class="table table-bordered">
                                                             <tbody class="trStyle">
+                                                                <tr>
+                                                                    <td>
+                                                                        <span class="mr-1">İlan No:</span>
+                                                                        <span class="det" style="color: black;">
+                                                                            {{ $housing->id + 1000000 }}
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                                
                                                                 @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
                                                                     @php
                                                                         $turkceKarsilik = [
@@ -334,6 +343,7 @@
                                                                             $key != 'Konut Tipi' &&
                                                                             $key != 'payment-plan1')
                                                                         </tr>
+                                                                        
                                                                         <td>
                                                                             @if ($key == 'Fiyat')
                                                                                 <span
@@ -365,6 +375,7 @@
                                                                         </tr>
                                                                     @endif
                                                                 @endforeach
+                                                               
                                                             </tbody>
                                                         </table>
 
@@ -654,7 +665,15 @@
                                                     <h5 class="mb-4">Özellikler</h5>
                                                     <table class="table table-bordered">
                                                         <tbody class="trStyle">
-
+                                                            <tr>
+                                                                <td>
+                                                                    <span class="mr-1">İlan No:</span>
+                                                                    <span class="det" style="color: black;">
+                                                                        {{ $housing->id + 1000000 }}
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            
                                                             @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
                                                                 @php
                                                                     $turkceKarsilik = [

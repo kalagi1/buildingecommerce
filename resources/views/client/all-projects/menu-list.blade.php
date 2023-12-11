@@ -321,29 +321,6 @@
                                     </div>
                                 @endforeach
 
-                                <div class="trip-search mt-md-2">
-                                    <div class="widget-boxed-header mobile-title widget-boxed-header">
-                                        <span>İlan Tarihi</span>
-                                    </div>
-                                    <div style="display: grid;" class="mt-md-2">
-                                        <label class="filter-date d-flex align-items-center">
-                                            <input name="filter-date" class="filter-date filter-now" type="radio"
-                                                value="last3Days">
-                                            <span class="fs-13 ml-2">Son 3 Gün</span>
-                                        </label>
-                                        <label class="filter-date d-flex align-items-center">
-                                            <input name="filter-date" class="filter-date filter-now" type="radio"
-                                                value="lastWeek">
-                                            <span class="fs-13 ml-2">Son Bir Hafta</span>
-                                        </label>
-                                        <label class="filter-date d-flex align-items-center">
-                                            <input name="filter-date" type="radio" class="filter-date filter-now"
-                                                value="lastMonth">
-                                            <span class="fs-13 ml-2">Son Bir Ay</span>
-                                        </label>
-                                    </div>
-
-                                </div>
                             </div>
 
                             <button type="button" class="d-md-none d-lg-none btn bg-white btn-lg btn-block mt-md-2 mb-4e btn-transition"
@@ -659,7 +636,7 @@
                                     <div class="col-sm-12 col-md-6 col-lg-6 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150" style="height:200px">
                                         <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
                                             <div class="listing-item compact" style="height:100%">
-                                                <a href="${res.profile_user_image}" class="listing-img-container">
+                                                <a href="${res.url}" class="listing-img-container">
                                                     <img class="project_brand_profile_image" src="${res.image}" style="border-radius:7px;" alt="">
                                                     <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
                                                         <span class="badge badge-phoenix text-left">${res.title} <span class="d-block"><small>${res.city.title} / ${res.county.ilce_title}</small></span></span>
@@ -678,7 +655,7 @@
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150" style="height:200px">
                                             <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
                                                 <div class="listing-item compact" style="height:100%">
-                                                    <a href="${res.profile_user_image}" class="listing-img-container" >
+                                                    <a href="${res.url}" class="listing-img-container" >
                                                         <img class="project_brand_profile_image" src="${res.image}" alt="" style="border-radius:7px;">
                                                         <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
                                                             <span class="badge badge-phoenix text-left">${res.title} <span class="d-block"><small>${res.city.title} / ${res.county.ilce_title}</small></span></span>

@@ -116,36 +116,63 @@
                                 alt="blog image">
                         </div>
                     </div>
-                    <div class="news-item-text">
-                        <h3>{{ $project->project_title }}</h3>
+                    <div class="news-item-text" style="padding: 0 !important">
                         <div class="the-agents">
-                            <ul class="the-agents-details">
-                                
-
-                                <li><strong>İl-İlçe:</strong> {!! $project->city->title !!} {{ '/' }}
-                                    {!! $project->county->ilce_title !!} </li>
-                                <li><strong> Toplam {{ ucfirst($project->step1_slug) }}
-                                        Sayısı:</strong> {{ $project->room_count }} </li>
-                                <li><strong> Satışa Açık {{ ucfirst($project->step1_slug) }} Sayısı:</strong> {{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }} </li>
-                                <li><strong> Satılan {{ ucfirst($project->step1_slug) }} Sayısı:</strong> {{ $project->cartOrders }} </li>
-                                <li><strong> Satışa Kapalı {{ ucfirst($project->step1_slug) }} Sayısı:</strong> {{ $salesCloseProjectHousingCount }} </li>
-                                <li><strong> {{ ucfirst($project->step1_slug) }} Tipi:</strong>
-                                    {{ $project->housingtype->title }}
-                                </li>
+                            <table class="table table-bordered" style="margin-bottom: 0 !important">
+                                <tr>
+                                    <td><strong>Proje Adı: </strong></td>
+                                    <td>{{ $project->project_title }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>İl-İlçe:</strong></td>
+                                    <td>{!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Toplam {{ ucfirst($project->step1_slug) }} Sayısı:</strong></td>
+                                    <td>{{ $project->room_count }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Satışa Açık {{ ucfirst($project->step1_slug) }} Sayısı:</strong></td>
+                                    <td>{{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Satılan {{ ucfirst($project->step1_slug) }} Sayısı:</strong></td>
+                                    <td>{{ $project->cartOrders }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Satışa Kapalı {{ ucfirst($project->step1_slug) }} Sayısı:</strong></td>
+                                    <td>{{ $salesCloseProjectHousingCount }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>{{ ucfirst($project->step1_slug) }} Tipi:</strong></td>
+                                    <td>{{ $project->housingtype->title }}</td>
+                                </tr>
                                 @if ($project->user->phone)
-                                    <li><strong>İletişim No:</strong> {!! $project->user->phone !!} </li>
+                                    <tr>
+                                        <td><strong>İletişim No:</strong></td>
+                                        <td>{!! $project->user->phone !!}</td>
+                                    </tr>
                                 @endif
-                                <li><strong>E-Posta:</strong> {!! $project->user->email !!} </li>
+                                <tr>
+                                    <td><strong>E-Posta:</strong></td>
+                                    <td>{!! $project->user->email !!}</td>
+                                </tr>
+                                <tr>
+                                    <td>Mağaza: </td>
+                                    <td>
+                                        {!! $project->user->name !!}
+                                        {{-- <div class="news-item-bottom">
 
-                            </ul>
-                        </div>
-                        <div class="news-item-bottom">
-
-                            <div class="admin">
-                                <p>{!! $project->user->name !!}</p>
-                                <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                    alt="">
-                            </div>
+                                            <div class="admin">
+                                                {!! $project->user->name !!}
+                                                <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
+                                                    alt="">
+                                            </div>
+                                        </div> --}}
+                                    </td>
+                                </tr>
+                            </table>
+                            
                         </div>
                     </div>
                 </div>
@@ -290,7 +317,7 @@
 
                                                                     <div class="homes-list-div">
                                                                         <ul class="homes-list clearfix pb-3 d-flex">
-                                                                            <li class="the-icons custom-width flex-1">
+                                                                            <li class="d-flex align-items-center itemCircleFont">
                                                                                 <i class="fa fa-circle circleIcon mr-1"
                                                                                     style="color: black;"
                                                                                     aria-hidden="true"></i>
@@ -300,7 +327,7 @@
                                                                                     isset($project->listItemValues->column1_name) &&
                                                                                     $project->listItemValues->column1_name)
                                                                                 <li
-                                                                                    class="the-icons custom-width flex-1">
+                                                                                    class="d-flex align-items-center itemCircleFont">
                                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                                         aria-hidden="true"></i>
                                                                                     <span>
@@ -317,7 +344,7 @@
                                                                                     isset($project->listItemValues->column2_name) &&
                                                                                     $project->listItemValues->column2_name)
                                                                                 <li
-                                                                                    class="the-icons custom-width flex-1">
+                                                                                    class="d-flex align-items-center itemCircleFont">
                                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                                         aria-hidden="true"></i>
                                                                                     <span>
@@ -334,7 +361,7 @@
                                                                                     isset($project->listItemValues->column3_name) &&
                                                                                     $project->listItemValues->column3_name)
                                                                                 <li
-                                                                                    class="the-icons custom-width flex-1">
+                                                                                    class="d-flex align-items-center itemCircleFont">
                                                                                     <i class="fa fa-circle circleIcon mr-1"
                                                                                         aria-hidden="true"></i>
                                                                                     <span>
@@ -541,23 +568,26 @@
                             </div>
                             <div class="mobile-show">
                                 <div class="container">
-                                    @for (; $i < 10; $i++)
-                                        @php
-                                            $room_order = $i + 1;
-                                        @endphp
+                                    @for ($i = $startIndex; $i < $endIndex; $i++)
+                                    @php
+                                        $j++;
+                                        if(isset($projectCartOrders[$i+1])){
+                                            $sold = $projectCartOrders[$i+1];
+                                        }else{
+                                            $sold = null;
+                                        }
+                                        $room_order = $i +1;
+                                    @endphp
                                         <div class="d-flex" style="flex-wrap: nowrap">
-                                            <div class="align-items-center d-flex"
-                                                style="padding-right:0; width: 110px;">
+                                            <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                                                 <div class="project-inner project-head">
-                                                    <a
-                                                        href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
+                                                    <a href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                                         <div class="homes">
                                                             <!-- homes img -->
                                                             <div class="homes-img h-100 d-flex align-items-center"
                                                                 style="width: 130px; height: 128px;">
                                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
-                                                                    alt="{{ $project->housingType->title }}"
-                                                                    class="img-responsive"
+                                                                    alt="{{ $project->housingType->title }}" class="img-responsive"
                                                                     style="height: 100px !important;">
                                                             </div>
                                                         </div>
@@ -565,81 +595,74 @@
                                                 </div>
                                             </div>
                                             <div class="w-100" style="padding-left:0;">
-                                                <div
-                                                    class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
+                                                <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                                     <a style="text-decoration: none; height: 100%"
                                                         href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                                        <h3>
-                                                            @if (isset(getData($project, 'advertise_title[]', $i + 1)->value))
-                                                                {{ getData($project, 'advertise_title[]', $i + 1)->value }}
-                                                            @else
-                                                                {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                                Projesinde
-                                                                {{ $i + 1 }} {{ "No'lu" }}
-                                                                {{ $project->step1_slug }}
-                                                            @endif
-                                                        </h3>
+                                                        <div class="d-flex align-items-center justify-content-between">
+                                                            <h3>
+                                                                @if (isset(getData($project, 'advertise_title[]', $i + 1)->value))
+                                                                    {{ getData($project, 'advertise_title[]', $i + 1)->value }}
+                                                                @else
+                                                                    {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                                    Projesinde
+                                                                    {{ $i + 1 }} {{ "No'lu" }}
+                                                                    {{ $project->step1_slug }}
+                                                                @endif
+                                                            </h3>
+                                                            <span
+                                                            class="btn toggle-project-favorite bg-white"
+                                                            data-project-housing-id="{{ $i + 1 }}"
+                                                            style="color: white;"
+                                                            data-project-id="{{ $project->id }}">
+                                                            <i class="fa fa-heart-o-o"></i>
+                                                        </span>
+                                                        </div>
                                                     </a>
                                                     <div class="d-flex align-items-center">
                                                         <div class="d-flex" style="gap: 8px;">
-                                                            <span
-                                                                class="btn toggle-project-favorite bg-white"
-                                                                data-project-housing-id="{{ $i + 1 }}"
-                                                                style="color: white;"
-                                                                data-project-id="{{ $project->id }}">
-                                                                <i class="fa fa-heart-o-o"></i>
-                                                            </span>
                                                             @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                                                <button class="btn   mobileBtn  second-btn CartBtn"
+                                                            <button class="btn second-btn CartBtn mobileCBtn"
+                                                                disabled
+                                                                style="background: red !important;width:100%;color:White">
+                        
+                                                                <span class="text">Satışa
+                                                                    Kapatıldı</span>
+                                                            </button>
+                                                        @else
+                                                            @if ($sold && $sold->status != '2')
+                                                                <button class="btn second-btn soldBtn mobileCBtn"
                                                                     disabled
-                                                                    style="background: red !important;width:100%;color:White;">
+                                                                    @if ($sold->status == '0') style="background: orange !important;color:White" @else  style="background: red !important;color:White;height: auto !important" @endif>
+                                                                    @if ($sold->status == '0')
+                                                                        <span class="text">Onay
+                                                                            Bekleniyor</span>
+                                                                    @else
+                                                                        <span
+                                                                            class="text">Satıldı</span>
+                                                                    @endif
+                                                                </button>
+                                                            @else
+                                                                <button class="CartBtn second-btn mobileCBtn"
+                                                                    data-type='project'
+                                                                    data-project='{{ $project->id }}'
+                                                                    data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
                                                                     <span class="IconContainer">
                                                                         <img src="{{ asset('sc.png') }}"
                                                                             alt="">
                                                                     </span>
-                                                                    <span class="text">Satışa Kapatıldı</span>
+                                                                    <span class="text">Sepete
+                                                                        Ekle</span>
                                                                 </button>
-                                                            @else
-                                                                @if ($sold && $sold->status != '2')
-                                                                    <button class="btn mobileBtn second-btn CartBtn"
-                                                                        disabled
-                                                                        @if ($sold->status == '0') style="background: orange !important;width:100%;color:White"
-                                        @else 
-                                        style="background: red !important;width:100%;color:White;height: auto !important" @endif>
-                                                                                        <span class="IconContainer">
-                                                                            <img src="{{ asset('sc.png') }}"
-                                                                                alt="">
-                                                                        </span>
-                                                                        @if ($sold->status == '0')
-                                                                            <span class="text">Onay Bekleniyor</span>
-                                                                        @else
-                                                                            <span class="text">Satıldı</span>
-                                                                        @endif
-                                                                    </button>
-                                                                @else
-                                                                    <button class="CartBtn mobileBtn"
-                                                                        data-type='project'
-                                                                        data-project='{{ $project->id }}'
-                                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                        <span class="IconContainer">
-                                                                            <img src="{{ asset('sc.png') }}"
-                                                                                alt="">
-                                                                        </span>
-                                                                        <span class="text">Sepete Ekle</span>
-                                                                    </button>
-                                                                @endif
                                                             @endif
-
+                                                        @endif
+                        
                                                         </div>
-                                                        <span class="ml-auto text-primary priceFont">
+                                                        {{-- <span class="ml-auto text-primary priceFont">
                                                             @if ($offer->discount_amount)
-                                                                <svg viewBox="0 0 24 24" width="24"
-                                                                    height="24" stroke="currentColor"
-                                                                    stroke-width="2" fill="none"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="css-i6dzq1">
-                                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                    </polyline>
+                                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                                    stroke-width="2" fill="none" stroke-linecap="round"
+                                                                    stroke-linejoin="round" class="css-i6dzq1">
+                                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                                     <polyline points="17 18 23 18 23 12"></polyline>
                                                                 </svg>
                                                             @endif
@@ -654,21 +677,23 @@
                                                                     ₺
                                                                 @endif
                                                             @endif
-                                                        </span>
+                                                        </span> --}}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="w-100"
-                                            style="height: 40px; background-color: #8080802e; margin-top: 20px">
-                                            <ul class="d-flex justify-content-around align-items-center h-100"
-                                                style="list-style: none; padding: 0; font-weight: 600">
+                                        style="height: 40px; background-color: #8080802e; margin-top: 20px">
+                                            <div class="d-flex justify-content-between align-items-center"
+                                            style="height: 100%;padding: 10px">
+                                            <ul class="d-flex justify-content-start align-items-center h-100 w-100"
+                                                style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
                                                 <li class="d-flex align-items-center itemCircleFont">
                                                     <i class="fa fa-circle circleIcon"></i>
-                                                    {{ $room_order }} <span> No'lu</span>
+                                                    İlan No: {{ $i + $project->id + 2000000 }}
                                                 </li>
                                                 @if (isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
-                                                    <li class="the-icons custom-width flex-1">
+                                                    <li class="d-flex align-items-center itemCircleFont">
                                                         <i class="fa fa-circle circleIcon mr-1"
                                                             aria-hidden="true"></i>
                                                         <span>
@@ -682,7 +707,7 @@
                                                     </li>
                                                 @endif
                                                 @if (isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
-                                                    <li class="the-icons custom-width flex-1">
+                                                    <li class="d-flex align-items-center itemCircleFont">
                                                         <i class="fa fa-circle circleIcon mr-1"
                                                             aria-hidden="true"></i>
                                                         <span>
@@ -696,7 +721,7 @@
                                                     </li>
                                                 @endif
                                                 @if (isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
-                                                    <li class="the-icons custom-width flex-1">
+                                                    <li class="d-flex align-items-center itemCircleFont">
                                                         <i class="fa fa-circle circleIcon mr-1"
                                                             aria-hidden="true"></i>
                                                         <span>
@@ -710,11 +735,32 @@
                                                     </li>
                                                 @endif
                                             </ul>
+                        
+                                            <span style="font-size: 11px !important">{!! $project->city->title !!}</span>
                                         </div>
+                                    </div>
                                         <hr>
                                     @endfor
+
+                                    <div class="project-housing-pagination">
+                                        <ul>
+                                            @for($t = 0; $t < $pageCount; $t++)
+                                                @php 
+                                                    if(isset($startIndex)):
+                                                @endphp
+                                                    <li @if($t == ($startIndex / 10)) class="active" @endif>{{$t+1}}</li>
+                                                @php
+                                                    else:
+                                                @endphp
+                                                    <li @if($t == 0) class="active" @endif>{{$t+1}}</li>
+                                                @php
+                                                    endif;
+                                                @endphp
+                                            @endfor
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
                     @endforeach
                 </div>
@@ -725,7 +771,7 @@
 @else
 
 
-<section class="properties-right list featured portfolio blog pb-5 bg-white">
+<div class="properties-right list featured portfolio blog pb-5 bg-white">
 
 
     <div class="mobile-hidden">
@@ -809,7 +855,7 @@
 
                                             <div class="homes-list-div">
                                                 <ul class="homes-list clearfix pb-3 d-flex">
-                                                    <li class="the-icons custom-width flex-1">
+                                                    <li class="d-flex align-items-center itemCircleFont">
                                                         <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                                             aria-hidden="true"></i>
                                                         <span>{{ $project->housingType->title }}</span>
@@ -817,7 +863,7 @@
                                                     @if (isset($project->listItemValues) &&
                                                             isset($project->listItemValues->column1_name) &&
                                                             $project->listItemValues->column1_name)
-                                                        <li class="the-icons custom-width flex-1">
+                                                        <li class="d-flex align-items-center itemCircleFont">
                                                             <i class="fa fa-circle circleIcon mr-1"
                                                                 aria-hidden="true"></i>
                                                             <span>
@@ -833,7 +879,7 @@
                                                     @if (isset($project->listItemValues) &&
                                                             isset($project->listItemValues->column2_name) &&
                                                             $project->listItemValues->column2_name)
-                                                        <li class="the-icons custom-width flex-1">
+                                                        <li class="d-flex align-items-center itemCircleFont">
                                                             <i class="fa fa-circle circleIcon mr-1"
                                                                 aria-hidden="true"></i>
                                                             <span>
@@ -849,7 +895,7 @@
                                                     @if (isset($project->listItemValues) &&
                                                             isset($project->listItemValues->column3_name) &&
                                                             $project->listItemValues->column3_name)
-                                                        <li class="the-icons custom-width flex-1">
+                                                        <li class="d-flex align-items-center itemCircleFont">
                                                             <i class="fa fa-circle circleIcon mr-1"
                                                                 aria-hidden="true"></i>
                                                             <span>
@@ -1053,57 +1099,63 @@
                         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                             <a style="text-decoration: none; height: 100%"
                                 href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                <h3>
-                                    @if (isset(getData($project, 'advertise_title[]', $i + 1)->value))
-                                        {{ getData($project, 'advertise_title[]', $i + 1)->value }}
-                                    @else
-                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                        Projesinde
-                                        {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
-                                    @endif
-                                </h3>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h3>
+                                        @if (isset(getData($project, 'advertise_title[]', $i + 1)->value))
+                                            {{ getData($project, 'advertise_title[]', $i + 1)->value }}
+                                        @else
+                                            {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                            Projesinde
+                                            {{ $i + 1 }} {{ "No'lu" }}
+                                            {{ $project->step1_slug }}
+                                        @endif
+                                    </h3>
+                                    <span
+                                    class="btn toggle-project-favorite bg-white"
+                                    data-project-housing-id="{{ $i + 1 }}"
+                                    style="color: white;"
+                                    data-project-id="{{ $project->id }}">
+                                    <i class="fa fa-heart-o-o"></i>
+                                </span>
+                                </div>
                             </a>
                             <div class="d-flex align-items-center">
                                 <div class="d-flex" style="gap: 8px;">
-                                    <span class="btn toggle-project-favorite bg-white"
-                                        data-project-housing-id="{{ $i + 1 }}"
-                                        style="color: white;" data-project-id="{{ $project->id }}">
-                                        <i class="fa fa-heart-o-o"></i>
-                                    </span>
                                     @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                        <button class="btn   mobileBtn  second-btn CartBtn" disabled
-                                            style="background: red !important;width:100%;color:White;">
-                                            <span class="IconContainer">
-                                                <img src="{{ asset('sc.png') }}" alt="">
-                                            </span>
-                                            <span class="text">Satışa Kapatıldı</span>
+                                    <button class="btn second-btn CartBtn mobileCBtn"
+                                        disabled
+                                        style="background: red !important;width:100%;color:White">
+
+                                        <span class="text">Satışa
+                                            Kapatıldı</span>
+                                    </button>
+                                @else
+                                    @if ($sold && $sold->status != '2')
+                                        <button class="btn second-btn soldBtn mobileCBtn"
+                                            disabled
+                                            @if ($sold->status == '0') style="background: orange !important;color:White" @else  style="background: red !important;color:White;height: auto !important" @endif>
+                                            @if ($sold->status == '0')
+                                                <span class="text">Onay
+                                                    Bekleniyor</span>
+                                            @else
+                                                <span
+                                                    class="text">Satıldı</span>
+                                            @endif
                                         </button>
                                     @else
-                                        @if ($sold && $sold->status != '2')
-                                            <button class="btn mobileBtn second-btn CartBtn" disabled
-                                                @if ($sold->status == '0') style="background: orange !important;width:100%;color:White"
-                                            @else 
-                                            style="background: red !important;width:100%;color:White" @endif>
-                                                <span class="IconContainer">
-                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                </span>
-                                                @if ($sold->status == '0')
-                                                    <span class="text">Onay Bekleniyor</span>
-                                                @else
-                                                    <span class="text">Satıldı</span>
-                                                @endif
-                                            </button>
-                                        @else
-                                            <button class="CartBtn mobileBtn" data-type='project'
-                                                data-project='{{ $project->id }}'
-                                                data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                <span class="IconContainer">
-                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                </span>
-                                                <span class="text">Sepete Ekle</span>
-                                            </button>
-                                        @endif
+                                        <button class="CartBtn second-btn mobileCBtn"
+                                            data-type='project'
+                                            data-project='{{ $project->id }}'
+                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                            <span class="IconContainer">
+                                                <img src="{{ asset('sc.png') }}"
+                                                    alt="">
+                                            </span>
+                                            <span class="text">Sepete
+                                                Ekle</span>
+                                        </button>
                                     @endif
+                                @endif
 
                                 </div>
                                 {{-- <span class="ml-auto text-primary priceFont">
@@ -1131,15 +1183,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-100" style="height: 40px; background-color: #8080802e; margin-top: 20px">
-                    <ul class="d-flex justify-content-around align-items-center h-100"
-                        style="list-style: none; padding: 0; font-weight: 600">
+                <div class="w-100"
+                style="height: 40px; background-color: #8080802e; margin-top: 20px">
+                    <div class="d-flex justify-content-between align-items-center"
+                    style="height: 100%;padding: 10px">
+                    <ul class="d-flex justify-content-start align-items-center h-100 w-100"
+                        style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
                         <li class="d-flex align-items-center itemCircleFont">
                             <i class="fa fa-circle circleIcon"></i>
-                            {{ $room_order }} <span> No'lu</span>
+                            İlan No: {{ $i + $project->id + 2000000 }}
                         </li>
                         @if (isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
-                            <li class="the-icons custom-width flex-1">
+                            <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon mr-1"
                                     aria-hidden="true"></i>
                                 <span>
@@ -1153,7 +1208,7 @@
                             </li>
                         @endif
                         @if (isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
-                            <li class="the-icons custom-width flex-1">
+                            <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon mr-1"
                                     aria-hidden="true"></i>
                                 <span>
@@ -1167,7 +1222,7 @@
                             </li>
                         @endif
                         @if (isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
-                            <li class="the-icons custom-width flex-1">
+                            <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon mr-1"
                                     aria-hidden="true"></i>
                                 <span>
@@ -1181,7 +1236,10 @@
                             </li>
                         @endif
                     </ul>
+
+                    <span style="font-size: 11px !important">{!! $project->city->title !!}</span>
                 </div>
+            </div>
                 <hr>
             @endfor
         </div>
@@ -1189,7 +1247,7 @@
 
 
 
-</section>
+</div>
 @endif
 
    
@@ -1409,6 +1467,9 @@ out center;`;
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        .table td, .table th{
+            padding: .55rem;
+        }
         .tab-content {
             display: none;
         }
