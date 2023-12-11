@@ -350,7 +350,8 @@ class HousingController extends Controller
         }
         
         Housing::where('id',$housingId)->update([
-            "housing_type_data" => json_encode($formJson)
+            "housing_type_data" => json_encode($formJson),
+            "status" => 2,
         ]);
         
         return $imageNames;
@@ -405,7 +406,8 @@ class HousingController extends Controller
         $data->image = $imageName;
         
         Housing::where('id',$housingId)->update([
-            "housing_type_data" => json_encode($data)
+            "housing_type_data" => json_encode($data),
+            "status" => 2,
         ]);
     }
 
@@ -465,7 +467,8 @@ class HousingController extends Controller
                 'neighborhood_id' => $request->input('neighbourhood_id'),
                 'latitude' => explode(',',$request->input('location'))[0],
                 'longitude' => explode(',',$request->input('location'))[1],
-                "housing_type_data" => json_encode($formData)
+                "housing_type_data" => json_encode($formData),
+                "status" => 2,
             ]
         );
 

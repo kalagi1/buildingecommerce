@@ -81,6 +81,11 @@ class ProjectController extends Controller
             } else {
                 ProjectHousing::where('project_id', $projectId)->where('name', '!=', 'images[]')->where('name', '!=', 'image[]')->where('room_order','=',$roomOrder)->delete();
             }
+
+            Project::where('id',$project->id)->update([
+                "status" => 2
+            ]);
+
             for ($i = 0; $i < 1; $i++) {
                 for ($j = 0; $j < count($housingTypeInputs); $j++) {
                     if ($housingTypeInputs[$j]->type == "file") {
