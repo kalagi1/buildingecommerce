@@ -95,7 +95,7 @@ class HousingController extends Controller {
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
         $housing = Housing::with('images', "reservations","user.housings", "user.banners", "brand", "city", "county")->where("id", $id)->first();
-        $housingSetting = ProjectHouseSetting::where('house_type', $housing->housing_type_id)->get();
+        $housingSetting = ProjectHouseSetting::all();
         $housingComments = HousingComment::where('housing_id', $id)->where('status', 1)->with('user')->get();
 
         $parent = HousingTypeParent::where("slug",$housing->step1_slug)->first();

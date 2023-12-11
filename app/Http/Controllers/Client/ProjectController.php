@@ -488,7 +488,7 @@ class ProjectController extends Controller
         $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
-        $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
+        $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
         $projectCartOrders = DB::table('cart_orders')
         ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
         ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
@@ -522,7 +522,7 @@ class ProjectController extends Controller
         $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
-        $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
+        $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
 
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
