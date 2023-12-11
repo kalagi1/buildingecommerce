@@ -56,6 +56,7 @@ class ProjectController extends Controller
         $selectedPage = $request->input('selected_page') ?? 0;
         $blockIndex = $request->input('block_id') ?? 0;
         $startIndex = 0;
+
         if($project->have_blocks){
             $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
         }else{
@@ -65,7 +66,6 @@ class ProjectController extends Controller
             $startIndex += $project->blocks[$i]->housing_count;
         }
         $endIndex = $startIndex + 10;
-
         return view('client.projects.index', compact('salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
     }
     
@@ -136,6 +136,7 @@ class ProjectController extends Controller
         if ($project->status == 0) {
             return view('client.projects.product_not_found', compact('menu', 'project'));
         }
+
         return view('client.projects.detail', compact('menu', 'project', 'offer'));
     }
 
@@ -192,6 +193,7 @@ class ProjectController extends Controller
 
         $housingTypeSlug = [];
         $housingTypeSlugName = [];
+        $housingTypeParentSlug = [];
 
         $housingType = [];
         $housingTypeName = [];
@@ -260,7 +262,7 @@ class ProjectController extends Controller
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
                     $housingType = HousingType::where('slug', $paramValue)->first();
-        
+
 
                     if ($item1) {
                         $is_project = $item1->is_project;
@@ -277,15 +279,17 @@ class ProjectController extends Controller
                         $housingTypeName = $housingType->title;
                         $housingTypeSlug = $housingType->slug;
                         $housingType = $housingType->id;
+                        $newHousingType = $housingType;
                     }
 
                     
                 }
 
                              
-                if ($housingTypeParent && $housingTypeParent->slug == "arsa") {
-                    $checkTitle = $parameters[count($parameters) - 2];
+                if ($housingTypeParent && $housingTypeParent->slug === "arsa") {
+                    $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
                 }
+                
 
             }
         }
@@ -348,7 +352,7 @@ class ProjectController extends Controller
             }
 
             if ($housingType) {
-                $query->where('housing_type_id', $housingType);
+                $query->where('housing_type_id', $newHousingType);
             }
 
             if ($opt) {
@@ -507,7 +511,9 @@ class ProjectController extends Controller
         }
         $endIndex = $startIndex + 10;
 
-        return view('client.projects.project_housing', compact('blockIndex','lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+        $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
+
+        return view('client.projects.project_housing', compact('blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
     public function projectHousingDetailAjax($projectSlug,$housingOrder,Request $request)

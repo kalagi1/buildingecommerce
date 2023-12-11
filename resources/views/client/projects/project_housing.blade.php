@@ -645,6 +645,22 @@
                                                     href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
                                             </li>
                                         @endif
+                                        @if ($project->step1_slug)
+                                        <li>
+                                            <span class="la la-dot"><i class="fa fa-check-square"
+                                                    aria-hidden="true"></i></span>
+                                            @if ($project->step2_slug)
+                                                @if ($project->step2_slug == 'kiralik')
+                                                    Kiralık
+                                                @elseif ($project->step2_slug == 'satilik')
+                                                    Satılık
+                                                @else
+                                                    Günlük Kiralık
+                                                @endif
+                                            @endif
+                                            {{ $parent->title }}
+                                        </li>
+                                    @endif
 
                                         <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                     aria-hidden="true"></i></span><a
@@ -933,8 +949,8 @@
                                                                                                                 <div
                                                                                                                     style="background-color: #dc3545 !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                                                     <p
-                                                                                                                        style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
-                                                                                                                        {{ $i + 1 - $lastHousingCount}}</p>
+                                                                                                                        style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
+                                                                                                                        No <br>{{ $i + 1 - $lastHousingCount}}</p>
                                                                                                                 </div>
                                                                                                                 <div class="project-single mb-0 bb-0 aos-init aos-animate"
                                                                                                                     data-aos="fade-up">
@@ -1460,8 +1476,8 @@
                                                                                         <div
                                                                                             style="background-color: #dc3545 !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                             <p
-                                                                                                style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
-                                                                                                {{ $i + 1 }}</p>
+                                                                                                style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
+                                                                                               No <br> {{ $i + 1 }}</p>
                                                                                         </div>
                                                                                         <div class="project-single mb-0 bb-0 aos-init aos-animate"
                                                                                             data-aos="fade-up">
@@ -2138,8 +2154,8 @@
                                                                                                             <div
                                                                                                                 style="background-color: #dc3545 !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                                                 <p
-                                                                                                                    style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
-                                                                                                                    {{ $i + 1 - $lastHousingCount}}</p>
+                                                                                                                    style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
+                                                                                                                    No <br>{{ $i + 1 - $lastHousingCount}}</p>
                                                                                                             </div>
                                                                                                             <div class="project-single mb-0 bb-0 aos-init aos-animate"
                                                                                                                 data-aos="fade-up">
@@ -2666,8 +2682,8 @@
                                                                                     <div
                                                                                         style="background-color: #dc3545 !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                         <p
-                                                                                            style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
-                                                                                            {{ $i + 1 }}</p>
+                                                                                            style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
+                                                                                           No <br> {{ $i + 1 }}</p>
                                                                                     </div>
                                                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate"
                                                                                         data-aos="fade-up">
