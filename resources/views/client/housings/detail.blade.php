@@ -241,6 +241,12 @@
                                                     data-bs-target="#contact" type="button" role="tab"
                                                     aria-controls="contact" aria-selected="false">Yorumlar</button>
                                             </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#map" type="button" role="tab"
+                                                    aria-controls="contact" aria-selected="false">Harita</button>
+                                            </li>
+                                            
                                         </ul>
                                         <div class="tab-content" id="myTabContent">
                                             @if ($housing->step2_slug == 'gunluk-kiralik')
@@ -605,6 +611,10 @@
                                                 </form>
 
                                             </div>
+                                            <div class="tab-pane fade  blog-info details" id="map" role="tabpanel"
+                                                aria-labelledby="contact-tab">
+                                                <div id="map"></div>
+                                            </div>
                                         </div>
                                     @endif
                                 @else
@@ -631,6 +641,11 @@
                                             <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
                                                 data-bs-target="#contact" type="button" role="tab"
                                                 aria-controls="contact" aria-selected="false">Yorumlar</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                                data-bs-target="#map" type="button" role="tab"
+                                                aria-controls="contact" aria-selected="false">Harita</button>
                                         </li>
                                     </ul>
                                     <div class="tab-content" id="myTabContent">
@@ -1009,6 +1024,10 @@
                                             </form>
 
                                         </div>
+                                        <div class="tab-pane fade  blog-info details" id="map" role="tabpanel"
+                                                aria-labelledby="contact-tab">
+                                                <div id="map"></div>
+                                            </div>
                                     </div>
                                 @endif
                             @endif
@@ -1386,6 +1405,7 @@
 
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
         function redirectToPage() {
             window.location.href = "/giris-yap";
@@ -1458,6 +1478,36 @@
 
             $('#rate').val($(this).index() + 1);
         });
+
+        function initMap() {
+            // İlk harita görüntüsü
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat : {{$housing->latitude}}, lng: {{$housing->longitude}} },
+                zoom: 8
+            });
+
+            // Harita üzerinde bir konum gösterme
+            var marker = new google.maps.Marker({
+                position: { lat : {{$housing->latitude}}, lng: {{$housing->longitude}} },
+                map: map,
+                title: 'Default Location'
+            });
+        }
+
+        function showLocation() {
+            var location = document.getElementById('locationInput').value;
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                    center: { lat: {{$housing->longitude}}, lng: {{$housing->latitude}} },
+                    zoom: 12
+                });
+
+                var marker = new google.maps.Marker({
+                    position: { lat: {{$housing->longitude}}, lng: {{$housing->latitude}} },
+                    map: map,
+                    title: location
+                });
+        }
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -1466,6 +1516,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     @if ($housing->step2_slug == 'gunluk-kiralik')
         <script>
+            
             document.addEventListener('DOMContentLoaded', function() {
                 var maxUser = parseInt("{{ getData($housing, 'max_user') }}"); // $housing'ten max_user değerini alın
 
@@ -1868,6 +1919,8 @@
             });
         </script>
     @endif
+
+    
 @endsection
 
 @section('styles')

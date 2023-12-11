@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\EmailTemplate;
 use App\Models\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;

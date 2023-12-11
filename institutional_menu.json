@@ -186,15 +186,6 @@
         ]
     },
     {
-        "id": "upgrade",
-        "label": "Mağazam Emlak Sepette",
-        "icon": "arrow-up",
-        "text": "Paket Satın Al",
-        "key": "Upgrade",
-        "url": "institutional.profile.upgrade",
-        "activePath": "institutional/profile/upgrade"
-    },
-    {
         "id": "store-banners",
         "label": "Hesabım & Yardım",
         "icon": "image",

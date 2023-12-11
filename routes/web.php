@@ -147,6 +147,9 @@ Route::middleware('guest')->group(function () {
     Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
 });
 
+Route::get('/login_with_google', [ClientLoginController::class, "googleLogin"])->name('client.google.login');
+Route::get('/login-with-google', [ClientLoginController::class, "redirectGoogle"])->name('redirect.google.login');
+
 Route::middleware('auth')->group(function () {
     Route::get('/cikis-yap', [ClientLoginController::class, "logout"])->name('client.logout');
 });

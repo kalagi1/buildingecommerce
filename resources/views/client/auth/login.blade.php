@@ -104,7 +104,7 @@
                                                 </div>
                                                 <div class="flex flex-column">
                                                     <div>
-                                                        <a href="{{ route('auth.google') }}"
+                                                        <a href="{{ route('client.google.login') }}"
                                                             style="color: black;text-decoration:none">
                                                             <div style="text-transform: capitalize;">google</div> <small>ile
                                                                 giriş yap</small>

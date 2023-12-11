@@ -190,7 +190,7 @@ class ProjectController extends Controller
         $userId = auth()->user()->parent_id ?? auth()->user()->id;
     
         $projects = Project::where('user_id', $userId)
-            ->with("roomInfo", "housingType", "county", "city","standOut")
+            ->with("roomInfo", "housingType", "county", "city","standOut","standOut.dopingPricePaymentWait",'standOut.dopingPricePaymentCancel')
             ->orderByDesc('created_at')
             ->get();
         $userProjectIds = $projects->pluck('id');

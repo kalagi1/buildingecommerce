@@ -50,7 +50,7 @@
                                             </div>
     
                                             <div class="order-header-info d-flex">
-                                                @if ($order->invoice)
+                                                @if ($order->invoice && $order->status == 1)
                                                     <a href="{{ route('institutional.invoice.show', $order->id) }}">
                                                         <button class="invoiceBtn">
                                                             <span class="button_lg">
