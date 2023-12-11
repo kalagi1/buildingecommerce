@@ -806,47 +806,47 @@ ${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i cla
                                                         <i class="fa fa-heart-o"></i>
                                                     </a>
 
-                                                    ${res.step2_slug !== "gunluk-kiralik" ?
-                                res.offSale ?
-                                    `<button
-                                                                class="btn mobileBtn second-btn CartBtn" disabled
-                                                                style="background: red !important;width:100%;color:White">Satıldı
-                                                            </button>`
-                                    :
-                                    res.action === 'payment_await' ?
-                                        `<button
-                                                                    class="btn mobileBtn second-btn CartBtn" disabled
-                                                                    style="background: orange !important;width:100%;color:White">Onay Bekleniyor
-                                                                </button>`
-                                        :
-                                        res.action === 'sold' ?
-                                            `<button
-                                                                        class="btn mobileBtn second-btn CartBtn" disabled
-                                                                        style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                    </button>`
-                                            :
-                                            `<button class="CartBtn mobileBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                        data-id='${res.id}'>
-                                                                        <span class="IconContainer">
-                                                                            <img src="{{ asset('sc.png') }}" alt="">
-                                                                        </span>
-                                                                        <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                    </button>` :
-                                                `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileBtn">
-                                                                            <span class="IconContainer">
-                                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                                            </span>
-                                                                        </button>`
-                                            }
-                                                </div>
-                                                <span class="ml-auto text-primary priceFont">
-                                                    ${
-                                    res.step2_slug !== "gunluk-kiralik"
-                                    ? res.offSale || (res.action === 'payment_await' || res.action === 'sold')
-                                        ? " "
-                                        : numberFormat(res.housing_type.price) + " ₺"
-                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
-                                }
+                                                                        ${res.step2_slug !== "gunluk-kiralik" ?
+                                                    res.offSale ?
+                                                        `<button
+                                                                                    class="btn mobileBtn second-btn CartBtn" disabled
+                                                                                    style="background: red !important;width:100%;color:White">Satıldı
+                                                                                </button>`
+                                                        :
+                                                        res.action === 'payment_await' ?
+                                                            `<button
+                                                                                        class="btn mobileBtn second-btn CartBtn" disabled
+                                                                                        style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                                    </button>`
+                                                            :
+                                                            res.action === 'sold' ?
+                                                                `<button
+                                                                                            class="btn mobileBtn second-btn CartBtn" disabled
+                                                                                            style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                        </button>`
+                                                                :
+                                                                `<button class="CartBtn mobileBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                                            data-id='${res.id}'>
+                                                                                            <span class="IconContainer">
+                                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                                            </span>
+                                                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                        </button>` :
+                                                                    `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileBtn">
+                                                                                                <span class="IconContainer">
+                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                </span>
+                                                                                            </button>`
+                                                                }
+                                                                    </div>
+                                                                    <span class="ml-auto text-primary priceFont">
+                                                                        ${
+                                                        res.step2_slug !== "gunluk-kiralik"
+                                                        ? res.offSale || (res.action === 'payment_await' || res.action === 'sold')
+                                                            ? " "
+                                                            : numberFormat(res.housing_type.price) + " ₺"
+                                                        : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
+                                                    }
                                                 </span>
                                             </div>
                                         </div>
