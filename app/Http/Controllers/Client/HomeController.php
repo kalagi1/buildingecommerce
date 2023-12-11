@@ -53,23 +53,25 @@ class HomeController extends Controller
         ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
         ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
         ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
-        ->leftJoin('cities', 'cities.id', '=', 'housings.city_id') // city tablosunu join etme
-        ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id') // district tablosunu join etme
+        ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
+        ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
         ->where('housings.status', 1)
         ->where('project_list_items.item_type', 2)
         ->orderByDesc('doping_time')
         ->orderByDesc('housings.created_at')
         ->get();
 
-
+            
         $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))
         ->where('end_date', ">=", date("Y-m-d"))
         ->where('item_type', 1)
         ->where('housing_type_id', 0)
+        ->join('doping_orders','doping_orders.stand_out_id','=','stand_out_users.id')
+        ->where('doping_orders.status', 1)
         ->whereHas('project', function ($query) {
             $query->where('status', 1);
         })
-        ->orderByDesc("created_at")
+        ->orderByDesc("stand_out_users.created_at")
         ->get();
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
@@ -78,14 +80,13 @@ class HomeController extends Controller
         $footerSlider = FooterSlider::all();
 
 
-        $finishProjects = Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
+        $finishProjects = Project::select('projects.*')
         ->with("city", "county")
         ->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '2');
         })->with("housings", 'brand', 'roomInfo','listItemValues', 'housingType')
-        ->orderBy("doping_time", "desc")
         ->orderBy("created_at", "desc")
-        ->where('status', 1)
+        ->where('projects.status', 1)
         ->get();
 
 
@@ -378,6 +379,7 @@ class HomeController extends Controller
         $checkTitle = null;
         $optName = [];
 
+        $housingType = null;
         foreach ($parameters as $index => $paramValue) {
             if ($paramValue) {
                 if ($request->input($paramValue) == "satilik" || $request->input($paramValue) == "kiralik" || $request->input($paramValue) == "gunluk-kiralik") {
@@ -395,14 +397,7 @@ class HomeController extends Controller
                 } else {
                     $item1 = HousingStatus::where('id', $request->input($paramValue))->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $request->input($paramValue))->first();
-                    if($request->input($paramValue)){
-                        $housingType = HousingType::where('slug', $request->input($paramValue))->first();
-                        if ($housingType) {
-                            $housingTypeName = $housingType->title;
-                            $housingTypeSlug = $housingType->slug;
-                            $housingType = $housingType->id;
-                        }
-                    }
+                    
 
                     if ($item1) {
                         $is_project = $item1->is_project;
@@ -414,9 +409,17 @@ class HomeController extends Controller
                         $housingTypeSlugName = $housingTypeParent->title;
                         $housingTypeParentSlug = $housingTypeParent->slug;
                     }
-
-                    
-
+                    $housingTypex = HousingType::where('slug', $request->input($paramValue))->first();
+                    if($housingTypex){
+                        $housingType = HousingType::where('slug', $request->input($paramValue))->first();
+                    }
+                    if ($housingType != null) {
+                        if(isset($housingType->title) && $housingType->title){
+                            $housingTypeName = $housingType->title;
+                            $housingTypeSlug = $housingType->slug;
+                            $housingType = $housingType->id;
+                        }
+                    }
                 }
             }
 

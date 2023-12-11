@@ -10,7 +10,7 @@ class DopingOrderController extends Controller
 {
     
     public function index(){
-        $dopingOrders = DopingOrder::orderBy("created_at")->get();
+        $dopingOrders = DopingOrder::orderByDesc("created_at")->get();
 
         return view('admin.doping_orders.index',compact('dopingOrders'));
     }
