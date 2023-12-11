@@ -166,6 +166,7 @@
                         <div>
 
                             <div>
+                                <a id="clear-filters" style="font-size: 12px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
                                 <div class="trip-search">
                                     <div class="widget-boxed-header mobile-title widget-boxed-header"
                                         style="margin-bottom: 0 !important">
@@ -345,7 +346,7 @@
                                 </div>
                             </div>
 
-                            <button type="button" class=" btn bg-white btn-lg btn-block mt-md-2 mb-4e btn-transition"
+                            <button type="button" class="d-md-none d-lg-none btn bg-white btn-lg btn-block mt-md-2 mb-4e btn-transition"
                                 style="border: 1px solid #CCC;" id="clear-filters">Temizle</button>
 
                             <button type="button" onclick="$('.filters-input-area').slideToggle();"
@@ -481,8 +482,7 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary btn-lg btn-block mt-4 mb-4"
-                        id="clear-filters">Temizle</button>
+                  
 
                 </div>
             </div>
