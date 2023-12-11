@@ -11,10 +11,6 @@
         <meta name="description" content="{{ $pageInfo->meta_description }}">
         <meta name="author" content="{{ $pageInfo->meta_author }}">
         <title>{{ $pageInfo->meta_title }}</title>
-    @else
-        <meta name="description" content="Emlak Sepette">
-        <meta name="author" content="">
-        <title>Emlak Sepette</title>
     @endif
 
 

@@ -157,51 +157,60 @@
 
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                 <div class="carousel-inner">
-                            
+
                                     {{-- Kapak Görseli --}}
                                     <div class="item carousel-item active" data-slide-number="0">
-                                        <a href="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}" data-lightbox="image-gallery">
-                                            <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}" class="img-fluid" alt="slider-listing">
+                                        <a href="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
+                                            data-lightbox="image-gallery">
+                                            <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
+                                                class="img-fluid" alt="slider-listing">
                                         </a>
                                     </div>
-                            
+
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $key => $image)
                                         <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
-                                            <a href="{{ asset('housing_images/' . $image) }}" data-lightbox="image-gallery">
-                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid" alt="slider-listing">
+                                            <a href="{{ asset('housing_images/' . $image) }}"
+                                                data-lightbox="image-gallery">
+                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
+                                                    alt="slider-listing">
                                             </a>
                                         </div>
                                     @endforeach
-                            
+
                                     {{-- Carousel Kontrolleri --}}
-                                    <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i class="fa fa-angle-left"></i></a>
-                                    <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i class="fa fa-angle-right"></i></a>
+                                    <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
+                                            class="fa fa-angle-left"></i></a>
+                                    <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
+                                            class="fa fa-angle-right"></i></a>
                                 </div>
-                            
+
                                 {{-- Küçük Resim Navigasyonu --}}
                                 <div class="listingDetailsSliderNav mt-3">
                                     {{-- Kapak Görseli --}}
                                     <div class="item active" style="margin: 10px; cursor: pointer">
                                         <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
-                                            <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}" class="img-fluid altSlider" alt="listing-small">
+                                            <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
+                                                class="img-fluid altSlider" alt="listing-small">
                                         </a>
                                     </div>
-                            
+
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $imageKey => $image)
                                         <div class="item" style="margin: 10px; cursor: pointer">
-                                            <a id="carousel-selector-{{ $imageKey + 1 }}" data-slide-to="{{ $imageKey + 1 }}" data-target="#listingDetailsSlider">
-                                                <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid altSlider" alt="listing-small">
+                                            <a id="carousel-selector-{{ $imageKey + 1 }}"
+                                                data-slide-to="{{ $imageKey + 1 }}" data-target="#listingDetailsSlider">
+                                                <img src="{{ asset('housing_images/' . $image) }}"
+                                                    class="img-fluid altSlider" alt="listing-small">
                                             </a>
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
-                            
-                            
 
-                         
+
+
+
 
 
                             @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
@@ -209,17 +218,18 @@
                                     @if ($sold[0]->status != '0' && $sold[0]->status != '1')
                                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                                             @if ($housing->step2_slug == 'gunluk-kiralik')
-                                            <div id="reservation-calendar"></div>
+                                                <div id="reservation-calendar"></div>
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#rez" type="button" role="tab"
+                                                        aria-controls="rez" aria-selected="true"> Takvim</button>
+                                                </li>
+                                            @endif
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#rez" type="button" role="tab"
-                                                    aria-controls="rez" aria-selected="true"> Takvim</button>
-                                            </li>
-                                        @endif
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif" id="home-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#home" type="button" role="tab"
-                                                    aria-controls="home" aria-selected="true">Açıklama</button>
+                                                <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif"
+                                                    id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                                                    type="button" role="tab" aria-controls="home"
+                                                    aria-selected="true">Açıklama</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
@@ -234,15 +244,14 @@
                                         </ul>
                                         <div class="tab-content" id="myTabContent">
                                             @if ($housing->step2_slug == 'gunluk-kiralik')
-                                          
-                                            <div class="tab-pane fade show active blog-info details mb-30" id="rez"
-                                            role="tabpanel" aria-labelledby="rez-tab">
-                                            <div id="reservation-calendar"></div>
-                                        </div>
-                                        @endif
-                                        
-                                            <div class="tab-pane fade blog-info details mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif" id="home"
-                                                role="tabpanel" aria-labelledby="home-tab">
+                                                <div class="tab-pane fade show active blog-info details mb-30"
+                                                    id="rez" role="tabpanel" aria-labelledby="rez-tab">
+                                                    <div id="reservation-calendar"></div>
+                                                </div>
+                                            @endif
+
+                                            <div class="tab-pane fade blog-info details mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
+                                                id="home" role="tabpanel" aria-labelledby="home-tab">
                                                 {!! $housing->description !!}
                                             </div>
                                             <div class="tab-pane fade blog-info details" id="profile" role="tabpanel"
@@ -253,109 +262,109 @@
                                                         <!-- title -->
                                                         <h5 class="mb-4">Özellikler</h5>
                                                         <table class="table table-bordered">
-                                                            <tbody class="trStyle"> 
+                                                            <tbody class="trStyle">
                                                                 @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
-                                                                @php
-                                                                    $turkceKarsilik = [
-                                                                        'price' => 'Fiyat',
-                                                                        'numberoffloors' => 'Bulunduğu Kat',
-                                                                        'squaremeters' => 'm² (Net)',
-                                                                        'room_count' => 'Oda Sayısı',
-                                                                        'front1' => 'Cephe',
-                                                                        'm2gross' => 'm² (Brüt)',
-                                                                        'buildingage' => 'Bina Yaşı',
-                                                                        'heating' => 'Isıtma',
-                                                                        'balcony' => 'Balkon',
-                                                                        'daily_rent' => 'Günlük Fiyat',
-                                                                        'max_user' => 'Kişi Sayısı',
-                                                                        'deposit' => 'Depozito',
-                                                                        'end_time' => 'Çıkış Saati',
-                                                                        'start_time' => 'Giriş Saati',
-                                                                        'ulasim1' => 'Ulaşım',
-                                                                        'muhit1' => 'Muhit',
-                                                                        "star_count" => "Yıldız Sayısı",
-                                                                        'kitchen_settings1' => 'Mutfak Özellikleri',
-                                                                        'room_settings1' => 'Oda Özellikleri',
-                                                                        'room_types1' => "Oda Çeşitleri",
-                                                                        "facility_settings1" => "Tesis Özellikleri",
-                                                                        "bath_settings1" => "Banyo Özellikleri",
-                                                                        "use_withs1" => "Ortak Kullanım",
-                                                                        "views1" =>"Manzara",
-                                                                        "infrastructures1" => "Altyapılar",
-                                                                        "activities1" => "Aktiviteler",
-                                                                        'konut_tipi1' => 'Konut Tipi',
-                                                                        'manzara1' => 'Manzara',
-                                                                        'engelliye_uygun1' => 'Engelliye Uygun',
-                                                                        'numberofbathrooms' => 'Banyo Sayısı',
-                                                                        'usingstatus' => 'Kullanım Durumu',
-                                                                        'dues' => 'Aidat',
-                                                                        'titledeedstatus' => 'Tapu Durumu',
-                                                                        'external_features1' => 'Dış Özellikler',
-                                                                        'swap' => 'Takas',
-                                                                        'swap1' => 'Takas',
-                                                                        'internal_features1' => 'İç Özellikler',
-                                                                        'floorlocation' => 'Kat Sayısı',
-                                                                        'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
-                                                                        'furnished1' => 'Eşyalı',
-                                                                        "buysellurgent1" => "Acil Satılık",
-                                                                        "structure" => "Yapının Durumu",
-                                                                        "bed_count" => "Yatak Sayısı",
-                                                                        "food_drink1" => "Yeme İçme",
-                                                                        "meeting1" => "Toplantı & Kongre",
-                                                                        "proximity1" => "Yakınlık",
-                                                                        "transportation1" => "Ulaşım",
-                                                                        "facilities1" => "Tesis Aktiviteleri",
-                                                                        "availableforLoan" => "Krediye Uygun",
-                                                                        "images" => "Galeri",
-                                                                        "usagePurpose1" => "Kullanım Amacı",
-                                                                        "generalFeatures1" => "Genel Özellikler",
-                                                                        "infrastructure1" => "Altyapı"
-                                                                    ];
-                                                                    $key = $turkceKarsilik[$key] ?? $key;
-                                                                @endphp
+                                                                    @php
+                                                                        $turkceKarsilik = [
+                                                                            'price' => 'Fiyat',
+                                                                            'numberoffloors' => 'Bulunduğu Kat',
+                                                                            'squaremeters' => 'm² (Net)',
+                                                                            'room_count' => 'Oda Sayısı',
+                                                                            'front1' => 'Cephe',
+                                                                            'm2gross' => 'm² (Brüt)',
+                                                                            'buildingage' => 'Bina Yaşı',
+                                                                            'heating' => 'Isıtma',
+                                                                            'balcony' => 'Balkon',
+                                                                            'daily_rent' => 'Günlük Fiyat',
+                                                                            'max_user' => 'Kişi Sayısı',
+                                                                            'deposit' => 'Depozito',
+                                                                            'end_time' => 'Çıkış Saati',
+                                                                            'start_time' => 'Giriş Saati',
+                                                                            'ulasim1' => 'Ulaşım',
+                                                                            'muhit1' => 'Muhit',
+                                                                            'star_count' => 'Yıldız Sayısı',
+                                                                            'kitchen_settings1' => 'Mutfak Özellikleri',
+                                                                            'room_settings1' => 'Oda Özellikleri',
+                                                                            'room_types1' => 'Oda Çeşitleri',
+                                                                            'facility_settings1' => 'Tesis Özellikleri',
+                                                                            'bath_settings1' => 'Banyo Özellikleri',
+                                                                            'use_withs1' => 'Ortak Kullanım',
+                                                                            'views1' => 'Manzara',
+                                                                            'infrastructures1' => 'Altyapılar',
+                                                                            'activities1' => 'Aktiviteler',
+                                                                            'konut_tipi1' => 'Konut Tipi',
+                                                                            'manzara1' => 'Manzara',
+                                                                            'engelliye_uygun1' => 'Engelliye Uygun',
+                                                                            'numberofbathrooms' => 'Banyo Sayısı',
+                                                                            'usingstatus' => 'Kullanım Durumu',
+                                                                            'dues' => 'Aidat',
+                                                                            'titledeedstatus' => 'Tapu Durumu',
+                                                                            'external_features1' => 'Dış Özellikler',
+                                                                            'swap' => 'Takas',
+                                                                            'swap1' => 'Takas',
+                                                                            'internal_features1' => 'İç Özellikler',
+                                                                            'floorlocation' => 'Kat Sayısı',
+                                                                            'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
+                                                                            'furnished1' => 'Eşyalı',
+                                                                            'buysellurgent1' => 'Acil Satılık',
+                                                                            'structure' => 'Yapının Durumu',
+                                                                            'bed_count' => 'Yatak Sayısı',
+                                                                            'food_drink1' => 'Yeme İçme',
+                                                                            'meeting1' => 'Toplantı & Kongre',
+                                                                            'proximity1' => 'Yakınlık',
+                                                                            'transportation1' => 'Ulaşım',
+                                                                            'facilities1' => 'Tesis Aktiviteleri',
+                                                                            'availableforLoan' => 'Krediye Uygun',
+                                                                            'images' => 'Galeri',
+                                                                            'usagePurpose1' => 'Kullanım Amacı',
+                                                                            'generalFeatures1' => 'Genel Özellikler',
+                                                                            'infrastructure1' => 'Altyapı',
+                                                                        ];
+                                                                        $key = $turkceKarsilik[$key] ?? $key;
+                                                                    @endphp
 
-                                                                @if (
-                                                                    $key != 'image' &&
-                                                                        $key != 'Galeri' &&
-                                                                        $key != 'İç Özellikler' &&
-                                                                        $key != 'Dış Özellikler' &&
-                                                                        $key != 'Muhit' &&
-                                                                        $key != 'Ulaşım' &&
-                                                                        $key != 'Engelliye Uygun' &&
-                                                                        $key != 'Konut Tipi' &&
-                                                                        $key != 'payment-plan1')
-                                                                
-
+                                                                    @if (
+                                                                        $key != 'image' &&
+                                                                            $key != 'Galeri' &&
+                                                                            $key != 'İç Özellikler' &&
+                                                                            $key != 'Dış Özellikler' &&
+                                                                            $key != 'Muhit' &&
+                                                                            $key != 'Ulaşım' &&
+                                                                            $key != 'Engelliye Uygun' &&
+                                                                            $key != 'Konut Tipi' &&
+                                                                            $key != 'payment-plan1')
                                                                         </tr>
-                                                                    <td>
-                                                                        @if ($key == 'Fiyat')
-                                                                            <span
-                                                                                class=" mr-1">{{ $key }}:</span>
-                                                                            <span class="det"
-                                                                                style="color: black; ">
-                                                                                {{ number_format($val[0], 0, ',', '.') }} ₺
-                                                                            </span>
-                                                                        @else
-                                                                            <span
-                                                                                class=" mr-1">{{ $key }}:</span>
-                                                                            @if ($key == 'm² (Net)')
-                                                                                <span class="det">{{ $val[0] }}
-                                                                                    m2</span>
-                                                                            @elseif ($key == 'Özellikler')
-                                                                                <ul>
-                                                                                    @foreach ($val as $ozellik)
-                                                                                        <li>{{ $ozellik }}</li>
-                                                                                    @endforeach
-                                                                                </ul>
+                                                                        <td>
+                                                                            @if ($key == 'Fiyat')
+                                                                                <span
+                                                                                    class=" mr-1">{{ $key }}:</span>
+                                                                                <span class="det"
+                                                                                    style="color: black; ">
+                                                                                    {{ number_format($val[0], 0, ',', '.') }}
+                                                                                    ₺
+                                                                                </span>
                                                                             @else
                                                                                 <span
-                                                                                    class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
+                                                                                    class=" mr-1">{{ $key }}:</span>
+                                                                                @if ($key == 'm² (Net)')
+                                                                                    <span
+                                                                                        class="det">{{ $val[0] }}
+                                                                                        m2</span>
+                                                                                @elseif ($key == 'Özellikler')
+                                                                                    <ul>
+                                                                                        @foreach ($val as $ozellik)
+                                                                                            <li>{{ $ozellik }}</li>
+                                                                                        @endforeach
+                                                                                    </ul>
+                                                                                @else
+                                                                                    <span
+                                                                                        class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
+                                                                                @endif
                                                                             @endif
-                                                                        @endif
-                                                                    </td></tr>
-
-                                                                @endif
-                                                            @endforeach
+                                                                        </td>
+                                                                        </tr>
+                                                                    @endif
+                                                                @endforeach
                                                             </tbody>
                                                         </table>
 
@@ -380,16 +389,16 @@
                                                                     'start_time' => 'Giriş Saati',
                                                                     'ulasim1' => 'Ulaşım',
                                                                     'muhit1' => 'Muhit',
-                                                                    "star_count" => "Yıldız Sayısı",
+                                                                    'star_count' => 'Yıldız Sayısı',
                                                                     'kitchen_settings1' => 'Mutfak Özellikleri',
-                                                                        'room_settings1' => 'Oda Özellikleri',
-                                                                        'room_types1' => "Oda Çeşitleri",
-                                                                        "facility_settings1" => "Tesis Özellikleri",
-                                                                        "bath_settings1" => "Banyo Özellikleri",
-                                                                        "use_withs1" => "Ortak Kullanım",
-                                                                        "views1" =>"Manzara",
-                                                                        "infrastructures1" => "Altyapılar",
-                                                                        "activities1" => "Aktiviteler",
+                                                                    'room_settings1' => 'Oda Özellikleri',
+                                                                    'room_types1' => 'Oda Çeşitleri',
+                                                                    'facility_settings1' => 'Tesis Özellikleri',
+                                                                    'bath_settings1' => 'Banyo Özellikleri',
+                                                                    'use_withs1' => 'Ortak Kullanım',
+                                                                    'views1' => 'Manzara',
+                                                                    'infrastructures1' => 'Altyapılar',
+                                                                    'activities1' => 'Aktiviteler',
                                                                     'konut_tipi1' => 'Konut Tipi',
                                                                     'manzara1' => 'Manzara',
                                                                     'engelliye_uygun1' => 'Engelliye Uygun',
@@ -409,21 +418,20 @@
                                                                     'floorlocation' => 'Kat Sayısı',
                                                                     'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                     'furnished1' => 'Eşyalı',
-                                                                      'furnished' => 'Eşyalı',
-                                                                        "buysellurgent1" => "Acil Satılık",
-                                                                        "structure" => "Yapının Durumu",
-                                                                        "bed_count" => "Yatak Sayısı",
-                                                                        "food_drink1" => "Yeme İçme",
-                                                                        "meeting1" => "Toplantı & Kongre",
-                                                                        "proximity1" => "Yakınlık",
-                                                                        "transportation1" => "Ulaşım",
-                                                                        "facilities1" => "Tesis Aktiviteleri",
-                                                                        "availableforLoan" => "Krediye Uygun",
-                                                                        "images" => "Galeri",
-                                                                        "usagePurpose1" => "Kullanım Amacı",
-                                                                        "generalFeatures1" => "Genel Özellikler",
-                                                                        "infrastructure1" => "Altyapı"
-                                                                    
+                                                                    'furnished' => 'Eşyalı',
+                                                                    'buysellurgent1' => 'Acil Satılık',
+                                                                    'structure' => 'Yapının Durumu',
+                                                                    'bed_count' => 'Yatak Sayısı',
+                                                                    'food_drink1' => 'Yeme İçme',
+                                                                    'meeting1' => 'Toplantı & Kongre',
+                                                                    'proximity1' => 'Yakınlık',
+                                                                    'transportation1' => 'Ulaşım',
+                                                                    'facilities1' => 'Tesis Aktiviteleri',
+                                                                    'availableforLoan' => 'Krediye Uygun',
+                                                                    'images' => 'Galeri',
+                                                                    'usagePurpose1' => 'Kullanım Amacı',
+                                                                    'generalFeatures1' => 'Genel Özellikler',
+                                                                    'infrastructure1' => 'Altyapı',
                                                                 ];
 
                                                                 $key = $turkceKarsilik[$key] ?? $key;
@@ -432,7 +440,7 @@
 
                                                             @if (is_array($val))
                                                                 @if (count($val) > 1)
-                                                                    @if($key != "Galeri")
+                                                                    @if ($key != 'Galeri')
                                                                         <h5 class="mt-5">{{ $key }}</h5>
                                                                         <ul class="homes-list clearfix">
                                                                             @foreach ($val as $item)
@@ -443,7 +451,6 @@
                                                                         </ul>
                                                                     @endif
                                                                 @endif
-
                                                             @endif
                                                         @endforeach
                                                     </div>
@@ -610,9 +617,10 @@
                                             </li>
                                         @endif
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif" id="home-tab" data-bs-toggle="tab"
-                                                data-bs-target="#home" type="button" role="tab"
-                                                aria-controls="home" aria-selected="true">Açıklama</button>
+                                            <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif"
+                                                id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                                                type="button" role="tab" aria-controls="home"
+                                                aria-selected="true">Açıklama</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
@@ -627,15 +635,14 @@
                                     </ul>
                                     <div class="tab-content" id="myTabContent">
                                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                                          
                                             <div class="tab-pane fade show active blog-info details mb-30" id="rez"
-                                            role="tabpanel" aria-labelledby="rez-tab">
-                                            <div id="reservation-calendar"></div>
-                                        </div>
+                                                role="tabpanel" aria-labelledby="rez-tab">
+                                                <div id="reservation-calendar"></div>
+                                            </div>
                                         @endif
-                                    
-                                        <div class="tab-pane fade blog-info details mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif" id="home"
-                                            role="tabpanel" aria-labelledby="home-tab">
+
+                                        <div class="tab-pane fade blog-info details mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
+                                            id="home" role="tabpanel" aria-labelledby="home-tab">
                                             {!! $housing->description !!}
                                         </div>
                                         <div class="tab-pane fade blog-info details" id="profile" role="tabpanel"
@@ -667,16 +674,16 @@
                                                                         'start_time' => 'Giriş Saati',
                                                                         'ulasim1' => 'Ulaşım',
                                                                         'muhit1' => 'Muhit',
-                                                                        "star_count" => "Yıldız Sayısı",
+                                                                        'star_count' => 'Yıldız Sayısı',
                                                                         'kitchen_settings1' => 'Mutfak Özellikleri',
                                                                         'room_settings1' => 'Oda Özellikleri',
-                                                                        'room_types1' => "Oda Çeşitleri",
-                                                                        "facility_settings1" => "Tesis Özellikleri",
-                                                                        "bath_settings1" => "Banyo Özellikleri",
-                                                                        "use_withs1" => "Ortak Kullanım",
-                                                                        "views1" =>"Manzara",
-                                                                        "infrastructures1" => "Altyapılar",
-                                                                        "activities1" => "Aktiviteler",
+                                                                        'room_types1' => 'Oda Çeşitleri',
+                                                                        'facility_settings1' => 'Tesis Özellikleri',
+                                                                        'bath_settings1' => 'Banyo Özellikleri',
+                                                                        'use_withs1' => 'Ortak Kullanım',
+                                                                        'views1' => 'Manzara',
+                                                                        'infrastructures1' => 'Altyapılar',
+                                                                        'activities1' => 'Aktiviteler',
                                                                         'konut_tipi1' => 'Konut Tipi',
                                                                         'manzara1' => 'Manzara',
                                                                         'engelliye_uygun1' => 'Engelliye Uygun',
@@ -692,20 +699,20 @@
                                                                         'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                         'furnished1' => 'Eşyalı',
                                                                         'furnished' => 'Eşyalı',
-                                                                        "buysellurgent1" => "Acil Satılık",
-                                                                        "structure" => "Yapının Durumu",
-                                                                        "bed_count" => "Yatak Sayısı",
-                                                                        "food_drink1" => "Yeme İçme",
-                                                                        "meeting1" => "Toplantı & Kongre",
-                                                                        "proximity1" => "Yakınlık",
-                                                                        "transportation1" => "Ulaşım",
-                                                                        "facilities1" => "Tesis Aktiviteleri",
-                                                                        "availableforLoan" => "Krediye Uygun",
-                                                                        "images" => "Galeri",
-                                                                        "usagePurpose1" => "Kullanım Amacı",
-                                                                        "generalFeatures1" => "Genel Özellikler",
-                                                                        "infrastructure1" => "Altyapı",
-                                                                        "off_sale1" => "Satışa Kapalı"
+                                                                        'buysellurgent1' => 'Acil Satılık',
+                                                                        'structure' => 'Yapının Durumu',
+                                                                        'bed_count' => 'Yatak Sayısı',
+                                                                        'food_drink1' => 'Yeme İçme',
+                                                                        'meeting1' => 'Toplantı & Kongre',
+                                                                        'proximity1' => 'Yakınlık',
+                                                                        'transportation1' => 'Ulaşım',
+                                                                        'facilities1' => 'Tesis Aktiviteleri',
+                                                                        'availableforLoan' => 'Krediye Uygun',
+                                                                        'images' => 'Galeri',
+                                                                        'usagePurpose1' => 'Kullanım Amacı',
+                                                                        'generalFeatures1' => 'Genel Özellikler',
+                                                                        'infrastructure1' => 'Altyapı',
+                                                                        'off_sale1' => 'Satışa Kapalı',
                                                                     ];
                                                                     $key = $turkceKarsilik[$key] ?? $key;
                                                                 @endphp
@@ -720,37 +727,33 @@
                                                                         $key != 'Engelliye Uygun' &&
                                                                         $key != 'Konut Tipi' &&
                                                                         $key != 'payment-plan1')
-                                                                
-
                                                                     </tr>
-                                                                        <td>
-                                                                            @if ($key == 'Fiyat')
-                                                                                <span
-                                                                                    class=" mr-1">{{ $key }}:</span>
-                                                                                <span class="det"
-                                                                                    style="color: black; ">
-                                                                                    {{ number_format($val[0], 0, ',', '.') }} ₺
-                                                                                </span>
+                                                                    <td>
+                                                                        @if ($key == 'Fiyat')
+                                                                            <span
+                                                                                class=" mr-1">{{ $key }}:</span>
+                                                                            <span class="det" style="color: black; ">
+                                                                                {{ number_format($val[0], 0, ',', '.') }} ₺
+                                                                            </span>
+                                                                        @else
+                                                                            <span
+                                                                                class=" mr-1">{{ $key }}:</span>
+                                                                            @if ($key == 'm² (Net)')
+                                                                                <span class="det">{{ $val[0] }}
+                                                                                    m2</span>
+                                                                            @elseif ($key == 'Özellikler')
+                                                                                <ul>
+                                                                                    @foreach ($val as $ozellik)
+                                                                                        <li>{{ $ozellik }}</li>
+                                                                                    @endforeach
+                                                                                </ul>
                                                                             @else
                                                                                 <span
-                                                                                    class=" mr-1">{{ $key }}:</span>
-                                                                                @if ($key == 'm² (Net)')
-                                                                                    <span class="det">{{ $val[0] }}
-                                                                                        m2</span>
-                                                                                @elseif ($key == 'Özellikler')
-                                                                                    <ul>
-                                                                                        @foreach ($val as $ozellik)
-                                                                                            <li>{{ $ozellik }}</li>
-                                                                                        @endforeach
-                                                                                    </ul>
-                                                                                @else
-                                                                                    <span
-                                                                                        class="det">{{ isset($val[0]) ? $val[0] : 'Hayır' }}</span>
-                                                                                @endif
+                                                                                    class="det">{{ isset($val[0]) ? $val[0] : 'Hayır' }}</span>
                                                                             @endif
-                                                                        </td>
-                                                                </tr>
-
+                                                                        @endif
+                                                                    </td>
+                                                                    </tr>
                                                                 @endif
                                                             @endforeach
 
@@ -780,16 +783,16 @@
                                                                 'usingstatus' => 'Kullanım Durumu',
                                                                 'ulasim1' => 'Ulaşım',
                                                                 'muhit1' => 'Muhit',
-                                                                "star_count" => "Yıldız Sayısı",
+                                                                'star_count' => 'Yıldız Sayısı',
                                                                 'kitchen_settings1' => 'Mutfak Özellikleri',
-                                                                        'room_settings1' => 'Oda Özellikleri',
-                                                                        'room_types1' => "Oda Çeşitleri",
-                                                                        "facility_settings1" => "Tesis Özellikleri",
-                                                                        "bath_settings1" => "Banyo Özellikleri",
-                                                                        "use_withs1" => "Ortak Kullanım",
-                                                                        "views1" =>"Manzara",
-                                                                        "infrastructures1" => "Altyapılar",
-                                                                        "activities1" => "Aktiviteler",
+                                                                'room_settings1' => 'Oda Özellikleri',
+                                                                'room_types1' => 'Oda Çeşitleri',
+                                                                'facility_settings1' => 'Tesis Özellikleri',
+                                                                'bath_settings1' => 'Banyo Özellikleri',
+                                                                'use_withs1' => 'Ortak Kullanım',
+                                                                'views1' => 'Manzara',
+                                                                'infrastructures1' => 'Altyapılar',
+                                                                'activities1' => 'Aktiviteler',
                                                                 'konut_tipi1' => 'Konut Tipi',
                                                                 'manzara1' => 'Manzara',
                                                                 'engelliye_uygun1' => 'Engelliye Uygun',
@@ -808,21 +811,20 @@
                                                                 'floorlocation' => 'Kat Sayısı',
                                                                 'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                 'furnished1' => 'Eşyalı',
-                                                                  'furnished' => 'Eşyalı',
-                                                                        "buysellurgent1" => "Acil Satılık",
-                                                                        "structure" => "Yapının Durumu",
-                                                                        "bed_count" => "Yatak Sayısı",
-                                                                        "food_drink1" => "Yeme İçme",
-                                                                        "meeting1" => "Toplantı & Kongre",
-                                                                        "proximity1" => "Yakınlık",
-                                                                        "transportation1" => "Ulaşım",
-                                                                        "facilities1" => "Tesis Aktiviteleri",
-                                                                        "availableforLoan" => "Krediye Uygun",
-                                                                        "images" => "Galeri",
-                                                                        "usagePurpose1" => "Kullanım Amacı",
-                                                                        "generalFeatures1" => "Genel Özellikler",
-                                                                        "infrastructure1" => "Altyapı"
-                                                                
+                                                                'furnished' => 'Eşyalı',
+                                                                'buysellurgent1' => 'Acil Satılık',
+                                                                'structure' => 'Yapının Durumu',
+                                                                'bed_count' => 'Yatak Sayısı',
+                                                                'food_drink1' => 'Yeme İçme',
+                                                                'meeting1' => 'Toplantı & Kongre',
+                                                                'proximity1' => 'Yakınlık',
+                                                                'transportation1' => 'Ulaşım',
+                                                                'facilities1' => 'Tesis Aktiviteleri',
+                                                                'availableforLoan' => 'Krediye Uygun',
+                                                                'images' => 'Galeri',
+                                                                'usagePurpose1' => 'Kullanım Amacı',
+                                                                'generalFeatures1' => 'Genel Özellikler',
+                                                                'infrastructure1' => 'Altyapı',
                                                             ];
 
                                                             $key = $turkceKarsilik[$key] ?? $key;
@@ -831,18 +833,17 @@
 
                                                         @if (is_array($val))
                                                             @if (count($val) > 1)
-                                                            @if($key != "Galeri")
-                                                                <h5 class="mt-5">{{ $key }}</h5>
-                                                                <ul class="homes-list clearfix">
-                                                                    @foreach ($val as $item)
-                                                                        <li><i class="fa fa-check-square"
-                                                                                aria-hidden="true"></i><span>{{ $item }}</span>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
+                                                                @if ($key != 'Galeri')
+                                                                    <h5 class="mt-5">{{ $key }}</h5>
+                                                                    <ul class="homes-list clearfix">
+                                                                        @foreach ($val as $item)
+                                                                            <li><i class="fa fa-check-square"
+                                                                                    aria-hidden="true"></i><span>{{ $item }}</span>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                @endif
                                                             @endif
-                                                            @endif
-
                                                         @endif
                                                     @endforeach
 
@@ -1158,19 +1159,25 @@
                             </div>
                             <div class="widget-boxed-body">
                                 <div class="sidebar-widget author-widget2">
-                                    <div class="author-box clearfix">
+
+                                    <div class="author-box clearfix d-flex align-items-center">
                                         <img src="{{ URL::to('/') . '/storage/profile_images/' . $housing->user->profile_image }}"
                                             alt="author-image" class="author__img">
-                                        <a href="{{ route('instituional.dashboard', Str::slug($housing->user->name)) }}">
-                                            <h4 class="author__title">{!! $housing->user->name !!}</h4>
-                                        </a>
+                                        <div>
+                                            <a
+                                                href="{{ route('instituional.dashboard', Str::slug($housing->user->name)) }}">
+                                                <h4 class="author__title">{!! $housing->user->name !!}</h4>
+                                            </a>
 
-                                        <p class="author__meta">{{ $housing->user->corporate_type == "Emlakçı" ? "Gayrimenkul Ofisi" : $housing->user->corporate_type }}</p>
+                                            <p class="author__meta">
+                                                {{ $housing->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
+                                            </p>
+                                        </div>
                                     </div>
                                     <ul class="author__contact">
                                         <li><span class="la la-map-marker"><i
                                                     class="fa fa-map-marker"></i></span>{!! $housing->city->title !!}
-                                            {{ '/' }} {!! $housing->county->ilce_title !!}</li>
+                                            {{ '/' }} {!! $housing->county->title !!}</li>
                                         @if ($housing->user->phone)
                                             <li><span class="la la-phone"><i class="fa fa-phone"
                                                         aria-hidden="true"></i></span><a
@@ -1178,6 +1185,23 @@
                                                     href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
                                             </li>
                                         @endif
+                                        @if ($housing->step1_slug)
+                                            <li>
+                                                <span class="la la-dot"><i class="fa fa-check-square"
+                                                        aria-hidden="true"></i></span>
+                                                @if ($housing->step2_slug)
+                                                    @if ($housing->step2_slug == 'kiralik')
+                                                        Kiralık
+                                                    @elseif ($housing->step2_slug == 'satilik')
+                                                        Satılık
+                                                    @else
+                                                        Günlük Kiralık
+                                                    @endif
+                                                @endif
+                                                {{ $parent->title }}
+                                            </li>
+                                        @endif
+
 
                                         <li><span class="la la-envelope-o"><i class="fa fa-envelope"
                                                     aria-hidden="true"></i></span><a
@@ -1314,8 +1338,6 @@
         </div>
     </div>
 
-
-
     <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
         aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -1442,8 +1464,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-
-
     @if ($housing->step2_slug == 'gunluk-kiralik')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -1703,68 +1723,70 @@
                 if (reservationCalendar) {
                     reservationCalendar.destroy();
                 }
+
                 function onSelectDates(selectedDates, dateStr, instance) {
                     var reservations = {!! json_encode($housing->reservations) !!};
-                var bookedDates = reservations.map(function(reservation) {
-                    return {
-                        from: reservation.check_in_date,
-                        to: reservation.check_out_date,
-                        status: reservation.status
-                    };
-                });
+                    var bookedDates = reservations.map(function(reservation) {
+                        return {
+                            from: reservation.check_in_date,
+                            to: reservation.check_out_date,
+                            status: reservation.status
+                        };
+                    });
 
-                var container = instance.calendarContainer;
+                    var container = instance.calendarContainer;
 
-                container.querySelectorAll(".flatpickr-day").forEach(function(day) {
-                    var targetDate = day.dateObj;
-                    if (targetDate) {
-                        var booking = bookedDates.find(function(reservation) {
-                            return targetDate >= new Date(reservation.from) && targetDate <= new Date(
-                                reservation.to);
-                        });
+                    container.querySelectorAll(".flatpickr-day").forEach(function(day) {
+                        var targetDate = day.dateObj;
+                        if (targetDate) {
+                            var booking = bookedDates.find(function(reservation) {
+                                return targetDate >= new Date(reservation.from) && targetDate <= new Date(
+                                    reservation.to);
+                            });
 
-                        if (booking) {
-                            if (booking.status === 0) {
-                                day.classList.add("yellow-bg");
-                                addWarningTooltip(day, booking);
-                                if (targetDate == new Date(booking.from) || targetDate > new Date(booking.from)) {
-                                    day.classList.add("flatpickr-disabled");
+                            if (booking) {
+                                if (booking.status === 0) {
+                                    day.classList.add("yellow-bg");
+                                    addWarningTooltip(day, booking);
+                                    if (targetDate == new Date(booking.from) || targetDate > new Date(booking.from)) {
+                                        day.classList.add("flatpickr-disabled");
+                                        day.addEventListener("click", function(event) {
+                                            event.preventDefault();
+                                            event.stopPropagation();
+                                        });
+                                    }
+                                } else if (booking.status === 1) {
+                                    day.classList.add("red-bg");
+                                    // Disable etme
                                     day.addEventListener("click", function(event) {
                                         event.preventDefault();
                                         event.stopPropagation();
                                     });
+                                } else if (booking.status === 2) {
+                                    day.classList.remove("flatpickr-disabled");
+                                    // Tıklanmaya izin verme
+                                    day.addEventListener("click", function(event) {
+                                        event.stopPropagation();
+                                    });
+                                } else {
+                                    day.classList.remove("yellow-bg", "red-bg", "disable-day");
                                 }
-                            } else if (booking.status === 1) {
-                                day.classList.add("red-bg");
-                                // Disable etme
-                                day.addEventListener("click", function(event) {
-                                    event.preventDefault();
-                                    event.stopPropagation();
-                                });
-                            } else if (booking.status === 2) {
-                                day.classList.remove("flatpickr-disabled");
-                                // Tıklanmaya izin verme
-                                day.addEventListener("click", function(event) {
-                                    event.stopPropagation();
-                                });
-                            } else {
-                                day.classList.remove("yellow-bg", "red-bg", "disable-day");
                             }
-                        }
 
-                        bookedDates.forEach(function(reservation) {
-                            if (targetDate >= new Date(reservation.from) && targetDate == new Date(reservation
-                                    .from) &&
-                                targetDate <= new Date(reservation.to)) {
-                                if (reservation.status === 0) {
-                                    day.classList.add("bg-yellow");
-                                } else if (reservation.status === 1) {
-                                    day.classList.add("bg-red");
+                            bookedDates.forEach(function(reservation) {
+                                if (targetDate >= new Date(reservation.from) && targetDate == new Date(
+                                        reservation
+                                        .from) &&
+                                    targetDate <= new Date(reservation.to)) {
+                                    if (reservation.status === 0) {
+                                        day.classList.add("bg-yellow");
+                                    } else if (reservation.status === 1) {
+                                        day.classList.add("bg-red");
+                                    }
                                 }
-                            }
-                        });
-                    }
-                });
+                            });
+                        }
+                    });
                     var checkinDate = selectedDates[0];
                     var checkoutDate = selectedDates[selectedDates.length - 1];
 
@@ -1816,7 +1838,7 @@
                     inline: true,
                     locale: 'tr',
                     showMonths: showMonths,
-                    minDate: today, 
+                    minDate: today,
                     onReady: applyClassesToDates,
                     onChange: onSelectDates,
                     onMonthChange: applyClassesToDates
@@ -1830,7 +1852,7 @@
             var dateCheckin = flatpickr("#date-checkin", {
                 dateFormat: 'Y-m-d',
                 locale: 'tr',
-                minDate: today, 
+                minDate: today,
                 onReady: applyClassesToDates,
                 onChange: applyClassesToDates,
                 onMonthChange: applyClassesToDates
@@ -1850,23 +1872,27 @@
 
 @section('styles')
     <style>
-        .trStyle
-        ,.trStyle tr {
+        .trStyle,
+        .trStyle tr {
             display: flex;
             flex-wrap: wrap;
         }
-        .trStyle tr{
+
+        .trStyle tr {
             width: 50%;
         }
-        .trStyle tr td{ 
+
+        .trStyle tr td {
             width: 100%;
             font-size: 13px;
         }
+
         @media (max-width:768px) {
-            .trStyle tr{
-            width: 100%;
+            .trStyle tr {
+                width: 100%;
+            }
         }
-        }
+
         .flatpickr-day.flatpickr-disabled,
         .flatpickr-day.flatpickr-disabled:hover {
             background: #f8e7e7;
@@ -1894,7 +1920,7 @@
             font-weight: 600;
         }
 
-        .altSlider{
+        .altSlider {
             width: 100%;
             height: 85px !important;
             padding: 0 !important;
