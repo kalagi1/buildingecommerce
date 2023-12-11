@@ -190,10 +190,9 @@ class ProjectController extends Controller
         $userId = auth()->user()->parent_id ?? auth()->user()->id;
     
         $projects = Project::where('user_id', $userId)
-            ->with("roomInfo", "housingType", "county", "city")
+            ->with("roomInfo", "housingType", "county", "city","standOut")
             ->orderByDesc('created_at')
             ->get();
-    
         $userProjectIds = $projects->pluck('id');
 
     
@@ -844,8 +843,32 @@ class ProjectController extends Controller
     public function standOut($projectId)
     {
         $project = Project::where('id', $projectId)->first();
+        $featuredPrices = DopingPricing::where('item_type',1)->get();
+        $topRowPrices = DopingPricing::where('item_type',2)->get();
 
-        return view('institutional.projects.stand_out', compact('project'));
+        return view('institutional.projects.stand_out', compact('projectId','project','topRowPrices','featuredPrices'));
+    }
+
+    public function standOutPost(){
+
+    }
+
+    public function getStandOutPrices(Request $request){
+        $prices = [];
+        if($request->input('featured')){
+            $priceFeatured = PricingStandOut::where('id',$request->input('featured_id'))->where('item_type',1)->first();
+
+            array_push($prices,$priceFeatured);
+        }
+
+        if($request->input('top_row')){
+            $pricingTopRow = PricingStandOut::where('id',$request->input('featured_id'))->where('item_type',1)->first();
+
+            array_push($prices,$pricingTopRow);
+        }
+
+        return $prices
+
     }
 
     public function pricingList(Request $request)
