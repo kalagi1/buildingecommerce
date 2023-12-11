@@ -368,22 +368,25 @@ class TempOrderController extends Controller
             $tempData = json_decode($tempOrder->data);
             
             $newOrder = $tempData->images ? count($tempData->images) + 1 : 1;
-            if($request->hasFile('image')){
-                $image = $request->file('image');
-                $imageName = 'temp_order_image'.time().auth()->guard()->user()->id.$newOrder . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('storage/project_images'), $imageName);
-            }else{
-                $imageName = "";
+            $newOrder = $tempData->images ? count($tempData->images) + 1 : 1;
+            $uploadedFiles = $request->file();
+            $imageNames = [];
+            $tempOrder = 0;
+            foreach ($uploadedFiles as $fileKey => $file) {
+                $imageName = 'temp_order_image'.time().auth()->guard()->user()->id.($newOrder + $tempOrder). '.' . $file->getClientOriginalExtension();
+
+                $file->move(public_path('storage/project_images'), $imageName);
+                $data = $tempData;
+                array_push($data->images,["image" => 'storage/project_images/'.$imageName]);
+                array_push($imageNames,$imageName);
+                $tempOrder++;
             }
-    
-            $data = $tempData;
-            array_push($data->images,["image" => 'storage/project_images/'.$imageName]);
             
             TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
                 "data" => json_encode($data),
             ]);
 
-            return $imageName;
+            return $imageNames;
         }
         
     }

@@ -156,7 +156,7 @@
                         </div>
                         <span class="section-title mt-4">Kapak Fotoğrafı</span>
                         <div class="cover-photo-full card py-2 px-5">
-                            <input type="file" name="cover-image" class="cover_image d-none">
+                            <input type="file" accept="image/*" name="cover-image" class="cover_image d-none">
                             <div class="upload-container col-md-3 cover-photo-area">
                                 <div class="border-container">
                                     <div class="icons fa-4x">
@@ -177,7 +177,7 @@
                         </div>
                         <span class="section-title mt-4">Proje Galerisi</span>
                         <div class="photo card py-2 px-5">
-                            <input type="file" name="project-images" class="project_image d-none">
+                            <input type="file" accept="image/*" multiple name="project-images" class="project_image d-none">
                             <div class="upload-container col-md-3 photo-area">
                                 <div class="border-container">
                                     <div class="icons fa-4x">
@@ -1417,7 +1417,9 @@
                 var formData = new FormData();
                 var csrfToken = $("meta[name='csrf-token']").attr("content");
                 formData.append('_token', csrfToken);
-                formData.append('image', this.files[0]);
+                for (let i = 0; i < this.files.length; i++) {
+                    formData.append(`file${i}`, this.files[i]);
+                }
                 formData.append('item_type', 3);
                 $.ajax({
                     type: "POST",
@@ -1427,47 +1429,35 @@
                     contentType: false,
                     success: function(response) {
                         // Dosya yükleme başarılı ise sunucudan gelen yanıtı görüntüle
-                        console.log(response);
-                        reader.onload = function(e) {
-                            // Resmi görüntülemek için bir div oluşturun
-                            var imageDiv = $(
-                                '<div class="project_imagex" order="storage/project_images/' +
-                                response + '"></div>');
-
-                            // Resmi oluşturun ve div içine ekleyin
-                            var image = $('<img>').attr('src',
-                                '{{ URL::to('/') }}/storage/project_images/' + response);
-                            var imageButtons = $('<div>').attr('class', 'image-buttons');
-                            var imageButtonsIcon = $('<i>').attr('class', 'fa fa-trash');
+                        for (let i = 0; i < response.length; i++) {
+                            var imageDiv = $('<div class="project_imagex" order="'+response[i]+'"></div>');
+                            var image = $('<img>').attr('src', '{{URL::to('/')}}/storage/project_images/'+response[i]);
+                            var imageButtons = $('<div>').attr('class','image-buttons');
+                            var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
                             imageButtons.append(imageButtonsIcon)
                             imageDiv.append(image);
                             imageDiv.append(imageButtons);
-                            // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
                             $('.photos').append(imageDiv);
 
-                            $('.project_imagex .image-buttons').click(function() {
+                            $('.project_imagex .image-buttons').click(function(){
                                 var thisx = $(this);
                                 $.ajax({
-                                    url: '{{ route('institutional.delete.image.order.temp.update') }}',
+                                    url: '{{route("institutional.delete.image.order.temp.update")}}',
                                     type: 'POST',
-                                    data: {
-                                        image: $(this).closest('.project_imagex')
-                                            .attr('order'),
-                                        item_type: 3,
-                                        _token: csrfToken
+                                    data: { 
+                                        image: $(this).closest('.project_imagex').attr('order') ,
+                                        item_type : 1,
+                                        _token : csrfToken
                                     },
                                     success: function(response) {
-                                        thisx.closest('.project_imagex')
-                                            .remove()
+                                        thisx.closest('.project_imagex').remove()
                                     },
                                     error: function(xhr, status, error) {
-                                        console.error(
-                                            "Ajax isteği sırasında bir hata oluştu: " +
-                                            error);
+                                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
                                     }
                                 });
                             })
-                        };
+                        }
 
                         // Resmi okuyun
                         reader.readAsDataURL(input.files[0]);
