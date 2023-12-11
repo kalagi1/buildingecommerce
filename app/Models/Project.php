@@ -108,4 +108,8 @@ class Project extends Model
     public function confirmDopingOrder(){
         return $this->hasOne(DopingOrder::class,"project_id","id")->where('status',0);
     }
+
+    public function standOut(){
+        return $this->hasOne(StandOutUser::class,"item_id","id")->where('item_type',1);
+    }
 }

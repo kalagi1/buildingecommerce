@@ -801,6 +801,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/projects/{project_id}/logs', [InstitutionalProjectController::class, 'logs'])->name('projects.logs');
     Route::get('/housings/{housing_id}/logs', [InstitutionalHousingController::class, 'logs'])->name('housing.logs');
     Route::get('/project_stand_out/{project_id}', [InstitutionalProjectController::class, "standOut"])->name('project.stand.out');
+    Route::get('/get_stand_out_total_price', [InstitutionalProjectController::class, "getStandOutPrices"])->name('project.stand.out.total.price');
+    Route::post('/project_stand_out/{project_id}', [InstitutionalProjectController::class, "standOutPost"])->name('stand.out.post');
     Route::get('/get_stand_out_prices', [InstitutionalProjectController::class, "pricingList"])->name('project.pricing.list');
     Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
     Route::get('/single_prices', [SinglePriceController::class, "getSinglePrice"])->name('get.single.price');

@@ -204,8 +204,13 @@
 
             var standOutCell = document.createElement("td");
             standOutCell.className = "align-middle status";
-            standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" + project.id +
-                "' class='badge badge-phoenix badge-phoenix-info'>Sponsorlu</a>";
+            console.log(project);
+            if(project.stand_out){
+                standOutCell.innerHTML = "<a href='#' class='badge badge-phoenix badge-phoenix-success'>Sponsorlu</a>";
+            }else{
+                standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" + project.id +
+                "' class='badge badge-phoenix badge-phoenix-info'>Öne Çıkar</a>";
+            }
 
             var activeCell = document.createElement("td");
             activeCell.className = "align-middle status";
