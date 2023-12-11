@@ -413,7 +413,7 @@
                                                         <ul class="tabs">
                                                             @foreach ($project->blocks as $key => $block)
                                                                 <li class="nav-item {{ $key == $blockIndex ? ' active' : '' }}" role="presentation"
-                                                                    onclick="changeTabContent('{{ $block['id'] }}')">
+                                                                    onclick="changeTabContentMobile('{{ $block['id'] }}')">
                                                                     <div class="tab-title">
                                                                         <span>{{ $block['block_name'] }}</span>
                                                                     </div>
@@ -422,7 +422,7 @@
                                                         </ul>
                                     
                                                         @foreach ($project->blocks as $key => $block)
-                                                            <div id="content-{{ $block['id'] }}" class="tab-content{{ $loop->first ? ' active' : '' }}">
+                                                            <div id="content-{{ $block['id'] }}" class="tab-content mobile-tab-content{{ $loop->first ? ' active' : '' }}">
                                                                 @php
                                                                 $j = -1; 
                                                                     $blockHousingCount = $block['housing_count'];
@@ -3178,13 +3178,13 @@ out center;`;
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-                /* .tab-content {
+        .mobile-tab-content {
             display: none;
         }
 
-        .tab-content.active {
+        .mobile-tab-content.active {
             display: block !important;
-        } */
+        }
 
         .storeInfo{
             margin-top:30px;
