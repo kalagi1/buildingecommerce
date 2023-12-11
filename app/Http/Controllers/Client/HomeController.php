@@ -381,8 +381,10 @@ class HomeController extends Controller
 
         $optName = [];
 
+        $housingTypet = null;
         $housingType = null;
         foreach ($parameters as $index => $paramValue) {
+            $housingTypet = null;   
             if ($paramValue) {
                 if ($request->input($paramValue) == "satilik" || $request->input($paramValue) == "kiralik" || $request->input($paramValue) == "gunluk-kiralik") {
                     $opt = $request->input($paramValue);
@@ -413,17 +415,18 @@ class HomeController extends Controller
                     }
                     $housingTypex = HousingType::where('slug', $request->input($paramValue))->first();
                     if($housingTypex){
-                        $housingType = HousingType::where('slug', $request->input($paramValue))->first();
+                        $housingTypet = HousingType::where('slug', $request->input($paramValue))->first();
                     }
-                    if ($housingType != null) {
-                        if(isset($housingType->title) && $housingType->title){
-                            $housingTypeName = $housingType->title;
-                            $housingTypeSlug = $housingType->slug;
-                            $housingType = $housingType->id;
+                    if ($housingTypet != null) {
+                        if(isset($housingTypet->title) && $housingTypet->title){
+                            $housingTypeName = $housingTypet->title;
+                            $housingTypeSlug = $housingTypet->slug;
+                            $housingType = $housingTypet->id;
                         }
                     }
                 }
             }
+
 
             $lastParameter = $parameters[count($parameters) - 1];
 
@@ -437,7 +440,6 @@ class HomeController extends Controller
             
            
         }
-
 
         $obj =  Housing::with('images', "city", "county")
         ->select(
@@ -473,9 +475,9 @@ class HomeController extends Controller
         if ($housingTypeParentSlug) {
             $obj->where("step1_slug", $housingTypeParentSlug);
         }
-
-        if ($housingTypeName) {
-            $obj->where('housings.housing_type_id', $newId);
+        
+        if ($housingType) {
+            $obj->where('housings.housing_type_id', $housingType);
         }
 
 
