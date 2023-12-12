@@ -1,6 +1,12 @@
 @extends('institutional.layouts.master')
 
 @section('content')
+    <div class="load-area d-none">
+        <div class="progress">
+            <div class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <span>Proje Güncelleniyor</span>
+    </div>
     @if ($tempUpdateHas)
         <div class="pop-up-v2">
             <div class="pop-back">
@@ -109,26 +115,7 @@
                             <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')"
                                 class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea>
                         </div>
-                        <h4 class="mb-3 d-none">Kaç Adet Konutunuz Var</h4><input
-                            value="{{ isset($tempData->room_count) ? $tempData->room_count : '' }}"
-                            onkeyup="changeData(this.value,'house_count')" class="form-control mb-5 d-none" type="text"
-                            id="house_count" name="house_count" value="{{ old('house_count') }}"
-                            placeholder="Kaç Adet Konutunuz Var" />
-                        <span id="generate_tabs" class=" d-none btn btn-primary mb-5">Daireleri Oluştur</span>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div id="tablist"
-                                    class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab h-100"
-                                    role="tablist" aria-orientation="vertical">
-
-                                </div>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="tab-content" id="pricingTabContent" role="tabpanel">
-                                    <div id="renderForm"></div>
-                                </div>
-                            </div>
-                        </div>
+                       
                         <div class="address">
                             <span class="section-title">Adres Bilgileri</span>
                             <div class="card">
@@ -169,8 +156,8 @@
                         </div>
                         <span class="section-title mt-4">Kapak Fotoğrafı</span>
                         <div class="cover-photo-full card py-2 px-5">
-                            <input type="file" name="cover-image" class="cover_image d-none">
-                            <div class="upload-container col-md-2 cover-photo-area">
+                            <input type="file" accept="image/*" name="cover-image" class="cover_image d-none">
+                            <div class="upload-container col-md-3 cover-photo-area">
                                 <div class="border-container">
                                     <div class="icons fa-4x">
                                         <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
@@ -190,8 +177,8 @@
                         </div>
                         <span class="section-title mt-4">Proje Galerisi</span>
                         <div class="photo card py-2 px-5">
-                            <input type="file" name="project-images" class="project_image d-none">
-                            <div class="upload-container col-md-2 photo-area">
+                            <input type="file" accept="image/*" multiple name="project-images" class="project_image d-none">
+                            <div class="upload-container col-md-3 photo-area">
                                 <div class="border-container">
                                     <div class="icons fa-4x">
                                         <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
@@ -895,6 +882,8 @@
                             $('.dropzone2').eq(i - 1).html(images);
                         }
 
+                        
+
                         var csrfToken = "{{ csrf_token() }}";
 
                         $('.add-new-project-house-image').click(function() {
@@ -1428,7 +1417,9 @@
                 var formData = new FormData();
                 var csrfToken = $("meta[name='csrf-token']").attr("content");
                 formData.append('_token', csrfToken);
-                formData.append('image', this.files[0]);
+                for (let i = 0; i < this.files.length; i++) {
+                    formData.append(`file${i}`, this.files[i]);
+                }
                 formData.append('item_type', 3);
                 $.ajax({
                     type: "POST",
@@ -1438,47 +1429,35 @@
                     contentType: false,
                     success: function(response) {
                         // Dosya yükleme başarılı ise sunucudan gelen yanıtı görüntüle
-                        console.log(response);
-                        reader.onload = function(e) {
-                            // Resmi görüntülemek için bir div oluşturun
-                            var imageDiv = $(
-                                '<div class="project_imagex" order="storage/project_images/' +
-                                response + '"></div>');
-
-                            // Resmi oluşturun ve div içine ekleyin
-                            var image = $('<img>').attr('src',
-                                '{{ URL::to('/') }}/storage/project_images/' + response);
-                            var imageButtons = $('<div>').attr('class', 'image-buttons');
-                            var imageButtonsIcon = $('<i>').attr('class', 'fa fa-trash');
+                        for (let i = 0; i < response.length; i++) {
+                            var imageDiv = $('<div class="project_imagex" order="'+response[i]+'"></div>');
+                            var image = $('<img>').attr('src', '{{URL::to('/')}}/storage/project_images/'+response[i]);
+                            var imageButtons = $('<div>').attr('class','image-buttons');
+                            var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
                             imageButtons.append(imageButtonsIcon)
                             imageDiv.append(image);
                             imageDiv.append(imageButtons);
-                            // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
                             $('.photos').append(imageDiv);
 
-                            $('.project_imagex .image-buttons').click(function() {
+                            $('.project_imagex .image-buttons').click(function(){
                                 var thisx = $(this);
                                 $.ajax({
-                                    url: '{{ route('institutional.delete.image.order.temp.update') }}',
+                                    url: '{{route("institutional.delete.image.order.temp.update")}}',
                                     type: 'POST',
-                                    data: {
-                                        image: $(this).closest('.project_imagex')
-                                            .attr('order'),
-                                        item_type: 3,
-                                        _token: csrfToken
+                                    data: { 
+                                        image: $(this).closest('.project_imagex').attr('order') ,
+                                        item_type : 1,
+                                        _token : csrfToken
                                     },
                                     success: function(response) {
-                                        thisx.closest('.project_imagex')
-                                            .remove()
+                                        thisx.closest('.project_imagex').remove()
                                     },
                                     error: function(xhr, status, error) {
-                                        console.error(
-                                            "Ajax isteği sırasında bir hata oluştu: " +
-                                            error);
+                                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
                                     }
                                 });
                             })
-                        };
+                        }
 
                         // Resmi okuyun
                         reader.readAsDataURL(input.files[0]);
@@ -2332,7 +2311,8 @@
             });
         });
     </script>
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/c2puh97n9lsir0u2h6xn3id7sk6y0tbhze4ahy5uwt0u4r9e/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
 
     <script>
         tinymce.init({
@@ -2592,6 +2572,7 @@
                 }
             }
             if (next) {
+                $('.load-area').removeClass('d-none');
                 nextTemp = true;
                 $.ajax({
                     method: "POST",

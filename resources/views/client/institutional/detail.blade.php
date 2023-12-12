@@ -73,12 +73,12 @@
                         <div class="navbar-items">
                             <a class="navbar-item"
                                 href="{{ route('instituional.dashboard', Str::slug($institutional->name)) }}">Anasayfa</a>
-                            <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Proje
-                                İlanları</a>
                             <a class="navbar-item active"
                                 href="{{ route('instituional.profile', Str::slug($institutional->name)) }}">Mağaza
                                 Profili</a>
+                            <a class="navbar-item"
+                                href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Proje
+                                İlanları</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.housings', Str::slug($institutional->name)) }}">Emlak
                                 İlanları</a>
@@ -333,7 +333,7 @@
         .product-review-container__redirect__span-wrapper p {
             font-family: source_sans_proregular, sans-serif;
             font-style: normal;
-            font-size: 14px;
+            font-size: 12px;
             overflow: hidden;
             text-overflow: ellipsis;
             margin: 0;

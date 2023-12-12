@@ -3,15 +3,15 @@
 
 @section('content')
     <div class="content">
+        @if (isset($userLog->parent))
         <div class="row gy-3 mb-6 justify-content-between">
             <div class="col-md-12 col-auto">
-                <h2 class="mb-2 text-1100">{{ $userLog->name }} Hoş Geldiniz.</h2>
-                @if (isset($userLog->parent))
                     <span class="badge bg-info "> Kurumsal Hesap:
                         {{ $userLog->parent->name }}</span>
-                @endif
+             
             </div>
         </div>
+        @endif
         <div class="d-flex mb-5 " id="scrollspyStats"><span class="fa-stack me-2 ms-n1"><svg
                     class="svg-inline--fa fa-circle fa-stack-2x text-primary" aria-hidden="true" focusable="false"
                     data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
@@ -30,93 +30,14 @@
             <div class="col">
                 <h3 class="mb-0 text-primary position-relative fw-bold">
                     <span class="bg-soft pe-2">
-                        @if ($userLog->plan && $userLog->plan->status != 2 && $userLog->plan->subscription_plan_id != null)
-                            @if ($userLog->plan->status == 0)
-                                <span class="bg-soft pe-2 @if ($userLog->plan->status == 0) text-orange @endif">
-                                    Ödeme site yöneticisi tarafından onaylandığında paketiniz aktif olacaktır.
-                                </span>
-                            @else
-                                <span class="bg-soft pe-2">
-                                    {{ $userLog->plan->subscriptionPlan->name }} Paketi
-                                </span>
-                            @endif
-                        @else
-                            <span class="bg-soft pe-2">
-                                Henüz paket almadınız
-                            </span>
-                            <a href="{{ route('institutional.profile.upgrade') }}" class="btn btn-primary">Paket Satın Al</a>
-
-                        @endif
+                        {{ $userLog->name }} Hoş Geldiniz.
                     </span><span
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
-                </h3>
+                </h3>  
+              
                 <p class="mb-0">Bu alanda istatistik içeriklerinizi kolaylıkla görüntüleyebilirsiniz.</p>
             </div>
         </div>
-        @if ($remainingPackage)
-            <div class="card mb-5">
-                <div class="card-body">
-                    <div class="row g-4 g-xl-1 g-xxl-3 justify-content-between">
-                        <div class="col-sm-auto">
-                            <div
-                                class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center">
-                                <div class="d-flex bg-success-100 rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
-                                    style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg" width="16px"
-                                        height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-home text-success-600 dark__text-success-300"
-                                        style="width:24px; height:24px">
-                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                    </svg></div>
-                                <div>
-                                    <p class="fw-bold mb-1">Proje Oluşturma Limiti</p>
-                                    <h4 class="fw-bolder text-nowrap">{{ $remainingPackage->project_limit }}</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-auto">
-                            <div
-                                class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5">
-                                <div class="d-flex bg-info-100 rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
-                                    style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg" width="16px"
-                                        height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-code text-info-600 dark__text-info-300"
-                                        style="width:24px; height:24px">
-                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="9" cy="7" r="4"></circle>
-                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                    </svg></div>
-                                <div>
-                                    <p class="fw-bold mb-1">Alt Kullanıcı Oluşturma Limiti</p>
-                                    <h4 class="fw-bolder text-nowrap">{{ $remainingPackage->user_limit }}</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-auto">
-                            <div
-                                class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5">
-                                <div class="d-flex bg-primary-100 rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0"
-                                    style="width:32px; height:32px"><svg xmlns="http://www.w3.org/2000/svg" width="16px"
-                                        height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-layout text-primary-600 dark__text-primary-300"
-                                        style="width:24px; height:24px">
-                                        <polyline points="9 11 12 14 22 4"></polyline>
-                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                    </svg></div>
-                                <div>
-                                    <p class="fw-bold mb-1">Konut Oluşturma Limiti</p>
-                                    <h4 class="fw-bolder text-nowrap">{{ $remainingPackage->housing_limit }}</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
 
 
         <div class="row">
@@ -134,10 +55,165 @@
             </div>
         </div>
     </div>
+
+    @if (Auth::check() && Auth::user()->type !="3")
+    <!-- HTML -->
+<button class="chatbox-open">
+  <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+</button>
+<button class="chatbox-close">
+  <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+</button>
+<div class="chatbox-popup">
+  <header class="chatbox-popup__header">
+      <aside style="flex:8">
+          <h4 style="color: white">Emlak Sepette Canlı Destek</h4>
+      </aside>
+  </header>
+  <main class="chatbox-popup__main">
+      <div class="chatbox-messages">
+          <div class="msg left-msg">
+
+              <div class="msg-bubble">
+
+                  <div class="msg-text">
+                      Merhaba size nasıl yardımcı olabiliriz ?
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </main>
+  <footer class="chatbox-popup__footer">
+      <aside style="flex:10">
+          <textarea id="userMessage" type="text" placeholder="Mesajınızı Yazınız..." autofocus
+              onkeydown="handleKeyPress(event)"></textarea>
+      </aside>
+      <aside style="flex:1;color:#888;text-align:center;">
+          <button onclick="sendMessage()" class="btn btn-primary"><i class="fa fa-paper-plane"
+                  aria-hidden="true"></i></button>
+      </aside>
+  </footer>
+</div>
+@endif
 @endsection
 
 @section('scripts')
     <script>
+           document.addEventListener("DOMContentLoaded", function() {
+            // Sayfa yüklendiğinde mevcut sohbet geçmişini çekmek için bir AJAX çağrısı yapabilirsiniz
+            fetchChatHistory();
+        });
+
+        function fetchChatHistory() {
+            $.ajax({
+                url: 'chat/history',
+                method: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    renderChatHistory(response);
+                },
+                error: function(error) {
+                    console.error('Sohbet geçmişi alınamadı:', error);
+                }
+            });
+
+        }
+
+        function renderChatHistory(chatHistory) {
+            const chatboxMessages = document.querySelector('.chatbox-messages');
+
+            chatHistory.forEach(entry => {
+                const messageElement = document.createElement('div');
+                const messageType = entry.receiver_id == 4 ? 'user' : 'admin';
+
+                messageElement.className = messageType == 'admin' ? 'msg left-msg' : 'msg right-msg';
+                messageElement.innerHTML = `
+            <div class="msg-bubble">
+                <div class="msg-text">
+                    ${entry.content}
+                </div>
+            </div>
+        `;
+                chatboxMessages.appendChild(messageElement);
+            });
+        }
+
+
+        var isFirstMessage = true;
+
+        function sendMessage() {
+            var userMessage = document.getElementById('userMessage').value;
+            var chatboxMessages = document.querySelector('.chatbox-messages');
+
+            // Kullanıcının mesajını ekle
+            var userMessageElement = document.createElement('div');
+            userMessageElement.className = 'msg right-msg';
+            userMessageElement.innerHTML = `
+            <div class="msg-bubble">
+                <div class="msg-text">
+                    ${userMessage}
+                </div>
+            </div>
+        `;
+            chatboxMessages.appendChild(userMessageElement);
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('messages.store') }}",
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    'content': userMessage,
+                },
+                success: function(response) {
+                    // Başarıyla mesaj gönderildiğinde yapılacak işlemler
+                    console.log(response.message);
+                    chatboxMessages.scrollTop = chatboxMessages.scrollHeight;
+                },
+                error: function(error) {
+                    toastr.error('Bir hata oluştu. Lütfen tekrar deneyin.');
+
+                }
+            });
+
+
+            // Kullanıcının girdiği mesaj alanını temizle
+            document.getElementById('userMessage').value = '';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        $(".chatbox-open").click(() => {
+            $(".chatbox-popup, .chatbox-close").fadeIn();
+        });
+
+        $(".chatbox-close").click(() => {
+            $(".chatbox-popup, .chatbox-close").fadeOut();
+        });
+
+        $(".chatbox-maximize").click(() => {
+            $(".chatbox-popup, .chatbox-open, .chatbox-close").fadeOut();
+            $(".chatbox-panel").fadeIn();
+            $(".chatbox-panel").css({
+                display: "flex"
+            });
+        });
+
+        $(".chatbox-minimize").click(() => {
+            $(".chatbox-panel").fadeOut();
+            $(".chatbox-popup, .chatbox-open, .chatbox-close").fadeIn();
+        });
+
+        $(".chatbox-panel-close").click(() => {
+            $(".chatbox-panel").fadeOut();
+            $(".chatbox-open").fadeIn();
+        });
+        
         var dom = document.getElementById('stat-1');
         var myChart = echarts.init(dom, null, {
             renderer: 'canvas',

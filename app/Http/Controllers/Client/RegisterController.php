@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\Chat;
 use App\Models\City;
 use App\Models\EmailTemplate;
 use App\Models\SubscriptionPlan;
@@ -150,6 +151,11 @@ class RegisterController extends Controller
         foreach ($variables as $key => $value) {
             $content = str_replace("{{" . $key . "}}", $value, $content);
         }
+
+        Chat::create([
+            "user_id" => $user->id
+        ]);
+
 
         try
         {

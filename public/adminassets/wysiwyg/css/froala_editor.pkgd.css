@@ -36,7 +36,7 @@
   .fr-box.fr-basic .fr-element {
     font-family: sans-serif;
     color: #414141;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.6;
     padding: 20px;
     -webkit-box-sizing: border-box;
@@ -110,7 +110,7 @@
     -o-transition: transform 0.2s ease 0s;
     fill: #333333; }
   .fr-box a.fr-floating-btn i, .fr-box a.fr-floating-btn svg {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 40px; }
   .fr-box a.fr-floating-btn.fr-btn + .fr-btn {
     margin-left: 10px; }
@@ -145,7 +145,7 @@ iframe.fr-iframe {
     height: 0; }
   .fr-wrapper .fr-placeholder {
     position: absolute;
-    font-size: 14px;
+    font-size: 12px;
     color: #AAA;
     font-family: sans-serif;
     z-index: 1;
@@ -334,7 +334,7 @@ iframe.fr-iframe {
     clip: rect(0, 0, 0, 0);
     border: 0; }
   .fr-toolbar .fr-command.fr-btn span, .fr-popup .fr-command.fr-btn span, .fr-modal .fr-command.fr-btn span {
-    font-size: 14px;
+    font-size: 12px;
     display: block;
     line-height: 17px;
     min-width: 30px;
@@ -833,7 +833,7 @@ ol.decimal_type > li:before {
       background-clip: padding-box;
       border: solid 1px #999999;
       color: #222222;
-      font-size: 14px;
+      font-size: 12px;
       background: #FFF;
       position: relative;
       z-index: 2;
@@ -856,7 +856,7 @@ ol.decimal_type > li:before {
       position: absolute;
       top: 29px;
       left: 12px;
-      font-size: 14px;
+      font-size: 12px;
       color: grey;
       -webkit-transition: all 0.5s ease;
       -moz-transition: all 0.5s ease;
@@ -1043,7 +1043,7 @@ ol.decimal_type > li:before {
         opacity: 0.8;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; }
   .fr-popup .fr-checkbox-line {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.4px;
     margin-top: 10px; }
     .fr-popup .fr-checkbox-line label {
@@ -1455,7 +1455,7 @@ span.fr-sr-only {
   float: right;
   color: #999999;
   content: attr(data-chars);
-  font-size: 14px;
+  font-size: 12px;
   font-family: sans-serif;
   z-index: 1;
   border-radius: 2px 0 0 0;
@@ -1507,7 +1507,7 @@ textarea.fr-code {
   padding: 10px;
   margin: 0;
   font-family: "Courier New",monospace;
-  font-size: 14px;
+  font-size: 12px;
   background: #FFF;
   color: #000;
   outline: none; }
@@ -1749,7 +1749,7 @@ textarea.fr-code {
   padding: 25px 0;
   margin: 20px;
   position: relative;
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: 1px;
   line-height: 140%;
   -webkit-box-sizing: border-box;
@@ -3180,7 +3180,7 @@ body.fr-fullscreen {
   padding: 20px 20px 10px; }
   .fr-modal .fr-modal-wrapper .fr-modal-body .fr-help-modal table {
     border-collapse: collapse;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.5;
     width: 100%; }
     .fr-modal .fr-modal-wrapper .fr-modal-body .fr-help-modal table + table {
@@ -3303,7 +3303,7 @@ body.fr-fullscreen {
   padding: 25px 0;
   margin: 20px;
   position: relative;
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: 1px;
   line-height: 140%;
   text-align: center; }
@@ -3969,7 +3969,7 @@ div.fr-modal-body {
   margin: 20px; }
   .fr-popup .fr-table-size .fr-table-size-info {
     text-align: center;
-    font-size: 14px; }
+    font-size: 12px; }
   .fr-popup .fr-table-size .fr-select-table-size {
     line-height: 0;
     padding: 5px;
@@ -4366,7 +4366,7 @@ div.fr-modal-body {
   padding: 25px 0;
   margin: 20px;
   position: relative;
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: 1px;
   line-height: 140%;
   text-align: center; }
@@ -4717,7 +4717,7 @@ div.fr-modal-body {
         margin: auto;
         display: block;
         padding: 5px 5px 10px;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: initial;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;

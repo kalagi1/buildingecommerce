@@ -3,7 +3,7 @@
 @section('content')
     <div class="content">
         <div id="tableExample"
-        data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
+        data-list='{"valueNames":["name","email","age"],"page":20,"pagination":true}'>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
 
             <div class="table-responsive scrollbar mx-n1 px-1">
@@ -42,6 +42,7 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         var housingTypes = @json($housing);
         var tbody = document.getElementById("bulk-select-body");
@@ -98,15 +99,20 @@
             exportLink.className = "dropdown-item";
             exportLink.href = "{{ URL::to('/') }}/institutional/edit_housing/" + housingType.id;
             exportLink.textContent = "Düzenle";
+            var imageLinks = document.createElement("a");
+            imageLinks.className = "dropdown-item";
+            imageLinks.href = "{{ URL::to('/') }}/institutional/edit_images/" + housingType.id;
+            imageLinks.textContent = "Resimler";
             var divider = document.createElement("div");
             divider.className = "dropdown-divider";
             var removeLink = document.createElement("a");
-            removeLink.className = "dropdown-item text-danger";
-            removeLink.href = "#!";
+            removeLink.className = "dropdown-item text-danger remove-item";
+            removeLink.href = "{{ URL::to('/') }}/institutional/remove_housing/" + housingType.id;
             removeLink.textContent = "Sil";
             removeLink.setAttribute("data-project-id", housingType.id);
             dropdownMenu.appendChild(viewLink);
             dropdownMenu.appendChild(exportLink);
+            dropdownMenu.appendChild(imageLinks);
             dropdownMenu.appendChild(divider);
             dropdownMenu.appendChild(removeLink);
             actionsDiv.appendChild(dropdownMenu);
@@ -122,5 +128,20 @@
 
             tbody.appendChild(row);
         });
+
+        $('.remove-item').click(function(e){
+            e.preventDefault();
+            Swal.fire({
+                title: 'Silmek istediğine emin misin?',
+                showCancelButton: true,
+                confirmButtonText: 'Evet',
+                denyButtonText: `İptal`,
+                }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    window.location.href= $(this).attr('href');
+                }
+            })
+        })
     </script>
 @endsection

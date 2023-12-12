@@ -25,7 +25,7 @@
   float: right;
   color: #999999;
   content: attr(data-chars);
-  font-size: 14px;
+  font-size: 12px;
   font-family: sans-serif;
   z-index: 1;
   border-radius: 2px 0 0 0;

@@ -24,6 +24,11 @@ class Housing extends Model
         return $this->hasMany(HousingStatusConnection::class, "housing_id", "id");
     }
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, "housing_id", "id");
+    }
+
     public function brand()
     {
         return $this->hasOne(Brand::class, "id", "brand_id");
@@ -46,7 +51,7 @@ class Housing extends Model
 
     public function county()
     {
-        return $this->hasOne(District::class, "ilce_key", "county_id");
+        return $this->hasOne(County::class, "key_x", "county_id");
     }
 
     public function rejectedLog()

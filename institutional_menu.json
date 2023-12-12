@@ -1,5 +1,23 @@
 [
     {
+        "id": "projects",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "plus",
+        "text": "Proje İlanlarım",
+        "key": "Projects",
+        "url": "institutional.projects.index",
+        "activePath": "institutional/projects"
+    },
+    {
+        "id": "projects",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "plus",
+        "text": "Emlak İlanlarım",
+        "key": "Housings",
+        "url": "institutional.housing.list",
+        "activePath": "institutional/housings"
+    },
+    {
         "id": "account",
         "label": "Hesabım & Yardım",
         "icon": "home",
@@ -51,22 +69,50 @@
         ]
     },
     {
-        "id": "order",
-        "label": "Emlak Sepette",
+        "id": "shopping-bag",
+        "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
-        "text": "Gelen Siparişlerim",
+        "text": "Satış",
         "key": "GetOrders",
-        "url": "institutional.orders",
-        "activePath": "institutional/orders"
+        "url": "#nv-shopping",
+        "activePath": "institutional/orders*",
+        "subMenu": [
+            {
+                "text": "Gayrimenkul Alış",
+                "key": "ShowCartOrders",
+                "url": "institutional.profile.cart-orders",
+                "activePath": "institutional/my-orders"
+            },
+            {
+                "text": "Gayrimenkul Satış",
+                "key": "GetOrders",
+                "url": "institutional.orders",
+                "activePath": "institutional/orders"
+            }
+        ]
     },
     {
-        "id": "order",
-        "label": "Emlak Sepette",
+        "id": "shopping-bag",
+        "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
-        "text": "Benim Siparişlerim",
-        "key": "ShowCartOrders",
-        "url": "institutional.profile.cart-orders",
-        "activePath": "institutional/get-orders"
+        "text": "Kiralık",
+        "key": "GetReservations",
+        "url": "#nv-shopping",
+        "activePath": "institutional/my-reservations*",
+        "subMenu": [
+            {
+                "text": "Kiraya Verdiklerim",
+                "key": "GetReservations",
+                "url": "institutional.reservations",
+                "activePath": "institutional/reservations"
+            },
+            {
+                "text": "Kiraladıklarım",
+                "key": "GetReservations",
+                "url": "institutional.myreservations",
+                "activePath": "institutional/my-reservations"
+            }
+        ]
     },
     {
         "id": "user",
@@ -92,27 +138,10 @@
         ]
     },
    
-    {
-        "id": "projects",
-        "label": "Emlak Sepette",
-        "icon": "plus",
-        "text": "Proje İlanlarım",
-        "key": "Projects",
-        "url": "institutional.projects.index",
-        "activePath": "institutional/projects"
-    },
-    {
-        "id": "projects",
-        "label": "Emlak Sepette",
-        "icon": "plus",
-        "text": "Emlak İlanlarım",
-        "key": "Housings",
-        "url": "institutional.housing.list",
-        "activePath": "institutional/housings"
-    },
+ 
     {
         "id": "offers",
-        "label": "Emlak Sepette",
+        "label": "Mağazam Emlak Sepette",
         "icon": "arrow-down",
         "text": "İlanda Kampanya Yap",
         "key": "Offers",
@@ -155,15 +184,6 @@
                 "activePath": "institutional/brands"
             }
         ]
-    },
-    {
-        "id": "upgrade",
-        "label": "Emlak Sepette",
-        "icon": "arrow-up",
-        "text": "Paket Satın Al",
-        "key": "Upgrade",
-        "url": "institutional.profile.upgrade",
-        "activePath": "institutional/profile/upgrade"
     },
     {
         "id": "store-banners",

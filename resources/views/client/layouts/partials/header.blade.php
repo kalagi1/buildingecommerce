@@ -11,15 +11,11 @@
         <meta name="description" content="{{ $pageInfo->meta_description }}">
         <meta name="author" content="{{ $pageInfo->meta_author }}">
         <title>{{ $pageInfo->meta_title }}</title>
-    @else
-        <meta name="description" content="Emlak Sepeti">
-        <meta name="author" content="">
-        <title>Emlak Sepeti</title>
     @endif
 
 
     <!-- FAVICON -->
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('sc.png') }}">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/jquery-ui.css">
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i%7CMontserrat:600,800" rel="stylesheet">
@@ -71,9 +67,9 @@
         }
 
         .sticky-bar {
-    position: sticky;
-    top: 80px;
-}
+            position: sticky;
+            top: 80px;
+        }
     </style>
 </head>
 
@@ -94,6 +90,7 @@
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
         ================================================== -->
+        
         <header id="header-container">
             <div class="container">
                 <div class="header-center">
@@ -123,7 +120,85 @@
                         </div>
                         <div class="rightSide d-xl-block d-none d-lg-block ">
                             <div class="header-widget d-flex">
+                               
                                 @if (Auth::user())
+                                @php
+                                $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->where("owner_id",Auth::user()->id)->where('readed', '0')->limit(10)->get();
+                                @endphp
+        <div class = "notification">
+            <a href = "#">
+            <div class = "notBtn" href = "#">
+              <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
+                @php
+                $unreadNotifications = $notifications->where('readed', 0);
+                $unreadCount = $unreadNotifications->count();
+                @endphp
+
+                @if($unreadCount)
+                <div class = "number"> {{$unreadCount}}  </div>
+                @endif
+                
+             
+              <i class="fas fa-bell"></i>
+                <div class = "box">
+                  <div class = "display">
+                    <div class="card position-relative border-0">
+                        <div class="card-header p-2">
+                          <div class="d-flex justify-content-between">
+                            <h5 class="text-black mb-0" style="font-size:12px">Bildirimler</h5>
+                          </div>
+                        </div>
+                        <div class="card-body p-0">
+                          <div class="scrollbar-overlay" style="height: 27rem;">
+                            <div class="border-300">
+                                @if (count($notifications) == 0)
+                                <div class="p-3 text-center">Bildirim Yok</div>
+                            @else
+                               @foreach ($notifications as $notification)
+                               <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{$notification->readed == 0 ? "unread":"read" }} border-bottom"
+                                data-id="{{ $notification->id }}"
+                                data-link="{{ $notification->link }}">
+                                <div class="d-flex align-items-center justify-content-between position-relative">
+                                  <div class="d-flex">
+                                    <div class="avatar avatar-m status-online me-3">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                    </div>
+                                    <div class="flex-1 me-sm-3">
+                                      <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">  {!! $notification->text !!}</p>
+                                      @php
+                                      // Örnek bir tarih zamanı, notification->created_at'ı buraya ekleyin
+                                      $notificationCreatedAt = $notification->created_at;
+                                      
+                                      // Saat dilimini ayarlayın
+                                      date_default_timezone_set('Europe/Istanbul');
+                                      
+                                      // Tarih formatını Türkiye biçimine dönüştürme
+                                      $notificationCreatedAtDate = date("d.m.Y", strtotime($notificationCreatedAt));
+                                      $notificationCreatedAtTime = date("H:i", strtotime($notificationCreatedAt)); // 24 saatlik saat biçimi
+                                      
+                                      // Saati 12 saatlik biçime dönüştürme (AM/PM eklemek için)
+                                      $notificationCreatedAtTime12Hour = date("h:i A", strtotime($notificationCreatedAt));
+                                      @endphp
+                                      
+                                      
+                                      
+                                                                              </div>
+                                  </div>
+                                </div>
+                              </div>
+                                @endforeach
+
+                            @endif
+                           
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+               </div>
+            </div>
+              </a>
+          </div>
                                     @if (Auth::user()->type == 1)
                                         <a href="{{ route('client.index') }}" class="userIcon">
                                             <svg viewBox="0 0 24 24" width="24" height="24"
@@ -253,6 +328,7 @@
 
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="header-bottom d-xl-block d-none d-lg-block">
@@ -343,208 +419,7 @@
 
         </header>
         <div class="clearfix"></div>
+        
 
 
 
-        <style>
-            a {
-                text-decoration: none !important;
-            }
-
-            .buyUserRequest {
-                position: relative;
-                width: 150px;
-                height: 35px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                border: 1px solid #EA2B2E;
-                background-color: #EA2B2E;
-            }
-
-            .buyUserRequest,
-            .buyUserRequest__icon,
-            .buyUserRequest__text {
-                transition: all 0.3s;
-            }
-
-            .buyUserRequest .buyUserRequest__text {
-                transform: translateX(20px);
-                color: #fff;
-                font-weight: 600;
-                line-height: 14px;
-            }
-
-            .buyUserRequest .buyUserRequest__icon {
-                position: absolute;
-                transform: translateX(109px);
-                height: 100%;
-                width: 39px;
-                background-color: black;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .buyUserRequest img {
-                width: 30px;
-                stroke: #fff;
-            }
-
-            .buyUserRequest:hover {
-                background: #EA2B2E;
-            }
-
-            .buyUserRequest:hover .buyUserRequest__text {
-                color: transparent;
-            }
-
-            .buyUserRequest:hover .buyUserRequest__icon {
-                width: 148px;
-                transform: translateX(0);
-            }
-
-            .buyUserRequest:active .buyUserRequest__icon {
-                background-color: #EA2B2E;
-            }
-
-            .buyUserRequest:active {
-                border: 1px solid #EA2B2E;
-            }
-
-
-            .cartIconBtn {
-                padding: 5px 10px;
-                height: 100%;
-                background-color: black
-            }
-
-            .cartTextBtn {
-                padding: 5px 10px;
-                height: 100%;
-                background-color: red
-            }
-
-            @media (max-width: 768px) {
-                .buyUserRequest {
-                    width: 80px !important;
-                }
-
-                .buyUserRequest .buyUserRequest__text {
-                    transform: translateX(5px) !important
-                }
-
-                .buyUserRequest__icon {
-                    display: none !important;
-
-                }
-
-                .cartIconBtn {
-                    padding: 2px;
-                    height: 100%;
-                    background-color: black
-                }
-
-                .cartTextBtn {
-                    padding: 2px;
-                    height: 100%;
-                    background-color: red
-                }
-            }
-
-            .dropdown ul {
-                width: 200px !important;
-                text-align: left;
-                list-style-type: none;
-                display: block;
-                z-index: 999;
-                margin: 0;
-                margin-top: 10px;
-                padding: 0;
-                position: absolute;
-                width: 100%;
-                box-shadow: 0 6px 5px -5px rgba(0, 0, 0, 0.3);
-                overflow: hidden;
-            }
-
-            .dropdown li a,
-            .dropdown.toggle>label {
-                display: block;
-                padding: 0 0 0 10px;
-                background: white;
-                text-decoration: none;
-                line-height: 40px;
-                font-size: 13px;
-                font-weight: 600;
-                font-weight: bold;
-                color: black background-color: #FFF;
-            }
-
-            .dropdown li {
-                height: 0;
-                overflow: hidden;
-                transition: all 500ms;
-            }
-
-            .dropdown.hover li {
-                transition-delay: 300ms;
-            }
-
-            .dropdown li:first-child a {
-                border-radius: 2px 2px 0 0;
-            }
-
-            .dropdown li:last-child a {
-                border-radius: 0 0 2px 2px;
-            }
-
-            .dropdown li:first-child a::before {
-                content: "";
-                display: block;
-                position: absolute;
-                width: 0;
-                height: 0;
-                border-left: 10px solid transparent;
-                border-right: 10px solid transparent;
-                border-bottom: 10px solid #FFF;
-                margin: -10px 0 0 30px;
-            }
-
-            .dropdown li a:hover,
-            .dropdown.toggle>label:hover,
-            .dropdown.toggle>input:checked~label {
-                background-color: #EEE;
-            }
-
-            .dropdown>li>a:hover::after,
-            .dropdown.toggle>label:hover::after,
-            .dropdown.toggle>input:checked~label::after {
-                border-top-color: #AAA;
-            }
-
-            .buyUserRequestBtn {
-                padding: 0;
-                background: Black !important;
-                border: none;
-                border-radius: 0 !important
-            }
-
-            .buyUserRequestBtn:hover {
-                background: black !important
-            }
-
-
-            .dropdown li:first-child a:hover::before {
-                border-bottom-color: #EEE;
-            }
-
-            .dropdown.hover:hover li,
-            .dropdown.toggle>input:checked~ul li {
-                height: 40px;
-            }
-
-            .dropdown.hover:hover li:first-child,
-            .dropdown.toggle>input:checked~ul li:first-child {
-                padding-top: 15px;
-            }
-        </style>

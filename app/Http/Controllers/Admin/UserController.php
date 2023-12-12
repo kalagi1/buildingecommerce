@@ -8,11 +8,35 @@ use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Chat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName . '_' . time() . '.' . $extension;
+
+            $request->file('upload')->move(public_path('uploads'), $fileName);
+
+            $CKEditorFuncNum = $request->input('CKEditorFuncNum');
+            $url = asset('uploads/' . $fileName);
+            $msg = 'Image uploaded successfully';
+            $response = "<script>window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$msg')</script>";
+
+            @header('Content-type: text/html; charset=utf-8');
+            echo $response;
+        }
+    }
+    public function messages(){
+        $chats = Chat::with("messages","user")->get();
+        return view("admin.chat.index", compact("chats"));
+    }
 
     public function blockUser(User $user)
     {
@@ -166,11 +190,7 @@ class UserController extends Controller
                 'record_document_approve' => 'nullable|in:0,1',
                 'identity_document_approve' => 'required|in:0,1',
                 'company_document_approve' => 'nullable|in:0,1',
-                'note' => 'string',
                 'status' => 'required|in:0,1',
-            ],
-            [
-                'note.required' => 'Kullanıcıya açıklayıcı bir not yazmalısınız.',
             ]
         );
 

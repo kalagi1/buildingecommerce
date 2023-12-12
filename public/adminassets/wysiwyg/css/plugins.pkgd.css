@@ -25,7 +25,7 @@
   float: right;
   color: #999999;
   content: attr(data-chars);
-  font-size: 14px;
+  font-size: 12px;
   font-family: sans-serif;
   z-index: 1;
   border-radius: 2px 0 0 0;
@@ -77,7 +77,7 @@ textarea.fr-code {
   padding: 10px;
   margin: 0;
   font-family: "Courier New",monospace;
-  font-size: 14px;
+  font-size: 12px;
   background: #FFF;
   color: #000;
   outline: none; }
@@ -319,7 +319,7 @@ textarea.fr-code {
   padding: 25px 0;
   margin: 20px;
   position: relative;
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: 1px;
   line-height: 140%;
   -webkit-box-sizing: border-box;
@@ -1750,7 +1750,7 @@ body.fr-fullscreen {
   padding: 20px 20px 10px; }
   .fr-modal .fr-modal-wrapper .fr-modal-body .fr-help-modal table {
     border-collapse: collapse;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.5;
     width: 100%; }
     .fr-modal .fr-modal-wrapper .fr-modal-body .fr-help-modal table + table {
@@ -1873,7 +1873,7 @@ body.fr-fullscreen {
   padding: 25px 0;
   margin: 20px;
   position: relative;
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: 1px;
   line-height: 140%;
   text-align: center; }
@@ -2539,7 +2539,7 @@ div.fr-modal-body {
   margin: 20px; }
   .fr-popup .fr-table-size .fr-table-size-info {
     text-align: center;
-    font-size: 14px; }
+    font-size: 12px; }
   .fr-popup .fr-table-size .fr-select-table-size {
     line-height: 0;
     padding: 5px;
@@ -2936,7 +2936,7 @@ div.fr-modal-body {
   padding: 25px 0;
   margin: 20px;
   position: relative;
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: 1px;
   line-height: 140%;
   text-align: center; }

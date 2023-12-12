@@ -24,20 +24,20 @@
                                     </tr>
                                 @else
                                     @php(
-    $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $cart['item']['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-)
+                                    $discount_amount =
+                                        App\Models\Offer::where('type', 'housing')->where('housing_id', $cart['item']['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+                                )
                                     <tr>
                                         <td class="image myelist">
                                             <a
-                                                href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
+                                                href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => App\Models\Project::find($cart['item']['id'])->slug ?? '', 'id' =>$cart['item']['housing'] ]) }}"><img
                                                     alt="my-properties-3" src="{{ $cart['item']['image'] }}"
                                                     class="img-fluid"></a>
                                         </td>
                                         <td>
                                             <div class="inner">
                                                 <a
-                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}">
+                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => App\Models\Project::find($cart['item']['id'])->slug ?? '' ,  'id' =>$cart['item']['housing']]) }}">
                                                     <h2 style="font-weight: 600">{{ $cart['item']['title'] }}</h2>
                                                     <figure><i class="lni-map-marker"></i> {{ $cart['item']['city'] }}
                                                     </figure>
@@ -86,7 +86,7 @@
                                         <li>Ürün Fiyatı<strong
                                                 class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])), 0, ',', '.') }}
                                                 TL</strong></li>
-                                        <li>%1'si<strong
+                                        <li>%1'i<strong
                                                 class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}
                                                 TL</strong></li>
                                     </ul>

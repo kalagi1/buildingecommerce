@@ -15,13 +15,18 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Proje</th>
-                                <th>Satılan Konut Sayısı</th>
-                                <th>Satışa Açık Konut Sayısı</th>
-                                <th>Konut Listesi</th>
-                                <th>Öne Çıkar</th>
-                                <th>Statü</th>
-                                <th>İşlemler</th>
+                                <th>Kapak Görseli</th>
+                                <th>Proje Adı</th>
+                                <th>Toplam Gayrimenkul Sayısı</th>
+                                <th>Satış Adeti</th>
+                                <th>Toplam Kazanç</th>
+                                <th>Onaydaki Siparişler</th>
+                                <th>Satışa Kapalı Adet</th>
+                                <th>Satışa Açık Adet</th>
+                                <th>İlan Düzenle</th>
+                                <th>Sponsorlu</th>
+                                <th>Yayında/Yayında Değil</th>
+                                <th>İşlem Kayıtları & Proje Düzenle</th>
                             </tr>
                         </thead>
                         <tbody class="list" id="bulk-select-body"></tbody>
@@ -137,6 +142,8 @@
                 stack: false
             })
         @endif
+
+        console.log(projects);
         var tbody = document.getElementById("bulk-select-body");
         projects.forEach(function(project) {
             var row = document.createElement("tr");
@@ -158,38 +165,78 @@
 
             var slugCell = document.createElement("td");
             slugCell.className = "align-middle logo";
-            slugCell.innerHTML = "<img style='max-width:100px;max-height:50px;' src='{{ URL::to('/') }}/" + project
-                .image.replace("public", "storage") + "'  />" + " " + "<strong> " + project.project_title +
-                "</strong>";
+            slugCell.innerHTML = "<img style='width:100%;max-height:70px;' src='{{ URL::to('/') }}/" + project
+                .image.replace("public", "storage") + "'  />";
 
+                     var denemeCell = document.createElement("td");
+                     denemeCell.className = "align-middle";
+                     denemeCell.innerHTML = project.project_title;
+
+            var titleCCell = document.createElement("td");
+            titleCCell.className = "align-middle title";
+            titleCCell.textContent = project.room_count;
 
             var titleCell = document.createElement("td");
             titleCell.className = "align-middle title";
             titleCell.textContent = project.cartOrders;
 
+            var applyCell = document.createElement("td");
+            applyCell.className = "align-middle title";
+            applyCell.textContent = project.paymentPending;
+
+            var offSaleCell = document.createElement("td");
+            offSaleCell.className = "align-middle title";
+            offSaleCell.textContent = project.offSale;
+
+
+       
+
+            var totalAmountCell = document.createElement("td");
+            totalAmountCell.className = "align-middle title";
+            totalAmountCell.textContent = project.totalAmount + "₺";
+
             var totalCell = document.createElement("td");
             totalCell.className = "align-middle title";
-            totalCell.textContent = project.room_count -project.cartOrders;
+            totalCell.textContent = project.room_count - project.cartOrders - project.offSale;
 
             var houseCount = document.createElement("td");
             houseCount.className = "align-middle status";
             houseCount.innerHTML = "<a href='{{ URL::to('/') }}/institutional/projects/" + project.id +
-                "/housings' class='badge badge-success'>Listele</a>";
+                "/housings' class='badge badge-phoenix badge-phoenix-success'>İlan Düzenle</a>";
 
             var standOutCell = document.createElement("td");
             standOutCell.className = "align-middle status";
-            standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" + project.id +
-                "' class='badge badge-info'>Öne Çıkar</a>";
+            console.log(project);
+            if(project.stand_out){
+                if(project.stand_out.doping_price_payment_wait){
+                    standOutCell.innerHTML = "<a href='#' class='badge badge-phoenix badge-phoenix-warning'>Ödeme Bekleniyor</a>";
+                }else{
+                    if(project.stand_out.doping_price_payment_cancel){
+                        standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" + project.id +
+                        "' class='badge badge-phoenix badge-phoenix-info'>Öne Çıkar</a>";
+                    }else{
+                        standOutCell.innerHTML = "<a href='#' class='badge badge-phoenix badge-phoenix-success'>Sponsorlu</a>";
+                    }
+                }
+            }else{
+                standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" + project.id +
+                "' class='badge badge-phoenix badge-phoenix-info'>Öne Çıkar</a>";
+            }
 
             var activeCell = document.createElement("td");
             activeCell.className = "align-middle status";
-            activeCell.innerHTML = project.status == 1 ? '<span class="badge badge-success">Aktif</span>' : project
-                .status == 2 ? '<span class="badge badge-danger">Admin Onayı Bekliyor</span>' : project.status ==
-                3 ? '<span class="badge badge-danger">Admin Tarafından Reddedildi</span>' : project.status == 6 ?
-                '<span class="badge badge-danger"><i class="fa fa-clock"></i> Süresi Bitti</span><span class="badge badge-phoenix badge-phoenix-primary c-pointer extend-time" style="margin-left:5px;" project_id="' +
-                project.id + '"><i class="fa fa-plus"></i> Süresini Uzat</span>' : project.status == 7 ?
-                '<span class="badge badge-phoenix badge-phoenix-warning"><i class="fa fa-clock"></i> Ödeme onayı bekliyor</span>' :
-                '<span class="badge badge-danger">Pasif</span>';
+            activeCell.innerHTML = project.status == 1 ? 
+            '<span class="badge badge-phoenix badge-phoenix-success">Yayında</span>' 
+            : project.status == 2 ? 
+            '<span class="badge badge-phoenix badge-phoenix-danger">Admin Onayı Bekliyor</span>' 
+            : project.status == 3 ? 
+            '<span class="badge badge-phoenix badge-phoenix-danger">Admin Tarafından Reddedildi</span>' 
+            : project.status == 6 ?
+            '<span class="badge badge-phoenix badge-phoenix-danger"><i class="fa fa-clock"></i> Süresi Bitti</span><span class="badge badge-phoenix badge-phoenix-primary c-pointer extend-time" style="margin-left:5px;" project_id="' +
+                project.id + '"><i class="fa fa-plus"></i> Süresini Uzat</span>' 
+            : project.status == 7 ?
+            '<span class="badge badge-phoenix badge-phoenix-warning"><i class="fa fa-clock"></i> Ödeme onayı bekliyor</span>' :
+            '<span class="badge badge-phoenix badge-phoenix-danger">Yayında Değil</span>';
 
             var actionsCell = document.createElement("td");
             actionsCell.className = "align-middle white-space-nowrap pe-0";
@@ -210,27 +257,28 @@
             var viewLink = document.createElement("a");
             viewLink.className = "badge badge-phoenix badge-phoenix-warning";
             viewLink.href = "{{ URL::to('/') }}/institutional/projects/" + project.id + '/logs';
-            viewLink.textContent = "Loglar";
+            viewLink.textContent = "İşlem Kayıtları";
             var exportLink = document.createElement("a");
             exportLink.className = "badge badge-phoenix badge-phoenix-success ml-3";
             exportLink.href = "{{ URL::to('/') }}/institutional/edit_project_v2/" + project.slug;
-            exportLink.textContent = "Düzenle";
+            exportLink.textContent = "Proje Düzenle";
             var divider = document.createElement("div");
             divider.className = "dropdown-divider";
-            var removeLink = document.createElement("a");
-            removeLink.className = "badge badge-phoenix badge-phoenix-danger ml-3";
-            removeLink.href = "#!";
-            removeLink.textContent = "Sil";
-            removeLink.setAttribute("data-project-id", project.id);
 
             actionsDiv.appendChild(viewLink);
             actionsDiv.appendChild(exportLink);
-            actionsDiv.appendChild(removeLink);
             actionsCell.appendChild(actionsDiv);
 
             row.appendChild(numberCell);
             row.appendChild(slugCell);
+            row.appendChild(denemeCell);
+            row.appendChild(titleCCell);
             row.appendChild(titleCell);
+
+            row.appendChild(totalAmountCell);
+
+            row.appendChild(applyCell);
+            row.appendChild(offSaleCell);
             row.appendChild(totalCell);
 
             row.appendChild(houseCount);

@@ -3,28 +3,28 @@
 @section('content')
     <style>
         /* css */
-        .trip-search select
-        {
-            appearance: none;
+        .trip-search select {
             border: 1px solid #CCC;
             border-radius: 8px;
         }
 
-        input[type=radio]
-        {
+        input[type=radio] {
             appearance: none;
             background: white;
             border: 2px solid #dddddd;
             border-radius: 100%;
         }
 
-        input[type=radio]:checked
-        {
+        .filtreArea {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        input[type=radio]:checked {
             background: #0A0A0A;
         }
 
-        .widget-boxed-header h6
-        {
+        .widget-boxed-header h6 {
             font-weight: bold !important;
             color: #000;
         }
@@ -36,17 +36,58 @@
         }
 
         @media (max-width: 767px) {
+
+            #clear-filters , #close-filters{
+                border: 1px solid #CCC;
+                width: 90%;
+                padding: 10px !important;
+                margin: 0 auto;
+                margin: 10px auto;
+                font-size: 11px;
+            }
+
             .filters-input-area {
                 position: fixed;
                 top: 0;
-                right: 0;
-                width: 90%;
+                left: 0;
+                width: 100%;
                 height: 100%;
                 z-index: 999999999;
                 background-color: white;
-                padding: 16px;
                 box-shadow: 0 0 48px rgba(0, 0, 0, .3);
                 overflow-y: scroll;
+                padding-top: 0 !important;
+            }
+
+            .filters-input-area .mobile-button {
+                border-color: #EEE;
+                padding: 0 1rem;
+                margin-top: 10px;
+                border-radius: 0 !important
+            }
+
+            .filters-input-area .mobile-title widget-boxed-header {
+                background: #E0E0E0;
+                border: 0;
+                padding: 1rem;
+            }
+
+            .filters-input-area .mobile-input {
+                border-radius: 0 !important;
+            }
+
+            .filters-input-area .bathroom-count-item {
+                border-radius: 0 !important;
+            }
+
+            .filters-input-area .current-page {
+                border-radius: 0 !important;
+            }
+
+            .mobile-header {
+                background: #2d67bd;
+                color: #FFF;
+                padding: 12px 16px;
             }
         }
     </style>
@@ -108,233 +149,189 @@
 
             <div class="row project-filter-reverse pb-5">
                 <aside class="col-lg-3 col-md-12 order-2 order-md-1 ">
-                    <div class="widget filters-input-area" style="display: none;">
-                        <svg height="24px" id="Layer_1" onclick="$(this).parent().slideToggle();" class="d-md-none"
-                            style="float: left; margin-top: -24px; margin-bottom: 24px;enable-background:new 0 0 512 512;cursor: pointer;"
-                            version="1.1" viewBox="0 0 512 512" width="24px" xml:space="preserve"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <path
-                                d="M437.5,386.6L306.9,256l130.6-130.6c14.1-14.1,14.1-36.8,0-50.9c-14.1-14.1-36.8-14.1-50.9,0L256,205.1L125.4,74.5  c-14.1-14.1-36.8-14.1-50.9,0c-14.1,14.1-14.1,36.8,0,50.9L205.1,256L74.5,386.6c-14.1,14.1-14.1,36.8,0,50.9  c14.1,14.1,36.8,14.1,50.9,0L256,306.9l130.6,130.6c14.1,14.1,36.8,14.1,50.9,0C451.5,423.4,451.5,400.6,437.5,386.6z" />
-                        </svg>
-                        <!-- Search Fields -->
-
-                        <div class="widget-boxed main-search-field mt-4">
-                            <div class="trip-search">
-                                <div class="widget-boxed-header border-0">
-                                    <b>Adres</b>
-                                </div>
-                                <div>
-                                    <select id="city" class="bg-white filter-now">
-                                        <option value="#" class="selected" selected disabled>İl</option>
-                                        @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}">{{ $city->title }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div onclick="$(this).parent().find('select').trigger('click');" class="border-left" style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                        <svg viewBox="0 0 384 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#AAA" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
-                                    </div>
-                                </div>
-                                <div class="mt-4">
-                                    <select id="county" class="bg-white filter-now">
-                                        <option value="#" class="selected" selected disabled>İlçe</option>
-                                    </select>
-
-                                    <div onclick="$(this).parent().find('select').trigger('click');" class="border-left" style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                        <svg viewBox="0 0 384 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#AAA" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
-                                    </div>
-                                </div>
-                                <div class="mt-4">
-                                    <select id="neighborhood" class="bg-white filter-now">
-                                        <option value="#" class="selected" selected disabled>Mahalle</option>
-                                    </select>
-
-                                    <div onclick="$(this).parent().find('select').trigger('click');" class="border-left" style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                        <svg viewBox="0 0 384 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#AAA" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                            @if ($secondhandHousings)
-                            
-                                <div class="mt-4" id="number_of_bathrooms">
-                                    <div class="head d-flex">
-                                        <b>Banyo Sayısı</b>
-                                    </div>
-                                    <div class="mt-2">
-                                        <div class="d-flex current-page" style="border: 1px solid #CCC; cursor: pointer; border-radius: 8px;">
-                                            <div style="border-radius: 8px 0 0 8px;" class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
-                                                1
-                                            </div>
-                                            <div class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
-                                                2
-                                            </div>
-                                            <div class="bathroom-count-item cursor-pointer border-right py-2 px-3 font-weight-bold w-100 text-center">
-                                                3
-                                            </div>
-                                            <div style="border-radius: 0px 8px 8px 0;" class="bathroom-count-item cursor-pointer py-2 px-3 font-weight-bold w-100 text-center">
-                                                4+
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mt-4">
-                                    <div class="trip-search">
-                                        <div class="head d-flex">
-                                            <b>Fiyat Aralığı</b>
-                                        </div>
-                                        <div class="mt-2 row price-inputs">
-                                            <div class="col-6">
-                                                <input type="number" id="price-min" min="0" placeholder="Min"
-                                                       class="filter-now form-control">
-                                            </div>
-                                            <div class="col-6">
-                                                <input type="number" id="price-max" min="0" placeholder="Max"
-                                                       class="filter-now form-control">
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="mt-4">
-                                    <div class="trip-search">
-                                        <div class="head d-flex">
-                                            <b>M<sup>2</sup> (brüt)</b>
-                                        </div>
-                                        <div class="mt-2 row">
-                                            <div class="col-6">
-                                                <input type="number" id="msq-min" min="0" placeholder="Min"
-                                                       class="filter-now form-control">
-                                            </div>
-                                            <div class="col-6">
-                                                <input type="number" id="msq-max" min="0" placeholder="Max"
-                                                       class="filter-now form-control">
-                                            </div>
-                                        </div>
-                                    </div>  
-                                </div>
-
-                                <div class="mt-4" id="room_count_field">
-                                    <div class="head d-flex">
-                                        <b>Oda Sayısı</b>
-                                    </div>
-                                    <div class="mt-2 d-flex align-items-center" style="flex-wrap: wrap">
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now form-control"
-                                                   id="1_1" />
-                                            <label for="1_1" class="form-check-label w-100 ml-4">1+1</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="2_1" />
-                                            <label for="2_1" class="form-check-label w-100 ml-4">2+1</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="3_1" />
-                                            <label for="3_1" class="form-check-label w-100 ml-4">3+1</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="3_2" />
-                                            <label for="3_2" class="form-check-label w-100 ml-4">3+2</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="4_1" />
-                                            <label for="4_1" class="form-check-label w-100 ml-4">4+1</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="4_2" />
-                                            <label for="4_2" class="form-check-label w-100 ml-4">4+2</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-50">
-                                            <input type="checkbox" class="form-check-input filter-now  form-control"
-                                                   id="5_1" />
-                                            <label for="5_1" class="form-check-label w-100 ml-4">5+1</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mt-4" id="from_owner_field">
-                                    <div class="head d-flex">
-                                        <b>Kimden</b>
-                                    </div>
-                                    <div class="mt-2">
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="whose" id="from_owner" class="filter-now" />
-                                            <label for="from_owner" class="form-check-label w-100 ml-2">Sahibinden</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="whose" id="from_office" class="filter-now" />
-                                            <label for="from_office" class="form-check-label w-100 ml-2">Emlak
-                                                Ofisinden</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="whose" id="from_company" class="filter-now" />
-                                            <label for="from_company" class="form-check-label w-100 ml-2">İnşaat
-                                                Firmasından</label>
-                                        </div>
-                                        <div class="mb-2 d-flex align-items-center w-100">
-                                            <input type="radio" name="whose" id="from_bank" class="filter-now" />
-                                            <label for="from_bank" class="form-check-label w-100 ml-2">Bankadan</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            @endif
-                        @if ($projects)
-                                <div class="trip-search mt-4">
-                                    <div class="widget-boxed-header border-0">
-                                        <b>Proje Durumu</b>
-                                    </div>
-                                    <div>
-                                        <select id="project_type" class="form-control bg-white filter-now">
-                                            <option value="#" selected disabled>Proje Durumu</option>
-                                            <option value="2">Tamamlanan Projeler</option>
-                                            <option value="3">Devam Eden Projeler</option>
-                                            <option value="5">Topraktan Projeler</option>
-                                        </select>
-
-                                        <div onclick="$(this).parent().find('select').trigger('click');" class="border-left" style="float: right; margin-top: -43px; padding: 10px; cursor: pointer;">
-                                            <svg viewBox="0 0 384 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path fill="#AAA" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"/></svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-
-                                <div class="trip-search mt-4">
-                                <div class="widget-boxed-header border-0">
-                                    <b>İlan Tarihi</b>
-                                </div>
-                                <div style="display: grid;">
-                                    <label class="filter-date d-flex align-items-center">
-                                        <input name="filter-date" class="filter-date filter-now" type="radio" value="last3Days">
-                                        <span class="fs-13 ml-2">Son 3 Gün</span>
-                                    </label>
-                                    <label class="filter-date d-flex align-items-center">
-                                        <input name="filter-date" class="filter-date filter-now" type="radio" value="lastWeek">
-                                        <span class="fs-13 ml-2">Son Bir Hafta</span>
-                                    </label>
-                                     <label class="filter-date d-flex align-items-center">
-                                        <input name="filter-date" type="radio" class="filter-date filter-now" value="lastMonth">
-                                        <span class="fs-13 ml-2">Son Bir Ay</span>
-                                        </label>
-                                </div>
-
-                            </div>
+                    <div class="filters-input-area" style="display: none;">
+                        <div style="position: relative;" class="d-flex mobile-header">
+                            <svg height="24px" id="Layer_1" onclick="$(this).parent().parent().slideToggle();"
+                                class="d-md-none"
+                                style="position: absolute; left: 16px; enable-background:new 0 0 512 512;cursor: pointer;"
+                                version="1.1" viewBox="0 0 512 512" width="24px" xml:space="preserve"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <path fill="#FFF"
+                                    d="M437.5,386.6L306.9,256l130.6-130.6c14.1-14.1,14.1-36.8,0-50.9c-14.1-14.1-36.8-14.1-50.9,0L256,205.1L125.4,74.5  c-14.1-14.1-36.8-14.1-50.9,0c-14.1,14.1-14.1,36.8,0,50.9L205.1,256L74.5,386.6c-14.1,14.1-14.1,36.8,0,50.9  c14.1,14.1,36.8,14.1,50.9,0L256,306.9l130.6,130.6c14.1,14.1,36.8,14.1,50.9,0C451.5,423.4,451.5,400.6,437.5,386.6z" />
+                            </svg>
+                            <div class="d-md-none" style="margin: 0 auto; font-weight: bold; color: #FFF;">FİLTRELE</div>
+                            <!-- Search Fields -->
                         </div>
 
-                        
+                        <div>
 
-                        <button type="button" class=" btn bg-white btn-lg btn-block mt-4 mb-4e btn-transition" style="border: 1px solid #CCC;"
-                            id="clear-filters">Temizle</button>
+                            <div>
+                                <a id="clear-filters" style="font-size: 12px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
+                                <div class="trip-search">
+                                    <div class="widget-boxed-header mobile-title widget-boxed-header"
+                                        style="margin-bottom: 0 !important">
+                                        <span>Adres</span>
+                                    </div>
+                                    <div class="mt-md-2">
+                                        <select id="city" class="bg-white filter-now mobile-button">
+                                            <option value="#" class="selected" selected disabled>İl</option>
+                                            @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}">{{ $city->title }}</option>
+                                            @endforeach
+                                        </select>
 
-                        <button type="button" onclick="$('.filters-input-area').slideToggle();"
-                            style="background: #e54242 !important"
-                            class="btn btn-secondary btn-lg btn-block mt-4 d-md-none mb-4"
-                            id="close-filters">Kapat</button>
+                                    </div>
+                                    <div class="mt-md-2">
+                                        <select id="county" class="bg-white filter-now mobile-button">
+                                            <option value="#" class="selected" selected disabled>İlçe</option>
+                                        </select>
+
+
+                                    </div>
+                                    <div class="mt-md-2">
+                                        <select id="neighborhood" class="bg-white filter-now mobile-button">
+                                            <option value="#" class="selected" selected disabled>Mahalle</option>
+                                        </select>
+
+
+                                    </div>
+                                </div>
+
+
+                                @if ($projects)
+                                    <div class="trip-search mt-md-2">
+                                        <div class="widget-boxed-header mobile-title widget-boxed-header">
+                                            <span>Proje Durumu</span>
+                                        </div>
+                                        <div class="mt-md-2">
+                                            <select id="project_type" class="form-control bg-white filter-now">
+                                                <option value="#" selected disabled>Proje Durumu</option>
+                                                <option value="2">Tamamlanan Projeler</option>
+                                                <option value="3">Devam Eden Projeler</option>
+                                                <option value="5">Topraktan Projeler</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @foreach ($filters as $filter)
+                                    <div id="room_count_field" class="room_count_field">
+
+                                        @if ($filter['type'] != 'text')
+                                            <div class="trip-search mt-md-2">
+                                                <div class="head widget-boxed-header mobile-title widget-boxed-header"
+                                                    onclick="toggleFilter(this)">
+                                                    <span>{!! $filter['label'] !!}</span>
+                                                </div>
+                                                <div class="mt-md-2 filtreArea" style="display: none !important;">
+                                                    @foreach ($filter['values'] as $key => $value)
+                                                        @if ($filter['type'] == 'select')
+                                                            @if ($key != 0)
+                                                                <div class="mb-2 d-flex align-items-center">
+                                                                    <input name="{{ $filter['name'] }}[]" type="checkbox"
+                                                                        value="{{ $value->value }}"
+                                                                        class="filter-now form-control"
+                                                                        id="{{ $filter['name'] . $key }}">
+                                                                    <label for="{{ $filter['name'] . $key }}"
+                                                                        class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                                </div>
+                                                            @endif
+                                                        @elseif($filter['type'] == 'checkbox-group')
+                                                            <div class="mb-2 d-flex align-items-center">
+                                                                <input name="{{ $filter['name'] }}[]" type="checkbox"
+                                                                    value="{{ $value->value }}"
+                                                                    class="filter-now form-control"
+                                                                    id="{{ $filter['name'] . $key }}">
+                                                                <label for="{{ $filter['name'] . $key }}"
+                                                                    class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if ($filter['type'] == 'text')
+                                            <div class="trip-search mt-md-2">
+                                                <div class="head d-flex" onclick="toggleFilterDiv(this)">
+                                                    <div class="widget-boxed-header mobile-title widget-boxed-header">
+                                                        <span>{!! $filter['label'] !!}</span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="d-flex align-items-center mt-md-2"
+                                                    style="display: none !important;">
+                                                    @if ($filter['text_style'] == 'min-max')
+                                                        <span id="slider-range-value1">
+                                                            <input type="text"
+                                                                name="{{ str_replace('[]', '', $filter['name']) }}-min"
+                                                                id="{{ str_replace('[]', '', $filter['name']) }}-min"
+                                                                min="0" placeholder="Min"
+                                                                class="filter-now form-control price-only">
+                                                        </span>
+                                                        <i class="fa fa-solid fa-minus mx-2 dark-color icon"></i>
+                                                        <span id="slider-range-value2">
+                                                            <input type="text"
+                                                                id="{{ str_replace('[]', '', $filter['name']) }}-max"
+                                                                min="0" placeholder="Max"
+                                                                class="filter-now form-control price-only"
+                                                                name="{{ str_replace('[]', '', $filter['name']) }}-max">
+                                                        </span>
+                                                    @else
+                                                        <span class="w-100">
+                                                            <input type="text"
+                                                                name="{{ str_replace('[]', '', $filter['name']) }}"
+                                                                id="{{ str_replace('[]', '', $filter['name']) }}"
+                                                                class="filter-now form-control">
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <script>
+                                            function toggleFilterDiv(element) {
+                                                var filterContent = $(element).parent().find('.mt-md-2');
+                                                var filterIcon = $(element).find('#filter-icon');
+
+                                                if (filterContent.css('display') === 'none') {
+                                                    filterContent.attr('style', 'display: flex !important');
+                                                    filterIcon.attr('style', 'transform: rotate(180deg) !important');
+                                                } else {
+                                                    filterContent.attr('style', 'display: none !important');
+                                                    filterIcon.attr('style', 'transform: rotate(0deg) !important');
+                                                }
+                                            }
+
+                                            function toggleFilter(element) {
+                                                var filterContent = $(element).parent().find('.mt-md-2');
+                                                var filterIcon = $(element).find('#filter-icon');
+
+                                                if (filterContent.css('display') === 'none') {
+                                                    filterContent.attr('style', 'display: block !important');
+                                                    filterIcon.attr('style', 'transform: rotate(180deg) !important');
+                                                } else {
+                                                    filterContent.attr('style', 'display: none !important');
+                                                    filterIcon.attr('style', 'transform: rotate(0deg) !important');
+                                                }
+                                            }
+                                        </script>
+
+
+
+                                    </div>
+                                @endforeach
+
+                            </div>
+
+                            <button type="button" class="d-md-none d-lg-none btn bg-white btn-lg btn-block mt-md-2 mb-4e btn-transition"
+                                style="border: 1px solid #CCC;" id="clear-filters">Temizle</button>
+
+                            <button type="button" onclick="$('.filters-input-area').slideToggle();"
+                                style="background: #e54242 !important"
+                                class="btn btn-secondary btn-lg btn-block mt-md-2 d-md-none mb-4"
+                                id="close-filters">Kapat</button>
+
+                        </div>
 
                     </div>
                 </aside>
@@ -343,7 +340,8 @@
                     <section class="headings-2 pt-0 d-md-flex" style="display: grid;">
                         <div class="brand-head" style="padding-top: 0">
                             <div class="brands-square" style="position: relative; top: 0; left: 0">
-                                <p class="brand-name"><a href="{{ url('/') }}" style="color: black">Anasayfa</a></p>
+                                <p class="brand-name"><a href="{{ url('/') }}" style="color: black">Anasayfa</a>
+                                </p>
                                 @if ($slugName)
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
                                     <p class="brand-name" style="color: black">{{ $slugName }}</p>
@@ -360,6 +358,11 @@
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
                                     <p class="brand-name" style="color: black">{{ $housingTypeName }}</p>
                                 @endif
+                                @if ($checkTitle)
+                                <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
+                                <p class="brand-name" style="color: black">{{ ucwords(str_replace('-', ' ', $checkTitle)) }}</p>
+                            @endif
+                            
                             </div>
                         </div>
 
@@ -404,8 +407,8 @@
 
                         </div>
                     </section>
-                    <section id="pages" class="d-flex justify-content-center" style="gap: 12px;">
-                    </section>
+                    {{-- <section id="pages" class="d-flex justify-content-center" style="gap: 12px;">
+                    </section> --}}
 
                 </div>
 
@@ -430,7 +433,7 @@
                     <div class="widget-boxed main-search-field">
                         <div class="trip-search">
                             <div class="head d-flex">
-                                <b>Adres</b>
+                                <span>Adres </span>
                                 <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
                                     <svg width="16px" height="16px" viewBox="0 0 384 512"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -456,145 +459,7 @@
                         </div>
                     </div>
 
-                    @if ($secondhandHousings)
-                        <div class="widget-boxed main-search-field mt-4">
-                            <div class="trip-search">
-                                <div class="head d-flex">
-                                    <b>Fiyat Aralığı</b>
-                                    <span class="ml-auto"
-                                        onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
-                                        <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="mt-4 row price-inputs" style="display: none;">
-                                    <div class="col-6">
-                                        <input type="number" id="price-min" min="0" placeholder="Min"
-                                            class="filter-now form-control">
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="number" id="price-max" min="0" placeholder="Max"
-                                            class="filter-now form-control">
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="widget-boxed main-search-field mt-4">
-                            <div class="trip-search">
-                                <div class="head d-flex">
-                                    <b>m<sup>2</sup> (brüt)</b>
-                                    <span class="ml-auto"
-                                        onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
-                                        <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="mt-4 row" style="display: none;">
-                                    <div class="col-6">
-                                        <input type="number" id="msq-min" min="0" placeholder="Min"
-                                            class="filter-now form-control">
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="number" id="msq-max" min="0" placeholder="Max"
-                                            class="filter-now form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="widget-boxed mt-4" id="room_count_field">
-                            <div class="head d-flex">
-                                <b>Oda Sayısı</b>
-                                <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
-                                    <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div class="mt-4" style="display: none;">
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now form-control"
-                                        id="1_1" />
-                                    <label for="1_1" class="form-check-label w-100 ml-4">1+1</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now  form-control"
-                                        id="2_1" />
-                                    <label for="2_1" class="form-check-label w-100 ml-4">2+1</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now  form-control"
-                                        id="3_1" />
-                                    <label for="3_1" class="form-check-label w-100 ml-4">3+1</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now  form-control"
-                                        id="3_2" />
-                                    <label for="3_2" class="form-check-label w-100 ml-4">3+2</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now  form-control"
-                                        id="4_1" />
-                                    <label for="4_1" class="form-check-label w-100 ml-4">4+1</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now  form-control"
-                                        id="4_2" />
-                                    <label for="4_2" class="form-check-label w-100 ml-4">4+2</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="checkbox" class="form-check-input filter-now  form-control"
-                                        id="5_1" />
-                                    <label for="5_1" class="form-check-label w-100 ml-4">5+1</label>
-                                </div>
-                            </div>
-                        </div
-                        <div class="widget-boxed mt-4" id="from_owner_field">
-                            <div class="head d-flex">
-                                <b>Kimden</b>
-                                <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
-                                    <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div class="mt-4" style="display: none;">
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="whose" id="from_owner" class="filter-now" />
-                                    <label for="from_owner" class="form-check-label w-100 ml-2">Sahibinden</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="whose" id="from_office" class="filter-now" />
-                                    <label for="from_office" class="form-check-label w-100 ml-2">Emlak
-                                        Ofisinden</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="whose" id="from_company" class="filter-now" />
-                                    <label for="from_company" class="form-check-label w-100 ml-2">İnşaat
-                                        Firmasından</label>
-                                </div>
-                                <div class="mb-2 d-flex align-items-center w-100">
-                                    <input type="radio" name="whose" id="from_bank" class="filter-now" />
-                                    <label for="from_bank" class="form-check-label w-100 ml-2">Bankadan</label>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
-                    <button type="button" class="btn btn-primary btn-lg btn-block mt-4 mb-4"
-                        id="clear-filters">Temizle</button>
+                  
 
                 </div>
             </div>
@@ -613,12 +478,35 @@
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
 
-        $('.bathroom-count-item').on('click', function()
-        {
+        $('.bathroom-count-item').on('click', function() {
             $('.bathroom-count-item').removeClass('bg-dark').removeClass('text-white');
             $(this).addClass('bg-dark').addClass('text-white');
             bathroom_count = $(this).text();
         });
+
+        $('.price-only').keyup(function(){
+            $('.price-only .error-text').remove();
+            if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                if($('.price-only').closest('.form-group').find('.error-text').length > 0){
+                    $('.price-only').val("");
+                }else{
+                    $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
+                    $('.price-only').val("");
+                }
+                
+            }else{
+                let inputValue = $(this).val();
+
+                // Sadece sayı karakterlerine izin ver
+                inputValue = inputValue.replace(/\D/g, '');
+
+                // Her üç basamakta bir nokta ekleyin
+                inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                console.log(inputValue);
+                $(this).val(inputValue)
+                $(this).closest('.form-group').find('.error-text').remove();
+            }
+        })
 
         $('#city').on('change', function() {
             $.ajax({
@@ -660,35 +548,49 @@
         }
 
 
-
+        function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
 
         function drawList(filters = {}) {
             function formatDate(rawDate) {
                 const options = {
                     month: 'long',
-                    day: 'numeric'
+                    day: 'numeric',
+                    year: 'numeric'
                 };
                 const date = new Date(rawDate);
                 return new Intl.DateTimeFormat('tr-TR', options).format(date);
             }
 
             var slug = @json($slug ?? null);
-            var type = @json($housingTypeSlug ?? null);
+            var type = @json($housingTypeParentSlug ?? null);
             var title = @json($housingTypeSlug ?? null);
             var optional = @json($opt ?? null);
+            var checkTitle = @json($checkTitle ?? null);
 
+            var data = Object.assign({}, filters, {
+                _token: "{{ csrf_token() }}",
+                slug: slug,
+                type: type,
+                title: title,
+                optional: optional,
+                checkTitle: checkTitle
+            });
+
+            let currentData = {};
+
+            Object.keys(data).map(e => {
+                if (data[e])
+                    currentData[e] = data[e];
+            });
 
             $.ajax({
                 method: "POST",
                 url: "{{ route($secondhandHousings ? 'get-rendered-secondhandhousings' : 'get-rendered-projects') }}",
-                data: Object.assign({}, filters, {
-                    _token: "{{ csrf_token() }}",
-                    slug: slug,
-                    type: type,
-                    title: title,
-                    optional: optional
-
-                }),
+                data: currentData,
                 success: function(response) {
                     $('.pp-row').empty();
                     $('.pp-col').empty();
@@ -721,204 +623,268 @@
                         $('.next-page').removeClass('d-none');
 
                     if (response.data.length > 0) {
-                        console.log(response);
+
                         var assetPath = "{{ asset('images/sc.png') }}";
 
                         response.data.forEach((res) => {
+                            if (typeof res === "boolean")
+                                return true;
+
                             @if (!$secondhandHousings)
                                 $('.pp-row').append(
                                     `
-                                    <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
-                                        <!-- Image Box -->
-                                        <a href="${res.url}" class="img-box hover-effect">
-                                            <img src="${res.image}" class="img-fluid w100" alt="">
-
-                                        </a>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150" style="height:200px">
+                                        <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
+                                            <div class="listing-item compact" style="height:100%">
+                                                <a href="${res.url}" class="listing-img-container">
+                                                    <img class="project_brand_profile_image" src="${res.image}" style="border-radius:7px;" alt="">
+                                                    <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
+                                                        <span class="badge badge-phoenix text-left">${res.title} <span class="d-block"><small>${res.city.title} / ${res.county.ilce_title}</small></span></span>
+                                                    
+                                                    </div>
+                                                    <img src="${res.image}" alt=""
+                                                    style="height:100%;object-fit:cover">
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                     `
                                 );
                                 $('.pp-col').append(
                                     `
-                                    <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
-                                        <!-- Image Box -->
-                                        <a href="${res.url}" class="img-box hover-effect">
-                                            <img src="${res.image}" class="img-fluid w100" alt="">
-
-                                        </a>
-                                    </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150" style="height:200px">
+                                            <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
+                                                <div class="listing-item compact" style="height:100%">
+                                                    <a href="${res.url}" class="listing-img-container" >
+                                                        <img class="project_brand_profile_image" src="${res.image}" alt="" style="border-radius:7px;">
+                                                        <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
+                                                            <span class="badge badge-phoenix text-left">${res.title} <span class="d-block"><small>${res.city.title} / ${res.county.ilce_title}</small></span></span>
+                                                        
+                                                        </div>
+                                                        <img src="${res.image}" alt=""
+                                                        style="height:100%;object-fit:cover">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     `
                                 );
                             @else
-                                $('.pp-row').append(
-                                    `
+                                var featuredHtml = '';
+                                if (res.doping_time) {
+                                    var featuredHtml =
+                                        '<div class="homes-tag button alt featured">Sponsorlu </div>';
+                                }
+
+                                function kisalt(text, uzunluk) {
+                                    if (typeof text == "string" && text.length > uzunluk) {
+                                        return text.substring(0, uzunluk - 3) + "...";
+                                    }
+                                    return text;
+                                }
+
+                             
+
+                                // Metni kırp ve üç nokta ekle
+                                var kisaltilmisBaslik = kisalt(res.title, 45);
+                                $('.pp-row').append(`
                                     <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
                                         <a href="${res.housing_url}" tabindex="0" class="text-decoration-none">
-                                        <div class="landscapes">
-                                            <div class="project-single">
-
-                                                <div class="project-inner project-head">
-                                                    <div class="homes">
-                                                        <!-- homes img -->
-                                                        <a href="${res.housing_url}" class="homes-img">
-                                                            <img src="${res.image}" alt="${res.housing_type_title}"
-                                                                 class="img-responsive">
-                                                        </a>
-                                                    </div>
-                                                    <div class="button-effect">
-                                                        <!-- Örneğin Kalp İkonu -->
-                                                        <a href="" class="btn toggle-favorite bg-white ${res.in_favorites ? 'bg-white' : ''}"
-                                                           data-housing-id="${res.id}">
-                                                            <i class="fa fa-heart-o ${res.in_favorites ? 'text-danger' : ''}"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <!-- homes content -->
-                                                <div class="homes-content p-3" style="padding:20px !important; ${res.sold ? 'background: #EEE !important;' : ''}">
-                                                    <!-- homes address -->
-                                                    <a href="${res.housing_url}">
-                                                    <h4>${res.title}</h4>
-                                                    </a>
-                                                    <p class="homes-address mb-3">
-                                                        <a href="${res.housing_url}">
-                                                            <i class="fa fa-map-marker"></i><span>                ${res.city.title} ${"/"} ${res.county.ilce_title}</span>
-                                                        </a>
-                                                    </p>
-                                                    <!-- homes List -->
-                                                    <ul class="homes-list clearfix pb-0" style="display: flex;justify-content:space-between">
-                                                        <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>${res.housing_type.title} </span>
-                                                        </li>
-                                                        <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>${res.housing_type.room_count}</span>
-                                                        </li>
-                                                        <li class="sude-the-icons" style="width:auto !important">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>${res.housing_type.squaremeters} m2</span>
-                                                        </li>
-                                                    </ul>
-                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                        <li style="font-size: 16px; font-weight: 700;" class="priceFont">
-                                                            ${numberFormat(res.housing_type.price)} ₺
-
-                                                        </li>
-                                                        <li style="display: flex; justify-content: center;">
-                                                            ${formatDate(res.created_at)}
-
-                                                        </li>
-                                                    </ul>
-                                                    <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
-                                                        ${res.sold ?
-                                                            `<button
-                                                                                                                                                                                                    style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                                                                                                                </button>`
-                                                            :
-
-                                                            `
-                                                                                                                                                        <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                                                                        data-id='${res.id}'>
-                                                                                                                                                        <span class="IconContainer">
-                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
-
-                                                                                                                                                        </span>
-                                                                                                                                                        <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                    </button>
-                                                                                                                                                        `
-                                                            }
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </a>
-                                    </div>
-                                    `
-                                );
-                                $('.pp-col').append(`
-
-                                    <div class="d-flex" style="flex-wrap: nowrap">
-                                        <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
-                                            <div class="project-inner project-head">
-                                                <a href="${res.housing_url}">
-                                                    <div class="homes">
-                                                        <!-- homes img -->
-                                                        <div class="homes-img h-100 d-flex align-items-center"
-                                                            style="width: 110px; height: 128px;">
-                                                            <img src="${res.image}" alt="${res.title}" class="img-responsive"
-                                                                style="height: 100px !important;">
+                                            <div class="landscapes">
+                                                <div class="project-single">
+                                                    <div class="project-inner project-head">
+                                                        <div class="homes">
+                                                            <!-- homes img -->
+                                                            <div class="homes-img">
+                                                                ${featuredHtml}
+                                                                <img src="${res.image}" alt="${res.housing_type_title}" class="img-responsive">
+                                                            </div>
+                                                        </div>
+                                                        <div class="button-effect">
+                                                            <!-- Örneğin Kalp İkonu -->
+                                                            <div href="" class="btn toggle-favorite bg-white ${res.in_favorites ? 'bg-white' : ''}" data-housing-id="${res.id}">
+                                                                <i class="fa fa-heart-o ${res.in_favorites ? 'text-danger' : ''}"></i>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="w-100" style="padding-left:0;">
-                                            <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
-                                                <a style="text-decoration: none;height:100%" href="${res.housing_url}">
-                                                    <h4>
-                                                        ${res.title} ${' '}${res.housing_type.squaremeters ?? '?' }m2 ${res.housing_type.room_count ?? '?' }
-                                                    </h4>
-                                                </a>
-                                                <div class="d-flex">
-                                                    <div class="d-flex" style="gap: 8px;">
-                                                        <a href="#" class="btn toggle-favorite bg-white" data-housing-id="${res.id}" style="color: white;">
-                                                            <i class="fa fa-heart-o"></i>
+                                                    <!-- homes content -->
+                                                    <div class="homes-content p-3" style="padding: 20px !important; ${res.sold ? 'background: #EEE !important;' : ''}">
+                                                        <!-- homes address -->
+                                                        <a href="${res.housing_url}">
+                                                            <h4>${kisaltilmisBaslik}</h4>
                                                         </a>
-                                                        <button class="addToCart mobile px-2"
-                                                                                style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                                                                data-type='housing' data-id='${res.id}'>
-                                                                                <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
-                                                                                    height="24px"
-                                                                                    style="width: 24px !important; height: 24px !important;" />
-                                                                            </button>
+                                                        <p class="homes-address mb-3">
+                                                            <a href="${res.housing_url}">
+                                                                <i class="fa fa-map-marker"></i><span>${res.city} ${"/"} ${res.county}</span>
+                                                            </a>
+                                                        </p>
+                                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-evenly;align-items: center;width: 100%;">
+${res.column1 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
+${res.column2 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
+${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
+                                                        </ul>
 
+                                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                            <li style="font-size: 15px; font-weight: 700; flex: 1;" class="priceFont">
+                                                                ${res.step2_slug !== "gunluk-kiralik" ?
+                                                                    res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
+                                                                    : numberFormat(res.housing_type.price) + " ₺"
+                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
+                                                                }
+                                                            </li>
+                                                        </ul>
+                                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
+                                                            ${res.step2_slug !== "gunluk-kiralik" ?
+                                                                res.offSale ?
+                                                                    `<button
+                                                                                                class="btn second-btn CartBtn" disabled
+                                                                                                style="background: red !important;width:100%;color:White">Satıldı
+                                                                                            </button>`
+                                                                    :
+                                                                    res.action === 'payment_await' ?
+                                                                        `<button
+                                                                                                    class="btn second-btn CartBtn" disabled
+                                                                                                    style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                                                </button>`
+                                                                        :
+                                                                        res.action === 'sold' ?
+                                                                            `<button
+                                                                                                        class="btn second-btn CartBtn" disabled
+                                                                                                        style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                    </button>`
+                                                                            :
+                                                                `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                                            data-id='${res.id}'>
+                                                                                            <span class="IconContainer">
+                                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                                            </span>
+                                                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                        </button>` :
+                                                            `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
+                                                                                        <span class="IconContainer">
+                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                                        </span>
+                                                                                        <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                    </button>`
+                                                            }
+                                                        </ul>
                                                     </div>
-                                                    <span class="ml-auto text-primary priceFont">
-                                                        ${numberFormat(res.housing_type.price)} ₺
-                                                    </span>
                                                 </div>
                                             </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            `);
+
+
+                                $('.pp-col').append(`
+                                <div class="d-flex" style="flex-wrap: nowrap;width:100%">
+                                    <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
+                                        <div class="project-inner project-head">
+                                            <a href="${res.housing_url}">
+                                                <div class="homes">
+                                                    <!-- homes img -->
+                                                    <div class="homes-img h-100 d-flex align-items-center"
+                                                        style="width: 110px; height: 128px;">
+                                                        <img src="${res.image}" alt="${res.title}" class="img-responsive"
+                                                            style="height: 100px !important;">
+                                                    </div>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
-                                    <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
-                                        <ul class="d-flex justify-content-around align-items-center h-100"
-                                            style="list-style: none;padding:0;font-weight:600">
-                                            <li class="d-flex align-items-center itemCircleFont">
-                                                <i class="fa fa-circle circleIcon"></i>
-                                            No: ${res.id}
-                                            </li>
-                                            <li class="d-flex align-items-center itemCircleFont">
-                                                <i class="fa fa-circle circleIcon"></i>
-                                                ${res.housing_type.squaremeters ?? null } m2
-                                            </li>
-                                            <li class="d-flex align-items-center itemCircleFont">
-                                                <i class="fa fa-circle circleIcon"></i>
-                                                ${res.housing_type.room_count ?? null }
-                                            </li>
-                                            <li class="d-flex align-items-center itemCircleFont" >
-                                                <i class="fa fa-circle circleIcon"></i>
-                                                ${res.city.title} ${"/"} ${res.county.ilce_title}
-                                            </li>
-                                        </ul>
+                                    <div class="w-100" style="padding-left:0;">
+                                        <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
+                                            <a style="text-decoration: none;height:100%" href="${res.housing_url}">
+                                                <h4>
+                                                    ${res.title}
+                                                </h4>
+                                            </a>
+                                            <div class="d-flex" style="align-items:Center">
+                                                <div class="d-flex" style="gap: 8px;">
+                                                    <a href="#" class="btn toggle-favorite bg-white" data-housing-id="${res.id}" style="color: white;">
+                                                        <i class="fa fa-heart-o"></i>
+                                                    </a>
+
+                                                                        ${res.step2_slug !== "gunluk-kiralik" ?
+                                                    res.offSale ?
+                                                        `<button
+                                                                                    class="btn mobileBtn second-btn CartBtn" disabled
+                                                                                    style="background: red !important;width:100%;color:White">Satıldı
+                                                                                </button>`
+                                                        :
+                                                        res.action === 'payment_await' ?
+                                                            `<button
+                                                                                        class="btn mobileBtn second-btn CartBtn" disabled
+                                                                                        style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                                    </button>`
+                                                            :
+                                                            res.action === 'sold' ?
+                                                                `<button
+                                                                                            class="btn mobileBtn second-btn CartBtn" disabled
+                                                                                            style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                        </button>`
+                                                                :
+                                                                `<button class="CartBtn mobileBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                                            data-id='${res.id}'>
+                                                                                            <span class="IconContainer">
+                                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                                            </span>
+                                                                                            <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                        </button>` :
+                                                                    `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileBtn">
+                                                                                                <span class="IconContainer">
+                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                </span>
+                                                                                            </button>`
+                                                                }
+                                                                    </div>
+                                                                    <span class="ml-auto text-primary priceFont">
+                                                                        ${
+                                                        res.step2_slug !== "gunluk-kiralik"
+                                                        ? res.offSale || (res.action === 'payment_await' || res.action === 'sold')
+                                                            ? " "
+                                                            : numberFormat(res.housing_type.price) + " ₺"
+                                                        : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red'>/ 1 Gece</span>"
+                                                    }
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <hr>
-                                `);
+                                </div>
+                                <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
+                                    <ul class="d-flex justify-content-around align-items-center h-100"
+                                        style="list-style: none;padding:0;font-weight:600">
+                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-evenly;align-items: center;width: 100%;">
+${res.column1 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
+${res.column2 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
+${res.column3 ? `<li class='sude-the-icons' style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
+                                        </ul>
+                                    </ul>
+                                </div>
+                                <hr>
+                            `);
                             @endif
                         });
                     } else {
                         $('.pp-row').html(`
-                        <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
+                        <div class="col-12 text-center my-4 p-3" style="font-size:12px">Sonuç bulunamadı.</div>
                         `);
                         $('.pp-col').html(`
-                        <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
+                        <div class="col-12 text-center my-4 p-3" style="font-size:12px">Sonuç bulunamadı.</div>
                         `);
                     }
                 }
             });
         }
 
+        function redirectToReservation(resId) {
+            window.location.href = '{{ route('housing.show', ['resIdPlaceholder']) }}'.replace('resIdPlaceholder', resId);
+        }
         // Sıralama seçenekleri için
-        $('#sort-select').on('change', function() {
-            var selectedValue = $(this).val();
+
+        function sortSelectFilters(val) {
+            var selectedValue = val;
             var filters = {};
 
             switch (selectedValue) {
@@ -939,17 +905,15 @@
                     break;
             }
 
-            drawList(filters);
-        });
-
-
+            return filters.sort;
+        }
 
         $(function() {
             drawList();
 
             function filterNow() {
                 let room_count = [];
-                $('#room_count_field .mt-4 .mb-2').each(function() {
+                $('#room_count_field .mb-2').each(function() {
                     let i = $(this).find('.form-check-input');
                     if (i.is(':checked')) {
                         room_count.push(i.attr('id').replace('_', '+'));
@@ -973,7 +937,28 @@
                         return false;
                     }
                 });
+                var filterValues = {}
+                @foreach ($filters as $filter)
+                    @if ($filter['type'] == 'select' || $filter['type'] == 'checkbox-group')
+                        var checkedValues = [];
+                        $('input[name="{{ $filter['name'] }}[]').each(function() {
+                            if ($(this).is(':checked')) {
+                                checkedValues.push($(this).val());
+                            }
+                        });
 
+                        filterValues["{{ $filter['name'] }}"] = checkedValues;
+                    @else
+
+                        @if ($filter['text_style'] == 'min-max')
+                            filterValues["{{ $filter['name'] }}-min"] = $('input[name="{{ $filter['name'] }}-min"]').val().replace('.', "").replace('.', "").replace('.', "").replace('.', "").replace('.', "").replace('.', "");
+                            filterValues["{{ $filter['name'] }}-max"] = $("input[name='{{ $filter['name'] }}-max']").val().replace('.', "").replace('.', "").replace('.', "").replace('.', "").replace('.', "").replace('.', "");
+                        @else
+                            filterValues["{{ $filter['name'] }}"] = $('input[name="{{ $filter['name'] }}"]')
+                                .val();
+                        @endif
+                    @endif
+                @endforeach
                 drawList({
                     page: current_page,
                     city: $('#city').val(),
@@ -981,22 +966,21 @@
                     project_type: $("#project_type").val(),
                     neighborhood: $('#neighborhood').val(),
                     filterDate: $(".filter-date:checked").val(),
-                    @if ($secondhandHousings)
-                        price_min: $('#price-min').val(),
-                        price_max: $('#price-max').val(),
-                        msq_min: $('#msq-min').val(),
-                        msq_max: $('#msq-max').val(),
-                        room_count,
-                        post_date,
-                        from_owner,
-                        bathroom_count,
-                    @endif
+                    zoning: $("#zoning").val(),
+                    sort: sortSelectFilters($('#sort-select').val()),
+                    ...filterValues
                 });
             }
+
+            $('#sort-select').on('change', filterNow);
 
             $('#clear-filters').on('click', function() {
                 $('#city').val('#');
                 $('#county').val('#');
+                $('#project_type').val('#');
+                $('input[type=radio]').prop('checked', false);
+                $('.form-check-input').prop('checked', false);
+
                 @if ($secondhandHousings)
                     $('#price-min').val('');
                     $('#price-max').val('');
@@ -1005,7 +989,8 @@
                     $('.bathroom-count-item').removeClass('bg-dark').removeClass('text-white');
                     bathroom_count = null;
 
-                $('#room_count_field .mt-4 .mb-2').each(function() {
+
+                    $('#room_count_field .mt-4 .mb-2').each(function() {
                         let i = $(this).find('.form-check-input');
                         i.prop('checked', false);
                     });
@@ -1045,6 +1030,49 @@
             $('.filter-now').on('change', filterNow);
             $('.bathroom-count-item').on('click', filterNow);
         });
+
+        checkFavorites();
+
+        function checkFavorites() {
+            var favoriteButtons = document.querySelectorAll(".toggle-favorite");
+
+            favoriteButtons.forEach(function(button) {
+                var housingId = button.getAttribute("data-housing-id");
+                console.log(housingId);
+                $.ajax({
+                    url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
+                        .replace(':id', housingId),
+                    type: "GET",
+                    success: function(response) {
+                        if (response.is_favorite) {
+                            button.querySelector("i").classList.remove(
+                                "fa-heart-o");
+                            button.querySelector("i").classList.add(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "text-danger");
+                            button.classList.add("bg-white");
+                        } else {
+                            button.querySelector("i").classList.remove(
+                                "text-danger");
+                            button.querySelector("i").classList.remove(
+                                "fa-heart");
+                            button.querySelector("i").classList.add(
+                                "fa-heart-o");
+                        }
+                    },
+                    error: function(error) {
+                        button.querySelector("i").classList.remove(
+                            "text-danger");
+                        button.querySelector("i").classList.remove(
+                            "fa-heart");
+                        button.querySelector("i").classList.add(
+                            "fa-heart-o");
+                        console.error(error);
+                    }
+                });
+            });
+        }
     </script>
 @endsection
 
@@ -1052,13 +1080,24 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        .projectMobileMargin {
+            margin-top: 20px;
+        }
+
+        #pages {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            justify-content: center
+        }
+
         hr {
             width: 100%;
             height: 100%;
         }
 
         .homes-content h4 {
-            height: 60px !important;
+            height: 30px !important;
         }
 
         .brand-head .brand-name {
@@ -1078,6 +1117,10 @@
 
         .btn-transition {
             transition: all .2s ease-in-out
+        }
+
+        .text-primary {
+            color: #274abb !important;
         }
 
         .btn-transition:focus,
@@ -1104,6 +1147,24 @@
         }
 
         @media (max-width:768px) {
+
+            .mobile-title {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .room_count_field {
+                padding: 9px
+            }
+
+            .mobile-title {
+                padding-bottom: 10px;
+                padding-top: 10px;
+
+                margin-bottom: 10px;
+
+            }
+
             #sort-select {
                 margin: 15px 0;
                 width: 200px;
@@ -1126,8 +1187,18 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 14px;
+                font-size: 12px;
             }
+        }
+
+        .head {
+            cursor: pointer;
+            align-items: center
+        }
+
+        .trip-search {
+            border: 1px solid #eaeff5;
+            padding: 9px
         }
     </style>
 @endsection

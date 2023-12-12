@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\City;
 use App\Models\County;
+use App\Models\District;
 use App\Models\DocumentNotification;
 use App\Models\Housing;
 use App\Models\HousingStatus;
@@ -14,14 +15,18 @@ use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\HousingTypeParentConnection;
 use App\Models\Log;
+use App\Models\Neighborhood;
 use App\Models\SinglePrice;
 use App\Models\StandOutUser;
 use App\Models\TempOrder;
 use App\Models\UserPlan;
+use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -38,6 +43,9 @@ class HousingController extends Controller
 
     public function createV2()
     {
+        
+
+        
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type', 2)->get();
         $cities = City::get();
@@ -93,7 +101,7 @@ class HousingController extends Controller
     public function finishByTemp(Request $request)
     {
             DB::beginTransaction();
-            $tempOrderFull = TempOrder::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where('item_type', 2)->first();
+            $tempOrderFull = TempOrder::where('user_id',  auth()->user()->id)->where('item_type', 2)->first();
             $tempOrder = json_decode($tempOrderFull->data);
             $housingType = HousingType::where('slug', $tempOrder->step3_slug)->firstOrFail();
             $housingTypeInputs = json_decode($housingType->form_json);
@@ -116,7 +124,14 @@ class HousingController extends Controller
                 $location = explode(',', $tempOrder->location);
                 $latitude = $location[0];
                 $longitude = $location[1];
-                $tempOrder->roomInfoKeys->price = str_replace('.','',$tempOrder->roomInfoKeys->price);
+                if(isset($tempOrder->roomInfoKeys->price))
+                {
+                    $tempOrder->roomInfoKeys->price = str_replace('.','',$tempOrder->roomInfoKeys->price);
+
+                }
+                if(isset($tempOrder->roomInfoKeys->{"daily_rent"})){
+                    $tempOrder->roomInfoKeys->daily_rent = str_replace('.','',$tempOrder->roomInfoKeys->daily_rent);
+                }
                 $postData = $tempOrder->roomInfoKeys;
                 $postData->image = $newCoverImage;
                 $tempImageNames = [];
@@ -139,25 +154,46 @@ class HousingController extends Controller
                         "step1_slug" => $tempOrder->step1_slug,
                         "step2_slug" => $tempOrder->step2_slug,
                         "county_id" => $tempOrder->county_id,
+                        "neighborhood_id" => $tempOrder->neighbourhood_id,
                         "status_id" => 1,
                         'document' => $newDocument,
                         "status" => 2,
-                        'housing_type_data' => json_encode($postData),
+                        'housing_type_data' => json_encode($postData, JSON_UNESCAPED_UNICODE),
                         'user_id' => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
                         'latitude' => $latitude,
                         'longitude' => $longitude,
                         "status" => 2,
                     ]
                 );
+                $defaultHousingconnection = HousingStatus::where('is_default',1)->where('is_housing',1)->first();
+                HousingStatusConnection::create([
+                    "housing_status_id" => $defaultHousingconnection->id,
+                    "housing_id" => $project->id
+                ]);
 
-                if (!$request->without_doping) {
+                if (isset($tempOrder->top_row) && $tempOrder->top_row) {
+                    $now = Carbon::now();
+                    $endDate = $now->addWeeks($tempOrder->top_row_data_day);
                     StandOutUser::create([
                         "user_id" => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
-                        "project_id" => $project->id,
-                        "item_order" => $tempOrder->doping_order,
-                        "housing_status_id" => $tempOrder->doping_statuses,
-                        "start_date" => date('Y-m-d', strtotime($tempOrder->doping_start_date)),
-                        "end_date" => date('Y-m-d', strtotime($tempOrder->doping_end_date)),
+                        "item_id" => $project->id,
+                        "item_type" => 2,
+                        "housing_type_id" => $tempOrder->housing_type_id,
+                        "start_date" => $now->format('y-m-d'),
+                        "end_date" => $endDate->format('y-m-d'),
+                    ]);
+                }
+
+                if (isset($tempOrder->featured) && $tempOrder->featured) {
+                    $now = Carbon::now();
+                    $endDate = $now->addWeeks($tempOrder->featured_data_day);
+                    StandOutUser::create([
+                        "user_id" => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
+                        "item_id" => $project->id,
+                        "item_type" => 2,
+                        "housing_type_id" => 0,
+                        "start_date" => $now->format('y-m-d'),
+                        "end_date" => $endDate->format('y-m-d'),
                     ]);
                 }
 
@@ -194,6 +230,7 @@ class HousingController extends Controller
 
     public function index()
     {
+
         $housing = Housing::select(
             'housings.id',
             'housings.brand_id as brand_id',
@@ -207,7 +244,7 @@ class HousingController extends Controller
         )
             ->with("brand")
             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)
+            ->where('user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id)
             ->orderByDesc('created_at')
             ->get();
 
@@ -216,14 +253,23 @@ class HousingController extends Controller
 
     public function edit($housingId)
     {
-        $housing = Housing::where('id', $housingId)->first();
-        $statuses = $housing->housingStatus->keyBy('housing_status_id');
-        $brands = Brand::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where('status', 1)->get();
+        $housing = Housing::where('id',$housingId)->first();
+        $areaSlugs = [ucfirst($housing->step1_slug),$housing->step2_slug == 'satilik' ? 'Satılık' : 'Kiralık',$housing->housing_type->title];
         $cities = City::get();
-        $housing_types = HousingType::all();
-        $housing_status = HousingStatus::all();
-        $counties = County::where('city_id', $housing->city_id)->get();
-        return view('institutional.housings.edit', compact('brands', 'cities', 'housing_types', 'housing_status', 'housing', 'counties', 'statuses'));
+        $counties = District::where('ilce_sehirkey',$housing->city_id)->get();
+        $neighborhoods = Neighborhood::where('mahalle_ilcekey',$housing->county_id)->get();
+        $formData = json_decode($housing->housing_type_data);
+        return view('institutional.housings.edit', compact('housing','areaSlugs','cities','formData','counties','neighborhoods'));
+    }
+
+    public function editImages($housingId){
+        $housing = Housing::where('id',$housingId)->first();
+        $areaSlugs = [ucfirst($housing->step1_slug),$housing->step2_slug == 'satilik' ? 'Satılık' : 'Kiralık',$housing->housing_type->title];
+        $cities = City::get();
+        $counties = District::where('ilce_sehirkey',$housing->city_id)->get();
+        $neighborhoods = Neighborhood::where('mahalle_ilcekey',$housing->county_id)->get();
+        $formData = json_decode($housing->housing_type_data);
+        return view('institutional.housings.images', compact('housing','areaSlugs','cities','formData','counties','neighborhoods'));
     }
 
     public function newHousingImage(Request $request)
@@ -276,94 +322,155 @@ class HousingController extends Controller
 
     }
 
+    public function getTypeOnFormJson($formJson,$key){
+        foreach($formJson as $i => $formData){
+            if(str_contains($key, str_replace('[]','',$formData->name))){
+                return $formData;
+            }
+        }
+
+        return "qwe";
+    }
+
+    public function addProjectImage(Request $request,$housingId){
+        $housing = Housing::where('id',$housingId)->first();
+        $formJson = json_decode($housing->housing_type_data);
+        $newOrder = count($formJson->images);
+        
+        $uploadedFiles = $request->file();
+        $imageNames = [];
+        $tempOrder = 0;
+        foreach ($uploadedFiles as $fileKey => $file) {
+            $imageName = Str::slug($housing->title) . '-' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('housing_images'), $imageName);
+
+            array_push($formJson->images,$imageName);
+            array_push($imageNames,$imageName);
+            $tempOrder++;
+        }
+        
+        Housing::where('id',$housingId)->update([
+            "housing_type_data" => json_encode($formJson),
+            "status" => 2,
+        ]);
+        
+        return $imageNames;
+    }
+
+    public function deleteProjectImage(Request $request,$housingId){
+        $housing = Housing::where('id',$housingId)->first();
+        $tempData = json_decode($housing->housing_type_data);
+
+        $newImages = [];
+        foreach($tempData->images as $image){
+            if($image != $request->input('image')){
+                array_push($newImages,$image);
+            }
+        }
+
+        $tempData->images = $newImages;
+        Housing::where('id',$housingId)->update([
+            "housing_type_data" => json_encode($tempData)
+        ]);
+    }
+
+    public function updateOrders(Request $request,$housingId){
+        $housing = Housing::where('id',$housingId)->first();
+        $tempData = json_decode($housing->housing_type_data);
+
+        $data = $tempData;
+        $data->images = [];
+
+        foreach($request->input('images') as $image){
+            array_push($data->images,$image);
+        }
+
+        Housing::where('id',$housingId)->update([
+            "housing_type_data" => json_encode($data)
+        ]);
+    }
+
+    public function changeCoverImage(Request $request,$housingId){
+        $housing = Housing::where('id',$housingId)->first();
+        $tempData = json_decode($housing->housing_type_data);
+
+        if($request->hasFile('image')){
+            $file = $request->file('image');
+            $imageName = Str::slug($housing->title) . '-' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('housing_images'), $imageName);
+        }else{
+            $imageName = "";
+        }
+
+        $data = $tempData;
+        $data->image = $imageName;
+        
+        Housing::where('id',$housingId)->update([
+            "housing_type_data" => json_encode($data),
+            "status" => 2,
+        ]);
+    }
+
     public function update($id, Request $request)
     {
         $housing = Housing::where('id', $id)->first();
-        $housingData = json_decode($housing->housing_type_data);
-        $postData = $request->all();
-        $vData = $request->validate([
-            'title' => 'required|string',
-            'address' => 'required|string|max:128',
-            'housing_type' => 'required|integer',
-            'status' => 'required|array',
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'city_id' => 'required|integer',
+            'county_id' => 'required|integer',
+            'neighbourhood_id' => 'required|integer',
             'location' => 'required|string',
-            "brand_id" => "required",
-            "city_id" => "required",
-            "county_id" => "required",
         ]);
-
-        if ($request->hasFile('document')) {
-            $document = $request->file('document');
-            $documentName = $request->title . ' emlak belgesi.' . $document->getClientOriginalExtension();
-
-            // Dosyayı public/housing_documents klasörüne taşı
-            $document->move(public_path('/housing_documents'), $documentName);
-        } else {
-            $documentName = $housing->document;
-        }
-
-        $title = $vData['title'];
-        $address = $vData['address'];
-        $housing_type = $vData['housing_type'];
-        $status = $vData['status'];
-        $location = explode(',', $vData['location']);
-        $latitude = $location[0];
-        $longitude = $location[1];
+        $postData = $request->all();
 
         $unsetKeys = [
-            //Housing type için gelen form inputlarını ayırt etmek için
             '_token',
             'housing_type',
             'address',
-            'title',
+            'name',
             'status',
             'location',
             'description',
             'brand_id',
             'city_id',
             "county_id",
+            "cover-image",
+            "project-images",
+            "neighbourhood_id"
         ];
-
-        $files = [];
-
-        if ($request->hasFile('image')) {
-            $image = $request->file('image')[0];
-            $imageName = Str::slug($request->input('title')) . '-' . time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('/housing_images'), $imageName);
-            $postData['image'] = $imageName;
-        } else {
-            $postData['image'] = $housingData->image;
-        }
-        $postData['images'] = $housingData->images;
 
         foreach ($unsetKeys as $key) {
             unset($postData[$key]);
         }
-
-        $lastId = $housing->update(
+        
+        $formData = json_decode($housing->housing_type_data);
+        $housingType = HousingType::where('id',$housing->housing_type_id)->first();
+        $formJson = json_decode($housingType->form_json);
+        foreach($postData as $key => $val){
+            if($this->getTypeOnFormJson($formJson,$key)->type == "checkbox-group"){
+                $formData->{$key} = array_values(array_merge(...$val));
+            }else{
+                if(str_contains($this->getTypeOnFormJson($formJson,$key)->className,'price-only')){
+                    $formData->{$key} = str_replace('.','',$val);
+                }else{
+                    $formData->{$key} = $val;
+                }
+            }
+        }
+        $housing->update(
             [
-                'address' => $address,
-                'title' => $title,
-                'housing_type_id' => $housing_type,
-                'status_id' => 1,
-                'housing_type_data' => json_encode($postData),
-                'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
-                'latitude' => $latitude,
-                'longitude' => $longitude,
-                'brand_id' => $request->input('brand_id'),
+                'title' => $request->input('name'),
+                'description' => $request->input('description'),
                 'city_id' => $request->input('city_id'),
                 'county_id' => $request->input('county_id'),
-                'description' => $request->input('description'),
-                'document' => $documentName,
+                'neighborhood_id' => $request->input('neighbourhood_id'),
+                'latitude' => explode(',',$request->input('location'))[0],
+                'longitude' => explode(',',$request->input('location'))[1],
+                "housing_type_data" => json_encode($formData),
+                "status" => 2,
             ]
         );
-        HousingStatusConnection::where('housing_id', $id)->delete();
-        foreach ($request->input('status') as $status) {
-            HousingStatusConnection::create([
-                "housing_id" => $id,
-                "housing_status_id" => $status,
-            ]);
-        }
 
         return redirect()->route('institutional.housing.list', ["status" => "update_housing"]);
     }
@@ -372,5 +479,15 @@ class HousingController extends Controller
     {
         $logs = Log::where('item_type', 2)->where('item_id', $housingId)->orderByDesc('created_at')->get();
         return view('institutional.housings.logs', compact('logs'));
+    }
+
+    public function destroy($housingId){
+        $housing = Housing::where('id',$housingId)->where('user_id',auth()->user()->id)->first();
+
+        if($housing){
+            $housing->delete();
+        }
+
+        return redirect()->route('institutional.housing.list');
     }
 }

@@ -422,7 +422,7 @@
                             <div class="mt-4" style="display: none;">
                                 <div class="mb-2 d-flex align-items-center w-100">
                                     <input type="radio" name="whose" id="from_owner" class="filter-now" />
-                                    <label for="from_owner" class="form-check-label w-100 small">Sahibinden</label>
+                                    <label for="from_owner" class="form-check-label w-100 small">Turizm</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
                                     <input type="radio" name="whose" id="from_office" class="filter-now" />
@@ -623,12 +623,12 @@
                                                         </li>
                                                     </ul>
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
-                                                        ${res.sold ? 
+                                                        ${res.sold ?
                                                             `<button
                                                                                                             style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
                                                                                                         </button>`
-                                                            : 
-                                                            
+                                                            :
+
                                                             `
                                                                 <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
                                                                 data-id='${res.id}'>
@@ -894,7 +894,7 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 14px;
+                font-size: 12px;
             }
         }
     </style>

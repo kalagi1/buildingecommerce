@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Institutional;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Chat;
+
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -94,19 +96,29 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $rules = [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:3',
-            'type' => 'required',
-        ];
+    $messages = [
+        'name.required' => 'İsim alanı zorunludur.',
+        'name.string' => 'İsim alanı metin türünde olmalıdır.',
+        'name.max' => 'İsim alanı en fazla 255 karakter olmalıdır.',
+        'email.required' => 'E-posta alanı zorunludur.',
+        'email.email' => 'Geçerli bir e-posta adresi giriniz.',
+        'email.unique' => 'Bu e-posta adresi zaten kullanılıyor.',
+        'password.required' => 'Şifre alanı zorunludur.',
+        'password.min' => 'Şifre en az 3 karakterden oluşmalıdır.',
+        'type.required' => 'Tip alanı zorunludur.',
+    ];
 
-        // Form doğrulama işlemini gerçekleştirin
-        $validatedData = $request->validate($rules);
+    $rules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:3',
+        'type' => 'required',
+    ];
+
+    $validatedData = $request->validate($rules, $messages);
         $mainUser = User::where("id", auth()->user()->parent_id ?? auth()->user()->id)->with("plan")->first();
         $countUser = UserPlan::where("user_id", $mainUser->id)->first();
 
-        // Yeni kullanıcıyı oluşturun
         $user = new User();
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
@@ -118,7 +130,6 @@ class UserController extends Controller
         $user->parent_id = (auth()->user()->parent_id ?? auth()->user()->id) != 3 ? (auth()->user()->parent_id ?? auth()->user()->id) : null;
         $user->subscription_plan_id = $mainUser->subscription_plan_id;
 
-        // Kullanıcıyı veritabanına kaydedin
         $user->save();
 
         if ($user->save()) {
@@ -126,11 +137,13 @@ class UserController extends Controller
             $countUser->save();
         }
 
-        // Başarılı bir işlem sonrası mesajı ayarlayın
+        Chat::create([
+            "user_id" => $user->id
+        ]);
+
         session()->flash('success', 'Kullanıcı başarıyla oluşturuldu.');
 
-        // Yönlendirme yapabilirsiniz, örneğin kullanıcıları listeleme sayfasına yönlendirme
-        return redirect()->route('institutional.users.index'); // index route'unu kullanarak kullanıcıları listeleme sayfasına yönlendirme
+        return redirect()->route('institutional.users.index'); 
     }
 
     public function edit($id)

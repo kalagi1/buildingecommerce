@@ -9,13 +9,12 @@
 
             <div style="color: #27ae60; font-size: 26px; text-align: center;">ÖDEME BAŞARILI</div>
             <p style="font-size: 18px;">Sipariş başarıyla verildi. Sipariş numaranız: {{ $cart_order->key }}</p>
-@if(Auth::user()->type == "2") 
-    <a href="{{ route('institutional.profile.cart-orders') }}" class="btn btn-primary btn-lg">Siparişleri Görüntüle</a>
+            @if(Auth::user()->type != "1" || Auth::user()->type != "3") 
+                    <a href="{{ route('institutional.profile.cart-orders') }}" class="btn btn-primary btn-lg">Siparişleri Görüntüle</a>
+                @else
+                <a href="{{ route('client.profile.cart-orders') }}" class="btn btn-primary btn-lg">Siparişleri Görüntüle</a>
 
-@else
-<a href="{{ route('client.profile.cart-orders') }}" class="btn btn-primary btn-lg">Siparişleri Görüntüle</a>
-
-@endif
+                @endif
 
         </div>
 

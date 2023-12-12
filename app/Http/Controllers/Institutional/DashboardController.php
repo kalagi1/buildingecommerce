@@ -7,6 +7,7 @@ use App\Mail\CustomMail;
 use App\Models\CartOrder;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
+use App\Models\Reservation;
 use App\Models\User;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
@@ -16,6 +17,25 @@ use Illuminate\Support\Facades\Mail;
 
 class DashboardController extends Controller
 {
+    public function getReservations() {
+        $user = Auth::user();
+        $housingReservations = Reservation::with("user", "housing")
+            ->where("owner_id", $user->id)
+            ->get();
+
+            return view('institutional.reservations.index', compact('housingReservations'));
+
+    }
+    public function getMyReservations() {
+        $user = Auth::user();
+        $housingReservations = Reservation::with("user", "housing","owner")
+            ->where("user_id", $user->id)
+            ->get();
+
+    return view('institutional.reservations.get', compact('housingReservations'));
+
+    }
+    
 
     public function getOrders()
     {
@@ -204,6 +224,6 @@ class DashboardController extends Controller
 
         }
         DB::commit();
-        return view('institutional.home.index', compact("userLog", "remainingPackage", "stats1_data", "stats2_data"));
+        return view('institutional.home.index', compact("userLog", "remainingPackage", "stats1_data", "stats2_data","hasPlan"));
     }
 }

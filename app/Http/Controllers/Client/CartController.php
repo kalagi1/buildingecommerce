@@ -16,9 +16,16 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class CartController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     // public function add(Request $request)
     // {
     //     $type = $request->input('type');
@@ -93,7 +100,7 @@ class CartController extends Controller
         $order->key = $request->input("key");
         $order->save();
 
-        $user = User::where("id", auth()->user()->id)->first();
+        $user = User::where("id", $order->user_id)->first();
         $BuyCart = EmailTemplate::where('slug', "buy-cart")->first();
 
         if (!$BuyCart) {
@@ -117,7 +124,7 @@ class CartController extends Controller
             $BuyCartContent = str_replace("{{" . $key . "}}", $value, $BuyCartContent);
         }
 
-        Mail::to($user->email)->send(new CustomMail($BuyCart->subject, $BuyCartContent));
+        // Mail::to($user->email)->send(new CustomMail($BuyCart->subject, $BuyCartContent));
         $cartOrder = CartOrder::where("id", $order->id)->with("bank")->first();
 
         $NewOrder = EmailTemplate::where('slug', "new-order")->first();
@@ -133,9 +140,30 @@ class CartController extends Controller
         $NewOrderContent = $NewOrder->body;
 
         $admins = User::where("type", "3")->get();
+        $o = json_decode($cartOrder);
+
+        function getHouse($project, $key, $roomOrder)
+        {
+            foreach ($project->roomInfo as $room) {
+                if ($room->room_order == $roomOrder && $room->name == $key) {
+                    return $room;
+                }
+            }
+        }
 
         foreach ($admins as $key => $admin) {
+            $housingTypeImage = '';
+            if (json_decode($o->cart)->type == 'housing') {
+                $housingTypeImage = asset('housing_images/' . json_decode(Housing::find(json_decode($o->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null);
+            } else {
+                $project = Project::where("id", json_decode($o->cart)->item->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->first();
+                $housingImage = getHouse($project, 'image[]', json_decode($o->cart)->item->housing)->value;
+                $housingTypeImage = URL::to('/') . '/project_housing_images/' . $housingImage;
+            }
+
+          
             $NewOrderVariables = [
+                "productImage" => "<img src=\"$housingTypeImage\" style=\"object-fit: contain;width:100%;height:100%\" alt=\"Görsel\">",
                 "adminName" => $admin->name,
                 'customerName' => $user->name,
                 'paymentDate' => $cartOrder->created_at,
@@ -150,7 +178,7 @@ class CartController extends Controller
                 $NewOrderContent = str_replace("{{" . $key . "}}", $value, $NewOrderContent);
             }
 
-            Mail::to($admin->email)->send(new CustomMail($NewOrder->subject, $NewOrderContent));
+            // Mail::to($admin->email)->send(new CustomMail($NewOrder->subject, $NewOrderContent));
         }
 
         session()->forget('cart');
@@ -160,7 +188,7 @@ class CartController extends Controller
 
     public function paySuccess(Request $request, CartOrder $cart_order)
     {
-        
+
         return view('client.cart.pay-success', compact('cart_order'));
     }
 
@@ -225,7 +253,6 @@ class CartController extends Controller
                     'item' => $cartItem,
                     'type' => $type,
                 ];
-
 
                 $request->session()->put('cart', $cart); // Save cart data to session
                 return response(['message' => 'success']);

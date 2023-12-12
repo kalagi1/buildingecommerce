@@ -6,8 +6,9 @@
         "text": "Anasayfa",
         "key": "ViewDashboard",
         "url": "admin.index",
-        "activePath": "admin/*"
+        "activePath": "admin/"
     },
+    
     {
         "id": "projects",
         "label": "EMLAK SEPETTE",
@@ -15,7 +16,7 @@
         "text": "Proje İlanları",
         "key": "Projects",
         "url": "admin.projects.index",
-        "activePath": "admin/projects*"
+        "activePath": "admin/projects"
     },
     {
         "id": "housing",
@@ -24,7 +25,7 @@
         "text": "Konut İlanları",
         "key": "Housings",
         "url": "admin.housings.index",
-        "activePath": "admin/housing/*"
+        "activePath": "admin/housing"
     },
     {
         "id": "comment",
@@ -36,6 +37,24 @@
         "activePath": "admin/housing/comments"
     },
     {
+        "id": "comment",
+        "label": "EMLAK SEPETTE",
+        "icon": "comments",
+        "text": "Canlı Destek",
+        "key": "GetMessages",
+        "url": "admin.messages",
+        "activePath": "admin/messages"
+    },
+    {
+        "id": "order",
+        "label": "EMLAK SEPETTE",
+        "icon": "calendar",
+        "text": "Konut Rezervasyonları",
+        "key": "GetReservations",
+        "url": "admin.reservations",
+        "activePath": "admin/reservations"
+    },
+    {
         "id": "order",
         "label": "EMLAK SEPETTE",
         "icon": "shopping-bag",
@@ -44,6 +63,7 @@
         "url": "admin.orders",
         "activePath": "admin/orders"
     },
+  
     {
         "id": "order",
         "label": "EMLAK SEPETTE",
@@ -53,6 +73,16 @@
         "url": "admin.packageOrders",
         "activePath": "admin/package-orders"
     },
+  
+    {
+        "id": "order",
+        "label": "EMLAK SEPETTE",
+        "icon": "shopping-bag",
+        "text": "Doping Siparişleri",
+        "key": "DopingOrders",
+        "url": "admin.doping.orders",
+        "activePath": "admin/doping_orders"
+    },
     {
         "id": "ad-banners",
         "label": "EMLAK SEPETTE",
@@ -60,7 +90,7 @@
         "text": "Reklam Görselleri",
         "key": "AdBanners",
         "url": "admin.adBanners.index",
-        "activePath": "admin/ad-banners/*"
+        "activePath": "admin/ad-banners"
     },
     {
         "id": "subscriptionPlans",
@@ -69,7 +99,7 @@
         "text": "Abonelik Planları",
         "key": "SubscriptionPlans",
         "url": "admin.subscriptionPlans.index",
-        "activePath": "admin/subscription-plans*"
+        "activePath": "admin/subscription-plans"
     },
     {
         "id": "menu",
@@ -78,7 +108,7 @@
         "text": "Menü",
         "key": "Menus",
         "url": "admin.menu_management",
-        "activePath": "admin/menus*"
+        "activePath": "admin/menus"
     },
     {
         "id": "role",
@@ -87,7 +117,7 @@
         "text": "Roller",
         "key": "Roles",
         "url": "#nv-role",
-        "activePath": "admin/roles*",
+        "activePath": "admin/roles",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
@@ -110,7 +140,7 @@
         "text": "Sayfalar",
         "key": "Pages",
         "url": "#nv-page",
-        "activePath": "admin/pages*",
+        "activePath": "admin/pages",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
@@ -133,7 +163,7 @@
         "text": "İzin Grupları",
         "key": "PermissionGroups",
         "url": "#nv-permission-group",
-        "activePath": "admin/permission_groups*",
+        "activePath": "admin/permission_groups",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
@@ -156,7 +186,7 @@
         "text": "İzinler",
         "key": "Permissions",
         "url": "#nv-permissions",
-        "activePath": "admin/permissions*",
+        "activePath": "admin/permissions",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
@@ -179,7 +209,7 @@
         "text": "Slider",
         "key": "Sliders",
         "url": "#nv-sliders",
-        "activePath": "admin/sliders*",
+        "activePath": "admin/sliders",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
@@ -225,7 +255,7 @@
         "text": "Üyeler",
         "key": "Users",
         "url": "#nv-users",
-        "activePath": "admin/users*",
+        "activePath": "admin/users",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
@@ -275,7 +305,7 @@
         "text": "Genel Ayarlar",
         "key": "GetSiteSettings",
         "url": "admin.site-settings.index",
-        "activePath": "admin/site-settings*"
+        "activePath": "admin/site-settings"
     },
     {
         "id": "bank_accounts",
@@ -284,7 +314,7 @@
         "text": "Banka Hesapları",
         "key": "GetBankAccounts",
         "url": "admin.bank_account.index",
-        "activePath": "admin/bank_accounts*"
+        "activePath": "admin/bank_accounts"
     },
     {
         "id": "smtp_settings",
@@ -293,7 +323,7 @@
         "text": "SMTP Ayarları",
         "key": "GetSmtpSettingById",
         "url": "admin.smtp.edit",
-        "activePath": "admin/smtp/edit*"
+        "activePath": "admin/smtp/edit"
     },
     {
         "id": "contact_settings",
@@ -302,7 +332,7 @@
         "text": "İletişim Ayarları",
         "key": "GetContactSettingById",
         "url": "admin.info.contact.index",
-        "activePath": "admin/info/contact*"
+        "activePath": "admin/info/contact"
     },
     {
         "id": "marketings",
@@ -311,7 +341,7 @@
         "text": "Pazarlama",
         "key": "Marketings",
         "url": "#nv-marketings",
-        "activePath": "admin/marketings*",
+        "activePath": "admin/marketings",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
@@ -334,7 +364,7 @@
         "text": "Footer Bağlantıları",
         "key": "FooterLinks",
         "url": "#nv-footer-links",
-        "activePath": "admin/footer_links*",
+        "activePath": "admin/footer_links",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
@@ -357,7 +387,7 @@
         "text": "Sosyal Medya İkonları",
         "key": "SocialMediaIcons",
         "url": "#nv-social-media-icons",
-        "activePath": "admin/social_media_icons*",
+        "activePath": "admin/social_media_icons",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
@@ -380,7 +410,7 @@
         "text": "E-posta Şablonları",
         "key": "EmailTemplates",
         "url": "#nv-email-templates",
-        "activePath": "admin/email_templates*",
+        "activePath": "admin/email_templates",
         "subMenu": [
             {
                 "text": "Yeni Ekle",

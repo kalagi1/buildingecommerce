@@ -74,6 +74,25 @@
     <link href="{{ URL::to('/') }}/adminassets/vendors/leaflet.markercluster/MarkerCluster.Default.css"
         rel="stylesheet">
     @yield('css')
+    <style>
+ .mobile-show {
+        display: none !important;
+    }
+
+    .mobile-hidden {
+        display: block !important;
+    }
+
+    @media (max-width: 768px) {
+        .mobile-show {
+        display: block !important;
+    }
+    .mobile-hidden {
+        display: show !important;
+    }
+    }
+
+        </style>
 </head>
 
 <body>
@@ -128,7 +147,8 @@
                                         $hasVisibleMenus = true;
                                     @endphp
                                     <!-- Parent Menü -->
-                                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
+                                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1  
+                                        @if (request()->is($menuItem['activePath'])) active @endif"
                                             href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif "
                                             role="button"
                                             @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
@@ -376,7 +396,10 @@
                     <li class="nav-item" style="margin-right:10px">
                         <a href="{{ url('institutional/choise-advertise-type') }}">
                             <button type="button" class="buyUserRequest">
-                                <span class="buyUserRequest__text"> İlan Ekle</span>
+                                <span class="buyUserRequest__text"> 
+                                    <div class="mobile-show"><i class="fa fa-plus"></i></div>
+                                    <div class="mobile-hidden">İlan Ekle</div>
+                                </span>
                                 <span class="buyUserRequest__icon">
                                     <img src="{{ asset('sc.png') }}" alt="" srcset="">
                                 </span>
@@ -395,7 +418,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         @php
-                        $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->where("owner_id",Auth::user()->id)->limit(10)->get();
+                        $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->where("owner_id",Auth::user()->id)->limit(10)->where('readed', '0')->get();
                         @endphp
 
                         <a class="nav-link" href="#" style="min-width: 2.5rem" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside">
@@ -8177,7 +8200,7 @@
 
     @media (max-width: 768px) {
         .buyUserRequest {
-            width: 80px !important;
+            width: 35px !important;
         }
 
         .buyUserRequest .buyUserRequest__text {

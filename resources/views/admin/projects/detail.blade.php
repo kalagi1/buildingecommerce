@@ -61,52 +61,71 @@
                             class="img-fluid" alt="slider-listing">
                     @endforeach
                 </div>
-                <h4 class="mb-3">Emlak Sayısı</h4>
-                <p style="font-weight: bold;">{{ $project->room_count }}</p>
+
+                <div class="admin-house-count">
+                    <h4 class="mb-3">Emlak Sayısı</h4>
+                    <p style="font-weight: bold;">{{ $project->room_count }}</p>
+                </div>
 
                 <div class="rendered-area">
                     <h4 class="mb-3">Daire Bilgileri</h4>
+                    
                     <div class="row g-0 border-top border-bottom border-300">
                         <div class="col-sm-4">
                             <div id="tablist"
-                                class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab h-100 justify-content-between"
+                                class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab justify-content-between"
                                 role="tablist" aria-orientation="vertical">
                                 @for ($i = 0; $i < $project->room_count; $i++)
-                                    <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center @if ($i == 0) active @endif"
-                                        id="Tab1" data-bs-toggle="tab" data-bs-target="#TabContent{{ $i }}"
-                                        role="tab" aria-controls="TabContent{{ $i }}"
-                                        aria-selected="true"><span class="me-sm-2 fs-4 nav-icons"
-                                            data-feather="tag"></span><span class="d-none d-sm-inline">{{ $i + 1 }}
-                                            Nolu {{ $project->step1_slug }} Bilgileri</span></a>
+                                    <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center @if ($i == 0) active @endif" id="Tab1" data-bs-toggle="tab" data-bs-target="#TabContent{{ $i }}" role="tab" aria-controls="TabContent{{ $i }}" aria-selected="true">
+                                        <span class="me-sm-2 fs-4 nav-icons" data-feather="tag"></span>
+                                        <span class="d-none d-sm-inline">{{ $i + 1 }} Nolu {{ $project->step1_slug }} Bilgileri</span>
+                                    </a>
                                 @endfor
                             </div>
                         </div>
                         <div class="col-sm-8">
                             <div class="tab-content py-3 ps-sm-4 h-100">
                                 @for ($i = 0; $i < $project->room_count; $i++)
-                                    <div class="tab-pane fade show @if ($i == 0) active @endif"
+                                    <div class="tab-pane fade show row @if ($i == 0) active @endif"
                                         id="TabContent{{ $i }}" role="tabpanel">
+                                        
+                                        @if($project->have_blocks)
+                                            @php $count = 0; @endphp
+                                            <div class="admin-blocks">
+                                                <ul>
+                                                    @foreach($project->blocks as $key=>$block)
+                                                    @php $tempCount = $count; $count += $block->housing_count; @endphp
+                                                    @if($i < $count && $i >= $tempCount)
+                                                        <li  class="active">{{$block->block_name}}</li>
+
+                                                    @endif
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
                                         @foreach ($housingTypeData as $housingType)
                                             @if ($housingType->type != 'file' && isset($housingType->name))
                                                 @if ($housingType->type == 'checkbox-group')
-                                                    <div class="view-form-json mt-4">
+                                                    <div class="view-form-json col-md-12 mt-2">
                                                         <label for=""
                                                             style="font-weight: bold;">{!! $housingType->label !!}</label>
                                                             @foreach (json_decode(getData($i + 1, $housingType->name, $housingData)) as $checkboxItem)
-                                                            <p class="mb-1">{{ $checkboxItem }}</p>
+                                                            <p class="mb-1">{{ $checkboxItem == "pesin" ? 'Peşin' : $checkboxItem }}</p>
                                                         @endforeach
                                                     </div>
                                                 @else
-                                                    <div class="view-form-json">
+                                                    @if(getData($i + 1, $housingType->name, $housingData))
+                                                    <div class="view-form-json col-md-3 mt-2">
                                                         <label for=""
                                                             style="font-weight: bold;">{!! $housingType->label !!}</label>
-                                                        <p>{{ getData($i + 1, $housingType->name, $housingData) }}</p>
+                                                        <p>{{ getData($i + 1, $housingType->name, $housingData) ?  getData($i + 1, $housingType->name, $housingData) : ''}}</p>
                                                     </div>
+                                                    @endif
                                                 @endif
                                             @elseif($housingType->type == 'file')
                                                 @if ($housingType->multiple)
                                                 @else
-                                                    <div class="view-form-json mt-4">
+                                                    <div class="view-form-json mt-4 col-md-12">
                                                         <img style="width:150px;"
                                                             src="{{ URL::to('/') . '/project_housing_images/' . getData($i + 1, $housingType->name, $housingData) }}"
                                                             alt="">
@@ -126,62 +145,76 @@
                     <div class="col-12 col-xl-12">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h4 class="card-title mb-4">Genel Bilgiler</h4>
+                                <h4 class="card-title mb-2">Genel Bilgiler</h4>
                                 <div class="row gx-3">
                                     <div class="col-12 col-sm-6 col-xl-12">
-                                        <div class="mb-4">
+                                        <div>
                                             <div class=" mb-2">
                                                 <h5 class="mb-0 text-1000 me-2">Marka</h5>
-                                                <a style="display: block" href="">{{ $project->user->name }}</a>
+                                                <a class="badge badge-phoenix badge-phoenix-primary mt-2" href="">{{ $project->user->name }}</a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6 col-xl-12">
-                                        <div class="mb-4">
+                                        <div>
                                             <div class="d-flex flex-wrap mb-2">
                                                 <h5 class="mb-0 text-1000 me-2">Konut Tipi</h5>
                                             </div>
-                                            <p>{{ $project->housingType->title }}</p>
+                                            <p class="badge badge-phoenix badge-phoenix-secondary">{{ $project->housingType->title }}</p>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6 col-xl-12">
-                                        <div class="mb-4">
+                                        <div>
                                             <div class="d-flex flex-wrap mb-2">
                                                 <h5 class="mb-0 text-1000 me-2">Emlak Statüleri</h5>
                                             </div>
                                             @foreach ($project->housingStatus as $housingStatue)
-                                                <p class="mb-2">{{ $housingStatue->housingStatus->name }}</p>
+                                                <p class="mb-2 badge badge-phoenix badge-phoenix-secondary">{{ $housingStatue->housingStatus->name }}</p>
                                             @endforeach
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-6 col-xl-12">
-                                        <div class="mb-4">
-                                            <div class="d-flex flex-wrap mb-2">
-                                                <h5 class="mb-0 text-1000 me-2">Şehir</h5>
+                                    <div class="col-12 col-sm-6 col-xl-12 mt-3">
+                                        <div class="row">
+                                            <div class="col-6  col-sm-6 col-xl-4">
+                                                <div class="">
+                                                    <div class="d-flex flex-wrap mb-2">
+                                                        <h5 class="mb-0 text-1000 me-2">Şehir</h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <p class="badge badge-phoenix badge-phoenix-secondary">{{ $project->city->title }}</p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <p>{{ $project->city->title }}</p>
+                                            <div class="col-6 col-sm-6 col-xl-4">
+                                                <div>
+                                                    <div class="d-flex flex-wrap mb-2">
+                                                        <h5 class="mb-0 text-1000 me-2">İlçe</h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <p class="badge badge-phoenix badge-phoenix-secondary">{{ $project->county->ilce_title }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 col-sm-6 col-xl-4">
+                                                <div>
+                                                    <div class="d-flex flex-wrap mb-2">
+                                                        <h5 class="mb-0 text-1000 me-2">Mahalle</h5>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <p class="badge badge-phoenix badge-phoenix-secondary">{{ $project->county->ilce_title }}</p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-6 col-xl-12">
-                                        <div class="mb-4">
-                                            <div class="d-flex flex-wrap mb-2">
-                                                <h5 class="mb-0 text-1000 me-2">İlçe</h5>
-                                            </div>
-                                            <div class="col-md-12">
-                                                {{ $project->county->ilce_title }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-xl-12">
+                                    {{-- <div class="col-12 col-sm-6 col-xl-12">
                                         <div class="mb-4">
                                             <div class="d-flex flex-wrap mb-2">
                                                 <h5 class="mb-0 text-1000 me-2">Adresini Yazınız</h5>
                                             </div>
                                             <p>{{ $project->address }}</p>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -189,7 +222,101 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Ödeme Onay Adımı</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="contentx">
+                            <div class="invoice-body">
+                                <table class="table table-bordered d-none d-md-table"> <!-- Tabloyu sadece tablet ve daha büyük ekranlarda göster -->
+                                    <thead>
+                                        <tr>
+                                            <th>Doping Adı</th>
+                                            <th>Kullanıcı</th>
+                                            <th>Ödeme Keyi</th>
+                                            <th>Ödenen Banka</th>
+                                            <th>Ödenen Tutar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($project->dopingOrder as $doping)
+                                            <tr>
+                                                <td>@if($doping->standOut->housing_type_id == 0) Öne Çıkarılanlar @else Üst Sıradayım @endif</td>
+                                                <td>{{$doping->user->name}}</td>
+                                                <td>{{$doping->key}}</td>
+                                                <td>{{$doping->bank->receipent_full_name}}</td>
+                                                <td>{{$doping->price}} ₺</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                    
+                                <!-- Mobilde sadece alt alta liste göster -->
+                                <div class="d-md-none">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <strong>Ürün Adı:</strong> Doping Ücreti
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Miktar:</strong> 1
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Fiyat:</strong> 2500 ₺
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Toplam:</strong> 2500 ₺
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ route('admin.project.set.status.get', $project->id) }}"  class="btn btn-primary btn-lg btn-block mb-3" id="completePaymentButton">
+                            Ödemeyi Onayla ve Projeyi Aktife Al
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
+            aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="finalConfirmationModalLabel">Ödeme Onayı</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</p>
+                        <ol>
+                            <li>
+                                <strong style="color:red" id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
+                                alanına yazdığınızdan emin olun.
+                            </li>
+                            <li>
+                                Son olarak, işlemi bitirmek için aşağıdaki butona tıklayın: <br>
+                                <button type="submit" class="btn btn-primary without-doping mt-3">Ödemeyi Tamamla
+                                    <svg viewBox="0 0 576 512" style="width: 16px;color: #fff;fill: #fff;" class="svgIcon">
+                                        <path
+                                            d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                        </path>
+                                    </svg></button>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 @endsection
@@ -215,29 +342,35 @@
                     items: 2
                 },
                 1000: {
-                    items: 2
+                    items: 3
                 }
             }
         })
 
         $('.set_status').click(function(e) {
             e.preventDefault();
-            var projectId = $(this).attr('project_id');
-            Swal.fire({
-                @if ($project->status)
-                    title: 'Pasife almak istediğine emin misin?',
-                @else
-                    title: 'Aktife almak istediğine emin misin?',
-                @endif
-                showCancelButton: true,
-                confirmButtonText: 'Evet',
-                denyButtonText: `İptal`,
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    window.location.href = "{{ route('admin.project.set.status.get', $project->id) }}"
-                }
-            })
+            @if($project->confirmDopingOrder)
+                $('#paymentModal').addClass('show')
+                $('#paymentModal').css('display','block')
+                
+            @else
+                var projectId = $(this).attr('project_id');
+                Swal.fire({
+                    @if ($project->status != 1)
+                        title: 'Aktife almak istediğine emin misin?',
+                    @else
+                        title: 'Pasife almak istediğine emin misin?',
+                    @endif
+                    showCancelButton: true,
+                    confirmButtonText: 'Evet',
+                    denyButtonText: `İptal`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('admin.project.set.status.get', $project->id) }}"
+                    }
+                })
+            @endif
         })
         var defaultMessagesItems = @json($defaultMessages);
         console.log(defaultMessagesItems[0].title);

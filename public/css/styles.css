@@ -91,7 +91,7 @@ html {
 }
 
 body {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     font-weight: 400;
     color: #666;
@@ -109,7 +109,7 @@ p {
 }
 
 h1 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1.2rem;
@@ -117,7 +117,7 @@ h1 {
 }
 
 h2 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #222;
     font-size: 2rem;
     font-weight: 800;
@@ -130,15 +130,15 @@ h2 span {
 }
 
 h3 {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
     color: #333;
     font-weight: 600;
 }
 
 h4 {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
     color: #333;
     font-weight: 600;
 }
@@ -302,7 +302,6 @@ button {
 }
 
 .section-title {
-    margin-bottom: 20px;
     display: flex;
     align-items: center;
     position: relative;
@@ -335,13 +334,13 @@ button {
 }
 
 .section-title h3 {
-    font-size: 18px;
+    font-size: 12px;
     color: #111;
     text-transform: uppercase;
 }
 
 .section-title h2 {
-    font-size: 20px;
+    font-size: 18px;
     color: #274abb;
     margin-bottom: 0 !important;
     text-transform: uppercase;
@@ -442,7 +441,7 @@ img {
 .header-top p {
     margin-right: 2rem;
     color: #fff;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     margin-bottom: 0px;
 }
@@ -532,7 +531,7 @@ img {
 .card-body .navbar-brand {
     font-weight: 600;
     color: #333;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 34px;
 }
 
@@ -639,6 +638,7 @@ img {
 .brand-head .brand-name {
     margin-left: 10px !important;
     font-weight: 600;
+    font-size:13px;
     margin: 0;
     padding: 0;
     color: white;
@@ -662,6 +662,7 @@ img {
 .brand-head .navbar-item {
     text-decoration: none;
     color: black;
+    font-size:13px;
     font-weight: 600;
     padding: 20px;
 }
@@ -1092,8 +1093,8 @@ img {
 }
 
 .tp-caption.font-p {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
     font-weight: 400;
 }
 
@@ -1108,7 +1109,7 @@ img {
     font-weight: 600;
     background-color: #121B22;
     border-color: #fff;
-    font-size: 16px;
+    font-size: 12px;
     padding: 13px 32px;
     margin-top: .8rem;
     margin-right: 1rem;
@@ -1127,7 +1128,7 @@ img {
     color: #fff;
     background-color: black;
     border-color: #fff;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 600;
     padding: 13px 32px;
     margin-top: .8rem;
@@ -1272,7 +1273,15 @@ img {
     }
 }
 
+ul.the-agents-details li{
+        font-size:12px !important;
+        font-weight:500 !important;
+}
 /* Sizes */
+
+b, strong{
+    font-weight:500 !important;
+}
 
 .button--size-s {
     font-size: 15px;
@@ -1280,11 +1289,11 @@ img {
 }
 
 .button--size-m {
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .button--size-l {
-    font-size: 18px;
+    font-size: 12px;
 }
 
 /* Typography and Roundedness */
@@ -1535,7 +1544,7 @@ section.recently.portfolio {
 }
 
 .recently .homes .button {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     padding: 6px 14px;
     border-radius: 2px;
@@ -1599,7 +1608,7 @@ section.recently.portfolio {
 }
 
 .recently .compare i {
-    font-size: 1rem;
+     font-size: 12px;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
 }
@@ -1646,7 +1655,7 @@ section.recently.portfolio {
 }
 
 .recently .homes-content h3.title a {
-    font-size: 1.1rem;
+    font-size: 12px;
     font-weight: 600;
     color: #666;
     text-transform: uppercase;
@@ -1669,13 +1678,13 @@ section.recently.portfolio {
 }
 
 .recently .homes-content .homes-address .fa-map-marker {
-    font-size: 1rem;
+     font-size: 12px;
     text-decoration: none;
     color: #18ba60;
 }
 
 .recently .homes-content .homes-address a span {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     margin: 0 0 1px;
     text-decoration: none;
@@ -1696,14 +1705,14 @@ section.recently.portfolio {
 
 .recently .homes-content .homes-list li {
     width: 45%;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 40px;
     list-style: none;
     color: black;
 }
 
 .recently .homes-content .homes-list li i {
-    font-size: 1rem;
+     font-size: 12px;
     margin-right: 5px;
     color: black;
 }
@@ -1724,7 +1733,7 @@ section.recently.portfolio {
     background: none;
     border-top: 1px solid #ebebeb;
     padding-top: 1rem;
-    font-size: 13px;
+    font-size: 12px;
     color: #666;
 }
 
@@ -1739,7 +1748,7 @@ section.recently.portfolio {
 
 .recently .footer i {
     margin-right: 5px;
-    font-size: 1rem;
+     font-size: 12px;
     color: #666;
 }
 
@@ -1757,7 +1766,7 @@ section.recently.portfolio {
 
 .house-details.thehp-1 i {
     color: black;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 500;
 }
 
@@ -1844,7 +1853,7 @@ section.recently.portfolio {
 
 .homepage-1 .portfolio.full-l .homes-content h3 a {
     color: #333;
-    font-size: 1.1rem;
+    font-size: 12px;
 }
 
 .homepage-1 .first-footer .bloq-email .email input[type="submit"] {
@@ -1862,12 +1871,12 @@ section.recently.portfolio {
 
 .homepage-1 .portfolio .homes-content .homes-list li i {
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 12px;
 }
 
 .homepage-1 .portfolio .footer i {
     color: #2D2D2D;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .homepage-1 .portfolio.full-l .project-head:before {
@@ -1988,7 +1997,7 @@ section.recently.portfolio {
 }
 
 .hp1 label {
-    font-size: 16px;
+    font-size: 12px;
     line-height: 24px;
     font-weight: 400;
     margin-bottom: 5px;
@@ -2221,7 +2230,7 @@ section.recently.portfolio {
 .recently .project-bottom h4 span {
     display: block;
     color: #fff;
-    font-size: 14px;
+    font-size: 12px;
     margin-top: 10px;
     font-weight: 400;
 }
@@ -2621,7 +2630,7 @@ section.welcome {
 
 .welcome-content>p span {
     color: #666;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -2793,7 +2802,7 @@ section.welcome {
     }
 
     .welcome-title h4 {
-        font-size: 16px;
+        font-size: 12px;
     }
 
     .welcome-content>p span {
@@ -3084,7 +3093,7 @@ section.portfolio {
 }
 
 .portfolio .homes .button {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     padding: 6px;
     border-radius: 2px;
@@ -3096,11 +3105,11 @@ section.portfolio {
 }
 
 .portfolio .homes-tag.featured {
-    left: 15px;
+    left: 10px;
     text-align: center;
-    width: 120px !important;
-    margin-top: 15px;
-    background-color: black !important;
+    width: 85px !important;
+    margin-top: 10px;
+    background-color: #EA2B2E !important;
 }
 
 .portfolio .homes-price,
@@ -3151,7 +3160,7 @@ section.portfolio {
 }
 
 .portfolio .compare i {
-    font-size: 1rem;
+     font-size: 12px;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
 }
@@ -3198,7 +3207,7 @@ section.portfolio {
 }
 
 .portfolio .homes-content h3.title a {
-    font-size: 1.1rem;
+    font-size: 12px;
     font-weight: 600;
     color: #666;
     text-transform: uppercase;
@@ -3206,9 +3215,10 @@ section.portfolio {
 }
 
 .portfolio .homes-content h3 {
-    font-size: 1.1rem;
+    font-size: 12px;
     font-weight: 600;
     color: #444;
+    height: 40px !important;
     margin-bottom: 3px;
 }
 
@@ -3236,7 +3246,7 @@ section.portfolio {
 }
 
 .portfolio .homes-content .homes-address .fa-map-marker {
-    font-size: 1rem;
+     font-size: 12px;
     text-decoration: none;
     color: #18ba60;
 }
@@ -3246,7 +3256,7 @@ section.portfolio {
 }
 
 .portfolio .homes-content .homes-address a span {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     margin: 0 0 1px;
     text-decoration: none;
@@ -3269,14 +3279,14 @@ section.portfolio {
 .portfolio .homes-content .homes-list li {
     /* width: 33%; */
     float: left;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 40px;
     list-style: none;
     color: black;
 }
 
 .portfolio .homes-content .homes-list li i {
-    font-size: 1rem;
+     font-size: 12px;
     margin-right: 5px;
     color: #EA2B2E !important;
 }
@@ -3290,7 +3300,7 @@ section.portfolio {
     background: none;
     border-top: 1px solid #e8e8e8;
     padding-top: 1rem;
-    font-size: 13px;
+    font-size: 12px;
     color: #666;
 }
 
@@ -3306,7 +3316,7 @@ section.portfolio {
 .portfolio .footer i {
     margin-right: 5px;
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 12px;
 }
 
 /*----- HOVER EFFECT -----*/
@@ -3353,8 +3363,13 @@ section.portfolio {
 }
 
 .portfolio .project-head img {
-    width: 100%;
+width:100%;
     z-index: 2;
+}
+
+.brand-image-pp{
+    width: 60px !important;
+    height: 60px !important;
 }
 
 .brand-image-pp {
@@ -3362,6 +3377,7 @@ section.portfolio {
     z-index: 2;
     height: 100%;
     object-fit: cover;
+    margin: 0 auto ;
     border-radius: 50%;
 }
 
@@ -3379,7 +3395,7 @@ section.portfolio {
 
 .portfolio .project-bottom h4 {
     text-transform: uppercase;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 600;
     color: #fff;
     opacity: 0;
@@ -3437,7 +3453,7 @@ section.portfolio {
 .portfolio .project-bottom h4 span {
     display: block;
     color: #fff;
-    font-size: 14px;
+    font-size: 12px;
     margin-top: 10px;
     font-weight: 400;
 }
@@ -3552,7 +3568,7 @@ section.portfolio {
     background-color: black;
     color: #fff;
     border-color: #fff;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     border-radius: 3rem;
     padding: .9rem 2.5rem .9rem 2rem;
@@ -3588,7 +3604,7 @@ section.portfolio {
 /*------------------------------------*/
 
 section.popular-places {
-    padding: 2.6rem 0;
+    padding: 1rem 0;
     background: #fff;
 }
 
@@ -3632,7 +3648,7 @@ section.popular-places {
     right: 0;
     width: 100%;
     display: block;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: bold;
     padding: 0px;
     overflow: hidden;
@@ -3684,7 +3700,7 @@ section.popular-places {
 }
 
 .popular-places .img-box-content span {
-    font-size: 16px;
+    font-size: 12px;
     color: #fff;
 }
 
@@ -3996,7 +4012,7 @@ section.team {
     text-transform: capitalize;
     margin-bottom: 0px;
     color: #444;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .team-content p {
@@ -4092,7 +4108,7 @@ section.team {
     transition: all 1s;
     position: relative;
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .team-wrap:hover .team-content span a {
@@ -4349,7 +4365,6 @@ section.blog-section {
     background: #fff;
     -webkit-box-shadow: 0px 0px 1px #e7e7e7 !important;
     box-shadow: 0px 0px 1px #e7e7e7 !important;
-    border: 1px solid #e7e7e7;
     overflow: hidden;
 }
 
@@ -4449,7 +4464,7 @@ section.blog-section {
 .blog-section .news-item .date {
     display: block;
     margin-bottom: 9px;
-    font-size: 13px;
+    font-size: 12px;
     color: #333;
 }
 
@@ -4473,7 +4488,7 @@ section.blog-section {
 }
 
 .blog-section .admin p {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     margin-top: .5rem;
     margin-right: 1rem;
@@ -4578,7 +4593,7 @@ section.blog-section {
 
 .blog-section .news-link {
     position: relative;
-    font-size: 1rem;
+     font-size: 12px;
     font-weight: 600;
     color: black;
     -webkit-transition: all 0.25s;
@@ -4935,10 +4950,10 @@ section.counterup {
 }
 
 .counterup .count-me h3 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     text-transform: capitalize;
     color: #121B22;
-    font-size: 1.1rem;
+    font-size: 12px;
     font-weight: 600;
     margin-bottom: 0px;
 }
@@ -4997,7 +5012,7 @@ section.counterup {
 }
 
 .first-footer .logo img {
-    width: 100%;
+    width: 80%;
     height: auto;
     margin-bottom: 1.6rem;
 }
@@ -5044,7 +5059,7 @@ section.counterup {
 
 .first-footer .netsocials a .fa,
 .first-footer .netsocials a .fab {
-    font-size: 1rem;
+     font-size: 12px;
     text-align: center;
     background: transparent;
     width: 2.5rem;
@@ -5144,7 +5159,7 @@ section.counterup {
 
 @media screen and (max-width: 768px) {
     .first-footer .logo img {
-        width: 100%;
+        width: 70%;
         height: auto;
         margin-bottom: 1.6rem;
     }
@@ -5228,7 +5243,7 @@ section.counterup {
 }
 
 .first-footer .contactus ul li .fa {
-    font-size: 1rem;
+     font-size: 12px;
     color: #fff;
 }
 
@@ -5289,6 +5304,7 @@ section.counterup {
 }
 
 .navigation ul li a {
+    font-size: 12px;
     text-decoration: none;
     color: rgba(245, 255, 255, 0.8);
     font-weight: 400;
@@ -5348,7 +5364,7 @@ section.counterup {
 
 .twitter-widget.contuct .twitter-area .text h5,
 .inner-pages .twitter-widget.contuct .twitter-area .text h5 {
-    font-size: 14px;
+    font-size: 12px;
     color: rgba(245, 255, 255, 0.8);
     font-weight: 400;
     text-transform: capitalize;
@@ -5363,7 +5379,7 @@ section.counterup {
 
 .twitter-widget.contuct .twitter-area .text h4,
 .inner-pages .twitter-widget.contuct .twitter-area .text h4 {
-    font-size: 14px;
+    font-size: 12px;
     color: rgba(245, 255, 255, 0.8);
     font-weight: 500;
     margin-bottom: 0px;
@@ -5717,13 +5733,6 @@ element.style {
     justify-content: flex-start;
 }
 
-.homepage-2 .nav-item a.active,
-.homepage-2 .nav-item a:hover,
-.homepage-2 .nav-item a.active:before,
-.homepage-2 .btn.btn-yellow {
-    background: black;
-}
-
 .homepage-2 .form-group .nice-select {
     margin: 0;
     height: 50px;
@@ -5735,9 +5744,9 @@ element.style {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .homepage-2 .form-group .nice-select i {
@@ -6024,10 +6033,10 @@ element.style {
 
 .login-and-register-form .main-register h3 span {
     font-weight: 800;
-    font-size: 18px;
+    font-size: 12px;
     color: #121B22;
     text-transform: uppercase;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .login-and-register-form .main-register {
@@ -6074,7 +6083,7 @@ element.style {
 
 .login-and-register-form .soc-log p {
     margin-bottom: 13px;
-    font-size: 18px;
+    font-size: 12px;
     color: #454545;
     font-weight: 600;
 }
@@ -6086,7 +6095,7 @@ element.style {
     color: #fff;
     margin-bottom: 10px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 30px;
     font-weight: 500;
     outline: 0;
@@ -6127,7 +6136,7 @@ element.style {
 .login-and-register-form .log-separator span {
     position: relative;
     width: 100%;
-    font-size: 16px;
+    font-size: 12px;
     display: inline-block;
     background: #fff;
     z-index: 2;
@@ -6181,7 +6190,7 @@ element.style {
     text-decoration: none;
     float: left;
     color: #50596E;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
 }
 
@@ -6230,7 +6239,7 @@ element.style {
 
 .login-and-register-form .custom-form label {
     float: left;
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
     width: 100%;
     text-align: left;
@@ -6256,7 +6265,7 @@ element.style {
     padding: 15px 20px 15px 55px;
     border-radius: 6px;
     color: #666;
-    font-size: 13px;
+    font-size: 12px;
     -webkit-appearance: none;
 }
 
@@ -6550,7 +6559,7 @@ a.button,
 }
 
 .homepage-3 .popular-searchs li a .box span {
-    font-size: 16px;
+    font-size: 12px;
     text-align: center;
     color: #fff;
     margin-top: 10px;
@@ -6707,7 +6716,7 @@ a.button,
 
 .homepage-3 .portfolio .homes-content .homes-list li i {
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 12px;
 }
 
 .homepage-3 img {
@@ -6746,7 +6755,7 @@ a.button,
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     color: #666;
     max-width: 550px;
@@ -6903,7 +6912,7 @@ a.button,
     height: 43px;
     border: 2px solid #ddd;
     border-radius: 50%;
-    font-size: 18px;
+    font-size: 12px;
     color: #70778b;
     line-height: 43px;
     background: transparent;
@@ -6961,7 +6970,7 @@ a.button,
     }
 
     .download-page .welcome-intro p {
-        font-size: 16px;
+        font-size: 12px;
     }
 }
 
@@ -6980,7 +6989,7 @@ a.button,
     }
 
     .download-page .welcome-intro p {
-        font-size: 16px;
+        font-size: 12px;
     }
 }
 
@@ -7115,12 +7124,12 @@ a.button,
 
 .homepage-4 .portfolio .homes-content .homes-list li i {
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 12px;
 }
 
 .homepage-4 .portfolio .footer i {
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 12px;
 }
 
 .the-icons,
@@ -7784,7 +7793,7 @@ a.button,
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     color: #666;
     max-width: 550px;
@@ -7892,7 +7901,7 @@ a.button,
 .main-search-field .at-input-price {
     background-color: transparent;
     border: none;
-    font-size: 16px;
+    font-size: 12px;
     color: #fff;
     height: 25px;
     width: 180px;
@@ -7917,7 +7926,7 @@ a.button,
 /* BTN CSS START*/
 
 .main-search-field .at-btn-default {
-    font-size: 18px;
+    font-size: 12px;
     background: #fff;
     color: #ffffff;
     border: none;
@@ -7931,7 +7940,7 @@ a.button,
 }
 
 .main-search-field .hvr-bounce-to-right {
-    font-size: 14px;
+    font-size: 12px;
     background: #121B22;
     color: #ffffff;
     cursor: pointer;
@@ -8013,7 +8022,7 @@ html input[disabled] {
 
 .parallax-search .welcome-text p {
     color: #fff;
-    font-size: 18px;
+    font-size: 12px;
     text-transform: capitalize;
     font-weight: 500;
 }
@@ -8060,9 +8069,9 @@ html input[disabled] {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .parallax-search .form-group .nice-select:hover {
@@ -8270,7 +8279,7 @@ html input[disabled] {
     padding: 10px 10px 10px 0;
     position: relative;
     z-index: 106;
-    font-size: 13px;
+    font-size: 12px;
     border: 1px solid transparent;
 }
 
@@ -8335,19 +8344,33 @@ html input[disabled] {
     display: flex;
     align-items: center;
 }
-
+p{
+    font-size: 12px !important;
+}
 @media (max-width: 768px) {
+    /* p{
+        font-size: 16px !important;
+    }
+    span{
+        font-size: 16px !important;
+    } */
+
+    .title-fsp{
+        margin-top: 10px;
+    }
     .itemCircleFont {
         font-size: 12px;
+        margin-right: 11px;
+    }
+
+    .ui-elements .button-tabs .tab-title{
+        width: 100% !important;
     }
     .mobileBtn .text{
         display:none !important
     }
     .mobileBtn{
         width:40px !important
-    }
-   .mobileBtn .IconContainer{
-        left:5px !important;
     }
 
     .mobileBtn:hover .IconContainer {
@@ -8367,10 +8390,9 @@ html input[disabled] {
 
 .header-widget.sign-in a {
     color: #fff;
-    font-size: 16px;
+    font-size: 12px;
     text-align: center;
     text-decoration: none;
-    margin-top: 30px;
 }
 
 .hd-white .header-widget.sign-in a,
@@ -8414,7 +8436,6 @@ a.button {
     padding: 0 10px 0 20px;
     border-left: 1px solid #fff;
     border-right: 1px solid #fff;
-    margin-top: 20px;
     margin-left: 0px !important;
     margin-right: 55px;
     display: inline-block;
@@ -8423,7 +8444,7 @@ a.button {
 .show-lang span strong {
     padding-left: 10px;
     top: -2px;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 500;
     position: relative;
 }
@@ -8631,7 +8652,7 @@ a.button {
 .homepage-12 .header-image .left p {
     color: #fff;
     text-align: center;
-    font-size: 18px;
+    font-size: 12px;
     width: 100%;
 }
 
@@ -8642,7 +8663,7 @@ a.button {
     background-color: #fff;
     flex-wrap: nowrap;
     justify-content: space-between;
-    width: 420px;
+    width: 370px;
     align-items: center !important;
 }
 
@@ -8852,7 +8873,7 @@ a.button {
 
 .hp-6 .range-slider label {
     color: #333;
-    font-size: 16px;
+    font-size: 12px;
     margin-bottom: 25px;
 }
 
@@ -8984,7 +9005,7 @@ a.button {
     padding-left: 28px;
     margin-right: 20px;
     margin-bottom: 0;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #666;
     font-size: 14.5px;
 }
@@ -9019,7 +9040,7 @@ a.button {
 .hp-6 .checkboxes input[type=checkbox]:checked+label:before {
     content: "\f00c";
     font-family: "FontAwesome";
-    font-size: 13px;
+    font-size: 12px;
     color: #fff;
     text-align: center;
     line-height: 15px;
@@ -9042,7 +9063,7 @@ a.button {
     height: 50px;
     line-height: 50px;
     padding: 0;
-    font-size: 14px;
+    font-size: 12px;
     border: none;
     border-radius: 50px;
 }
@@ -9158,7 +9179,7 @@ a.button {
     }
 
     .parallax-search .welcome-text p {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .parallax-search .hero-inner {
@@ -9306,7 +9327,7 @@ a.button {
     color: #757575;
     font-family: 'Nunito', sans-serif;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .search-2 .form-group .nice-select:hover {
@@ -9354,7 +9375,7 @@ a.button {
     color: #757575;
     font-family: 'Nunito', sans-serif;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .main-search-input-item {
@@ -9406,7 +9427,7 @@ a.button {
     height: 50px;
     line-height: 50px;
     padding: 0;
-    font-size: 14px;
+    font-size: 12px;
     border: none;
     border-radius: 50px;
 }
@@ -9617,7 +9638,7 @@ a.button {
 
 @media only screen and (max-width: 450px) {
     .search-2 .welcome-text p {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .hero-inner2 {
@@ -10128,7 +10149,7 @@ a.button {
 }
 
 .swiper_imgbox .swipper_img>h4 {
-    font-size: 13px;
+    font-size: 12px;
     letter-spacing: 8px;
     text-transform: uppercase;
     color: #c18847;
@@ -10183,14 +10204,14 @@ a.button {
 .swiper_imgbox .homes-list li {
     width: 45%;
     float: left;
-    font-size: 16px;
+    font-size: 12px;
     line-height: 40px;
     list-style: none;
     color: #fff;
 }
 
 .swiper_imgbox .homes-list li i {
-    font-size: 16px;
+    font-size: 12px;
     margin-right: 8px;
     color: #fff;
 }
@@ -10503,7 +10524,7 @@ a.int_btn,
     cursor: pointer;
     text-align: center;
     text-transform: uppercase;
-    font-size: 14px;
+    font-size: 12px;
     color: #ffffff;
     background: #c18847;
     position: relative;
@@ -10703,7 +10724,7 @@ a.int_btn,
     padding: 0;
     margin: 0;
     list-style: none;
-    font-size: 14px;
+    font-size: 12px;
     padding: 0 0 0 25px;
     display: block;
     overflow: hidden;
@@ -10713,21 +10734,12 @@ a.int_btn,
     opacity: 1;
 }
 
-.compact .listing-img-container:before {
-    -webkit-transform: translateY(10px);
-    transform: translateY(10px);
-}
-
 .listing-item.compact:hover .listing-hidden-content {
     height: 70px;
 }
 
 .compact .listing-img-container:after {
     display: none;
-}
-
-.compact .listing-img-container:before {
-    opacity: 0.7 !important;
 }
 
 .listing-item.compact li {
@@ -10743,7 +10755,7 @@ a.int_btn,
 
 .listing-item.compact li span {
     display: block;
-    font-size: 14px;
+    font-size: 12px;
     color: #fff;
     margin: 0;
     padding: 0;
@@ -10784,14 +10796,14 @@ a.int_btn,
 
 .listing-img-content span {
     color: #fff;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 500;
 }
 
 .listing-img-content .listing-price i {
     display: block;
     font-style: normal;
-    font-size: 16px;
+    font-size: 12px;
     padding: 0;
     margin: -4px 0 0 0;
 }
@@ -10805,7 +10817,7 @@ a.int_btn,
     right: 0;
     width: 100%;
     display: block;
-    font-size: 13px;
+    font-size: 12px;
     padding: 0px;
     overflow: hidden;
     height: 100px;
@@ -11137,7 +11149,7 @@ a.button {
 }
 
 .int_white_bg .swiper_imgbox .swipper_img>h4 {
-    font-size: 13px;
+    font-size: 12px;
     letter-spacing: 8px;
     text-transform: uppercase;
     color: #c18847;
@@ -11177,7 +11189,7 @@ a.button {
 .int_white_bg .swiper_imgbox .homes-list li,
 .int_white_bg .swiper_imgbox .homes-list li i {
     color: #333;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .int_white_bg .swiper_imgbox .swipper_img>h3>.banner_span1 {
@@ -11403,7 +11415,7 @@ a.button {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     color: #666;
     max-width: 550px;
@@ -11442,12 +11454,12 @@ a.button {
 
 .hmp7 .portfolio .homes-content .homes-list li i {
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 12px;
 }
 
 .hmp7 .portfolio .footer i {
     color: #2D2D2D;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .hmp7 .rp2 .slick-dots li.slick-active,
@@ -11529,7 +11541,7 @@ a.button {
 }
 
 .th-15 .house-details {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     color: #fff;
 }
@@ -11564,7 +11576,7 @@ a.button {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     color: #666;
     max-width: 550px;
@@ -11652,7 +11664,7 @@ a.button {
 
 .parallax-searchs.home15 .welcome-text p {
     color: rgba(255, 255, 255, 0.89);
-    font-size: 18px;
+    font-size: 12px;
     max-width: 600px;
     margin: 0 auto;
     text-align: center;
@@ -11668,7 +11680,7 @@ a.button {
 
 .parallax-searchs .welcome-text p {
     color: #fff;
-    font-size: 18px;
+    font-size: 12px;
     text-transform: capitalize;
     font-weight: 500;
 }
@@ -11715,9 +11727,9 @@ a.button {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .brand-head .card .brand-logo {
@@ -11780,7 +11792,7 @@ a.button {
     height: 50px;
     line-height: 50px;
     padding: 0;
-    font-size: 14px;
+    font-size: 12px;
     border: none;
     border-radius: 50px;
 }
@@ -11903,7 +11915,7 @@ a.button {
     }
 
     .parallax-searchs .welcome-text p {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .parallax-searchs .hero-inner {
@@ -11983,13 +11995,13 @@ a.button {
     -webkit-transition: .4s;
     transition: .4s;
     margin: 15px 0;
-    font-size: 18px;
+    font-size: 12px;
 }
 
 .single-featured-box p {
     -webkit-transition: .4s;
     transition: .4s;
-    font-size: 14px;
+    font-size: 12px;
     margin-top: 13px;
     margin-bottom: 0;
 }
@@ -12367,7 +12379,7 @@ section.featured.home15 {
 }
 
 .featured.home15 .compare i {
-    font-size: 1rem;
+     font-size: 12px;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
 }
@@ -12414,7 +12426,7 @@ section.featured.home15 {
 }
 
 .featured.home15 .homes-content h3.title a {
-    font-size: 1.1rem;
+    font-size: 12px;
     font-weight: 600;
     color: #666;
     text-transform: uppercase;
@@ -12452,7 +12464,7 @@ section.featured.home15 {
 }
 
 .featured.home15 .homes-content .homes-address .fa-map-marker {
-    font-size: 1rem;
+     font-size: 12px;
     text-decoration: none;
     color: #18ba60;
 }
@@ -12462,7 +12474,7 @@ section.featured.home15 {
 }
 
 .featured.home15 .homes-content .homes-address a span {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     margin: 0 0 1px;
     text-decoration: none;
@@ -12485,14 +12497,14 @@ section.featured.home15 {
 .featured.home15 .homes-content .homes-list li {
     width: 33%;
     float: left;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 40px;
     list-style: none;
     color: black;
 }
 
 .featured.home15 .homes-content .homes-list li i {
-    font-size: 14px;
+    font-size: 12px;
     margin-right: 5px;
     color: #cecdcd;
 }
@@ -12505,7 +12517,7 @@ section.featured.home15 {
     background: none;
     border-top: 1px solid #d8d8d8;
     padding-top: 1rem;
-    font-size: 13px;
+    font-size: 12px;
     color: #666;
 }
 
@@ -12520,7 +12532,7 @@ section.featured.home15 {
 
 .featured.home15 .footer i {
     margin-right: 5px;
-    font-size: 1rem;
+     font-size: 12px;
     color: #666;
 }
 
@@ -12585,7 +12597,7 @@ section.featured.home15 {
 
 .featured.home15 .project-bottom h4 {
     text-transform: capitalize;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 600;
     color: #fff;
     opacity: 0;
@@ -12614,7 +12626,7 @@ section.featured.home15 {
 .featured.home15 .project-bottom h4 span {
     display: block;
     color: #fff;
-    font-size: 14px;
+    font-size: 12px;
     margin-top: 10px;
     font-weight: 400;
 }
@@ -12739,7 +12751,7 @@ section.featured.home15 {
 }
 
 .info-help .info-head .info-text p {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     line-height: 35px;
     color: #fff;
@@ -12766,7 +12778,7 @@ section.featured.home15 {
     }
 
     .info-help .info-head .info-text p {
-        font-size: 16px;
+        font-size: 12px;
     }
 }
 
@@ -12829,7 +12841,7 @@ section.visited-cities {
     right: 0;
     width: 100%;
     display: block;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: bold;
     padding: 0px;
     overflow: hidden;
@@ -12846,7 +12858,7 @@ section.visited-cities {
     position: relative;
     text-align: center;
     width: 200px;
-    font-size: 13px;
+    font-size: 12px;
     margin: 0;
 }
 
@@ -12901,7 +12913,7 @@ section.visited-cities {
 }
 
 .visited-cities .img-box-content span {
-    font-size: 16px;
+    font-size: 12px;
     color: #fff;
 }
 
@@ -13021,7 +13033,7 @@ section.visited-cities {
 
 .recent-price {
     color: #fff;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 600;
     margin-bottom: 6px;
 }
@@ -13031,7 +13043,7 @@ section.visited-cities {
 }
 
 .house-details {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     color: #fff;
 }
@@ -13055,7 +13067,7 @@ section.visited-cities {
     left: 0;
     right: 0;
     z-index: 3;
-    font-size: 14px;
+    font-size: 12px;
     letter-spacing: 1px;
     opacity: 0;
     font-weight: 400;
@@ -13149,7 +13161,7 @@ section.visited-cities {
     color: #fff;
     font-size: 45px;
     line-height: 66px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     margin-bottom: 30px;
     text-transform: capitalize;
@@ -13225,7 +13237,7 @@ section.visited-cities {
     overflow: hidden;
     position: relative;
     border: 0px solid black;
-    font-size: 14px;
+    font-size: 12px;
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease;
     font-weight: 600;
@@ -13262,7 +13274,7 @@ section.visited-cities {
 
 .rld-single-input.left-icon:before {
     content: '\f041';
-    font-size: 18px;
+    font-size: 12px;
     font-family: fontawesome;
     color: black;
     position: absolute;
@@ -13355,7 +13367,7 @@ section.visited-cities {
     color: #fff;
     border-radius: 30px;
     top: -10px;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 25px;
 }
 
@@ -13595,7 +13607,7 @@ section.team {
 
 .team-block .inner-box .lower-box h3 {
     position: relative;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 600;
     line-height: 1.2em;
     margin-bottom: 0px;
@@ -13616,7 +13628,7 @@ section.team {
 .team-block .inner-box .lower-box .designation {
     position: relative;
     color: #666;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     padding-top: 2px;
     text-transform: capitalize;
@@ -13853,7 +13865,7 @@ a.button,
 
 .homepage-6 .portfolio .homes-content .homes-list li i {
     color: #2D2D2D;
-    font-size: 18px;
+    font-size: 12px;
 }
 
 .home-11 .portfolio .project-single {
@@ -13938,7 +13950,7 @@ a.button {
 }
 
 .home-18.th-8 .google-maps .filter .button {
-    font-size: 18px;
+    font-size: 12px;
 }
 
 .home-18.th-8 .google-maps .filter .button:hover {
@@ -13992,7 +14004,7 @@ a.button {
 }
 
 label {
-    font-size: 16px;
+    font-size: 12px;
     line-height: 24px;
     font-weight: 400;
     margin-bottom: 5px;
@@ -14092,7 +14104,7 @@ form label.error {
     }
 
     .th-8 .header-image .left h1 {
-        font-size: 18px;
+        font-size: 12px;
         margin-bottom: 0px;
         padding-top: 20px;
     }
@@ -14149,9 +14161,9 @@ form label.error {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .th-8 .parallax-search8 .form-group .nice-select:hover {
@@ -14198,9 +14210,9 @@ form label.error {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .th-8 .main-search-input-item {
@@ -14256,7 +14268,7 @@ form label.error {
     height: 50px;
     line-height: 50px;
     padding: 0;
-    font-size: 14px;
+    font-size: 12px;
     border: none;
     border-radius: 3px;
 }
@@ -14289,19 +14301,27 @@ form label.error {
     cursor: pointer;
     color: #fff;
 }
+.mobile-title span {
+    color:#000;
+}
 
+.form-control{
+    font-size:12px !important;
+   
+}
 .th-8 input,
 textarea,
 select {
+    height:38px !important;
     width: 100%;
-    height: 50px;
     padding: 9px;
+    font-size:12px;
     margin-bottom: 0px;
     border: 1px solid #ddd;
     border-radius: 3px;
     font-weight: 400;
-    color: #000;
-    font-family: 'Source Sans Pro', sans-serif;
+    color: #717171;
+    font-family: 'Montserrat', sans-serif;
     background: #f8f8f8;
 }
 
@@ -14350,7 +14370,7 @@ select {
 
 .th-8 .range-slider label {
     color: #333;
-    font-size: 16px;
+    font-size: 12px;
     margin-bottom: 25px;
 }
 
@@ -14795,7 +14815,7 @@ section.h18.testimonials {
 
 .h18.testimonials .client-info h2 {
     color: #fff;
-    font-size: 18px;
+    font-size: 12px;
     margin-bottom: 5px;
     text-transform: capitalize;
     font-weight: 600;
@@ -14803,7 +14823,7 @@ section.h18.testimonials {
 
 .h18.testimonials .client-info span {
     color: #fff;
-    font-size: 13px;
+    font-size: 12px;
     display: inline-block;
     text-transform: uppercase;
 }
@@ -14877,7 +14897,7 @@ section.h18.testimonials {
 
 .h18.testimonials .client-reviews i {
     color: #e54242;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .h18.testimonials .client-comment>ul {
@@ -14934,7 +14954,7 @@ section.h18.testimonials {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     color: #fff;
     max-width: 550px;
@@ -14971,7 +14991,7 @@ section.h18.testimonials {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     color: #333;
     max-width: 550px;
@@ -15164,7 +15184,7 @@ a.button {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     color: #666;
     max-width: 550px;
@@ -15512,7 +15532,7 @@ a.button {
 }
 
 .homepage-23 .popular-searchs li a .box span {
-    font-size: 16px;
+    font-size: 12px;
     text-align: center;
     color: #fff;
     margin-top: 10px;
@@ -15559,7 +15579,7 @@ a.button {
 }
 
 .homepage-24 .header-image .left p {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     line-height: 27px;
     color: #666;
@@ -15900,10 +15920,10 @@ a.button {
 }
 
 .detail-wrapper-body {
-    width:80%
+    width:100%
 }
 .single.detail-wrapper {
-    width: 20%
+    width: 100%
 }
 
 .inner-pages.hp-6.full .single.detail-wrapper {
@@ -15992,6 +16012,7 @@ a.button {
 .inner-pages .properties-right.list .project-single {
     border-bottom: 0px;
     width: 100%;
+    border: 1px solid #e7e7e7;
 }
 
 .inner-pages .properties-right.list .my-44 {
@@ -16067,7 +16088,7 @@ a.button {
 }
 
 .inner-pages .project-single .homes-content .homes-list li i {
-    font-size: 18px;
+    font-size: 12px;
 }
 
 .inner-pages .project-single .fa-user,
@@ -16122,6 +16143,7 @@ a.button {
 .homes-button .first-btn {
     padding: 15px;
     color: white;
+    font-size:13px;
     background-color: black;
     font-weight: 600;
     border: none;
@@ -16131,11 +16153,16 @@ a.button {
     width: 100%;
 }
 
+.slick-initialized .slick-slide{
+    padding: 10px;
+}
+
 .homes-button .second-btn {
     position: absolute;
     bottom: 0;
     border-radius:0 !important;
     right: 0;
+    font-size:13px;
     padding: 15px;
     color: white;
     background-color: #274abb;
@@ -16272,9 +16299,6 @@ a.button {
 }
 
 @media screen and (max-width: 767px) {
-    .inner-pages .blog .item {
-        padding-bottom: 1.6rem;
-    }
 
     .inner-pages .portfolio.blog .item.no-pb.x2 {
         padding-bottom: 0px;
@@ -16289,7 +16313,7 @@ a.button {
     color: #999;
     margin-right: 5px;
     margin-bottom: 0px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 300;
     outline: none;
 }
@@ -16307,7 +16331,7 @@ a.button {
 }
 
 .inner-pages .blog .block-heading .sorting {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 300;
     padding: 5px 13px;
     border: solid 1px #e7e7e7;
@@ -16405,7 +16429,7 @@ a.button {
 .inner-pages .blog .main-search-field h5,
 .inner-pages .blog .main-search-field-2 h5,
 .inner-pages .blog .section-heading .media .media-body h5 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     text-transform: capitalize;
 }
@@ -16461,7 +16485,7 @@ a.button {
     vertical-align: middle;
     width: 100%;
     margin-top: 2rem;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     background: black;
     color: #ffffff;
@@ -16611,11 +16635,11 @@ a.button {
 }
 
 .inner-pages .widget .more-search-options-trigger {
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .inner-pages .widget .more-search-options-trigger {
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .inner-pages .margin-bottom-10 {
@@ -16651,9 +16675,9 @@ a.button {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .inner-pages .main-search-input-item {
@@ -16685,14 +16709,14 @@ a.button {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     font-size: 15px;
 }
 
 .inner-pages .form-group .nice-select i {
     color: #777;
-    font-size: 1.1rem;
+    font-size: 12px;
     margin-top: 5px;
     margin-right: 10px;
 }
@@ -16725,7 +16749,7 @@ a.button {
 
 .inner-pages .range-slider label {
     color: #333;
-    font-size: 16px;
+    font-size: 12px;
     margin-bottom: 25px;
 }
 
@@ -16855,7 +16879,7 @@ a.button {
     padding-left: 28px;
     margin-right: 20px;
     margin-bottom: 0;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #666;
     font-size: 14.5px;
 }
@@ -16890,7 +16914,7 @@ a.button {
 .inner-pages .checkboxes input[type=checkbox]:checked+label:before {
     content: "\f00c";
     font-family: "FontAwesome";
-    font-size: 13px;
+    font-size: 12px;
     color: #fff;
     text-align: center;
     line-height: 15px;
@@ -17164,6 +17188,7 @@ section.single-proper {
 
 section.headings-2 {
     padding: 60px 0 5px 0;
+    align-items: center;
 }
 
 .bg-white-inner {
@@ -17171,7 +17196,7 @@ section.headings-2 {
 }
 .inner-pages .headings-2 .listing-title-bar h3 span {
     border-bottom: 4px solid black !important;
-    font-size:28px !important;
+    font-size:23px !important;
 }
 
 
@@ -17292,17 +17317,29 @@ section.headings-2 {
 }
 
 .inner-pages .headings-2 .listing-title-bar h3 {
-    font-size: 22px;
+    font-size: 16px;
     line-height: 34px;
     font-weight: 600;
     color: #222;
+    margin-bottom: 0 !important;
     text-transform: capitalize !important;
+}
+
+.reservation-list{
+    width:100%;
+}
+
+.reservation-list li {
+    width:50% !important;
 }
 
 .inner-pages .headings-2 .listing-title-bar h4 {
     font-size: 24px;
     font-weight: 600;
-    color: #dc3545;
+    color: #274abb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     text-transform: capitalize !important;
 }
 
@@ -17314,7 +17351,7 @@ section.headings-2 {
 }
 
 .inner-pages .headings-2 span.category-tag {
-    font-size: 14px;
+    font-size: 12px;
     background: black;
     color: #fff;
     border: 1px solid #fff;
@@ -17479,9 +17516,21 @@ h4.widget_author__name {
     transition: all .3s ease;
 }
 
+
+.carousel-indicator-image{
+    height:70px !important;
+    object-fit:cover !important;
+
+}
+
+
+.listing-details-sliders  a{
+    width:100%;
+    height:100%;
+}
 .listing-details-sliders .img-fluid {
     max-width: 100%;
-    height: auto;
+    height: 100%;
     width: 100%;
     object-fit: contain;
 }
@@ -17619,7 +17668,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .sidebar-widget .author__title {
-    font-size: 18px;
+    font-size: 12px;
     color: #222;
     font-weight: 600;
     margin-top: 24px;
@@ -17628,7 +17677,11 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .sidebar-widget .author-box .author__title {
     margin-top: 18px;
-    font-size: 18px;
+    font-size: 12px;
+}
+
+.author__meta{
+    font-size:12px !important;
 }
 
 .sidebar .sidebar-widget .author__meta {
@@ -17639,9 +17692,8 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .sidebar-widget .author__contact li {
     color: #666;
-    margin-bottom: 10px;
     font-weight: 400;
-    font-size: 15px;
+    font-size: 12px;
 }
 
 .sidebar-widget .author__contact li span i {
@@ -17652,7 +17704,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     background-color: #fff;
     color: black;
     border-radius: 50%;
-    font-size: 18px;
+    font-size: 12px;
     margin-right: 10px;
     -webkit-transition: all .3s;
     transition: all .3s;
@@ -17703,7 +17755,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     background-color: rgba(128, 137, 150, 0.2);
     color: black;
     border-radius: 50%;
-    font-size: 16px;
+    font-size: 12px;
     -webkit-transition: all .3s;
     transition: all .3s;
 }
@@ -17725,7 +17777,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .widget-boxed .input-group .fa {
-    font-size: 18px !important;
+    font-size: 16px !important;
     color: black;
 }
 
@@ -17736,12 +17788,11 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .widget-boxed-header {
     padding-bottom: 0.5rem;
     padding-top: 0px;
-    border-bottom: 1px solid #eaeff5;
 }
 
 .widget-boxed-header h4 {
     color: #222 !important;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 600;
     margin: 0;
 }
@@ -17772,7 +17823,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .agent-contact-form-sidebar h4 {
-    font-size: 16px;
+    font-size: 12px;
     margin-bottom: 20px;
 }
 
@@ -17783,7 +17834,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     background-color: #fff;
     padding: 15px;
     font-family: "Lato", sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     color: #7e8c99;
     margin-bottom: 1rem;
 }
@@ -17802,7 +17853,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     color: #ffffff;
     font-family: "Montserrat", sans-serif;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     text-transform: capitalize;
     padding-top: 13px;
     margin-top: 10px;
@@ -17946,12 +17997,17 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     margin-bottom: 30px !important;
 }
 
+.table td, .table th, .nav-tabs .nav-link{
+    font-size:12px;
+}
+
 .inner-pages .blog .blog-info.details h4,
 .inner-pages .blog .blog-info.details h5,
 .inner-pages .carousel-inner h5,
 .wprt-image-video.w50.pro h5 {
     color: #000;
-    font-family: 'Quicksand', sans-serif;
+    font-size:14px;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     text-transform: capitalize;
 }
@@ -17972,23 +18028,53 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     font-size: 24px;
 }
 
+#slider-range-value1 input,#slider-range-value2 input,#slider-range-value3 input,#slider-range-value4 input {
+    background-color: #fff;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    color: #717171;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    padding: 10px 15px;
+    width: 100%
+}
+
+.modal-version #slider-range-value1,.modal-version #slider-range-value2 {
+    width: 48%
+}
+
+#slider-range-value1,#slider-range-value3 {
+    float: left
+}
+
+#slider-range-value2 {
+    float: right
+}
 .inner-pages .blog .homes-content .homes-list li {
     width: 33%;
     float: left;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 36px;
     list-style: none;
     justify-content: center;
-    color: #e54242;
+    color: #274abb;
+}
+
+.homes-address span{
+    font-size:9px !important;
+}
+
+span{
+    font-size:12px !important;
 }
 
 .inner-pages .blog .homes-content .homes-list li:last-child {
     border: none;
-    font-weight: 600;
 }
 
 .inner-pages .blog .homes-content.details-2 {
-    background: #303441;
+    background: black;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -18000,6 +18086,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .inner-pages .blog .homes-content.details-2.mb-4 {
     margin-bottom: 30px !important;
+    padding: 3px 30px;
 }
 
 .inner-pages .portfolio .homes-content .homes-list {
@@ -18014,11 +18101,11 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 @media screen and (max-width: 1024px) {
     .inner-pages .headings-2 .listing-title-bar h3 {
-        font-size: 18px;
+        font-size: 12px;
     }
 
     .inner-pages .headings-2 .listing-title-bar h4 {
-        font-size: 18px;
+        font-size: 20px;
     }
 
     .widget-boxed .slick-prev {
@@ -18040,6 +18127,10 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     .inner-pages .headings-2 .listing-title-bar h3 {
         font-size: 24px;
     }
+}
+
+.text-primary {
+    color: #274abb !important;
 }
 
 @media screen and (max-width: 500px) {
@@ -18109,8 +18200,9 @@ div.datedropper.my-style.picker-lkd .pick-submit {
         font-size: 15px !important;
     }
 
-    .inner-pages .single.homes-content .homes-list li {
-        width: 100%;
+    .inner-pages .single.homes-content .homes-list li,
+    .inner-pages .portfolio .homes-content .homes-list li {
+        width: 100% !important;
         line-height: 27px;
         margin-bottom: 13px;
     }
@@ -18179,7 +18271,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .inner-pages .blog .homes-content.details-2 span {
     color: #fff;
-    font-size: 1rem;
+     font-size: 12px;
 }
 
 .inner-pages .blog .homes-content.details-2 .fa {
@@ -18193,14 +18285,14 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .inner-pages .blog .sorting-options span {
     color: #121B22;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     text-transform: uppercase;
 }
 
 .inner-pages .blog .sorting-options h5 {
     color: black;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     margin-top: 0px;
 }
@@ -18222,7 +18314,8 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .ag-de .blog-section h5,
 .inner-pages .carousel h5 {
     color: #000;
-    font-family: 'Quicksand', sans-serif;
+    font-size: 12px;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     text-transform: capitalize;
 }
@@ -18467,7 +18560,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     border-radius: 50px;
     display: inline-block;
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     width: auto;
     -webkit-transition: .3s;
     transition: .3s;
@@ -18505,7 +18598,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     margin-right: 3px;
     -webkit-transition: .3s;
     transition: .3s;
-    font-size: 16px;
+    font-size: 12px;
     position: relative;
     top: 2px;
 }
@@ -18517,7 +18610,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .inner-pages a.rate-review {
     border: 1px solid #e0e0e0;
     border-radius: 50px;
-    font-size: 13px;
+    font-size: 12px;
     color: #666;
     font-weight: 500;
     padding: 5px 20px;
@@ -18557,7 +18650,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .inner-pages .blog .homes-content.details span {
-    font-size: 1rem;
+     font-size: 12px;
     color: #000;
 }
 
@@ -18769,7 +18862,7 @@ h2.white {
 .nir-btn-black {
     position: relative;
     z-index: 1;
-    font-size: 14px;
+    font-size: 12px;
     text-align: center;
     padding: 10px 20px;
     text-transform: capitalize;
@@ -18884,7 +18977,7 @@ h2.white {
     text-transform: capitalize;
     margin-bottom: 0px;
     color: #444;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .inner-pages .team-content p {
@@ -18980,7 +19073,7 @@ h2.white {
     transition: all 1s;
     position: relative;
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .inner-pages .team-wrap:hover .team-content span a {
@@ -19167,7 +19260,7 @@ ul.the-agents-details li {
 ul.the-agents-details li a {
     text-decoration: none;
     color: #666;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .view-my-listing a {
@@ -19330,7 +19423,7 @@ ul.the-agents-details li a {
 }
 
 .inner-pages .agent-row-sidebar .agent-text {
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .inner-pages .agent-row-sidebar .agent-content {
@@ -19384,7 +19477,7 @@ ul.the-agents-details li a {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding: 0px 10px 15px 10px;
     margin-bottom: 15px;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.9;
 }
 
@@ -19408,13 +19501,17 @@ ul.the-agents-details li a {
 
 .inner-pages .homes-address span {
     color: #666;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .inner-pages .homes-content .homes-list li i {
-    font-size: 18px;
+    font-size: 12px;
     margin-right: 5px;
-    color: #2D2D2D;
+}
+
+.inner-pages .homes-content .homes-list li span{
+    color: black;
+    font-weight:600;
 }
 
 .inner-pages .agent-details a:hover {
@@ -19455,7 +19552,7 @@ ul.the-agents-details li a {
 }
 
 .inner-pages .agent-content .netsocials .fa {
-    font-size: 1rem;
+     font-size: 12px;
     text-align: center;
     background: transparent;
     border: 1px solid #fff;
@@ -19541,7 +19638,7 @@ ul.the-agents-details li a {
 
 .portfolio .project-head .fa,
 .portfolio .project-head .fa-video {
-    font-size: 1rem;
+     font-size: 12px;
     text-align: center;
     margin-bottom: 1rem;
     margin-right: 0px;
@@ -19558,7 +19655,7 @@ ul.the-agents-details li a {
 }
 
 section.single-proper.details {
-    padding: 6rem 0 !important;
+    padding: 3rem 0 !important;
 }
 
 .agents.det .portfolio {
@@ -19580,7 +19677,7 @@ section.single-proper.details {
 }
 
 .agents.det .text-heading.text-left a {
-    font-size: 16px;
+    font-size: 12px;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
 }
@@ -19608,7 +19705,7 @@ section.single-proper.details {
 }
 
 .agents.det .text-heading.text-left span {
-    font-size: 16px;
+    font-size: 12px;
     color: black;
 }
 
@@ -19651,7 +19748,7 @@ section.single-proper.details {
 }
 
 .inner-pages .agent-details .footer a {
-    font-size: 13px;
+    font-size: 12px;
     color: #666;
 }
 
@@ -19739,11 +19836,11 @@ a.button {
     color: #aeb7c2;
     text-transform: capitalize;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 12px;
 }
 
 .user-profile-box .header h4 {
-    font-size: 14px;
+    font-size: 12px;
     color: #aeb7c2;
     margin-top: 15px;
     font-weight: 400;
@@ -19773,7 +19870,7 @@ a.button {
     padding: 12px 50px;
     display: block;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 500;
 }
 
@@ -19927,7 +20024,7 @@ a.button {
     text-transform: capitalize;
     font-weight: 400;
     padding-top: 15px;
-    font-size: 16px;
+    font-size: 12px;
     margin-bottom: 30px;
     color: #aeb7c2;
     text-align: center;
@@ -20104,7 +20201,7 @@ body.dashboard-bd {
     position: absolute;
     color: #666;
     bottom: 1px;
-    font-size: 13px;
+    font-size: 12px;
     right: -16px;
     -webkit-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
@@ -20363,7 +20460,7 @@ body.dashboard-bd {
 .messages .message .body h6,
 .reviews .review .body h6,
 .reviews .review .body h4 {
-    font-size: 18px;
+    font-size: 12px;
     margin-bottom: .2rem;
     color: #111;
 }
@@ -20429,7 +20526,7 @@ body.dashboard-bd {
 
 .review .body h6 .stars {
     margin-left: 10px;
-    font-size: 1rem;
+     font-size: 12px;
 }
 
 .review .body h6 .stars i {
@@ -20486,7 +20583,8 @@ body.dashboard-bd {
 }
 
 .my-properties table thead tr th {
-    font-size: 15px;
+    font-size: 12px !important;
+    text-align: center !important;
     color: #222;
     background-color: #f5f6ff;
     border: none;
@@ -20496,22 +20594,23 @@ body.dashboard-bd {
 
 .my-properties table thead tr th:first-child {
     color: #333;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 600;
     padding-left: 30px;
 }
 
 .my-properties table tbody tr td {
     border-top: none;
+    text-align:center !important;
     border-bottom: 1px solid #f3f3f3;
     padding: 30px 20px 30px 0;
     vertical-align: middle;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .my-properties table h2 {
     border: none;
-    font-size: 16px;
+    font-size: 12px;
     color: #444;
     text-decoration: none;
     text-transform: capitalize;
@@ -20551,11 +20650,11 @@ body.dashboard-bd {
 }
 
 .my-properties table tbody tr td .inner figure i {
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .my-properties table tbody tr td .price {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
 }
 
@@ -20633,7 +20732,7 @@ body.dashboard-bd {
 
 .user-page.section-padding select {
     border: 0;
-    font-size: 14px;
+    font-size: 12px;
     width: 100%;
     line-height: 30px;
     padding: 0 15px;
@@ -20799,15 +20898,18 @@ select:focus {
 }
 
 @media screen and (max-width: 768px) {
+    .reservation-list li {
+        width:100%;
+    }
+ 
+    
     .portfolio .homes-content .homes-list li{
         width:50% !important;
     }
     .nav-link{
         padding: 0.5rem 1rem !important;
     }
-    .buttonDetail {
-        margin-top: 20px;
-    }
+ 
 
     section.single-proper.details {
         padding: 2rem 0 !important;
@@ -20983,7 +21085,7 @@ select:focus {
 
     .listing-table .table thead tr th,
     .listing-table .table tbody {
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
@@ -21100,7 +21202,7 @@ header.payment-card-header .pull-right img {
 
 .payment-card-title.flexbox h4 {
     margin: 0;
-    font-size: 18px;
+    font-size: 12px;
 }
 
 .include-features {
@@ -21111,7 +21213,7 @@ header.payment-card-header .pull-right img {
     background-color: #eaedf3;
     border-radius: 0 2px 2px 0;
     display: inline-block;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     line-height: 1.2727272727;
     margin: 2px 15px 5px 0;
@@ -21159,7 +21261,7 @@ header.payment-card-header .pull-right img {
 }
 
 .booking-price-detail h5 {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -21249,7 +21351,7 @@ header.payment-card-header .pull-right img {
     }
 
     .payment-card-title.flexbox h4 {
-        font-size: 16px;
+        font-size: 12px;
     }
 }
 
@@ -21288,7 +21390,7 @@ header.payment-card-header .pull-right img {
     text-transform: capitalize;
     color: #fff;
     font-weight: 400;
-    font-size: 1rem;
+     font-size: 12px;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
 }
@@ -21439,7 +21541,7 @@ header.payment-card-header .pull-right img {
     color: #666;
     background: #fff;
     font-weight: 400;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .inner-pages .services .top-headings-section.se h2 {
@@ -21567,7 +21669,7 @@ main.services-2 {
 }
 
 .inner-pages .panel .panel-heading {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
 }
 
@@ -21629,7 +21731,7 @@ section.pricing-table {
 }
 
 .plan-name {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
     display: block;
     font-size: 24px;
@@ -21683,15 +21785,15 @@ section.pricing-table {
 }
 
 .plan-name small {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     display: block;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     line-height: normal;
 }
 
 .plan-price sub {
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 700;
 }
 
@@ -21800,7 +21902,7 @@ section.pricing-table {
     }
 
     .inner-pages .top-headings p:last-child {
-        font-size: 1rem;
+         font-size: 12px;
     }
 }
 
@@ -22022,7 +22124,7 @@ a.btn_1 {
     font-weight: normal;
     text-decoration: inherit;
     content: "\f00c";
-    font-size: 14px;
+    font-size: 12px;
     position: absolute;
     left: 2px;
     z-index: 20;
@@ -22037,7 +22139,7 @@ a.btn_1 {
 
     #login .checkboxes label,
     a#forgot {
-        font-size: 13px;
+        font-size: 12px;
     }
 }
 
@@ -22103,7 +22205,7 @@ a.btn_1 {
 }
 
 .font-16 {
-    font-size: 16px;
+    font-size: 12px;
     margin-right: 2rem;
 }
 
@@ -22132,7 +22234,7 @@ a.btn_1 {
 
 .headings-8 .text-heading p.sorry {
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 12px;
     margin-top: .8rem;
 }
 
@@ -22172,7 +22274,7 @@ a.btn_1 {
 }
 
 .font-16 {
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .font-36 {
@@ -22298,7 +22400,7 @@ a.btn_1 {
 .inner-pages .blog-section .news-item .date {
     display: block;
     margin-bottom: 10px;
-    font-size: 13px;
+    font-size: 12px;
     color: black;
 }
 
@@ -22407,7 +22509,7 @@ a.btn_1 {
 
 .inner-pages .blog-section .news-link {
     position: relative;
-    font-size: 1rem;
+     font-size: 12px;
     font-weight: 600;
     color: black;
     -webkit-transition: all 0.25s;
@@ -22649,7 +22751,7 @@ a.btn_1 {
 .inner-pages .blog-section .news-item .date {
     display: block;
     margin-bottom: 10px;
-    font-size: 14px;
+    font-size: 12px;
     color: #333;
 }
 
@@ -22745,7 +22847,7 @@ a.btn_1 {
 }
 
 .inner-pages .input-group-btn .fa {
-    font-size: 1rem;
+     font-size: 12px;
     cursor: pointer;
 }
 
@@ -22786,8 +22888,8 @@ a.btn_1 {
 
 .inner-pages .info-img h6 {
     color: #333;
-    font-family: 'Quicksand', sans-serif;
-    font-size: 1.1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
     font-weight: 400;
 }
 
@@ -22829,7 +22931,7 @@ a.btn_1 {
 
 .ud-btn i {
     margin-left: 10px;
-    font-size: 16px;
+    font-size: 12px;
     -webkit-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);
     transform: rotate(-45deg)
@@ -22860,7 +22962,7 @@ a.btn_1 {
 
 .ud-btn2 i {
     margin-left: 10px;
-    font-size: 16px;
+    font-size: 12px;
     -webkit-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);
     transform: rotate(-45deg)
@@ -23037,8 +23139,9 @@ a.btn_1 {
 }
 
 .inner-pages .form-control {
-    padding: .7rem;
+    padding: 9px !important;
     border: 1px solid #dddddd;
+    color:#717171 !important
 }
 
 @media screen and (max-width: 991px) {
@@ -23052,7 +23155,7 @@ a.btn_1 {
 }
 
 .inner-pages .input-group-btn .fa {
-    font-size: 1rem;
+     font-size: 12px;
     cursor: pointer;
 }
 
@@ -23096,7 +23199,7 @@ a.btn_1 {
 }
 
 .inner-pages .info-img h6 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     color: #222;
     font-weight: 400;
@@ -23307,7 +23410,7 @@ section.leve-comments {
 .inner-pages .leve-comments .btn {
     background: black;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 12px;
     border: none;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
@@ -23394,7 +23497,7 @@ section.leve-comments {
 }
 
 label {
-    font-size: 13px;
+    font-size: 12px;
     line-height: 24px;
     font-weight: 600;
     margin-bottom: 5px;
@@ -23748,7 +23851,7 @@ form label.error {
     color: #fff;
     cursor: pointer;
     display: inline-block;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     height: 100%;
     padding: 10px 20px;
@@ -23993,7 +24096,7 @@ form label.error {
 .map-popup-content-wrapper .close {
     color: #fff;
     display: block;
-    font-size: 13px;
+    font-size: 12px;
     opacity: 1;
     position: absolute;
     right: 15px;
@@ -24273,7 +24376,7 @@ form label.error {
 .noUi-horizontal .noUi-tooltip {
     bottom: auto;
     top: 23px;
-    font-size: 13px;
+    font-size: 12px;
     background: rgba(0, 0, 0, 0.05);
     border: none;
     padding: 3px 4px;
@@ -24402,7 +24505,7 @@ form label.error {
 
 @media screen and (max-width: 991px) {
     .google-maps .slider_amount {
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .info-box {
@@ -24427,7 +24530,7 @@ form label.error {
     }
 
     .info-box p {
-        font-size: 13px;
+        font-size: 12px;
         text-align: center;
     }
 
@@ -24509,7 +24612,7 @@ form label.error {
     border: none;
     font-weight: 400;
     color: #000;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: white;
 }
 
@@ -24597,7 +24700,7 @@ textarea.border,
 
 .form-block label .error {
     color: #EA2B2E;
-    font-size: 13px;
+    font-size: 12px;
     margin-left: 10px;
 }
 
@@ -24621,7 +24724,7 @@ textarea.border,
 
 .button.small {
     padding: 6px 23px 6px 23px;
-    font-size: 13px;
+    font-size: 12px;
     color: #fff;
     background: black;
     display: inline-block;
@@ -24711,7 +24814,7 @@ section.ui-element {
 }
 
 .ui-elements .accordion-1 .title span {
-    font-size: 13px;
+    font-size: 12px;
     line-height: 24px;
     font-weight: 400;
     text-transform: uppercase;
@@ -24790,7 +24893,6 @@ section.ui-element {
     padding: 13px;
     display: inline-block;
     text-align: center;
-    border-radius: 9px;
     width: auto;
     background: #f3f3f3;
     -webkit-user-select: none;
@@ -24806,12 +24908,9 @@ section.ui-element {
 }
 
 .ui-elements .button-tabs .tab-title span {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 12px;
     color: black;
-    font-weight: 400;
-    text-transform: capitalize;
-    letter-spacing: 2px;
+    font-weight: 600;
 }
 
 .ui-elements .button-tabs .active .tab-title {
@@ -24861,7 +24960,7 @@ section.ui-element {
     font-family: source_sans_proregular, sans-serif;
     font-style: normal;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
     color: #333;
     margin-bottom: 8px
 }
@@ -24870,7 +24969,7 @@ section.ui-element {
     font-family: source_sans_proregular, sans-serif;
     font-style: normal;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 12px;
     line-height: 20px;
     color: #333
 }
@@ -24950,7 +25049,7 @@ section.ui-element {
 }
 
 .ui-elements .text-tabs .tab-title span {
-    font-size: 13px;
+    font-size: 12px;
     line-height: 24px;
     font-weight: 400;
     text-transform: uppercase;
@@ -25065,7 +25164,7 @@ section.ui-element {
     .ui-elements table.basic-table td {
         border-bottom: 1px solid #ddd;
         display: block;
-        font-size: 14px;
+        font-size: 12px;
         text-align: right;
     }
 
@@ -25347,7 +25446,7 @@ section.ui-element {
 
 .ui-elements .ui-buttons h4.effect {
     font-family: Lato, sans-serif;
-    font-size: 18px;
+    font-size: 12px;
     color: #444;
     font-weight: 400;
 }
@@ -25602,7 +25701,7 @@ section.ui-element {
     outline: none;
     padding-left: 20px;
     position: relative;
-    font-size: 13px;
+    font-size: 12px;
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 1px;
@@ -25669,7 +25768,7 @@ section.ui-element {
     letter-spacing: 2px;
     margin-right: -2px;
     font-family: Lato, sans-serif;
-    font-size: 18px;
+    font-size: 12px;
     color: #444;
     font-weight: 400;
     margin-bottom: 24px;
@@ -25699,7 +25798,7 @@ section.ui-element {
 }
 
 .ui-elements .radio-option+span {
-    font-size: 13px;
+    font-size: 12px;
     top: 0;
 }
 
@@ -25732,7 +25831,7 @@ section.ui-element {
     color: #fff;
     width: 100%;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 1px;
@@ -25792,7 +25891,7 @@ section.ui-element {
 .ui-elements .barfiller .tip {
     margin-top: -30px;
     padding: 2px 4px;
-    font-size: 13px;
+    font-size: 12px;
     color: #fff;
     left: 0px;
     position: absolute;
@@ -25839,11 +25938,11 @@ section.ui-element {
 
 .ui-elements .skills .skil1 li:last-child {
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 12px;
 }
 
 .ui-elements .skills h3 {
-    font-size: 1rem;
+     font-size: 12px;
 }
 
 @media screen and (max-width: 400px) {
@@ -25942,7 +26041,7 @@ section.ui-element {
     vertical-align: middle;
     width: 100%;
     margin-top: 2rem;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     background: #e72660;
     color: #ffffff;
@@ -26013,7 +26112,7 @@ section.ui-element {
 
 .shop .blog .blog-pots h3 {
     font-weight: bold;
-    font-size: 1.3rem;
+     font-size: 12px;
     margin: 0;
 }
 
@@ -26249,11 +26348,11 @@ section.ui-element {
 
 @media screen and (max-width: 992px) {
     h3 {
-        font-size: 1.1rem;
+        font-size: 12px;
     }
 
     .headings .text-heading p {
-        font-size: 1rem;
+         font-size: 12px;
     }
 
     .header-top .container {
@@ -26275,7 +26374,7 @@ section.ui-element {
     }
 
     .blog .blog-pots h3 {
-        font-size: 1.2rem;
+         font-size: 12px;
     }
 
 
@@ -26298,7 +26397,7 @@ section.ui-element {
     }
 
     .section-title h3 {
-        font-size: 16px;
+        font-size: 12px;
     }
 
     .section-title {
@@ -26306,7 +26405,7 @@ section.ui-element {
     }
 
     .section-title h2 {
-        font-size: 18px;
+        font-size: 12px;
     }
 
     .who-we-are .who img {
@@ -26344,7 +26443,7 @@ section.ui-element {
     }
 
     .inner-pages .panel .panel-heading a {
-        font-size: 1rem;
+         font-size: 12px;
     }
 
     .first-footer h2 {
@@ -26370,7 +26469,7 @@ section.ui-element {
 
     .inner-pages .headings h2 a,
     .inner-pages .headings h2 {
-        font-size: 1rem;
+         font-size: 12px;
     }
 
     .inner-pages .contact-us .offices {
@@ -26378,7 +26477,7 @@ section.ui-element {
     }
 
     .headings-7 .text-heading p.sorry {
-        font-size: 1.1rem;
+        font-size: 12px;
     }
 
     .font-36 {
@@ -26402,7 +26501,7 @@ section.ui-element {
     text-align: center;
     margin-top: 10px;
     color: #333;
-    font-size: 13px;
+    font-size: 12px;
     display: block;
     transition: all ease 0.2s;
     /* line-height: 14px; */
@@ -26420,7 +26519,7 @@ section.ui-element {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     line-height: 15px;
     white-space: nowrap;
@@ -26446,7 +26545,7 @@ section.ui-element {
     border-radius: 10px;
     border: none;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .special-button-content button:hover {
@@ -26528,7 +26627,7 @@ section.ui-element {
 .social-account-login-buttons .social-login-button {
     background-color: #fff;
     display: flex;
-    font-size: 14px;
+    font-size: 12px;
     width: 48%;
     border-radius: 6px;
     border: solid 1px #e6e6e6;
@@ -26562,13 +26661,13 @@ section.ui-element {
     text-transform: uppercase;
     font-weight: bold;
     transition: all 0.3s ease;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .loginItems .q-label {
     display: block;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 18px;
     padding: 0;
     color: #333;
@@ -26711,7 +26810,7 @@ section.ui-element {
 
 .sude .breadcrumb-nav ul li {
     margin-right: 10px;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .sude .breadcrumb-nav ul li a {
@@ -27148,7 +27247,7 @@ input[type="checkbox"]::before {
     background-color: transparent;
     border: 1px solid transparent;
     padding: 0.375rem 0.75rem;
-    font-size: 1rem;
+     font-size: 12px;
     line-height: 1.5;
     border-radius: 0.25rem;
     background: #218838 !important;
@@ -27172,8 +27271,8 @@ input[type="checkbox"]::before {
     position: relative;
     overflow: hidden;
 }
-
 .CartBtn ,
+.reservationBtn,
 .soldBtn {
     width: 100%;
     height: 40px;
@@ -27189,7 +27288,12 @@ input[type="checkbox"]::before {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
     position: relative;
 }
-
+@media (max-width: 768px) {
+    .mobileCBtn{
+        width:130px !important;
+    }
+    
+}
      /* .selected {
             border: 2px solid red;
         } */
@@ -27235,12 +27339,24 @@ input[type="checkbox"]::before {
     z-index: 2;
     transition-duration: .5s;
 }
-
+.flatpickr-day{
+    margin:2px !important;
+    border-radius: 0 !important;
+}
 .CartBtn .icon {
     border-radius: 1px;
 }
+.yellow-bg{
+    background: orange !important;
+    color:White !important;
+}
+.red-bg{
+    background: red !important;
+    color:White !important;
 
+}
 .CartBtn .text ,
+.reservationBtn .text,
 .soldBtn .text{
     height: 100%;
     width: fit-content;
@@ -27283,7 +27399,7 @@ input[type="checkbox"]::before {
     background: #ffffff;
     box-sizing: border-box;
     border-radius: 100%;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .toggle-project-favorite:hover i:before,
@@ -27320,9 +27436,8 @@ input[type="checkbox"]::before {
 }
 
 .payment-plan-pop-content {
-    width: 50%;
+    width: 70% !important;
     background-color: white;
-    padding: 15px;
     z-index: 9999;
     position: relative;
 }
@@ -27354,7 +27469,7 @@ input[type="checkbox"]::before {
     padding: 15px 20px;
     justify-content: space-between;
     align-items: center;
-    font-size: 14px;
+    font-size: 12px;
     color: #2a2a2a;
     font-weight: bold;
     margin-bottom: 20px;
@@ -27410,7 +27525,7 @@ input[type="checkbox"]::before {
     right: 9px;
     top: 9px;
     color: #f27a1a;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
   }
   #orders-container .header-bar .ty-input {
@@ -27423,7 +27538,7 @@ input[type="checkbox"]::before {
     display: none;
   }
   #orders-container .header-bar h1 {
-    font-size: 18px;
+    font-size: 12px;
   }
   #orders-container .header-bar .sorting {
     width: 130px;
@@ -27478,7 +27593,7 @@ input[type="checkbox"]::before {
   #orders-container .order .order-header .order-header-info {
     color: #666;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 12px;
     display: flex;
   }
   #orders-container .order .order-header .order-header-info b {
@@ -27518,7 +27633,7 @@ input[type="checkbox"]::before {
     flex-direction: column;
     width: 80%;
     color: #333;
-    font-size: 14px;
+    font-size: 12px;
   }
   #orders-container .order .order-item .order-item-status .title {
     display: flex;
@@ -27752,7 +27867,7 @@ input[type="checkbox"]::before {
     }
   }
   #orders-container .orders-error {
-    font-size: 14px;
+    font-size: 12px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -27774,7 +27889,7 @@ input[type="checkbox"]::before {
   #orders-container .orders-error button {
     width: 300px;
     height: 38px;
-    font-size: 16px;
+    font-size: 12px;
     margin-top: 10px;
   }
   #orders-container .icon.creating:before {
@@ -27892,7 +28007,7 @@ input[type="checkbox"]::before {
     margin: 20px;
     border-radius: 6px;
     background-color: #f27a1a;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
   }
   #orders-container .empty-order-search-container .eos-icon {
@@ -27913,7 +28028,7 @@ input[type="checkbox"]::before {
     color: #000000;
   }
   #orders-container .empty-order-search-container .eos-desc {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: normal;
     color: #000000;
   }
@@ -27922,7 +28037,7 @@ input[type="checkbox"]::before {
   }
   #orders-container .order-search-info {
     margin: 0 0 15px 20px;
-    font-size: 14px;
+    font-size: 12px;
     color: #2a2a2a;
   }
   #orders-container .order-search-info .highlighted {
@@ -27990,7 +28105,7 @@ input[type="checkbox"]::before {
     margin: 15px 20px 0 20px;
   }
   #orders-container .orders-collection-point-description .delivery-point-desc {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     letter-spacing: -0.1px;
     color: #333333;
@@ -28041,14 +28156,14 @@ input[type="checkbox"]::before {
     margin-top: 15px;
   }
   #orders-container .collection-point-information-banner .collection-point-information {
-    font-size: 14px;
+    font-size: 12px;
     color: #333333;
   }
   #orders-container .collection-point-information-banner .collection-point-information strong {
     font-family: source_sans_prosemibold, sans-serif;
   }
   #orders-container .collection-point-information-banner .i-warning1-fill {
-    font-size: 16px;
+    font-size: 12px;
     padding-bottom: 1px;
     margin: 0 15px 0 20px;
   }
@@ -28071,7 +28186,7 @@ input[type="checkbox"]::before {
     height: 44px;
     margin: 20px;
     border-radius: 6px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
   }
   #orders-container .no-order-container .no-icon {
@@ -28093,7 +28208,7 @@ input[type="checkbox"]::before {
     color: #f27a1a;
   }
   #orders-container .no-order-container .no-desc {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: normal;
     color: #666;
   }
@@ -28127,7 +28242,7 @@ input[type="checkbox"]::before {
     color: #333333;
     font-family: source_sans_prosemibold, sans-serif;
     -webkit-font-smoothing: antialiased;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     transition: all 0.4s ease;
     margin-right: 10px;
@@ -28171,7 +28286,7 @@ input[type="checkbox"]::before {
     -webkit-font-smoothing: antialiased;
     font-style: normal;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 12px;
   }
   #orders-container .group-deal-info {
     display: flex;
@@ -28208,11 +28323,11 @@ input[type="checkbox"]::before {
     font-family: source_sans_proregular, sans-serif;
   }
   #orders-container .group-deal-info .gdi-details .gdi-d-content div.gdi-d-c-title {
-    font-size: 16px;
+    font-size: 12px;
     margin-bottom: 4px;
   }
   #orders-container .group-deal-info .gdi-details .gdi-d-content div.gdi-d-c-details {
-    font-size: 14px;
+    font-size: 12px;
   }
   #orders-container .group-deal-info .gdi-details .gdi-d-content div.gdi-d-c-details span {
     font-family: source_sans_prosemibold, sans-serif;
@@ -28232,7 +28347,7 @@ input[type="checkbox"]::before {
   #orders-container .group-deal-share-modal .gd-sm-header h1 {
     width: 300px;
     margin: 0 auto;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 600;
     text-align: center;
   }
@@ -28264,12 +28379,12 @@ input[type="checkbox"]::before {
     margin-left: 12px;
   }
   #orders-container .gd-share-description-item .gd-sdi-description-container h2 {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 600;
   }
   #orders-container .gd-share-description-item .gd-sdi-description-container p {
     margin-top: 6px;
-    font-size: 14px;
+    font-size: 12px;
   }
   #orders-container .gd-copy-link-box {
     margin-top: 30px;
@@ -28293,7 +28408,7 @@ input[type="checkbox"]::before {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 14px;
+    font-size: 12px;
     flex-shrink: 0;
   }
   #orders-container .gd-copy-link-box .gd-cp-lb-container button {
@@ -28306,7 +28421,7 @@ input[type="checkbox"]::before {
     cursor: pointer;
   }
   #orders-container .gd-copy-link-box .gd-cp-lb-container button .i-copy-filled {
-    font-size: 18px;
+    font-size: 12px;
     vertical-align: middle;
   }
   #orders-container .gd-copy-link-box .gd-cp-lb-container button span {
@@ -28315,7 +28430,7 @@ input[type="checkbox"]::before {
     margin-left: 5px;
   }
   #orders-container .gd-copy-link-box .gd-cp-lb-container .i-check {
-    font-size: 18px;
+    font-size: 12px;
   }
   #orders-container .gd-copy-link-box .gd-cp-lb-container .i-check i {
     font-style: normal;
@@ -28445,11 +28560,687 @@ input[type="checkbox"]::before {
   
   .type-tag{
     background: #EA2B2E !important;
-    right: 15px;
+    right: 10px;
     text-align: center;
-    width: 60px !important;
-    margin-top: 15px;
+    width: auto !important;
+    margin-top: 10px;
     position: absolute;
   }
 
+  .flex-1{
+    flex: 1;
+  }
   
+
+    .msger {
+                display: flex;
+                flex-flow: column wrap;
+                justify-content: space-between;
+                width: 100%;
+                max-width: 867px;
+                margin: 25px 10px;
+                height: calc(100% - 50px);
+                border: var(--border);
+                border-radius: 5px;
+                background: var(--msger-bg);
+                box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
+            }
+
+            .msger-header {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                border-bottom: var(--border);
+                background: #eee;
+                color: #666;
+            }
+
+            .msger-chat {
+                flex: 1;
+                overflow-y: auto;
+                padding: 10px;
+            }
+
+            .msger-chat::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .msger-chat::-webkit-scrollbar-track {
+                background: #ddd;
+            }
+
+            .msger-chat::-webkit-scrollbar-thumb {
+                background: #bdbdbd;
+            }
+
+            .msg {
+                display: flex;
+                align-items: flex-end;
+                margin-bottom: 10px;
+            }
+
+            .msg:last-of-type {
+                margin: 0;
+            }
+
+            .msg-img {
+                width: 50px;
+                height: 50px;
+                margin-right: 10px;
+                background: #ddd;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                border-radius: 50%;
+            }
+
+            .msg-bubble {
+                max-width: 450px;
+                padding: 15px;
+                border-radius: 15px;
+                background: #ececec;
+            }
+
+            .msg-info {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .msg-info-name {
+                margin-right: 10px;
+                font-weight: bold;
+            }
+
+            .msg-info-time {
+                font-size: 0.85em;
+            }
+
+            .left-msg .msg-bubble {
+                border-bottom-left-radius: 0;
+            }
+
+            .right-msg {
+                flex-direction: row-reverse;
+            }
+
+            .right-msg .msg-bubble {
+                background: #08ae47;
+                color: #fff;
+                border-bottom-right-radius: 0;
+            }
+
+            .right-msg .msg-img {
+                margin: 0 0 0 10px;
+            }
+
+            .msg-text {
+                text-align: left
+            }
+
+            .msger-inputarea {
+                display: flex;
+                padding: 10px;
+                border-top: var(--border);
+                background: #eee;
+            }
+
+            .msger-inputarea * {
+                padding: 10px;
+                border: none;
+                border-radius: 3px;
+                font-size: 1em;
+            }
+
+            .msger-input {
+                flex: 1;
+                background: #ddd;
+            }
+
+            .msger-send-btn {
+                margin-left: 10px;
+                background: rgb(0, 196, 65);
+                color: #fff;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background 0.23s;
+            }
+
+            .msger-send-btn:hover {
+                background: rgb(0, 180, 50);
+            }
+
+            .msger-chat {
+                background-color: #fcfcfe;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23dddddd' fill-opacity='0.4'%3E%3Cpath d='M24.37 16c.2.65.39 1.32.54 2H21.17l1.17 2.34.45.9-.24.11V28a5 5 0 0 1-2.23 8.94l-.02.06a8 8 0 0 1-7.75 6h-20a8 8 0 0 1-7.74-6l-.02-.06A5 5 0 0 1-17.45 28v-6.76l-.79-1.58-.44-.9.9-.44.63-.32H-20a23.01 23.01 0 0 1 44.37-2zm-36.82 2a1 1 0 0 0-.44.1l-3.1 1.56.89 1.79 1.31-.66a3 3 0 0 1 2.69 0l2.2 1.1a1 1 0 0 0 .9 0l2.21-1.1a3 3 0 0 1 2.69 0l2.2 1.1a1 1 0 0 0 .9 0l2.21-1.1a3 3 0 0 1 2.69 0l2.2 1.1a1 1 0 0 0 .86.02l2.88-1.27a3 3 0 0 1 2.43 0l2.88 1.27a1 1 0 0 0 .85-.02l3.1-1.55-.89-1.79-1.42.71a3 3 0 0 1-2.56.06l-2.77-1.23a1 1 0 0 0-.4-.09h-.01a1 1 0 0 0-.4.09l-2.78 1.23a3 3 0 0 1-2.56-.06l-2.3-1.15a1 1 0 0 0-.45-.11h-.01a1 1 0 0 0-.44.1L.9 19.22a3 3 0 0 1-2.69 0l-2.2-1.1a1 1 0 0 0-.45-.11h-.01a1 1 0 0 0-.44.1l-2.21 1.11a3 3 0 0 1-2.69 0l-2.2-1.1a1 1 0 0 0-.45-.11h-.01zm0-2h-4.9a21.01 21.01 0 0 1 39.61 0h-2.09l-.06-.13-.26.13h-32.31zm30.35 7.68l1.36-.68h1.3v2h-36v-1.15l.34-.17 1.36-.68h2.59l1.36.68a3 3 0 0 0 2.69 0l1.36-.68h2.59l1.36.68a3 3 0 0 0 2.69 0L2.26 23h2.59l1.36.68a3 3 0 0 0 2.56.06l1.67-.74h3.23l1.67.74a3 3 0 0 0 2.56-.06zM-13.82 27l16.37 4.91L18.93 27h-32.75zm-.63 2h.34l16.66 5 16.67-5h.33a3 3 0 1 1 0 6h-34a3 3 0 1 1 0-6zm1.35 8a6 6 0 0 0 5.65 4h20a6 6 0 0 0 5.66-4H-13.1z'/%3E%3Cpath id='path6_fill-copy' d='M284.37 16c.2.65.39 1.32.54 2H281.17l1.17 2.34.45.9-.24.11V28a5 5 0 0 1-2.23 8.94l-.02.06a8 8 0 0 1-7.75 6h-20a8 8 0 0 1-7.74-6l-.02-.06a5 5 0 0 1-2.24-8.94v-6.76l-.79-1.58-.44-.9.9-.44.63-.32H240a23.01 23.01 0 0 1 44.37-2zm-36.82 2a1 1 0 0 0-.44.1l-3.1 1.56.89 1.79 1.31-.66a3 3 0 0 1 2.69 0l2.2 1.1a1 1 0 0 0 .9 0l2.21-1.1a3 3 0 0 1 2.69 0l2.2 1.1a1 1 0 0 0 .9 0l2.21-1.1a3 3 0 0 1 2.69 0l2.2 1.1a1 1 0 0 0 .86.02l2.88-1.27a3 3 0 0 1 2.43 0l2.88 1.27a1 1 0 0 0 .85-.02l3.1-1.55-.89-1.79-1.42.71a3 3 0 0 1-2.56.06l-2.77-1.23a1 1 0 0 0-.4-.09h-.01a1 1 0 0 0-.4.09l-2.78 1.23a3 3 0 0 1-2.56-.06l-2.3-1.15a1 1 0 0 0-.45-.11h-.01a1 1 0 0 0-.44.1l-2.21 1.11a3 3 0 0 1-2.69 0l-2.2-1.1a1 1 0 0 0-.45-.11h-.01a1 1 0 0 0-.44.1l-2.21 1.11a3 3 0 0 1-2.69 0l-2.2-1.1a1 1 0 0 0-.45-.11h-.01zm0-2h-4.9a21.01 21.01 0 0 1 39.61 0h-2.09l-.06-.13-.26.13h-32.31zm30.35 7.68l1.36-.68h1.3v2h-36v-1.15l.34-.17 1.36-.68h2.59l1.36.68a3 3 0 0 0 2.69 0l1.36-.68h2.59l1.36.68a3 3 0 0 0 2.69 0l1.36-.68h2.59l1.36.68a3 3 0 0 0 2.56.06l1.67-.74h3.23l1.67.74a3 3 0 0 0 2.56-.06zM246.18 27l16.37 4.91L278.93 27h-32.75zm-.63 2h.34l16.66 5 16.67-5h.33a3 3 0 1 1 0 6h-34a3 3 0 1 1 0-6zm1.35 8a6 6 0 0 0 5.65 4h20a6 6 0 0 0 5.66-4H246.9z'/%3E%3Cpath d='M159.5 21.02A9 9 0 0 0 151 15h-42a9 9 0 0 0-8.5 6.02 6 6 0 0 0 .02 11.96A8.99 8.99 0 0 0 109 45h42a9 9 0 0 0 8.48-12.02 6 6 0 0 0 .02-11.96zM151 17h-42a7 7 0 0 0-6.33 4h54.66a7 7 0 0 0-6.33-4zm-9.34 26a8.98 8.98 0 0 0 3.34-7h-2a7 7 0 0 1-7 7h-4.34a8.98 8.98 0 0 0 3.34-7h-2a7 7 0 0 1-7 7h-4.34a8.98 8.98 0 0 0 3.34-7h-2a7 7 0 0 1-7 7h-7a7 7 0 1 1 0-14h42a7 7 0 1 1 0 14h-9.34zM109 27a9 9 0 0 0-7.48 4H101a4 4 0 1 1 0-8h58a4 4 0 0 1 0 8h-.52a9 9 0 0 0-7.48-4h-42z'/%3E%3Cpath d='M39 115a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm6-8a6 6 0 1 1-12 0 6 6 0 0 1 12 0zm-3-29v-2h8v-6H40a4 4 0 0 0-4 4v10H22l-1.33 4-.67 2h2.19L26 130h26l3.81-40H58l-.67-2L56 84H42v-6zm-4-4v10h2V74h8v-2h-8a2 2 0 0 0-2 2zm2 12h14.56l.67 2H22.77l.67-2H40zm13.8 4H24.2l3.62 38h22.36l3.62-38z'/%3E%3Cpath d='M129 92h-6v4h-6v4h-6v14h-3l.24 2 3.76 32h36l3.76-32 .24-2h-3v-14h-6v-4h-6v-4h-8zm18 22v-12h-4v4h3v8h1zm-3 0v-6h-4v6h4zm-6 6v-16h-4v19.17c1.6-.7 2.97-1.8 4-3.17zm-6 3.8V100h-4v23.8a10.04 10.04 0 0 0 4 0zm-6-.63V104h-4v16a10.04 10.04 0 0 0 4 3.17zm-6-9.17v-6h-4v6h4zm-6 0v-8h3v-4h-4v12h1zm27-12v-4h-4v4h3v4h1v-4zm-6 0v-8h-4v4h3v4h1zm-6-4v-4h-4v8h1v-4h3zm-6 4v-4h-4v8h1v-4h3zm7 24a12 12 0 0 0 11.83-10h7.92l-3.53 30h-32.44l-3.53-30h7.92A12 12 0 0 0 130 126z'/%3E%3Cpath d='M212 86v2h-4v-2h4zm4 0h-2v2h2v-2zm-20 0v.1a5 5 0 0 0-.56 9.65l.06.25 1.12 4.48a2 2 0 0 0 1.94 1.52h.01l7.02 24.55a2 2 0 0 0 1.92 1.45h4.98a2 2 0 0 0 1.92-1.45l7.02-24.55a2 2 0 0 0 1.95-1.52L224.5 96l.06-.25a5 5 0 0 0-.56-9.65V86a14 14 0 0 0-28 0zm4 0h6v2h-9a3 3 0 1 0 0 6H223a3 3 0 1 0 0-6H220v-2h2a12 12 0 1 0-24 0h2zm-1.44 14l-1-4h24.88l-1 4h-22.88zm8.95 26l-6.86-24h18.7l-6.86 24h-4.98zM150 242a22 22 0 1 0 0-44 22 22 0 0 0 0 44zm24-22a24 24 0 1 1-48 0 24 24 0 0 1 48 0zm-28.38 17.73l2.04-.87a6 6 0 0 1 4.68 0l2.04.87a2 2 0 0 0 2.5-.82l1.14-1.9a6 6 0 0 1 3.79-2.75l2.15-.5a2 2 0 0 0 1.54-2.12l-.19-2.2a6 6 0 0 1 1.45-4.46l1.45-1.67a2 2 0 0 0 0-2.62l-1.45-1.67a6 6 0 0 1-1.45-4.46l.2-2.2a2 2 0 0 0-1.55-2.13l-2.15-.5a6 6 0 0 1-3.8-2.75l-1.13-1.9a2 2 0 0 0-2.5-.8l-2.04.86a6 6 0 0 1-4.68 0l-2.04-.87a2 2 0 0 0-2.5.82l-1.14 1.9a6 6 0 0 1-3.79 2.75l-2.15.5a2 2 0 0 0-1.54 2.12l.19 2.2a6 6 0 0 1-1.45 4.46l-1.45 1.67a2 2 0 0 0 0 2.62l1.45 1.67a6 6 0 0 1 1.45 4.46l-.2 2.2a2 2 0 0 0 1.55 2.13l2.15.5a6 6 0 0 1 3.8 2.75l1.13 1.9a2 2 0 0 0 2.5.8zm2.82.97a4 4 0 0 1 3.12 0l2.04.87a4 4 0 0 0 4.99-1.62l1.14-1.9a4 4 0 0 1 2.53-1.84l2.15-.5a4 4 0 0 0 3.09-4.24l-.2-2.2a4 4 0 0 1 .97-2.98l1.45-1.67a4 4 0 0 0 0-5.24l-1.45-1.67a4 4 0 0 1-.97-2.97l.2-2.2a4 4 0 0 0-3.09-4.25l-2.15-.5a4 4 0 0 1-2.53-1.84l-1.14-1.9a4 4 0 0 0-5-1.62l-2.03.87a4 4 0 0 1-3.12 0l-2.04-.87a4 4 0 0 0-4.99 1.62l-1.14 1.9a4 4 0 0 1-2.53 1.84l-2.15.5a4 4 0 0 0-3.09 4.24l.2 2.2a4 4 0 0 1-.97 2.98l-1.45 1.67a4 4 0 0 0 0 5.24l1.45 1.67a4 4 0 0 1 .97 2.97l-.2 2.2a4 4 0 0 0 3.09 4.25l2.15.5a4 4 0 0 1 2.53 1.84l1.14 1.9a4 4 0 0 0 5 1.62l2.03-.87zM152 207a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm6 2a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm-11 1a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm-6 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm3-5a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm-8 8a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm3 6a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm0 6a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm4 7a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm5-2a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm5 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm4-6a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm6-4a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm-4-3a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm4-3a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm-5-4a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm-24 6a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm16 5a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm7-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0zm86-29a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm19 9a1 1 0 0 1 1-1h2a1 1 0 0 1 0 2h-2a1 1 0 0 1-1-1zm-14 5a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm-25 1a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm5 4a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm9 0a1 1 0 0 1 1-1h2a1 1 0 0 1 0 2h-2a1 1 0 0 1-1-1zm15 1a1 1 0 0 1 1-1h2a1 1 0 0 1 0 2h-2a1 1 0 0 1-1-1zm12-2a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm-11-14a1 1 0 0 1 1-1h2a1 1 0 0 1 0 2h-2a1 1 0 0 1-1-1zm-19 0a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm6 5a1 1 0 0 1 1-1h2a1 1 0 0 1 0 2h-2a1 1 0 0 1-1-1zm-25 15c0-.47.01-.94.03-1.4a5 5 0 0 1-1.7-8 3.99 3.99 0 0 1 1.88-5.18 5 5 0 0 1 3.4-6.22 3 3 0 0 1 1.46-1.05 5 5 0 0 1 7.76-3.27A30.86 30.86 0 0 1 246 184c6.79 0 13.06 2.18 18.17 5.88a5 5 0 0 1 7.76 3.27 3 3 0 0 1 1.47 1.05 5 5 0 0 1 3.4 6.22 4 4 0 0 1 1.87 5.18 4.98 4.98 0 0 1-1.7 8c.02.46.03.93.03 1.4v1h-62v-1zm.83-7.17a30.9 30.9 0 0 0-.62 3.57 3 3 0 0 1-.61-4.2c.37.28.78.49 1.23.63zm1.49-4.61c-.36.87-.68 1.76-.96 2.68a2 2 0 0 1-.21-3.71c.33.4.73.75 1.17 1.03zm2.32-4.54c-.54.86-1.03 1.76-1.49 2.68a3 3 0 0 1-.07-4.67 3 3 0 0 0 1.56 1.99zm1.14-1.7c.35-.5.72-.98 1.1-1.46a1 1 0 1 0-1.1 1.45zm5.34-5.77c-1.03.86-2 1.79-2.9 2.77a3 3 0 0 0-1.11-.77 3 3 0 0 1 4-2zm42.66 2.77c-.9-.98-1.87-1.9-2.9-2.77a3 3 0 0 1 4.01 2 3 3 0 0 0-1.1.77zm1.34 1.54c.38.48.75.96 1.1 1.45a1 1 0 1 0-1.1-1.45zm3.73 5.84c-.46-.92-.95-1.82-1.5-2.68a3 3 0 0 0 1.57-1.99 3 3 0 0 1-.07 4.67zm1.8 4.53c-.29-.9-.6-1.8-.97-2.67.44-.28.84-.63 1.17-1.03a2 2 0 0 1-.2 3.7zm1.14 5.51c-.14-1.21-.35-2.4-.62-3.57.45-.14.86-.35 1.23-.63a2.99 2.99 0 0 1-.6 4.2zM275 214a29 29 0 0 0-57.97 0h57.96zM72.33 198.12c-.21-.32-.34-.7-.34-1.12v-12h-2v12a4.01 4.01 0 0 0 7.09 2.54c.57-.69.91-1.57.91-2.54v-12h-2v12a1.99 1.99 0 0 1-2 2 2 2 0 0 1-1.66-.88zM75 176c.38 0 .74-.04 1.1-.12a4 4 0 0 0 6.19 2.4A13.94 13.94 0 0 1 84 185v24a6 6 0 0 1-6 6h-3v9a5 5 0 1 1-10 0v-9h-3a6 6 0 0 1-6-6v-24a14 14 0 0 1 14-14 5 5 0 0 0 5 5zm-17 15v12a1.99 1.99 0 0 0 1.22 1.84 2 2 0 0 0 2.44-.72c.21-.32.34-.7.34-1.12v-12h2v12a3.98 3.98 0 0 1-5.35 3.77 3.98 3.98 0 0 1-.65-.3V209a4 4 0 0 0 4 4h16a4 4 0 0 0 4-4v-24c.01-1.53-.23-2.88-.72-4.17-.43.1-.87.16-1.28.17a6 6 0 0 1-5.2-3 7 7 0 0 1-6.47-4.88A12 12 0 0 0 58 185v6zm9 24v9a3 3 0 1 0 6 0v-9h-6z'/%3E%3Cpath d='M-17 191a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm19 9a1 1 0 0 1 1-1h2a1 1 0 0 1 0 2H3a1 1 0 0 1-1-1zm-14 5a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm-25 1a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm5 4a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm9 0a1 1 0 0 1 1-1h2a1 1 0 0 1 0 2h-2a1 1 0 0 1-1-1zm15 1a1 1 0 0 1 1-1h2a1 1 0 0 1 0 2h-2a1 1 0 0 1-1-1zm12-2a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2H4zm-11-14a1 1 0 0 1 1-1h2a1 1 0 0 1 0 2h-2a1 1 0 0 1-1-1zm-19 0a1 1 0 0 0 0 2h2a1 1 0 0 0 0-2h-2zm6 5a1 1 0 0 1 1-1h2a1 1 0 0 1 0 2h-2a1 1 0 0 1-1-1zm-25 15c0-.47.01-.94.03-1.4a5 5 0 0 1-1.7-8 3.99 3.99 0 0 1 1.88-5.18 5 5 0 0 1 3.4-6.22 3 3 0 0 1 1.46-1.05 5 5 0 0 1 7.76-3.27A30.86 30.86 0 0 1-14 184c6.79 0 13.06 2.18 18.17 5.88a5 5 0 0 1 7.76 3.27 3 3 0 0 1 1.47 1.05 5 5 0 0 1 3.4 6.22 4 4 0 0 1 1.87 5.18 4.98 4.98 0 0 1-1.7 8c.02.46.03.93.03 1.4v1h-62v-1zm.83-7.17a30.9 30.9 0 0 0-.62 3.57 3 3 0 0 1-.61-4.2c.37.28.78.49 1.23.63zm1.49-4.61c-.36.87-.68 1.76-.96 2.68a2 2 0 0 1-.21-3.71c.33.4.73.75 1.17 1.03zm2.32-4.54c-.54.86-1.03 1.76-1.49 2.68a3 3 0 0 1-.07-4.67 3 3 0 0 0 1.56 1.99zm1.14-1.7c.35-.5.72-.98 1.1-1.46a1 1 0 1 0-1.1 1.45zm5.34-5.77c-1.03.86-2 1.79-2.9 2.77a3 3 0 0 0-1.11-.77 3 3 0 0 1 4-2zm42.66 2.77c-.9-.98-1.87-1.9-2.9-2.77a3 3 0 0 1 4.01 2 3 3 0 0 0-1.1.77zm1.34 1.54c.38.48.75.96 1.1 1.45a1 1 0 1 0-1.1-1.45zm3.73 5.84c-.46-.92-.95-1.82-1.5-2.68a3 3 0 0 0 1.57-1.99 3 3 0 0 1-.07 4.67zm1.8 4.53c-.29-.9-.6-1.8-.97-2.67.44-.28.84-.63 1.17-1.03a2 2 0 0 1-.2 3.7zm1.14 5.51c-.14-1.21-.35-2.4-.62-3.57.45-.14.86-.35 1.23-.63a2.99 2.99 0 0 1-.6 4.2zM15 214a29 29 0 0 0-57.97 0h57.96z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            }
+
+            .chatbox-messages {
+                overflow-y: auto;
+                height: 300px;
+                max-height: 300px;
+            }
+
+            .user-message,
+            .admin-message {
+                display: inline-block;
+                max-width: 80%;
+                margin-bottom: 10px;
+                padding: 10px;
+                border-radius: 10px;
+            }
+
+            .user-message {
+                text-align: left;
+                background-color: #08ae47;
+                float: right;
+                color: white
+            }
+
+            .admin-message {
+                text-align: left;
+                background-color: #1f221f;
+                float: left;
+                color: white;
+                width: 100%;
+                font-size: 12px;
+            }
+
+
+            .chatbox-open,
+            .chatbox-close {
+                color: inherit;
+                background-color: transparent;
+                border: 0;
+                outline: 0 !important;
+                cursor: pointer;
+            }
+
+            .chatbox-open {
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                width: 52px;
+                height: 52px;
+                color: #fff;
+                background-color: #0360a5;
+                background-position: center center;
+                background-repeat: no-repeat;
+                box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.15);
+                border: 0;
+                border-radius: 50%;
+                cursor: pointer;
+                margin: 16px;
+            }
+
+            .chatbox-close {
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                width: 52px;
+                height: 52px;
+                color: #fff;
+                background-color: #0360a5;
+                background-position: center center;
+                background-repeat: no-repeat;
+                box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.15);
+                border: 0;
+                border-radius: 50%;
+                cursor: pointer;
+                display: none;
+                margin: 16px calc(2 * 16px + 52px) 16px 16px;
+            }
+
+            textarea {
+                box-sizing: border-box;
+                width: 100%;
+                margin: 0;
+                height: calc(16px + 16px / 2);
+                padding: 0 calc(16px / 2);
+                font-family: inherit;
+                font-size: 12px;
+                line-height: calc(16px + 16px / 2);
+                color: #888;
+                background-color: transparent;
+                border: 0;
+                outline: 0 !important;
+                resize: none;
+                overflow: hidden;
+            }
+
+            textarea::-moz-placeholder {
+                color: #888;
+            }
+
+            textarea:-ms-input-placeholder {
+                color: #888;
+            }
+
+            textarea::placeholder {
+                color: #888;
+            }
+
+            .chatbox-popup {
+                z-index: 999999;
+                display: flex;
+                position: fixed;
+                box-shadow: 5px 5px 25px 0 rgba(46, 61, 73, 0.2);
+                flex-direction: column;
+                display: none;
+                bottom: calc(2 * 16px + 52px);
+                right: 16px;
+                width: 377px;
+                height: auto;
+                background-color: #fff;
+                border-radius: 16px;
+            }
+
+            .chatbox-popup .chatbox-popup__header {
+                box-sizing: border-box;
+                display: flex;
+                width: 100%;
+                padding: 16px;
+                color: #fff;
+                background-color: #0360a5;
+                align-items: center;
+                justify-content: space-around;
+                border-top-right-radius: 12px;
+                border-top-left-radius: 12px;
+            }
+
+            .chatbox-popup .chatbox-popup__header .chatbox-popup__avatar {
+                margin-top: -32px;
+                background-color: #0360a5;
+                border: 5px solid rgba(0, 0, 0, 0.1);
+                border-radius: 50%;
+            }
+
+            .chatbox-popup .chatbox-popup__main {
+                box-sizing: border-box;
+                width: 100%;
+                padding: 10px;
+                line-height: calc(16px + 16px / 2);
+                color: #888;
+                text-align: center;
+            }
+
+            .chatbox-popup .chatbox-popup__footer {
+                box-sizing: border-box;
+                display: flex;
+                width: 100%;
+                padding: 16px;
+                border-top: 1px solid #ddd;
+                align-items: center;
+                justify-content: space-around;
+                border-bottom-right-radius: 12px;
+                border-bottom-left-radius: 12px;
+            }
+
+            @media (max-width: 768px) {
+                .chatbox-popup {
+                    left: 10px;
+                }
+
+                .chatbox-open,
+                .chatbox-close {
+                    bottom: 80px;
+                    z-index: 99999;
+                }
+
+                .chatbox-popup {
+                    bottom: 170px;
+                }
+
+                .chatbox-messages {
+                    height: 300px;
+                }
+            }
+
+            .chatbox-panel {
+                display: flex;
+                position: absolute;
+                box-shadow: 5px 5px 25px 0 rgba(46, 61, 73, 0.2);
+                flex-direction: column;
+                display: none;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 377px;
+                background-color: #fff;
+            }
+
+            .chatbox-panel .chatbox-panel__header {
+                box-sizing: border-box;
+                display: flex;
+                width: 100%;
+                padding: 16px;
+                color: #fff;
+                background-color: #0360a5;
+                align-items: center;
+                justify-content: space-around;
+                flex: 0 0 auto;
+            }
+
+            .chatbox-panel .chatbox-panel__main {
+                box-sizing: border-box;
+                width: 100%;
+                padding: calc(2 * 16px) 16px;
+                line-height: calc(16px + 16px / 2);
+                color: #888;
+                text-align: center;
+                flex: 1 1 auto;
+            }
+
+            .chatbox-panel .chatbox-panel__footer {
+                box-sizing: border-box;
+                display: flex;
+                width: 100%;
+                padding: 16px;
+                border-top: 1px solid #ddd;
+                align-items: center;
+                justify-content: space-around;
+                flex: 0 0 auto;
+            }
+
+            a {
+                text-decoration: none !important;
+            }
+
+            .buyUserRequest {
+                position: relative;
+                width: 150px;
+                height: 35px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                border: 1px solid #EA2B2E;
+                background-color: #EA2B2E;
+            }
+
+            .buyUserRequest,
+            .buyUserRequest__icon,
+            .buyUserRequest__text {
+                transition: all 0.3s;
+            }
+
+            .buyUserRequest .buyUserRequest__text {
+                transform: translateX(20px);
+                color: #fff;
+                font-weight: 600;
+              font-size: 12px;
+            }
+
+            .buyUserRequest .buyUserRequest__icon {
+                position: absolute;
+                transform: translateX(109px);
+                height: 100%;
+                width: 39px;
+                background-color: black;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .buyUserRequest img {
+                width: 30px;
+                stroke: #fff;
+            }
+
+            .buyUserRequest:hover {
+                background: #EA2B2E;
+            }
+
+            .buyUserRequest:hover .buyUserRequest__text {
+                color: transparent;
+            }
+
+            .buyUserRequest:hover .buyUserRequest__icon {
+                width: 148px;
+                transform: translateX(0);
+            }
+
+            .buyUserRequest:active .buyUserRequest__icon {
+                background-color: #EA2B2E;
+            }
+
+            .buyUserRequest:active {
+                border: 1px solid #EA2B2E;
+            }
+
+
+            .cartIconBtn {
+                padding: 5px 10px;
+                height: 100%;
+                background-color: black
+            }
+
+            .cartTextBtn {
+                padding: 5px 10px;
+                height: 100%;
+                background-color: red
+            }
+
+            @media (max-width: 768px) {
+                .buyUserRequest {
+                    width: 35px !important;
+                }
+
+                .buyUserRequest .buyUserRequest__text {
+                    transform: translateX(5px) !important
+                }
+
+                .buyUserRequest__icon {
+                    display: none !important;
+
+                }
+
+                .cartIconBtn {
+                    padding: 2px;
+                    height: 100%;
+                    background-color: black
+                }
+
+                .cartTextBtn {
+                    padding: 2px;
+                    height: 100%;
+                    background-color: red
+                }
+            }
+
+            .dropdown ul {
+                width: 200px !important;
+                text-align: left;
+                list-style-type: none;
+                display: block;
+                z-index: 999;
+                margin: 0;
+                margin-top: 10px;
+                padding: 0;
+                position: absolute;
+                width: 100%;
+                box-shadow: 0 6px 5px -5px rgba(0, 0, 0, 0.3);
+                overflow: hidden;
+            }
+
+            .dropdown li a,
+            .dropdown.toggle>label {
+                display: block;
+                padding: 0 0 0 10px;
+                background: white;
+                text-decoration: none;
+                line-height: 40px;
+                font-size: 12px;
+                font-weight: 600;
+                color: black ;
+        
+            }
+
+            .dropdown li {
+                height: 0;
+                overflow: hidden;
+                transition: all 500ms;
+            }
+
+            .dropdown.hover li {
+                transition-delay: 300ms;
+            }
+
+            .dropdown li:first-child a {
+                border-radius: 2px 2px 0 0;
+            }
+
+            .dropdown li:last-child a {
+                border-radius: 0 0 2px 2px;
+            }
+
+            .dropdown li:first-child a::before {
+                content: "";
+                display: block;
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 10px solid #FFF;
+                margin: -10px 0 0 30px;
+            }
+
+            .dropdown li a:hover,
+            .dropdown.toggle>label:hover,
+            .dropdown.toggle>input:checked~label {
+                background-color: #EEE;
+            }
+
+            .dropdown>li>a:hover::after,
+            .dropdown.toggle>label:hover::after,
+            .dropdown.toggle>input:checked~label::after {
+                border-top-color: #AAA;
+            }
+
+            .buyUserRequestBtn {
+                padding: 0;
+                background: Black !important;
+                border: none;
+                border-radius: 0 !important
+            }
+
+            .buyUserRequestBtn:hover {
+                background: black !important
+            }
+
+
+            .dropdown li:first-child a:hover::before {
+                border-bottom-color: #EEE;
+            }
+
+            .dropdown.hover:hover li,
+            .dropdown.toggle>input:checked~ul li {
+                height: 40px;
+            }
+
+            .dropdown.hover:hover li:first-child,
+            .dropdown.toggle>input:checked~ul li:first-child {
+                padding-top: 15px;
+            }
+
+
+    .project-housing-pagination{
+        padding-left: 15px;
+    }
+
+
+    .project-housing-pagination li{
+        list-style: none;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border:1px solid #dc3545;
+        color: #dc3545;
+        margin-right: 8px;
+        cursor: pointer;
+    }
+
+    .project-housing-pagination li.active{
+        color: #fff;
+        background: #dc3545;
+    }
+
+    .project-housing-pagination ul{
+        display: flex;
+    }
+
+    .loading-full{
+        position: fixed;
+        width:100%;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loading-full .back-opa{
+        position: absolute;
+        background: #33333357;
+        width: 100%;
+        height: 100%;
+    }
+
+    .content-loading{
+        width: 40%;
+        height: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+
+    .content-loading i{
+        font-size: 100px;
+        color: #fff;
+        animation: infiniteAnimation 5s infinite; 
+    }
+
+    @keyframes infiniteAnimation {
+        0% {
+          transform: rotate(0);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .project_brand_profile_image{
+        width: 30px !important;
+        height: 30px;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        z-index: 99999;
+    }
+
+    .checkboxes-filter ul{
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .checkboxes-filter ul li label{
+        display: flex;
+        align-items: center;
+    }
+
+    .checkboxes-filter ul li label span{
+        display: block;
+        margin-left: 8px;
+    }
+
+    #map {
+        height: 400px;
+        width: 100%;
+    }

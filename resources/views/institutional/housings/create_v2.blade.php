@@ -8,13 +8,13 @@
             </div>
             <div class="pop-content">
                 <div class="pop-content-inner">
-                    <h2 class="text-center">Proje üzerinde önceden bir düzenleme yapmışsınız</h2>
+                    <h2 class="text-center">Önceden ilan vermeye başlamışsınız. Kaldığınız yerden devam etmek ister misiniz?</h2>
                     <div class="choises">
                         <div class="choise choise-1">
                             Kaldığım Yerden Devam Et
                         </div>
                         <div class="choise choise-2">
-                            Yeni Proje Oluştur
+                            Yeni İlan Oluştur
                         </div>
                     </div>
                 </div>
@@ -24,16 +24,7 @@
     <div class="content">
         <h4 class="mb-2 lh-sm @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
         
-
-            @if ($user->plan)
-                Kalan Konut Oluşturma Hakkınız :
-                {{ $user->plan->housing_limit }} Adet
-                @if ($user->plan->housing_limit === 0)
-                    - Hakkınız Kalmadı
-                @endif
-            @else
-                Konut eklemek için bir paket satın almanız gerekiyor.
-            @endif
+Emlak İlanı Ekle    
         </h4>
 
         <div class="breadcrumb  @if(isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
@@ -188,7 +179,7 @@
                         </div>
                         <span class="section-title mt-4">Kapak Fotoğrafı</span>
                         <div class="cover-photo-full card py-2 px-5">
-                            <input type="file" name="cover-image" class="cover_image d-none">
+                            <input type="file" name="cover-image" accept="image/*" class="cover_image d-none">
                             <div class="upload-container col-md-3 cover-photo-area">
                                 <div class="border-container">
                                   <div class="icons fa-4x">
@@ -208,7 +199,7 @@
                         </div>
                         <span class="section-title mt-4">İlan Galerisi</span>
                         <div class="photo card py-2 px-5">
-                            <input type="file" multiple name="project-images" class="project_image d-none">
+                            <input type="file" multiple name="project-images" accept="image/*" class="project_image d-none">
                             <div class="upload-container col-md-3 photo-area">
                                 <div class="border-container">
                                   <div class="icons fa-4x">
@@ -233,7 +224,7 @@
                         </div>
                         <span class="section-title mt-4">Ruhsat Belgesi / Tapu Belgesi</span>
                         <div class="cover-photo-full card py-2 px-5">
-                            <input type="file" name="cover-image" class="document d-none">
+                            <input type="file" name="cover-image" class="document d-none" accept="application/pdf,application/vnd.ms-excel">
                             <div class="upload-container col-md-3 cover-document-area">
                                 <div class="border-container">
                                   <div class="icons fa-4x mb-4">
@@ -273,32 +264,32 @@
                 
                 <div class="row" style="align-items: flex-end;">
                     <div class="col-md-4">
-                        <div class="doping-square">
+                        <div class="doping-square @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured) && $tempData->featured) selected @endif" data-id="1">
                             <div class="row" style="align-items: center">
                                 <div class="col-md-12">
-                                    <span class="doping-is-selected">Seçilmedi</span>
+                                    <span class="doping-is-selected">@if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured) && $tempData->featured) Seçildi @else Seçilmedi @endif </span>
                                     <img src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt="">
                                     <h4 class="mt-3">Öne Çıkarılanlar Vitrini</h4>
                                     <span>İlanınız anasayfamızda önce çıkan emlak ilanları sekmesinde yer alsın.</span>
                                     <select name="" id="" class="form-control mt-3">
-                                        <option value="7">1 Hafta (2259 TL)</option>
-                                        <option value="14">2 Hafta (4500 TL)</option>
+                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured_data_day) && $tempData->featured_data_day == "7") selected @endif value="7">1 Hafta (2259 TL)</option>
+                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured_data_day) && $tempData->featured_data_day == "14") selected @endif value="14">2 Hafta (4500 TL)</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="doping-square">
+                        <div class="doping-square @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row) && $tempData->top_row) selected @endif" data-id="2">
                             <div class="row" style="align-items: center">
                                 <div class="col-md-12">
-                                    <span class="doping-is-selected">Seçilmedi</span>
+                                    <span class="doping-is-selected">@if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row) && $tempData->top_row) Seçildi @else Seçilmedi @endif</span>
                                     <img src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt="">
                                     <h4 class="mt-3">Üst Sıradayım</h4>
                                     <span>İlanınız anasayfamızda önce çıkan emlak ilanları sekmesinde yer alsın.</span>
                                     <select name="" id="" class="form-control mt-3">
-                                        <option value="7">1 Hafta (2000 TL)</option>
-                                        <option value="14">2 Hafta (3500 TL)</option>
+                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row_data_day) && $tempData->top_row_data_day == "7") selected @endif value="7">1 Hafta (2000 TL)</option>
+                                        <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row_data_day) && $tempData->top_row_data_day == "14") selected @endif value="14">2 Hafta (3500 TL)</option>
                                     </select>
                                 </div>
                             </div>
@@ -341,19 +332,45 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
+        @if(!isset($tempDataFull) || !isset($tempData) || !isset($tempData->top_row))
+            changeData(0,"top_row");
+        @endif
+        @if(!isset($tempDataFull) || !isset($tempData) || !isset($tempData->featured))
+            changeData(0,"featured");
+        @endif
         $('.doping-square').click(function(){
             if($(this).hasClass('selected')){
+                if($(this).attr('data-id') == "1"){
+                    changeData(0,"featured");
+                }else{
+                    changeData(0,"top_row");
+                }
                 $(this).removeClass('selected')
                 $(this).find('.doping-is-selected').html('Seçilmedi')
             }else{
+                if($(this).attr('data-id') == "1"){
+                    changeData(1,"featured");
+                    changeData($(this).find('select').val(),'featured_data_day')
+                }else{
+                    changeData(1,"top_row");
+                    changeData($(this).find('select').val(),'top_row_data_day')
+                }
                 $(this).addClass('selected')
                 $(this).find('.doping-is-selected').html('Seçildi')
             }
         })
-
-        $('.doping-square select').click(function(e) {
-            console.log(e);
+        $('.doping-square select').click(function(e){
             e.stopPropagation();
+        })
+        $('.doping-square select').change(function(e) {
+            var dataId = $(this).closest('.doping-square').attr('data-id')
+            if(dataId == "1"){
+                changeData(1,"featured");
+                changeData($(this).val(),'featured_data_day')
+            }else{
+                changeData(1,"top_row");
+                changeData($(this).val(),'top_row_data_day')
+            }
         })
 
         @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
@@ -364,6 +381,26 @@
             @endif
         @else
             var isRent = 0;
+        @endif
+
+        @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
+            @if($tempData->step2_slug == "gunluk-kiralik")
+                var isDailyRent = 1;
+            @else
+                var isDailyRent = 0;
+            @endif
+        @else
+            var isDailyRent = 0;
+        @endif
+
+        @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
+            @if($tempData->step2_slug == "satilik")
+                var isSale = 1;
+            @else
+                var isSale = 0;
+            @endif
+        @else
+            var isSale = 0;
         @endif
 
         var nextTemp = false;
@@ -589,23 +626,7 @@
 
 
         $('.finish-button-first').click(function() {
-            @if ($user->plan && $user->plan->housing_limit === 0)
-                $.toast({
-                    heading: 'Hata',
-                    text: 'Hakkınız kalmadığı için bu işlemi gerçekleştiremezsiniz.',
-                    position: 'top-right',
-                    stack: false
-                });
-            @elseif (!$user->plan)
-                $.toast({
-                    heading: 'Hata',
-                    text: 'Konut eklemek için paket satın almalısınız.',
-                    position: 'top-right',
-                    stack: false
-                });
-            @else
-                toSecondArea();
-            @endif
+            toSecondArea();
         });
 
         $('.doping_statuses').change(function() {
@@ -1034,6 +1055,18 @@
                             @endif
                         @endif
 
+                        @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
+                            @if($tempData->step2_slug == "satilik")
+                                $('.project-disabled').closest('.form-group').remove();
+                            @endif
+                        @endif
+
+                        @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
+                            @if($tempData->step2_slug == "gunluk-kiralik")
+                                $('.daily-rent-disabled').closest('.form-group').remove();
+                            @endif
+                        @endif
+
                         $('.copy-item').change(function() {
                             var order = parseInt($(this).val()) - 1;
                             var currentOrder = parseInt($(this).closest('a').attr('data-bs-target')
@@ -1097,6 +1130,10 @@
                             formData.append('key', $(this).attr('name').replace("[]", "").replace("[]",
                                 ""));
                             formData.append('item_type', 2);
+                            if($(this).hasClass('only-one')){
+                                formData.append('only-one',"1");
+                                $(this).closest('.form-group').find('.only-one[value!="'+$(this).val()+'"]').prop('checked',false);
+                            }
                             if ($(this).attr('type') == "checkbox") {
                                 formData.append('checkbox', "1");
                             }
@@ -1752,7 +1789,7 @@
             });
         });
     </script>
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/c2puh97n9lsir0u2h6xn3id7sk6y0tbhze4ahy5uwt0u4r9e/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
     <script>
         tinymce.init({
@@ -1887,7 +1924,7 @@
             })
 
             $('.tab-pane.active select[required="required"]').map((key, item) => {
-                if (!$(item).val()) {
+                if (!$(item).val() || $(item).val() == "Seçiniz") {
                     next = false;
                     if (topError) {
                         if ($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
@@ -2068,6 +2105,7 @@
             $('.breadcrumb').find('.breadcrumb-after-item').remove()
             $('.breadcrumb').find('.breadcrumb-after-item').remove()
             $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+            $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
             $.ajax({
                 url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
@@ -2083,6 +2121,7 @@
 
                     $('.area-list').eq(1).addClass('active');
                     thisx.addClass('selected');
+                    thisx.find('.loading-icon').remove();
 
                     $('.area-list').eq(2).removeClass('active');
                     $('.area-list').eq(3).removeClass('active');
@@ -2094,12 +2133,25 @@
                         }else{
                             isRent = false;
                         }
+
+                        if(itemSlug == "gunluk-kiralik"){
+                            isDailyRent = true;
+                        }else{
+                            isDailyRent = false;
+                        }
+
+                        if(itemSlug == "satilik"){
+                            isSale = true;
+                        }else{
+                            isSale = false;
+                        }
                         var thisx = $(this);
                         changeData(itemSlug,'step2_slug')
                         changeData("",'step3_slug')
                         $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
                         $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
                         $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                        $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
                         $.ajax({
                             url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug+'?parent_slug='+$('.area-list').eq(0).find('li.selected').attr('slug'), // AJAX isteği yapılacak URL
                             type: "GET", // GET isteği
@@ -2116,6 +2168,7 @@
 
                                 $('.area-list').eq(2).addClass('active');
                                 thisx.addClass('selected');
+                                thisx.find('.loading-icon').remove();
 
                                 $('.area-list').eq(2).find('li').click(function(){
                                     itemSlug = $(this).attr('slug');
@@ -2123,6 +2176,7 @@
                                     changeData(itemSlug,'step3_slug')
                                     $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
                                     $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                                    $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
                                     $.ajax({
                                         url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
                                         type: "GET", // GET isteği
@@ -2131,6 +2185,7 @@
                                             $('.area-list').eq(2).find('li').removeClass('selected');
                                             changeData(data,'housing_type_id');
                                             selectedid = data;
+                                            thisx.find('.loading-icon').remove();
                                             if (selectedid) {
                                                 $('.rendered-area').removeClass('d-none')
                                             } else {
@@ -2291,6 +2346,15 @@
                                                         $('.rent-disabled').closest('.form-group').remove();
                                                     }
 
+                                                    if(isDailyRent){
+                                                        $('.daily-rent-disabled').closest('.form-group').remove();
+                                                    }
+
+                                                    if(isSale){
+                                                        $('.sale-disabled').closest('.form-group').remove();
+                                                        $('.project-disabled').closest('.form-group').remove();
+                                                    }
+
                                                     $('.copy-item').change(function() {
                                                         var order = parseInt($(this).val()) - 1;
                                                         var currentOrder = parseInt($(this).closest('a').attr('data-bs-target')
@@ -2353,6 +2417,10 @@
                                                             .replace('TabContent', "")) - 1);
                                                         formData.append('key', $(this).attr('name').replace("[]", "").replace("[]",
                                                             ""));
+                                                        if($(this).hasClass('only-one')){
+                                                            formData.append('only-one',"1");
+                                                            $(this).closest('.form-group').find('.only-one[value!="'+$(this).val()+'"]').prop('checked',false);
+                                                        }
                                                         formData.append('item_type', 2);
                                                         if ($(this).attr('type') == "checkbox") {
                                                             formData.append('checkbox', "1");
@@ -2476,6 +2544,18 @@
             }else{
                 isRent = false;
             }
+            if(itemSlug == "gunluk-kiralik"){
+                isDailyRent = true;
+            }else{
+                isDailyRent = false;
+            }
+
+            if(itemSlug == "satilik"){
+                isSale = true;
+            }else{
+                isSale = false;
+            }
+            
             var thisx = $(this);
             console.log("asd");
             changeData(itemSlug,'step2_slug')
@@ -2483,6 +2563,7 @@
             $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
             $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
             $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+            $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
             $.ajax({
                 url: "{{URL::to('/')}}/institutional/get_housing_type_childrens/"+itemSlug+'?parent_slug='+$('.area-list').eq(0).find('li.selected').attr('slug'), // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
@@ -2499,6 +2580,7 @@
 
                     $('.area-list').eq(2).addClass('active');
                     thisx.addClass('selected');
+                    thisx.find('.loading-icon').remove();
 
                     $('.area-list').eq(2).find('li').click(function(){
                         itemSlug = $(this).attr('slug');
@@ -2506,6 +2588,7 @@
                         changeData(itemSlug,'step3_slug')
                         $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
                         $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+                        $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
                         $.ajax({
                             url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
                             type: "GET", // GET isteği
@@ -2524,6 +2607,7 @@
                                         stack: false
                                     })
                                 }
+                                thisx.find('.loading-icon').remove();
                                 const houseCount = 1;
 
                                 if (isNaN(houseCount) || houseCount <= 0) {
@@ -2674,6 +2758,16 @@
                                             $('.rent-disabled').closest('.form-group').remove();
                                         }
 
+                                        if(isDailyRent){
+                                            $('.daily-rent-disabled').closest('.form-group').remove();
+                                        }
+
+                                        if(isSale){
+                                            $('.sale-disabled').closest('.form-group').remove();
+                                            $('.project-disabled').closest('.form-group').remove();
+
+                                        }
+
                                         $('.copy-item').change(function() {
                                             var order = parseInt($(this).val()) - 1;
                                             var currentOrder = parseInt($(this).closest('a').attr('data-bs-target')
@@ -2737,6 +2831,10 @@
                                             formData.append('key', $(this).attr('name').replace("[]", "").replace("[]",
                                                 ""));
                                             formData.append('item_type', 2);
+                                            if($(this).hasClass('only-one')){
+                                                formData.append('only-one',"1");
+                                                $(this).closest('.form-group').find('.only-one[value!="'+$(this).val()+'"]').prop('checked',false);
+                                            }
                                             if ($(this).attr('type') == "checkbox") {
                                                 formData.append('checkbox', "1");
                                             }
@@ -2849,6 +2947,7 @@
             changeData(itemSlug,'step3_slug')
             $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
             $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
+            $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
             $.ajax({
                 url: "{{URL::to('/')}}/institutional/get_housing_type_id/"+itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
@@ -2869,6 +2968,7 @@
                         })
                     }
                     const houseCount = 1;
+                    thisx.find('.loading-icon').remove();
 
                     if (isNaN(houseCount) || houseCount <= 0) {
                         alert('Lütfen geçerli bir sayı girin.');
@@ -3017,6 +3117,15 @@
                                 $('.rent-disabled').closest('.form-group').remove();
                             }
 
+                            if(isDailyRent){
+                                $('.daily-rent-disabled').closest('.form-group').remove();
+                            }
+                             
+                            if(isSale){
+                                $('.sale-disabled').closest('.form-group').remove();
+                                $('.project-disabled').closest('.form-group').remove();
+                            }
+
                             $('.copy-item').change(function() {
                                 var order = parseInt($(this).val()) - 1;
                                 var currentOrder = parseInt($(this).closest('a').attr('data-bs-target')
@@ -3079,6 +3188,10 @@
                                     .replace('TabContent', "")) - 1);
                                 formData.append('key', $(this).attr('name').replace("[]", "").replace("[]",
                                     ""));
+                                if($(this).hasClass('only-one')){
+                                    formData.append('only-one',"1");
+                                    $(this).closest('.form-group').find('.only-one[value!="'+$(this).val()+'"]').prop('checked',false);
+                                }
                                 formData.append('item_type', 2);
                                 if ($(this).attr('type') == "checkbox") {
                                     formData.append('checkbox', "1");

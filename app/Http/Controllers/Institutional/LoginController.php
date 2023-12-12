@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\EmailTemplate;
 use App\Models\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -30,7 +31,6 @@ class LoginController extends Controller
                 session()->flash('warning', 'Giriş Başarısız. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
                 return redirect()->route('institutional.login');
             } elseif ($user->status == 5) {
-                // $this->sendVerificationEmail($user);
                 session()->flash('warning', 'Bu kullanıcının hesabı geçici olarak askıya alınmıştır. Hesabınızın yeniden etkinleştirilmesi için lütfen yöneticinizle iletişime geçin.');
                 return redirect()->route('institutional.login');
             } elseif ($user->status == 1) {
@@ -40,7 +40,7 @@ class LoginController extends Controller
                         // Giriş başarılı
                         return redirect()->intended('/admin'); // Admin paneline yönlendir
                     } elseif ($user->type != "1" && $user->type != "3") {
-                        return redirect()->intended(route('institutional.index'));
+                        return redirect()->intended(route('index'));
                     } else {
                         Auth::logout();
                         return redirect()->back()->withInput()->withErrors(['email' => 'Giriş başarısız. Yetkiniz yok.']);

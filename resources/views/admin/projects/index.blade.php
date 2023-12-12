@@ -20,12 +20,12 @@
                                                         <th>No.</th>
                                                         <th>Resim</th>
                                                         <th>Başlık</th>
-                                                        <th>Statü</th>
                                                         <th>Eklenen Marka</th>
                                                         <th>Emlak Sayısı</th>
                                                         <th>Emlak Tipi</th>
                                                         <th>Şehir</th>
                                                         <th>İlçe</th>
+                                                        <th>Statü</th>
                                                         <th>İşlemler</th>
                                                     </tr>
                                                 </thead>
@@ -41,31 +41,29 @@
                                                                     style="width:100px">
                                                             </td>
                                                             <td>{{ $project->project_title }}</td>
-
-                                                            <td>
-                                                                @if ($project->status == 1)
-                                                                    <span class="btn btn-success">Aktif</span>
-                                                                @elseif($project->status == 2)
-                                                                    <span class="btn btn-warning"> Onay
-                                                                        Bekliyor</span>
-                                                                @elseif($project->status == 3)
-                                                                    <span class="btn btn-danger">
-                                                                        Reddedildi</span>
-                                                                @else
-                                                                    <span class="btn btn-danger">Pasif</span>
-                                                                @endif
-                                                            </td>
                                                             <td>{{ $project->user->name }}</td>
                                                             <td>{{ $project->room_count }}</td>
                                                             <td>{{ $project->housingType->title }}</td>
                                                             <td>{{ $project->city->title }}</td>
                                                             <td>{{ isset($project->county->ilce_title) ? $project->county->ilce_title  : '' }}</td>
                                                             <td>
+                                                                @if ($project->status == 1)
+                                                                <span class="badge badge-phoenix badge-phoenix-success">Aktif</span>
+                                                                @elseif($project->status == 2)
+                                                                    <span class="badge badge-phoenix badge-phoenix-warning">Onay Bekliyor</span>
+                                                                @elseif($project->status == 3)
+                                                                    <span class="badge badge-phoenix badge-phoenix-danger">
+                                                                        Reddedildi</span>
+                                                                @else
+                                                                    <span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>
                                                                 <a href="{{ route('admin.projects.detail', $project->id) }}"
-                                                                    class="btn btn-primary btn-sm"><i
+                                                                    class="badge badge-phoenix badge-phoenix-primary"><i
                                                                         class="fa fa-eye"></i></a>
                                                                 <a href="{{ route('admin.projects.logs', $project->id) }}"
-                                                                    class="btn btn-info btn-sm">Log</a>
+                                                                    class="badge badge-phoenix badge-phoenix-info">Log</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach

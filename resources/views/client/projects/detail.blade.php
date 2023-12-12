@@ -59,11 +59,11 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.dashboard', Str::slug($project->user->name)) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Proje
-                                İlanları</a>
-                            <a class="navbar-item"
                                 href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">Mağaza
                                 Profili</a>
+                            <a class="navbar-item"
+                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Proje
+                                İlanları</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.housings', Str::slug($project->user->name)) }}">Emlak
                                 İlanları</a>
@@ -257,7 +257,8 @@
                                                 <div
                                                     style="background-color: #dc3545 !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                     <p
-                                                        style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; ">
+                                                        style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
+                                                        No <br>
                                                         {{ $i + 1 }}</p>
                                                 </div>
                                                 <div class="project-single mb-0 bb-0 aos-init aos-animate"
@@ -267,7 +268,7 @@
                                                         <div class="button-effect">
                                                             <div href="javascript:void()"
                                                                 class="btn toggle-project-favorite bg-white"
-                                                                data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                                                data-project-housing-id="{{ $i + 1 }}"
                                                                 data-project-id={{ $project->id }}>
                                                                 <i class="fa fa-heart-o"></i>
                                                             </div>
@@ -277,7 +278,7 @@
                                                             <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
                                                                 alt="home-1" class="img-responsive"
                                                                 style="height: 120px !important;object-fit:cover">
-                                                            @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                            @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                 <div
                                                                     style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
                                                                     <div
@@ -309,7 +310,7 @@
 
                                     <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
                                         data-aos="fade-up"
-                                        @if ($sold) style="background: #EEE !important;" @endif>
+                                        @if ($sold && $sold->status != "2") style="background: #EEE !important;" @endif>
 
                                         <div class="row align-items-center justify-content-between mobile-position">
                                             <div class="col-md-8">
@@ -322,27 +323,52 @@
                                                                 aria-hidden="true"></i>
                                                             <span>{{ $project->housingType->title }}</span>
                                                         </li>
-                                                        <li class="the-icons custom-width">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>{{ getData($project, 'room_count[]', $i + 1)->value }}</span>
+                                                    @if (isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
+                                                        <li class="the-icons custom-width flex-1">
+                                                            <i class="fa fa-circle circleIcon mr-1"
+                                                                aria-hidden="true"></i>
+                                                            <span>
+                                                                {{ getData($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
+                                                                @if (isset($project->listItemValues) &&
+                                                                        isset($project->listItemValues->column1_additional) &&
+                                                                        $project->listItemValues->column1_additional)
+                                                                    {{ $project->listItemValues->column1_additional }}
+                                                                @endif
+                                                            </span>
                                                         </li>
-                                                        @if ($project->step1_slug != 'arsaa')
-                                                            <li class="the-icons custom-width">
-                                                                <i class="fa fa-circle circleIcon mr-1"
-                                                                    aria-hidden="true"></i>
-                                                                <span>{{ getData($project, 'numberoffloors[]', $i + 1)->value }}
-                                                                    .Kat
-                                                                </span>
-                                                            </li>
-                                                        @endif
-                                                        <li class="the-icons custom-width ">
-                                                            <i class="fa fa-circle circleIcon mr-1"></i>
-                                                            <span>{{ getData($project, 'squaremeters[]', $i + 1)->value }}m2</span>
+                                                    @endif
+                                                    @if (isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
+                                                        <li class="the-icons custom-width flex-1">
+                                                            <i class="fa fa-circle circleIcon mr-1"
+                                                                aria-hidden="true"></i>
+                                                            <span>
+                                                                {{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
+                                                                @if (isset($project->listItemValues) &&
+                                                                        isset($project->listItemValues->column2_additional) &&
+                                                                        $project->listItemValues->column2_additional)
+                                                                    {{ $project->listItemValues->column2_additional }}
+                                                                @endif
+                                                            </span>
                                                         </li>
+                                                    @endif
+                                                    @if (isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
+                                                        <li class="the-icons custom-width flex-1">
+                                                            <i class="fa fa-circle circleIcon mr-1"
+                                                                aria-hidden="true"></i>
+                                                            <span>
+                                                                {{ getData($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
+                                                                @if (isset($project->listItemValues) &&
+                                                                        isset($project->listItemValues->column3_additional) &&
+                                                                        $project->listItemValues->column3_additional)
+                                                                    {{ $project->listItemValues->column3_additional }}
+                                                                @endif
+                                                            </span>
+                                                        </li>
+                                                    @endif
 
                                                         <li class="the-icons mobile-hidden">
                                                             <span>
-                                                                @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                                @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                     <h6
                                                                         style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
                                                                         {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
@@ -374,7 +400,7 @@
                                                             alt="" class="mr-2"> {{ $project->user->name }}
                                                     </a>
                                                     <span class="price-mobile">
-                                                        @if ($offer && in_array(getData($project, 'squaremeters[]', $i + 1)->room_order, json_decode($offer->project_housings)))
+                                                        @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                             <h6
                                                                 style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                 {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
@@ -398,6 +424,7 @@
                                             <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
                                                 <div class="homes-button" style="width:100%;height:100%">
                                                     <button class="first-btn payment-plan-button"
+                                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) || getData($project, 'off_sale[]', $i + 1)->value != '[]') ? '1' : '0' }}
                                                         project-id="{{ $project->id }}" order="{{ $i }}">
                                                         Ödeme Detayları </button>
                                                     @if ($sold && $sold[0]->status != '2')
@@ -442,7 +469,7 @@
             <div class="container">
                 @for ($i = 0; $i < $project->room_count; $i++)
                     @php
-                        $room_order = getData($project, 'squaremeters[]', $i + 1)->room_order;
+                        $room_order = $i + 1;
                         $discount_amount =
                             App\Models\Offer::where('type', 'project')
                                 ->where('project_id', $project->id)
@@ -473,22 +500,23 @@
                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                     <h3>
                                         @php($advertiseTitle = getData($project, 'advertise_title[]', $i + 1)->value ?? null)
-                                                         
+
                                         @if ($advertiseTitle)
                                             {{ $advertiseTitle }}
                                         @else
-                                            {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }} Projesinde
+                                            {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                            Projesinde
                                             {{ $i + 1 }} {{ "No'lu" }} {{ $project->step1_slug }}
                                         @endif
                                     </h3>
                                 </a>
                                 <div class="d-flex align-items-center">
                                     <div class="d-flex" style="gap: 8px;">
-                                        <a href="#" class="btn toggle-project-favorite bg-white"
-                                            data-project-housing-id="{{ getData($project, 'squaremeters[]', $i + 1)->room_order }}"
+                                        <span class="btn toggle-project-favorite bg-white"
+                                            data-project-housing-id="{{ $i + 1 }}"
                                             style="color: white;" data-project-id="{{ $project->id }}">
                                             <i class="fa fa-heart-o"></i>
-                                        </a>
+                                        </span>
                                         <button class="addToCart mobile px-2"
                                             style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
                                             data-type='project' data-project='{{ $project->id }}'
@@ -520,18 +548,54 @@
                                 <i class="fa fa-circle circleIcon"></i>
                                 {{ $room_order }} <span> No'lu</span>
                             </li>
-                            <li class="d-flex align-items-center itemCircleFont">
-                                <i class="fa fa-circle circleIcon"></i>
-                                {{ getData($project, 'squaremeters[]', $i + 1)->value }} m2
-                            </li>
-                            <li class="d-flex align-items-center itemCircleFont">
-                                <i class="fa fa-circle circleIcon"></i>
-                                {{ getData($project, 'room_count[]', $i + 1)->value }}
-                            </li>
-                            <li class="d-flex align-items-center itemCircleFont">
-                                <i class="fa fa-circle circleIcon"></i>
-                                {{ $project->city->title }} {{ '/' }} {{ $project->county->ilce_title }}
-                            </li>
+                            @if (isset($project->listItemValues) &&
+                                    isset($project->listItemValues->column1_name) &&
+                                    $project->listItemValues->column1_name)
+                                <li class="the-icons custom-width flex-1">
+                                    <i class="fa fa-circle circleIcon mr-1"
+                                        aria-hidden="true"></i>
+                                    <span>
+                                        {{ getData($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
+                                        @if (isset($project->listItemValues) &&
+                                                isset($project->listItemValues->column1_additional) &&
+                                                $project->listItemValues->column1_additional)
+                                            {{ $project->listItemValues->column1_additional }}
+                                        @endif
+                                    </span>
+                                </li>
+                            @endif
+                            @if (isset($project->listItemValues) &&
+                                    isset($project->listItemValues->column2_name) &&
+                                    $project->listItemValues->column2_name)
+                                <li class="the-icons custom-width flex-1">
+                                    <i class="fa fa-circle circleIcon mr-1"
+                                        aria-hidden="true"></i>
+                                    <span>
+                                        {{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
+                                        @if (isset($project->listItemValues) &&
+                                                isset($project->listItemValues->column2_additional) &&
+                                                $project->listItemValues->column2_additional)
+                                            {{ $project->listItemValues->column2_additional }}
+                                        @endif
+                                    </span>
+                                </li>
+                            @endif
+                            @if (isset($project->listItemValues) &&
+                                    isset($project->listItemValues->column3_name) &&
+                                    $project->listItemValues->column3_name)
+                                <li class="the-icons custom-width flex-1">
+                                    <i class="fa fa-circle circleIcon mr-1"
+                                        aria-hidden="true"></i>
+                                    <span>
+                                        {{ getData($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
+                                        @if (isset($project->listItemValues) &&
+                                                isset($project->listItemValues->column3_additional) &&
+                                                $project->listItemValues->column3_additional)
+                                            {{ $project->listItemValues->column3_additional }}
+                                        @endif
+                                    </span>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                     <hr>

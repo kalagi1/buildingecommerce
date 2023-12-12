@@ -12,7 +12,7 @@
                                 style="color:White">{{ $institutional->name }}
                                 <style type="text/css">
                                     .st0 {
-                                        fill: rgb(44, 191, 247);
+                                        fill: #e54242;
                                     }
 
                                     .st1 {
@@ -53,13 +53,15 @@
                         <div class="navbar-items">
                             <a class="navbar-item"
                                 href="{{ route('instituional.dashboard', Str::slug($institutional->name)) }}">Anasayfa</a>
-                            <a class="navbar-item active"
-                                href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Proje İlanları</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.profile', Str::slug($institutional->name)) }}">Mağaza
                                 Profili</a>
-                                <a class="navbar-item"
-                                href="{{ route('instituional.housings', Str::slug($institutional->name)) }}">Emlak İlanları</a>
+                            <a class="navbar-item active"
+                                href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Proje
+                                İlanları</a>
+                            <a class="navbar-item"
+                                href="{{ route('instituional.housings', Str::slug($institutional->name)) }}">Emlak
+                                İlanları</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
                             @csrf
@@ -92,13 +94,21 @@
         <div class="container">
             <div class="row">
                 @foreach ($institutional->projects as $project)
-                    <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
-                        <!-- Image Box -->
-                        <a href="{{ route('project.detail', $project->slug) }}" class="img-box hover-effect">
-                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                class="img-fluid w100" alt="">
-                        </a>
+                <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150"
+                style="height:200px">
+                    <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
+                        <div class="listing-item compact" style="height:100%">
+                            <a href="{{ route('project.detail', $project->slug) }}" class="listing-img-container">
+                                <div class="listing-img-content">
+                                    <span class="listing-compact-title">{{$project->project_title}}</span>
+                                  
+                                </div>
+                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}" alt=""
+                                style="height:100%;object-fit:cover">
+                            </a>
+                        </div>
                     </div>
+                </div>
                 @endforeach
 
 
@@ -124,4 +134,11 @@
 @endsection
 
 @section('styles')
+<style>
+
+.projectMobileMargin{
+                margin-bottom:20px !important;
+            }
+
+    </style>
 @endsection

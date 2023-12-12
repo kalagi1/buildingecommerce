@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\CartOrder;
 use App\Models\City;
+use App\Models\Filter;
 use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
@@ -13,27 +15,106 @@ use App\Models\Menu;
 use App\Models\Offer;
 use App\Models\Project;
 use App\Models\ProjectHouseSetting;
+use App\Models\ProjectHousing;
 use App\Models\ProjectImage;
 use App\Models\StandOutUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
-    public function index($slug)
+    public function index($slug,Request $request)
     {
-        $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
-        $project->roomInfo = $project->roomInfo;
-        $project->brand = $project->brand;
-        $project->housingType = $project->housingType;
-        $project->county = $project->county;
-        $project->city = $project->city;
-        $project->user = $project->user;
-        $project->user->housings = $project->user->housings;
-        $project->user->brands = $project->user->brands;
-        $project->images = $project->images;
+        $menu = Cache::rememberForever('menu', function() {
+            return Menu::getMenuItems();
+        });
+
+        $project = Project::where('slug', $slug)
+        ->with("brand","blocks",'listItemValues', "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
+        ->firstOrFail();
+
+        $projectCartOrders = DB::table('cart_orders')
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get()
+        ->keyBy("housing_id");
+
+        $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
+        $lastHousingCount = 0;
+
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
-        return view('client.projects.index', compact('menu', "offer",'project'));
+        $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+            ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+            ->groupBy('project_id')
+            ->where("status", "1")
+            ->get();
+
+        $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+        $selectedPage = $request->input('selected_page') ?? 0;
+        $blockIndex = $request->input('block_id') ?? 0;
+        $startIndex = 0;
+
+        if($project->have_blocks){
+            $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+        }else{
+            $currentBlockHouseCount = 0;
+        }
+        for($i = 0; $i < $blockIndex; $i++){
+            $startIndex += $project->blocks[$i]->housing_count;
+        }
+        $endIndex = $startIndex + 10;
+        return view('client.projects.index', compact('salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+    }
+    
+    public function ajaxIndex($slug,Request $request){
+        $menu = Cache::rememberForever('menu', function() {
+            return Menu::getMenuItems();
+        });
+
+        $project = Project::where('slug', $slug)
+        ->with("brand","blocks",'listItemValues', "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
+        ->firstOrFail();
+
+        $projectCartOrders = DB::table('cart_orders')
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get()
+        ->keyBy("housing_id");
+
+
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+        $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+            ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+            ->groupBy('project_id')
+            ->where("status", "1")
+            ->get();
+
+        $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+        $selectedPage = $request->input('selected_page') ?? 0;
+        $blockIndex = $request->input('block_id') ?? 0;
+        $startIndex = 0;
+        $lastHousingCount = 0;
+        for($i = 0; $i < $blockIndex; $i++){
+            $startIndex += $project->blocks[$i]->housing_count;
+            $lastHousingCount += $project->blocks[$i]->housing_count;
+        }
+        $blockHousingCount = 0;
+        for($i = 0; $i < $blockIndex + 1; $i++){
+            $blockHousingCount += $project->blocks[$i]->housing_count;
+        }
+        $startIndex = $startIndex + ($selectedPage * 10);
+        $endIndex = $startIndex + 10;
+        if($endIndex > $blockHousingCount ){
+            $endIndex = $blockHousingCount;
+        }
+        $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
+        $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+        return view('client.projects.index', compact('salesCloseProjectHousingCount','currentBlockHouseCount','lastHousingCount','menu', "offer", 'project','projectCartOrders','endIndex','blockIndex','startIndex'))->render();
     }
 
     public function detail($slug)
@@ -55,6 +136,7 @@ class ProjectController extends Controller
         if ($project->status == 0) {
             return view('client.projects.product_not_found', compact('menu', 'project'));
         }
+
         return view('client.projects.detail', compact('menu', 'project', 'offer'));
     }
 
@@ -94,14 +176,16 @@ class ProjectController extends Controller
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
     }
 
-    public function allMenuProjects($slug = null, $type = null, $optional = null, $title = null)
+    public function allMenuProjects($slug = null, $type = null, $optional = null, $title = null, $check = null)
     {
         $deneme = null;
         if ($slug == "al-sat-acil") {
             $deneme = "al-sat-acil";
         }
 
-        $parameters = [$slug, $type, $optional, $title];
+        $nslug = HousingType::where('slug', ['konut' => 'daire'][$slug] ?? $slug)->first()->id ?? 0;
+
+        $parameters = [$slug, $type, $optional, $title, $check];
         $secondhandHousings = [];
         $projects = [];
         $slug = [];
@@ -109,12 +193,14 @@ class ProjectController extends Controller
 
         $housingTypeSlug = [];
         $housingTypeSlugName = [];
+        $housingTypeParentSlug = [];
 
         $housingType = [];
         $housingTypeName = [];
         $housingTypeSlug = [];
 
         $opt = null;
+        $checkTitle = null;
         $is_project = null;
 
         $optName = [];
@@ -157,23 +243,26 @@ class ProjectController extends Controller
 
         }
 
-        foreach ($parameters as $paramValue) {
+        foreach ($parameters as $index => $paramValue) {
             if ($paramValue) {
 
-                if ($paramValue == "satilik" || $paramValue == "kiralik") {
+                if ($paramValue == "satilik" || $paramValue == "kiralik" || $paramValue == "gunluk-kiralik") {
                     $opt = $paramValue;
                     if ($opt) {
                         $opt = $opt;
-                        if ($opt == "satilik") {
-                            $optName = "Satılık";
-                        } else {
+                        if ($opt == "kiralik") {
                             $optName = "Kiralık";
+                        }elseif ($opt == "satilik")  {
+                            $optName = "Satılık";
+                        }else {
+                            $optName = "Günlük Kiralık";
                         }
                     }
                 } else {
                     $item1 = HousingStatus::where('slug', $paramValue)->first();
                     $housingTypeParent = HousingTypeParent::where('slug', $paramValue)->first();
                     $housingType = HousingType::where('slug', $paramValue)->first();
+
 
                     if ($item1) {
                         $is_project = $item1->is_project;
@@ -183,28 +272,37 @@ class ProjectController extends Controller
 
                     if ($housingTypeParent) {
                         $housingTypeSlugName = $housingTypeParent->title;
-                        $housingTypeSlug = $housingTypeParent->slug;
+                        $housingTypeParentSlug = $housingTypeParent->slug;
                     }
 
                     if ($housingType) {
                         $housingTypeName = $housingType->title;
                         $housingTypeSlug = $housingType->slug;
                         $housingType = $housingType->id;
+                        $newHousingType = $housingType;
                     }
+
+                    
                 }
+
+                             
+                if ($housingTypeParent && $housingTypeParent->slug === "arsa") {
+                    $checkTitle = isset($parameters[count($parameters) - 2]) ? $parameters[count($parameters) - 2] : null;
+                }
+                
 
             }
         }
 
         if ($slug) {
             if ($is_project) {
-                $oncelikliProjeler = StandOutUser::where('housing_status_id', $slug)->pluck('project_id')->toArray();
+                $oncelikliProjeler = StandOutUser::where('housing_type_id', $slug)->pluck('item_id')->toArray();
                 $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
 
                 $query = Project::query()->where('status', 1)->whereNotIn('id', $oncelikliProjeler)->orderBy('created_at', 'desc');
 
-                if ($housingTypeSlug) {
-                    $query->where("step1_slug", $housingTypeSlug);
+                if ($housingTypeParentSlug) {
+                    $query->where("step1_slug", $housingTypeParentSlug);
                 }
 
                 if ($opt) {
@@ -220,16 +318,16 @@ class ProjectController extends Controller
                 });
 
                 $anotherProjects = $query->get();
-                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.project_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
-                    ->orderBy('item_order', 'asc')
+                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('item_id', $oncelikliProjeler)
+                    ->orderBy('id', 'asc')
                     ->get()
                     ->concat($anotherProjects);
 
             } else {
                 $query = Housing::with('images', "city", "county");
 
-                if ($housingTypeSlug) {
-                    $query->where("step1_slug", $housingTypeSlug);
+                if ($housingTypeParentSlug) {
+                    $query->where("step1_slug", $housingTypeParentSlug);
                 }
 
                 if ($housingType) {
@@ -249,26 +347,89 @@ class ProjectController extends Controller
         } else {
             $query = Housing::with('images', "city", "county");
 
-            if ($housingTypeSlug) {
-                $query->where("step1_slug", $housingTypeSlug);
+            if ($housingTypeParentSlug) {
+                $query->where("step1_slug", $housingTypeParentSlug);
             }
 
             if ($housingType) {
-                $query->where('housing_type_id', $housingType);
+                $query->where('housing_type_id', $newHousingType);
             }
 
             if ($opt) {
                 $query->where('step2_slug', $opt);
             }
+            if ($checkTitle) {
+                $query->where(function ($q) use ($checkTitle) {
+                    $q->orWhereJsonContains('housing_type_data->room_count', $checkTitle)
+                      ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, '$.room_count[0]')) = ?", [$checkTitle]);
+                });
+            }
+            
             $secondhandHousings = $query->get();
         }
-
+        
+        $filters = [];
 
         $housingStatuses = HousingStatus::get();
         $cities = City::get();
         $menu = Menu::getMenuItems();
+        $newHousingType = HousingType::where('slug',$housingTypeSlug)->first();
+        if($projects){
+            if($housingTypeSlug && $newHousingType){
+                $filtersDb = Filter::where('item_type',1)->where('housing_type_id',$newHousingType->id)->get()->keyBy('filter_name')->toArray();
+                $filtersDbx = array_keys($filtersDb);
+                $housingTypeData = json_decode($newHousingType->form_json);
+                foreach($housingTypeData as $data){
+                    if(in_array(str_replace('[]','',$data->name),$filtersDbx)){
+                        if($data->type == "select" || $data->type == "checkbox-group" ){
+                            array_push($filters,[
+                                "label" => $data->label,
+                                "values" => $data->values,
+                                "type" => $data->type,
+                                "name" => str_replace('[]','',$data->name),
+                            ]);
+                        }else if($data->type == "text"){
+                            array_push($filters,[
+                                "label" => $data->label,
+                                "type" => $data->type,
+                                "name" => str_replace('[]','',$data->name),
+                                'text_style' => $filtersDb[str_replace('[]','',$data->name)]['text_style']
+                            ]);
+                        }
+                    }
+                    
+                }
+            }
+        }else{
+            if($housingTypeSlug && $newHousingType){
+                $filtersDb = Filter::where('item_type',2)->where('housing_type_id',$newHousingType->id)->get()->keyBy('filter_name')->toArray();
+                $filtersDbx = array_keys($filtersDb);
+                $housingTypeData = json_decode($newHousingType->form_json);
+                foreach($housingTypeData as $data){
+                    if(in_array(str_replace('[]','',$data->name),$filtersDbx)){
+                        if($data->type == "select" || $data->type == "checkbox-group" ){
+                            array_push($filters,[
+                                "label" => $data->label,
+                                "values" => $data->values,
+                                "type" => $data->type,
+                                "name" => str_replace('[]','',$data->name),
+                            ]);
+                        }else if($data->type == "text"){
+                            array_push($filters,[
+                                "label" => $data->label,
+                                "type" => $data->type,
+                                "name" => str_replace('[]','',$data->name),
+                                'text_style' => $filtersDb[str_replace('[]','',$data->name)]['text_style']
+                            ]);
+                        }
+                    }
+                    
+                }
+            }
+        }
 
-        return view('client.all-projects.menu-list', compact('menu', "opt", "housingTypeSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
+
+        return view('client.all-projects.menu-list', compact('filters','nslug','checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
     }
 
     public function allProjects($slug)
@@ -299,15 +460,15 @@ class ProjectController extends Controller
                 $projects = [];
                 $secondhandHousings = Housing::with('images', "city", "county")->get();
             } else {
-                $oncelikliProjeler = StandOutUser::where('housing_status_id', $status->id)->pluck('project_id')->toArray();
+                $oncelikliProjeler = StandOutUser::where('housing_type_id', $status->id)->pluck('item_id')->toArray();
                 $firstProjects = Project::with("city", "county")->whereIn('id', $oncelikliProjeler)->get();
 
                 $anotherProjects = Project::with("city", "county")->whereNotIn('id', $oncelikliProjeler)
-                    ->orderBy('created_at', 'desc') // Eklenme tarihine göre sırala (en son eklenenler en üstte olur)
+                    ->orderBy('created_at', 'desc') 
                     ->get();
 
-                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.project_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
-                    ->orderBy('item_order', 'asc') // Öne çıkarılma sırasına göre sırala
+                $projects = StandOutUser::join("projects", 'projects.id', '=', 'stand_out_users.item_id')->select("projects.*")->whereIn('project_id', $oncelikliProjeler)
+                    ->orderBy('id', 'asc')
                     ->get()
                     ->concat($anotherProjects);
             }
@@ -321,14 +482,101 @@ class ProjectController extends Controller
         return view('client.all-projects.list', compact('menu', 'projects', 'secondhandHousings', 'housingTypes', 'housingStatuses', 'cities', 'title'));
     }
 
-    public function projectHousingDetail($projectSlug, $housingOrder)
+    public function projectHousingDetail($projectSlug, $housingOrder,Request $request)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
-        $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
-        return view('client.projects.project_housing', compact('menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+        $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
+        $projectCartOrders = DB::table('cart_orders')
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get()
+        ->keyBy("housing_id");
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+        $selectedPage = $request->input('selected_page') ?? 0;
+        $blockIndex = $request->input('block_id') ?? 0;
+        $startIndex = 0;
+        $lastHousingCount = 0;
+        if($project->have_blocks){
+            $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+        }else{
+            $currentBlockHouseCount = 0;
+        }
+        for($i = 0; $i < $blockIndex; $i++){
+            $startIndex += $project->blocks[$i]->housing_count;
+        }
+        $endIndex = $startIndex + 10;
+
+        $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
+
+        return view('client.projects.project_housing', compact('blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+    }
+
+    public function projectHousingDetailAjax($projectSlug,$housingOrder,Request $request)
+    {
+        $menu = Menu::getMenuItems();
+        $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $projectHousing = $project->roomInfo->keyBy('name');
+        $projectImages = ProjectImage::where('project_id', $project->id)->get();
+        $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
+
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+        $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+            ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+            ->groupBy('project_id')
+            ->where("status", "1")
+            ->get();
+
+        $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+        $selectedPage = $request->input('selected_page') ?? 0;
+        $blockIndex = $request->input('block_id') ?? 0;
+        $startIndex = 0;
+        $lastHousingCount = 0;
+        for($i = 0; $i < $blockIndex; $i++){
+            $startIndex += $project->blocks[$i]->housing_count;
+            $lastHousingCount += $project->blocks[$i]->housing_count;
+        }
+        $blockHousingCount = 0;
+        for($i = 0; $i < $blockIndex + 1; $i++){
+            $blockHousingCount += $project->blocks[$i]->housing_count;
+        }
+        $startIndex = $startIndex + ($selectedPage * 10);
+        $endIndex = $startIndex + 10;
+        if($endIndex > $blockHousingCount ){
+            $endIndex = $blockHousingCount;
+        }
+        $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+        $projectCartOrders = DB::table('cart_orders')
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get()
+        ->keyBy("housing_id");
+        $selectedPage = $request->input('selected_page') ?? 0;
+        $blockIndex = $request->input('block_id') ?? 0;
+        $startIndex = 0;
+        $lastHousingCount = 0;
+        for($i = 0; $i < $blockIndex; $i++){
+            $startIndex += $project->blocks[$i]->housing_count;
+            $lastHousingCount += $project->blocks[$i]->housing_count;
+        }
+        $blockHousingCount = 0;
+        for($i = 0; $i < $blockIndex + 1; $i++){
+            $blockHousingCount += $project->blocks[$i]->housing_count;
+        }
+        $startIndex = $startIndex + ($selectedPage * 10);
+        $endIndex = $startIndex + 10;
+        if($endIndex > $blockHousingCount ){
+            $endIndex = $blockHousingCount;
+        }
+
+
+        return view('client.projects.project_housing', compact('blockIndex','lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
     public function propertyProjects(Request $request, $property)

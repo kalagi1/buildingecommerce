@@ -24,7 +24,6 @@ class FavoriteController extends Controller
         $user = User::where("id", Auth::user()->id)->first();
         $housing = ProjectHousing::where("room_order", $id)->where("project_id", $request->input("project_id"))->get();
 
-        // Kullanıcının favorileri içinde bu konut zaten var mı kontrol et
         $existingFavorite = ProjectFavorite::where('user_id', $user->id)
             ->where('housing_id', $id)
             ->where("project_id", $request->input("project_id"))
@@ -37,7 +36,7 @@ class FavoriteController extends Controller
         } else {
             ProjectFavorite::create([
                 "user_id" => $user->id,
-                'housing_id' => $id,
+                'housing_id' =>  $request->input("housing_id"),
                 "project_id" => $request->input("project_id"),
             ]);
             $message = "Ürün favorilere eklendi.";
@@ -94,8 +93,16 @@ class FavoriteController extends Controller
     {
         $user = User::where("id", Auth::user()->id)->with("housingFavorites.housing", 'housingFavorites.housing.city', 'housingFavorites.housing.brand')->first();
         $favorites = $user->housingFavorites;
-        $projectFavorites = ProjectFavorite::where("user_id", Auth::user()->id)->with('project.roomInfo', 'projectHousing')->get();
-        return view('client.favorites.index', compact('user', 'favorites', 'projectFavorites'));
+        $projectFavorites = ProjectFavorite::where("user_id", Auth::user()->id)
+            ->with('project.roomInfo', 'projectHousing')
+            ->orderBy("created_at", "desc")
+            ->get();
+        
+        $mergedFavorites = $favorites->merge($projectFavorites);
+        
+        $mergedFavorites = $mergedFavorites->sortByDesc('created_at');
+        
+        return view('client.favorites.index', compact('user', 'favorites', 'projectFavorites','mergedFavorites'));
     }
 
     public function getHousingFavoriteStatus($id)
