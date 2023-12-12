@@ -559,10 +559,7 @@
                                                                                 style="height: 100%;padding: 10px">
                                                                                 <ul class="d-flex justify-content-start align-items-center h-100 w-100"
                                                                                     style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
-                                                                                    <li class="d-flex align-items-center itemCircleFont">
-                                                                                        <i class="fa fa-circle circleIcon"></i>
-                                                                                        İlan No: {{ $i + $project->id + 2000000 }}
-                                                                                    </li>
+                                                                                   
                                                                                     @if (isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
                                                                                         <li class="d-flex align-items-center itemCircleFont">
                                                                                             <i class="fa fa-circle circleIcon mr-1"
@@ -758,10 +755,7 @@
                                                         style="height: 100%;padding: 10px">
                                                         <ul class="d-flex justify-content-start align-items-center h-100 w-100"
                                                             style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
-                                                            <li class="d-flex align-items-center itemCircleFont">
-                                                                <i class="fa fa-circle circleIcon"></i>
-                                                                İlan No: {{ $i + $project->id + 2000000 }}
-                                                            </li>
+                                                         
                                                             @if (isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
                                                                 <li class="d-flex align-items-center itemCircleFont">
                                                                     <i class="fa fa-circle circleIcon mr-1"
@@ -1043,7 +1037,7 @@
                                             role="tabpanel" aria-labelledby="home-tab">
                                             {!! $project->description !!}
                                         </div>
-                                        <div class="tab-pane fade blog-info details" id="profile" role="tabpanel"
+                                        <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
                                             aria-labelledby="profile-tab">
                                             <div class="similar-property featured portfolio p-0 bg-white">
 
@@ -1886,7 +1880,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div class="tab-pane fade blog-info details" id="map" role="tabpanel"
+                                        <div class="tab-pane fade blog-info details mb-30" id="map" role="tabpanel"
                                             aria-labelledby="contact-tab">
                                             <div id="map"></div>
                                         </div>
@@ -1927,7 +1921,7 @@
                                         role="tabpanel" aria-labelledby="home-tab">
                                         {!! $project->description !!}
                                     </div>
-                                    <div class="tab-pane fade blog-info details" id="profile" role="tabpanel"
+                                    <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
                                         aria-labelledby="profile-tab">
                                         <div class="similar-property featured portfolio p-0 bg-white">
 

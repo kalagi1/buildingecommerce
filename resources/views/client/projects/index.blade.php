@@ -688,10 +688,7 @@
                                             style="height: 100%;padding: 10px">
                                             <ul class="d-flex justify-content-start align-items-center h-100 w-100"
                                                 style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
-                                                <li class="d-flex align-items-center itemCircleFont">
-                                                    <i class="fa fa-circle circleIcon"></i>
-                                                    İlan No: {{ $i + $project->id + 2000000 }}
-                                                </li>
+                                          
                                                 @if (isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
                                                     <li class="d-flex align-items-center itemCircleFont">
                                                         <i class="fa fa-circle circleIcon mr-1"
@@ -1189,10 +1186,7 @@
                     style="height: 100%;padding: 10px">
                     <ul class="d-flex justify-content-start align-items-center h-100 w-100"
                         style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
-                        <li class="d-flex align-items-center itemCircleFont">
-                            <i class="fa fa-circle circleIcon"></i>
-                            İlan No: {{ $i + $project->id + 2000000 }}
-                        </li>
+                     
                         @if (isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
                             <li class="d-flex align-items-center itemCircleFont">
                                 <i class="fa fa-circle circleIcon mr-1"

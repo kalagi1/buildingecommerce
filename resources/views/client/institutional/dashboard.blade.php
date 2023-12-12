@@ -1551,7 +1551,7 @@
                                                         @if ($housing->step2_slug == 'gunluk-kiralik')
                                                             {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                             ₺
-                                                            <span style="font-size:11px; color:Red">/ 1 Gece</span>
+                                                            <span style="font-size:11px; color:Red" class="mobilePriceStyle">/ 1 Gece</span>
                                                         @else
                                                             {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                             ₺
@@ -1561,7 +1561,7 @@
                                                     @if ($housing->step2_slug == 'gunluk-kiralik')
                                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                         ₺
-                                                        <span style="font-size:11px; color:Red">/ 1 Gece</span>
+                                                        <span style="font-size:11px; color:Red" class="mobilePriceStyle">/ 1 Gece</span>
                                                     @else
                                                         {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                         ₺
@@ -1579,10 +1579,7 @@
                                 style="height: 100%;padding: 10px">
                                 <ul class="d-flex align-items-center h-100"
                                     style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
-                                    <li class="d-flex align-items-center itemCircleFont">
-                                        <i class="fa fa-circle circleIcon"></i>
-                                        İlan No: {{ $housing->id + 1000000 }}
-                                    </li>
+                                   
 
                                     @if ($housing->column1_name)
                                         <li class="d-flex align-items-center itemCircleFont">
@@ -1794,7 +1791,7 @@
                                                                                             {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                                                             ₺
                                                                                             <span
-                                                                                                style="font-size:11px; color:#EA2B2E">/
+                                                                                                style="font-size:11px; color:#EA2B2E" class="mobilePriceStyle">/
                                                                                                 1 Gece</span>
                                                                                         @else
                                                                                             {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
@@ -1806,7 +1803,7 @@
                                                                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                                                         ₺
                                                                                         <span
-                                                                                            style="font-size:11px; color:#EA2B2E">/
+                                                                                            style="font-size:11px; color:#EA2B2E" class="mobilePriceStyle">/
                                                                                             1 Gece</span>
                                                                                     @else
                                                                                         {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
@@ -2016,7 +2013,7 @@
                                                                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                                                         ₺
                                                                                         <span
-                                                                                            style="font-size:11px; color:#EA2B2E">/
+                                                                                            style="font-size:11px; color:#EA2B2E" class="mobilePriceStyle">/
                                                                                             1 Gece</span>
                                                                                     @else
                                                                                         {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
@@ -2028,7 +2025,7 @@
                                                                                     {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                                                     ₺
                                                                                     <span
-                                                                                        style="font-size:11px; color:#EA2B2E">/
+                                                                                        style="font-size:11px; color:#EA2B2E" class="mobilePriceStyle">/
                                                                                         1 Gece</span>
                                                                                 @else
                                                                                     {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}

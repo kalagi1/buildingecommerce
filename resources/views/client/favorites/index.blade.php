@@ -168,7 +168,7 @@
                                                     @if ($sold[0]->status != '1' && $sold[0]->status != '0')
                                                         @if ($item->housing->step2_slug == 'gunluk-kiralik')
                                                             {{ number_format(json_decode($item->housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                            ₺ <span style="font-size:11px; color:Red">/ 1 Gece</span>
+                                                            ₺ <span style="font-size:11px; color:Red" class="mobilePriceStyle">/ 1 Gece</span>
                                                         @else
                                                             {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                             ₺
@@ -177,7 +177,7 @@
                                                 @else
                                                     @if ($item->housing->step2_slug == 'gunluk-kiralik')
                                                         {{ number_format(json_decode($item->housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                        ₺ <span style="font-size:11px; color:Red">/ 1 Gece</span>
+                                                        ₺ <span style="font-size:11px; color:Red" class="mobilePriceStyle">/ 1 Gece</span>
                                                     @else
                                                         {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                         ₺
