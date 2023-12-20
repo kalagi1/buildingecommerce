@@ -22394,7 +22394,7 @@ a.btn_1 {
 
 .inner-pages .blog-section .news-item-img .resp-img {
     background-size: cover;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .inner-pages .blog-section .news-item-img {
