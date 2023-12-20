@@ -614,7 +614,7 @@
                                                             data-project-housing-id="{{ $i + 1 }}"
                                                             style="color: white;"
                                                             data-project-id="{{ $project->id }}">
-                                                            <i class="fa fa-heart-o-o"></i>
+                                                            <i class="fa fa-heart-o"></i>
                                                         </span>
                                                         </div>
                                                     </a>
@@ -1112,7 +1112,7 @@
                                     data-project-housing-id="{{ $i + 1 }}"
                                     style="color: white;"
                                     data-project-id="{{ $project->id }}">
-                                    <i class="fa fa-heart-o-o"></i>
+                                    <i class="fa fa-heart-o"></i>
                                 </span>
                                 </div>
                             </a>
