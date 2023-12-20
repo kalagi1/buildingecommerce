@@ -1850,6 +1850,7 @@
                                 title: 'Uyarı!',
                                 text: 'Minimum 7 gün tarih aralığı olmalı!',
                             });
+                            $(".showPrice").addClass("d-none");
                         } else {
                             $(".showPrice").removeClass("d-none");
                             $("#totalPrice").html(price * diffDays + " ₺");
@@ -2113,6 +2114,8 @@
                                     title: 'Uyarı!',
                                     text: 'Minimum 7 gün tarih aralığı olmalı!',
                                 });
+                                $(".showPrice").addClass("d-none");
+
                             } else {
                                 $(".showPrice").removeClass("d-none");
                                 $("#totalPrice").html(price * diffDays + " ₺");
