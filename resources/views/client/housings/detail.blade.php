@@ -1257,7 +1257,7 @@
 
                                             <button type="button"
                                                 @if (!Auth::check()) onclick="redirectToPage()" @endif
-                                                class=" reservationBtn reservation btn-radius full-width mrg-top-10 text-white">Rezervasyon
+                                                class="reservationBtn reservation btn-radius full-width mrg-top-10 text-white">Rezervasyon
                                                 Yap</button>
                                         </form>
                                     </div>
