@@ -66,6 +66,7 @@ use App\Http\Controllers\Institutional\SinglePriceController;
 use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\TempOrderController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
+use App\Http\Controllers\NotificationController as ControllersNotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*

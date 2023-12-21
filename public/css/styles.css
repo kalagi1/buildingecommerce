@@ -18104,7 +18104,11 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     line-height: 36px;
     list-style: none;
     justify-content: center;
-    color: #EA2B2E;
+    color: #274abb;
+}
+
+.checkSquareIcon{
+    color: #274abb;
 }
 
 .homes-address span {

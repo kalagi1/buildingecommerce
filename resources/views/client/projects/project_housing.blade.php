@@ -389,7 +389,7 @@ $shareUrl = $protocol . '://' . $host . $uri;
                                                         <div class="mt-5">
                                                             <h5>{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:
                                                             </h5>
-                                                            <ul class="homes-list clearfix">
+                                                            <ul class="homes-list clearfix checkSquareIcon">
                                                                 @foreach ($valueArray as $ozellik)
                                                                     <li><i class="fa fa-check-square"
                                                                             aria-hidden="true"></i><span>{{ $ozellik }}</span>
@@ -1212,7 +1212,7 @@ $shareUrl = $protocol . '://' . $host . $uri;
                                                                 <div class="mt-5">
                                                                     <h5>{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:
                                                                     </h5>
-                                                                    <ul class="homes-list clearfix">
+                                                                    <ul class="homes-list clearfix checkSquareIcon">
                                                                         @foreach ($valueArray as $ozellik)
                                                                             <li><i class="fa fa-check-square"
                                                                                     aria-hidden="true"></i><span>{{ $ozellik }}</span>
@@ -2097,7 +2097,7 @@ $shareUrl = $protocol . '://' . $host . $uri;
                                                             <div class="mt-5">
                                                                 <h5>{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:
                                                                 </h5>
-                                                                <ul class="homes-list clearfix">
+                                                                <ul class="homes-list clearfix checkSquareIcon">
                                                                     @foreach ($valueArray as $ozellik)
                                                                         <li><i class="fa fa-check-square"
                                                                                 aria-hidden="true"></i><span>{{ $ozellik }}</span>
