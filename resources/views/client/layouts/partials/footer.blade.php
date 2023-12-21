@@ -30,28 +30,6 @@
                         </div>
                     </div>
                 @endforeach
-
-                {{-- <div class="col-sm-6 col-md-6 col-lg col-12">
-                    <div class="navigation">
-                        <h3>Politikalar</h3>
-                        <div class="nav-footer">
-                            <ul>
-                                @foreach ($footerLinks as $footerLink)
-                                    @if ($footerLink->widget === $widgetGroup->widget)
-                                        <li><a href="{{ $footerLink->url }}">{!! $footerLink->title !!}</a></li>
-                                    @endif
-                                @endforeach
-                                @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
-                                    <li><a href="{{ $p->slug }}">{{ $p->title }}</a></li>
-                                @endforeach
-                            </ul>
-                        </div>
-
-                    </div>
-                    @foreach ($fl as $link)
-                        <a href="{{ url('sayfa/' . $link->slug) }}" style="color: white;">{{ $link->meta_title }}</a>
-                    @endforeach
-                </div> --}}
             </div>
         </div>
     </div>
@@ -75,219 +53,220 @@
 
 <script>
     $(".box").hide();
-    $(".notification").click(function(){
-            $(".box").toggle();
-        });
-  document.addEventListener("DOMContentLoaded", function() {
-    var notificationCards = document.querySelectorAll(".notification-card");
+    $(".notification").click(function() {
+        $(".box").toggle();
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        var notificationCards = document.querySelectorAll(".notification-card");
 
-    notificationCards.forEach(function(card) {
-        card.addEventListener("click", function() {
-            var notificationId = card.getAttribute("data-id");
-            var notificationLink = $(this).data('link');
-            
-            // AJAX ile bildirimi işaretle
-            fetch('/mark-notification-as-read/' + notificationId, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                }
-            })
-            .then(function(response) {
-             
-                    if (notificationLink) {
-                    window.location.href = notificationLink;
-                }
-                    card.classList.remove("unread");
-                    card.classList.add("read");
-                
-            })
-            .catch(function(error) {
-                console.error('Bir hata oluştu:', error);
+        notificationCards.forEach(function(card) {
+            card.addEventListener("click", function() {
+                var notificationId = card.getAttribute("data-id");
+                var notificationLink = $(this).data('link');
+
+                // AJAX ile bildirimi işaretle
+                fetch('/mark-notification-as-read/' + notificationId, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        }
+                    })
+                    .then(function(response) {
+
+                        if (notificationLink) {
+                            window.location.href = notificationLink;
+                        }
+                        card.classList.remove("unread");
+                        card.classList.add("read");
+
+                    })
+                    .catch(function(error) {
+                        console.error('Bir hata oluştu:', error);
+                    });
             });
         });
     });
-});
-
-    </script>
+</script>
 
 <style>
     .notification-card.unread {
-    background-color: #eff2f6;
-}
-    .notification-card{
-        cursor:pointer;
+        background-color: #eff2f6;
     }
-    .box::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	background-color: #F5F5F5;
-  border-radius: 5px
-}
 
-.box::-webkit-scrollbar
-{
-	width: 7px;
-	background-color: #F5F5F5;
-  border-radius: 5px
-}
+    .notification-card {
+        cursor: pointer;
+    }
 
-.box::-webkit-scrollbar-thumb
-{
-	background-color: #787373;
-	border: 1px solid rgba(0, 0, 0, .03);
-  border-radius: 5px
-}
+    .box::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #F5F5F5;
+        border-radius: 5px
+    }
 
+    .box::-webkit-scrollbar {
+        width: 7px;
+        background-color: #F5F5F5;
+        border-radius: 5px
+    }
 
-.icons{
-  display: inline;
-  float: right
-}
-
-.notification{
-  padding-top: 10px;
-  position: relative;
-  display: inline-block;
-}
-
-.number{
-  height: 22px;
-  width:  22px;
-  background-color: #d63031;
-  border-radius: 20px;
-  color: white;
-  text-align: center;
-  position: absolute;
-  top: 0;
-  left: 60px;
-  padding: 0;
-  border-style: solid;
-  border-width: 2px;
-}
-
-.number:empty {
-   display: none;
-}
-
-.notBtn{
-  transition: 0.5s;
-  cursor: pointer
-}
-
-.fa-bell{
-  font-size: 18px;
-  padding-bottom: 10px;
-  color: black;
-  margin-right: 40px;
-  margin-left: 40px;
-}
-.fs--1{
-    text-align: left;
-    font-size: 11px;
-    line-height: 11px;  
-    margin-bottom:0 !important;
-}
-.box{
-    width: 250px;
-    z-index: 9999;
-    height: 200px;
-    border-radius: 10px;
-    transition: 0.5s;
-    position: absolute;
-    overflow-y: scroll;
-    overflow-x: hidden;
-
-  padding: 0px;
-  left: -42px;
-  margin-top: 5px;
-  background-color: #F4F4F4;
-  -webkit-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.2);
-  -moz-box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
-  box-shadow: 10px 10px 23px 0px rgba(0,0,0,0.1);
-  cursor: context-menu;
-}
-
-.fas:hover {
-  color: #d63031;
-}
+    .box::-webkit-scrollbar-thumb {
+        background-color: #787373;
+        border: 1px solid rgba(0, 0, 0, .03);
+        border-radius: 5px
+    }
 
 
-.gry{
-  background-color: #F4F4F4;
-}
+    .icons {
+        display: inline;
+        float: right
+    }
 
-.top{
-  color: black;
-  padding: 10px
-}
+    .notification {
+        padding-top: 10px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .number {
+        height: 22px;
+        width: 22px;
+        background-color: #d63031;
+        border-radius: 20px;
+        color: white;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 60px;
+        padding: 0;
+        border-style: solid;
+        border-width: 2px;
+    }
+
+    .number:empty {
+        display: none;
+    }
+
+    .notBtn {
+        transition: 0.5s;
+        cursor: pointer
+    }
+
+    .fa-bell {
+        font-size: 18px;
+        padding-bottom: 10px;
+        color: black;
+        margin-right: 40px;
+        margin-left: 40px;
+    }
+
+    .fs--1 {
+        text-align: left;
+        font-size: 11px;
+        line-height: 11px;
+        margin-bottom: 0 !important;
+    }
+
+    .box {
+        width: 250px;
+        z-index: 9999;
+        height: 200px;
+        border-radius: 10px;
+        transition: 0.5s;
+        position: absolute;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        padding: 0px;
+        left: -42px;
+        margin-top: 5px;
+        background-color: #F4F4F4;
+        -webkit-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
+        box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
+        cursor: context-menu;
+    }
+
+    .fas:hover {
+        color: #d63031;
+    }
 
 
-.cont{
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #F4F4F4;
-}
+    .gry {
+        background-color: #F4F4F4;
+    }
 
-.cont:empty{
-  display: none;
-}
+    .top {
+        color: black;
+        padding: 10px
+    }
 
-.stick{
-  text-align: center;  
-  display: block;
-  font-size: 50pt;
-  padding-top: 70px;
-  padding-left: 80px
-}
 
-.stick:hover{
-  color: black;
-}
+    .cont {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #F4F4F4;
+    }
 
-.cent{
-  text-align: center;
-  display: block;
-}
+    .cont:empty {
+        display: none;
+    }
 
-.sec{
-  padding: 25px 10px;
-  background-color: #F4F4F4;
-  transition: 0.5s;
-}
+    .stick {
+        text-align: center;
+        display: block;
+        font-size: 50pt;
+        padding-top: 70px;
+        padding-left: 80px
+    }
 
-.profCont{
-  padding-left: 15px;
-}
+    .stick:hover {
+        color: black;
+    }
 
-.profile{
-  -webkit-clip-path: circle(50% at 50% 50%);
-  clip-path: circle(50% at 50% 50%);
-  width: 75px;
-  float: left;
-}
+    .cent {
+        text-align: center;
+        display: block;
+    }
 
-.txt{
-  vertical-align: top;
-  font-size: 1.25rem;
-  padding: 5px 10px 0px 115px;
-}
+    .sec {
+        padding: 25px 10px;
+        background-color: #F4F4F4;
+        transition: 0.5s;
+    }
 
-.sub{
-  font-size: 1rem;
-  color: grey;
-}
+    .profCont {
+        padding-left: 15px;
+    }
 
-.new{
-  border-style: none none solid none;
-  border-color: red;
-}
+    .profile {
+        -webkit-clip-path: circle(50% at 50% 50%);
+        clip-path: circle(50% at 50% 50%);
+        width: 75px;
+        float: left;
+    }
 
-.sec:hover{
-  background-color: #BFBFBF;
-}
+    .txt {
+        vertical-align: top;
+        font-size: 1.25rem;
+        padding: 5px 10px 0px 115px;
+    }
+
+    .sub {
+        font-size: 1rem;
+        color: grey;
+    }
+
+    .new {
+        border-style: none none solid none;
+        border-color: red;
+    }
+
+    .sec:hover {
+        background-color: #BFBFBF;
+    }
+
     .filter-date {
         display: flex;
         align-items: center;
@@ -427,36 +406,36 @@
     <div class="payment-plan-pop-content">
         <div class="payment-plan-pop-close-icon"><i class="fa fa-times"></i></div>
 
-                <div class="my-properties">
-                    <table class="payment-plan table">
-                        <thead>
-                            <tr>
-                                <th>Ödeme Türü</th>
-                                <th>Fiyat</th>
-                                <th>Taksit Sayısı</th>
-                                <th>Peşin Ödenecek Tutar</th>
-                                <th>Aylık Ödenecek Tutar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Peşin</td>
-                                <td>1.000.000,00₺</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>Taksitli</td>
-                                <td>1.400.000,00₺</td>
-                                <td>14</td>
-                                <td>300.000,00₺</td>
-                                <td>78.571,42₺</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-      
+        <div class="my-properties">
+            <table class="payment-plan table">
+                <thead>
+                    <tr>
+                        <th>Ödeme Türü</th>
+                        <th>Fiyat</th>
+                        <th>Taksit Sayısı</th>
+                        <th>Peşin Ödenecek Tutar</th>
+                        <th>Aylık Ödenecek Tutar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Peşin</td>
+                        <td>1.000.000,00₺</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Taksitli</td>
+                        <td>1.400.000,00₺</td>
+                        <td>14</td>
+                        <td>300.000,00₺</td>
+                        <td>78.571,42₺</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
 
@@ -519,94 +498,100 @@
             return a;
 
         }
-        if(soldStatus =="1" ) {
+        if (soldStatus == "1") {
             Swal.fire({
-        icon: 'warning',
-        title: 'Uyarı',
-        text: 'Bu ürün için ödeme detay bilgisi gösterilemiyor.',
-        confirmButtonText: 'Kapat'
-    });
-        }else{
+                icon: 'warning',
+                title: 'Uyarı',
+                text: 'Bu ürün için ödeme detay bilgisi gösterilemiyor.',
+                confirmButtonText: 'Kapat'
+            });
+        } else {
             $.ajax({
-            url: "{{ route('get.housing.payment.plan') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-            type: "get", // Veriyi göndermek için POST kullanabilirsiniz
-            data: cart, 
-            success: function(response) {
-                for (var i = 0; i < response.room_info.length; i++) {
-                    if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
-                        .room_order == parseInt(order) + 1) {
-                        var paymentPlanData = JSON.parse(response.room_info[i].value);
+                url: "{{ route('get.housing.payment.plan') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+                type: "get", // Veriyi göndermek için POST kullanabilirsiniz
+                data: cart,
+                success: function(response) {
+                    for (var i = 0; i < response.room_info.length; i++) {
+                        if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
+                            .room_order == parseInt(order) + 1) {
+                            var paymentPlanData = JSON.parse(response.room_info[i].value);
 
 
-                        var html = "";
+                            var html = "";
 
-                        function formatPrice(number) {
-                            number = parseFloat(number);
-                            // Sayıyı ondalık kısmı virgülle ayır
-                            const parts = number.toFixed(2).toString().split(".");
+                            function formatPrice(number) {
+                                number = parseFloat(number);
+                                // Sayıyı ondalık kısmı virgülle ayır
+                                const parts = number.toFixed(2).toString().split(".");
 
-                            // Virgül ile ayırmak için her üç haneli kısma nokta ekleyin
-                            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                // Virgül ile ayırmak için her üç haneli kısma nokta ekleyin
+                                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
-                            // Sonucu birleştirin ve virgül ile ayırın
-                            return parts.join(",");
-                        }
-                        var tempPlans = [];
-                        for (var j = 0; j < paymentPlanData.length; j++) {
+                                // Sonucu birleştirin ve virgül ile ayırın
+                                return parts.join(",");
+                            }
+                            var tempPlans = [];
+                            for (var j = 0; j < paymentPlanData.length; j++) {
 
-                            if (!tempPlans.includes(paymentPlanData[j])) {
-                                if (paymentPlanData[j] == "pesin") {
-                                    var priceData = getDataJS(response, "price[]", response
-                                        .room_info[i].room_order);
-                                    var installementData = "-";
-                                    var advanceData = "-";
-                                    var monhlyPrice = "-";
-                                } else {
-                                    var priceData = getDataJS(response, "installments-price[]",
-                                        response.room_info[i].room_order);
-                                    var installementData = getDataJS(response, "installments[]",
-                                        response.room_info[i].room_order);
-                                    var advanceData = formatPrice(getDataJS(response, "advance[]",
-                                        response.room_info[i].room_order)) + "₺";
-                                    console.log((parseFloat(getDataJS(response,
-                                        "installments-price[]", response.room_info[
-                                            i].room_order)) - parseFloat(getDataJS(
-                                        response, "advance[]", response.room_info[i]
-                                        .room_order))));
-                                    var monhlyPrice = (formatPrice(((parseFloat(getDataJS(response,
+                                if (!tempPlans.includes(paymentPlanData[j])) {
+                                    if (paymentPlanData[j] == "pesin") {
+                                        var priceData = getDataJS(response, "price[]", response
+                                            .room_info[i].room_order);
+                                        var installementData = "-";
+                                        var advanceData = "-";
+                                        var monhlyPrice = "-";
+                                    } else {
+                                        var priceData = getDataJS(response, "installments-price[]",
+                                            response.room_info[i].room_order);
+                                        var installementData = getDataJS(response, "installments[]",
+                                            response.room_info[i].room_order);
+                                        var advanceData = formatPrice(getDataJS(response,
+                                            "advance[]",
+                                            response.room_info[i].room_order)) + "₺";
+                                        console.log((parseFloat(getDataJS(response,
                                             "installments-price[]", response
-                                            .room_info[i].room_order)) - parseFloat(
-                                            getDataJS(response, "advance[]",
-                                                response.room_info[i].room_order))) /
-                                        parseInt(installementData)))) + '₺';
+                                            .room_info[
+                                                i].room_order)) - parseFloat(getDataJS(
+                                            response, "advance[]", response
+                                            .room_info[i]
+                                            .room_order))));
+                                        var monhlyPrice = (formatPrice(((parseFloat(getDataJS(
+                                                    response,
+                                                    "installments-price[]", response
+                                                    .room_info[i].room_order)) -
+                                                parseFloat(
+                                                    getDataJS(response, "advance[]",
+                                                        response.room_info[i].room_order
+                                                        ))) /
+                                            parseInt(installementData)))) + '₺';
+                                    }
+                                    html += "<tr>" +
+                                        "<td>" + paymentPlanDatax[paymentPlanData[j]] + "</td>" +
+                                        "<td>" + formatPrice(priceData) + "₺</td>" +
+                                        "<td>" + installementData + "</td>" +
+                                        "<td>" + advanceData + "</td>" +
+                                        "<td>" + monhlyPrice + "</td>" +
+                                        "</tr>"
                                 }
-                                html += "<tr>" +
-                                    "<td>" + paymentPlanDatax[paymentPlanData[j]] + "</td>" +
-                                    "<td>" + formatPrice(priceData) + "₺</td>" +
-                                    "<td>" + installementData + "</td>" +
-                                    "<td>" + advanceData + "</td>" +
-                                    "<td>" + monhlyPrice + "</td>" +
-                                    "</tr>"
+
+                                tempPlans.push(paymentPlanData[j])
+
                             }
 
-                            tempPlans.push(paymentPlanData[j])
+                            $('.payment-plan tbody').html(html);
 
+                            $('.payment-plan-pop-up').removeClass('d-none')
                         }
-
-                        $('.payment-plan tbody').html(html);
-
-                        $('.payment-plan-pop-up').removeClass('d-none')
                     }
+                },
+                error: function(error) {
+                    // Hata durumunda buraya gelir
+                    toast.error(error)
+                    console.error("Hata oluştu: " + error);
                 }
-            },
-            error: function(error) {
-                // Hata durumunda buraya gelir
-                toast.error(error)
-                console.error("Hata oluştu: " + error);
-            }
-        });
+            });
         }
-       
+
     })
     $(document).ready(function() {
         const searchInput = $(".search-input");
@@ -771,8 +756,6 @@
         }]
     });
 </script>
-
-
 <script>
     $('.home5-right-slider').owlCarousel({
         loop: true,
@@ -842,12 +825,12 @@
 <!-- Slider Revolution scripts -->
 <script src="{{ URL::to('/') }}/revolution/js/jquery.themepunch.tools.min.js"></script>
 <script src="{{ URL::to('/') }}/revolution/js/jquery.themepunch.revolution.min.js"></script>
-    <!-- lightbox2 CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
-    <!-- jQuery -->
+<!-- lightbox2 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+<!-- jQuery -->
 
-    <!-- lightbox2 JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<!-- lightbox2 JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <!-- MAIN JS -->
 <script src="{{ URL::to('/') }}/js/script.js"></script>
 
@@ -911,8 +894,8 @@
 
                             },
                             error: function(error) {
-                                window.location.href = "/giris-yap"; 
-                                                                console.error(error);
+                                window.location.href = "/giris-yap";
+                                console.error(error);
                             }
                         });
                     }
@@ -943,7 +926,7 @@
 
                             },
                             error: function(error) {
-                               window.location.href = "/giris-yap";
+                                window.location.href = "/giris-yap";
                                 console.error(error);
                             }
                         });
@@ -1117,7 +1100,7 @@
                     data: {
                         _token: "{{ csrf_token() }}",
                         project_id: projectId,
-                        housing_id :housingId
+                        housing_id: housingId
                     },
                     success: function(response) {
                         if (response.status === 'added') {
@@ -1141,8 +1124,8 @@
                         }
                     },
                     error: function(error) {
-                    //    window.location.href = "/giris-yap";
-                    //     console.error(error);
+                        //    window.location.href = "/giris-yap";
+                        //     console.error(error);
                     }
                 });
             });
@@ -1181,7 +1164,7 @@
                     }
                 },
                 error: function(error) {
-                   window.location.href = "/giris-yap";
+                    window.location.href = "/giris-yap";
                     console.error(error);
                 }
             });
