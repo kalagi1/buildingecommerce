@@ -106,7 +106,7 @@
                                 <div class="icon"><i class="fa fa-thumbs-up"></i></div>
                                 <div class="text">Başarıyla ilan eklediniz</div>
                                 <div class="text"><a href="{{ route('institutional.housing.list') }}"
-                                        class="btn btn-info">Konutlarıma yönlen</a></div>
+                                        class="btn btn-info">Mağazama Git</a></div>
                             </div>
                         </div>
                     </div>

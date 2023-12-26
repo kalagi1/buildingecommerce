@@ -366,7 +366,7 @@
                             <div class="finish-area">
                                 <div class="icon"><i class="fa fa-thumbs-up"></i></div>
                                 <div class="text">Başarıyla ilan eklediniz</div>
-                                <div class="text"><a href="{{route('institutional.projects.index')}}" class="btn btn-info">Projelerime yönlen</a></div>
+                                <div class="text"><a href="{{route('institutional.projects.index')}}" class="btn btn-info">Mağazama Git</a></div>
                             </div>
                         </div>
                     </div>
