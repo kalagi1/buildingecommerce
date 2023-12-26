@@ -24035,7 +24035,7 @@ form label.error {
 
 #status,
 .status-mes {
-    background-image: url(../images/preloader.gif);
+    background-image: url(../images/download.gif);
     background-position: center;
     background-repeat: no-repeat;
     height: 200px;
