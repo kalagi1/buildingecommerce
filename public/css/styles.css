@@ -3298,15 +3298,8 @@ section.portfolio {
 }
 
 .project-head:hover .brand-image-pp {
-    width: 100%;
     border: 1px solid #ea2a28;
-    z-index: 2;
-    border-radius: 50%;
-    box-sizing: border-box;
-    display: block;
-    height: 68px;
-    padding: 0;
-    margin: 0; 
+
 }
 
 .portfolio .project-head img {
