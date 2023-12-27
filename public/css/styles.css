@@ -3287,6 +3287,13 @@ section.portfolio {
 
 .portfolio .project-head img {
     width: 100%;
+    border: 1px solid  #e6e6e6;
+    z-index: 2;
+}
+
+.portfolio .project-head:hover img {
+    width: 100%;
+    border: 1px solid #ea2a28;
     z-index: 2;
 }
 
