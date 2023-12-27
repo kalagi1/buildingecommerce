@@ -745,7 +745,7 @@ ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='wid
                                                                 res.offSale ?
                                                                     `<button
                                                                                                     class="btn second-btn CartBtn" disabled
-                                                                                                    style="background: red !important;width:100%;color:White">Satıldı
+                                                                                                    style="background: #EA2B2E !important;width:100%;color:White">Satıldı
                                                                                                 </button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
@@ -820,7 +820,7 @@ ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='wid
                                                                         ${res.step2_slug !== "gunluk-kiralik" ?
                                                     res.offSale ?
                                                         `  <button class="btn second-btn CartBtn mobileCBtn" disabled
-                                                            style="background: red !important;width:100%;color:White">
+                                                            style="background: #EA2B2E !important;width:100%;color:White">
 
                                                             <span class="text">Satıldı</span>
                                                         </button>`

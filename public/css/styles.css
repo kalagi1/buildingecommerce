@@ -1,90 +1,5 @@
 @charset "UTF-8";
-/*------------------------------------------------------------------
-Author       : Code-Theme
-Template Name: Find Houses - HTML5 Template
-Version      : 1.2
--------------------------------------------------------------------*/
-/*------------------------------------------------------------------
-[Table of contents]
 
-1. Typography
-2. Section Headings
-3. Section Recently Properties
-4. Section Welcome
-5. Section Property Services
-6. Section Featured Properties
-7. Section Popular Places
-8. Section Popular Places 2
-9. Section Agents
-10.Section Top Location
-11.Section Blog
-12.Section Testimonials
-13.Section Partnes
-14.Section Counter Up
-15.Section Footer
-16.Section Home 2 Image
-17.Section Home 3 Image
-18.Section Home 4 Image Video
-19.Section Home 5 Image
-20.Section Home 2, 3 and 4 Search Area
-21.Section Home 6 Parallax Image
-22.Section Home 7 Video
-23.Section Info Sidebar Home 13
-24.Section Banner Slider Home 13
-25.Section Featured Properties Home 13
-26.Section Banner Slider Home 14
-27.Section Typed Image Home 15
-28.Section Info Home 15
-29.Section Featured Properties Home 15
-30.Section Info Help Home 15
-31.Section Visited Cities Home 15
-32.Section Recently Properties Home 16
-33.Seccion Parallax Home 17
-34.Seccion Info Help Home 17
-35.Seccion Agents Home 17
-36.Seccion Image Home 8
-37.Seccion Image Home 18
-38.Seccion Why Choose Us Home 18
-39.Seccion Testimonials Home 18
-40.Seccion Header Slider Home 19
-41.Seccion Header Search Home 19
-42.Seccion Header Video Home 20
-43.Seccion Home 23 Image
-44.Seccion Header Image Home 24
-45.Inner Page Properties List
-46.Inner Page Properties List Right Sidebar
-47.Inner Page Properties Grid
-48.Inner Page Property Map
-49.Inner Page Property Top Map
-50.Inner Page Property Details
-51.Inner Page Agents Listing Grid
-52.Inner Page Agents Listing Row
-53.Inner Page Agents Details
-54.Inner Page Dashboard
-55.Inner Page Payment-Method
-56.Inner Page About Us
-57.Inner Page Faq
-58.Inner Page Pricing
-59.Inner Page 404
-60.Inner Page Login
-61.Inner Page Coming Soon
-62.Inner Page Under Construction
-63.Inner Page Blog Grid
-64.Inner Page Blog Grid Sidebar
-65.Inner Page Blog List Sidebar
-66.Inner Page Blog Details
-67.Inner Page Contact Us
-68.Inner Page Submit Property
-69.PreLoader
-70.Header Google Maps
-71.Header Filter
-72.UI Element
-73.Page Shop
-74.Medias Queries
--------------------------------------------------------------------*/
-/*-----------------------------------*/
-/*------ 1. TYPOGRAPHY ------*/
-/*-----------------------------------*/
 
 html {
     font-size: 15px;
@@ -24046,6 +23961,10 @@ form label.error {
     width: 200px;
 }
 
+.btn {
+    height: 40px !important;
+}
+
 .status-mes {
     background: none;
     left: 0;
@@ -24605,6 +24524,9 @@ form label.error {
 }
 
 @media screen and (max-width: 768px) {
+    .btn {
+        height: auto !important;
+    }
     .google-maps .filter .filter-toggle {
         display: block;
     }
@@ -26982,7 +26904,7 @@ section.ui-element {
 }
 
 .sude .sudespecialbuttonsd::hover {
-    background-color: red !important;
+    background-color: #EA2B2E !important;
 }
 
 
@@ -27437,7 +27359,8 @@ input[type="checkbox"]::before {
 
 @media (max-width: 768px) {
     .mobileCBtn {
-        width: 130px !important;
+        width: 100% !important;
+        height: 45px !important;
     }
 
 }
@@ -27503,7 +27426,7 @@ input[type="checkbox"]::before {
 }
 
 .red-bg {
-    background: red !important;
+    background: #EA2B2E !important;
     color: White !important;
 
 }
@@ -27557,12 +27480,12 @@ input[type="checkbox"]::before {
 
 .toggle-project-favorite:hover i:before,
 .toggle-favorite:hover i:before {
-    color: #dc3545 !important;
+    color: #EA2B2E !important;
 }
 
 .toggle-project-favorite:focus i:before,
 .toggle-favorite:focus i:before {
-    color: #dc3545 !important;
+    color: #EA2B2E !important;
 }
 
 .payment-plan-pop-up {

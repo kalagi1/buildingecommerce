@@ -519,14 +519,14 @@
                                             @if ($housing->step2_slug != 'gunluk-kiralik')
                                                 @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                     <button class="btn second-btn CartBtn mobileCBtn" disabled
-                                                        style="background: red !important;width:100%;color:White">
+                                                        style="background: #EA2B2E !important;width:100%;color:White">
 
                                                         <span class="text">Satıldı</span>
                                                     </button>
                                                 @else
                                                     @if ($sold && $sold[0]->status != '2')
                                                         <button class="btn second-btn CartBtn mobileCBtn" disabled
-                                                            @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
+                                                            @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                             @if ($sold[0]->status == '0')
                                                                 <span class="text">Onay
                                                                     Bekleniyor</span>
@@ -848,7 +848,7 @@
                                                                     @if ($housing->step2_slug != 'gunluk-kiralik')
                                                                         @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                                             <button class="btn second-btn CartBtn" disabled
-                                                                                style="background: red !important;width:100%;color:White">
+                                                                                style="background: #EA2B2E !important;width:100%;color:White">
 
                                                                                 <span class="text">Satıldı</span>
                                                                             </button>
@@ -856,7 +856,7 @@
                                                                             @if ($sold && $sold[0]->status != '2')
                                                                                 <button class="btn second-btn CartBtn"
                                                                                     disabled
-                                                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
+                                                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                                                     @if ($sold[0]->status == '0')
                                                                                         <span class="text">Onay
                                                                                             Bekleniyor</span>
@@ -1070,14 +1070,14 @@
                                                                 @if ($housing->step2_slug != 'gunluk-kiralik')
                                                                     @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                                         <button class="btn second-btn CartBtn" disabled
-                                                                            style="background: red !important;width:100%;color:White">
+                                                                            style="background: #EA2B2E !important;width:100%;color:White">
 
                                                                             <span class="text">Satıldı</span>
                                                                         </button>
                                                                     @else
                                                                         @if ($sold && $sold[0]->status != '2')
                                                                             <button class="btn second-btn CartBtn" disabled
-                                                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
+                                                                                @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                                                 @if ($sold[0]->status == '0')
                                                                                     <span class="text">Onay
                                                                                         Bekleniyor</span>

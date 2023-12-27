@@ -98,7 +98,7 @@
                                         <td>
                                             @if (getHouse($item->project, 'off_sale[]', $item->housing_id)->value != '[]')
                                                 <button class="btn mobileBtn  second-btn CartBtn" disabled
-                                                    style="background: red !important;width:100%;color:White">
+                                                    style="background: #EA2B2E !important;width:100%;color:White">
                                                     <span class="IconContainer">
                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                     </span>
@@ -109,7 +109,7 @@
                                                     <button class="btn second-btn soldBtn" disabled
                                                         @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                         @else 
-                                        style="background: red !important;width:100%;color:White" @endif>
+                                        style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                         @if ($sold[0]->status == '0')
                                                             <span class="text">Onay Bekleniyor</span>
                                                         @else

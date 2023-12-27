@@ -612,7 +612,7 @@
         }
 
         .error-border {
-            border: 1px solid red !important;
+            border: 1px solid #EA2B2E !important;
         }
 
         .error-message {

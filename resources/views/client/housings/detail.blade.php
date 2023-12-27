@@ -279,7 +279,7 @@
                                                                     <td>
                                                                         <span class="mr-1">İlan No:</span>
                                                                         <span class="det" style="color: black;">
-                                                                            {{ $housing->id + 1000000 }}
+                                                                            {{ $housing->id + 2000000 }}
                                                                         </span>
                                                                     </td>
                                                                 </tr>
@@ -694,7 +694,7 @@
                                                                 <td>
                                                                     <span class="mr-1">İlan No:</span>
                                                                     <span class="det" style="color: black;">
-                                                                        {{ $housing->id + 1000000 }}
+                                                                        {{ $housing->id + 2000000 }}
                                                                     </span>
                                                                 </td>
                                                             </tr>
@@ -1266,7 +1266,7 @@
                                         <div class="col-md-8 col-8">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                 <button class="btn second-btn CartBtn" disabled
-                                                    style="background: red !important;width:100%;color:White;height:100% !important">
+                                                    style="background: #EA2B2E !important;width:100%;color:White;height:100% !important">
 
                                                     <span class="text">Satıldı</span>
                                                 </button>
@@ -1279,7 +1279,7 @@
                                                             $buttonStyle = 'background: orange !important; width: 100%; color: white;height:100% !important';
                                                             $buttonText = 'Onay Bekleniyor';
                                                         } else {
-                                                            $buttonStyle = 'background: red !important; width: 100%; color: white;height:100% !important';
+                                                            $buttonStyle = 'background: #EA2B2E !important; width: 100%; color: white;height:100% !important';
                                                             $buttonText = 'Satıldı';
                                                         }
                                                     @endphp

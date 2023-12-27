@@ -7382,7 +7382,7 @@ button.bg-warning:hover {
 }
 
 .bg-danger {
-    background-color: #dc3545 !important
+    background-color: #EA2B2E !important
 }
 
 a.bg-danger:focus,
@@ -7483,7 +7483,7 @@ button.bg-dark:hover {
 }
 
 .border-danger {
-    border-color: #dc3545 !important
+    border-color: #EA2B2E !important
 }
 
 .border-light {
@@ -11288,7 +11288,7 @@ a.text-warning:hover {
 }
 
 .text-danger {
-    color: #dc3545 !important
+    color: #EA2B2E !important
 }
 
 a.text-danger:focus,

@@ -249,7 +249,7 @@
                                                                         style="height: 100%">
                                                                         <div class="d-flex" style="height: 100%;">
                                                                             <div
-                                                                                style="background-color: #dc3545 !important; border-radius: 0px 8px 0px 8px;height:100%">
+                                                                                style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                 <p
                                                                                     style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
                                                                                     No
@@ -391,14 +391,14 @@
                                                                                                                 {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
                                                                                                                 ₺</h6>
                                                                                                             <h6
-                                                                                                                style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                                style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
                                                                                                                 {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                                                 ₺
 
                                                                                                             </h6>
                                                                                                         @else
                                                                                                             <h6
-                                                                                                                style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                                                style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600">
                                                                                                                 {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                                                 ₺
                                                                                                             </h6>
@@ -411,14 +411,14 @@
                                                                                                             {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
                                                                                                             ₺</h6>
                                                                                                         <h6
-                                                                                                            style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                            style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
                                                                                                             {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                                             ₺
 
                                                                                                         </h6>
                                                                                                     @else
                                                                                                         <h6
-                                                                                                            style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                                            style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600">
                                                                                                             {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                                             ₺
                                                                                                         </h6>
@@ -447,7 +447,7 @@
                                                                                             @if ($sold->status != '1' && $sold->status != '0')
                                                                                                 @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                     <h6
-                                                                                                        style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                                                        style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                         {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                                         ₺
                                                                                                     </h6>
@@ -458,7 +458,7 @@
                                                                                                         ₺</h6>
                                                                                                 @else
                                                                                                     <h6
-                                                                                                        style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                                        style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600">
                                                                                                         {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
                                                                                                     </h6>
                                                                                                 @endif
@@ -466,7 +466,7 @@
                                                                                         @else
                                                                                             @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                                                 <h6
-                                                                                                    style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                                                    style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                     {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                                     ₺
                                                                                                 </h6>
@@ -477,7 +477,7 @@
                                                                                                     ₺</h6>
                                                                                             @else
                                                                                                 <h6
-                                                                                                    style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                                    style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600">
                                                                                                     {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
                                                                                                 </h6>
                                                                                             @endif
@@ -504,7 +504,7 @@
                                                                                 @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                                                     <button class="btn second-btn CartBtn"
                                                                                         disabled
-                                                                                        style="background: red !important;width:100%;color:White;height: auto !important">
+                                                                                        style="background: #EA2B2E !important;width:100%;color:White;height: auto !important">
 
                                                                                         <span class="text">Satışa
                                                                                             Kapatıldı</span>
@@ -514,7 +514,7 @@
                                                                                         <button
                                                                                             class="btn second-btn soldBtn"
                                                                                             disabled
-                                                                                            @if ($sold->status == '0') style="background: orange !important;color:White;height: auto !important" @else  style="background: red !important;color:White;height: auto !important" @endif>
+                                                                                            @if ($sold->status == '0') style="background: orange !important;color:White;height: auto !important" @else  style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
                                                                                             @if ($sold->status == '0')
                                                                                                 <span class="text">Onay
                                                                                                     Bekleniyor</span>
@@ -628,7 +628,7 @@
                                                                 @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                                     <button class="btn second-btn CartBtn mobileCBtn"
                                                                         disabled
-                                                                        style="background: red !important;width:100%;color:White">
+                                                                        style="background: #EA2B2E !important;width:100%;color:White">
 
                                                                         <span class="text">Satışa
                                                                             Kapatıldı</span>
@@ -637,7 +637,7 @@
                                                                     @if ($sold && $sold->status != '2')
                                                                         <button class="btn second-btn soldBtn mobileCBtn"
                                                                             disabled
-                                                                            @if ($sold->status == '0') style="background: orange !important;color:White" @else  style="background: red !important;color:White;height: auto !important" @endif>
+                                                                            @if ($sold->status == '0') style="background: orange !important;color:White" @else  style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
                                                                             @if ($sold->status == '0')
                                                                                 <span class="text">Onay
                                                                                     Bekleniyor</span>
@@ -771,7 +771,7 @@
                                                 style="height: 100%">
                                                 <div class="d-flex" style="height: 100%;">
                                                     <div
-                                                        style="background-color: #dc3545 !important; border-radius: 0px 8px 0px 8px;height:100%">
+                                                        style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                         <p
                                                             style="padding: 10px;text-align:center; color: white; height: 100%; display: flex; align-items: center; ">
                                                             No<br>{{ $i + 1 }}</p>
@@ -898,14 +898,14 @@
                                                                                         {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
                                                                                         ₺</h6>
                                                                                     <h6
-                                                                                        style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                        style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
                                                                                         {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                         ₺
 
                                                                                     </h6>
                                                                                 @else
                                                                                     <h6
-                                                                                        style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                        style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600">
                                                                                         {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                         ₺
                                                                                     </h6>
@@ -918,14 +918,14 @@
                                                                                     {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
                                                                                     ₺</h6>
                                                                                 <h6
-                                                                                    style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                    style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
                                                                                     {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                     ₺
 
                                                                                 </h6>
                                                                             @else
                                                                                 <h6
-                                                                                    style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                    style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600">
                                                                                     {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                     ₺
                                                                                 </h6>
@@ -954,7 +954,7 @@
                                                                     @if ($sold->status != '1' && $sold->status != '0')
                                                                         @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                             <h6
-                                                                                style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                                style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                 {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                                 ₺
                                                                             </h6>
@@ -965,7 +965,7 @@
                                                                                 ₺</h6>
                                                                         @else
                                                                             <h6
-                                                                                style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                                style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600">
                                                                                 {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
                                                                             </h6>
                                                                         @endif
@@ -973,7 +973,7 @@
                                                                 @else
                                                                     @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                         <h6
-                                                                            style="color: #dc3545 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                            style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                             {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
                                                                             ₺
                                                                         </h6>
@@ -984,7 +984,7 @@
                                                                             ₺</h6>
                                                                     @else
                                                                         <h6
-                                                                            style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
+                                                                            style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600">
                                                                             {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
                                                                         </h6>
                                                                     @endif
@@ -1007,7 +1007,7 @@
 
                                                         @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                             <button class="btn second-btn CartBtn" disabled
-                                                                style="background: red !important;width:100%;color:White;height: auto !important">
+                                                                style="background: #EA2B2E !important;width:100%;color:White;height: auto !important">
 
                                                                 <span class="text">Satışa Kapatıldı</span>
                                                             </button>
@@ -1016,7 +1016,7 @@
                                                                 <button class="btn second-btn soldBtn" disabled
                                                                     @if ($sold->status == '0') style="background: orange !important;color:White;height: auto !important"
                                             @else 
-                                            style="background: red !important;color:White;height: auto !important" @endif>
+                                            style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
                                                                     @if ($sold->status == '0')
                                                                         <span class="text">Onay Bekleniyor</span>
                                                                     @else
@@ -1099,7 +1099,7 @@
                                     <div class="d-flex" style="gap: 8px;">
                                         @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                             <button class="btn second-btn CartBtn mobileCBtn" disabled
-                                                style="background: red !important;width:100%;color:White">
+                                                style="background: #EA2B2E !important;width:100%;color:White">
 
                                                 <span class="text">Satışa
                                                     Kapatıldı</span>
@@ -1107,7 +1107,7 @@
                                         @else
                                             @if ($sold && $sold->status != '2')
                                                 <button class="btn second-btn soldBtn mobileCBtn" disabled
-                                                    @if ($sold->status == '0') style="background: orange !important;color:White" @else  style="background: red !important;color:White;height: auto !important" @endif>
+                                                    @if ($sold->status == '0') style="background: orange !important;color:White" @else  style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
                                                     @if ($sold->status == '0')
                                                         <span class="text">Onay
                                                             Bekleniyor</span>
