@@ -107,7 +107,11 @@
                 <div class="news-item news-item-sm">
                     <div class="news-img-link">
                         <div class="news-item-img homes">
-                            <div class="homes-tag button alt featured" style="width:150px !important">
+                            <div class="homes-tag button alt featured" style="    width: 150px !important;
+                            position: absolute;
+                            bottom: 0;
+                            left: 30%;
+                            margin: 0 auto;">
                                 <a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
                                     style="color:White;">{{ $project->user->name }}</a>
                             </div>
