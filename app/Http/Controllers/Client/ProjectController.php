@@ -65,7 +65,7 @@ class ProjectController extends Controller
         for($i = 0; $i < $blockIndex; $i++){
             $startIndex += $project->blocks[$i]->housing_count;
         }
-        $endIndex = $startIndex + 10;
+        $endIndex = $startIndex + 20;
         return view('client.projects.index', compact('salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
     }
     
@@ -107,8 +107,8 @@ class ProjectController extends Controller
         for($i = 0; $i < $blockIndex + 1; $i++){
             $blockHousingCount += $project->blocks[$i]->housing_count;
         }
-        $startIndex = $startIndex + ($selectedPage * 10);
-        $endIndex = $startIndex + 10;
+        $startIndex = $startIndex + ($selectedPage * 20);
+        $endIndex = $startIndex + 20;
         if($endIndex > $blockHousingCount ){
             $endIndex = $blockHousingCount;
         }
@@ -516,7 +516,7 @@ class ProjectController extends Controller
         for($i = 0; $i < $blockIndex; $i++){
             $startIndex += $project->blocks[$i]->housing_count;
         }
-        $endIndex = $startIndex + 10;
+        $endIndex = $startIndex + 20;
 
         $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
 
@@ -552,7 +552,7 @@ class ProjectController extends Controller
             $blockHousingCount += $project->blocks[$i]->housing_count;
         }
         $startIndex = $startIndex + ($selectedPage * 10);
-        $endIndex = $startIndex + 10;
+        $endIndex = $startIndex + 20;
         if($endIndex > $blockHousingCount ){
             $endIndex = $blockHousingCount;
         }
@@ -577,7 +577,7 @@ class ProjectController extends Controller
             $blockHousingCount += $project->blocks[$i]->housing_count;
         }
         $startIndex = $startIndex + ($selectedPage * 10);
-        $endIndex = $startIndex + 10;
+        $endIndex = $startIndex + 20;
         if($endIndex > $blockHousingCount ){
             $endIndex = $blockHousingCount;
         }

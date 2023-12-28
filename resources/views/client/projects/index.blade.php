@@ -196,7 +196,6 @@
         }
     @endphp
 
-
     @if ($project->have_blocks == 1)
         <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
             <div class="container">
@@ -229,7 +228,7 @@
                                             $i = 0;
                                         }
 
-                                        $pageCount = $currentBlockHouseCount / 10;
+                                        $pageCount = $currentBlockHouseCount / 20;
                                     @endphp
 
                                     <div class="mobile-hidden">
@@ -561,7 +560,7 @@
                                                     <ul>
                                                         @for ($t = 0; $t < $pageCount; $t++)
                                                             @php
-                                                                $isActive = (isset($startIndex) && $t == $startIndex / 10) || (!isset($startIndex) && $t == 0);
+                                                                $isActive = (isset($startIndex) && $t == $startIndex / 20) || (!isset($startIndex) && $t == 0);
                                                             @endphp
 
                                                             <li @if ($isActive) class="active" @endif>
@@ -736,7 +735,7 @@
                                             <ul>
                                                 @for ($t = 0; $t < $pageCount; $t++)
                                                     @php
-                                                        $isActive = (isset($startIndex) && $t == $startIndex / 10) || (!isset($startIndex) && $t == 0);
+                                                        $isActive = (isset($startIndex) && $t == $startIndex / 20) || (!isset($startIndex) && $t == 0);
                                                     @endphp
 
                                                     <li @if ($isActive) class="active" @endif>
@@ -1053,6 +1052,7 @@
                                 </div>
                             </div>
                         @endfor
+                        
                     </div>
                 </div>
             </div>

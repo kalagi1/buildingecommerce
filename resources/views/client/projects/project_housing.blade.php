@@ -375,7 +375,7 @@
                                                                     $i = 0;
                                                                 }
 
-                                                                $pageCount = $currentBlockHouseCount / 10;
+                                                                $pageCount = $currentBlockHouseCount / 20;
                                                             @endphp
 
                                                             <div class="mobile-show">
@@ -558,7 +558,7 @@
                                                                     <ul>
                                                                         @for ($t = 0; $t < $pageCount; $t++)
                                                                             @php
-                                                                                $isActive = (isset($startIndex) && $t == $startIndex / 10) || (!isset($startIndex) && $t == 0);
+                                                                                $isActive = (isset($startIndex) && $t == $startIndex / 20) || (!isset($startIndex) && $t == 0);
                                                                             @endphp
 
                                                                             <li
@@ -1159,7 +1159,7 @@
                                                                         $i = 0;
                                                                     }
 
-                                                                    $pageCount = $currentBlockHouseCount / 10;
+                                                                    $pageCount = $currentBlockHouseCount / 20;
                                                                 @endphp
 
                                                                 <div class="mobile-hidden">
@@ -1410,7 +1410,7 @@
                                                                                 <ul>
                                                                                     @for ($t = 0; $t < $pageCount; $t++)
                                                                                         @php
-                                                                                            $isActive = (isset($startIndex) && $t == $startIndex / 10) || (!isset($startIndex) && $t == 0);
+                                                                                            $isActive = (isset($startIndex) && $t == $startIndex / 20) || (!isset($startIndex) && $t == 0);
                                                                                         @endphp
 
                                                                                         <li
@@ -1765,6 +1765,7 @@
                                                             </div>
                                                         </div>
                                                     @endfor
+                                                    
                                                 </div>
                                             </div>
                                         </div>
