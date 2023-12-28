@@ -599,6 +599,7 @@ img {
 .brand-head .search-input {
     flex-grow: 1;
     padding: 10px;
+    font-size: 12px;
     border: solid 1px #e6e6e6;
 
 }
@@ -8685,6 +8686,7 @@ a.button {
 .input-group.search input {
     border: none;
     width: 100%;
+    font-size: 12px;
     background-color: transparent !important;
     padding: 10px 30px;
     outline: 0;

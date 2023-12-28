@@ -506,8 +506,8 @@
                                                                                 </button>
 
                                                                                 @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                                                                    <button class="btn second-btn CartBtn"
-                                                                                        disabled
+                                                                                    <button class="btn second-btn"
+                                                                                        
                                                                                         style="background: #EA2B2E !important;width:100%;color:White;height: auto !important">
 
                                                                                         <span class="text">Satışa
@@ -516,8 +516,8 @@
                                                                                 @else
                                                                                     @if ($sold && $sold->status != '2')
                                                                                         <button
-                                                                                            class="btn second-btn soldBtn"
-                                                                                            disabled
+                                                                                            class="btn second-btn"
+                                                                                            
                                                                                             @if ($sold->status == '0') style="background: orange !important;color:White;height: auto !important" @else  style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
                                                                                             @if ($sold->status == '0')
                                                                                                 <span class="text">Onay
@@ -630,8 +630,8 @@
                                                         <div class="d-flex align-items-center">
                                                             <div class="d-flex" style="gap: 8px;">
                                                                 @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                                                    <button class="btn second-btn CartBtn mobileCBtn"
-                                                                        disabled
+                                                                    <button class="btn second-btn  mobileCBtn"
+                                                                        
                                                                         style="background: #EA2B2E !important;width:100%;color:White">
 
                                                                         <span class="text">Satışa
@@ -639,8 +639,8 @@
                                                                     </button>
                                                                 @else
                                                                     @if ($sold && $sold->status != '2')
-                                                                        <button class="btn second-btn soldBtn mobileCBtn"
-                                                                            disabled
+                                                                        <button class="btn second-btn  mobileCBtn"
+                                                                            
                                                                             @if ($sold->status == '0') style="background: orange !important;color:White" @else  style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
                                                                             @if ($sold->status == '0')
                                                                                 <span class="text">Onay
@@ -1010,14 +1010,14 @@
                                                         </button>
 
                                                         @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                                            <button class="btn second-btn CartBtn" disabled
+                                                            <button class="btn second-btn " 
                                                                 style="background: #EA2B2E !important;width:100%;color:White;height: auto !important">
 
                                                                 <span class="text">Satışa Kapatıldı</span>
                                                             </button>
                                                         @else
                                                             @if ($sold && $sold->status != '2')
-                                                                <button class="btn second-btn soldBtn" disabled
+                                                                <button class="btn second-btn " 
                                                                     @if ($sold->status == '0') style="background: orange !important;color:White;height: auto !important"
                                             @else 
                                             style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
@@ -1102,7 +1102,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="d-flex" style="gap: 8px;">
                                         @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                            <button class="btn second-btn CartBtn mobileCBtn" disabled
+                                            <button class="btn second-btn  mobileCBtn" 
                                                 style="background: #EA2B2E !important;width:100%;color:White">
 
                                                 <span class="text">Satışa
@@ -1110,7 +1110,7 @@
                                             </button>
                                         @else
                                             @if ($sold && $sold->status != '2')
-                                                <button class="btn second-btn soldBtn mobileCBtn" disabled
+                                                <button class="btn second-btn  mobileCBtn" 
                                                     @if ($sold->status == '0') style="background: orange !important;color:White" @else  style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
                                                     @if ($sold->status == '0')
                                                         <span class="text">Onay

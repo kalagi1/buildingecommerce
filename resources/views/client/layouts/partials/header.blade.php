@@ -55,7 +55,7 @@
             <div class="slick-lancersl">
                 @foreach ($adBanners as $adBanner)
                     <div class="home-top-banner d-xl-block d-none d-lg-block"
-                        style="background-color: {{ $adBanner->background_color }}">
+                        style="background-color: {{ $adBanner->background_color }};padding:0 !important">
                         <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
                     </div>
                 @endforeach
