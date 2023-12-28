@@ -518,14 +518,14 @@
 
                                             @if ($housing->step2_slug != 'gunluk-kiralik')
                                                 @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                    <button class="btn second-btn CartBtn mobileCBtn" disabled
+                                                    <button class="btn second-btn  mobileCBtn" 
                                                         style="background: #EA2B2E !important;width:100%;color:White">
 
                                                         <span class="text">Satıldı</span>
                                                     </button>
                                                 @else
                                                     @if ($sold && $sold[0]->status != '2')
-                                                        <button class="btn second-btn CartBtn mobileCBtn" disabled
+                                                        <button class="btn second-btn  mobileCBtn" 
                                                             @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                             @if ($sold[0]->status == '0')
                                                                 <span class="text">Onay
@@ -563,7 +563,7 @@
                                         </div>
                                         <span class="ml-auto text-primary priceFont">
                                             @if ($discount_amount)
-                                                <svg viewBox="0 0 24 24" width="24" height="24"
+                                                <svg viewBox="0 0 24 24" width="18" height="18"
                                                     stroke="currentColor" stroke-width="2" fill="none"
                                                     stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                     <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
@@ -847,15 +847,15 @@
 
                                                                     @if ($housing->step2_slug != 'gunluk-kiralik')
                                                                         @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                                            <button class="btn second-btn CartBtn" disabled
+                                                                            <button class="btn second-btn " 
                                                                                 style="background: #EA2B2E !important;width:100%;color:White">
 
                                                                                 <span class="text">Satıldı</span>
                                                                             </button>
                                                                         @else
                                                                             @if ($sold && $sold[0]->status != '2')
-                                                                                <button class="btn second-btn CartBtn"
-                                                                                    disabled
+                                                                                <button class="btn second-btn "
+                                                                                    
                                                                                     @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                                                     @if ($sold[0]->status == '0')
                                                                                         <span class="text">Onay
@@ -1069,14 +1069,14 @@
 
                                                                 @if ($housing->step2_slug != 'gunluk-kiralik')
                                                                     @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                                        <button class="btn second-btn CartBtn" disabled
+                                                                        <button class="btn second-btn " 
                                                                             style="background: #EA2B2E !important;width:100%;color:White">
 
                                                                             <span class="text">Satıldı</span>
                                                                         </button>
                                                                     @else
                                                                         @if ($sold && $sold[0]->status != '2')
-                                                                            <button class="btn second-btn CartBtn" disabled
+                                                                            <button class="btn second-btn " 
                                                                                 @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                                                 @if ($sold[0]->status == '0')
                                                                                     <span class="text">Onay

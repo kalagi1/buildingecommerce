@@ -157,7 +157,7 @@
                                         <td>
                                             <span style="color:#e54242; font-weight:600">
                                                 @if ($discount_amount)
-                                                    <svg viewBox="0 0 24 24" width="24" height="24"
+                                                    <svg viewBox="0 0 24 24" width="18" height="18"
                                                         stroke="currentColor" stroke-width="2" fill="none"
                                                         stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>

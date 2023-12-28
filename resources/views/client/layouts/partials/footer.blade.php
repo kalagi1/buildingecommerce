@@ -1238,7 +1238,6 @@
 
                                 $('.header-search-box').append(`
                                     <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
                                         <span>${e.name}</span>
                                     </a>
                                 `);
@@ -1257,7 +1256,6 @@
 
                                 $('.header-search-box').append(`
                                     <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
                                         <span>${e.name}</span>
                                     </a>
                                 `);
@@ -1378,7 +1376,6 @@
 
                                 $('.header-search-box-mobile').append(`
                                     <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
                                         <span>${e.name}</span>
                                     </a>
                                 `);
@@ -1397,7 +1394,6 @@
 
                                 $('.header-search-box-mobile').append(`
                                     <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
                                         <span>${e.name}</span>
                                     </a>
                                 `);

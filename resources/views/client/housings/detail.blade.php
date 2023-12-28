@@ -46,28 +46,24 @@
                     <div class="container">
                         <div class="headings-2 pt-0">
                             <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
-                                @if ($sold)
-                                    @if ($sold[0]->status != '0' && $sold[0]->status != '1')
-                                        <div class="detail-wrapper-body">
-                                            <div class="listing-title-bar">
-                                                <h3>{{ $housing->title }} </h3>
-                                            </div>
-                                        </div>
-                                    @else
-                                        <div class="detail-wrapper-body">
-                                            <div class="listing-title-bar">
-
-                                                <h3>{{ $housing->title }} </h3>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @else
-                                    <div class="detail-wrapper-body">
-                                        <div class="listing-title-bar">
-                                            <h3>{{ $housing->title }} </h3>
-                                        </div>
+                                @php
+                                    $status = optional($sold)->status;
+                                @endphp
+                                <div class="detail-wrapper-body">
+                                    <div class="listing-title-bar pb-3">
+                                        <h3>
+                                            @if ($status && $status != '0' && $status != '1')
+                                                @include('client.layouts.partials.housing_title', [
+                                                    'title' => $housing->title,
+                                                ])
+                                            @else
+                                                @include('client.layouts.partials.housing_title', [
+                                                    'title' => $housing->title,
+                                                ])
+                                            @endif
+                                        </h3>
                                     </div>
-                                @endif
+                                </div>
 
                             </div>
                         </div>
@@ -83,7 +79,7 @@
                                             <div class="listing-title-bar">
                                                 <h4>
                                                     @if ($discountAmount)
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
+                                                        <svg viewBox="0 0 24 24" width="18" height="18"
                                                             stroke="currentColor" stroke-width="2" fill="none"
                                                             stroke-linecap="round" stroke-linejoin="round"
                                                             class="css-i6dzq1">
@@ -106,19 +102,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                @else
-                                    <div class="detail-wrapper-body">
-                                        <div class="listing-title-bar">
-
-                                            <h3>{{ $housing->title }} </h3>
-                                            <div class="mt-0">
-                                                <a href="#listing-location" class="listing-address">
-                                                    <i class="fa fa-map-marker pr-2 ti-location-pin mrg-r-5"></i>
-                                                    {!! $housing->city->title !!} {{ '/' }} {!! $housing->county->ilce_title !!}
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
                                 @endif
                             @else
                                 <div class="single detail-wrapper mr-2">
@@ -126,7 +109,7 @@
                                         <div class="listing-title-bar">
                                             <h4>
                                                 @if ($discountAmount)
-                                                    <svg viewBox="0 0 24 24" width="24" height="24"
+                                                    <svg viewBox="0 0 24 24" width="18" height="18"
                                                         stroke="currentColor" stroke-width="2" fill="none"
                                                         stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
@@ -175,8 +158,7 @@
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $key => $image)
                                         <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
-                                            <a href="{{ asset('housing_images/' . $image) }}"
-                                                data-lightbox="image-gallery">
+                                            <a href="{{ asset('housing_images/' . $image) }}" data-lightbox="image-gallery">
                                                 <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
                                                     alt="slider-listing">
                                             </a>
@@ -214,599 +196,72 @@
                             </div>
 
 
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                @if ($housing->step2_slug == 'gunluk-kiralik')
+                                    <div id="reservation-calendar"></div>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
+                                            data-bs-target="#rez" type="button" role="tab"
+                                            aria-controls="rez" aria-selected="true"> Takvim</button>
+                                    </li>
+                                @endif
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif"
+                                        id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                                        type="button" role="tab" aria-controls="home"
+                                        aria-selected="true">Açıklama</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                        data-bs-target="#profile" type="button" role="tab"
+                                        aria-controls="profile" aria-selected="false">Özellikler</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                        data-bs-target="#map" type="button" role="tab"
+                                        aria-controls="contact" aria-selected="false">Harita</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                        data-bs-target="#contact" type="button" role="tab"
+                                        aria-controls="contact" aria-selected="false">Yorumlar</button>
+                                </li>
 
 
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                @if ($housing->step2_slug == 'gunluk-kiralik')
+                                    <div class="tab-pane fade show active blog-info details mb-30"
+                                        id="rez" role="tabpanel" aria-labelledby="rez-tab">
+                                        <div id="reservation-calendar"></div>
+                                    </div>
+                                @endif
 
+                                <div class="tab-pane fade blog-info details mb-30 mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
+                                    id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    {!! $housing->description !!}
+                                </div>
+                                <div class="tab-pane fade blog-info details mb-30" id="profile"
+                                    role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="similar-property featured portfolio p-0 bg-white">
 
-                            @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                @if ($sold)
-                                    @if ($sold[0]->status != '0' && $sold[0]->status != '1')
-                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                            @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                <div id="reservation-calendar"></div>
-                                                <li class="nav-item" role="presentation">
-                                                    <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
-                                                        data-bs-target="#rez" type="button" role="tab"
-                                                        aria-controls="rez" aria-selected="true"> Takvim</button>
-                                                </li>
-                                            @endif
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif"
-                                                    id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-                                                    type="button" role="tab" aria-controls="home"
-                                                    aria-selected="true">Açıklama</button>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#profile" type="button" role="tab"
-                                                    aria-controls="profile" aria-selected="false">Özellikler</button>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#map" type="button" role="tab"
-                                                    aria-controls="contact" aria-selected="false">Harita</button>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#contact" type="button" role="tab"
-                                                    aria-controls="contact" aria-selected="false">Yorumlar</button>
-                                            </li>
-                                          
-
-                                        </ul>
-                                        <div class="tab-content" id="myTabContent">
-                                            @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                <div class="tab-pane fade show active blog-info details mb-30"
-                                                    id="rez" role="tabpanel" aria-labelledby="rez-tab">
-                                                    <div id="reservation-calendar"></div>
-                                                </div>
-                                            @endif
-
-                                            <div class="tab-pane fade blog-info details mb-30 mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
-                                                id="home" role="tabpanel" aria-labelledby="home-tab">
-                                                {!! $housing->description !!}
-                                            </div>
-                                            <div class="tab-pane fade blog-info details mb-30" id="profile"
-                                                role="tabpanel" aria-labelledby="profile-tab">
-                                                <div class="similar-property featured portfolio p-0 bg-white">
-
-                                                    <div class="single homes-content">
-                                                        <!-- title -->
-                                                        <h5 class="mb-4">Özellikler</h5>
-                                                        <table class="table table-bordered">
-                                                            <tbody class="trStyle">
-                                                                <tr>
-                                                                    <td>
-                                                                        <span class="mr-1">İlan No:</span>
-                                                                        <span class="det" style="color: black;">
-                                                                            {{ $housing->id + 2000000 }}
-                                                                        </span>
-                                                                    </td>
-                                                                </tr>
-
-                                                                @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
-                                                                    @php
-                                                                        $turkceKarsilik = [
-                                                                            'price' => 'Fiyat',
-                                                                            'numberoffloors' => 'Bulunduğu Kat',
-                                                                            'squaremeters' => 'm² (Net)',
-                                                                            'room_count' => 'Oda Sayısı',
-                                                                            'front1' => 'Cephe',
-                                                                            'm2gross' => 'm² (Brüt)',
-                                                                            'buildingage' => 'Bina Yaşı',
-                                                                            'heating' => 'Isıtma',
-                                                                            'balcony' => 'Balkon',
-                                                                            'daily_rent' => 'Günlük Fiyat',
-                                                                            'max_user' => 'Kişi Sayısı',
-                                                                            'deposit' => 'Depozito',
-                                                                            'end_time' => 'Çıkış Saati',
-                                                                            'start_time' => 'Giriş Saati',
-                                                                            'ulasim1' => 'Ulaşım',
-                                                                            'muhit1' => 'Muhit',
-                                                                            'star_count' => 'Yıldız Sayısı',
-                                                                            'kitchen_settings1' => 'Mutfak Özellikleri',
-                                                                            'room_settings1' => 'Oda Özellikleri',
-                                                                            'room_types1' => 'Oda Çeşitleri',
-                                                                            'facility_settings1' => 'Tesis Özellikleri',
-                                                                            'bath_settings1' => 'Banyo Özellikleri',
-                                                                            'use_withs1' => 'Ortak Kullanım',
-                                                                            'views1' => 'Manzara',
-                                                                            'infrastructures1' => 'Altyapılar',
-                                                                            'activities1' => 'Aktiviteler',
-                                                                            'konut_tipi1' => 'Konut Tipi',
-                                                                            'manzara1' => 'Manzara',
-                                                                            'engelliye_uygun1' => 'Engelliye Uygun',
-                                                                            'numberofbathrooms' => 'Banyo Sayısı',
-                                                                            'usingstatus' => 'Kullanım Durumu',
-                                                                            'dues' => 'Aidat',
-                                                                            'titledeedstatus' => 'Tapu Durumu',
-                                                                            'external_features1' => 'Dış Özellikler',
-                                                                            'swap' => 'Takas',
-                                                                            'swap1' => 'Takas',
-                                                                            'internal_features1' => 'İç Özellikler',
-                                                                            'floorlocation' => 'Kat Sayısı',
-                                                                            'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
-                                                                            'furnished1' => 'Eşyalı',
-                                                                            'buysellurgent1' => 'Acil Satılık',
-                                                                            'structure' => 'Yapının Durumu',
-                                                                            'bed_count' => 'Yatak Sayısı',
-                                                                            'food_drink1' => 'Yeme İçme',
-                                                                            'meeting1' => 'Toplantı & Kongre',
-                                                                            'proximity1' => 'Yakınlık',
-                                                                            'transportation1' => 'Ulaşım',
-                                                                            'facilities1' => 'Tesis Aktiviteleri',
-                                                                            'availableforLoan' => 'Krediye Uygun',
-                                                                            'images' => 'Galeri',
-                                                                            'usagePurpose1' => 'Kullanım Amacı',
-                                                                            'generalFeatures1' => 'Genel Özellikler',
-                                                                            'infrastructure1' => 'Altyapı',
-                                                                        ];
-                                                                        $key = $turkceKarsilik[$key] ?? $key;
-                                                                    @endphp
-
-                                                                    @if (
-                                                                        $key != 'image' &&
-                                                                            $key != 'Galeri' &&
-                                                                            $key != 'İç Özellikler' &&
-                                                                            $key != 'Dış Özellikler' &&
-                                                                            $key != 'Muhit' &&
-                                                                            $key != 'Ulaşım' &&
-                                                                            $key != 'Engelliye Uygun' &&
-                                                                            $key != 'Konut Tipi' &&
-                                                                            $key != 'payment-plan1')
-                                                                        </tr>
-
-                                                                        <td>
-                                                                            @if ($key == 'Fiyat')
-                                                                                <span
-                                                                                    class=" mr-1">{{ $key }}:</span>
-                                                                                <span class="det"
-                                                                                    style="color: black; ">
-                                                                                    {{ number_format($val[0], 0, ',', '.') }}
-                                                                                    ₺
-                                                                                </span>
-                                                                            @else
-                                                                                <span
-                                                                                    class=" mr-1">{{ $key }}:</span>
-                                                                                @if ($key == 'm² (Net)')
-                                                                                    <span
-                                                                                        class="det">{{ $val[0] }}
-                                                                                        m2</span>
-                                                                                @elseif ($key == 'Özellikler')
-                                                                                    <ul>
-                                                                                        @foreach ($val as $ozellik)
-                                                                                            <li>{{ $ozellik }}</li>
-                                                                                        @endforeach
-                                                                                    </ul>
-                                                                                @else
-                                                                                    <span
-                                                                                        class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
-                                                                                @endif
-                                                                            @endif
-                                                                        </td>
-                                                                        </tr>
-                                                                    @endif
-                                                                @endforeach
-
-                                                            </tbody>
-                                                        </table>
-
-
-
-                                                        @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
-                                                            @php
-                                                                $turkceKarsilik = [
-                                                                    'price' => 'Fiyat',
-                                                                    'numberoffloors' => 'Bulunduğu Kat',
-                                                                    'squaremeters' => 'm² (Net)',
-                                                                    'room_count' => 'Oda Sayısı',
-                                                                    'front1' => 'Cephe',
-                                                                    'm2gross' => 'm² (Brüt)',
-                                                                    'buildingage' => 'Bina Yaşı',
-                                                                    'heating' => 'Isıtma',
-                                                                    'balcony' => 'Balkon',
-                                                                    'daily_rent' => 'Günlük Fiyat',
-                                                                    'max_user' => 'Kişi Sayısı',
-                                                                    'deposit' => 'Depozito',
-                                                                    'end_time' => 'Çıkış Saati',
-                                                                    'start_time' => 'Giriş Saati',
-                                                                    'ulasim1' => 'Ulaşım',
-                                                                    'muhit1' => 'Muhit',
-                                                                    'star_count' => 'Yıldız Sayısı',
-                                                                    'kitchen_settings1' => 'Mutfak Özellikleri',
-                                                                    'room_settings1' => 'Oda Özellikleri',
-                                                                    'room_types1' => 'Oda Çeşitleri',
-                                                                    'facility_settings1' => 'Tesis Özellikleri',
-                                                                    'bath_settings1' => 'Banyo Özellikleri',
-                                                                    'use_withs1' => 'Ortak Kullanım',
-                                                                    'views1' => 'Manzara',
-                                                                    'infrastructures1' => 'Altyapılar',
-                                                                    'activities1' => 'Aktiviteler',
-                                                                    'konut_tipi1' => 'Konut Tipi',
-                                                                    'manzara1' => 'Manzara',
-                                                                    'engelliye_uygun1' => 'Engelliye Uygun',
-                                                                    'numberofbathrooms' => 'Banyo Sayısı',
-                                                                    'usingstatus' => 'Kullanım Durumu',
-                                                                    'dues' => 'Aidat',
-                                                                    'titledeedstatus' => 'Tapu Durumu',
-                                                                    'external_features1' => 'Dış Özellikler',
-                                                                    'swap' => 'Takas',
-                                                                    'swap1' => 'Takas',
-                                                                    'islandnumber' => 'Ada No',
-                                                                    'parcelnumber' => 'Parsel No',
-                                                                    'sheetnumber' => 'Pafta No',
-                                                                    'floorprovision' => 'Kat Karşılığı',
-                                                                    'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
-                                                                    'internal_features1' => 'İç Özellikler',
-                                                                    'floorlocation' => 'Kat Sayısı',
-                                                                    'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
-                                                                    'furnished1' => 'Eşyalı',
-                                                                    'furnished' => 'Eşyalı',
-                                                                    'buysellurgent1' => 'Acil Satılık',
-                                                                    'structure' => 'Yapının Durumu',
-                                                                    'bed_count' => 'Yatak Sayısı',
-                                                                    'food_drink1' => 'Yeme İçme',
-                                                                    'meeting1' => 'Toplantı & Kongre',
-                                                                    'proximity1' => 'Yakınlık',
-                                                                    'transportation1' => 'Ulaşım',
-                                                                    'facilities1' => 'Tesis Aktiviteleri',
-                                                                    'availableforLoan' => 'Krediye Uygun',
-                                                                    'images' => 'Galeri',
-                                                                    'usagePurpose1' => 'Kullanım Amacı',
-                                                                    'generalFeatures1' => 'Genel Özellikler',
-                                                                    'infrastructure1' => 'Altyapı',
-                                                                ];
-
-                                                                $key = $turkceKarsilik[$key] ?? $key;
-                                                            @endphp
-
-
-                                                            @if (is_array($val))
-                                                                @if (count($val) > 1)
-                                                                    @if ($key != 'Galeri')
-                                                                        <h5 class="mt-5">{{ $key }}</h5>
-                                                                        <ul class="homes-list clearfix">
-                                                                            @foreach ($val as $item)
-                                                                                <li><i class="fa fa-check-square"
-                                                                                        aria-hidden="true"></i><span>{{ $item }}</span>
-                                                                                </li>
-                                                                            @endforeach
-                                                                        </ul>
-                                                                    @endif
-                                                                @endif
-                                                            @endif
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tab-pane fade  blog-info details" id="contact" role="tabpanel"
-                                                aria-labelledby="contact-tab">
-                                                <h5 class="mt-4">Yorumlar</h5>
-                                                @if (count($housingComments))
-                                                    <div class="flex flex-col gap-6">
-                                                        @foreach ($housingComments as $comment)
-                                                            <div class="bg-white border rounded-md pb-3 mb-3"
-                                                                style="border-bottom: 1px solid #E6E6E6 !important; ">
-                                                                <div class="head d-flex w-full">
-                                                                    <div>
-                                                                        <div class="">
-                                                                            {{ $comment->user->name }}</div>
-                                                                        <i
-                                                                            class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
-                                                                    </div>
-                                                                    <div class="ml-auto order-2">
-                                                                        @for ($i = 0; $i < $comment->rate; ++$i)
-                                                                            <svg enable-background="new 0 0 50 50"
-                                                                                height="24px" id="Layer_1"
-                                                                                version="1.1" viewBox="0 0 50 50"
-                                                                                width="24px" xml:space="preserve"
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                                <rect fill="none" height="50"
-                                                                                    width="50" />
-                                                                                <polygon fill="gold"
-                                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                                    stroke="gold" stroke-miterlimit="10"
-                                                                                    stroke-width="2" />
-                                                                            </svg>
-                                                                        @endfor
-                                                                        @for ($i = 0; $i < 5 - $comment->rate; ++$i)
-                                                                            <svg enable-background="new 0 0 50 50"
-                                                                                height="24px" id="Layer_1"
-                                                                                version="1.1" viewBox="0 0 50 50"
-                                                                                width="24px" xml:space="preserve"
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                                <rect fill="none" height="50"
-                                                                                    width="50" />
-                                                                                <polygon fill="none"
-                                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                                    stroke="gold" stroke-miterlimit="10"
-                                                                                    stroke-width="2" />
-                                                                            </svg>
-                                                                        @endfor
-                                                                    </div>
-                                                                </div>
-                                                                <div class="body py-3">
-                                                                    {{ $comment->comment }}
-                                                                </div>
-                                                                <div class="row mt-3">
-                                                                    @foreach (json_decode($comment->images, true) as $img)
-                                                                        <div class="col-md-2 col-3 mb-3">
-                                                                            <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                                                data-lightbox="gallery">
-                                                                                <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                                                    style="object-fit: cover;width:100%" />
-                                                                            </a>
-                                                                        </div>
-                                                                    @endforeach
-                                                                </div>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                @else
-                                                    <span class="mb-3">Bu konut için henüz yorum yapılmadı.</span>
-                                                @endif
-
-                                                <form action="{{ route('housing.send-comment', ['id' => $id]) }}"
-                                                    method="POST" enctype="multipart/form-data" class="mt-5">
-                                                    @csrf
-                                                    <input type="hidden" name="rate" id="rate" />
-                                                    <h5>Yeni Yorum Ekle</h5>
-
-                                                    <div class="d-flex align-items-center w-full" style="gap: 6px;">
-                                                        <div class="d-flex rating-area">
-                                                            <svg class="rating" enable-background="new 0 0 50 50"
-                                                                height="24px" id="Layer_1" version="1.1"
-                                                                viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                <rect fill="none" height="50" width="50" />
-                                                                <polygon fill="none"
-                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                    stroke="#dadada" stroke-miterlimit="10"
-                                                                    stroke-width="2" />
-                                                            </svg>
-                                                            <svg class="rating" enable-background="new 0 0 50 50"
-                                                                height="24px" id="Layer_1" version="1.1"
-                                                                viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                <rect fill="none" height="50" width="50" />
-                                                                <polygon fill="none"
-                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                    stroke="#000000" stroke-miterlimit="10"
-                                                                    stroke-width="2" />
-                                                            </svg>
-                                                            <svg class="rating" enable-background="new 0 0 50 50"
-                                                                height="24px" id="Layer_1" version="1.1"
-                                                                viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                <rect fill="none" height="50" width="50" />
-                                                                <polygon fill="none"
-                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                    stroke="#000000" stroke-miterlimit="10"
-                                                                    stroke-width="2" />
-                                                            </svg>
-                                                            <svg class="rating" enable-background="new 0 0 50 50"
-                                                                height="24px" id="Layer_1" version="1.1"
-                                                                viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                <rect fill="none" height="50" width="50" />
-                                                                <polygon fill="none"
-                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                    stroke="#000000" stroke-miterlimit="10"
-                                                                    stroke-width="2" />
-                                                            </svg>
-                                                            <svg class="rating" enable-background="new 0 0 50 50"
-                                                                height="24px" id="Layer_1" version="1.1"
-                                                                viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                <rect fill="none" height="50" width="50" />
-                                                                <polygon fill="none"
-                                                                    points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                    stroke="#000000" stroke-miterlimit="10"
-                                                                    stroke-width="2" />
-                                                            </svg>
-                                                        </div>
-                                                        <div class="ml-auto">
-                                                            <input type="hidden" style="visibility: hidden;"
-                                                                class="fileinput" name="images[]" multiple
-                                                                accept="image/*" />
-                                                            <button type="button" class="btn btn-primary q-button "
-                                                                onClick="jQuery('.fileinput').trigger('click');">Resimleri
-                                                                Seç</button>
-                                                        </div>
-                                                    </div>
-                                                    <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..."></textarea>
-                                                    <button type="submit" class="ud-btn btn-white2 mt-3">Yorumu Gönder<i
-                                                            class="fal fa-arrow-right-long"></i></button>
-
-                                                </form>
-
-                                            </div>
-                                            <div class="tab-pane fade  blog-info details" id="map" role="tabpanel"
-                                                aria-labelledby="contact-tab">
-                                                <div class="similar-property featured portfolio p-0 bg-white">
-
-                                                    <div id="map"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @else
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                        @if ($housing->step2_slug == 'gunluk-kiralik')
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#rez" type="button" role="tab"
-                                                    aria-controls="rez" aria-selected="true"> Takvim</button>
-                                            </li>
-                                        @endif
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif"
-                                                id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-                                                type="button" role="tab" aria-controls="home"
-                                                aria-selected="true">Açıklama</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                                data-bs-target="#profile" type="button" role="tab"
-                                                aria-controls="profile" aria-selected="false">Özellikler</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                                data-bs-target="#map" type="button" role="tab"
-                                                aria-controls="contact" aria-selected="false">Harita</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                                data-bs-target="#contact" type="button" role="tab"
-                                                aria-controls="contact" aria-selected="false">Yorumlar</button>
-                                        </li>
-                                      
-                                    </ul>
-                                    <div class="tab-content" id="myTabContent">
-                                        @if ($housing->step2_slug == 'gunluk-kiralik')
-                                            <div class="tab-pane fade show active blog-info details mb-30" id="rez"
-                                                role="tabpanel" aria-labelledby="rez-tab">
-                                                <div id="reservation-calendar"></div>
-                                            </div>
-                                        @endif
-
-                                        <div class="tab-pane fade blog-info details mb-30 mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
-                                            id="home" role="tabpanel" aria-labelledby="home-tab">
-                                            {!! $housing->description !!}
-                                        </div>
-                                        <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
-                                            aria-labelledby="profile-tab">
-                                            <div class="similar-property featured portfolio p-0 bg-white">
-
-                                                <div class="single homes-content">
-                                                    <!-- title -->
-                                                    <h5 class="mb-4">Özellikler</h5>
-                                                    <table class="table table-bordered">
-                                                        <tbody class="trStyle">
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="mr-1">İlan No:</span>
-                                                                    <span class="det" style="color: black;">
-                                                                        {{ $housing->id + 2000000 }}
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-
-                                                            @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
-                                                                @php
-                                                                    $turkceKarsilik = [
-                                                                        'price' => 'Fiyat',
-                                                                        'numberoffloors' => 'Bulunduğu Kat',
-                                                                        'squaremeters' => 'm² (Net)',
-                                                                        'room_count' => 'Oda Sayısı',
-                                                                        'front1' => 'Cephe',
-                                                                        'm2gross' => 'm² (Brüt)',
-                                                                        'buildingage' => 'Bina Yaşı',
-                                                                        'heating' => 'Isıtma',
-                                                                        'balcony' => 'Balkon',
-                                                                        'daily_rent' => 'Günlük Fiyat',
-                                                                        'max_user' => 'Kişi Sayısı',
-                                                                        'deposit' => 'Depozito',
-                                                                        'end_time' => 'Çıkış Saati',
-                                                                        'start_time' => 'Giriş Saati',
-                                                                        'ulasim1' => 'Ulaşım',
-                                                                        'muhit1' => 'Muhit',
-                                                                        'star_count' => 'Yıldız Sayısı',
-                                                                        'kitchen_settings1' => 'Mutfak Özellikleri',
-                                                                        'room_settings1' => 'Oda Özellikleri',
-                                                                        'room_types1' => 'Oda Çeşitleri',
-                                                                        'facility_settings1' => 'Tesis Özellikleri',
-                                                                        'bath_settings1' => 'Banyo Özellikleri',
-                                                                        'use_withs1' => 'Ortak Kullanım',
-                                                                        'views1' => 'Manzara',
-                                                                        'infrastructures1' => 'Altyapılar',
-                                                                        'activities1' => 'Aktiviteler',
-                                                                        'konut_tipi1' => 'Konut Tipi',
-                                                                        'manzara1' => 'Manzara',
-                                                                        'engelliye_uygun1' => 'Engelliye Uygun',
-                                                                        'numberofbathrooms' => 'Banyo Sayısı',
-                                                                        'usingstatus' => 'Kullanım Durumu',
-                                                                        'dues' => 'Aidat',
-                                                                        'titledeedstatus' => 'Tapu Durumu',
-                                                                        'external_features1' => 'Dış Özellikler',
-                                                                        'swap' => 'Takas',
-                                                                        'swap1' => 'Takas',
-                                                                        'internal_features1' => 'İç Özellikler',
-                                                                        'floorlocation' => 'Kat Sayısı',
-                                                                        'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
-                                                                        'furnished1' => 'Eşyalı',
-                                                                        'furnished' => 'Eşyalı',
-                                                                        'buysellurgent1' => 'Acil Satılık',
-                                                                        'structure' => 'Yapının Durumu',
-                                                                        'bed_count' => 'Yatak Sayısı',
-                                                                        'food_drink1' => 'Yeme İçme',
-                                                                        'meeting1' => 'Toplantı & Kongre',
-                                                                        'proximity1' => 'Yakınlık',
-                                                                        'transportation1' => 'Ulaşım',
-                                                                        'facilities1' => 'Tesis Aktiviteleri',
-                                                                        'availableforLoan' => 'Krediye Uygun',
-                                                                        'images' => 'Galeri',
-                                                                        'usagePurpose1' => 'Kullanım Amacı',
-                                                                        'generalFeatures1' => 'Genel Özellikler',
-                                                                        'infrastructure1' => 'Altyapı',
-                                                                        'off_sale1' => 'Satışa Kapalı',
-                                                                    ];
-                                                                    $key = $turkceKarsilik[$key] ?? $key;
-                                                                @endphp
-
-                                                                @if (
-                                                                    $key != 'image' &&
-                                                                        $key != 'Galeri' &&
-                                                                        $key != 'İç Özellikler' &&
-                                                                        $key != 'Dış Özellikler' &&
-                                                                        $key != 'Muhit' &&
-                                                                        $key != 'Ulaşım' &&
-                                                                        $key != 'Engelliye Uygun' &&
-                                                                        $key != 'Konut Tipi' &&
-                                                                        $key != 'payment-plan1')
-                                                                    </tr>
-                                                                    <td>
-                                                                        @if ($key == 'Fiyat')
-                                                                            <span
-                                                                                class=" mr-1">{{ $key }}:</span>
-                                                                            <span class="det" style="color: black; ">
-                                                                                {{ number_format($val[0], 0, ',', '.') }} ₺
-                                                                            </span>
-                                                                        @else
-                                                                            <span
-                                                                                class=" mr-1">{{ $key }}:</span>
-                                                                            @if ($key == 'm² (Net)')
-                                                                                <span class="det">{{ $val[0] }}
-                                                                                    m2</span>
-                                                                            @elseif ($key == 'Özellikler')
-                                                                                <ul>
-                                                                                    @foreach ($val as $ozellik)
-                                                                                        <li>{{ $ozellik }}</li>
-                                                                                    @endforeach
-                                                                                </ul>
-                                                                            @else
-                                                                                <span
-                                                                                    class="det">{{ isset($val[0]) ? $val[0] : 'Hayır' }}</span>
-                                                                            @endif
-                                                                        @endif
-                                                                    </td>
-                                                                    </tr>
-                                                                @endif
-                                                            @endforeach
-
-                                                        </tbody>
-                                                    </table>
-
-
+                                        <div class="single homes-content">
+                                            <!-- title -->
+                                            <h5 class="mb-4">Özellikler</h5>
+                                            <table class="table table-bordered">
+                                                <tbody class="trStyle">
+                                                    <tr>
+                                                        <td>
+                                                            <span class="mr-1">İlan No:</span>
+                                                            <span class="det" style="color: black;">
+                                                                {{ $housing->id + 2000000 }}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
 
                                                     @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
+                                                    
+                                                    
                                                         @php
                                                             $turkceKarsilik = [
                                                                 'price' => 'Fiyat',
@@ -823,8 +278,6 @@
                                                                 'deposit' => 'Depozito',
                                                                 'end_time' => 'Çıkış Saati',
                                                                 'start_time' => 'Giriş Saati',
-                                                                'numberofbathrooms' => 'Banyo Sayısı',
-                                                                'usingstatus' => 'Kullanım Durumu',
                                                                 'ulasim1' => 'Ulaşım',
                                                                 'muhit1' => 'Muhit',
                                                                 'star_count' => 'Yıldız Sayısı',
@@ -840,22 +293,17 @@
                                                                 'konut_tipi1' => 'Konut Tipi',
                                                                 'manzara1' => 'Manzara',
                                                                 'engelliye_uygun1' => 'Engelliye Uygun',
-
+                                                                'numberofbathrooms' => 'Banyo Sayısı',
+                                                                'usingstatus' => 'Kullanım Durumu',
                                                                 'dues' => 'Aidat',
                                                                 'titledeedstatus' => 'Tapu Durumu',
                                                                 'external_features1' => 'Dış Özellikler',
                                                                 'swap' => 'Takas',
                                                                 'swap1' => 'Takas',
-                                                                'islandnumber' => 'Ada No',
-                                                                'parcelnumber' => 'Parsel No',
-                                                                'sheetnumber' => 'Pafta No',
-                                                                'floorprovision' => 'Kat Karşılığı',
-                                                                'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
                                                                 'internal_features1' => 'İç Özellikler',
                                                                 'floorlocation' => 'Kat Sayısı',
                                                                 'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
                                                                 'furnished1' => 'Eşyalı',
-                                                                'furnished' => 'Eşyalı',
                                                                 'buysellurgent1' => 'Acil Satılık',
                                                                 'structure' => 'Yapının Durumu',
                                                                 'bed_count' => 'Yatak Sayısı',
@@ -870,199 +318,302 @@
                                                                 'generalFeatures1' => 'Genel Özellikler',
                                                                 'infrastructure1' => 'Altyapı',
                                                             ];
-
                                                             $key = $turkceKarsilik[$key] ?? $key;
                                                         @endphp
 
+                                                        @if (
+                                                            $key != 'image' &&
+                                                                $key != 'Galeri' &&
+                                                                $key != 'İç Özellikler' &&
+                                                                $key != 'Dış Özellikler' &&
+                                                                $key != 'Muhit' &&
+                                                                $key != 'Ulaşım' &&
+                                                                $key != 'Engelliye Uygun' &&
+                                                                $key != 'Konut Tipi' &&
+                                                                $key != 'payment-plan1')
+                                                            </tr>
 
-                                                        @if (is_array($val))
-                                                            @if (count($val) > 1)
-                                                                @if ($key != 'Galeri')
-                                                                    <h5 class="mt-5">{{ $key }}</h5>
-                                                                    <ul class="homes-list clearfix">
-                                                                        @foreach ($val as $item)
-                                                                            <li><i class="fa fa-check-square"
-                                                                                    aria-hidden="true"></i><span>{{ $item }}</span>
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ul>
+                                                            <td>
+                                                                @if ($key == 'Fiyat')
+                                                                
+                                                                    <span
+                                                                        class=" mr-1">{{ $key }}:</span>
+                                                                    <span class="det"
+                                                                        style="color: black; ">
+                                                                        {{ number_format($val[0], 0, ',', '.') }}
+                                                                        ₺
+                                                                    </span>
+                                                                @else
+                                                                    <span
+                                                                        class=" mr-1">{{ $key }}:</span>
+                                                                    @if ($key == 'm² (Net)')
+                                                                        <span
+                                                                            class="det">{{ $val[0] }}
+                                                                            m2</span>
+                                                                    @elseif ($key == 'Özellikler')
+                                                                        <ul>
+                                                                            @foreach ($val as $ozellik)
+                                                                                <li>{{ $ozellik }}</li>
+                                                                            @endforeach
+                                                                        </ul>
+                                                                    @else
+                                                                        <span
+                                                                            class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
+                                                                    @endif
                                                                 @endif
-                                                            @endif
+                                                            </td>
+                                                            </tr>
                                                         @endif
                                                     @endforeach
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade  blog-info details" id="contact" role="tabpanel"
-                                            aria-labelledby="contact-tab">
-                                            <h5 class="mt-4">Yorumlar</h5>
-                                            @if (count($housingComments))
-                                                <div class="flex flex-col gap-6">
-                                                    @foreach ($housingComments as $comment)
-                                                        <div class="bg-white border rounded-md pb-3 mb-3"
-                                                            style="border-bottom: 1px solid #E6E6E6 !important; ">
-                                                            <div class="head d-flex w-full">
-                                                                <div>
-                                                                    <div class="">
-                                                                        {{ $comment->user->name }}</div>
-                                                                    <i class="small">{{ $comment->created_at }}</i>
-                                                                </div>
-                                                                <div class="ml-auto order-2">
-                                                                    @for ($i = 0; $i < $comment->rate; ++$i)
-                                                                        <svg enable-background="new 0 0 50 50"
-                                                                            height="24px" id="Layer_1" version="1.1"
-                                                                            viewBox="0 0 50 50" width="24px"
-                                                                            xml:space="preserve"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                            <rect fill="none" height="50"
-                                                                                width="50" />
-                                                                            <polygon fill="gold"
-                                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                                stroke="gold" stroke-miterlimit="10"
-                                                                                stroke-width="2" />
-                                                                        </svg>
-                                                                    @endfor
-                                                                    @for ($i = 0; $i < 5 - $comment->rate; ++$i)
-                                                                        <svg enable-background="new 0 0 50 50"
-                                                                            height="24px" id="Layer_1" version="1.1"
-                                                                            viewBox="0 0 50 50" width="24px"
-                                                                            xml:space="preserve"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                            <rect fill="none" height="50"
-                                                                                width="50" />
-                                                                            <polygon fill="none"
-                                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                                stroke="gold" stroke-miterlimit="10"
-                                                                                stroke-width="2" />
-                                                                        </svg>
-                                                                    @endfor
-                                                                </div>
-                                                            </div>
-                                                            <div class="body py-3">
-                                                                {{ $comment->comment }}
-                                                            </div>
-                                                            <div class="row mt-3">
-                                                                @foreach (json_decode($comment->images, true) as $img)
-                                                                    <div class="col-md-2 col-3 mb-3">
-                                                                        <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                                            data-lightbox="gallery">
-                                                                            <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                                                style="object-fit: cover;width:100%" />
-                                                                        </a>
-                                                                    </div>
+                                                </tbody>
+                                            </table>
+
+
+
+                                            @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
+                                                @php
+                                                    $turkceKarsilik = [
+                                                        'price' => 'Fiyat',
+                                                        'numberoffloors' => 'Bulunduğu Kat',
+                                                        'squaremeters' => 'm² (Net)',
+                                                        'room_count' => 'Oda Sayısı',
+                                                        'front1' => 'Cephe',
+                                                        'm2gross' => 'm² (Brüt)',
+                                                        'buildingage' => 'Bina Yaşı',
+                                                        'heating' => 'Isıtma',
+                                                        'balcony' => 'Balkon',
+                                                        'daily_rent' => 'Günlük Fiyat',
+                                                        'max_user' => 'Kişi Sayısı',
+                                                        'deposit' => 'Depozito',
+                                                        'end_time' => 'Çıkış Saati',
+                                                        'start_time' => 'Giriş Saati',
+                                                        'ulasim1' => 'Ulaşım',
+                                                        'muhit1' => 'Muhit',
+                                                        'star_count' => 'Yıldız Sayısı',
+                                                        'kitchen_settings1' => 'Mutfak Özellikleri',
+                                                        'room_settings1' => 'Oda Özellikleri',
+                                                        'room_types1' => 'Oda Çeşitleri',
+                                                        'facility_settings1' => 'Tesis Özellikleri',
+                                                        'bath_settings1' => 'Banyo Özellikleri',
+                                                        'use_withs1' => 'Ortak Kullanım',
+                                                        'views1' => 'Manzara',
+                                                        'infrastructures1' => 'Altyapılar',
+                                                        'activities1' => 'Aktiviteler',
+                                                        'konut_tipi1' => 'Konut Tipi',
+                                                        'manzara1' => 'Manzara',
+                                                        'engelliye_uygun1' => 'Engelliye Uygun',
+                                                        'numberofbathrooms' => 'Banyo Sayısı',
+                                                        'usingstatus' => 'Kullanım Durumu',
+                                                        'dues' => 'Aidat',
+                                                        'titledeedstatus' => 'Tapu Durumu',
+                                                        'external_features1' => 'Dış Özellikler',
+                                                        'swap' => 'Takas',
+                                                        'swap1' => 'Takas',
+                                                        'islandnumber' => 'Ada No',
+                                                        'parcelnumber' => 'Parsel No',
+                                                        'sheetnumber' => 'Pafta No',
+                                                        'floorprovision' => 'Kat Karşılığı',
+                                                        'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
+                                                        'internal_features1' => 'İç Özellikler',
+                                                        'floorlocation' => 'Kat Sayısı',
+                                                        'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
+                                                        'furnished1' => 'Eşyalı',
+                                                        'furnished' => 'Eşyalı',
+                                                        'buysellurgent1' => 'Acil Satılık',
+                                                        'structure' => 'Yapının Durumu',
+                                                        'bed_count' => 'Yatak Sayısı',
+                                                        'food_drink1' => 'Yeme İçme',
+                                                        'meeting1' => 'Toplantı & Kongre',
+                                                        'proximity1' => 'Yakınlık',
+                                                        'transportation1' => 'Ulaşım',
+                                                        'facilities1' => 'Tesis Aktiviteleri',
+                                                        'availableforLoan' => 'Krediye Uygun',
+                                                        'images' => 'Galeri',
+                                                        'usagePurpose1' => 'Kullanım Amacı',
+                                                        'generalFeatures1' => 'Genel Özellikler',
+                                                        'infrastructure1' => 'Altyapı',
+                                                    ];
+
+                                                    $key = $turkceKarsilik[$key] ?? $key;
+                                                @endphp
+
+
+                                                @if (is_array($val))
+                                                    @if (count($val) > 1)
+                                                        @if ($key != 'Galeri')
+                                                            <h5 class="mt-5">{{ $key }}</h5>
+                                                            <ul class="homes-list clearfix">
+                                                                @foreach ($val as $item)
+                                                                    <li><i class="fa fa-check-square"
+                                                                            aria-hidden="true"></i><span>{{ $item }}</span>
+                                                                    </li>
                                                                 @endforeach
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            @else
-                                                <span class="mb-3">Bu konut için henüz yorum yapılmadı.</span>
-                                            @endif
-
-                                            <form id="commentForm"
-                                                action="{{ route('housing.send-comment', ['id' => $id]) }}"
-                                                method="POST" enctype="multipart/form-data" class="mt-5">
-
-                                                @csrf
-                                                <input type="hidden" name="rate" id="rate" />
-                                                <h5>Yeni Yorum Ekle</h5>
-                                                @if ($errors->any())
-                                                    <div class="alert alert-danger text-white">
-                                                        @foreach ($errors->all() as $error)
-                                                            <li>{{ $error }}</li>
-                                                        @endforeach
-                                                    </div>
+                                                            </ul>
+                                                        @endif
+                                                    @endif
                                                 @endif
-                                                <div class="d-flex align-items-center w-full" style="gap: 6px;">
-                                                    <div class="d-flex rating-area">
-                                                        <svg class="rating" enable-background="new 0 0 50 50"
-                                                            height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                            <rect fill="none" height="50" width="50" />
-                                                            <polygon fill="none"
-                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                stroke="#000000" stroke-miterlimit="10"
-                                                                stroke-width="2" />
-                                                        </svg>
-                                                        <svg class="rating" enable-background="new 0 0 50 50"
-                                                            height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                            <rect fill="none" height="50" width="50" />
-                                                            <polygon fill="none"
-                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                stroke="#000000" stroke-miterlimit="10"
-                                                                stroke-width="2" />
-                                                        </svg>
-                                                        <svg class="rating" enable-background="new 0 0 50 50"
-                                                            height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                            <rect fill="none" height="50" width="50" />
-                                                            <polygon fill="none"
-                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                stroke="#000000" stroke-miterlimit="10"
-                                                                stroke-width="2" />
-                                                        </svg>
-                                                        <svg class="rating" enable-background="new 0 0 50 50"
-                                                            height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                            <rect fill="none" height="50" width="50" />
-                                                            <polygon fill="none"
-                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                stroke="#000000" stroke-miterlimit="10"
-                                                                stroke-width="2" />
-                                                        </svg>
-                                                        <svg class="rating" enable-background="new 0 0 50 50"
-                                                            height="24px" id="Layer_1" version="1.1"
-                                                            viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                            <rect fill="none" height="50" width="50" />
-                                                            <polygon fill="none"
-                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                stroke="#000000" stroke-miterlimit="10"
-                                                                stroke-width="2" />
-                                                        </svg>
-                                                    </div>
-                                                    <div class="ml-auto">
-                                                        <div class="add-review-photos margin-bottom-30">
-                                                            <div class="photoUpload">
-                                                                <span><i class="sl sl-icon-arrow-up-circle"></i>Fotoğraf
-                                                                    Yükle</span>
-                                                                <input type="file" class="upload" name="images[]"
-                                                                    multiple accept="image/*">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..."></textarea>
-
-                                                <button type="button" onclick="submitForm()"
-                                                    class="ud-btn btn-white2 mt-3">Yorumu Gönder<i
-                                                        class="fal fa-arrow-right-long"></i></button>
-                                            </form>
-
-                                        </div>
-                                        <div class="tab-pane fade  blog-info details" id="map" role="tabpanel"
-                                            aria-labelledby="contact-tab">
-                                            <div class="similar-property featured portfolio p-0 bg-white">
-
-                                                <div id="map"></div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
-                                @endif
-                            @endif
+                                </div>
+                                <div class="tab-pane fade  blog-info details" id="contact" role="tabpanel"
+                                    aria-labelledby="contact-tab">
+                                    <h5 class="mt-4">Yorumlar</h5>
+                                    @if (count($housingComments))
+                                        <div class="flex flex-col gap-6">
+                                            @foreach ($housingComments as $comment)
+                                                <div class="bg-white border rounded-md pb-3 mb-3"
+                                                    style="border-bottom: 1px solid #E6E6E6 !important; ">
+                                                    <div class="head d-flex w-full">
+                                                        <div>
+                                                            <div class="">
+                                                                {{ $comment->user->name }}</div>
+                                                            <i
+                                                                class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
+                                                        </div>
+                                                        <div class="ml-auto order-2">
+                                                            @for ($i = 0; $i < $comment->rate; ++$i)
+                                                                <svg enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1"
+                                                                    version="1.1" viewBox="0 0 50 50"
+                                                                    width="24px" xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50"
+                                                                        width="50" />
+                                                                    <polygon fill="gold"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="gold" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                            @endfor
+                                                            @for ($i = 0; $i < 5 - $comment->rate; ++$i)
+                                                                <svg enable-background="new 0 0 50 50"
+                                                                    height="24px" id="Layer_1"
+                                                                    version="1.1" viewBox="0 0 50 50"
+                                                                    width="24px" xml:space="preserve"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <rect fill="none" height="50"
+                                                                        width="50" />
+                                                                    <polygon fill="none"
+                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                        stroke="gold" stroke-miterlimit="10"
+                                                                        stroke-width="2" />
+                                                                </svg>
+                                                            @endfor
+                                                        </div>
+                                                    </div>
+                                                    <div class="body py-3">
+                                                        {{ $comment->comment }}
+                                                    </div>
+                                                    <div class="row mt-3">
+                                                        @foreach (json_decode($comment->images, true) as $img)
+                                                            <div class="col-md-2 col-3 mb-3">
+                                                                <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                                    data-lightbox="gallery">
+                                                                    <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                                        style="object-fit: cover;width:100%" />
+                                                                </a>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <span class="mb-3">Bu konut için henüz yorum yapılmadı.</span>
+                                    @endif
+
+                                    <form action="{{ route('housing.send-comment', ['id' => $id]) }}"
+                                        method="POST" enctype="multipart/form-data" class="mt-5">
+                                        @csrf
+                                        <input type="hidden" name="rate" id="rate" />
+                                        <h5>Yeni Yorum Ekle</h5>
+
+                                        <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                            <div class="d-flex rating-area">
+                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                    height="24px" id="Layer_1" version="1.1"
+                                                    viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#dadada" stroke-miterlimit="10"
+                                                        stroke-width="2" />
+                                                </svg>
+                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                    height="24px" id="Layer_1" version="1.1"
+                                                    viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#000000" stroke-miterlimit="10"
+                                                        stroke-width="2" />
+                                                </svg>
+                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                    height="24px" id="Layer_1" version="1.1"
+                                                    viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#000000" stroke-miterlimit="10"
+                                                        stroke-width="2" />
+                                                </svg>
+                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                    height="24px" id="Layer_1" version="1.1"
+                                                    viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#000000" stroke-miterlimit="10"
+                                                        stroke-width="2" />
+                                                </svg>
+                                                <svg class="rating" enable-background="new 0 0 50 50"
+                                                    height="24px" id="Layer_1" version="1.1"
+                                                    viewBox="0 0 50 50" width="24px" xml:space="preserve"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <rect fill="none" height="50" width="50" />
+                                                    <polygon fill="none"
+                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                        stroke="#000000" stroke-miterlimit="10"
+                                                        stroke-width="2" />
+                                                </svg>
+                                            </div>
+                                            <div class="ml-auto">
+                                                <input type="hidden" style="visibility: hidden;"
+                                                    class="fileinput" name="images[]" multiple
+                                                    accept="image/*" />
+                                                <button type="button" class="btn btn-primary q-button "
+                                                    onClick="jQuery('.fileinput').trigger('click');">Resimleri
+                                                    Seç</button>
+                                            </div>
+                                        </div>
+                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..."></textarea>
+                                        <button type="submit" class="ud-btn btn-white2 mt-3">Yorumu Gönder<i
+                                                class="fal fa-arrow-right-long"></i></button>
+
+                                    </form>
+
+                                </div>
+                                <div class="tab-pane fade  blog-info details" id="map" role="tabpanel"
+                                    aria-labelledby="contact-tab">
+                                    <div class="similar-property featured portfolio p-0 bg-white">
+
+                                        <div id="map"></div>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
@@ -1100,19 +651,19 @@
                                                     </button>
                                                     <button class="twitter-button button"
                                                         style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
-    
+
                                                         <a
-                                                        href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
-                                                            stroke="currentColor" stroke-width="2" fill="none"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
-                                                            <path
-                                                                d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                                            </path>
-                                                        </svg></a>
+                                                            href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
+                                                            <svg viewBox="0 0 24 24" width="18" height="18"
+                                                                stroke="currentColor" stroke-width="2" fill="none"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="css-i6dzq1">
+                                                                <path
+                                                                    d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
+                                                                </path>
+                                                            </svg></a>
                                                     </button>
-    
+
                                                     <button class="reddit-button button"
                                                         style="transition-delay: 0.2s, 0s, 0.2s; transition-property: translate, background, box-shadow;">
                                                         <a href="whatsapp://send?text={{ $shareUrl }}">
@@ -1123,12 +674,12 @@
                                                                 </path>
                                                             </svg>
                                                         </a>
-    
+
                                                     </button>
                                                     <button class="messenger-button button"
                                                         style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
                                                         <a href="https://telegram.me/share/url?url={{ $shareUrl }}">
-                                                            <svg viewBox="0 0 24 24" width="24" height="24"
+                                                            <svg viewBox="0 0 24 24" width="18" height="18"
                                                                 stroke="currentColor" stroke-width="2" fill="none"
                                                                 stroke-linecap="round" stroke-linejoin="round"
                                                                 class="css-i6dzq1">
@@ -1205,7 +756,7 @@
                                 <div class="schedule widget-boxed mt-33 mt-0">
 
 
-                                    <div class="row buttonDetail">
+                                    <div class="row buttonDetail" style="align-items: center">
                                         <div class="col-md-2 col-2">
                                             <div class="button-effect toggle-favorite"
                                                 data-housing-id={{ $housing->id }}>
@@ -1226,15 +777,15 @@
                                                     style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
 
                                                     <a
-                                                    href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                                    <svg viewBox="0 0 24 24" width="24" height="24"
-                                                        stroke="currentColor" stroke-width="2" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                        class="css-i6dzq1">
-                                                        <path
-                                                            d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                                        </path>
-                                                    </svg></a>
+                                                        href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
+                                                        <svg viewBox="0 0 24 24" width="18" height="18"
+                                                            stroke="currentColor" stroke-width="2" fill="none"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="css-i6dzq1">
+                                                            <path
+                                                                d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
+                                                            </path>
+                                                        </svg></a>
                                                 </button>
 
                                                 <button class="reddit-button button"
@@ -1252,7 +803,7 @@
                                                 <button class="messenger-button button"
                                                     style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
                                                     <a href="https://telegram.me/share/url?url={{ $shareUrl }}">
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
+                                                        <svg viewBox="0 0 24 24" width="18" height="18"
                                                             stroke="currentColor" stroke-width="2" fill="none"
                                                             stroke-linecap="round" stroke-linejoin="round"
                                                             class="css-i6dzq1">
@@ -1265,7 +816,7 @@
                                         </div>
                                         <div class="col-md-8 col-8">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                <button class="btn second-btn CartBtn" disabled
+                                                <button class="btn second-btn "
                                                     style="background: #EA2B2E !important;width:100%;color:White;height:100% !important">
 
                                                     <span class="text">Satıldı</span>
@@ -1284,8 +835,7 @@
                                                         }
                                                     @endphp
 
-                                                    <button class="btn second-btn soldBtn" disabled
-                                                        style="{{ $buttonStyle }}">
+                                                    <button class="btn second-btn " style="{{ $buttonStyle }}">
                                                         <span class="text">{{ $buttonText }}</span>
                                                     </button>
                                                 @else
@@ -1395,20 +945,6 @@
 
                             </div>
                         </div>
-                        {{-- <div class="widget-boxed popular mt-5">
-                            <div class="widget-boxed-header">
-                                <h4>Mağazanın Diğer Konutları</h4>
-                            </div>
-                            <div class="widget-boxed-body">
-                                <div class="recent-post">
-                                    <div class="tags">
-                                        @foreach ($housing->user->housings->take(5) as $item)
-                                        <span><a href="{{ route('housing.show', $item->id) }}" class="btn btn-outline-primary">{{ $item->title }}</a></span>
-                                    @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                         @if (count($housing->user->banners) > 0)
                             <div class="widget-boxed popular mt-5">
                                 <div class="widget-boxed-header">
@@ -1536,9 +1072,7 @@
 
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-
+  
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZwT" crossorigin="anonymous">
@@ -1553,6 +1087,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
     <script>
         if (window.innerWidth <= 768) {
@@ -1565,6 +1101,27 @@
 
         function redirectToPage() {
             window.location.href = "/giris-yap";
+        }
+
+        function initMap() {
+            // İlk harita görüntüsü
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: {{ $housing->latitude }},
+                    lng: {{ $housing->longitude }}
+                },
+                zoom: 8
+            });
+
+            // Harita üzerinde bir konum gösterme
+            var marker = new google.maps.Marker({
+                position: {
+                    lat: {{ $housing->latitude }},
+                    lng: {{ $housing->longitude }}
+                },
+                map: map,
+                title: 'Default Location'
+            });
         }
 
         function submitForm() {
@@ -1635,26 +1192,7 @@
             $('#rate').val($(this).index() + 1);
         });
 
-        function initMap() {
-            // İlk harita görüntüsü
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {
-                    lat: {{ $housing->latitude }},
-                    lng: {{ $housing->longitude }}
-                },
-                zoom: 8
-            });
-
-            // Harita üzerinde bir konum gösterme
-            var marker = new google.maps.Marker({
-                position: {
-                    lat: {{ $housing->latitude }},
-                    lng: {{ $housing->longitude }}
-                },
-                map: map,
-                title: 'Default Location'
-            });
-        }
+      
 
         function showLocation() {
             var location = document.getElementById('locationInput').value;
@@ -2116,7 +1654,6 @@
 
 @section('styles')
     <style>
-   
         .trStyle,
         .trStyle tr {
             display: flex;
