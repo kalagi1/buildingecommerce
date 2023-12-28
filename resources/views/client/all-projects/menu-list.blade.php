@@ -325,6 +325,17 @@
 
                             </div>
 
+                            <button type="button" class="btn bg-white btn-lg btn-block mt-md-2 mb-4e btn-transition"
+                                style="    border: 1px solid #CCC;
+                            font-size: 12px;
+                            position: fixed;
+                            bottom: 10px;
+                            width: 255px;
+                            background: #EA2B2E !important;
+                            color: white;
+                            z-index:9999"
+                                id="submit-filters">Filtrele</button>
+
                             <button type="button"
                                 class="d-md-none d-lg-none btn bg-white btn-lg btn-block mt-md-2 mb-4e btn-transition"
                                 style="border: 1px solid #CCC;" id="clear-filters">Temizle</button>
@@ -477,6 +488,19 @@
         let last_page;
         let current_page = 1;
         let bathroom_count;
+
+        var button = document.getElementById('submit-filters');
+
+
+        window.addEventListener('scroll', function() {
+            var scrollPosition = window.scrollY;
+
+            if (scrollPosition > 200) { 
+                button.classList.add('scroll-up');
+            } else {
+                button.classList.remove('scroll-up');
+            }
+        });
 
         function numberFormat(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -744,35 +768,35 @@ ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='wid
                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
                                                                     `<button
-                                                                                                    class="btn second-btn CartBtn" disabled
-                                                                                                    style="background: #EA2B2E !important;width:100%;color:White">Satıldı
-                                                                                                </button>`
+                                                                                                        class="btn second-btn CartBtn" disabled
+                                                                                                        style="background: #EA2B2E !important;width:100%;color:White">Satıldı
+                                                                                                    </button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
                                                                         `<button
-                                                                                                        class="btn second-btn CartBtn" disabled
-                                                                                                        style="background: orange !important;width:100%;color:White">Onay Bekleniyor
-                                                                                                    </button>`
+                                                                                                            class="btn second-btn CartBtn" disabled
+                                                                                                            style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                                                        </button>`
                                                                         :
                                                                         res.action === 'sold' ?
                                                                             `<button
-                                                                                                            class="btn second-btn CartBtn" disabled
-                                                                                                            style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                        </button>`
+                                                                                                                class="btn second-btn CartBtn" disabled
+                                                                                                                style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                            </button>`
                                                                             :
                                                                 `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                data-id='${res.id}'>
+                                                                                                    data-id='${res.id}'>
+                                                                                                    <span class="IconContainer">
+                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                    </span>
+                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                </button>` :
+                                                            `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
                                                                                                 <span class="IconContainer">
                                                                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                                                                 </span>
-                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                            </button>` :
-                                                            `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
-                                                                                            <span class="IconContainer">
-                                                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                                                            </span>
-                                                                                            <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                                                        </button>`
+                                                                                                <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                            </button>`
                                                             }
                                                         </ul>
                                                     </div>
@@ -820,36 +844,36 @@ ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='wid
                                                                         ${res.step2_slug !== "gunluk-kiralik" ?
                                                     res.offSale ?
                                                         `  <button class="btn second-btn CartBtn mobileCBtn" disabled
-                                                            style="background: #EA2B2E !important;width:100%;color:White">
+                                                                style="background: #EA2B2E !important;width:100%;color:White">
 
-                                                            <span class="text">Satıldı</span>
-                                                        </button>`
+                                                                <span class="text">Satıldı</span>
+                                                            </button>`
                                                         :
                                                         res.action === 'payment_await' ?
                                                             `<button
-                                                                                            class="btn mobileCBtn second-btn CartBtn" disabled
-                                                                                            style="background: orange !important;width:100%;color:White">Onay Bekleniyor
-                                                                                        </button>`
+                                                                                                class="btn mobileCBtn second-btn CartBtn" disabled
+                                                                                                style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                                            </button>`
                                                             :
                                                             res.action === 'sold' ?
                                                                 `<button
-                                                                                                class="btn mobileCBtn second-btn CartBtn" disabled
-                                                                                                style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                            </button>`
+                                                                                                    class="btn mobileCBtn second-btn CartBtn" disabled
+                                                                                                    style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                </button>`
                                                                 :
                                                                 `<button class="CartBtn mobileCBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                data-id='${res.id}'>
-                                                                                                <span class="IconContainer">
-                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                </span>
-                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                            </button>` :
-                                                                    `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileCBtn CartBtn">
+                                                                                                    data-id='${res.id}'>
                                                                                                     <span class="IconContainer">
                                                                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                                                                     </span>
-                                                                                                    <span class="text">Rezervasyon Yap</span>
-                                                                                                </button>`
+                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                </button>` :
+                                                                    `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileCBtn CartBtn">
+                                                                                                        <span class="IconContainer">
+                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                        </span>
+                                                                                                        <span class="text">Rezervasyon Yap</span>
+                                                                                                    </button>`
                                                                 }
                                                                     </div>
                                                                     <span class="ml-auto text-primary priceFont">
@@ -993,7 +1017,8 @@ ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='wid
             }
 
             $('#sort-select').on('change', filterNow);
-
+            $("#submit-filters").on("change", filterNow);
+            
             $('#clear-filters').on('click', function() {
                 $('#city').val('#');
                 $('#county').val('#');
@@ -1051,6 +1076,7 @@ ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='wid
             $('.bathroom-count-item').on('click', filterNow);
         });
 
+
         checkFavorites();
 
         function checkFavorites() {
@@ -1100,6 +1126,23 @@ ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='wid
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        #submit-filters {
+            border: 1px solid #CCC;
+            font-size: 12px;
+            position: fixed;
+            bottom: 10px;
+            width: 255px;
+            background: #EA2B2E !important;
+            color: white;
+            z-index: 9999;
+            transition: position 0.3s ease;
+            /* Animasyon eklemek için geçiş efekti */
+        }
+
+        #submit-filters.scroll-up {
+            position: inherit !important;
+        }
+
         .projectMobileMargin {
             margin-top: 20px;
         }
