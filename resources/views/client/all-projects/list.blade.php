@@ -716,7 +716,7 @@
                         });
                     } else {
                         $('.pp-row').html(`
-                        <div class="col-12 text-center my-4 font-weight-bold p-3">Sonuç bulunamadı.</div>
+                        <div class="col-12 text-center my-4  p-3">Sonuç bulunamadı.</div>
                         `);
                     }
                 }

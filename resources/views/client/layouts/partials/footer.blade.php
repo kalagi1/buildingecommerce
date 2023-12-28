@@ -1180,7 +1180,7 @@
 
         function showSearchingMessage() {
             $('.header-search-box').empty().append(
-                '<div class="font-weight-bold p-2 small" style="background-color: #EEE;">Aranıyor...</div>');
+                '<div class=" p-2 small" style="background-color: #EEE;">Aranıyor...</div>');
         }
 
         function hideSearchingMessage() {
@@ -1208,7 +1208,7 @@
                         if (data.housings.length > 0) {
                             hasResults = true;
                             $('.header-search-box').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
+                                <div class=" p-2 small" style="background-color: #EEE;">Konutlar</div>
                             `);
                             console.log(data.housings);
                             data.housings.forEach((e) => {
@@ -1216,7 +1216,7 @@
                                     `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
 
                                 $('.header-search-box').append(`
-    <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+    <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
         <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
         <span>${e.name}</span>
     </a>
@@ -1229,7 +1229,7 @@
                         if (data.projects.length > 0) {
                             hasResults = true;
                             $('.header-search-box').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">PROJELER</div>
+                                <div class=" p-2 small" style="background-color: #EEE;">Projeler</div>
                             `);
                             console.log(data.projects);
                             data.projects.forEach((e) => {
@@ -1237,7 +1237,7 @@
                                     `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
 
                                 $('.header-search-box').append(`
-                                    <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                    <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
                                         <span>${e.name}</span>
                                     </a>
                                 `);
@@ -1248,14 +1248,14 @@
                         if (data.merchants.length > 0) {
                             hasResults = true;
                             $('.header-search-box').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">MAĞAZALAR</div>
+                                <div class=" p-2 small" style="background-color: #EEE;">Mağazalar</div>
                             `);
                             data.merchants.forEach((e) => {
                                 const imageUrl =
                                     `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
 
                                 $('.header-search-box').append(`
-                                    <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                    <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
                                         <span>${e.name}</span>
                                     </a>
                                 `);
@@ -1265,7 +1265,7 @@
                         // Veri yoksa veya herhangi bir sonuç yoksa "Sonuç Bulunamadı" mesajını görüntüle
                         if (!hasResults) {
                             $('.header-search-box').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç bulunamadı</div>
+                                <div class=" p-2 small" style="background-color: white; text-align: center;">Sonuç bulunamadı</div>
                             `);
                         } else {
                             hideSearchingMessage
@@ -1318,7 +1318,7 @@
 
         function showSearchingMessage() {
             $('.header-search-box-mobile').empty().append(
-                '<div class="font-weight-bold p-2 small" style="background-color: #EEE;">Aranıyor...</div>');
+                '<div class=" p-2 small" style="background-color: #EEE;">Aranıyor...</div>');
         }
 
         function hideSearchingMessage() {
@@ -1346,7 +1346,7 @@
                         if (data.housings.length > 0) {
                             hasResults = true;
                             $('.header-search-box-mobile').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
+                                <div class=" p-2 small" style="background-color: #EEE;">KONUTLAR</div>
                             `);
                             console.log(data.housings);
                             data.housings.forEach((e) => {
@@ -1354,7 +1354,7 @@
                                     `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
 
                                 $('.header-search-box-mobile').append(`
-    <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+    <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
         <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
         <span>${e.name}</span>
     </a>
@@ -1367,7 +1367,7 @@
                         if (data.projects.length > 0) {
                             hasResults = true;
                             $('.header-search-box-mobile').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">PROJELER</div>
+                                <div class=" p-2 small" style="background-color: #EEE;">PROJELER</div>
                             `);
                             console.log(data.projects);
                             data.projects.forEach((e) => {
@@ -1375,7 +1375,7 @@
                                     `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
 
                                 $('.header-search-box-mobile').append(`
-                                    <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                    <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
                                         <span>${e.name}</span>
                                     </a>
                                 `);
@@ -1386,14 +1386,14 @@
                         if (data.merchants.length > 0) {
                             hasResults = true;
                             $('.header-search-box-mobile').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">MAĞAZALAR</div>
+                                <div class=" p-2 small" style="background-color: #EEE;">MAĞAZALAR</div>
                             `);
                             data.merchants.forEach((e) => {
                                 const imageUrl =
                                     `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
 
                                 $('.header-search-box-mobile').append(`
-                                    <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                    <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
                                         <span>${e.name}</span>
                                     </a>
                                 `);
@@ -1403,7 +1403,7 @@
                         // Veri yoksa veya herhangi bir sonuç yoksa "Sonuç Bulunamadı" mesajını görüntüle
                         if (!hasResults) {
                             $('.header-search-box-mobile').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç bulunamadı</div>
+                                <div class=" p-2 small" style="background-color: white; text-align: center;">Sonuç bulunamadı</div>
                             `);
                         } else {
                             hideSearchingMessage

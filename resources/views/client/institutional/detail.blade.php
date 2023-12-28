@@ -266,7 +266,7 @@
                                 </div>
                                 <div class="head d-flex w-full">
                                     <div>
-                                        <div class="font-weight-bold">{{ $comment->user->name }}</div>
+                                        <div class="">{{ $comment->user->name }}</div>
                                         <i class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
                                     </div>
                                 </div>
