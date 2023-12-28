@@ -20929,11 +20929,6 @@ select:focus {
     }
 }
 
-.header-search-box a,
-.header-search-box-mobile a {
-    padding-bottom: 15px !important;
-
-}
 
 
 @media screen and (max-width: 768px) {

@@ -562,7 +562,7 @@
                                                 parseFloat(
                                                     getDataJS(response, "advance[]",
                                                         response.room_info[i].room_order
-                                                        ))) /
+                                                    ))) /
                                             parseInt(installementData)))) + '₺';
                                     }
                                     html += "<tr>" +
@@ -1124,7 +1124,7 @@
                         }
                     },
                     error: function(error) {
-                           window.location.href = "/giris-yap";
+                        window.location.href = "/giris-yap";
                     }
                 });
             });
@@ -1215,12 +1215,15 @@
                                 const imageUrl =
                                     `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
 
+                                    const formattedName = e.name.charAt(0)
+                                .toUpperCase() + e.name.slice(1);
+
                                 $('.header-search-box').append(`
-    <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
-        <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
-        <span>${e.name}</span>
-    </a>
-`);
+                                    <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
+                                        <img src="${imageUrl}" width="48" height="48" class="rounded-sm"/>
+                                        <span>${formattedName}</span>
+                                    </a>
+                                `);
 
                             });
                         }
@@ -1229,20 +1232,25 @@
                         if (data.projects.length > 0) {
                             hasResults = true;
                             $('.header-search-box').append(`
-                                <div class=" p-2 small" style="background-color: #EEE;">Projeler</div>
-                            `);
+        <div class="p-2 small" style="background-color: #EEE;">Projeler</div>
+    `);
                             console.log(data.projects);
                             data.projects.forEach((e) => {
                                 const imageUrl =
                                     `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
 
+                                // Capitalize the first letter of the project name
+                                const formattedName = e.name.charAt(0)
+                                .toUpperCase() + e.name.slice(1);
+
                                 $('.header-search-box').append(`
-                                    <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
-                                        <span>${e.name}</span>
-                                    </a>
-                                `);
+            <a href="{{ route('project.detail', '') }}/${e.slug}" class="d-flex text-dark align-items-center px-3 py-1" style="gap: 8px;">
+                <span>${formattedName}</span>
+            </a>
+        `);
                             });
                         }
+
 
                         // Merchant search
                         if (data.merchants.length > 0) {
@@ -1254,9 +1262,12 @@
                                 const imageUrl =
                                     `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
 
+                                    const formattedName = e.name.charAt(0)
+                                .toUpperCase() + e.name.slice(1);
+
                                 $('.header-search-box').append(`
                                     <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
-                                        <span>${e.name}</span>
+                                        <span>${formattedName}</span>
                                     </a>
                                 `);
                             });
