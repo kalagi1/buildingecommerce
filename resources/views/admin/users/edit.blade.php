@@ -117,7 +117,7 @@
                                             @method('PUT')
                                             <button class="btn btn-phoenix-danger" style="float: right">
 
-                                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
                                                     stroke-width="2" fill="none" stroke-linecap="round"
                                                     stroke-linejoin="round" class="css-i6dzq1">
                                                     <circle cx="12" cy="12" r="10"></circle>
@@ -136,7 +136,7 @@
                                             @csrf
                                             @method('PUT')
                                             <button class="btn btn-phoenix-danger" style="float: right">
-                                                <svg viewBox="0 0 24 24" width="18" height="18"
+                                                <svg viewBox="0 0 24 24" width="24" height="24"
                                                     stroke="currentColor" stroke-width="2" fill="none"
                                                     stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                     <circle cx="12" cy="12" r="10"></circle>

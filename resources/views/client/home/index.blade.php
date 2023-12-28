@@ -563,7 +563,7 @@
                                         </div>
                                         <span class="ml-auto text-primary priceFont">
                                             @if ($discount_amount)
-                                                <svg viewBox="0 0 24 24" width="18" height="18"
+                                                <svg viewBox="0 0 24 24" width="24" height="24"
                                                     stroke="currentColor" stroke-width="2" fill="none"
                                                     stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                     <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>

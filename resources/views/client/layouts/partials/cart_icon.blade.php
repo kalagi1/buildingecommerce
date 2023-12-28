@@ -1,6 +1,6 @@
 <!-- partials/cart_icon.blade.php -->
 
-<svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"
     stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
     <circle cx="9" cy="21" r="1"></circle>
     <circle cx="20" cy="21" r="1"></circle>
