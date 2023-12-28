@@ -711,36 +711,52 @@ class HomeController extends Controller
         return response()->json(
             [
                 'project_housings' => [],
-                'housings' => Housing::select('housings.*')
-                    ->join('cities', 'cities.id', '=', 'housings.city_id')
-                    ->join('counties', 'counties.id', '=', 'housings.county_id')
-                    ->where('status', 1)
+                'housings' => Housing::with(['city', 'county'])
+                ->where('status', 1)
+                ->where(function ($query) use ($term) {
+                    $query->where('title', 'LIKE', "%{$term}%");
+                    $query->where('description', 'LIKE', "%{$term}%");
+                    $query->orWhereRaw('JSON_EXTRACT(housing_type_data, "$.room_count[0]") = ?', $term);
+                    $query->orWhereHas('city', function ($cityQuery) use ($term) {
+                        $cityQuery->where('title', 'LIKE', "%{$term}%");
+                    });
+                    $query->orWhereHas('county', function ($countyQuery) use ($term) {
+                        $countyQuery->where('title', 'LIKE', "%{$term}%");
+                    });
+                })
+                ->get() 
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'photo' => json_decode($item->housing_type_data)->image,
+                        'name' => $item->title,
+                    ];
+                }),
+            
+
+                    'projects' => Project::where('status', 1)
                     ->where(function ($query) use ($term) {
-                        $query->where('housings.title', 'LIKE', "%{$term}%");
-                        $query->orWhereRaw('JSON_EXTRACT(housings.housing_type_data, "$.room_count[0]") = ?', $term);
-                        $query->orWhere('cities.title', $term);
-                        $query->orWhere('counties.title', $term);
+                        $query->where('project_title', 'LIKE', "%{$term}%")
+                            ->orWhere('step1_slug', 'LIKE', "%{$term}%")
+                            ->orWhere('step2_slug', 'LIKE', "%{$term}%")
+                            ->orWhere('description', 'LIKE', "%{$term}%");
+                    })
+                    ->orWhereHas('city', function ($query) use ($term) {
+                        $query->where('title', 'LIKE', "%{$term}%");
+                    })
+                    ->orWhereHas('county', function ($query) use ($term) {
+                        $query->where('ilce_title', 'LIKE', "%{$term}%");
                     })
                     ->get()
                     ->map(function ($item) {
-                        $housingData = json_decode($item->housing_type_data);
                         return [
                             'id' => $item->id,
-                            'photo' => $housingData->image,
-                            'name' => $item->title,
+                            'photo' => $item->image,
+                            'name' => $item->project_title,
+                            'slug' => $item->slug,
                         ];
                     }),
-                'projects' => Project::where('project_title', 'LIKE', "%{$term}%")
-                    ->where('status', 1)
-                    ->get()->map(function ($item) {
-                    return [
-                        'id' => $item->id,
-                        'photo' => $item->image,
-                        'name' => $item->project_title,
-                        'slug' => $item->slug,
-
-                    ];
-                }),
+                
                 'merchants' => User::where('type', '2')->where('name', 'LIKE', "%{$term}%")->get()->map(function ($item) {
                     return [
                         'id' => $item->id,

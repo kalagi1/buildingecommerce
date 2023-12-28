@@ -18104,7 +18104,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 span {
-    font-size: 12px !important;
+    font-size: 11px !important;
 }
 
 .inner-pages .blog .homes-content .homes-list li:last-child {
@@ -20929,7 +20929,12 @@ select:focus {
     }
 }
 
-
+.header-search-box{
+    gap: 5px !important;
+}
+.small, small{
+    font-size: 11px;
+}
 
 @media screen and (max-width: 768px) {
     .nav-tabs {
