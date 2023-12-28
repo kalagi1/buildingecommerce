@@ -1214,10 +1214,11 @@
                             data.housings.forEach((e) => {
                                 const imageUrl =
                                     `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                                    const formattedName = e.name.charAt(0).toUpperCase() + e.name.slice(1);
 
                                 $('.header-search-box').append(`
     <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-        <span>${e.name}</span>
+        <span>${formattedName}</span>
     </a>
 `);
 
@@ -1234,10 +1235,11 @@
                             data.projects.forEach((e) => {
                                 const imageUrl =
                                     `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                                    const formattedName = e.name.charAt(0).toUpperCase() + e.name.slice(1);
 
                                 $('.header-search-box').append(`
                                     <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <span>${e.name}</span>
+                                        <span>${formattedName}</span>
                                     </a>
                                 `);
                             });
@@ -1252,10 +1254,11 @@
                             data.merchants.forEach((e) => {
                                 const imageUrl =
                                     `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                                    const formattedName = e.name.charAt(0).toUpperCase() + e.name.slice(1);
 
                                 $('.header-search-box').append(`
                                     <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <span>${e.name}</span>
+                                        <span>${formattedName}</span>
                                     </a>
                                 `);
                             });
@@ -1351,10 +1354,11 @@
                             data.housings.forEach((e) => {
                                 const imageUrl =
                                     `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                                    const formattedName = e.name.charAt(0).toUpperCase() + e.name.slice(1);
 
                                 $('.header-search-box-mobile').append(`
     <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-        <span>${e.name}</span>
+        <span>${formattedName}</span>
     </a>
 `);
 
@@ -1371,10 +1375,11 @@
                             data.projects.forEach((e) => {
                                 const imageUrl =
                                     `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                                    const formattedName = e.name.charAt(0).toUpperCase() + e.name.slice(1);
 
                                 $('.header-search-box-mobile').append(`
                                     <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <span>${e.name}</span>
+                                        <span>${formattedName}</span>
                                     </a>
                                 `);
                             });
@@ -1389,10 +1394,11 @@
                             data.merchants.forEach((e) => {
                                 const imageUrl =
                                     `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                                    const formattedName = e.name.charAt(0).toUpperCase() + e.name.slice(1);
 
                                 $('.header-search-box-mobile').append(`
                                     <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <span>${e.name}</span>
+                                        <span>${formattedName}</span>
                                     </a>
                                 `);
                             });
