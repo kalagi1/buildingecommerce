@@ -20,6 +20,7 @@ use App\Models\Filter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
 class HomeController extends Controller
@@ -767,6 +768,76 @@ class HomeController extends Controller
                 }),
             ]
         );
+    }
+
+    public function searchResults(Request $request)
+    {
+        $request->validate([
+            'searchTerm' => 'required|string',
+        ]);
+
+        $term = $request->input('searchTerm');
+
+        $results = [
+            'project_housings' => [],
+            'housings' => Housing::with(['city', 'county'])
+                ->where('status', 1)
+                ->where(function ($query) use ($term) {
+                    $query->where('title', 'LIKE', "%{$term}%");
+                    $query->orWhere('description', 'LIKE', "%{$term}%");
+                    $query->orWhereRaw('JSON_EXTRACT(housing_type_data, "$.room_count[0]") = ?', $term);
+                    $query->orWhereHas('city', function ($cityQuery) use ($term) {
+                        $cityQuery->where('title', 'LIKE', "%{$term}%");
+                    });
+                    $query->orWhereHas('county', function ($countyQuery) use ($term) {
+                        $countyQuery->where('title', 'LIKE', "%{$term}%");
+                    });
+                })
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'photo' => json_decode($item->housing_type_data)->image,
+                        'name' => $item->title,
+                    ];
+                }),
+
+            'projects' => Project::where('status', 1)
+                ->where(function ($query) use ($term) {
+                    $query->where('project_title', 'LIKE', "%{$term}%")
+                        ->orWhere('step1_slug', 'LIKE', "%{$term}%")
+                        ->orWhere('step2_slug', 'LIKE', "%{$term}%")
+                        ->orWhere('description', 'LIKE', "%{$term}%");
+                })
+                ->orWhereHas('city', function ($query) use ($term) {
+                    $query->where('title', 'LIKE', "%{$term}%");
+                })
+                ->orWhereHas('county', function ($query) use ($term) {
+                    $query->where('ilce_title', 'LIKE', "%{$term}%");
+                })
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'photo' => $item->image,
+                        'name' => $item->project_title,
+                        'slug' => $item->slug,
+                    ];
+                }),
+
+            'merchants' => User::where('type', '2')->where('name', 'LIKE', "%{$term}%")
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'photo' => $item->profile_image,
+                        'name' => $item->name,
+                        'slug' => Str::slug($item->name),
+                    ];
+                }),
+        ];
+
+        return view("client.search.result", compact('results','term'));
     }
 
 }

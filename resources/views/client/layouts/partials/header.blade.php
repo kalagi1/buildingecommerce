@@ -85,10 +85,14 @@
 
                         </div>
                         <div class="center position-relative">
-                            <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
-                                <input type="text" id="ss-box" placeholder="Ara ..">
-                                <i class="fa fa-search"></i>
-                            </div>
+                            <form action="{{ route('search.results') }}" method="POST" id="search-form">
+                                @csrf
+                                <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
+                                    <input type="text" name="searchTerm" id="ss-box" placeholder="Ara ..">
+                                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon"></button>
+                                </div>
+                            </form>
+                            
                             <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
                                 style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px;">
                             </div>
