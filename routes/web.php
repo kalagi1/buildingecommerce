@@ -321,7 +321,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     // Project Controller İzin Kontrolleri
     Route::middleware(['checkPermission:CreateProject'])->group(function () {
         Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.index');
+        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.index.store.old');
         Route::get('/{project_id}/logs', [ProjectController::class, 'logs'])->name('projects.logs');
         Route::get('/project/{projectId}', [ProjectController::class, 'detail'])->name('projects.detail');
         Route::post('/project/status_change/{projectId}', [ProjectController::class, 'setStatus'])->name('project.set.status');
@@ -496,7 +496,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         ->middleware('checkPermission:CreateSiteSetting'); // İzin kontrolü
 
     Route::post('/site-settings/delete', [SiteSettingController::class, 'destroy'])
-        ->name('site-settings.create')
+        ->name('site-settings.delete')
         ->middleware('checkPermission:DeleteSiteSetting'); // İzin kontrolü
 
     Route::get('/smtp/edit', [SmtpSettingController::class, 'edit'])->name('smtp.edit')->middleware('checkPermission:GetSmtpSettingById');
