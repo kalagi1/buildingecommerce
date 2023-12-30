@@ -10,8 +10,8 @@
                         <table class="table-responsive">
                             <thead class="mobile-hidden">
                                 <tr>
-                                    <th class="pl-2">Konut</th>
-                                    <th class="p-0"></th>
+                                    <th class="pl-2">Emlak</th>
+                                    <th class="p-0" style="width: 300px !important"></th>
                                     <th class="pl-2">Fiyat</th>
                                     <th>Kaldır</th>
                                 </tr>
@@ -19,54 +19,56 @@
                             <tbody>
                                 @if (!$cart || empty($cart['item']))
                                     <tr>
-                                        <td colspan="5">Sepette Ürün Bulunmuyor</td>
-
+                                        <td colspan="4">Sepette Ürün Bulunmuyor</td>
                                     </tr>
                                 @else
-                                    @php(
-                                    $discount_amount =
-                                        App\Models\Offer::where('type', 'housing')->where('housing_id', $cart['item']['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-                                )
+                                    @php
+                                        $offer = App\Models\Offer::where('type', 'housing')
+                                            ->where('housing_id', $cart['item']['id'])
+                                            ->where('start_date', '<=', now())
+                                            ->where('end_date', '>=', now())
+                                            ->first();
+                                        $discount_amount = $offer ? $offer->discount_amount : 0;
+                                    @endphp
+                        
                                     <tr>
                                         <td class="image myelist">
-                                            <a
-                                                href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => App\Models\Project::find($cart['item']['id'])->slug ?? '', 'id' =>$cart['item']['housing'] ]) }}"><img
-                                                    alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                                    class="img-fluid"></a>
+                                            <a href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug, 'id' => $cart['item']['housing']]) }}">
+                                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}" class="img-fluid">
+                                            </a>
                                         </td>
                                         <td>
                                             <div class="inner">
-                                                <a
-                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => App\Models\Project::find($cart['item']['id'])->slug ?? '' ,  'id' =>$cart['item']['housing']]) }}">
-                                                    <h2 style="font-weight: 600">{{ $cart['item']['title'] }}</h2>
-                                                    <figure><i class="lni-map-marker"></i> {{ $cart['item']['city'] }}
-                                                    </figure>
+                                                <a href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug, 'id' => $cart['item']['housing']]) }}">
+                                                    <h2 style="font-weight: 600;text-align: left !important">
+                                                        {{ $cart['type'] == 'housing' ?
+                                                         "İlan No: #" .  $cart['item']['id'] + 2000000 : 
+                                                         "İlan No: #" .  $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
+                                                         <br>
+                                                        
+                                                        {{ $cart['item']['title'] }}</h2>
                                                 </a>
                                             </div>
                                         </td>
                                         <td>
                                             <span style="color:#e54242; font-weight:600">
                                                 @if ($discount_amount)
-                                                    <svg viewBox="0 0 24 24" width="24" height="24"
-                                                        stroke="currentColor" stroke-width="2" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                     </svg>
                                                 @endif
-                                                {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 0, ',', '.') }}
-                                                ₺
+                                                {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 0, ',', '.') }} ₺
                                             </span>
                                         </td>
                                         <td class="actions">
-                                            <a href="#" class="remove-from-cart" style="float: left"><i
-                                                    class="far fa-trash-alt"></i></a>
+                                            <a href="#" class="remove-from-cart" style="float: left"><i class="far fa-trash-alt"></i></a>
                                         </td>
                                     </tr>
                                 @endif
-
                             </tbody>
                         </table>
+                        
                     </div>
                 </div>
                 <div class="col-md-4 mt-5">
@@ -78,30 +80,38 @@
                             <div class="booking-price-detail side-list no-border mb-3">
                                 @if (!$cart || empty($cart['item']))
                                     <ul>
-                                        <li>Ürün Fiyatı<strong class="pull-right">00.00
+                                        <li>Toplam Fiyat<strong class="pull-right">00.00
                                                 TL</strong></li>
                                     </ul>
                                 @else
                                     <ul>
-                                        <li>Ürün Fiyatı<strong
+                                        <li>Toplam Fiyat<strong
                                                 class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])), 0, ',', '.') }}
                                                 TL</strong></li>
-                                        <li>%1'i<strong
+                                        <li>Toplam Fiyatın %1 Kaporası :<strong
                                                 class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}
                                                 TL</strong></li>
                                     </ul>
                                 @endif
-                                <ul>
-                                    <li>
-                                        <button type="button" class="btn btn-primary btn-lg btn-block mb-3"
-                                           data-toggle="modal"
-                                            data-target="#paymentModal">
-                                            Satın Al
-                                        </button>
-                                     
-                                    </li>
-                                </ul>
                             </div>
+                            @if (!$cart || empty($cart['item']))
+                            <button type="button" class="btn btn-primary btn-lg btn-block"
+                                style="    height: 50px !important;
+                                font-size: 12px;
+                                margin: 0 auto;"
+                                onclick="window.location.href='{{ route('index') }}'">
+                                Alışverişe Devam Et
+                            </button>
+                        @else
+                            <button type="button" class="btn btn-primary btn-lg btn-block "
+                                data-toggle="modal" data-target="#paymentModal"
+                                style="    height: 50px !important;
+                                font-size: 12px;
+                                margin: 0 auto;">
+                               {{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}
+                               TL <br> KAPORA ÖDE
+                            </button>
+                        @endif
                         </div>
                     </div>
                 </div>
@@ -128,7 +138,8 @@
                                 </div>
 
                                 <div class="invoice-body">
-                                    <table class="table table-bordered d-none d-md-table"> <!-- Tabloyu sadece tablet ve daha büyük ekranlarda göster -->
+                                    <table class="table table-bordered d-none d-md-table">
+                                        <!-- Tabloyu sadece tablet ve daha büyük ekranlarda göster -->
                                         <thead>
                                             <tr>
                                                 <th>Ürün Görseli</th>
@@ -142,30 +153,31 @@
                                             <tr>
                                                 <td>
                                                     <a
-                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
-                                                        alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                                        style="width:100px"
-                                                        class="img-fluid"></a>
+                                                        href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
+                                                            alt="my-properties-3" src="{{ $cart['item']['image'] }}"
+                                                            style="width:100px" class="img-fluid"></a>
                                                 </td>
                                                 <td>{{ $cart['item']['title'] }}</td>
                                                 <td>1</td>
-                                                <td>{{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 0, ',', '.') }} ₺</td>
-                                                <td>{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }} ₺</td>
+                                                <td>{{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 0, ',', '.') }}
+                                                    ₺</td>
+                                                <td>{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}
+                                                    ₺</td>
                                             </tr>
                                         </tbody>
                                     </table>
-                        
+
                                     <!-- Mobilde sadece alt alta liste göster -->
                                     <div class="d-md-none">
                                         <ul class="list-group">
-                                         
-                                                <li class="list-group-item">
-                                                    <strong>Ürün Görseli:</strong> 
-                                                    <a
+
+                                            <li class="list-group-item">
+                                                <strong>Ürün Görseli:</strong>
+                                                <a
                                                     href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
                                                         alt="my-properties-3" src="{{ $cart['item']['image'] }}"
                                                         class="img-fluid"></a>
-                                                </li>
+                                            </li>
                                             <li class="list-group-item">
                                                 <strong>Ürün Adı:</strong> {{ $cart['item']['title'] }}
                                             </li>
@@ -173,10 +185,14 @@
                                                 <strong>Miktar:</strong> 1
                                             </li>
                                             <li class="list-group-item">
-                                                <strong>Fiyat:</strong> {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 0, ',', '.') }} ₺
+                                                <strong>Fiyat:</strong>
+                                                {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 0, ',', '.') }}
+                                                ₺
                                             </li>
                                             <li class="list-group-item">
-                                                <strong>Toplam:</strong> {{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }} ₺
+                                                <strong>Toplam:</strong>
+                                                {{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}
+                                                ₺
                                             </li>
                                         </ul>
                                     </div>
@@ -251,7 +267,12 @@
                 </div>
             </div>
         @endif
-
+        <div id="loadingOverlay" >
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        
 
     </section>
 @endsection
@@ -335,36 +356,41 @@
             });
         });
     </script>
-    <script>
-        // "Sil" düğmesine tıklanıldığında
-        $(".remove-from-cart").click(function() {
-            var productId = $(this).data('id');
-            var confirmation = confirm("Ürünü sepetten kaldırmak istiyor musunuz?");
+  <!-- HTML kısmı -->
 
-            if (confirmation) {
-                // Ürünü sepetten kaldırmak için Ajax isteği gönderme
-                $.ajax({
-                    url: "{{ route('client.remove.from.cart') }}", // Sepetten ürünü kaldırmak için uygun URL'yi belirtin
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        // İşlem başarılı olduğunda buraya gelir
-                        toastr.success("Ürün sepetten kaldırıldı");
-                        console.log("Ürün sepetten kaldırıldı: " + response);
-                        location.reload();
+<!-- JavaScript kısmı -->
+<script>
+   $(".remove-from-cart").click(function () {
+    var productId = $(this).data('id');
+    var confirmation = confirm("Ürünü sepetten kaldırmak istiyor musunuz?");
 
-                    },
-                    error: function(error) {
-                        // Hata durumunda buraya gelir
-                        toastr.error("Hata oluştu: " + error.responseText, "Hata");
-                        console.error("Hata oluştu: " + error);
-                    }
-                });
+    if (confirmation) {
+        // Loading göster
+        $("#loadingOverlay").css("visibility", "visible"); // Visible olarak ayarla
+
+        $.ajax({
+            url: "{{ route('client.remove.from.cart') }}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function (response) {
+                // Loading gizle
+                $("#loadingOverlay").css("visibility", "hidden"); // Hidden olarak ayarla
+                location.reload();
+                toastr.success("Sepet Temizlendi.");
+            },
+            error: function (error) {
+                // Loading gizle
+                $("#loadingOverlay").css("visibility", "hidden"); // Hidden olarak ayarla
+
+                toastr.error("Hata oluştu: " + error.responseText, "Hata");
+                console.error("Hata oluştu: " + error);
             }
         });
-    </script>
-@endsection
+    }
+});
 
+</script>
+
+@endsection

@@ -8657,7 +8657,10 @@ a.button {
     font-size: 12px;
     width: 100%;
 }
-
+#search-icon{
+    height: 40px !important;
+    width: 40px !important;
+}
 .input-group.search {
     display: flex;
     border: 1px solid #e6e6e6;
@@ -21233,9 +21236,23 @@ select:focus {
     color: black;
 }
 
+#loadingOverlay {
+    visibility: hidden;
+    background: rgb(255 255 255 / 48%);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9998;
+    align-items: center;
+    width: 100% !important;
+    justify-content: center;
+    display: flex !important; /* Flex özelliği burada ekleniyor */
+}
 .tr-single-header h4 {
     margin: 0;
-    font-size: 20px;
+    font-size: 12px;
     color: #222;
     font-weight: 600;
 }
@@ -21406,6 +21423,7 @@ header.payment-card-header .pull-right img {
 }
 
 .side-list ul li {
+font-size: 12px;
     list-style: none;
     padding: 10px 5px;
     display: inline-block;
