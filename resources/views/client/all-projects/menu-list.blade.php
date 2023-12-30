@@ -1114,7 +1114,7 @@ ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='wid
 
             favoriteButtons.forEach(function(button) {
                 var housingId = button.getAttribute("data-housing-id");
-                console.log(housingId);
+                
                 $.ajax({
                     url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
                         .replace(':id', housingId),

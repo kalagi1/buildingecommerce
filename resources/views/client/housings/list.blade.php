@@ -428,7 +428,7 @@
                             .replace(':id', housingId),
                         type: "GET",
                         success: function(response) {
-                            console.log(response);
+                            
                             if (response.is_favorite) {
                                 
                                      button.querySelector("i").classList.remove(

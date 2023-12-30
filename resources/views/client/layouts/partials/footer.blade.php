@@ -982,8 +982,8 @@
                         return true;
                     }
                 } else {
-                    console.log(productId);
-                    console.log(cart.item.id);
+                    
+                    
                     if (cart.item.id == productId) {
                         return true; // Ürün sepette bulundu
                     }
@@ -1056,7 +1056,7 @@
 
             favoriteButtons.forEach(function(button) {
                 var housingId = button.getAttribute("data-housing-id");
-                console.log(housingId);
+                
                 $.ajax({
                     url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
                         .replace(':id', housingId),

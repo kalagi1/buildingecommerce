@@ -66,7 +66,7 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        console.log(response);
+                        
                         // İşlem başarılı olduğunda buraya gelir
                         toastr.success("Ürün sepetten kaldırıldı");
                         console.log("Ürün sepetten kaldırıldı: " + response);

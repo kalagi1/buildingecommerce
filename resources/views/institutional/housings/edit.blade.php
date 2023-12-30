@@ -1169,7 +1169,7 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        console.log(response);
+                        
                         for (let i = 0; i < response.length; i++) {
                             var imageDiv = $('<div class="project_imagex" order="'+response[i]+'"></div>');
                             var image = $('<img>').attr('src', '{{URL::to('/')}}/project_images/'+response[i]);

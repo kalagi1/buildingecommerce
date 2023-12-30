@@ -283,7 +283,7 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        console.log(response);
+                        
                         toastr.success("Konut favorilerden kaldırıldı");
                         console.log("Konut favorilerden kaldırıldı: " + response);
                         location.reload();
@@ -318,7 +318,7 @@
                         housing_id: housingId
                     },
                     success: function(response) {
-                        console.log(response);
+                        
                         toastr.success("Konut favorilerden kaldırıldı");
                         console.log("Konut favorilerden kaldırıldı: " + response);
                         location.reload();
