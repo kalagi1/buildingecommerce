@@ -8665,7 +8665,7 @@ a.button {
     background-color: #fff;
     flex-wrap: nowrap;
     justify-content: space-between;
-    width: 370px;
+    width: 400px;
     align-items: center !important;
 }
 
@@ -29415,7 +29415,7 @@ a {
     padding: 0 0 0 10px;
     background: white;
     text-decoration: none;
-    line-height: 40px;
+    line-height: 30px;
     font-size: 12px;
     font-weight: 600;
     color: black;
@@ -29482,7 +29482,7 @@ a {
 
 .dropdown.hover:hover li,
 .dropdown.toggle>input:checked~ul li {
-    height: 40px;
+    height: 30px;
 }
 
 .dropdown.hover:hover li:first-child,

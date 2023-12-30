@@ -52,10 +52,18 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    $(".box").hide();
-    $(".notification").click(function() {
-        $(".box").toggle();
-    });
+    $(document).ready(function () {
+        $(".box").hide();
+
+            $(".notification").hover(
+                function () {
+                    $(".box").toggle();
+                },
+                function () {
+                    $(".box").toggle();
+                }
+            );
+        });
     document.addEventListener("DOMContentLoaded", function() {
         var notificationCards = document.querySelectorAll(".notification-card");
 
@@ -155,8 +163,7 @@
         font-size: 18px;
         padding-bottom: 10px;
         color: black;
-        margin-right: 40px;
-        margin-left: 40px;
+        margin-left: 20px;
     }
 
     .fs--1 {

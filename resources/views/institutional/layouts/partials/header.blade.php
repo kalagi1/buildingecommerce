@@ -443,7 +443,7 @@
                               <div class="scrollbar-overlay" style="height: 27rem;">
                                 <div class="border-300">
                                     @if (count($notifications) == 0)
-                                    <div class="p-3 text-center">Bildirim Yok</div>
+                                    <span class="p-3 text-center">Bildirim Yok</span>
                                 @else
                                    @foreach ($notifications as $notification)
                                    <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{$notification->readed == 0 ? "unread":"read" }} border-bottom"
