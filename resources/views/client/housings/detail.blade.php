@@ -198,41 +198,39 @@
 
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 @if ($housing->step2_slug == 'gunluk-kiralik')
-                                    <div id="reservation-calendar"></div>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
-                                            data-bs-target="#rez" type="button" role="tab"
-                                            aria-controls="rez" aria-selected="true"> Takvim</button>
+                                            data-bs-target="#rez" type="button" role="tab" aria-controls="rez"
+                                            aria-selected="true"> Takvim</button>
                                     </li>
                                 @endif
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif"
-                                        id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-                                        type="button" role="tab" aria-controls="home"
-                                        aria-selected="true">Açıklama</button>
+                                        id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                                        role="tab" aria-controls="home" aria-selected="true">Açıklama</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                        data-bs-target="#profile" type="button" role="tab"
-                                        aria-controls="profile" aria-selected="false">Özellikler</button>
+                                        data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                                        aria-selected="false">Özellikler</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#map"
+                                        type="button" role="tab" aria-controls="contact"
+                                        aria-selected="false">Harita</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                        data-bs-target="#map" type="button" role="tab"
-                                        aria-controls="contact" aria-selected="false">Harita</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                        data-bs-target="#contact" type="button" role="tab"
-                                        aria-controls="contact" aria-selected="false">Yorumlar</button>
+                                        data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
+                                        aria-selected="false">Yorumlar</button>
                                 </li>
 
 
                             </ul>
                             <div class="tab-content" id="myTabContent">
                                 @if ($housing->step2_slug == 'gunluk-kiralik')
-                                    <div class="tab-pane fade show active blog-info details mb-30"
-                                        id="rez" role="tabpanel" aria-labelledby="rez-tab">
+                                    <div class="tab-pane fade show active blog-info details mb-30" id="rez"
+                                        role="tabpanel" aria-labelledby="rez-tab">
                                         <div id="reservation-calendar"></div>
                                     </div>
                                 @endif
@@ -241,8 +239,8 @@
                                     id="home" role="tabpanel" aria-labelledby="home-tab">
                                     {!! $housing->description !!}
                                 </div>
-                                <div class="tab-pane fade blog-info details mb-30" id="profile"
-                                    role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
+                                    aria-labelledby="profile-tab">
                                     <div class="similar-property featured portfolio p-0 bg-white">
 
                                         <div class="single homes-content">
@@ -260,8 +258,6 @@
                                                     </tr>
 
                                                     @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
-                                                    
-                                                    
                                                         @php
                                                             $turkceKarsilik = [
                                                                 'price' => 'Fiyat',
@@ -335,20 +331,15 @@
 
                                                             <td>
                                                                 @if ($key == 'Fiyat')
-                                                                
-                                                                    <span
-                                                                        class=" mr-1">{{ $key }}:</span>
-                                                                    <span class="det"
-                                                                        style="color: black; ">
+                                                                    <span class=" mr-1">{{ $key }}:</span>
+                                                                    <span class="det" style="color: black; ">
                                                                         {{ number_format($val[0], 0, ',', '.') }}
                                                                         ₺
                                                                     </span>
                                                                 @else
-                                                                    <span
-                                                                        class=" mr-1">{{ $key }}:</span>
+                                                                    <span class=" mr-1">{{ $key }}:</span>
                                                                     @if ($key == 'm² (Net)')
-                                                                        <span
-                                                                            class="det">{{ $val[0] }}
+                                                                        <span class="det">{{ $val[0] }}
                                                                             m2</span>
                                                                     @elseif ($key == 'Özellikler')
                                                                         <ul>
@@ -474,14 +465,12 @@
                                                         </div>
                                                         <div class="ml-auto order-2">
                                                             @for ($i = 0; $i < $comment->rate; ++$i)
-                                                                <svg enable-background="new 0 0 50 50"
-                                                                    height="24px" id="Layer_1"
-                                                                    version="1.1" viewBox="0 0 50 50"
+                                                                <svg enable-background="new 0 0 50 50" height="24px"
+                                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50"
                                                                     width="24px" xml:space="preserve"
                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                     xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                    <rect fill="none" height="50"
-                                                                        width="50" />
+                                                                    <rect fill="none" height="50" width="50" />
                                                                     <polygon fill="gold"
                                                                         points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
                                                                         stroke="gold" stroke-miterlimit="10"
@@ -489,14 +478,12 @@
                                                                 </svg>
                                                             @endfor
                                                             @for ($i = 0; $i < 5 - $comment->rate; ++$i)
-                                                                <svg enable-background="new 0 0 50 50"
-                                                                    height="24px" id="Layer_1"
-                                                                    version="1.1" viewBox="0 0 50 50"
+                                                                <svg enable-background="new 0 0 50 50" height="24px"
+                                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50"
                                                                     width="24px" xml:space="preserve"
                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                     xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                    <rect fill="none" height="50"
-                                                                        width="50" />
+                                                                    <rect fill="none" height="50" width="50" />
                                                                     <polygon fill="none"
                                                                         points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
                                                                         stroke="gold" stroke-miterlimit="10"
@@ -526,74 +513,63 @@
                                         <span class="mb-3">Bu konut için henüz yorum yapılmadı.</span>
                                     @endif
 
-                                    <form action="{{ route('housing.send-comment', ['id' => $id]) }}"
-                                        method="POST" enctype="multipart/form-data" class="mt-5">
+                                    <form action="{{ route('housing.send-comment', ['id' => $id]) }}" method="POST"
+                                        enctype="multipart/form-data" class="mt-5">
                                         @csrf
                                         <input type="hidden" name="rate" id="rate" />
                                         <h5>Yeni Yorum Ekle</h5>
 
                                         <div class="d-flex align-items-center w-full" style="gap: 6px;">
                                             <div class="d-flex rating-area">
-                                                <svg class="rating" enable-background="new 0 0 50 50"
-                                                    height="24px" id="Layer_1" version="1.1"
-                                                    viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                    xmlns="http://www.w3.org/2000/svg"
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink">
                                                     <rect fill="none" height="50" width="50" />
                                                     <polygon fill="none"
                                                         points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10"
-                                                        stroke-width="2" />
+                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
                                                 </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50"
-                                                    height="24px" id="Layer_1" version="1.1"
-                                                    viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                    xmlns="http://www.w3.org/2000/svg"
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink">
                                                     <rect fill="none" height="50" width="50" />
                                                     <polygon fill="none"
                                                         points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10"
-                                                        stroke-width="2" />
+                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
                                                 </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50"
-                                                    height="24px" id="Layer_1" version="1.1"
-                                                    viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                    xmlns="http://www.w3.org/2000/svg"
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink">
                                                     <rect fill="none" height="50" width="50" />
                                                     <polygon fill="none"
                                                         points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10"
-                                                        stroke-width="2" />
+                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
                                                 </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50"
-                                                    height="24px" id="Layer_1" version="1.1"
-                                                    viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                    xmlns="http://www.w3.org/2000/svg"
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink">
                                                     <rect fill="none" height="50" width="50" />
                                                     <polygon fill="none"
                                                         points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10"
-                                                        stroke-width="2" />
+                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
                                                 </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50"
-                                                    height="24px" id="Layer_1" version="1.1"
-                                                    viewBox="0 0 50 50" width="24px" xml:space="preserve"
-                                                    xmlns="http://www.w3.org/2000/svg"
+                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink">
                                                     <rect fill="none" height="50" width="50" />
                                                     <polygon fill="none"
                                                         points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10"
-                                                        stroke-width="2" />
+                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
                                                 </svg>
                                             </div>
                                             <div class="ml-auto">
-                                                <input type="hidden" style="visibility: hidden;"
-                                                    class="fileinput" name="images[]" multiple
-                                                    accept="image/*" />
+                                                <input type="hidden" style="visibility: hidden;" class="fileinput"
+                                                    name="images[]" multiple accept="image/*" />
                                                 <button type="button" class="btn btn-primary q-button "
                                                     onClick="jQuery('.fileinput').trigger('click');">Resimleri
                                                     Seç</button>
@@ -840,7 +816,7 @@
                                                     </button>
                                                 @else
                                                     <button class="CartBtn" data-type='housing'
-                                                        data-id='{{ $housing->id }}' style="height:100% !important">
+                                                        data-id='{{ $housing->id }}' style="height:40px !important">
                                                         <span class="IconContainer">
                                                             <img src="{{ asset('sc.png') }}" alt="">
                                                         </span>
@@ -879,40 +855,54 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <ul class="author__contact">
-                                        <li><span class="la la-map-marker"><i
-                                                    class="fa fa-map-marker"></i></span>{!! $housing->city->title !!}
-                                            {{ '/' }} {!! $housing->county->title !!}</li>
-                                        @if ($housing->user->phone)
-                                            <li><span class="la la-phone"><i class="fa fa-phone"
-                                                        aria-hidden="true"></i></span><a
-                                                    style="text-decoration: none;color:inherit"
-                                                    href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
-                                            </li>
-                                        @endif
-                                        @if ($housing->step1_slug)
-                                            <li>
-                                                <span class="la la-dot"><i class="fa fa-check-square"
-                                                        aria-hidden="true"></i></span>
-                                                @if ($housing->step2_slug)
-                                                    @if ($housing->step2_slug == 'kiralik')
-                                                        Kiralık
-                                                    @elseif ($housing->step2_slug == 'satilik')
-                                                        Satılık
-                                                    @else
-                                                        Günlük Kiralık
-                                                    @endif
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    İlan No:    {{ $housing->id + 2000000 }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    {!! $housing->city->title !!}
+                                                    {{ '/' }} {!! $housing->county->title !!}
+                                                </td>
+                                            </tr>
+                                           
+                                                    @if ($housing->user->phone)
+                                                    <tr>
+                                                        <td><a
+                                                            style="text-decoration: none;color:inherit"
+                                                            href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                                        </td>
+                                                    </tr>
                                                 @endif
-                                                {{ $parent->title }}
-                                            </li>
-                                        @endif
-
-
-                                        <li><span class="la la-envelope-o"><i class="fa fa-envelope"
-                                                    aria-hidden="true"></i></span><a
-                                                style="text-decoration: none;color:inherit"
-                                                href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a></li>
-                                    </ul>
+                                            
+                                            <tr>
+                                                <td>
+                                                    @if ($housing->step1_slug)
+                                                        @if ($housing->step2_slug)
+                                                            @if ($housing->step2_slug == 'kiralik')
+                                                                Kiralık
+                                                            @elseif ($housing->step2_slug == 'satilik')
+                                                                Satılık
+                                                            @else
+                                                                Günlük Kiralık
+                                                            @endif
+                                                        @endif
+                                                        {{ $parent->title }}
+                                                @endif
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a
+                                                    style="text-decoration: none;color:inherit"
+                                                    href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <hr>
 
@@ -1072,7 +1062,7 @@
 
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-  
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZwT" crossorigin="anonymous">
@@ -1087,8 +1077,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
-  <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
     <script>
         if (window.innerWidth <= 768) {
@@ -1192,7 +1182,7 @@
             $('#rate').val($(this).index() + 1);
         });
 
-      
+
 
         function showLocation() {
             var location = document.getElementById('locationInput').value;

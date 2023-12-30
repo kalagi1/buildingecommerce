@@ -20877,6 +20877,7 @@ select:focus {
 
 .btn:not(:disabled):not(.disabled) {
     cursor: pointer;
+    font-size: 12px;
 }
 
 .pagination-container .pagination {
@@ -23134,6 +23135,7 @@ a.btn_1 {
 .btn-white,
 .btn-white2 {
     background-color: #fff;
+    font-size: 12px;
     border: 1px solid black;
 }
 
