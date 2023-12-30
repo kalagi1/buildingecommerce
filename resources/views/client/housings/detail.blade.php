@@ -600,7 +600,7 @@
                     <div class="single widget">
 
                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                            <div class="mobileMove">
+                            <div class="mobileMove" id="mobileMoveID">
                                 <div class="homes-content details-2 mb-4">
                                     <ul class="homes-list reservation-list clearfix">
                                         <li>
@@ -859,7 +859,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    İlan No:    {{ $housing->id + 2000000 }}
+                                                    İlan No: {{ $housing->id + 2000000 }}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -868,16 +868,15 @@
                                                     {{ '/' }} {!! $housing->county->title !!}
                                                 </td>
                                             </tr>
-                                           
-                                                    @if ($housing->user->phone)
-                                                    <tr>
-                                                        <td><a
-                                                            style="text-decoration: none;color:inherit"
+
+                                            @if ($housing->user->phone)
+                                                <tr>
+                                                    <td><a style="text-decoration: none;color:inherit"
                                                             href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            
+                                                    </td>
+                                                </tr>
+                                            @endif
+
                                             <tr>
                                                 <td>
                                                     @if ($housing->step1_slug)
@@ -891,14 +890,13 @@
                                                             @endif
                                                         @endif
                                                         {{ $parent->title }}
-                                                @endif
+                                                    @endif
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a
-                                                    style="text-decoration: none;color:inherit"
-                                                    href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
+                                                    <a style="text-decoration: none;color:inherit"
+                                                        href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -1583,6 +1581,10 @@
                             } else {
                                 $(".showPrice").removeClass("d-none");
                                 $("#totalPrice").html(price * diffDays + " ₺");
+                                var totalPriceElement = document.getElementById('mobileMoveID');
+                                totalPriceElement.scrollIntoView({
+                                    behavior: 'smooth'
+                                });
 
                             }
                         }
