@@ -568,7 +568,7 @@
                                 @endif
                             </div>
                           
-                            <div class="row justify-content-center">
+                            <div class="row">
                                 <?php
                                 $uri = $_SERVER['REQUEST_URI'];
                                 ?>

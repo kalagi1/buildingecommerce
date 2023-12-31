@@ -255,8 +255,8 @@ a.button {
 }
 
 .page-item.active .page-link {
-    background: black;
-    border-color: black;
+    background: #274abb;
+    border-color: #274abb;
 }
 
 .page-link {
