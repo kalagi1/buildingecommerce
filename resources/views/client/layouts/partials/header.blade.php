@@ -85,7 +85,7 @@
 
                         </div>
                         <div class="center position-relative">
-                            <form action="{{ route('search.results') }}" method="POST" id="search-form">
+                            <form action="{{ route('search.results') }}" method="GET" id="search-form">
                                 @csrf
                                 <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
                                     <input type="text" name="searchTerm" id="ss-box" placeholder="Ara ..">

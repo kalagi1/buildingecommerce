@@ -89,7 +89,7 @@ Route::get('/instituional/search', [InstitutionalController::class, 'search'])->
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
 Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
-Route::post('/search/results',[HomeController::class, "searchResults"])->name('search.results');
+Route::get('/search/results',[HomeController::class, "searchResults"])->name('search.results');
 
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
 Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");
