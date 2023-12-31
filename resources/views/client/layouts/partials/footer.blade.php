@@ -929,7 +929,8 @@
                                     button.textContent = "Sepete Eklendi";
                                 }
                                 button.classList.add("bg-success");
-                                location.reload();
+                                window.location.href = "/sepetim";
+
 
                             },
                             error: function(error) {
