@@ -9,6 +9,7 @@ use App\Models\Page;
 use App\Models\SocialMediaIcon;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -36,31 +37,37 @@ class AppServiceProvider extends ServiceProvider
             $this->composeView($view, 'admin_menu.json');
         });
     }
-
     private function composeClientView()
     {
-        View::composer(["client*"], function ($view) {
-            $footerLinks = FooterLink::all();
-            $socialMediaIcons = SocialMediaIcon::all();
-            $menu = Menu::getMenuItems();
-            $adBanners = AdBanner::where("is_visible", "1")->get();
-            $widgetGroups = FooterLink::select('widget')->distinct()->get();
-            $headerLinks = Page::where('location', 'header')->get();
-            $fl = Page::where('location', 'footer')->get();
-
-            $view->with([
-                'fl' => $fl,
-                'widgetGroups' => $widgetGroups,
-                'socialMediaIcons' => $socialMediaIcons,
-                'headerLinks' => $headerLinks,
-                'footerLinks' => $footerLinks,
-                'menu' => $menu,
-                'adBanners' => $adBanners,
-            ]);
-
+        $cacheKey = 'client_view_data';
+    
+        // Cache'den verileri al
+        $cachedData = Cache::get($cacheKey);
+    
+        // Cache'te veri yoksa veya süresi dolduysa
+        if (!$cachedData) {
+            // Yeni verileri al ve cache'e ekle
+            $cachedData = [
+                'fl' => FooterLink::all(),
+                'widgetGroups' => FooterLink::select('widget')->distinct()->get(),
+                'socialMediaIcons' => SocialMediaIcon::all(),
+                'headerLinks' => Page::where('location', 'header')->get(),
+                'footerLinks' => FooterLink::all(),
+                'menu' => Menu::getMenuItems(),
+                'adBanners' => AdBanner::where("is_visible", "1")->get(),
+            ];
+    
+            Cache::put($cacheKey, $cachedData, now()->addHours(1));
+        }
+    
+        // Görünüm bileşenini oluştur
+        View::composer(["client.layouts*", "client.client-panel*"], function ($view) use ($cachedData) {
+            $view->with($cachedData);
             $this->composeView($view, 'client_menu.json');
         });
     }
+    
+    
 
     private function composeInstitutionalView()
     {
