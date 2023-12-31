@@ -609,7 +609,7 @@
                                                 <span class="badge badge-phoenix text-left">{{ $result['name'] }}</span>
 
                                             </div>
-                                            <img src="{{ URL::to('/') . '/' . $result['photo'] }}" alt=""
+                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/',$result['photo']) }}" alt=""
                                                 style="height:100%;object-fit:contain">
                                         </a>
                                     </div>
