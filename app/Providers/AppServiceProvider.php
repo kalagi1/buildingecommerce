@@ -37,16 +37,14 @@ class AppServiceProvider extends ServiceProvider
             $this->composeView($view, 'admin_menu.json');
         });
     }
+
     private function composeClientView()
     {
         $cacheKey = 'client_view_data';
     
-        // Cache'den verileri al
         $cachedData = Cache::get($cacheKey);
     
-        // Cache'te veri yoksa veya süresi dolduysa
         if (!$cachedData) {
-            // Yeni verileri al ve cache'e ekle
             $cachedData = [
                 'fl' => FooterLink::all(),
                 'widgetGroups' => FooterLink::select('widget')->distinct()->get(),
@@ -60,13 +58,11 @@ class AppServiceProvider extends ServiceProvider
             Cache::put($cacheKey, $cachedData, now()->addHours(1));
         }
     
-        // Görünüm bileşenini oluştur
         View::composer(["client.layouts*", "client.client-panel*"], function ($view) use ($cachedData) {
             $view->with($cachedData);
             $this->composeView($view, 'client_menu.json');
         });
     }
-    
     
 
     private function composeInstitutionalView()
