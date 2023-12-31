@@ -107,6 +107,10 @@ class HomeController extends Controller
         return view('client.home.index', compact('menu', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 
+    public function satKirala() {
+        return view("client.satkirala");
+    }
+    
     public function getRenderedProjects(Request $request)
     {
 

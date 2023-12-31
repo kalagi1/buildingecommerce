@@ -37,6 +37,8 @@ class ProfileController extends Controller
         }
     }
 
+
+
     public function verify()
     {
         return view('client.client-panel.home.verification');

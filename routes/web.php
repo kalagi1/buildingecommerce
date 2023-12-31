@@ -81,6 +81,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', [HomeController::class, "index"])->name('index');
+Route::get('/sat-kirala', [HomeController::class, "satKirala"])->name('satKirala');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/admin', [AdminHomeController::class, "index"]);
