@@ -23132,6 +23132,11 @@ a.btn_1 {
     transform-origin: top left
 }
 
+.col-md-3{
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+}
 .btn-white,
 .btn-white2 {
     background-color: #fff;
