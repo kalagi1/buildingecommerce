@@ -312,7 +312,7 @@
                                                 @foreach ($results['housings'] as $result)
                                                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$result['id']]))
 
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-3 mb-3">
                                                         <a href="{{ route('housing.show', [$result['id']]) }}"
                                                             class="text-decoration-none">
                                                             <div data-aos="fade-up" data-aos-delay="150">
@@ -568,7 +568,7 @@
                                 @endif
                             </div>
                           
-                            <div class="row mt-5 justify-content-center">
+                            <div class="row justify-content-center">
                                 <?php
                                 $uri = $_SERVER['REQUEST_URI'];
                                 ?>
