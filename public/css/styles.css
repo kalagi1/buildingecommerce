@@ -23131,11 +23131,8 @@ a.btn_1 {
     -ms-transform-origin: top left;
     transform-origin: top left
 }
-
-.col-md-3{
-    width: 100%;
-    margin: 0 !important;
-    padding: 0 !important;
+.homes-content .row{
+    width: 100% !important;
 }
 .btn-white,
 .btn-white2 {
