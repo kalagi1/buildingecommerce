@@ -274,7 +274,8 @@
                                     <a href="{{ url('institutional/choise-advertise-type') }}">
                                         @elseif ($userType == 3)
                                     <a href="{{ url('admin/') }}">
-
+@else
+<a href="{{ url('sat-kirala/') }}">
                                 @endif
                             
                                 <button type="button" class="buyUserRequest ml-3">
@@ -297,7 +298,7 @@
                                 @endif
                             
                             @else
-                                <a href="{{ route('client.login') }}">
+                                <a href="{{ route('satKirala') }}">
                                     <button type="button" class="buyUserRequest ml-3">
                                         <span class="buyUserRequest__text"> Sat Kirala</span>
                                         <span class="buyUserRequest__icon">
