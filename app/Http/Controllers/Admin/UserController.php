@@ -217,7 +217,7 @@ class UserController extends Controller
 
             $variables = [
                 'username' => $user->name,
-                'companyName' => "Emlak Sepeti",
+                'companyName' => "Emlak Sepette",
                 "email" => $user->email,
                 "token" => $user->email_verification_token,
             ];
@@ -250,7 +250,7 @@ class UserController extends Controller
 
             $variables = [
                 'username' => $user->name,
-                'companyName' => "Emlak Sepeti",
+                'companyName' => "Emlak Sepette",
                 "email" => $user->email,
                 "token" => $user->email_verification_token,
             ];

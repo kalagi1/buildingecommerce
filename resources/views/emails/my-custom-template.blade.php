@@ -1,4 +1,13 @@
-<!-- Önceki style etiketini kaldır -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Önceki style etiketini kaldır -->
 <table align="center" border="0" cellpadding="0" cellspacing="0" style="background-color: #fff; width: 100%">
     <tbody>
         <tr>
@@ -63,3 +72,6 @@
         </tr>
     </tbody>
 </table>
+
+</body>
+</html>
