@@ -131,7 +131,7 @@
                                             <label class="q-label">Kullanıcı Türü</label>
                                             <div class="button-group">
                                                 <button
-                                                    class="user-type-button individual {{ old('type') == 1 ? 'active' : '' }}"
+                                                    class="user-type-button individual active {{ old('type') == 1 ? 'active' : '' }}"
                                                     data-user-type="1" type="button">Bireysel</button>
                                                 <button
                                                     class="user-type-button institutional {{ old('type') == 2 ? 'active' : '' }}"
