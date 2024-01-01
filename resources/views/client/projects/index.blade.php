@@ -315,10 +315,10 @@
 
                                                                 <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
                                                                     data-aos="fade-up"
-                                                                    @if (($sold && $sold->status != '2') || getData($project, 'off_sale[]', $i + 1)->value != '[]') style="background: #EEE !important;" @endif>
+                                                                  >
 
                                                                     <div
-                                                                        class="row align-items-center justify-content-between mobile-position">
+                                                                        class="row align-items-center justify-content-between mobile-position"   @if (($sold && $sold->status != '2') || getData($project, 'off_sale[]', $i + 1)->value != '[]') style="background: #EEE !important;" @endif>
                                                                         <div class="col-md-8">
 
                                                                             <div class="homes-list-div">
@@ -829,9 +829,9 @@
 
                                         <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate"
                                             data-aos="fade-up"
-                                            @if (($sold && $sold->status != '2') || getData($project, 'off_sale[]', $i + 1)->value != '[]') style="background: #EEE !important;" @endif>
+                                            >
 
-                                            <div class="row align-items-center justify-content-between mobile-position">
+                                            <div class="row align-items-center justify-content-between mobile-position" @if (($sold && $sold->status != '2') || getData($project, 'off_sale[]', $i + 1)->value != '[]') style="background: #EEE !important;" @endif>
                                                 <div class="col-md-8">
 
                                                     <div class="homes-list-div">
