@@ -74,8 +74,7 @@ class HomeController extends Controller
             
 
 
-        $dashboardProjects = Cache::rememberForever('dashboardProjects',function(){
-            return StandOutUser::where('start_date', "<=", date("Y-m-d"))
+        $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))
             ->where('end_date', ">=", date("Y-m-d"))
             ->where('item_type', 1)
             ->where('housing_type_id', 0)
@@ -86,7 +85,6 @@ class HomeController extends Controller
             })
             ->orderByDesc("stand_out_users.created_at")
             ->get();
-        });
 
             
 
@@ -98,8 +96,7 @@ class HomeController extends Controller
         });
         $footerSlider = FooterSlider::all();
 
-        $finishProjects = Cache::rememberForever('finishProjects',function(){
-            return Project::select('projects.*')
+        $finishProjects = Project::select('projects.*')
             ->with("city", "county",'user')
             ->whereHas('housingStatus', function ($query) {
                 $query->where('housing_type_id', '2');
@@ -107,7 +104,6 @@ class HomeController extends Controller
             ->orderBy("created_at", "desc")
             ->where('projects.status', 1)
             ->get();
-        });
 
 
         $continueProjects = Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
