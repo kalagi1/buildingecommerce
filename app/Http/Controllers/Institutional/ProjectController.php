@@ -431,7 +431,7 @@ class ProjectController extends Controller
                 $month = 2;
             }
 
-            if($tempOrder->has_blocks){
+            if(isset($tempOrder->has_blocks) && $tempOrder->has_blocks){
                 $houseCount = 0;
                 for($j = 0 ; $j < count($tempOrder->blocks); $j++){
                     if(isset($tempOrder->{"house_count".$j}) && $tempOrder->{"house_count".$j} ){
@@ -1252,6 +1252,16 @@ class ProjectController extends Controller
 
         return json_encode([
             "status" => true,
+        ]);
+    }
+
+    public function setSingleHousingData(Request $request,$projectId){
+        ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('roomOrder'))->where('name',$request->input('inputName'))->update([
+            "value" => str_replace('.', '', $request->input('newVal'))
+        ]);
+
+        return json_encode([
+            "status" => true
         ]);
     }
 }

@@ -285,7 +285,7 @@
                                 <div>
                                     <input name="location" class="form-control" id="location" readonly type="hidden"
                                                 value="@if(isset($tempData->location)){{$tempData->location}}@else 39.1667,35.6667 @endif" />
-                                    <div id="mapContainer"></div>
+                                    <div id="mapContainer" style="height: 400px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -615,10 +615,14 @@
         <script src="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.min.js"></script>
         <script src="{{ URL::to('/') }}/adminassets/assets/js/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="{{ URL::to('/') }}/adminassets/assets/js/jquery.daterangepicker.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async defer></script>
         <script>
             var selectedDopings = [];
             var selectedBlock = 0;
             var copyHousings = [];
+            var cityName = "";
+            var countyName = "";
+            var neighbourhoodName = "";
             var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
             @if(isset($tempData->has_blocks))
                 @if($tempData->has_blocks)
@@ -631,6 +635,104 @@
             @endif
             var blockHouseCount = [];
             var blockNames = [];
+            
+            var map;
+            var markers = [];
+            function initMap(cityName,zoomLevel) {
+                // Harita oluştur
+                map = new google.maps.Map(document.getElementById('mapContainer'), {
+                    zoom: 10,  // Başlangıç zoom seviyesi
+                    center: {lat: 41.0082, lng: 28.9784}  // Başlangıç merkez koordinatları (İstanbul örneği)
+                });
+
+                google.maps.event.addListener(map, 'click', function(event) {
+                    clearMarkers(); // Tüm işaretçileri temizleyin
+                    placeMarker(event.latLng); // Yeni işaretçiyi ekleyin
+                });
+
+                if (cityName) {
+                    // Google Haritalar Geocoding API'yi kullanarak şehir adını koordinatlara dönüştür
+                    var geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ address: cityName }, function(results, status) {
+                    if (status === 'OK') {
+                        // Başarılı ise haritayı zoomla
+                        map.setCenter(results[0].geometry.location);
+                        map.setZoom(zoomLevel);  // İstediğiniz zoom seviyesini ayarlayabilirsiniz
+                    } else {
+                        alert('Şehir bulunamadı: ' + status);
+                    }
+                    });
+                }
+                }
+
+            
+            window.initMap = initMap;
+
+            function placeMarker(location) {
+                // İşaretçiyi oluşturun
+                var marker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+
+                // Bilgi penceresi oluşturun (isteğe bağlı)
+                var infowindow = new google.maps.InfoWindow({
+                    content: 'Koordinatlar: ' + location.lat() + ', ' + location.lng()
+                });
+
+                changeData(location.lat()+','+location.lng(),'location');
+
+                // İşaretçiye tıklandığında bilgi penceresini gösterin
+                marker.addListener('click', function() {
+                    infowindow.open(map, marker);
+                });
+
+                markers.push(marker); // İşaretçiyi dizide saklayın
+                }
+
+            
+            function clearMarkers() {
+            // Tüm işaretçileri haritadan kaldırın
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+            markers = []; // Diziyi temizleyin
+            }
+            
+
+            @if(isset($tempData->city_id))
+                @php 
+                    $cityJs = DB::table('cities')->where('id',$tempData->city_id)->first();
+                @endphp
+
+                cityName = "{{$cityJs->title}}";
+                @if(isset($tempData->county_id))
+                    @php 
+                        $countyJs = DB::table('districts')->where('ilce_key',$tempData->county_id)->first();
+                    @endphp
+
+                    countyName = "{{$countyJs->ilce_title}}";
+                    @if(isset($tempData->neighbourhood_id))
+                        @php 
+                            $countyJs = DB::table('neighborhoods')->where('mahalle_id',$tempData->neighbourhood_id)->first();
+                        @endphp
+
+                        neighbourhoodName = "{{$countyJs->mahalle_title}}";
+                        
+                        setTimeout(() => {
+                            initMap(cityName+','+countyName+','+neighbourhoodName,13);
+                        }, 1000);
+                    @else 
+                        setTimeout(() => {
+                        initMap(cityName+','+countyName,13);
+                        }, 1000);
+                    @endif
+                @else
+                    setTimeout(() => {
+                        initMap(cityName,10);
+                    }, 1000);
+                @endif
+            @endif
 
             @if(isset($tempDataFull->data) && isset($tempData->statuses) && $tempData->statuses)
                 @if(in_array('3',$tempData->statuses))
@@ -2837,18 +2939,27 @@
             }
 
             $('#cities').change(function(){
+                var selectedCity = $(this).val(); // Seçilen şehir değerini al
+                cityName = $('#cities option[value="'+selectedCity+'"]').html()
+                initMap(cityName,10)
                 if($(this).val() != ""){
                     $(this).removeClass('error-border');
                 }
             })
 
             $('#counties').change(function(){
+                var selectedCounty = $(this).val(); // Seçilen şehir değerini al
+                countyName = $('#counties option[value="'+selectedCounty+'"]').html()
+                initMap(cityName+','+countyName,13);
                 if($(this).val() != ""){
                     $(this).removeClass('error-border');
                 }
             })
 
             $('#neighbourhood').change(function(){
+                
+                neighbourhoodName = $('#neighbourhood option[value="'+$(this).val()+'"]').html()
+                initMap(cityName+','+countyName+','+neighbourhoodName,15)
                 if($(this).val() != ""){
                     $(this).removeClass('error-border');
                 }
@@ -3473,22 +3584,6 @@
                     }
 
                 }
-                $('#location').leafletLocationPicker({
-                    alwaysOpen: true,
-                    mapContainer: "#mapContainer",
-                    height: 300,
-                    width: '100%',
-                    map: {
-                        zoom: 5
-                    },
-                    event: 'click',
-                    onChangeLocation: function(location) {
-                        var latitude = location.latlng.lat;
-                        var longitude = location.latlng.lng;
-                        changeData(latitude+','+longitude,'location');
-                    }
-                }); 
-
                 
             });
 
@@ -3556,7 +3651,8 @@
 
             $('#cities').change(function(){
                 var selectedCity = $(this).val(); // Seçilen şehir değerini al
-
+                cityName = $('#cities option[value="'+selectedCity+'"]').html()
+                initMap(cityName,10)
                 // AJAX isteği yap
                 $.ajax({
                     url: '{{route("institutional.get.counties")}}', // Endpoint URL'si (get.counties olarak varsayalım)
@@ -3588,6 +3684,8 @@
             
             $('#counties').change(function(){
                 var selectedCounty = $(this).val(); // Seçilen şehir değerini al
+                countyName = $('#counties option[value="'+selectedCounty+'"]').html()
+                initMap(cityName+','+countyName,13);
                 var selectedCountyKey = $('#counties option[value="'+selectedCounty+'"]').attr("key_x");
                 // AJAX isteği yap
                 $.ajax({

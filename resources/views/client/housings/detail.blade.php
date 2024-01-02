@@ -656,29 +656,33 @@
                                                     <span class="text">Satıldı</span>
                                                 </button>
                                             @else
-                                                @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
-                                                    @php
-                                                        $buttonStyle = '';
-                                                        $buttonText = '';
-                                                        if ($sold[0]->status == '0') {
-                                                            $buttonStyle = 'background: orange !important; width: 100%; color: white;height:100% !important';
-                                                            $buttonText = 'Onay Bekleniyor';
-                                                        } else {
-                                                            $buttonStyle = 'background: #EA2B2E !important; width: 100%; color: white;height:100% !important';
-                                                            $buttonText = 'Satıldı';
-                                                        }
-                                                    @endphp
-
-                                                    <button class="btn second-btn " style="{{ $buttonStyle }}">
-                                                        <span class="text">{{ $buttonText }}</span>
-                                                    </button>
+                                                @if(auth()->check() && auth()->user()->type == 19)
+                                                    @if(isset(json_decode($housing->housing_type_data)->{"share-open"}) && json_decode($housing->housing_type_data)->{"share-open"}[0])
+                                                        <button class="CartBtn" data-type='housing'
+                                                            data-id='{{ $housing->id }}'>
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('link.png') }}" alt="">
+                                                                </span>
+                                                                <span class="text">Koleksiyonuma Ekle</span>
+                                                        </button>
+                                                    @else
+                                                        <button class="disabledShareButton" data-type='housing'
+                                                            data-id='{{ $housing->id }}'>
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('link.png') }}" alt="">
+                                                                </span>
+                                                                <span class="text">Paylaşıma Kapalı</span>
+                                                        </button>
+                                                    @endif
                                                 @else
                                                     <button class="CartBtn" data-type='housing'
-                                                        data-id='{{ $housing->id }}' style="height:40px !important">
+                                                        data-id='{{ $housing->id }}'>
                                                         <span class="IconContainer">
-                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                            <img src="{{ asset('sc.png') }}"
+                                                                alt="">
+
                                                         </span>
-                                                        <span class="text">Sepete Ekle</span>
+                                                            <span class="text">Sepete Ekle</span>
                                                     </button>
                                                 @endif
                                             @endif

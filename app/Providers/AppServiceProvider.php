@@ -6,6 +6,7 @@ use App\Models\AdBanner;
 use App\Models\FooterLink;
 use App\Models\Menu;
 use App\Models\Page;
+use App\Models\ShareLink;
 use App\Models\SocialMediaIcon;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;

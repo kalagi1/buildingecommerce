@@ -53,8 +53,7 @@
             <div class="card mb-3">
                 <div class="card-img-top" style="background-color: {{ $store->banner_hex_code }}">
                     <div class="brands-square w-100">
-                        <img src="{{ url('storage/profile_images/' . $store->profile_image) }}" alt=""
-                            class="brand-logo">
+                        <img src="{{ url('storage/profile_images/' . $store->profile_image) }}" alt="" class="brand-logo">
                         <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($store->name)) }}"
                                 style="color:White">
                                 {{ $store->name }}
@@ -91,37 +90,8 @@
                                             d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
                                     </g>
                                 </svg>
-                            </a></p>
-                        {{-- <div class="first-footer">
-                            <ul class="netsocials" style="margin-right:30px">
-                                @php
-                                    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-                                    $host = $_SERVER['HTTP_HOST'];
-                                    $uri = $_SERVER['REQUEST_URI'];
-                                    $shareUrl = $protocol . '://' . $host . $uri;
-                                @endphp
-                                <li>
-                                    <a href="https://twitter.com/share?url={{ $shareUrl }}">
-                                        <i class="fa fa-twitter" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://www.instagram.com/">
-                                        <i class="fa fa-instagram" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="whatsapp://send?text={{ $shareUrl }}">
-                                        <i class="fa fa-whatsapp" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                        <i class="fa fa-facebook" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div> --}}
+                            </a>
+                        </p>
                         @if (Auth::check())
                             @if ($store->id == Auth::user()->id)
                                 <a href="{{ url('institutional/choise-advertise-type') }}"
@@ -828,8 +798,77 @@
                                                                 @endif
 
 
-                                                            </div>
-                                                        </div>
+                                                            </li>
+                                                            <li style="display: flex; justify-content: right;width:100%">
+                                                                {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at)) ) }}
+                                                            </li>
+                                                        </ul>
+
+                                                        @if ($housing->step2_slug != 'gunluk-kiralik')
+                                                        @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                            <button class="btn second-btn CartBtn" disabled
+                                                                style="background: red !important;width:100%;color:White">
+
+                                                                <span class="text">Satıldı</span>
+                                                            </button>
+                                                        @else
+                                                            @if ($sold && $sold[0]->status != '2')
+                                                                <button class="btn second-btn CartBtn" disabled
+                                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
+                                                                    @if ($sold[0]->status == '0')
+                                                                        <span class="text">Onay Bekleniyor</span>
+                                                                    @else
+                                                                        <span class="text">Satıldı</span>
+                                                                    @endif
+                                                                </button>
+                                                            @else
+                                                                @if(auth()->check() && auth()->user()->type == 19)
+                                                                    @if(isset(json_decode($housing->housing_type_data)->{"share-open"}) && json_decode($housing->housing_type_data)->{"share-open"}[0])
+                                                                        <button class="CartBtn" data-type='housing'
+                                                                            data-id='{{ $housing->id }}'>
+                                                                                <span class="IconContainer">
+                                                                                    <img src="{{ asset('link.png') }}" alt="">
+                                                                                </span>
+                                                                                <span class="text">Koleksiyonuma Ekle</span>
+                                                                        </button>
+                                                                    @else
+                                                                        <button class="disabledShareButton" data-type='housing'
+                                                                            data-id='{{ $housing->id }}'>
+                                                                                <span class="IconContainer">
+                                                                                    <img src="{{ asset('link.png') }}" alt="">
+                                                                                </span>
+                                                                                <span class="text">Paylaşıma Kapalı</span>
+                                                                        </button>
+                                                                    @endif
+                                                                @else
+                                                                    <button class="CartBtn" data-type='housing'
+                                                                        data-id='{{ $housing->id }}'>
+                                                                        <span class="IconContainer">
+                                                                            <img src="{{ asset('sc.png') }}"
+                                                                                alt="">
+
+                                                                        </span>
+                                                                            <span class="text">Sepete Ekle</span>
+                                                                    </button>
+                                                                @endif
+                                                            @endif
+                                                        @endif
+
+                                                        @else
+                                                        <button onclick="redirectToReservation()" class="reservationBtn">
+                                                            <span class="IconContainer">
+                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                            </span>
+                                                            <span class="text">Rezervasyon Yap</span>
+                                                        </button>
+                                                        
+                                                        <script>
+                                                            function redirectToReservation() {
+                                                                                window.location.href = "{{ route('housing.show', [$housing->id]) }}";
+                                                            }
+                                                        </script>
+                                                        
+                                                        @endif
 
 
                                                     </div>

@@ -17,8 +17,10 @@ use App\Models\StandOutUser;
 use App\Models\User;
 use App\Models\CartOrder;
 use App\Models\Filter;
+use App\Models\ShareLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
@@ -28,80 +30,89 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $menu = Menu::getMenuItems();
-        $secondhandHousings = Housing::with('images')
-        ->select(
-            'housings.id',
-            'housings.title AS housing_title',
-            'housings.created_at',
-            'housings.step1_slug',
-            'housings.step2_slug',
-            'housing_types.title as housing_type_title',
-            'housings.housing_type_data',
-            'project_list_items.column1_name as column1_name',
-            'project_list_items.column2_name as column2_name',
-            'project_list_items.column3_name as column3_name',
-            'project_list_items.column4_name as column4_name',
-            'project_list_items.column1_additional as column1_additional',
-            'project_list_items.column2_additional as column2_additional',
-            'project_list_items.column3_additional as column3_additional',
-            'project_list_items.column4_additional as column4_additional',
-            'housings.address',
-            \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
-            \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
-            'cities.title AS city_title', // city tablosundan veri çekme
-            'districts.ilce_title AS county_title' // district tablosundan veri çekme
-        )
-        ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-        ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
-        ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
-        ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
-        ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
-        ->where('housings.status', 1)
-        ->whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('cart_orders')
-                ->whereRaw('JSON_EXTRACT(cart, "$.type") = "housing"')
-                ->whereRaw('JSON_EXTRACT(cart, "$.item.id") = housings.id')
-                ->where('status',"!=", 1); 
-        })
-        ->where('project_list_items.item_type', 2)
-        ->orderByDesc('doping_time')
-        ->orderByDesc('housings.created_at')
-        ->get();
+        $start = microtime(true);
+        $menu = Cache::rememberForever('menu',function(){
+            return Menu::getMenuItems();
+        });
+
+        $secondhandHousings = Cache::rememberForever('secondhandHousings',function(){
+            return Housing::with('images')
+            ->select(
+                'housings.id',
+                'housings.title AS housing_title',
+                'housings.created_at',
+                'housings.step1_slug',
+                'housings.step2_slug',
+                'housing_types.title as housing_type_title',
+                'housings.housing_type_data',
+                'project_list_items.column1_name as column1_name',
+                'project_list_items.column2_name as column2_name',
+                'project_list_items.column3_name as column3_name',
+                'project_list_items.column4_name as column4_name',
+                'project_list_items.column1_additional as column1_additional',
+                'project_list_items.column2_additional as column2_additional',
+                'project_list_items.column3_additional as column3_additional',
+                'project_list_items.column4_additional as column4_additional',
+                'housings.address',
+                \Illuminate\Support\Facades\DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+                \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
+                'cities.title AS city_title', // city tablosundan veri çekme
+                'districts.ilce_title AS county_title',
+                DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "'.date('Y-m-d H:i:s').'" AND end_date >= "'.date('Y-m-d H:i:s').'") as discount_amount'),
+            )
+            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+            ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+            ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+            ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
+            ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
+            ->where('housings.status', 1)
+            ->where('project_list_items.item_type', 2)
+            ->orderByDesc('doping_time')
+            ->orderByDesc('housings.created_at')
+            ->get();
+            
+        });
+
+
+
+        $dashboardProjects = Cache::rememberForever('dashboardProjects',function(){
+            return StandOutUser::where('start_date', "<=", date("Y-m-d"))
+            ->where('end_date', ">=", date("Y-m-d"))
+            ->where('item_type', 1)
+            ->where('housing_type_id', 0)
+            ->join('doping_orders','doping_orders.stand_out_id','=','stand_out_users.id')
+            ->where('doping_orders.status', 1)
+            ->whereHas('project', function ($query) {
+                $query->where('status', 1);
+            })
+            ->orderByDesc("stand_out_users.created_at")
+            ->get();
+        });
 
             
-        $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))
-        ->where('end_date', ">=", date("Y-m-d"))
-        ->where('item_type', 1)
-        ->where('housing_type_id', 0)
-        ->join('doping_orders','doping_orders.stand_out_id','=','stand_out_users.id')
-        ->where('doping_orders.status', 1)
-        ->whereHas('project', function ($query) {
-            $query->where('status', 1);
-        })
-        ->orderByDesc("stand_out_users.created_at")
-        ->get();
 
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->get();
-        $sliders = Slider::all();
+        $sliders = Cache::rememberForever('sliders',function(){
+            return Slider::all();
+        });
         $footerSlider = FooterSlider::all();
 
-
-        $finishProjects = Project::select('projects.*')
-        ->with("city", "county")
-        ->whereHas('housingStatus', function ($query) {
-            $query->where('housing_type_id', '2');
-        })->with("housings", 'brand', 'roomInfo','listItemValues', 'housingType')
-        ->orderBy("created_at", "desc")
-        ->where('projects.status', 1)
-        ->get();
+        $finishProjects = Cache::rememberForever('finishProjects',function(){
+            return Project::select('projects.*')
+            ->with("city", "county",'user')
+            ->whereHas('housingStatus', function ($query) {
+                $query->where('housing_type_id', '2');
+            })->with("housings", 'brand', 'roomInfo','listItemValues', 'housingType')
+            ->orderBy("created_at", "desc")
+            ->where('projects.status', 1)
+            ->get();
+        });
 
 
         $continueProjects = Project::select(\Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 1 AND item_id = projects.id AND housing_type_id = 0) as doping_time'),'projects.*')
-        ->with("city", "county")
+        ->with("city", "county",'user')
         ->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '3');
         })->with("housings", 'brand', 'roomInfo', 'housingType')
@@ -109,11 +120,18 @@ class HomeController extends Controller
         ->orderBy("created_at", "desc")
         ->get();
 
-        $soilProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
+        if(auth()->user()){
+            $sharerLinks = array_values(array_keys(ShareLink::where('user_id',auth()->user()->id)->where('item_type',2)->get()->keyBy('item_id')->toArray()));
+        }else{
+            $sharerLinks = [];
+        }
+
+
+        $soilProjects = Project::with("city", "county",'user')->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '5');
         })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
 
-        return view('client.home.index', compact('menu', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
+        return view('client.home.index', compact('start','sharerLinks','menu', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 
     public function satKirala() {
@@ -365,8 +383,12 @@ class HomeController extends Controller
         function getData($housing, $key)
         {
             $housing_type_data = json_decode($housing->housing_type_data);
-            $a = $housing_type_data->$key;
-            return $a[0];
+            if(isset($housing_type_data->$key)){
+                $a = $housing_type_data->$key;
+                return $a[0];
+            }else{
+                return false;
+            }
         }
 
         function getImage($housing, $key)
@@ -705,6 +727,7 @@ class HomeController extends Controller
                     'daily_rent' => ($item->step2_slug == "gunluk-kiralik" && getData($item, 'daily_rent')) ? getData($item, 'daily_rent') : null,
                     // 'squaremeters' => getData($item, 'squaremeters') ? getData($item, 'squaremeters') : null,
                     'price' => $item->step2_slug != "gunluk-kiralik" ? getData($item, 'price') - $discount_amount : null ,
+                    'share_open' => getData($item, 'share-open') ? getData($item, 'share-open') : 0,
                     'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
                 ]
 
