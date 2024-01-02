@@ -292,7 +292,7 @@ class ProjectController extends Controller
             $housingTypes = null;
         }
         
-        if(isset($tempDataFull) && isset($tempData->step3_slug) && $tempData->step3_slug){
+        if(isset($tempDataFull) && isset($tempData->step3_slug) && isset($tempData->step2_slug) && $tempData->step2_slug && $tempData->step3_slug){
             $housingTypeTemp = HousingTypeParentConnection::where('slug',$tempData->step3_slug)->where("parent_id",$topParentSecond->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->first();
             
             array_push($areaSlugs,$housingTypeTemp->title);

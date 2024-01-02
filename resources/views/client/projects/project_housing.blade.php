@@ -3220,7 +3220,7 @@
                                                                             @endif
                                         
                                                                         </div>
-                                                                        {{-- <span class="ml-auto text-primary priceFont">
+                                                                         <span class="ml-auto text-primary priceFont">
                                                                             @if ($offer->discount_amount)
                                                                                 <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
                                                                                     stroke-width="2" fill="none" stroke-linecap="round"
