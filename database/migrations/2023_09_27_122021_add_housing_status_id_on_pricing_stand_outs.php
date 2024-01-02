@@ -22,7 +22,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('stand_out_users', function (Blueprint $table) {
-            $table->dropColumn('housing_status_id');
         });
     }
 };

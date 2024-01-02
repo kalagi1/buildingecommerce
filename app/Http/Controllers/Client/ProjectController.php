@@ -31,7 +31,7 @@ class ProjectController extends Controller
         });
 
         $project = Project::where('slug', $slug)
-        ->with("brand","blocks",'listItemValues', "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
+        ->with("brand","blocks",'listItemValues', "neighbourhood","roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
         ->firstOrFail();
 
         $projectCartOrders = DB::table('cart_orders')
@@ -120,7 +120,7 @@ class ProjectController extends Controller
     public function detail($slug)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $slug)->with("brand", "roomInfo","neighbourhood", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         $project->roomInfo = $project->roomInfo;
         $project->brand = $project->brand;
         $project->housingType = $project->housingType;
@@ -226,7 +226,7 @@ class ProjectController extends Controller
                     'project_list_items.column3_additional as column3_additional',
                     'project_list_items.column4_additional as column4_additional',
                     'housings.address',
-                    \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+                        \Illuminate\Support\Facades\DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id) AS sold'),
                     'cities.title AS city_title', // city tablosundan veri çekme
                     'districts.ilce_title AS county_title' // district tablosundan veri çekme
                 )
@@ -492,7 +492,7 @@ class ProjectController extends Controller
     public function projectHousingDetail($projectSlug, $housingOrder,Request $request)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $projectSlug)->with("brand","neighbourhood", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
         $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
@@ -520,13 +520,14 @@ class ProjectController extends Controller
 
         $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
 
+    
         return view('client.projects.project_housing', compact('blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
     public function projectHousingDetailAjax($projectSlug,$housingOrder,Request $request)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $projectSlug)->with("brand","neighbourhood", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
         $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
