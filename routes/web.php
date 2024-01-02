@@ -45,6 +45,7 @@ use App\Http\Controllers\Client\LoginController as ClientLoginController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\PageController as ClientPageController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
+use App\Http\Controllers\Client\RealEstateController;
 use App\Http\Controllers\Client\RegisterController;
 use App\Http\Controllers\Client\SharerController;
 use App\Http\Controllers\Client\SupportChatController;
@@ -82,6 +83,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', [HomeController::class, "index"])->name('index');
+Route::get('/sat-kirala-form', [RealEstateController::class, "index"])->name('real.estate.index');
 Route::get('/sat-kirala', [HomeController::class, "satKirala"])->name('satKirala');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
