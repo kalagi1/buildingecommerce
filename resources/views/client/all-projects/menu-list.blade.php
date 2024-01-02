@@ -769,7 +769,7 @@
                                                         </div>
                                                     </div>
                                                     <!-- homes content -->
-                                                    <div class="homes-content p-3" style="padding: 20px !important; ${res.sold ? 'background: #EEE !important;' : ''}">
+                                                    <div class="homes-content p-3" style="${res.sold ? 'background: #EEE !important;' : ''}">
                                                         <!-- homes address -->
                                                         <a href="${res.housing_url}">
                                                             <h4>${kisaltilmisBaslik}</h4>
@@ -785,7 +785,7 @@ ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='wid
 ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
                                                         </ul>
 
-                                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between">
                                                             <li style="font-size: 15px; font-weight: 700; flex: 1;" class="priceFont">
                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                                     res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
