@@ -226,7 +226,7 @@
                                             @if(getData($project, 'installments-price[]', $i + 1))
                                             <div class="d-flex">
                                                 <div class="input d-none d-flex" style="align-items: center">
-                                                    <input type="text" name="price[]" class="price-only" style="width: 120px;" value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}">
+                                                    <input type="text" name="installments-price[]" class="price-only" style="width: 120px;" value="{{ number_format(getData($project, 'installments-price[]', $i + 1)->value, 2, ',', '.') }}">
                                                     <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
                                                     <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
                                                 </div>
@@ -245,7 +245,7 @@
                                             @if(getData($project, 'installments[]', $i + 1))
                                             <div class="d-flex">
                                                 <div class="input d-none d-flex" style="align-items: center">
-                                                    <input type="text" name="price[]" class="price-only" style="width: 120px;" value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}">
+                                                    <input type="number" min="1" max="150" name="installments[]" class="number-only" style="width: 120px;" value="{{ getData($project, 'installments[]', $i + 1)->value }}">
                                                     <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
                                                     <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
                                                 </div>
@@ -416,14 +416,9 @@
         
 
         $('.price-only').keyup(function(){
-            $('.price-only .error-text').remove();
-            if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
-                if($('.price-only').closest('.form-group').find('.error-text').length > 0){
+            if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                
                     $('.price-only').val("");
-                }else{
-                    $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
-                    $('.price-only').val("");
-                }
                 
             }else{
                 let inputValue = $(this).val();
@@ -435,6 +430,24 @@
                 inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
                 $(this).val(inputValue)
+                $(this).closest('.form-group').find('.error-text').remove();
+            }
+        })
+
+        $('.number-only').keyup(function(){
+            if(parseInt($(this).val()) > $(this).attr('max')){
+                $(this).val($(this).attr('max'))
+            }
+            $('.number-only .error-text').remove();
+            if($(this).val() != parseInt($(this).val())){
+                if($(this).closest('.form-group').find('.error-text').length > 0){
+                    $(this).val("");
+                }else{
+                    $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
+                    $(this).val("");
+                }
+                
+            }else{
                 $(this).closest('.form-group').find('.error-text').remove();
             }
         })

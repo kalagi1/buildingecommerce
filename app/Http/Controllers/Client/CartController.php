@@ -138,7 +138,7 @@ class CartController extends Controller
 
         $buyCartVariables = [
             'username' => $user->name,
-            'companyName' => "Emlak Sepeti",
+            'companyName' => "Emlak Sepette",
             "email" => $user->email,
             "token" => $user->email_verification_token,
         ];
@@ -192,7 +192,7 @@ class CartController extends Controller
                 'paymentDate' => $cartOrder->created_at,
                 'paymentTotalAmount' => $cartOrder->amount,
                 'bankAccount' => $cartOrder->bank->receipent_full_name,
-                'companyName' => "Emlak Sepeti",
+                'companyName' => "Emlak Sepette",
                 "email" => $user->email,
                 "token" => $user->email_verification_token,
             ];

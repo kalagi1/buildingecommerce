@@ -98,7 +98,7 @@
                                         <td>
                                             @if (getHouse($item->project, 'off_sale[]', $item->housing_id)->value != '[]')
                                                 <button class="btn mobileBtn  second-btn CartBtn" disabled
-                                                    style="background: red !important;width:100%;color:White">
+                                                    style="background: #EA2B2E !important;width:100%;color:White">
                                                     <span class="IconContainer">
                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                     </span>
@@ -109,7 +109,7 @@
                                                     <button class="btn second-btn soldBtn" disabled
                                                         @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                         @else 
-                                        style="background: red !important;width:100%;color:White" @endif>
+                                        style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                         @if ($sold[0]->status == '0')
                                                             <span class="text">Onay Bekleniyor</span>
                                                         @else
@@ -168,7 +168,7 @@
                                                     @if ($sold[0]->status != '1' && $sold[0]->status != '0')
                                                         @if ($item->housing->step2_slug == 'gunluk-kiralik')
                                                             {{ number_format(json_decode($item->housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                            ₺ <span style="font-size:11px; color:Red">/ 1 Gece</span>
+                                                            ₺ <span style="font-size:11px; color:Red" class="mobilePriceStyle">/ 1 Gece</span>
                                                         @else
                                                             {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                             ₺
@@ -177,7 +177,7 @@
                                                 @else
                                                     @if ($item->housing->step2_slug == 'gunluk-kiralik')
                                                         {{ number_format(json_decode($item->housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                        ₺ <span style="font-size:11px; color:Red">/ 1 Gece</span>
+                                                        ₺ <span style="font-size:11px; color:Red" class="mobilePriceStyle">/ 1 Gece</span>
                                                     @else
                                                         {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                         ₺
@@ -283,7 +283,7 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        console.log(response);
+                        
                         toastr.success("Konut favorilerden kaldırıldı");
                         console.log("Konut favorilerden kaldırıldı: " + response);
                         location.reload();
@@ -318,7 +318,7 @@
                         housing_id: housingId
                     },
                     success: function(response) {
-                        console.log(response);
+                        
                         toastr.success("Konut favorilerden kaldırıldı");
                         console.log("Konut favorilerden kaldırıldı: " + response);
                         location.reload();

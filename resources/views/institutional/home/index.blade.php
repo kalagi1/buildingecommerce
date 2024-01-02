@@ -110,7 +110,7 @@
                 url: 'chat/history',
                 method: 'GET',
                 success: function(response) {
-                    console.log(response);
+                    
                     renderChatHistory(response);
                 },
                 error: function(error) {

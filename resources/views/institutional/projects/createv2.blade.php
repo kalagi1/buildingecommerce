@@ -424,7 +424,7 @@
                         <div class="finish-area">
                             <div class="icon"><i class="fa fa-thumbs-up"></i></div>
                             <div class="text">Başarıyla ilan eklediniz</div>
-                            <div class="text"><a href="{{route('institutional.projects.index')}}" class="btn btn-info">Projelerime yönlen</a></div>
+                            <div class="text"><a href="{{route('institutional.projects.index')}}" class="btn btn-info">Mağazama Git</a></div>
                         </div>
                     </div>
                 </div>
@@ -1300,7 +1300,7 @@
                                         id: selectedid
                                     },
                                     success: function(response) {
-                                        console.log(response);
+                                        
                                         for(var i = 0 ; i < 1; i++ ){
                                             htmlContent += '<div class="tab-pane fade show '+(i == 0 ? 'active' : '')+'" id="TabContent'+(i+1)+'" role="tabpanel">'+
                                                 '<div id="renderForm'+(i+1)+'"></div>'+
@@ -3384,7 +3384,7 @@
                         processData: false,
                         contentType: false,
                         success: function(response) {
-                            console.log(response);
+                            
                             for (let i = 0; i < response.length; i++) {
                                 var imageDiv = $('<div class="project_imagex" order="'+response[i]+'"></div>');
                                 var image = $('<img>').attr('src', '{{URL::to('/')}}/project_images/'+response[i]);

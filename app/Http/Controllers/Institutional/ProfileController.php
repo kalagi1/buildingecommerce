@@ -109,7 +109,7 @@ class ProfileController extends Controller
         $variables = [
             'username' => $user->name,
             'packageName' => $plan->name,
-            'companyName' => "Emlak Sepeti",
+            'companyName' => "Emlak Sepette",
             "email" => $user->email,
             "token" => $user->email_verification_token,
         ];
@@ -125,7 +125,7 @@ class ProfileController extends Controller
         $sellVariables = [
             'username' => $user->name,
             'packageName' => $plan->name,
-            'companyName' => "Emlak Sepeti",
+            'companyName' => "Emlak Sepette",
             "email" => $user->email,
             "token" => $user->email_verification_token,
         ];

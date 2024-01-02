@@ -166,7 +166,7 @@
         }
 
         .red-border {
-            border: 2px solid red !important;
+            border: 2px solid #EA2B2E !important;
         }
 
         .checkmark::after {

@@ -1058,11 +1058,11 @@ h1 {
 }
 
 h2 {
-    font-size: 36px;
+    font-size: 12px;
 }
 
 h3 {
-    font-size: 24px;
+    font-size: 12px;
 }
 
 h4 {
@@ -3299,7 +3299,7 @@ textarea.form-control {
 }
 
 .ps-post--detail .ps-post__content h4 {
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 600;
     margin-bottom: 30px;
     line-height: 1.4em;
@@ -3408,7 +3408,7 @@ textarea.form-control {
     }
 
     .ps-post--detail .ps-post__header h1 {
-        font-size: 36px;
+        font-size: 12px;
     }
 
     .ps-post--detail .ps-post__header p {
@@ -3436,7 +3436,7 @@ textarea.form-control {
     }
 
     .ps-post--detail .ps-post__header h1 {
-        font-size: 24px;
+        font-size: 12px;
     }
 }
 
@@ -4064,7 +4064,7 @@ textarea.form-control {
 
 .ps-block--countdown-deal .ps-block__left h3 {
     margin-bottom: 0;
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 400;
     margin-right: 70px;
 }
@@ -4133,7 +4133,7 @@ textarea.form-control {
 
 .ps-block--shop-features .ps-block__header h3 {
     font-weight: 400;
-    font-size: 24px;
+    font-size: 12px;
     color: #000;
 }
 
@@ -4381,7 +4381,7 @@ textarea.form-control {
 .ps-block--products-of-category .ps-block__categories h3 {
     margin-bottom: 35px;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 12px;
 }
 
 .ps-block--products-of-category .ps-block__categories ul li a {
@@ -4516,7 +4516,7 @@ textarea.form-control {
 }
 
 .ps-block--recent-viewed .ps-block__header h3 {
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 400;
 }
 
@@ -4562,7 +4562,7 @@ textarea.form-control {
 }
 
 .ps-block--categories-tabs .ps-tab-list a i {
-    font-size: 36px;
+    font-size: 12px;
 }
 
 .ps-block--categories-tabs .ps-tab-list a span {
@@ -4847,7 +4847,7 @@ textarea.form-control {
 
 .ps-block--categories-box .ps-block__header h3 {
     margin-bottom: 0;
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 400;
     color: #000;
     line-height: 1em;
@@ -5235,7 +5235,7 @@ textarea.form-control {
     margin-bottom: 20px;
     color: #000;
     font-weight: 600;
-    font-size: 24px;
+    font-size: 12px;
     line-height: 1.2em;
 }
 
@@ -5262,7 +5262,7 @@ textarea.form-control {
 .ps-block--post--navigation .ps-block__arrow {
     display: block;
     margin-bottom: 10px;
-    font-size: 24px;
+    font-size: 12px;
 }
 
 .ps-block--post--navigation .ps-block__title {
@@ -5388,7 +5388,7 @@ textarea.form-control {
     }
 
     .ps-block--icon-box h4 {
-        font-size: 24px;
+        font-size: 12px;
     }
 
     .ps-block--icon-box p {
@@ -5414,7 +5414,7 @@ textarea.form-control {
 }
 
 .ps-block--icon-box-2 h4 {
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 500;
     margin-bottom: 20px;
     line-height: 1.4em;
@@ -5670,7 +5670,7 @@ textarea.form-control {
     }
 
     .ps-block--vendor-milestone .ps-block__number span {
-        font-size: 24px;
+        font-size: 12px;
     }
 
     .ps-block--vendor-milestone.reverse .ps-block__left {
@@ -5789,7 +5789,7 @@ textarea.form-control {
 
 .ps-block--shopping-total h3 {
     margin-bottom: 0;
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -6059,7 +6059,7 @@ textarea.form-control {
 
 .ps-block--promotion-header .ps-block__left h4 {
     font-weight: 400;
-    font-size: 24px;
+    font-size: 12px;
     margin: 0;
 }
 
@@ -6341,7 +6341,7 @@ textarea.form-control {
 
 .ps-block--vendor-dashboard .ps-block__header h3 {
     margin-bottom: 0;
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 600;
     color: #000;
 }
@@ -6352,7 +6352,7 @@ textarea.form-control {
 
 .ps-block--vendor-status figcaption {
     margin-bottom: 20px;
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 600;
     color: #000;
 }
@@ -6424,7 +6424,7 @@ textarea.form-control {
 .ps-block--top-photographer .ps-block__header h3 {
     margin-bottom: 0;
     font-weight: 600;
-    font-size: 24px;
+    font-size: 12px;
     color: #000;
     line-height: 1em;
 }
@@ -6542,7 +6542,7 @@ textarea.form-control {
 
 @media (min-width: 1200px) {
     .ps-block--testimonial-bg h3 {
-        font-size: 36px;
+        font-size: 12px;
     }
 }
 
@@ -9067,7 +9067,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-product--detail h1 {
     margin-bottom: 10px;
-    font-size: 24px;
+    font-size: 12px;
     color: #000;
     font-weight: 400;
     line-height: 1.2;
@@ -9264,7 +9264,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-product--detail .ps-product__price {
     margin-bottom: 20px;
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 600;
     color: #000;
 }
@@ -12185,7 +12185,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .ps-form--newsletter h3 {
     font-weight: 600;
     margin-bottom: 5px;
-    font-size: 24px;
+    font-size: 12px;
 }
 
 .ps-form--newsletter p {
@@ -12331,7 +12331,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .ps-form--post-comment h3 {
     margin-bottom: 40px;
     font-weight: 600;
-    font-size: 24px;
+    font-size: 12px;
     color: #000;
 }
 
@@ -12532,7 +12532,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-form--subscribe-popup h4 {
     margin-bottom: 10px;
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 400;
 }
 
@@ -12954,7 +12954,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-section--vendor .ps-section__header h4 {
-        font-size: 24px;
+        font-size: 12px;
     }
 }
 
@@ -12969,7 +12969,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-section--vendor .ps-section__header h4 {
-        font-size: 24px;
+        font-size: 12px;
     }
 }
 
@@ -12993,7 +12993,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-section--shopping .ps-section__header h1 {
-        font-size: 36px;
+        font-size: 12px;
     }
 }
 
@@ -13079,7 +13079,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-product-list--2 .ps-section__header h3 {
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -13284,7 +13284,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-shopping .ps-shopping__view ul li a {
-    font-size: 24px;
+    font-size: 12px;
     color: #999999;
 }
 
@@ -13513,7 +13513,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-home-categories .ps-section__header h3 {
     margin-bottom: 0;
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 400;
     line-height: 1em;
 }
@@ -13573,7 +13573,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-home-blog .ps-section__header h3 {
-    font-size: 24px;
+    font-size: 12px;
 }
 
 @media (max-width: 767px) {
@@ -13690,7 +13690,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .ps-related-posts h3 {
     margin-bottom: 60px;
     text-align: center;
-    font-size: 24px;
+    font-size: 12px;
     color: #000;
 }
 
@@ -13701,7 +13701,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-post-comments h3 {
     text-align: center;
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 600;
     color: #000;
     margin-bottom: 40px;
@@ -13719,7 +13719,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-about-intro .ps-section__header h4 {
     margin-bottom: 80px;
-    font-size: 24px;
+    font-size: 12px;
     color: #000;
     font-weight: 600;
 }
@@ -13729,7 +13729,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     font-weight: 400;
     line-height: 1.3em;
     color: #000;
-    font-size: 36px;
+    font-size: 12px;
 }
 
 .ps-about-intro .ps-section__header p {
@@ -13764,7 +13764,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-about-intro .ps-section__header h3 {
-        font-size: 24px;
+        font-size: 12px;
     }
 
     .ps-about-intro .ps-section__header p {
@@ -13783,7 +13783,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-our-team .ps-section__header h3 {
     margin-bottom: 0;
-    font-size: 36px;
+    font-size: 12px;
     font-weight: 400;
     color: #000;
 }
@@ -13836,7 +13836,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-our-team .ps-section__header h3 {
-        font-size: 24px;
+        font-size: 12px;
     }
 
     .ps-our-team .ps-section__content figure {
@@ -13860,7 +13860,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-about-awards .ps-section__header h4 {
     margin-bottom: 65px;
-    font-size: 36px;
+    font-size: 12px;
     color: #000;
     font-weight: 400;
 }
@@ -13896,7 +13896,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
     .ps-about-awards .ps-section__header h4 {
         margin-bottom: 50px;
-        font-size: 24px;
+        font-size: 12px;
     }
 
     .ps-about-awards .ps-section__header p {
@@ -13917,7 +13917,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .ps-contact-info h3 {
     margin-bottom: 60px;
     text-align: center;
-    font-size: 36px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -13927,7 +13927,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-contact-info h3 {
-        font-size: 24px;
+        font-size: 12px;
     }
 }
 
@@ -13949,7 +13949,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .ps-contact-form h3 {
     margin-bottom: 90px;
     text-align: center;
-    font-size: 36px;
+    font-size: 12px;
     font-weight: 600;
     color: #000;
     line-height: 1em;
@@ -13957,7 +13957,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 @media (max-width: 991px) {
     .ps-contact-form h3 {
-        font-size: 24px;
+        font-size: 12px;
     }
 }
 
@@ -13977,7 +13977,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-faqs .ps-section__header h1 {
     text-align: center;
-    font-size: 36px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -13987,7 +13987,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-faqs .ps-section__header h1 {
-        font-size: 24px;
+        font-size: 12px;
     }
 }
 
@@ -13998,7 +13998,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-call-to-action h3 {
-    font-size: 36px;
+    font-size: 12px;
     color: #000;
     font-weight: 600;
 }
@@ -14058,7 +14058,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-vendor-banner .ps-btn {
     padding: 20px 40px;
-    font-size: 24px;
+    font-size: 12px;
     border-radius: 0;
 }
 
@@ -14068,7 +14068,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-vendor-banner h2 {
-        font-size: 36px;
+        font-size: 12px;
     }
 }
 
@@ -14103,7 +14103,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-vendor-banner h2 {
-        font-size: 24px;
+        font-size: 12px;
     }
 }
 
@@ -14290,7 +14290,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-vendor-faqs .ps-section__footer .ps-btn {
     padding: 20px 40px;
-    font-size: 24px;
+    font-size: 12px;
 }
 
 @media (max-width: 991px) {
@@ -14356,7 +14356,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
     .ps-order-tracking .ps-section__header h3 {
         margin-bottom: 20px;
-        font-size: 36px;
+        font-size: 12px;
     }
 
     .ps-order-tracking .ps-section__header p {
@@ -14577,7 +14577,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-vendor-dashboard .ps-section__header h3 {
-        font-size: 36px;
+        font-size: 12px;
     }
 
     .ps-vendor-dashboard .ps-section__header p {
@@ -14627,7 +14627,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-my-account-2 .ps-section__desc figcaption {
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 600;
     color: #000;
     margin-bottom: 20px;
@@ -14649,7 +14649,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-my-account-2 .ps-section__desc .ps-list li i {
     margin-right: 20px;
-    font-size: 36px;
+    font-size: 12px;
     color: black;
 }
 
@@ -14695,7 +14695,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-my-account-2 .ps-form--account .ps-tab-list li a {
-    font-size: 24px;
+    font-size: 12px;
     line-height: 1em;
 }
 
@@ -14776,7 +14776,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .ps-store-list>.container>.ps-section__header h3 {
-    font-size: 36px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -15294,7 +15294,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     margin-bottom: 20px;
     font-weight: 700;
     color: #000;
-    font-size: 24px;
+    font-size: 12px;
 }
 
 #shop-sidebar .ps-layout--shop {
@@ -15343,7 +15343,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-page--404 h3 {
     margin-bottom: 20px;
-    font-size: 36px;
+    font-size: 12px;
     color: #000;
     font-weight: 600;
 }
@@ -15369,7 +15369,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 @media (max-width: 767px) {
     .ps-page--404 h3 {
-        font-size: 24px;
+        font-size: 12px;
     }
 
     .ps-page--404 p {
@@ -15414,7 +15414,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-page--comming-soon .ps-page__header h1 {
     margin-bottom: 20px;
-    font-size: 36px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -15574,7 +15574,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-page--blog .ps-page__header h1 {
-        font-size: 36px;
+        font-size: 12px;
     }
 }
 
@@ -15594,7 +15594,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .ps-page--blog .ps-page__header h1 {
-        font-size: 24px;
+        font-size: 12px;
     }
 }
 
@@ -16543,11 +16543,11 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .header--mobile .header__actions i {
-    font-size: 24px;
+    font-size: 12px;
 }
 
 .header--mobile .ps-block--user-header i {
-    font-size: 24px;
+    font-size: 12px;
 }
 
 .header--mobile .header__top {
@@ -16655,7 +16655,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .header--mobile .header__actions i {
-        font-size: 24px;
+        font-size: 12px;
     }
 
     .header--mobile .ps-block--user-header {
@@ -16663,7 +16663,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     }
 
     .header--mobile .ps-block--user-header i {
-        font-size: 24px;
+        font-size: 12px;
     }
 
     .header--mobile .ps-block--user-header .ps-block__right {
@@ -16688,7 +16688,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .header--mobile-product .header__back i {
     vertical-align: middle;
     margin-right: 16px;
-    font-size: 24px;
+    font-size: 12px;
     color: #000;
 }
 
@@ -16709,7 +16709,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .header--mobile-categories .header__back i {
     vertical-align: middle;
     margin-right: 16px;
-    font-size: 24px;
+    font-size: 12px;
     color: #000;
 }
 
@@ -16854,7 +16854,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .navigation--sidebar .header__actions a i {
-    font-size: 24px;
+    font-size: 12px;
     color: #000;
     vertical-align: middle;
 }
@@ -16927,7 +16927,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .navigation--list .navigation__item i {
-    font-size: 24px;
+    font-size: 12px;
 }
 
 .navigation--list .navigation__item span {
@@ -17204,7 +17204,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 
 .ps-footer--photo .ps-site-info h5 {
     color: #c81919;
-    font-size: 24px;
+    font-size: 12px;
     font-weight: 600;
 }
 

@@ -67,6 +67,7 @@ use App\Http\Controllers\Institutional\SinglePriceController;
 use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\TempOrderController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
+use App\Http\Controllers\NotificationController as ControllersNotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -81,6 +82,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', [HomeController::class, "index"])->name('index');
+Route::get('/sat-kirala', [HomeController::class, "satKirala"])->name('satKirala');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/admin', [AdminHomeController::class, "index"]);
@@ -91,6 +93,7 @@ Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('r
 Route::get('/paylasim-paneli', [SharerController::class,"index"])->name('sharer.index');
 Route::get('/paylasimci-paneli', [SharerController::class,"sharerPanel"])->name('sharer.panel');
 Route::get('/paylasimci-paneli/{username}', [SharerController::class,"sharerPanelByAnotherUser"])->name('sharer.panel.another.user');
+Route::get('/search/results',[HomeController::class, "searchResults"])->name('search.results');
 
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
 Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");
@@ -324,7 +327,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     // Project Controller İzin Kontrolleri
     Route::middleware(['checkPermission:CreateProject'])->group(function () {
         Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.index');
+        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.index.store.old');
         Route::get('/{project_id}/logs', [ProjectController::class, 'logs'])->name('projects.logs');
         Route::get('/project/{projectId}', [ProjectController::class, 'detail'])->name('projects.detail');
         Route::post('/project/status_change/{projectId}', [ProjectController::class, 'setStatus'])->name('project.set.status');
@@ -499,7 +502,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         ->middleware('checkPermission:CreateSiteSetting'); // İzin kontrolü
 
     Route::post('/site-settings/delete', [SiteSettingController::class, 'destroy'])
-        ->name('site-settings.create')
+        ->name('site-settings.delete')
         ->middleware('checkPermission:DeleteSiteSetting'); // İzin kontrolü
 
     Route::get('/smtp/edit', [SmtpSettingController::class, 'edit'])->name('smtp.edit')->middleware('checkPermission:GetSmtpSettingById');

@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
 class HomeController extends Controller
@@ -90,9 +91,8 @@ class HomeController extends Controller
 
             
 
-        $dashboardStatuses = Cache::rememberForever('dashboardStatuses',function(){
-            return HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
-        });
+
+        $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->get();
         $sliders = Cache::rememberForever('sliders',function(){
             return Slider::all();
@@ -134,6 +134,10 @@ class HomeController extends Controller
         return view('client.home.index', compact('start','sharerLinks','menu', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 
+    public function satKirala() {
+        return view("client.satkirala");
+    }
+    
     public function getRenderedProjects(Request $request)
     {
 
@@ -744,36 +748,52 @@ class HomeController extends Controller
         return response()->json(
             [
                 'project_housings' => [],
-                'housings' => Housing::select('housings.*')
-                    ->join('cities', 'cities.id', '=', 'housings.city_id')
-                    ->join('counties', 'counties.id', '=', 'housings.county_id')
-                    ->where('status', 1)
+                'housings' => Housing::with(['city', 'county'])
+                ->where('status', 1)
+                ->where(function ($query) use ($term) {
+                    $query->where('title', 'LIKE', "%{$term}%");
+                    $query->where('description', 'LIKE', "%{$term}%");
+                    $query->orWhereRaw('JSON_EXTRACT(housing_type_data, "$.room_count[0]") = ?', $term);
+                    $query->orWhereHas('city', function ($cityQuery) use ($term) {
+                        $cityQuery->where('title', 'LIKE', "%{$term}%");
+                    });
+                    $query->orWhereHas('county', function ($countyQuery) use ($term) {
+                        $countyQuery->where('title', 'LIKE', "%{$term}%");
+                    });
+                })
+                ->get() 
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'photo' => json_decode($item->housing_type_data)->image,
+                        'name' => $item->title,
+                    ];
+                }),
+            
+
+                    'projects' => Project::where('status', 1)
                     ->where(function ($query) use ($term) {
-                        $query->where('housings.title', 'LIKE', "%{$term}%");
-                        $query->orWhereRaw('JSON_EXTRACT(housings.housing_type_data, "$.room_count[0]") = ?', $term);
-                        $query->orWhere('cities.title', $term);
-                        $query->orWhere('counties.title', $term);
+                        $query->where('project_title', 'LIKE', "%{$term}%")
+                            ->orWhere('step1_slug', 'LIKE', "%{$term}%")
+                            ->orWhere('step2_slug', 'LIKE', "%{$term}%")
+                            ->orWhere('description', 'LIKE', "%{$term}%");
+                    })
+                    ->orWhereHas('city', function ($query) use ($term) {
+                        $query->where('title', 'LIKE', "%{$term}%");
+                    })
+                    ->orWhereHas('county', function ($query) use ($term) {
+                        $query->where('ilce_title', 'LIKE', "%{$term}%");
                     })
                     ->get()
                     ->map(function ($item) {
-                        $housingData = json_decode($item->housing_type_data);
                         return [
                             'id' => $item->id,
-                            'photo' => $housingData->image,
-                            'name' => $item->title,
+                            'photo' => $item->image,
+                            'name' => $item->project_title,
+                            'slug' => $item->slug,
                         ];
                     }),
-                'projects' => Project::where('project_title', 'LIKE', "%{$term}%")
-                    ->where('status', 1)
-                    ->get()->map(function ($item) {
-                    return [
-                        'id' => $item->id,
-                        'photo' => $item->image,
-                        'name' => $item->project_title,
-                        'slug' => $item->slug,
-
-                    ];
-                }),
+                
                 'merchants' => User::where('type', '2')->where('name', 'LIKE', "%{$term}%")->get()->map(function ($item) {
                     return [
                         'id' => $item->id,
@@ -784,6 +804,107 @@ class HomeController extends Controller
                 }),
             ]
         );
+    }
+
+    public function searchResults(Request $request)
+    {
+        $request->validate([
+            'searchTerm' => 'required|string',
+        ]);
+
+        $term = $request->input('searchTerm');
+
+        $results = [
+            'project_housings' => [],
+            'housings' => 
+            Housing::with('images')
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.created_at',
+            'housings.step1_slug',
+            'housings.step2_slug',
+            'housing_types.title as housing_type_title',
+            'housings.housing_type_data',
+            'project_list_items.column1_name as column1_name',
+            'project_list_items.column2_name as column2_name',
+            'project_list_items.column3_name as column3_name',
+            'project_list_items.column4_name as column4_name',
+            'project_list_items.column1_additional as column1_additional',
+            'project_list_items.column2_additional as column2_additional',
+            'project_list_items.column3_additional as column3_additional',
+            'project_list_items.column4_additional as column4_additional',
+            'housings.address',
+            \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+            \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
+            'cities.title AS city_title', // city tablosundan veri çekme
+            'districts.ilce_title AS county_title' // district tablosundan veri çekme
+        )
+        ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+        ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+        ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+        ->where('housings.status', 1)
+        ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
+        ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
+        ->where('project_list_items.item_type', 2)
+        ->where(function ($query) use ($term) {
+            $query->where('housings.title', 'LIKE', "%{$term}%");
+            $query->orWhere('housings.description', 'LIKE', "%{$term}%");
+            $query->orWhereRaw('JSON_EXTRACT(housings.housing_type_data, "$.room_count[0]") = ?', $term);
+            $query->orWhereHas('city', function ($cityQuery) use ($term) {
+                $cityQuery->where('title', 'LIKE', "%{$term}%");
+            });
+            $query->orWhereHas('county', function ($countyQuery) use ($term) {
+                $countyQuery->where('title', 'LIKE', "%{$term}%");
+            });
+        })
+        ->whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('cart_orders')
+                ->whereRaw('JSON_EXTRACT(cart, "$.type") = "housing"')
+                ->whereRaw('JSON_EXTRACT(cart, "$.item.id") = housings.id')
+                ->where('status',"!=", 1); 
+        })
+        ->orderByDesc('doping_time')
+        ->orderByDesc('housings.created_at')
+        ->paginate(12),
+
+            'projects' => Project::where('status', 1)
+                ->where(function ($query) use ($term) {
+                    $query->where('project_title', 'LIKE', "%{$term}%")
+                        ->orWhere('step1_slug', 'LIKE', "%{$term}%")
+                        ->orWhere('step2_slug', 'LIKE', "%{$term}%")
+                        ->orWhere('description', 'LIKE', "%{$term}%");
+                })
+                ->orWhereHas('city', function ($query) use ($term) {
+                    $query->where('title', 'LIKE', "%{$term}%");
+                })
+                ->orWhereHas('county', function ($query) use ($term) {
+                    $query->where('ilce_title', 'LIKE', "%{$term}%");
+                })
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'photo' => $item->image,
+                        'name' => $item->project_title,
+                        'slug' => $item->slug,
+                    ];
+                }),
+
+            'merchants' => User::where('type', '2')->where('name', 'LIKE', "%{$term}%")
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'photo' => $item->profile_image,
+                        'name' => $item->name,
+                        'slug' => Str::slug($item->name),
+                    ];
+                }),
+        ];
+
+        return view("client.search.result", compact('results','term'));
     }
 
 }

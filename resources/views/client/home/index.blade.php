@@ -1,9 +1,9 @@
 @extends('client.layouts.master')
 
 @section('content')
-<meta name="description" content="Emlak Sepette">
-<meta name="author" content="Innovatica Code">
-<title>Emlak Sepette</title>
+    <meta name="description" content="Emlak Sepette">
+    <meta name="author" content="Innovatica Code">
+    <title>Emlak Sepette</title>
     <style>
         section.portfolio .slick-slide {
             margin-right: 10px;
@@ -181,12 +181,13 @@
                                                     style="padding-left:10px;text-transform:uppercase;">
                                                     <span
                                                         class="badge badge-phoenix text-left">{{ $project->project->project_title }}
-                                                        <span class="d-block"><small>{{ $project->project->city->title }} /
-                                                                {{ $project->project->county->ilce_title }}</small></span></span>
+                                                        <span class="d-block mt-1 mb-1"><small>{{ $project->project->city->title }} /
+                                                                {{ $project->project->county->ilce_title }} 
+                                                                {{ $project->project->neighbourhood ? "/ ". $project->project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                                 </div>
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"
-                                                    alt="" style="height:100%;object-fit:cover">
+                                                    alt="" style="height:100%;object-fit:contain">
                                             </a>
                                         </div>
                                     </div>
@@ -211,8 +212,7 @@
                     <h2>Tamamlanan Projeler</h2>
                 </div>
                 <a href="https://emlaksepeti.innovaticacode.com/kategori/tamamlanan-projeler" style="font-size: 12px;">
-                    <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
-                        class="w-100">
+                    <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
                 </a>
@@ -231,8 +231,8 @@
             @endphp
             <div class="mobile-show">
                 @foreach ($finishProjects as $project)
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin marginLeftRightZero" data-aos="zoom-in"
-                        data-aos-delay="150" style="height:200px">
+                    <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin marginLeftRightZero"
+                        data-aos="zoom-in" data-aos-delay="150" style="height:200px">
                         <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in"
                             data-aos-delay="150">
                             <div class="listing-item compact" style="height:100%">
@@ -242,12 +242,12 @@
                                         alt="">
                                     <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
                                         <span class="badge badge-phoenix">{{ $project->project_title }} <span
-                                                class="d-block"><small>{{ $project->city->title }} /
+                                                class="d-block mt-1 mb-1"><small>{{ $project->city->title }} /
                                                     {{ $project->county->ilce_title }}</small></span></span>
 
                                     </div>
                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                        alt="" style="height:100%;object-fit:cover">
+                                        alt="" style="height:100%;object-fit:contain">
                                 </a>
                             </div>
                         </div>
@@ -275,12 +275,13 @@
                                                         style="padding-left:10px;text-transform:uppercase;">
                                                         <span
                                                             class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                            <span class="d-block"><small>{{ $project->city->title }} /
-                                                                    {{ $project->county->ilce_title }}</small></span></span>
+                                                            <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }} /
+                                                                    {{ $project->county->ilce_title }}
+                                                                    {{ $project->neighbourhood ? "/ ". $project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                                     </div>
                                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                                        alt="" style="height:100%;object-fit:cover">
+                                                        alt="" style="height:100%;object-fit:contain">
                                                 </a>
                                             </div>
                                         </div>
@@ -308,16 +309,15 @@
                     <h2>Devam Eden Projeler</h2>
                 </div>
                 <a href="https://emlaksepeti.innovaticacode.com/kategori/devam-eden-projeler" style="font-size: 12px;">
-                    <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
-                        class="w-100">
+                    <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
                 </a>
             </div>
             <div class="mobile-show">
                 @foreach ($continueProjects as $project)
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin marginLeftRightZero" data-aos="zoom-in"
-                        data-aos-delay="150" style="height:200px">
+                    <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin marginLeftRightZero"
+                        data-aos="zoom-in" data-aos-delay="150" style="height:200px">
                         <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in"
                             data-aos-delay="150">
                             <div class="listing-item compact" style="height:100%">
@@ -327,12 +327,13 @@
                                         alt="">
                                     <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
                                         <span class="badge badge-phoenix text-left">{{ $project->project_title }} <span
-                                                class="d-block"><small>{{ $project->city->title }} /
-                                                    {{ $project->county->ilce_title }}</small></span></span>
+                                                class="d-block mt-1 mb-1"><small>{{ $project->city->title }} /
+                                                    {{ $project->county->ilce_title }}
+                                                    {{ $project->neighbourhood ? "/ ". $project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                     </div>
                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                        alt="" style="height:100%;object-fit:cover">
+                                        alt="" style="height:100%;object-fit:contain">
                                 </a>
                             </div>
                         </div>
@@ -360,12 +361,13 @@
                                                         style="padding-left:10px;text-transform:uppercase;">
                                                         <span
                                                             class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                            <span class="d-block"><small>{{ $project->city->title }} /
-                                                                    {{ $project->county->ilce_title }}</small></span></span>
+                                                            <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }} /
+                                                                    {{ $project->county->ilce_title }}
+                                                                    {{ $project->neighbourhood ? "/ ". $project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                                     </div>
                                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                                        alt="" style="height:100%;object-fit:cover">
+                                                        alt="" style="height:100%;object-fit:contain">
                                                 </a>
                                             </div>
                                         </div>
@@ -392,16 +394,15 @@
                     <h2>Topraktan Projeler</h2>
                 </div>
                 <a href="https://emlaksepeti.innovaticacode.com/kategori/topraktan-projeler" style="font-size: 12px;">
-                    <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
-                        class="w-100">
+                    <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
                 </a>
             </div>
             <div class="mobile-show">
                 @foreach ($soilProjects as $project)
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin marginLeftRightZero" data-aos="zoom-in"
-                        data-aos-delay="150" style="height:200px">
+                    <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin marginLeftRightZero"
+                        data-aos="zoom-in" data-aos-delay="150" style="height:200px">
                         <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in"
                             data-aos-delay="150">
                             <div class="listing-item compact" style="height:100%">
@@ -411,12 +412,13 @@
                                         alt="">
                                     <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
                                         <span class="badge badge-phoenix text-left">{{ $project->project_title }} <span
-                                                class="d-block"><small>{{ $project->city->title }} /
-                                                    {{ $project->county->ilce_title }}</small></span></span>
+                                                class="d-block mt-1 mb-1"><small>{{ $project->city->title }} /
+                                                    {{ $project->county->ilce_title }}
+                                                    {{ $project->neighbourhood ? "/ ". $project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                     </div>
                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                        alt="" style="height:100%;object-fit:cover">
+                                        alt="" style="height:100%;object-fit:contain">
                                 </a>
                             </div>
                         </div>
@@ -444,12 +446,13 @@
                                                         style="padding-left:10px;text-transform:uppercase;">
                                                         <span
                                                             class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                            <span class="d-block"><small>{{ $project->city->title }} /
-                                                                    {{ $project->county->ilce_title }}</small></span></span>
+                                                            <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }} /
+                                                                    {{ $project->county->ilce_title }}
+                                                                    {{ $project->neighbourhood ? "/ ". $project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                                     </div>
                                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                                        alt="" style="height:100%;object-fit:cover">
+                                                        alt="" style="height:100%;object-fit:contain">
                                                 </a>
                                             </div>
                                         </div>
@@ -500,22 +503,24 @@
 
                                 <a style="text-decoration: none;height:100%"
                                     href="{{ route('housing.show', $housing->id) }}">
-                                    <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
-                                    </h4>
+                                    <div class="d-flex"
+                                        style="gap: 8px;justify-content:space-between;align-items:center">
+                                        <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
+                                        </h4>
+                                        <span class="btn toggle-favorite bg-white"
+                                            data-housing-id="{{ $housing->id }}" style="color: white;">
+                                            <i class="fa fa-heart-o"></i>
+                                        </span>
+                                    </div>
                                 </a>
                                 <div class="d-flex" style="align-items:Center">
                                     <div class="d-flex" style="gap: 8px;">
-                                        <a href="#" class="btn toggle-favorite bg-white"
-                                            data-housing-id="{{ $housing->id }}" style="color: white;">
-                                            <i class="fa fa-heart-o"></i>
-                                        </a>
+
                                         @if ($housing->step2_slug != 'gunluk-kiralik')
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                <button class="btn   mobileBtn  second-btn CartBtn" disabled
-                                                    style="background: red !important;width:100%;color:White">
-                                                    <span class="IconContainer">
-                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                    </span>
+                                                <button class="btn second-btn  mobileCBtn" 
+                                                    style="background: #EA2B2E !important;width:100%;color:White">
+
                                                     <span class="text">Satıldı</span>
                                                 </button>
                                             @else
@@ -534,21 +539,25 @@
                                                         @endif
                                                     </button>
                                                 @else
-                                                    <button class="CartBtn  mobile px-2"
-                                                        style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
-                                                        data-type='housing' data-id='{{ $housing->id }}'>
-                                                        <img src="{{ asset('images/sc.png') }}" alt="sc"
-                                                            width="24px" height="24px"
-                                                            style="width: 24px !important; height: 24px !important;" />
+                                                    <button class="CartBtn mobileCBtn" data-type='housing'
+                                                        data-id='{{ $housing->id }}'>
+                                                        <span class="IconContainer">
+                                                            <img src="{{ asset('sc.png') }}" alt="">
+
+                                                        </span>
+                                                        <span class="text">Sepete Ekle</span>
                                                     </button>
                                                 @endif
                                             @endif
                                         @else
-                                            <button onclick="redirectToReservation()" class="reservationBtn mobileBtn">
+                                            <button onclick="redirectToReservation()"
+                                                class="reservationBtn CartBtn mobileCBtn">
                                                 <span class="IconContainer">
                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                 </span>
+                                                <span class="text">Rezervasyon Yap</span>
                                             </button>
+
                                             <script>
                                                 function redirectToReservation() {
                                                     window.location.href = "{{ route('housing.show', [$housing->id]) }}";
@@ -571,7 +580,7 @@
                                                     @if ($housing->step2_slug == 'gunluk-kiralik')
                                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                         ₺
-                                                        <span style="font-size:11px; color:Red">/ 1 Gece</span>
+                                                        <span style="font-size:11px; color:Red" class="mobilePriceStyle">/ 1 Gece</span>
                                                     @else
                                                         {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                         ₺
@@ -581,7 +590,7 @@
                                                 @if ($housing->step2_slug == 'gunluk-kiralik')
                                                     {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                     ₺
-                                                    <span style="font-size:11px; color:Red">/ 1 Gece</span>
+                                                    <span style="font-size:11px; color:Red" class="mobilePriceStyle">/ 1 Gece</span>
                                                 @else
                                                     {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                     ₺
@@ -595,51 +604,69 @@
                         </div>
                     </div>
                     <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
-                        <ul class="d-flex align-items-center h-100"
-                            style="list-style: none;padding:0;font-weight:600;justify-content:space-evenly">
-                            <li class="d-flex align-items-center itemCircleFont">
-                                <i class="fa fa-circle circleIcon"></i>
-                                No: {{ $housing->id }}
-                            </li>
-                            @if ($housing->column2_name)
-                                <li class="d-flex align-items-center itemCircleFont">
+                        <div class="d-flex justify-content-between align-items-center"
+                            style="height: 100%;padding: 10px">
+                            <ul class="d-flex align-items-center h-100"
+                                style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
+                              
 
-                                    <i class="fa fa-circle circleIcon mr-1"></i>
-                                    <span>{{ json_decode($housing->housing_type_data)->{$housing->column2_name}[0] ?? null }}
-                                        @if ($housing->column2_additional)
-                                            {{ $housing->column2_additional }}
-                                        @endif
-                                    </span>
-                                </li>
-                            @endif
+                                @if ($housing->column1_name)
+                                    <li class="d-flex align-items-center itemCircleFont">
 
-                            @if ($housing->column3_name)
-                                <li class="d-flex align-items-center itemCircleFont">
+                                        <i class="fa fa-circle circleIcon mr-1"></i>
+                                        <span>{{ json_decode($housing->housing_type_data)->{$housing->column1_name}[0] ?? null }}
+                                            @if ($housing->column1_additional)
+                                                {{ $housing->column1_additional }}
+                                            @endif
+                                        </span>
+                                    </li>
+                                @endif
 
-                                    <i class="fa fa-circle circleIcon mr-1"></i>
-                                    <span>{{ json_decode($housing->housing_type_data)->{$housing->column3_name}[0] ?? null }}
-                                        @if ($housing->column3_additional)
-                                            {{ $housing->column3_additional }}
-                                        @endif
-                                    </span>
-                                </li>
-                            @endif
+                                @if ($housing->column2_name)
+                                    <li class="d-flex align-items-center itemCircleFont">
 
-                            @if ($housing->column4_name)
-                                <li class="d-flex align-items-center itemCircleFont">
+                                        <i class="fa fa-circle circleIcon mr-1"></i>
+                                        <span>{{ json_decode($housing->housing_type_data)->{$housing->column2_name}[0] ?? null }}
+                                            @if ($housing->column2_additional)
+                                                {{ $housing->column2_additional }}
+                                            @endif
+                                        </span>
+                                    </li>
+                                @endif
 
-                                    <i class="fa fa-circle circleIcon mr-1"></i>
-                                    <span>{{ json_decode($housing->housing_type_data)->{$housing->column4_name}[0] ?? null }}
-                                        @if ($housing->column4_additional)
-                                            {{ $housing->column4_additional }}
-                                        @endif
-                                    </span>
-                                </li>
-                            @endif
+                                @if ($housing->column3_name)
+                                    <li class="d-flex align-items-center itemCircleFont">
+
+                                        <i class="fa fa-circle circleIcon mr-1"></i>
+                                        <span>{{ json_decode($housing->housing_type_data)->{$housing->column3_name}[0] ?? null }}
+                                            @if ($housing->column3_additional)
+                                                {{ $housing->column3_additional }}
+                                            @endif
+                                        </span>
+                                    </li>
+                                @endif
+
+                                @if ($housing->column4_name)
+                                    <li class="d-flex align-items-center itemCircleFont">
+
+                                        <i class="fa fa-circle circleIcon mr-1"></i>
+                                        <span>{{ json_decode($housing->housing_type_data)->{$housing->column4_name}[0] ?? null }}
+                                            @if ($housing->column4_additional)
+                                                {{ $housing->column4_additional }}
+                                            @endif
+                                        </span>
+                                    </li>
+                                @endif
 
 
 
-                        </ul>
+                            </ul>
+
+
+                            <span style="font-size: 11px !important">{!! $housing->city_title !!}
+                                {{ '/' }} {!! $housing->county_title !!}</span>
+                        </div>
+
                     </div>
                     <hr>
                 @endforeach
@@ -1121,122 +1148,7 @@
         </div>
     </section>
 
-
-    <!-- END SECTION RECENTLY PROPERTIES -->
-
-
-    {{-- <section class="real-estate popular-places bg-white ">
-        <div class="container">
-
-            <div class="section-title mbb ">
-                <h2>Emlak 360</h2>
-            </div>
-            <div class="real-estate-body pt-5 border-top pb-5">
-                <div class="row ">
-                    <div class="col-md-2 col-6 text-center">
-                        <div class="estate-item">
-                            <img src="images/iconbar.png" style="width: 50px;" alt="">
-                            <p>Emlak Endeksi</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-6 text-center">
-                        <div class="estate-item">
-                            <img src="images/Group 575.png" style="width: 50px;" alt="">
-                            <p>Emlak Endeksi</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-6 text-center">
-                        <div class="estate-item">
-                            <img src="images/Group 576.png" style="width: 50px;" alt="">
-                            <p>Emlak Endeksi</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-6 text-center">
-                        <div class="estate-item">
-                            <img src="images/Group 577.png" style="width: 50px;" alt="">
-                            <p>Emlak Endeksi</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-6 text-center">
-                        <div class="estate-item">
-                            <img src="images/Group 578.png" style="width: 50px;" alt="">
-                            <p>Emlak Endeksi</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-6 text-center">
-                        <div class="estate-item">
-                            <img src="images/Group 579.png" style="width: 50px;" alt="">
-                            <p>Emlak Endeksi</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- START SECTION INFO-HELP -->
-    <section class="container">
-        <div class="info-help h18">
-            <div class="row info-head">
-                <div class="col-lg-12 col-md-8 col-xs-8">
-                    <div class="info-text" data-aos="fade-up" data-aos-delay="150">
-                        <h3 class="text-center mb-0">Neden Biz</h3>
-                        <p class="text-center mb-4 p-0">Lorem ipsum dolor sit amet consectetur.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- END SECTION INFO HELP --> --}}
-
-    {{-- <!-- START SECTION INFO -->
-    <section class="featured-boxes-area bg-white-1 ">
-        <div class="container">
-            <div class="featured-boxes-inner">
-                <div class="row m-0">
-                    <div class="col-lg-3 col-sm-6 col-md-6 p-0" data-aos="fade-up" data-aos-delay="250">
-                        <div class="single-featured-box">
-                            <div class="icon color-fb7756"><img src="images/icons/i-1.svg" width="85" height="85"
-                                    alt=""></div>
-                            <h3 class="mt-5">Find Your Home</h3>
-                            <p>Lorem ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan.
-                            </p><a class="read-more-btn" href="single-property-1.html">Read More</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-md-6 p-0" data-aos="fade-up" data-aos-delay="350">
-                        <div class="single-featured-box">
-                            <div class="icon color-facd60"><img src="images/icons/i-2.svg" width="85" height="85"
-                                    alt=""></div>
-                            <h3 class="mt-5">Trusted by thousands</h3>
-                            <p>Lorem ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan.
-                            </p><a class="read-more-btn" href="single-property-1.html">Read More</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-md-6 p-0" data-aos="fade-up" data-aos-delay="450">
-                        <div class="single-featured-box">
-                            <div class="icon color-1ac0c6"><img src="images/icons/i-3.svg" width="85" height="85"
-                                    alt=""></div>
-                            <h3 class="mt-5">Financing made easy</h3>
-                            <p>Lorem ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan.
-                            </p><a class="read-more-btn" href="single-property-1.html">Read More</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-md-6 p-0" data-aos="fade-up" data-aos-delay="550">
-                        <div class="single-featured-box">
-                            <div class="icon"><img src="images/icons/i-4.svg" width="85" height="85"
-                                    alt=""></div>
-                            <h3 class="mt-5">24/7 support</h3>
-                            <p>Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan.</p>
-                            <a class="read-more-btn" href="single-property-1.html">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- END SECTION INFO --> --}}
-
-
+   
 
 
     <!-- START SECTION RECENTLY PROPERTIES -->
@@ -1316,7 +1228,17 @@
         });
 
         function fetchChatHistory() {
-            
+            $.ajax({
+                url: 'chat/history',
+                method: 'GET',
+                success: function(response) {
+                    
+                    renderChatHistory(response);
+                },
+                error: function(error) {
+                    console.error('Sohbet geçmişi alınamadı:', error);
+                }
+            });
 
         }
 
@@ -1528,44 +1450,6 @@
 
 @section('styles')
     <style>
-        .projectMobileMargin {
-            margin-top: 20px !important;
-        }
-
-        @media (max-width: 768px) {
-            .marginLeftRightZero{
-                padding: 0 !important;
-            }
-            .section-title {
-                margin-bottom: 20px !important;
-                padding-bottom: 0 !important;
-            }
-
-            .circleIcon {
-                font-size: 5px;
-                color: #e54242;
-                padding-right: 5px
-            }
-
-            .priceFont {
-                font-weight: 600;
-                font-size: 12px;
-                color: #274abb !important;
-            }
-        }
-
-        .statusHome {
-            width: 20%;
-            max-width: 20%;
-            flex: 0 0 20%;
-        }
-
-        @media (max-width: 768px) {
-            .statusHome {
-                width: 100% !important;
-                max-width: 100% !important;
-                flex: auto !important;
-            }
-        }
+     
     </style>
 @endsection

@@ -98,7 +98,7 @@ class RegisterController extends Controller
         $user->profile_image = "indir.png";
         $user->banner_hex_code = "black";
         $user->password = bcrypt($request->input("password"));
-        $user->type = $request->input("type");
+        $user->type = $request->input("type") ? $request->input("type") : 1;
         $user->activity = $request->input("activity");
         $user->county_id = $request->input("county_id");
         $user->city_id = $request->input("city_id");
@@ -142,7 +142,7 @@ class RegisterController extends Controller
 
         $variables = [
             'username' => $user->name,
-            'companyName' => "Emlak Sepeti",
+            'companyName' => "Emlak Sepette",
             "email" => $request->input("email"),
             "token" => $user->email_verification_token,
             "verificationLink" => URL::to("/verify-email/{$user->email_verification_token}"),

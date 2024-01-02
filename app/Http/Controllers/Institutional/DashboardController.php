@@ -130,7 +130,7 @@ class DashboardController extends Controller
 
         $variables = [
             'username' => $user->name,
-            'companyName' => "Emlak Sepeti",
+            'companyName' => "Emlak Sepette",
             "email" => $user->email,
             "token" => $user->email_verification_token,
         ];
@@ -177,7 +177,7 @@ class DashboardController extends Controller
             $adminVariables = [
                 'username' => $user->name,
                 'adminName' => $admin->name,
-                'companyName' => "Emlak Sepeti",
+                'companyName' => "Emlak Sepette",
                 "email" => $user->email,
                 "token" => $user->email_verification_token,
             ];

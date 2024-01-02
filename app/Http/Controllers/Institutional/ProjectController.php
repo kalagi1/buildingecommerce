@@ -627,16 +627,18 @@ class ProjectController extends Controller
                     "status" => 0,
                 ]);
             }
-
-            DocumentNotification::create(
-                [
-                    'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
-                    'text' => 'Yeni bir proje eklendi. <a href="' . route('project.detail', ['slug' => $project->slug]) . '">Linke git</a>',
-                    'item_id' => $project->id,
-                    'owner_id' => 4,
-                    'is_visible' => true,
-                ]
-            );
+            
+            $notificationLink =  route('project.detail', ['slug' => $project->slug]);
+            $notificationText = 'Proje #' . $project->id . ' şu anda admin onayına gönderildi. Onaylandığı takdirde yayına alınacaktır.';
+            DocumentNotification::create([
+                'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
+                'text' => $notificationText,
+                'item_id' => $project->id,
+                'link' => $notificationLink,
+                'owner_id' => 4,
+                'is_visible' => true,
+            ]);
+            
 
             DB::commit();
 
@@ -647,16 +649,16 @@ class ProjectController extends Controller
                 "status" => true,
             ]);
 
-            DocumentNotification::create(
-                [
-                    'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
-                    'text' => 'Yeni bir proje eklendi.',
-                    'item_id' => $project->id,
-                    'link' => route('admin.projects.detail', ['projectId' => $project->id]),
-                    'owner_id' => 4,
-                    'is_visible' => true,
-                ]
-            );
+            $notificationLink =  route('project.detail', ['slug' => $project->slug]);
+            $notificationText = 'Proje #' . $project->id . ' şu anda admin onayına gönderildi. Onaylandığı takdirde yayına alınacaktır.';
+            DocumentNotification::create([
+                'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
+                'text' => $notificationText,
+                'item_id' => $project->id,
+                'link' => $notificationLink,
+                'owner_id' => 4,
+                'is_visible' => true,
+            ]);
 
             DB::commit();
 
@@ -817,16 +819,19 @@ class ProjectController extends Controller
             }
         }
 
-        DocumentNotification::create(
-            [
-                'user_id' => auth()->user()->id,
-                'text' => 'Yeni bir proje eklendi.',
-                'item_id' => $project->id,
-                'link' => route('admin.projects.detail', ['projectId' => $project->id]),
-                'owner_id' => 4,
-                'is_visible' => true,
-            ]
-        );
+
+        
+        $notificationLink =  route('project.detail', ['slug' => $project->slug]);
+        $notificationText = 'Proje #' . $project->id . ' yayınlandı.';
+        DocumentNotification::create([
+            'user_id' => auth()->user()->id,
+            'text' => $notificationText,
+            'item_id' => $project->id,
+            'link' => $notificationLink,
+            'owner_id' => 4,
+            'is_visible' => true,
+        ]);
+
 
         return redirect()->route('institutional.projects.index', ["status" => "new_project"]);
     }

@@ -69,7 +69,7 @@ class LoginController extends Controller
 
         $variables = [
             'username' => $user->name,
-            'companyName' => "Emlak Sepeti",
+            'companyName' => "Emlak Sepette",
             "email" => $user->email,
             "token" => $user->email_verification_token,
             "verificationLink" => URL::to("/verify-email/{$user->email_verification_token}"),

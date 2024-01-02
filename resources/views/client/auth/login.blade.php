@@ -12,14 +12,14 @@
                                 <a class="nav-link @if ($errors->has('login_error') || !$errors->any()) active show @else hide @endif "
                                     id="normal-tab" data-toggle="tab" href="#normal" role="tab" aria-controls="normal"
                                     aria-selected="true">
-                                    <h3 class="text-center font-weight-bold">Giriş Yap</h3>
+                                    <h3 class="text-center ">Giriş Yap</h3>
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link @if ($errors->any() && !$errors->has('login_error')) active show @endif" id="corporate-tab"
                                     data-toggle="tab" href="#corporate" role="tab" aria-controls="corporate"
                                     aria-selected="false">
-                                    <h3 class="text-center font-weight-bold">Kayıt Ol</h3>
+                                    <h3 class="text-center ">Kayıt Ol</h3>
                                 </a>
                             </li>
                         </ul>
@@ -131,7 +131,7 @@
                                             <label class="q-label">Kullanıcı Türü</label>
                                             <div class="button-group">
                                                 <button
-                                                    class="user-type-button individual {{ old('type') == 1 ? 'active' : '' }}"
+                                                    class="user-type-button individual active {{ old('type') == 1 ? 'active' : '' }}"
                                                     data-user-type="1" type="button">Bireysel</button>
                                                 <button
                                                     class="user-type-button institutional {{ old('type') == 2 ? 'active' : '' }}"
@@ -612,7 +612,7 @@
         }
 
         .error-border {
-            border: 1px solid red !important;
+            border: 1px solid #EA2B2E !important;
         }
 
         .error-message {

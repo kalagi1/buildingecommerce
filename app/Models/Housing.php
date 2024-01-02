@@ -48,7 +48,7 @@ class Housing extends Model
     {
         return $this->hasOne(City::class, "id", "city_id");
     }
-
+        
     public function county()
     {
         return $this->hasOne(County::class, "key_x", "county_id");

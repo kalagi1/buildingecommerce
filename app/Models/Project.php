@@ -75,6 +75,11 @@ class Project extends Model
         return $this->hasOne(District::class, "ilce_key", "county_id");
     }
 
+    public function neighbourhood()
+    {
+        return $this->hasOne(Neighborhood::class, "mahalle_key", "neighbourhood_id");
+    }
+
     public function blocks()
     {
         return $this->hasMany(Block::class);

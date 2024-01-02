@@ -65,7 +65,7 @@ class ProjectController extends Controller
         for($i = 0; $i < $blockIndex; $i++){
             $startIndex += $project->blocks[$i]->housing_count;
         }
-        $endIndex = $startIndex + 10;
+        $endIndex = $startIndex + 20;
         return view('client.projects.index', compact('salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
     }
     
@@ -107,8 +107,8 @@ class ProjectController extends Controller
         for($i = 0; $i < $blockIndex + 1; $i++){
             $blockHousingCount += $project->blocks[$i]->housing_count;
         }
-        $startIndex = $startIndex + ($selectedPage * 10);
-        $endIndex = $startIndex + 10;
+        $startIndex = $startIndex + ($selectedPage * 20);
+        $endIndex = $startIndex + 20;
         if($endIndex > $blockHousingCount ){
             $endIndex = $blockHousingCount;
         }
@@ -374,59 +374,66 @@ class ProjectController extends Controller
         $cities = City::get();
         $menu = Menu::getMenuItems();
         $newHousingType = HousingType::where('slug',$housingTypeSlug)->first();
-        if($projects){
-            if($housingTypeSlug && $newHousingType){
-                $filtersDb = Filter::where('item_type',1)->where('housing_type_id',$newHousingType->id)->get()->keyBy('filter_name')->toArray();
+        if ($projects) {
+            if ($housingTypeSlug && $newHousingType) {
+                $filtersDb = Filter::where('item_type', 1)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
                 $filtersDbx = array_keys($filtersDb);
                 $housingTypeData = json_decode($newHousingType->form_json);
-                foreach($housingTypeData as $data){
-                    if(in_array(str_replace('[]','',$data->name),$filtersDbx)){
-                        if($data->type == "select" || $data->type == "checkbox-group" ){
-                            array_push($filters,[
-                                "label" => $data->label,
-                                "values" => $data->values,
-                                "type" => $data->type,
-                                "name" => str_replace('[]','',$data->name),
-                            ]);
-                        }else if($data->type == "text"){
-                            array_push($filters,[
-                                "label" => $data->label,
-                                "type" => $data->type,
-                                "name" => str_replace('[]','',$data->name),
-                                'text_style' => $filtersDb[str_replace('[]','',$data->name)]['text_style']
-                            ]);
+        
+                foreach ($housingTypeData as $data) {
+                    if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
+                        $filterItem = [
+                            "label" => $data->label,
+                            "type" => $data->type,
+                            "name" => str_replace('[]', '', $data->name),
+                        ];
+        
+                        if ($data->type == "select" || $data->type == "checkbox-group") {
+                            $filterItem["values"] = $data->values;
+                        } else if ($data->type == "text") {
+                            $filterItem['text_style'] = $filtersDb[str_replace('[]', '', $data->name)]['text_style'];
                         }
+        
+                        // Eğer toggle varsa, toggle değerini ekleyin
+                        if (isset($data->toggle)) {
+                            $filterItem['toggle'] = $data->toggle;
+                        }
+        
+                        array_push($filters, $filterItem);
                     }
-                    
                 }
             }
-        }else{
-            if($housingTypeSlug && $newHousingType){
-                $filtersDb = Filter::where('item_type',2)->where('housing_type_id',$newHousingType->id)->get()->keyBy('filter_name')->toArray();
+        } else {
+            if ($housingTypeSlug && $newHousingType) {
+                $filtersDb = Filter::where('item_type', 2)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
                 $filtersDbx = array_keys($filtersDb);
                 $housingTypeData = json_decode($newHousingType->form_json);
-                foreach($housingTypeData as $data){
-                    if(in_array(str_replace('[]','',$data->name),$filtersDbx)){
-                        if($data->type == "select" || $data->type == "checkbox-group" ){
-                            array_push($filters,[
-                                "label" => $data->label,
-                                "values" => $data->values,
-                                "type" => $data->type,
-                                "name" => str_replace('[]','',$data->name),
-                            ]);
-                        }else if($data->type == "text"){
-                            array_push($filters,[
-                                "label" => $data->label,
-                                "type" => $data->type,
-                                "name" => str_replace('[]','',$data->name),
-                                'text_style' => $filtersDb[str_replace('[]','',$data->name)]['text_style']
-                            ]);
+        
+                foreach ($housingTypeData as $data) {
+                    if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
+                        $filterItem = [
+                            "label" => $data->label,
+                            "type" => $data->type,
+                            "name" => str_replace('[]', '', $data->name),
+                        ];
+        
+                        if ($data->type == "select" || $data->type == "checkbox-group") {
+                            $filterItem["values"] = $data->values;
+                        } else if ($data->type == "text") {
+                            $filterItem['text_style'] = $filtersDb[str_replace('[]', '', $data->name)]['text_style'];
                         }
+        
+                        // Eğer toggle varsa, toggle değerini ekleyin
+                        if (isset($data->toggle)) {
+                            $filterItem['toggle'] = $data->toggle;
+                        }
+        
+                        array_push($filters, $filterItem);
                     }
-                    
                 }
             }
         }
+        
 
 
         return view('client.all-projects.menu-list', compact('filters','nslug','checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
@@ -488,7 +495,7 @@ class ProjectController extends Controller
         $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
-        $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
+        $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
         $projectCartOrders = DB::table('cart_orders')
         ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
         ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
@@ -509,7 +516,7 @@ class ProjectController extends Controller
         for($i = 0; $i < $blockIndex; $i++){
             $startIndex += $project->blocks[$i]->housing_count;
         }
-        $endIndex = $startIndex + 10;
+        $endIndex = $startIndex + 20;
 
         $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
 
@@ -522,7 +529,7 @@ class ProjectController extends Controller
         $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
-        $projectHousingSetting = ProjectHouseSetting::where('house_type', $project->housing_type_id)->orderBy('order')->get();
+        $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
 
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
@@ -545,7 +552,7 @@ class ProjectController extends Controller
             $blockHousingCount += $project->blocks[$i]->housing_count;
         }
         $startIndex = $startIndex + ($selectedPage * 10);
-        $endIndex = $startIndex + 10;
+        $endIndex = $startIndex + 20;
         if($endIndex > $blockHousingCount ){
             $endIndex = $blockHousingCount;
         }
@@ -570,7 +577,7 @@ class ProjectController extends Controller
             $blockHousingCount += $project->blocks[$i]->housing_count;
         }
         $startIndex = $startIndex + ($selectedPage * 10);
-        $endIndex = $startIndex + 10;
+        $endIndex = $startIndex + 20;
         if($endIndex > $blockHousingCount ){
             $endIndex = $blockHousingCount;
         }
