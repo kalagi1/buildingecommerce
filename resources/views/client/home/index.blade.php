@@ -182,8 +182,9 @@
                                                     style="padding-left:10px;text-transform:uppercase;">
                                                     <span
                                                         class="badge badge-phoenix text-left">{{ $project->project->project_title }}
-                                                        <span class="d-block"><small>{{ $project->project->city->title }} /
-                                                                {{ $project->project->county->ilce_title }}</small></span></span>
+                                                        <span class="d-block mt-1 mb-1"><small>{{ $project->project->city->title }} /
+                                                                {{ $project->project->county->ilce_title }} 
+                                                                {{ $project->project->neighbourhood ? "/ ". $project->project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                                 </div>
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"

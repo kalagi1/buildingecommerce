@@ -83,6 +83,7 @@ class HomeController extends Controller
         ->orderByDesc("stand_out_users.created_at")
         ->get();
 
+
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->get();
         $sliders = Slider::all();
