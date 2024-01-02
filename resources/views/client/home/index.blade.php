@@ -212,7 +212,7 @@
                 <div class="section-title">
                     <h2>Tamamlanan Projeler</h2>
                 </div>
-                <a href="https://emlaksepette.com/kategori/tamamlanan-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepeti.innovaticacode.com/kategori/tamamlanan-projeler" style="font-size: 12px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -310,7 +310,7 @@
                 <div class="section-title">
                     <h2>Devam Eden Projeler</h2>
                 </div>
-                <a href="https://emlaksepette.com/kategori/devam-eden-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepeti.innovaticacode.com/kategori/devam-eden-projeler" style="font-size: 12px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -396,7 +396,7 @@
                 <div class="section-title">
                     <h2>Topraktan Projeler</h2>
                 </div>
-                <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepeti.innovaticacode.com/kategori/topraktan-projeler" style="font-size: 12px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -527,9 +527,9 @@
                                                     <span class="text">Satıldı</span>
                                                 </button>
                                             @else
-                                                @if ($sold && $sold != '2')
+                                                @if ($sold != null && $sold != '2')
                                                     <button class="btn mobileBtn second-btn CartBtn" disabled
-                                                        @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
+                                                        @if ($sold == '0') style="background: orange !important;width:100%;color:White"
                                                             @else 
                                                             style="background: red !important;width:100%;color:White" @endif>
                                                         <span class="IconContainer">
@@ -862,7 +862,7 @@
                                                                             <span class="text">Satıldı</span>
                                                                         </button>
                                                                     @else
-                                                                        @if ($sold && $sold != '2')
+                                                                        @if ($sold != null && $sold != '2')
                                                                             <button class="btn second-btn CartBtn" disabled
                                                                                 @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
                                                                                 @if ($sold == '0')
@@ -1086,7 +1086,7 @@
                                                                         <span class="text">Satıldı</span>
                                                                     </button>
                                                                 @else
-                                                                    @if ($sold && $sold != '2')
+                                                                    @if ($sold != null && $sold != '2')
                                                                         <button class="btn second-btn CartBtn" disabled
                                                                             @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
                                                                             @if ($sold == '0')

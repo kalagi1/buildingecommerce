@@ -52,7 +52,7 @@ class InstitutionalController extends Controller
                     'project_list_items.column3_additional as column3_additional',
                     'project_list_items.column4_additional as column4_additional',
                     'housings.address',
-                    \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+                        \Illuminate\Support\Facades\DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id) AS sold'),
                     \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
                     'cities.title AS city_title', // city tablosundan veri çekme
                     'districts.ilce_title AS county_title', // district tablosundan veri çekme
@@ -71,6 +71,7 @@ class InstitutionalController extends Controller
                 ->where("user_id", $store->id)
                 ->orderByDesc('housings.created_at')
                 ->get();
+                
 
 
                 return view("client.institutional.dashboard", compact("store","slug", "soilProjects", 'projects', 'finishProjects', 'continueProjects', 'secondhandHousings'));
@@ -120,7 +121,7 @@ class InstitutionalController extends Controller
                     'project_list_items.column3_additional as column3_additional',
                     'project_list_items.column4_additional as column4_additional',
                     'housings.address',
-                    \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+                        \Illuminate\Support\Facades\DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id) AS sold'),
                     \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
                     'cities.title AS city_title', // city tablosundan veri çekme
                     'districts.ilce_title AS county_title' // district tablosundan veri çekme
@@ -191,7 +192,7 @@ class InstitutionalController extends Controller
                     'project_list_items.column3_additional as column3_additional',
                     'project_list_items.column4_additional as column4_additional',
                     'housings.address',
-                    \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+                        \Illuminate\Support\Facades\DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id) AS sold'),
                     \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
                     'cities.title AS city_title', // city tablosundan veri çekme
                     'districts.ilce_title AS county_title' // district tablosundan veri çekme

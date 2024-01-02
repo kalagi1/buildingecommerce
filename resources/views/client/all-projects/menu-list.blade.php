@@ -780,17 +780,17 @@
                                                             </a>
                                                         </p>
                                                         <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-evenly;align-items: center;width: 100%;">
-${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
-${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
-${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
-                                                        </ul>
+                                                            ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
+                                                            ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
+                                                            ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
+                                                                                                                    </ul>
 
                                                         <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between">
                                                             <li style="font-size: 15px; font-weight: 700; flex: 1;" class="priceFont">
                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                                     res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                     : numberFormat(res.housing_type.price) + " ₺"
-                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red' class='mobilePriceStyle'>/ 1 Gece</span>"
+                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#EA2B2E !important' class='mobilePriceStyle'>/ 1 Gece</span>"
                                                                 }
                                                             </li>
                                                         </ul>
@@ -798,20 +798,20 @@ ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='wid
                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
                                                                     `<button
-                                                                                                            class="btn second-btn CartBtn" disabled
+                                                                                                            class="btn second-btn " 
                                                                                                             style="background: #EA2B2E !important;width:100%;color:White">Satıldı
                                                                                                         </button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
                                                                         `<button
-                                                                                                                class="btn second-btn CartBtn" disabled
+                                                                                                                class="btn second-btn " 
                                                                                                                 style="background: orange !important;width:100%;color:White">Onay Bekleniyor
                                                                                                             </button>`
                                                                         :
                                                                         res.action === 'sold' ?
                                                                             `<button
-                                                                                                                    class="btn second-btn CartBtn" disabled
-                                                                                                                    style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                    class="btn second-btn " 
+                                                                                                                    style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
                                                                                                                 </button>`
                                                                             :
                                                                 `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
@@ -873,7 +873,7 @@ ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='wid
 
                                                                         ${res.step2_slug !== "gunluk-kiralik" ?
                                                     res.offSale ?
-                                                        `  <button class="btn second-btn CartBtn mobileCBtn" disabled
+                                                        `  <button class="btn second-btn  mobileCBtn" 
                                                                     style="background: #EA2B2E !important;width:100%;color:White">
 
                                                                     <span class="text">Satıldı</span>
@@ -881,14 +881,14 @@ ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='wid
                                                         :
                                                         res.action === 'payment_await' ?
                                                             `<button
-                                                                                                    class="btn mobileCBtn second-btn CartBtn" disabled
+                                                                                                    class="btn mobileCBtn second-btn CartBtn" 
                                                                                                     style="background: orange !important;width:100%;color:White">Onay Bekleniyor
                                                                                                 </button>`
                                                             :
                                                             res.action === 'sold' ?
                                                                 `<button
-                                                                                                        class="btn mobileCBtn second-btn CartBtn" disabled
-                                                                                                        style="width: 100%; border: none; background-color: red; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                        class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                        style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
                                                                                                     </button>`
                                                                 :
                                                                 `<button class="CartBtn mobileCBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
