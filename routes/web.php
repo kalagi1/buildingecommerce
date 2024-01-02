@@ -674,6 +674,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::get('/projects/{project_id}/housings', [InstitutionalProjectController::class, 'housings'])->name('projects.housings');
     Route::post('/set_single_data/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingData'])->name('projects.set.single.data');
+    Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
     Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');
@@ -699,7 +700,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     });
 
     Route::middleware(['checkPermission:ChoiseAdvertiseType'])->group(function () {
-        Route::get('/choise-advertise-type', [TempOrderController::class, "choiseAdvertiseType"])->name('choise.advertise.type');
+        Route::get('/ilan-tipi-sec', [TempOrderController::class, "choiseAdvertiseType"])->name('choise.advertise.type');
     });
 
     Route::middleware(['checkPermission:TempOrder'])->group(function () {

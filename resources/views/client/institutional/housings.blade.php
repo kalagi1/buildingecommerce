@@ -94,7 +94,7 @@
                         </p>
                         @if (Auth::check())
                             @if ($store->id == Auth::user()->id)
-                                <a href="{{ url('institutional/choise-advertise-type') }}"
+                                <a href="{{ url('institutional/ilan-tipi-sec') }}"
                                     style="margin-left: auto; margin-right:30px">
                                     <button type="button" class="buyUserRequest ml-3">
                                         <span class="buyUserRequest__text"> İlan Ekle</span>

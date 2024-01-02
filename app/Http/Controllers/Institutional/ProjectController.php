@@ -1259,6 +1259,29 @@ class ProjectController extends Controller
         ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('roomOrder'))->where('name',$request->input('inputName'))->update([
             "value" => str_replace('.', '', $request->input('newVal'))
         ]);
+        
+        Project::where('id',$projectId)->update([
+            "status" => 2
+        ]);
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
+
+    public function setSingleHousingImage(Request $request,$projectId){
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('project_housing_images'), $fileName);
+        } 
+        ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('roomOrder'))->where('name','image[]')->update([
+            "value" => $fileName
+        ]);
+        
+        Project::where('id',$projectId)->update([
+            "status" => 2
+        ]);
 
         return json_encode([
             "status" => true
