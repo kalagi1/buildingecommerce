@@ -300,8 +300,9 @@
         </section>
     @endif
 
+  
     <!-- START SECTION RECENTLY PROPERTIES -->
-    <section class="featured portfolio rec-pro disc bg-white finish-projects">
+    <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
             <div style="display: flex; justify-content: space-between;">
                 <div class="section-title">
@@ -338,7 +339,7 @@
                                         alt="">
                                     <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
                                         <span class="badge badge-phoenix">{{ $project->project_title }} <span
-                                                class="d-block"><small>{{ $project->city->title }} /
+                                                class="d-block mt-1 mb-1"><small>{{ $project->city->title }} /
                                                     {{ $project->county->ilce_title }}</small></span></span>
 
                                     </div>
@@ -371,8 +372,10 @@
                                                         style="padding-left:10px;text-transform:uppercase;">
                                                         <span
                                                             class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                            <span class="d-block"><small>{{ $project->city->title }} /
-                                                                    {{ $project->county->ilce_title }}</small></span></span>
+                                                            <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
+                                                                    /
+                                                                    {{ $project->county->ilce_title }}
+                                                                    {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                                     </div>
                                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
@@ -422,8 +425,9 @@
                                         alt="">
                                     <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
                                         <span class="badge badge-phoenix text-left">{{ $project->project_title }} <span
-                                                class="d-block"><small>{{ $project->city->title }} /
-                                                    {{ $project->county->ilce_title }}</small></span></span>
+                                                class="d-block mt-1 mb-1"><small>{{ $project->city->title }} /
+                                                    {{ $project->county->ilce_title }}
+                                                    {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                     </div>
                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
@@ -455,8 +459,10 @@
                                                         style="padding-left:10px;text-transform:uppercase;">
                                                         <span
                                                             class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                            <span class="d-block"><small>{{ $project->city->title }} /
-                                                                    {{ $project->county->ilce_title }}</small></span></span>
+                                                            <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
+                                                                    /
+                                                                    {{ $project->county->ilce_title }}
+                                                                    {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                                     </div>
                                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
@@ -505,8 +511,9 @@
                                         alt="">
                                     <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
                                         <span class="badge badge-phoenix text-left">{{ $project->project_title }} <span
-                                                class="d-block"><small>{{ $project->city->title }} /
-                                                    {{ $project->county->ilce_title }}</small></span></span>
+                                                class="d-block mt-1 mb-1"><small>{{ $project->city->title }} /
+                                                    {{ $project->county->ilce_title }}
+                                                    {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                     </div>
                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
@@ -538,8 +545,10 @@
                                                         style="padding-left:10px;text-transform:uppercase;">
                                                         <span
                                                             class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                            <span class="d-block"><small>{{ $project->city->title }} /
-                                                                    {{ $project->county->ilce_title }}</small></span></span>
+                                                            <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
+                                                                    /
+                                                                    {{ $project->county->ilce_title }}
+                                                                    {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                                     </div>
                                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
