@@ -769,7 +769,7 @@
                                                         </div>
                                                     </div>
                                                     <!-- homes content -->
-                                                    <div class="homes-content px-3" style="${res.sold ? 'background: #EEE !important;' : ''}">
+                                                    <div class="homes-content px-3 py-3" style="${res.sold ? 'background: #EEE !important;' : ''}">
                                                         <!-- homes address -->
                                                         <a href="${res.housing_url}">
                                                             <h4>${kisaltilmisBaslik}</h4>
