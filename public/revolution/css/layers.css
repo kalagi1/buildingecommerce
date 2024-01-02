@@ -2818,7 +2818,7 @@ website:   	http://www.themepunch.com
 .tp-caption.RotatingWords-SmallText,
 .RotatingWords-SmallText {
     color: rgba(255, 255, 255, 1.00);
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
     font-weight: 400;
     font-style: normal;
@@ -3368,7 +3368,7 @@ website:   	http://www.themepunch.com
     .tp-caption.Creative-SubTitle,
     .Creative-SubTitle {
         color: rgba(205, 176, 131, 1.00);
-        font-size: 14px;
+        font-size: 12px;
         line-height: 14px;
         font-weight: 400;
         font-style: normal;
@@ -3511,7 +3511,7 @@ website:   	http://www.themepunch.com
     .tp-caption.Woo-Rating,
     .Woo-Rating {
         color: rgba(0, 0, 0, 1.00);
-        font-size: 14px;
+        font-size: 12px;
         line-height: 30px;
         font-weight: 300;
         font-style: normal;
@@ -4925,7 +4925,7 @@ tp-caption.Team-Thumb,
 .tp-caption.CreativeFrontPage-Btn,
 .CreativeFrontPage-Btn {
     color: rgba(255, 255, 255, 1.00);
-    font-size: 14px;
+    font-size: 12px;
     line-height: 60px;
     font-weight: 900;
     font-style: normal;
@@ -4954,7 +4954,7 @@ tp-caption.Team-Thumb,
 .tp-caption.CreativeFrontPage-Menu,
 .CreativeFrontPage-Menu {
     color: rgba(255, 255, 255, 1.00);
-    font-size: 14px;
+    font-size: 12px;
     line-height: 14px;
     font-weight: 500;
     font-style: normal;

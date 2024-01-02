@@ -12,7 +12,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Phoenix</title>
+    <title>Kurumsal Yönetim Paneli</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
@@ -44,7 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
         rel="stylesheet">
     <link href="{{ URL::to('/') }}/adminassets/vendors/simplebar/simplebar.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="{{ URL::to('/') }}/adminassets/assets/css/theme-rtl.min.css" type="text/css" rel="stylesheet"
         id="style-rtl">
     <link href="{{ URL::to('/') }}/adminassets/assets/css/theme.min.css" type="text/css" rel="stylesheet"
@@ -74,6 +74,25 @@
     <link href="{{ URL::to('/') }}/adminassets/vendors/leaflet.markercluster/MarkerCluster.Default.css"
         rel="stylesheet">
     @yield('css')
+    <style>
+ .mobile-show {
+        display: none !important;
+    }
+
+    .mobile-hidden {
+        display: block !important;
+    }
+
+    @media (max-width: 768px) {
+        .mobile-show {
+        display: block !important;
+    }
+    .mobile-hidden {
+        display: show !important;
+    }
+    }
+
+        </style>
 </head>
 
 <body>
@@ -128,7 +147,8 @@
                                         $hasVisibleMenus = true;
                                     @endphp
                                     <!-- Parent Menü -->
-                                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
+                                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1  
+                                        @if (request()->is($menuItem['activePath'])) active @endif"
                                             href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif "
                                             role="button"
                                             @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
@@ -202,15 +222,15 @@
                         aria-controls="navbarVerticalCollapse" aria-expanded="false"
                         aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                 class="toggle-line"></span></span></button>
+                    <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center">
-                            <div class="d-flex align-items-center">
-                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
-                                        class="logo" alt=""></a>
-                                <p class="logo-text ms-2 d-none d-sm-block">Master Realtor</p>
-                            </div>
+                            <a href="{{ route('index') }}"><img
+                                    src="{{ URL::to('/') }}/images/emlaksepettelogo.png" class="logo"
+                                    alt=""></a>
                         </div>
+                    </div>
                 </div>
-                <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
+                {{-- <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
                     style="width:25rem;">
                     <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
                             class="form-control search-input fuzzy-search rounded-pill form-control-sm" type="search"
@@ -371,8 +391,20 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <ul class="navbar-nav navbar-nav-icons flex-row">
+                    <li class="nav-item" style="margin-right:10px">
+                        <a href="{{ url('institutional/choise-advertise-type') }}">
+                            <button type="button" class="buyUserRequest">
+                                <span class="buyUserRequest__text"> 
+                                    <div class="mobile-show"><i class="fa fa-plus"></i></div>
+                                    <div class="mobile-hidden">İlan Ekle</div>
+                                </span>
+                                <span class="buyUserRequest__icon">
+                                    <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                </span>
+                            </button></a>
+                    </li>
                     <li class="nav-item">
                         <div class="theme-control-toggle fa-icon-wait px-2"><input
                                 class="form-check-input ms-0 theme-control-toggle-input" type="checkbox"
@@ -384,12 +416,94 @@
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
                                 title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
                     </li>
+                    <li class="nav-item dropdown">
+                        @php
+                        $notifications=App\Models\DocumentNotification::with("user")->orderBy('created_at', 'desc')->where("owner_id",Auth::user()->id)->limit(10)->where('readed', '0')->get();
+                        @endphp
+
+                        <a class="nav-link" href="#" style="min-width: 2.5rem" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell" style="height:20px;width:20px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            @php
+                            $unreadNotifications = $notifications->where('readed', 0);
+                            $unreadCount = $unreadNotifications->count();
+                            @endphp
+                            
+                            @if ($unreadCount > 0)
+                                <span class="badge bg-danger position-absolute" style="bottom: 31px; right: 0;">{{ $unreadCount }}</span>
+                            @endif
+                            </a>
+                        <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu py-0 shadow border border-300 navbar-dropdown-caret" id="navbarDropdownNotfication" aria-labelledby="navbarDropdownNotfication">
+                          <div class="card position-relative border-0">
+                            <div class="card-header p-2">
+                              <div class="d-flex justify-content-between">
+                                <h5 class="text-black mb-0">Bildirimler</h5>
+                              </div>
+                            </div>
+                            <div class="card-body p-0">
+                              <div class="scrollbar-overlay" style="height: 27rem;">
+                                <div class="border-300">
+                                    @if (count($notifications) == 0)
+                                    <span class="p-3 text-center">Bildirim Yok</span>
+                                @else
+                                   @foreach ($notifications as $notification)
+                                   <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{$notification->readed == 0 ? "unread":"read" }} border-bottom"
+                                    data-id="{{ $notification->id }}"
+                                    data-link="{{ $notification->link }}">
+                                    <div class="d-flex align-items-center justify-content-between position-relative">
+                                      <div class="d-flex">
+                                        <div class="avatar avatar-m status-online me-3">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                        </div>
+                                        <div class="flex-1 me-sm-3">
+                                          <h4 class="fs--1 text-black">
+
+                                            @if($notification->user_id == "4")
+                                            Emlak Sepette Yönetimi
+                                            @else
+                                            {{$notification->user->name}}
+                                            @endif
+                                            </h4>
+                                          <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">  {!! $notification->text !!}</p>
+                                          @php
+                                          // Örnek bir tarih zamanı, notification->created_at'ı buraya ekleyin
+                                          $notificationCreatedAt = $notification->created_at;
+                                          
+                                          // Saat dilimini ayarlayın
+                                          date_default_timezone_set('Europe/Istanbul');
+                                          
+                                          // Tarih formatını Türkiye biçimine dönüştürme
+                                          $notificationCreatedAtDate = date("d.m.Y", strtotime($notificationCreatedAt));
+                                          $notificationCreatedAtTime = date("H:i", strtotime($notificationCreatedAt)); // 24 saatlik saat biçimi
+                                          
+                                          // Saati 12 saatlik biçime dönüştürme (AM/PM eklemek için)
+                                          $notificationCreatedAtTime12Hour = date("h:i A", strtotime($notificationCreatedAt));
+                                          @endphp
+                                          
+                                          
+                                          
+                                                                                  </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                    @endforeach
+
+                                        {{-- <div class="bg-white border-top p-3 text-center">
+                                            <a href="{{ route('institutional.notification-history') }}">Bildirim Geçmişi</a>
+                                        </div> --}}
+                                @endif
+                               
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
                     <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser"
                             href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
                                 <img class="rounded-circle "
-                                    src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                    src="{{ asset('storage/profile_images/' . Auth::user()->profile_image) }}"
                                     alt="" />
                             </div>
                         </a>
@@ -400,7 +514,7 @@
                                     <div class="text-center pt-4 pb-3">
                                         <div class="avatar avatar-xl ">
                                             <img class="rounded-circle "
-                                                src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                                src="{{ asset('storage/profile_images/' . Auth::user()->profile_image) }}"
                                                 alt="" />
                                         </div>
                                         <h6 class="mt-2 text-black">{{ Auth::user()->name }}</h6>
@@ -432,7 +546,7 @@
 
                                         @if (in_array('CreateUser', $userPermissions))
                                             <li class="nav-item"><a class="nav-link px-3"
-                                                    href="{{ route('client.users.create') }}"> <span
+                                                    href="{{ route('institutional.users.create') }}"> <span
                                                         class="me-2 text-900" data-feather="user-plus"></span>Başka
                                                     bir hesap ekle</a></li>
                                         @endif
@@ -908,8 +1022,8 @@
                 <a class="navbar-brand me-1 me-sm-3" href="index.html">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
-                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png" alt="phoenix"
-                                width="27" />
+                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
+                                alt="phoenix" width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                         </div>
                     </div>
@@ -1126,8 +1240,7 @@
                                             <div class="dropdown-item-wrapper"><span class="me-2 uil"></span>Todo
                                                 list</div>
                                         </a></li>
-                                    <li><a class="dropdown-item"
-                                            href="apps/project-management/project-details.html">
+                                    <li><a class="dropdown-item" href="apps/project-management/project-details.html">
                                             <div class="dropdown-item-wrapper"><span class="me-2 uil"></span>Project
                                                 details</div>
                                         </a></li>
@@ -1208,8 +1321,8 @@
                                             </div>
                                         </a></li>
                                     <li><a class="dropdown-item" href="apps/social/settings.html">
-                                            <div class="dropdown-item-wrapper"><span
-                                                    class="me-2 uil"></span>Settings</div>
+                                            <div class="dropdown-item-wrapper"><span class="me-2 uil"></span>Settings
+                                            </div>
                                         </a></li>
                                 </ul>
                             </li>
@@ -3503,8 +3616,8 @@
                 <a class="navbar-brand me-1 me-sm-3" href="index.html">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
-                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png" alt="phoenix"
-                                width="27" />
+                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
+                                alt="phoenix" width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                         </div>
                     </div>
@@ -6107,7 +6220,7 @@
                         <a class="navbar-brand me-1 me-sm-3" href="index.html">
                             <div class="d-flex align-items-center">
                                 <div class="d-flex align-items-center"><img
-                                        src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png"
+                                        src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
                                         alt="phoenix" width="27" />
                                     <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                                 </div>
@@ -7929,10 +8042,74 @@
             }
         </script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+        <script>
+    $(document).ready(function () {
+        // Bildirimlere tıklama işlemi
+        $('.notification-click').on('click', function (e) {
+            e.preventDefault();
+            var notificationId = $(this).data('id');
+            var notificationLink = $(this).data('link');
+            
+            // AJAX isteği ile bildirimin "readed" değerini güncelleyin
+            $.ajax({
+                url: "{{route('notification.read')}}", // Bildirim güncelleme rotası, bu rotayı belirlemeniz gerekiyor
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', // CSRF koruması için gereken token
+                    id: notificationId, // Güncellenecek bildirimin kimliği
+                    link : notificationLink
+                },
+                success: function (response) {
+                    window.location.href = notificationLink; // Kullanıcıyı ilgili sayfaya yönlendirin
+
+                 
+                }
+            });
+        });
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+    // Bildirim kartlarını bul
+    var notificationCards = document.querySelectorAll(".notification-card");
+
+    // Her kart için tıklama etkinleyici ekleyin
+    notificationCards.forEach(function(card) {
+        card.addEventListener("click", function() {
+            var notificationId = card.getAttribute("data-id");
+            var notificationLink = $(this).data('link');
+              
+            console.log(notificationId);
+            
+            // AJAX ile bildirimi işaretle
+            fetch('/mark-notification-as-read/' + notificationId, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                }
+            })
+            .then(function(response) {
+             
+                    if (notificationLink) {
+                    window.location.href = notificationLink;
+                }
+                    card.classList.remove("unread");
+                    card.classList.add("read");
+                
+            })
+            .catch(function(error) {
+                console.error('Bir hata oluştu:', error);
+            });
+        });
+    });
+});
+</script>
         <style>
+               .notification-card {
+                cursor: pointer
+            }
             .navbar-logo .logo {
-                height: 70px !important;
+                height: 45px !important;
                 padding: 5px;
             }
 
@@ -7940,3 +8117,207 @@
                 width: 300px
             }
         </style>
+
+        
+<style>
+    a {
+        text-decoration: none !important;
+    }
+
+    .buyUserRequest {
+        position: relative;
+        width: 150px;
+        height: 35px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border: 1px solid #EA2B2E;
+        background-color: #EA2B2E;
+    }
+
+    .buyUserRequest,
+    .buyUserRequest__icon,
+    .buyUserRequest__text {
+        transition: all 0.3s;
+    }
+
+    .buyUserRequest .buyUserRequest__text {
+        transform: translateX(20px);
+        color: #fff;
+        font-weight: 600;
+        line-height: 14px;
+    }
+
+    .buyUserRequest .buyUserRequest__icon {
+        position: absolute;
+        transform: translateX(109px);
+        height: 100%;
+        width: 39px;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .buyUserRequest img {
+        width: 30px;
+        stroke: #fff;
+    }
+
+    .buyUserRequest:hover {
+        background: #EA2B2E;
+    }
+
+    .buyUserRequest:hover .buyUserRequest__text {
+        color: transparent;
+    }
+
+    .buyUserRequest:hover .buyUserRequest__icon {
+        width: 148px;
+        transform: translateX(0);
+    }
+
+    .buyUserRequest:active .buyUserRequest__icon {
+        background-color: #EA2B2E;
+    }
+
+    .buyUserRequest:active {
+        border: 1px solid #EA2B2E;
+    }
+
+
+    .cartIconBtn {
+        padding: 5px 10px;
+        height: 100%;
+        background-color: black
+    }
+
+    .cartTextBtn {
+        padding: 5px 10px;
+        height: 100%;
+        background-color: red
+    }
+
+    @media (max-width: 768px) {
+        .buyUserRequest {
+            width: 35px !important;
+        }
+
+        .buyUserRequest .buyUserRequest__text {
+            transform: translateX(5px) !important
+        }
+
+        .buyUserRequest__icon {
+            display: none !important;
+
+        }
+
+        .cartIconBtn {
+            padding: 2px;
+            height: 100%;
+            background-color: black
+        }
+
+        .cartTextBtn {
+            padding: 2px;
+            height: 100%;
+            background-color: red
+        }
+    }
+
+    .dropdown ul {
+        width: 200px !important;
+        text-align: left;
+        list-style-type: none;
+        display: block;
+        z-index: 999;
+        margin: 0;
+        margin-top: 10px;
+        padding: 0;
+        position: absolute;
+        width: 100%;
+        box-shadow: 0 6px 5px -5px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+    }
+
+    .dropdown li a,
+    .dropdown.toggle>label {
+        display: block;
+        padding: 0 0 0 10px;
+        background: white;
+        text-decoration: none;
+        line-height: 40px;
+        font-size: 13px;
+        font-weight: 600;
+        font-weight: bold;
+        color: black background-color: #FFF;
+    }
+
+    .dropdown li {
+        height: 0;
+        overflow: hidden;
+        transition: all 500ms;
+    }
+
+    .dropdown.hover li {
+        transition-delay: 300ms;
+    }
+
+    .dropdown li:first-child a {
+        border-radius: 2px 2px 0 0;
+    }
+
+    .dropdown li:last-child a {
+        border-radius: 0 0 2px 2px;
+    }
+
+    .dropdown li:first-child a::before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid #FFF;
+        margin: -10px 0 0 30px;
+    }
+
+    .dropdown li a:hover,
+    .dropdown.toggle>label:hover,
+    .dropdown.toggle>input:checked~label {
+        background-color: #EEE;
+    }
+
+    .dropdown>li>a:hover::after,
+    .dropdown.toggle>label:hover::after,
+    .dropdown.toggle>input:checked~label::after {
+        border-top-color: #AAA;
+    }
+
+    .buyUserRequestBtn {
+        padding: 0;
+        background: Black !important;
+        border: none;
+        border-radius: 0 !important
+    }
+
+    .buyUserRequestBtn:hover {
+        background: black !important
+    }
+
+
+    .dropdown li:first-child a:hover::before {
+        border-bottom-color: #EEE;
+    }
+
+    .dropdown.hover:hover li,
+    .dropdown.toggle>input:checked~ul li {
+        height: 40px;
+    }
+
+    .dropdown.hover:hover li:first-child,
+    .dropdown.toggle>input:checked~ul li:first-child {
+        padding-top: 15px;
+    }
+</style>

@@ -10,7 +10,7 @@
                     </div>
                     <div class="card-body">
                         @if ($errors->any())
-                            <div class="alert alert-danger">
+                            <div class="alert alert-danger text-white">
                                 <ul class="mb-0">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -19,7 +19,7 @@
                             </div>
                         @endif
                         @if (session('success'))
-                            <div class="alert alert-success text-white">
+                            <div class="alert alert-success text-white text-white">
                                 {{ session('success') }}
                             </div>
                         @endif
@@ -36,7 +36,7 @@
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ $user->email }}" required>
+                                    value="{{ z->email }}" required>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Save</button>

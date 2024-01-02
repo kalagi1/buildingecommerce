@@ -15,7 +15,7 @@
             <button class="btn btn-primary mb-2 mb-sm-0" type="submit">Projeyi Oluştur</button></div>
       </div>
       @if ($errors->any())
-        <div class="alert alert-danger">
+        <div class="alert alert-danger text-white">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -65,6 +65,14 @@
                 <div class="card-body">
                   <h4 class="card-title mb-4">Genel Bilgiler</h4>
                   <div class="row gx-3">
+                    <div class="col-12 col-sm-6 col-xl-12">
+                      <div class="mb-4">
+                        <div class="d-flex flex-wrap mb-2">
+                          <h5 class="mb-0 text-1000 me-2">Projenin size ait olduğuna dair belge</h5>
+                          <input name="document" class="form-control mt-2"  type="file" />
+                        </div>
+                      </div>
+                    </div>
                     <div class="col-12 col-sm-6 col-xl-12">
                       <div class="mb-4">
                         <div class="d-flex flex-wrap mb-2">
@@ -157,16 +165,7 @@
         </div>
       </div>
     </form>
-    <footer class="footer position-absolute">
-      <div class="row g-0 justify-content-between align-items-center h-100">
-        <div class="col-12 col-sm-auto text-center">
-          <p class="mb-0 mt-2 mt-sm-0 text-900">Thank you for creating with Phoenix<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 &copy;<a class="mx-1" href="https://themewagon.com/">Themewagon</a></p>
-        </div>
-        <div class="col-12 col-sm-auto text-center">
-          <p class="mb-0 text-600">v1.13.0</p>
-        </div>
-      </div>
-    </footer>
+
   </div>
 @endsection
 
@@ -533,8 +532,8 @@
     <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.4.2/form-render.min.js">
     <script src="
-https://cdn.jsdelivr.net/npm/fine-uploader@5.16.2/fine-uploader/fine-uploader.min.js
-"></script>
+    https://cdn.jsdelivr.net/npm/fine-uploader@5.16.2/fine-uploader/fine-uploader.min.js
+    "></script>
     <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('editor');

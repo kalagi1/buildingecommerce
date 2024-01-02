@@ -15,7 +15,7 @@
                   
                     <div class="p-4 code-to-copy">
                         @if (session('success'))
-                        <div class="alert alert-success text-white">
+                        <div class="alert alert-success text-white text-white">
                             {{ session('success') }}
                         </div>
                     @endif

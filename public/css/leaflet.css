@@ -246,7 +246,7 @@
 }
 
 .leaflet-container a.leaflet-active {
-    outline: 2px solid orange;
+    outline: 2px solid #e54242;
 }
 
 .leaflet-zoom-box {

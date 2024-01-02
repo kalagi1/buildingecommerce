@@ -7,13 +7,13 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Create Footer Link</h4>
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Footer Bağlantısı Oluştur</h4>
                         </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
                     @if ($errors->any())
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger text-white">
                             <ul class="mb-0">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -26,19 +26,19 @@
                         <form action="{{ route('admin.footer_links.store') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label" for="title">Title</label>
-                                <textarea class="form-control" id="title" name="title" type="text" placeholder="Title"></textarea>
+                                <label class="form-label" for="title">Başlık</label>
+                                <textarea class="form-control" id="title" name="title" type="text" placeholder="Başlık"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="url">URL</label>
-                                <input class="form-control" id="url" name="url" type="text" placeholder="URL">
+                                <label class="form-label" for="url">Bağlantı URL</label>
+                                <input class="form-control" id="url" name="url" type="text" placeholder="Bağlantı Url">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="widget">Widget</label>
+                                <label class="form-label" for="widget">Grup Adı</label>
                                 <input class="form-control" id="widget" name="widget" type="text"
-                                    placeholder="Widget">
+                                    placeholder="Grup Adı">
                             </div>
-                            <button type="submit" class="btn btn-primary">Create Footer Link</button>
+                            <button type="submit" class="btn btn-primary"> Oluştur</button>
                         </form>
                     </div>
                 </div>

@@ -361,7 +361,7 @@ a.btn_1 {
 }
 
 .inner-pages .input-group-btn .btn-primary {
-    background: #446BB6;
+    background: black;
     border: 1px solid #293046;
 }
 
@@ -507,12 +507,12 @@ section.pricing-table {
 }
 
 .slick-dots li.slick-active {
-    box-shadow: inset 0 0 0 6px #446BB6 !important;
+    box-shadow: inset 0 0 0 6px black !important;
 }
 
 .slick-dots li {
     color: #293046;
-    box-shadow: inset 0 0 0 2px #446BB6 !important;
+    box-shadow: inset 0 0 0 2px black !important;
 }
 
 .slick-dots li:after {

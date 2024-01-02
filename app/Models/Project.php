@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Project extends Model
 {
@@ -16,6 +17,7 @@ class Project extends Model
         return $this->hasMany(ProjectHousings::class);
     }
 
+    
     public function images()
     {
         return $this->hasMany(ProjectImage::class, "project_id", "id");
@@ -44,6 +46,12 @@ class Project extends Model
     {
         return $this->hasOne(HousingType::class, "id", "housing_type_id");
     }
+
+    public function housingTypes()
+    {
+        return $this->hasMany(ProjectHousingType::class, "project_id", "id");
+    }
+    
     public static function listForMarketing()
     {
 
@@ -53,6 +61,10 @@ class Project extends Model
             ->get();
     }
 
+    public function filterHousing($key,$value){
+        return $this->hasOne(ProjectHousing::class,'project_id','id')->where($key,$value);
+    }
+
     public function city()
     {
         return $this->hasOne(City::class, "id", "city_id");
@@ -60,7 +72,17 @@ class Project extends Model
 
     public function county()
     {
-        return $this->hasOne(County::class, "id", "county_id");
+        return $this->hasOne(District::class, "ilce_key", "county_id");
+    }
+
+    public function neighbourhood()
+    {
+        return $this->hasOne(Neighborhood::class, "mahalle_key", "neighbourhood_id");
+    }
+
+    public function blocks()
+    {
+        return $this->hasMany(Block::class);
     }
 
     public function favorites()
@@ -68,8 +90,31 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'project_favorites', 'project_id', 'user_id');
     }
 
-
     public function housingStatus(){
         return $this->hasMany(ProjectHousingType::class,"project_id","id");
+    }
+
+    public function housingStatusIds(){
+        return $this->hasMany(ProjectHousingType::class,"project_id","id")->select(DB::raw('housing_type_id as id'));
+    }
+
+    public function rejectedLog(){
+        return $this->hasOne(Log::class,'item_id','id')->where('item_type',1)->where('is_rejected',1)->orderByDesc('created_at');
+    }
+
+    public function listItemValues(){
+        return $this->hasOne(ProjectListItem::class,"housing_type_id",'housing_type_id');
+    }
+
+    public function dopingOrder(){
+        return $this->hasMany(DopingOrder::class,"project_id","id");
+    }
+
+    public function confirmDopingOrder(){
+        return $this->hasOne(DopingOrder::class,"project_id","id")->where('status',0);
+    }
+
+    public function standOut(){
+        return $this->hasOne(StandOutUser::class,"item_id","id")->where('item_type',1);
     }
 }

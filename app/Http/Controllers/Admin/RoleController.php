@@ -13,7 +13,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::where("parent_id", "4")->get();
         return view('admin.roles.index', compact('roles'));
     }
 
@@ -48,7 +48,7 @@ class RoleController extends Controller
             }
         }
 
-        return redirect()->route('admin.roles.index')->with('success', 'Role created successfully');
+        return redirect()->route('admin.roles.index')->with('success', 'Rol Başarıyla Oluşturuldu');
     }
 
     public function update(UpdateRoleRequest $request, Role $role)
@@ -70,12 +70,12 @@ class RoleController extends Controller
             }
         }
 
-        return redirect()->route('admin.roles.index')->with('success', 'Role updated successfully');
+        return redirect()->route('admin.roles.index')->with('success', 'Rol Başarıyla Güncellendi');
     }
     public function destroy(Role $role)
     {
         $role->delete();
-        return redirect()->route('admin.roles.index')->with('success', 'Role deleted successfully');
+        return redirect()->route('admin.roles.index')->with('success', 'Rol Başarıyla Silindi');
     }
 
 }

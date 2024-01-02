@@ -7,13 +7,13 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Create Social Media Icon</h4>
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Yeni Ekle</h4>
                         </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
                     @if ($errors->any())
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger text-white">
                             <ul class="mb-0">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -25,18 +25,21 @@
                         <form action="{{ route('admin.social_media_icons.store') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label" for="name">Icon Name</label>
-                                <input class="form-control" id="name" name="name" type="text" placeholder="Icon Name">
+                                <label class="form-label" for="name">Simge Adı</label>
+                                <input class="form-control" id="name" name="name" type="text"
+                                    placeholder="Simge Adı">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="url">Icon URL</label>
-                                <input class="form-control" id="url" name="url" type="text" placeholder="Icon URL">
+                                <label class="form-label" for="url">URL</label>
+                                <input class="form-control" id="url" name="url" type="text" placeholder="URL">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="icon_class">Icon Class</label>
-                                <input class="form-control" id="icon_class" name="icon_class" type="text" placeholder="Icon Class">
+                                <label class="form-label" for="icon_class">Simge</label>
+                                <input class="form-control" id="icon_class" name="icon_class" type="text"
+                                    placeholder="Simge">
+                                <span>Bu <a href="https://fontawesome.com/search?f=brands&o=r">linkten</a> simge seçimi yapabilirsiniz.</span>
                             </div>
-                            <button type="submit" class="btn btn-primary">Create Icon</button>
+                            <button type="submit" class="btn btn-primary">Oluştur</button>
                         </form>
                     </div>
                 </div>

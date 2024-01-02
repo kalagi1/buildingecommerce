@@ -10,4 +10,10 @@ class ProjectHousing extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function getKeyValueAttribute()
+    {
+        return [$this->attributes['key'] => $this->attributes['value']];
+    }
+
 }

@@ -12,11 +12,12 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Phoenix</title>
+    <title>Yönetim Paneli</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" sizes="180x180"
         href="{{ URL::to('/') }}/adminassets/assets/img/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32"
@@ -43,7 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
         rel="stylesheet">
     <link href="{{ URL::to('/') }}/adminassets/vendors/simplebar/simplebar.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="{{ URL::to('/') }}/adminassets/assets/css/theme-rtl.min.css" type="text/css" rel="stylesheet"
         id="style-rtl">
     <link href="{{ URL::to('/') }}/adminassets/assets/css/theme.min.css" type="text/css" rel="stylesheet"
@@ -72,7 +73,11 @@
     <link href="{{ URL::to('/') }}/adminassets/vendors/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
     <link href="{{ URL::to('/') }}/adminassets/vendors/leaflet.markercluster/MarkerCluster.Default.css"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     @yield('css')
+    @yield('csss')
+
 </head>
 
 <body>
@@ -127,14 +132,16 @@
                                         $hasVisibleMenus = true;
                                     @endphp
                                     <!-- Parent Menü -->
-                                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
+                                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1
+                                        @if (request()->is($menuItem['activePath'])) active @endif"
                                             href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif "
                                             role="button"
                                             @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
                                             <div class="d-flex align-items-center">
 
-                                                <span class="nav-link-icon"><span
-                                                        data-feather="{{ $menuItem['icon'] }}"></span></span>
+                                                <span class="nav-link-icon">
+                                                    <i class="fas fa-{{ $menuItem['icon'] }}"></i>
+                                                </span>
                                                 <span class="nav-link-text">{{ $menuItem['text'] }}
                                                 </span>
                                                 @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
@@ -200,13 +207,12 @@
                         aria-controls="navbarVerticalCollapse" aria-expanded="false"
                         aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                 class="toggle-line"></span></span></button>
-                                <div class="d-flex align-items-center">
-                                    <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
-                                            class="logo" alt=""></a>
-                                    <p class="logo-text ms-2 d-none d-sm-block">Master Realtor</p>
-                                </div>
+                    <div class="d-flex align-items-center">
+                        <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
+                                class="logo" alt=""></a>
+                    </div>
                 </div>
-                <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
+                {{-- <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
                     style="width:25rem;">
                     <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
                             class="form-control search-input fuzzy-search rounded-pill form-control-sm" type="search"
@@ -367,18 +373,143 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <ul class="navbar-nav navbar-nav-icons flex-row">
+
+
                     <li class="nav-item">
                         <div class="theme-control-toggle fa-icon-wait px-2"><input
                                 class="form-check-input ms-0 theme-control-toggle-input" type="checkbox"
                                 data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label
                                 class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme"><span class="icon" data-feather="moon"></span></label><label
-                                class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
+                                title="Switch theme">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon icon">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                </svg></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
+                                title="Switch theme">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun icon">
+                                    <circle cx="12" cy="12" r="5"></circle>
+                                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                </svg></label></div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        @php
+                            $notifications = App\Models\DocumentNotification::with('user')
+                                ->orderBy('created_at', 'desc')
+                                ->where('owner_id', '4')
+                                ->where('readed', '0')
+                                ->limit(10)
+                                ->get();
+                        @endphp
+
+                        <a class="nav-link" href="#" style="min-width: 2.5rem" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            data-bs-auto-close="outside">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"
+                                style="height:20px;width:20px;">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            @php
+                                $unreadNotifications = $notifications->where('readed', 0);
+                                $unreadCount = $unreadNotifications->count();
+                            @endphp
+
+                            @if ($unreadCount > 0)
+                                <span class="badge bg-danger position-absolute"
+                                    style="bottom: 31px; right: 0;">{{ $unreadCount }}</span>
+                            @endif
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu py-0 shadow border border-300 navbar-dropdown-caret"
+                            id="navbarDropdownNotfication" aria-labelledby="navbarDropdownNotfication">
+                            <div class="card position-relative border-0">
+                                <div class="card-header p-2">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="text-black mb-0">Bildirimler</h5>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="scrollbar-overlay" style="height: 27rem;">
+                                        <div class="border-300">
+                                            @if (count($notifications) == 0)
+                                                <span class="p-3 text-center">Bildirim Yok</div>
+                                            @else
+                                                @foreach ($notifications as $notification)
+                                                    <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{ $notification->readed == 0 ? 'unread' : 'read' }} border-bottom"
+                                                        data-id="{{ $notification->id }}"
+                                                        data-link="{{ $notification->link }}">
+                                                        <div
+                                                            class="d-flex align-items-center justify-content-between position-relative">
+                                                            <div class="d-flex">
+                                                                <div class="avatar avatar-m status-online me-3">
+                                                                    <svg viewBox="0 0 24 24" width="24"
+                                                                        height="24" stroke="currentColor"
+                                                                        stroke-width="2" fill="none"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        class="css-i6dzq1">
+                                                                        <circle cx="12" cy="12" r="10">
+                                                                        </circle>
+                                                                        <line x1="12" y1="16"
+                                                                            x2="12" y2="12"></line>
+                                                                        <line x1="12" y1="8"
+                                                                            x2="12.01" y2="8"></line>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="flex-1 me-sm-3">
+                                                                    <h4 class="fs--1 text-black">
+                                                                        {{ $notification->user->name }}</h4>
+                                                                    <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
+                                                                        {!! $notification->text !!}</p>
+                                                                    @php
+                                                                                                // Örnek bir tarih zamanı, notification->created_at'ı buraya ekleyin
+                                                                            $notificationCreatedAt = $notification->created_at;
+
+                                                                            // Saat dilimini ayarlayın
+                                                                            date_default_timezone_set('Europe/Istanbul');
+
+                                                                            // Tarih formatını Türkiye biçimine dönüştürme
+                                                                            $notificationCreatedAtDate = date('d.m.Y', strtotime($notificationCreatedAt));
+                                                                            $notificationCreatedAtTime = date('H:i', strtotime($notificationCreatedAt)); // 24 saatlik saat biçimi
+
+                                                                            // Saati 12 saatlik biçime dönüştürme (AM/PM eklemek için)
+                                                                            $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedAt));
+                                                                    @endphp
+
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+
+                                                <div class="bg-white border-top p-3 text-center">
+                                                    <a href="{{ route('admin.notification-history') }}">Bildirim
+                                                        Geçmişi</a>
+                                                </div>
+                                            @endif
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                     <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser"
                             href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
@@ -903,8 +1034,8 @@
                 <a class="navbar-brand me-1 me-sm-3" href="index.html">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
-                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png" alt="phoenix"
-                                width="27" />
+                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
+                                alt="phoenix" width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                         </div>
                     </div>
@@ -3498,8 +3629,8 @@
                 <a class="navbar-brand me-1 me-sm-3" href="index.html">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
-                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png" alt="phoenix"
-                                width="27" />
+                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
+                                alt="phoenix" width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                         </div>
                     </div>
@@ -6102,14 +6233,14 @@
                         <a class="navbar-brand me-1 me-sm-3" href="index.html">
                             <div class="d-flex align-items-center">
                                 <div class="d-flex align-items-center"><img
-                                        src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png"
+                                        src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
                                         alt="phoenix" width="27" />
                                     <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                                 </div>
                             </div>
                         </a>
                     </div>
-                    <div class="search-box navbar-top-search-box d-none d-lg-block"
+                    {{-- <div class="search-box navbar-top-search-box d-none d-lg-block"
                         data-list='{"valueNames":["title"]}' style="width:25rem;">
                         <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
                                 class="form-control search-input fuzzy-search rounded-pill form-control-sm"
@@ -6278,7 +6409,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <ul class="navbar-nav navbar-nav-icons flex-row">
                         <li class="nav-item">
                             <div class="theme-control-toggle fa-icon-wait px-2"><input
@@ -7923,15 +8054,86 @@
                 navbarVertical.classList.add('navbar-darker');
             }
         </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                // Bildirimlere tıklama işlemi
+                $('.notification-click').on('click', function(e) {
+                    e.preventDefault();
+                    var notificationId = $(this).data('id');
+                    var notificationLink = $(this).data('link');
+
+                    // AJAX isteği ile bildirimin "readed" değerini güncelleyin
+                    $.ajax({
+                        url: "{{ route('notification.read') }}", // Bildirim güncelleme rotası, bu rotayı belirlemeniz gerekiyor
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}', // CSRF koruması için gereken token
+                            id: notificationId, // Güncellenecek bildirimin kimliği
+                            link: notificationLink
+                        },
+                        success: function(response) {
+                            window.location.href =
+                            notificationLink; // Kullanıcıyı ilgili sayfaya yönlendirin
 
 
-<style>
-    .navbar-logo .logo {
-        height: 70px !important;
-        padding: 5px;
-    }
+                        }
+                    });
+                });
+            });
 
-    .navbar-logo .logo-text {
-        width: 300px
-    }
-</style>
+
+            document.addEventListener("DOMContentLoaded", function() {
+    // Bildirim kartlarını bul
+    var notificationCards = document.querySelectorAll(".notification-card");
+
+    // Her kart için tıklama etkinleyici ekleyin
+    notificationCards.forEach(function(card) {
+        card.addEventListener("click", function() {
+            var notificationId = card.getAttribute("data-id");
+            var notificationLink = $(this).data('link');
+              
+            console.log(notificationId);
+            
+            // AJAX ile bildirimi işaretle
+            fetch('/mark-notification-as-read/' + notificationId, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                }
+            })
+            .then(function(response) {
+             
+                    if (notificationLink) {
+                    window.location.href = notificationLink;
+                }
+                    card.classList.remove("unread");
+                    card.classList.add("read");
+                
+            })
+            .catch(function(error) {
+                console.error('Bir hata oluştu:', error);
+            });
+        });
+    });
+});
+            
+        </script>
+
+
+
+        <style>
+            .notification-card {
+                cursor: pointer
+            }
+
+            .navbar-logo .logo {
+                height: 45px !important;
+                padding: 5px;
+            }
+
+            .navbar-logo .logo-text {
+                width: 300px
+            }
+        </style>

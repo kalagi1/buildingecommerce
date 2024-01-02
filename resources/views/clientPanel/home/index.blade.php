@@ -1,1 +1,0 @@
-@extends('clientPanel.layouts.master')

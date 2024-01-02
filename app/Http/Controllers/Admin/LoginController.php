@@ -39,6 +39,8 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
+        session()->forget('cart');
+
         return redirect('/admin/login');
     }
 }

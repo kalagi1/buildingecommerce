@@ -3,68 +3,329 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CustomMail;
+use App\Models\BankAccount;
+use App\Models\CartOrder;
+use App\Models\EmailTemplate;
 use App\Models\Housing;
+use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Project;
 use App\Models\ProjectHousing;
+use App\Models\ShareLink;
+use App\Models\SharerPrice;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class CartController extends Controller
 {
-    public function add(Request $request)
+
+    public function __construct()
     {
-        $type = $request->input('type');
-        $id = $request->input('id');
-        $cartItem = [];
-        if ($type == 'project') {
-            $project = Project::find($id);
-            $price = ProjectHousing::select('value')->where('project_id', $id)->where('key', 'Fiyat')->first()['value'];
-            $image = ProjectHousing::select('value')->where('project_id', $id)->where('key', 'Kapak Resmi')->first()['value'];
-            $cartItem = [
-                'id' => $project->id,
-                'city' => $project->city->title,
-                'address' => $project->address,
-                'title' => $project->project_title,
-                'price' => $price,
-                'image' => asset('project_housing_images/' . $image),
-            ];
-        } else if ($type == 'housing') {
-            $housing = Housing::find($id);
-            $housingData = json_decode($housing->housing_type_data);
+        $this->middleware('auth');
+    }
 
-            $cartItem = [
-                'id' => $housing->id,
-                'city' => $housing->city['title'],
-                'address' => $housing->address,
-                'title' => $housing->title,
-                'price' => $housingData->price[0],
-                'image' => asset('housing_images/' . json_decode($housingData->images)[0]),
-            ];
+    // public function add(Request $request)
+    // {
+    //     $type = $request->input('type');
+    //     $id = $request->input('id');
+    //     $project = $request->input('project');
 
+    //     $cartItem = [];
+    //     if ($type == 'project') {
+    //         $project = Project::find($project);
+    //         $price = ProjectHousing::select('value')->where('project_id', $project)->where('room_order', $id)->where('key', 'Fiyat')->first()['value'];
+    //         $image = ProjectHousing::select('value')->where('project_id', $project)->where('room_order', $id)->where('key', 'Kapak Resmi')->first()['value'];
+    //         $cartItem = [
+    //             'id' => $id,
+    //             'project' => $project->id,
+    //             'city' => $project->city->title,
+    //             'address' => $project->address,
+    //             'title' => $project->project_title,
+    //             'price' => $price,
+    //             'image' => asset('project_housing_images/' . $image),
+    //         ];
+    //     } else if ($type == 'housing') {
+    //         $housing = Housing::find($id);
+    //         $housingData = json_decode($housing->housing_type_data);
+
+    //         $cartItem = [
+    //             'id' => $housing->id,
+    //             'city' => $housing->city['title'],
+    //             'address' => $housing->address,
+    //             'title' => $housing->title,
+    //             'price' => $housingData->price[0],
+    //             'image' => asset('housing_images/' . json_decode($housingData->images)[0]),
+    //         ];
+
+    //     }
+    //     // Find the product in the database
+
+    //     if (!$cartItem) {
+    //         return response(['message' => 'fail']);
+    //     }
+
+    //     $cart = $request->session()->get('cart', []); // Get cart data from session
+
+    //     // Eğer sepeti temizlemeyi onaylamışsa, mevcut sepeti temizleyin
+    //     if ($request->input('clear_cart') === 'yes') {
+    //         $request->session()->forget('cart');
+    //     }
+
+    //     // Add a new product to the cart
+    //     $cart = [
+    //         'item' => $cartItem,
+    //         'type' => $type,
+    //     ];
+
+    //     $request->session()->put('cart', $cart); // Save cart data to session
+
+    //     return response(['message' => 'success']);
+    // }
+
+    public function payCart(Request $request)
+    {
+        if (!$request->session()->get('cart')) {
+            return redirect()->back()->withErrors(['pay' => 'Sepet boş.']);
         }
-        // Find the product in the database
 
-        if (!$cartItem) {
-            return response(['message' => 'fail']);
+        $order = new CartOrder;
+        $order->user_id = auth()->user()->id;
+        $order->bank_id = $request->input("banka_id");
+        $cartJson = $request->session()->get('cart');
+        $order->amount = str_replace(',', '.', number_format(floatval(str_replace('.', '', $request->session()->get('cart')['item']['price'] - $request->session()->get('cart')['item']['discount_amount'])) * 0.01, 0, ',', '.'));
+        $order->cart = json_encode($request->session()->get('cart'));
+        $order->status = '0';
+        $order->key = $request->input("key");
+        $order->save();
+        if(session()->get('sharer_username')){
+            if($cartJson['type'] == "project"){
+                $project = Project::where('id',$cartJson['item']['id'])->first();
+                $sharerPercent = ProjectHousing::where('name','share-percent[]')->first();
+                $sharerPercentAmount = $sharerPercent->value;
+            }else{
+                $housing = Housing::where('id',$cartJson['item']['id'])->first();
+                $sharerPercent = json_decode($housing->housing_type_data);
+                $sharerPercentAmount = $sharerPercent->{"share-percent"};
+            }
+            $sharer = User::where('username',session()->get('sharer_username'))->first();
+            $sharerPrice = new SharerPrice();
+            $sharerPrice->item_id = $cartJson['item']['id'];
+            $sharerPrice->cart_order_id = $order->id;
+            $sharerPrice->item_type = $cartJson['type'] == "project" ? 1 : 2;
+            $sharerPrice->price = (intval(str_replace('.','',$order->amount)) / 100) * $sharerPercentAmount;
+            $sharerPrice->user_id = $sharer->id;
+            $sharerPrice->status = 0;
+            $sharerPrice->save();
         }
 
-        $cart = $request->session()->get('cart', []); // Get cart data from session
 
-        // Eğer sepeti temizlemeyi onaylamışsa, mevcut sepeti temizleyin
-        if ($request->input('clear_cart') === 'yes') {
-            $request->session()->forget('cart');
+        $user = User::where("id", $order->user_id)->first();
+        $BuyCart = EmailTemplate::where('slug', "buy-cart")->first();
+
+        if (!$BuyCart) {
+            return response()->json([
+                'message' => 'Email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203);
         }
 
-        // Add a new product to the cart
-        $cart = [
-            'item' => $cartItem,
-            'type' => $type,
+        $BuyCartContent = $BuyCart->body;
+
+        $buyCartVariables = [
+            'username' => $user->name,
+            'companyName' => "Emlak Sepette",
+            "email" => $user->email,
+            "token" => $user->email_verification_token,
         ];
 
-        $request->session()->put('cart', $cart); // Save cart data to session
+        foreach ($buyCartVariables as $key => $value) {
+            $BuyCartContent = str_replace("{{" . $key . "}}", $value, $BuyCartContent);
+        }
 
-        return response(['message' => 'success']);
+        // Mail::to($user->email)->send(new CustomMail($BuyCart->subject, $BuyCartContent));
+        $cartOrder = CartOrder::where("id", $order->id)->with("bank")->first();
+
+        $NewOrder = EmailTemplate::where('slug', "new-order")->first();
+
+        if (!$NewOrder) {
+            return response()->json([
+                'message' => 'Email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203);
+        }
+
+        $NewOrderContent = $NewOrder->body;
+
+        $admins = User::where("type", "3")->get();
+        $o = json_decode($cartOrder);
+
+        function getHouse($project, $key, $roomOrder)
+        {
+            foreach ($project->roomInfo as $room) {
+                if ($room->room_order == $roomOrder && $room->name == $key) {
+                    return $room;
+                }
+            }
+        }
+
+        foreach ($admins as $key => $admin) {
+            $housingTypeImage = '';
+            if (json_decode($o->cart)->type == 'housing') {
+                $housingTypeImage = asset('housing_images/' . json_decode(Housing::find(json_decode($o->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null);
+            } else {
+                $project = Project::where("id", json_decode($o->cart)->item->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->first();
+                $housingImage = getHouse($project, 'image[]', json_decode($o->cart)->item->housing)->value;
+                $housingTypeImage = URL::to('/') . '/project_housing_images/' . $housingImage;
+            }
+
+          
+            $NewOrderVariables = [
+                "productImage" => "<img src=\"$housingTypeImage\" style=\"object-fit: contain;width:100%;height:100%\" alt=\"Görsel\">",
+                "adminName" => $admin->name,
+                'customerName' => $user->name,
+                'paymentDate' => $cartOrder->created_at,
+                'paymentTotalAmount' => $cartOrder->amount,
+                'bankAccount' => $cartOrder->bank->receipent_full_name,
+                'companyName' => "Emlak Sepette",
+                "email" => $user->email,
+                "token" => $user->email_verification_token,
+            ];
+
+            foreach ($NewOrderVariables as $key => $value) {
+                $NewOrderContent = str_replace("{{" . $key . "}}", $value, $NewOrderContent);
+            }
+
+            // Mail::to($admin->email)->send(new CustomMail($NewOrder->subject, $NewOrderContent));
+        }
+
+        session()->forget('cart');
+
+        return redirect()->route('pay.success', ['cart_order' => $order->id]);
+    }
+
+    public function paySuccess(Request $request, CartOrder $cart_order)
+    {
+
+        return view('client.cart.pay-success', compact('cart_order'));
+    }
+
+    public function add(Request $request)
+    {
+        try {
+            if(auth()->user()->type == 19){
+                $type = $request->input('type');
+                $id = $request->input('id');
+                $project = $request->input('project');
+                
+                if($type == 'project'){
+                    $sharerLinksProjects = ShareLink::select('room_order','item_id')->where('user_id',auth()->user()->id)->where('item_type',1)->get()->keyBy('item_id')->toArray();
+                    $isHas = false;
+                    foreach($sharerLinksProjects as $linkProject){
+                        if($linkProject['item_id'] == $project && $linkProject['room_order'] == $id){
+                            $isHas = true;
+                        }
+                    }
+                    if($isHas){
+                        ShareLink::where('item_id',$project)->where('room_order',$id)->where('item_type',1)->delete();
+                    }else{
+                        ShareLink::create([
+                            "user_id" => auth()->user()->id,
+                            "item_type" => 1,
+                            "item_id" => $project,
+                            'room_order' => $id
+                        ]);
+                    } 
+                }else{
+                    $sharerLinks = array_values(array_keys(ShareLink::where('user_id',auth()->user()->id)->where('item_type',2)->get()->keyBy('item_id')->toArray()));
+                    
+                    if(in_array($id,$sharerLinks)){
+                        ShareLink::where('item_id',$id)->where('item_type',2)->delete();
+                    }else{
+                        ShareLink::create([
+                            "user_id" => auth()->user()->id,
+                            "item_type" => 2,
+                            "item_id" => $id
+                        ]);
+                    } 
+                }
+                
+                return response(['message' => 'success']);
+            }else{
+                $type = $request->input('type');
+                $id = $request->input('id');
+                $project = $request->input('project');
+                
+                $cartItem = [];
+
+                $cart = $request->session()->get('cart', []); // Get cart data from session
+                http_response_code(500);
+                if ($cart && (($type == 'housing' && $cart['item']['id'] == $id) || ($type == 'project' && $cart['item']['id'] == $id))) {
+                    $request->session()->forget('cart');
+                } else {
+                    if ($type == 'project') {
+                        $discount_amount = Offer::where('type', 'project')->where('project_id', $project)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
+                        $project = Project::find($project);
+                        $projectHousing = ProjectHousing::where('project_id', $project->id)
+                            ->where('room_order', $id)
+                            ->whereIn('key', ['Fiyat', 'Kapak Resmi'])
+                            ->get()
+                            ->keyBy('key');
+
+                        $price = $projectHousing['Fiyat']->value;
+                        $image = $projectHousing['Kapak Resmi']->value;
+                        $cartItem = [
+                            'id' => $project->id,
+                            'housing' => $id,
+                            'city' => $project->city->title,
+                            'address' => $project->address,
+                            'title' => $project->project_title,
+                            'price' => $price,
+                            'image' => asset('project_housing_images/' . $image),
+                            'discount_amount' => $discount_amount,
+                        ];
+                    } else if ($type == 'housing') {
+                        $discount_amount = Offer::where('type', 'housing')->where('housing_id', $id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
+                        $housing = Housing::find($id);
+                        $housingData = json_decode($housing->housing_type_data);
+
+                        $cartItem = [
+                            'id' => $housing->id,
+                            'city' => $housing->city['title'],
+                            'address' => $housing->address,
+                            'title' => $housing->title,
+                            'price' => $housingData->price[0],
+                            'image' => asset('housing_images/' . $housingData->images[0]),
+                            'discount_amount' => $discount_amount,
+                        ];
+
+                    }
+
+                    if (!$cartItem) {
+                        return response(['message' => 'fail']);
+                    }
+
+                    $cart = [
+                        'item' => $cartItem,
+                        'type' => $type,
+                    ];
+
+                    $request->session()->put('cart', $cart); // Save cart data to session
+                    return response(['message' => 'success']);
+
+                }
+            }
+            
+
+        } catch (\Exception $e) {
+            // Handle exceptions if any
+            return response(['message' => 'error', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function clear(Request $request)
@@ -76,9 +337,9 @@ class CartController extends Controller
 
     public function index(Request $request)
     {
+        $bankAccounts = BankAccount::all();
         $cart = $request->session()->get('cart', []);
-
-        return view('client.cart.index', compact('cart'));
+        return view('client.cart.index', compact('cart', "bankAccounts"));
     }
 
     public function removeFromCart(Request $request)

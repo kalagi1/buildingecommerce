@@ -33,7 +33,6 @@ class MenuController extends Controller
                 'text' => $text,
                 'href' => $href,
                 'target' => $target,
-                // Diğer sütunları buradan ekle
             ]);
 
             if (isset($menuItem['children']) && is_array($menuItem['children'])) {

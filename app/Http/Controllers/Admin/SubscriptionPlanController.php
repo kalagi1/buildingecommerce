@@ -28,6 +28,7 @@ class SubscriptionPlanController extends Controller
             'project_limit' => 'required|integer',
             'user_limit' => 'required|integer',
             'housing_limit' => 'required|integer',
+            'plan_type' => 'required|string|in:Bireysel,Emlakçı,Banka,İnşaat',
         ]);
 
         if ($validator->fails()) {
@@ -42,6 +43,7 @@ class SubscriptionPlanController extends Controller
             'project_limit' => $request->input('project_limit'),
             'user_limit' => $request->input('user_limit'),
             'housing_limit' => $request->input('housing_limit'),
+            'plan_type' => $request->input('plan_type'),
         ]);
 
         return redirect()->route('admin.subscriptionPlans.index')
@@ -61,6 +63,7 @@ class SubscriptionPlanController extends Controller
             'project_limit' => 'required|integer',
             'user_limit' => 'required|integer',
             'housing_limit' => 'required|integer',
+            'plan_type' => 'required|string|in:Bireysel,Emlakçı,Banka,İnşaat',
         ]);
 
         if ($validator->fails()) {
@@ -75,6 +78,7 @@ class SubscriptionPlanController extends Controller
             'project_limit' => $request->input('project_limit'),
             'user_limit' => $request->input('user_limit'),
             'housing_limit' => $request->input('housing_limit'),
+            'plan_type' => $request->input('plan_type'),
         ]);
 
         return redirect()->route('admin.subscriptionPlans.index')

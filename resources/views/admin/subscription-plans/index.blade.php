@@ -20,13 +20,13 @@
                     </div>
 
                     @if (session('success'))
-                        <div class="alert alert-success text-white">
+                        <div class="alert alert-success text-white text-white">
                             {{ session('success') }}
                         </div>
                     @endif
 
                     @if (session('error'))
-                        <div class="alert alert-danger text-white">
+                        <div class="alert alert-danger text-white text-white">
                             {{ session('error') }}
                         </div>
                     @endif
@@ -43,21 +43,24 @@
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="planProjectLimit">Proje Limiti</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="planUserLimit">Kullanıcı Limiti</th>
+                                            data-sort="planUserLimit">Alt Kullanıcı Limiti</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="planHousingLimit">Konut Limiti</th>
+                                            data-sort="planHousingLimit">Emlak Limiti</th>
+                                        <th class="sort white-space-nowrap align-middle ps-0" scope="col"
+                                            data-sort="planHousingLimit">Plan Tipi</th>
                                         <th>İşlemler</th>
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="subscription-plans-list-table-body">
-                                    @foreach ($subscriptionPlans as $plan)
+                                    @foreach ($subscriptionPlans as $key => $plan)
                                         <tr class="position-static">
-                                            <td>{{ $plan->id }}</td>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $plan->name }}</td>
                                             <td>{{ $plan->price }}</td>
                                             <td>{{ $plan->project_limit }}</td>
                                             <td>{{ $plan->user_limit }}</td>
                                             <td>{{ $plan->housing_limit }}</td>
+                                            <td>{{ $plan->plan_type }}</td>
                                             <td>
                                                 <a href="{{ route('admin.subscriptionPlans.edit', $plan->id) }}"
                                                     class="btn btn-sm btn-primary">Düzenle</a>

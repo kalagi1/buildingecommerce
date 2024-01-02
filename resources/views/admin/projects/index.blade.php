@@ -2,91 +2,75 @@
 
 @section('content')
     <div class="content">
-        <h2 class="mb-2 lh-sm">Konut Tipleri</h2>
         <div class="mt-4">
             <div class="row g-4">
                 <div class="col-12 col-xl-12  order-1 order-xl-0">
+                    <h2 class=" lh-sm">Projeler</h2>
+
                     <div class="mb-9">
                         <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
                             <div class="card-body p-0">
                                 <div class="p-4 code-to-copy">
-                                    <div class="d-flex align-items-center justify-content-end my-3">
-                                        <div id="bulk-select-replace-element"><button class="btn btn-phoenix-success btn-sm"
-                                                type="button"><span class="fas fa-plus"
-                                                    data-fa-transform="shrink-3 down-2"></span><span
-                                                    class="ms-1">New</span></button></div>
-                                        <div class="d-none ms-3" id="bulk-select-actions">
-                                            <div class="d-flex"><select class="form-select form-select-sm"
-                                                    aria-label="Bulk actions">
-                                                    <option selected="selected">Bulk actions</option>
-                                                    <option value="Delete">Delete</option>
-                                                    <option value="Archive">Archive</option>
-                                                </select><button class="btn btn-phoenix-danger btn-sm ms-2"
-                                                    type="button">Apply</button></div>
-                                        </div>
-                                    </div>
                                     <div id="tableExample"
                                         data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
                                         <div class="table-responsive mx-n1 px-1">
                                             <table class="table table-sm border-top border-200 fs--1 mb-0">
                                                 <thead>
                                                     <tr>
+                                                        <th>No.</th>
+                                                        <th>Resim</th>
                                                         <th>Başlık</th>
-                                                        <th>Statü</th>
                                                         <th>Eklenen Marka</th>
                                                         <th>Emlak Sayısı</th>
                                                         <th>Emlak Tipi</th>
                                                         <th>Şehir</th>
                                                         <th>İlçe</th>
+                                                        <th>Statü</th>
                                                         <th>İşlemler</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($projects as $project)
-                                                    <tr>
-                                                        <td>{{$project->project_title}}</td>
-                                                        <td>@if($project->status) <span class="alert alert-success">Aktif</span> @else <span class="alert alert-danger">Pasif</span> @endif</td>
-                                                        <td>{{$project->brand->title}}</td>
-                                                        <td>{{$project->room_count}}</td>
-                                                        <td>{{$project->housingType->title}}</td>
-                                                        <td>{{$project->city->title}}</td>
-                                                        <td>{{$project->county->title}}</td>
-                                                        <td>
-                                                            <a href="" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
-                                                            <a href="" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                                            <a href="" class="btn btn-info btn-sm">Log</a>
-                                                        </td>
-                                                    </tr>
+                                                    @foreach ($projects as $key => $project)
+                                                        <tr>
+                                                            <td>{{ $key + 1 }}</td>
+                                                            <td>
+                                                                @php
+                                                                    $imagePath = str_replace('public/', 'storage/', $project->image);
+                                                                @endphp
+                                                                <img src="{{ asset($imagePath) }}" alt="Resim"
+                                                                    style="width:100px">
+                                                            </td>
+                                                            <td>{{ $project->project_title }}</td>
+                                                            <td>{{ $project->user->name }}</td>
+                                                            <td>{{ $project->room_count }}</td>
+                                                            <td>{{ $project->housingType->title }}</td>
+                                                            <td>{{ $project->city->title }}</td>
+                                                            <td>{{ isset($project->county->ilce_title) ? $project->county->ilce_title  : '' }}</td>
+                                                            <td>
+                                                                @if ($project->status == 1)
+                                                                <span class="badge badge-phoenix badge-phoenix-success">Aktif</span>
+                                                                @elseif($project->status == 2)
+                                                                    <span class="badge badge-phoenix badge-phoenix-warning">Onay Bekliyor</span>
+                                                                @elseif($project->status == 3)
+                                                                    <span class="badge badge-phoenix badge-phoenix-danger">
+                                                                        Reddedildi</span>
+                                                                @else
+                                                                    <span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ route('admin.projects.detail', $project->id) }}"
+                                                                    class="badge badge-phoenix badge-phoenix-primary"><i
+                                                                        class="fa fa-eye"></i></a>
+                                                                <a href="{{ route('admin.projects.logs', $project->id) }}"
+                                                                    class="badge badge-phoenix badge-phoenix-info">Log</a>
+                                                            </td>
+                                                        </tr>
                                                     @endforeach
                                                 </tbody>
-                                                <tbody class="list" id="bulk-select-body"></tbody>
                                             </table>
                                         </div>
-                                        <div class="d-flex flex-between-center pt-3 mb-3">
-                                            <div class="pagination d-none"></div>
-                                            <p class="mb-0 fs--1">
-                                                <span class="d-none d-sm-inline-block"
-                                                    data-list-info="data-list-info"></span>
-                                                <span class="d-none d-sm-inline-block"> &mdash; </span>
-                                                <a class="fw-semi-bold" href="#!" data-list-view="*">
-                                                    View all
-                                                    <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
-                                                </a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">
-                                                    View Less
-                                                    <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
-                                                </a>
-                                            </p>
-                                            <div class="d-flex">
-                                                <button class="btn btn-sm btn-primary" type="button"
-                                                    data-list-pagination="prev"><span>Previous</span></button>
-                                                <button class="btn btn-sm btn-primary px-4 ms-2" type="button"
-                                                    data-list-pagination="next"><span>Next</span></button>
-                                            </div>
-                                        </div>
-                                        <p class="mb-2">Click the button to get selected rows</p><button
-                                            class="btn btn-warning" data-selected-rows="data-selected-rows">Get Selected
-                                            Rows</button>
-                                        <pre id="selectedRows"></pre>
+
                                     </div>
                                 </div>
                             </div>
@@ -105,22 +89,9 @@
                 </div>
             </div>
         </div>
-        <footer class="footer position-absolute">
-            <div class="row g-0 justify-content-between align-items-center h-100">
-                <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 mt-2 mt-sm-0 text-900">Thank you for creating with Phoenix<span
-                            class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br
-                            class="d-sm-none" />2023 &copy;<a class="mx-1" href="https://themewagon.com/">Themewagon</a>
-                    </p>
-                </div>
-                <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 text-600">v1.13.0</p>
-                </div>
-            </div>
-        </footer>
+
     </div>
 @endsection
 
 @section('scripts')
-    
 @endsection

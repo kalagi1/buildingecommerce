@@ -1,0 +1,41 @@
+version: '3'
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "80:80"
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - mysql
+        networks:
+            - laravel-network
+    mysql:
+        image: mysql:latest
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+        networks:
+            - laravel-network
+        volumes:
+            - laravel-volume:/var/bin/mysql
+        ports:
+            - "3306:3306"
+        expose:
+            - 3306
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+        ports:
+            - "8080:80"
+        depends_on:
+            - mysql
+        networks:
+            - laravel-network
+networks:
+    laravel-network:
+volumes:
+    laravel-volume:
