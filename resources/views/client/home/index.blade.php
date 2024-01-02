@@ -528,7 +528,7 @@
                                                 </button>
                                             @else
                                                 @if ($sold != null && $sold != '2')
-                                                    <button class="btn mobileBtn second-btn CartBtn" disabled
+                                                    <button class="btn mobileBtn second-btn " 
                                                         @if ($sold == '0') style="background: orange !important;width:100%;color:White"
                                                             @else 
                                                             style="background: red !important;width:100%;color:White" @endif>
@@ -856,14 +856,14 @@
 
                                                                 @if ($housing->step2_slug != 'gunluk-kiralik')
                                                                     @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                                        <button class="btn second-btn CartBtn" disabled
+                                                                        <button class="btn second-btn " 
                                                                             style="background: red !important;width:100%;color:White">
 
                                                                             <span class="text">Satıldı</span>
                                                                         </button>
                                                                     @else
                                                                         @if ($sold != null && $sold != '2')
-                                                                            <button class="btn second-btn CartBtn" disabled
+                                                                            <button class="btn second-btn " 
                                                                                 @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
                                                                                 @if ($sold == '0')
                                                                                     <span class="text">Onay
@@ -1080,14 +1080,14 @@
 
                                                             @if ($housing->step2_slug != 'gunluk-kiralik')
                                                                 @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                                    <button class="btn second-btn CartBtn" disabled
+                                                                    <button class="btn second-btn " 
                                                                         style="background: red !important;width:100%;color:White">
 
                                                                         <span class="text">Satıldı</span>
                                                                     </button>
                                                                 @else
                                                                     @if ($sold != null && $sold != '2')
-                                                                        <button class="btn second-btn CartBtn" disabled
+                                                                        <button class="btn second-btn " 
                                                                             @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
                                                                             @if ($sold == '0')
                                                                                 <span class="text">Onay Bekleniyor</span>

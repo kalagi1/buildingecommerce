@@ -27487,7 +27487,7 @@ input[type="checkbox"]::before {
 @media (max-width: 768px) {
     .mobileCBtn {
         width: 100% !important;
-        height: 45px !important;
+        height: auto !important;
     }
 
 }
