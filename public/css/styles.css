@@ -8359,13 +8359,6 @@ p {
         width: 100% !important;
     }
 
-    .mobileBtn .text {
-        display: none !important
-    }
-
-    .mobileBtn {
-        width: 40px !important
-    }
 
     .mobileBtn:hover .IconContainer {
         transform: none !important;
@@ -24651,9 +24644,7 @@ form label.error {
 }
 
 @media screen and (max-width: 768px) {
-    .btn {
-        height: auto !important;
-    }
+  
     .google-maps .filter .filter-toggle {
         display: block;
     }
@@ -27487,7 +27478,7 @@ input[type="checkbox"]::before {
 @media (max-width: 768px) {
     .mobileCBtn {
         width: 120px !important;
-        height: auto !important;
+        height: 45px !important;
     }
 
 }
