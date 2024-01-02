@@ -6,6 +6,7 @@ use App\Models\AdBanner;
 use App\Models\FooterLink;
 use App\Models\Menu;
 use App\Models\Page;
+use App\Models\ShareLink;
 use App\Models\SocialMediaIcon;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        View::composer("client*", function ($view) {
+        View::composer("client.*", function ($view) {
+            if(auth()->user()){
+                $sharerLinks = array_values(array_keys(ShareLink::where('user_id',auth()->user()->id)->where('item_type',2)->get()->keyBy('item_id')->toArray()));
+                $sharerLinksProjects = ShareLink::select('room_order','item_id')->where('user_id',auth()->user()->id)->where('item_type',1)->get()->keyBy('item_id')->toArray();
+            }else{
+                $sharerLinks = [];
+                $sharerLinksProjects = [];
+            }
             $footerLinks = FooterLink::all();
             $socialMediaIcons = SocialMediaIcon::all();
             $menu = Menu::getMenuItems();
@@ -45,7 +53,13 @@ class AppServiceProvider extends ServiceProvider
             $view->with("footerLinks", $footerLinks);
             $view->with("menu", $menu);
             $view->with("adBanners", $adBanners);
+            $view->with('sharerLinks', $sharerLinks);
+            $view->with('sharerLinksProjects', $sharerLinksProjects);
         });
+        
+        if(request('sharer_username')){
+            session()->put('sharer_username',request('sharer_username'));
+        }
 
         View::composer(["admin*"], function ($view) {
 
@@ -95,9 +109,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer(["client*"], function ($view) {
-
             if (Auth::check()) {
                 $user = User::with('role.rolePermissions.permissions')->find(Auth::user()->id);
+
+                
 
                 if ($user) {
                     $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {

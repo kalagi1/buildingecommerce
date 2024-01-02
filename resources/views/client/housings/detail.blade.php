@@ -1154,13 +1154,35 @@
                                                     <span class="text">{{ $buttonText }}</span>
                                                 </button>
                                             @else
-                                                <button class="CartBtn" data-type='housing'
-                                                    data-id='{{ $housing->id }}'>
-                                                    <span class="IconContainer">
-                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                    </span>
-                                                    <span class="text">Sepete Ekle</span>
-                                                </button>
+                                                @if(auth()->check() && auth()->user()->type == 19)
+                                                    @if(isset(json_decode($housing->housing_type_data)->{"share-open"}) && json_decode($housing->housing_type_data)->{"share-open"}[0])
+                                                        <button class="CartBtn" data-type='housing'
+                                                            data-id='{{ $housing->id }}'>
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('link.png') }}" alt="">
+                                                                </span>
+                                                                <span class="text">Koleksiyonuma Ekle</span>
+                                                        </button>
+                                                    @else
+                                                        <button class="disabledShareButton" data-type='housing'
+                                                            data-id='{{ $housing->id }}'>
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('link.png') }}" alt="">
+                                                                </span>
+                                                                <span class="text">Paylaşıma Kapalı</span>
+                                                        </button>
+                                                    @endif
+                                                @else
+                                                    <button class="CartBtn" data-type='housing'
+                                                        data-id='{{ $housing->id }}'>
+                                                        <span class="IconContainer">
+                                                            <img src="{{ asset('sc.png') }}"
+                                                                alt="">
+
+                                                        </span>
+                                                            <span class="text">Sepete Ekle</span>
+                                                    </button>
+                                                @endif
                                             @endif
                                         @endif
 

@@ -891,7 +891,7 @@
 
             if (isProductInCart(productId, project)) {
                 Swal.fire({
-                    title: "Ürünü sepetten kaldırmak istiyor musunuz ?",
+                    title: @if(auth()->check() && auth()->user()->type == 19) "Ürünü koleksiyonunuzdan kaldırmak istiyor musunuz?" @else "Ürünü sepetten kaldırmak istiyor musunuz?" @endif ,
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonText: "Evet, Kaldır",
@@ -919,11 +919,15 @@
                 });
             } else {
                 Swal.fire({
-                    title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
+                    @if(auth()->check() && auth()->user()->type == 19)
+                        title: 'Koleksiyonunuza eklemek istiyor musunuz?',
+                    @else
+                        title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
                         'Mevcut sepeti temizlemek istiyor musunuz?',
+                    @endif
                     icon: 'question',
                     showCancelButton: true,
-                    confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
+                    confirmButtonText: @if(auth()->check() && auth()->user()->type == 19) 'Evet' @else isCartEmpty() ? 'Evet' : 'Evet, temizle' @endif,
                     cancelButtonText: 'Hayır',
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -933,17 +937,22 @@
                             data: JSON.stringify(cart),
                             contentType: "application/json;charset=UTF-8",
                             success: function(response) {
-
-                                toastr.success("Ürün Sepete Eklendi");
-                                if (!button.classList.contains("mobile")) {
-                                    button.textContent = "Sepete Eklendi";
-                                }
+                                @if(auth()->check() && auth()->user()->type == 19)
+                                    toastr.success("Ürün Koleksiyonunuza Eklendi");
+                                    if (!button.classList.contains("mobile")) {
+                                        button.textContent = "Koleksiyonuma Eklendi";
+                                    }
+                                @else
+                                    toastr.success("Ürün Sepete Eklendi");
+                                    if (!button.classList.contains("mobile")) {
+                                        button.textContent = "Sepete Eklendi";
+                                    }
+                                @endif
                                 button.classList.add("bg-success");
                                 location.reload();
 
                             },
                             error: function(error) {
-                               window.location.href = "/giris-yap";
                                 console.error(error);
                             }
                         });
@@ -952,6 +961,11 @@
 
             }
 
+        });
+
+        $('body').on('click', '.disabledShareButton', function(event) {
+            event.preventDefault();
+            toastr.error("Paylaşıma kapalı ürünleri koleksiyonunuza ekleyemezsiniz.");
         });
 
 
@@ -969,9 +983,17 @@
                 }
 
                 if (isProductInCart(productId, product)) {
-                    if (!button.classList.contains("mobile")) {
-                        button.querySelector(".text").textContent = "Sepete Eklendi";
-                    }
+                    
+                    @if(auth()->check() && auth()->user()->type == 19)
+                        if (!button.classList.contains("mobile")) {
+                            button.querySelector(".text").textContent = "Koleksiyonuma eklendi";
+                        }
+                    @else
+                        if (!button.classList.contains("mobile")) {
+                            button.querySelector(".text").textContent = "Sepete Eklendi";
+                        }
+                    @endif
+
                     button.classList.add("bg-success");
                 } else {
                     button.classList.remove("bg-success");
@@ -985,21 +1007,33 @@
         }
 
         function isProductInCart(productId, product) {
-            var cart = @json(session('cart', []));
-            if (cart.length != 0) {
-                if (product != null) {
-                    if (cart.item.id == product && cart.item.housing == productId) {
-                        return true;
-                    }
-                } else {
-                    console.log(productId);
-                    console.log(cart.item.id);
-                    if (cart.item.id == productId) {
+            @if(auth()->check() && auth()->user()->type == 19)
+                var links = @json($sharerLinks);
+                console.log(productId,links,links.includes(productId));
+                if (links.length != 0) {
+                    if (links.includes(parseInt(productId))) {
                         return true; // Ürün sepette bulundu
                     }
+                    
                 }
-            }
-            return false; // Ürün sepette bulunamadı
+                return false; // Ürün sepette bulunamadı
+            @else
+                var cart = @json(session('cart', []));
+                if (cart.length != 0) {
+                    if (product != null) {
+                        if (cart.item.id == product && cart.item.housing == productId) {
+                            return true;
+                        }
+                    } else {
+                        console.log(productId);
+                        console.log(cart.item.id);
+                        if (cart.item.id == productId) {
+                            return true; // Ürün sepette bulundu
+                        }
+                    }
+                }
+                return false; // Ürün sepette bulunamadı
+            @endif
         }
 
         function checkProjectFavorites() {
@@ -1062,44 +1096,7 @@
 
 
         function checkFavorites() {
-            var favoriteButtons = document.querySelectorAll(".toggle-favorite");
-
-            favoriteButtons.forEach(function(button) {
-                var housingId = button.getAttribute("data-housing-id");
-                console.log(housingId);
-                $.ajax({
-                    url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
-                        .replace(':id', housingId),
-                    type: "GET",
-                    success: function(response) {
-                        if (response.is_favorite) {
-                            button.querySelector("i").classList.remove(
-                                "fa-heart-o");
-                            button.querySelector("i").classList.add(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "text-danger");
-                            button.classList.add("bg-white");
-                        } else {
-                            button.querySelector("i").classList.remove(
-                                "text-danger");
-                            button.querySelector("i").classList.remove(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "fa-heart-o");
-                        }
-                    },
-                    error: function(error) {
-                        button.querySelector("i").classList.remove(
-                            "text-danger");
-                        button.querySelector("i").classList.remove(
-                            "fa-heart");
-                        button.querySelector("i").classList.add(
-                            "fa-heart-o");
-                        console.error(error);
-                    }
-                });
-            });
+            
         }
 
         document.querySelectorAll(".toggle-project-favorite").forEach(function(button) {

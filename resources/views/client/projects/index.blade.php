@@ -465,7 +465,12 @@
                                                                         project-id="{{ $project->id }}"
                                                                         data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) || getData($project, 'off_sale[]', $i + 1)->value != '[]') ? '1' : '0' }}"
                                                                         order="{{ $i }}">
-                                                                        Ödeme Detayları
+                                                                        
+                                                                        @if(auth()->user()->type == 19)
+                                                                            Kar Oranı
+                                                                        @else
+                                                                            Ödeme Detayları
+                                                                        @endif
                                                                 </button>
                                                                 
                                                                         @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
@@ -490,18 +495,30 @@
                                                                                     @endif
                                                                                 </button>
                                                                             @else
-                                                                                <button class="CartBtn second-btn"
-                                                                                    data-type='project'
-                                                                                    data-project='{{ $project->id }}'
-                                                                                    style="height: auto !important"
-                                                                                    data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                                    <span class="IconContainer">
-                                                                                        <img src="{{ asset('sc.png') }}"
-                                                                                            alt="">
-                                                                                    </span>
-                                                                                    <span class="text">Sepete
-                                                                                        Ekle</span>
-                                                                                </button>
+                                                                                @if(auth()->user()->type == 19)
+                                                                                    @if(isset(getData($project, 'share-open[]', $housingOrder)->value) && getData($project, 'share-open[]', $housingOrder)->value)
+                                                                                        <button class="CartBtn" data-type='project' data-project='{{ $project->id }}' data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                            <span class="IconContainer">
+                                                                                                <img src="{{ asset('link.png') }}" alt="">
+                                                                                            </span>
+                                                                                            <span class="text">Koleksiyonuma Ekle</span>
+                                                                                        </button>
+                                                                                    @else
+                                                                                        <button class="disabledShareButton" data-type='project' data-project='{{ $project->id }}' data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                            <span class="IconContainer">
+                                                                                                <img src="{{ asset('link.png') }}" alt="">
+                                                                                            </span>
+                                                                                            <span class="text">Paylaşıma Kapalı</span>
+                                                                                        </button>
+                                                                                    @endif
+                                                                                @else
+                                                                                    <button class="CartBtn" data-type='project' data-project='{{ $project->id }}' data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                        <span class="IconContainer">
+                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                                        </span>
+                                                                                        <span class="text">Sepete Ekle</span>
+                                                                                    </button>
+                                                                                @endif
                                                                             @endif
                                                                         @endif
 
@@ -604,8 +621,8 @@
                                                                     <button class="btn mobileBtn second-btn CartBtn"
                                                                         disabled
                                                                         @if ($sold->status == '0') style="background: orange !important;width:100%;color:White"
-                                        @else 
-                                        style="background: red !important;width:100%;color:White;height: auto !important" @endif>
+                                                                            @else 
+                                                                            style="background: red !important;width:100%;color:White;height: auto !important" @endif>
                                                                                         <span class="IconContainer">
                                                                             <img src="{{ asset('sc.png') }}"
                                                                                 alt="">
@@ -617,16 +634,30 @@
                                                                         @endif
                                                                     </button>
                                                                 @else
-                                                                    <button class="CartBtn mobileBtn"
-                                                                        data-type='project'
-                                                                        data-project='{{ $project->id }}'
-                                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                        <span class="IconContainer">
-                                                                            <img src="{{ asset('sc.png') }}"
-                                                                                alt="">
-                                                                        </span>
-                                                                        <span class="text">Sepete Ekle</span>
-                                                                    </button>
+                                                                    @if(auth()->user()->type == 19)
+                                                                        @if(isset(getData($project, 'share-open[]', $housingOrder)->value) && getData($project, 'share-open[]', $housingOrder)->value)
+                                                                            <button class="CartBtn mobileBtn" data-type='project' data-project='{{ $project->id }}' data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                <span class="IconContainer">
+                                                                                    <img src="{{ asset('link.png') }}" alt="">
+                                                                                </span>
+                                                                                <span class="text">Koleksiyonuma Ekle</span>
+                                                                            </button>
+                                                                        @else
+                                                                            <button class="disabledShareButton mobileBtn" data-type='project' data-project='{{ $project->id }}' data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                <span class="IconContainer">
+                                                                                    <img src="{{ asset('link.png') }}" alt="">
+                                                                                </span>
+                                                                                <span class="text">Paylaşıma Kapalı</span>
+                                                                            </button>
+                                                                        @endif
+                                                                    @else
+                                                                        <button class="CartBtn mobileBtn" data-type='project' data-project='{{ $project->id }}' data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                            <span class="IconContainer">
+                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                            </span>
+                                                                            <span class="text">Sepete Ekle</span>
+                                                                        </button>
+                                                                    @endif
                                                                 @endif
                                                             @endif
 
@@ -973,13 +1004,22 @@
 
                                         <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
                                             <div class="homes-button" style="width:100%;height:100%">
-                                                <button class="first-btn payment-plan-button"
-                                                                        project-id="{{ $project->id }}"
-                                                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) || getData($project, 'off_sale[]', $i + 1)->value != '[]') ? '1' : '0' }}"
-                                                                        order="{{ $i }}">
-                                                                        Ödeme Detayları
-                                                                </button>
-                                        
+                                                
+                                                @if(auth()->user()->type == 19)
+                                                    @if(isset(getData($project, 'share-open[]',  $i + 1)->value) && getData($project, 'share-open[]',  $i + 1)->value)
+                                                        <button class="first-btn" project-id="{{ $project->id }}" data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) || getData($project, 'off_sale[]', $i + 1)->value != '[]') ? '1' : '0' }}" order="{{ $i }}">
+                                                            Kar Oranı : {{getData($project, 'share-percent[]',  $i + 1)->value}}% ({{ number_format((getData($project, 'price[]',  $i + 1)->value / 100) * getData($project, 'share-percent[]',  $i + 1)->value, 0, ',', '.') }}₺)
+                                                        </button>    
+                                                    @else
+                                                        <button class="first-btn" project-id="{{ $project->id }}" data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) || getData($project, 'off_sale[]', $i + 1)->value != '[]') ? '1' : '0' }}" order="{{ $i }}">
+                                                            Paylaşıma Kapalı
+                                                        </button>
+                                                    @endif 
+                                                @else
+                                                    <button class="first-btn payment-plan-button" project-id="{{ $project->id }}" data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) || getData($project, 'off_sale[]', $i + 1)->value != '[]') ? '1' : '0' }}" order="{{ $i }}">
+                                                        Ödeme Detayları
+                                                    </button>   
+                                                @endif
                                                 @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                     <button class="btn second-btn CartBtn" disabled
                                                         style="background: red !important;width:100%;color:White;height: auto !important">
@@ -990,8 +1030,8 @@
                                                     @if ($sold && $sold->status != '2')
                                                         <button class="btn second-btn soldBtn" disabled
                                                             @if ($sold->status == '0') style="background: orange !important;color:White;height: auto !important"
-                                            @else 
-                                            style="background: red !important;color:White;height: auto !important" @endif>
+                                                            @else 
+                                                            style="background: red !important;color:White;height: auto !important" @endif>
                                                             @if ($sold->status == '0')
                                                                 <span class="text">Onay Bekleniyor</span>
                                                             @else
@@ -999,15 +1039,33 @@
                                                             @endif
                                                         </button>
                                                     @else
-                                                        <button class="CartBtn second-btn" data-type='project'
-                                                            data-project='{{ $project->id }}'
-                                                            style="height: auto !important"
-                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                            <span class="IconContainer">
-                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                            </span>
-                                                            <span class="text">Sepete Ekle</span>
-                                                        </button>
+                                                        @if(auth()->user()->type == 19)
+                                                            @if(isset(getData($project, 'share-open[]',  $i + 1)->value) && getData($project, 'share-open[]',  $i + 1)->value)
+                                                                <button class="CartBtn second-btn" data-type='project' data-project='{{ $project->id }}' data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('link.png') }}" alt="">
+                                                                    </span>
+                                                                    <span class="text">Koleksiyonuma Ekle</span>
+                                                                </button>
+                                                            @else
+                                                                <button class="disabledShareButton second-btn" data-type='project' data-project='{{ $project->id }}' data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('link.png') }}" alt="">
+                                                                    </span>
+                                                                    <span class="text">Paylaşıma Kapalı</span>
+                                                                </button>
+                                                            @endif
+                                                        @else
+                                                            <button class="CartBtn second-btn" data-type='project'
+                                                                data-project='{{ $project->id }}'
+                                                                style="height: auto !important"
+                                                                data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                </span>
+                                                                <span class="text">Sepete Ekle</span>
+                                                            </button>
+                                                        @endif
                                                     @endif
                                                 @endif
 

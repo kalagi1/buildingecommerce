@@ -12,6 +12,8 @@ use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Project;
 use App\Models\ProjectHousing;
+use App\Models\ShareLink;
+use App\Models\SharerPrice;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,12 +95,33 @@ class CartController extends Controller
         $order = new CartOrder;
         $order->user_id = auth()->user()->id;
         $order->bank_id = $request->input("banka_id");
-
+        $cartJson = $request->session()->get('cart');
         $order->amount = str_replace(',', '.', number_format(floatval(str_replace('.', '', $request->session()->get('cart')['item']['price'] - $request->session()->get('cart')['item']['discount_amount'])) * 0.01, 0, ',', '.'));
         $order->cart = json_encode($request->session()->get('cart'));
         $order->status = '0';
         $order->key = $request->input("key");
         $order->save();
+        if(session()->get('sharer_username')){
+            if($cartJson['type'] == "project"){
+                $project = Project::where('id',$cartJson['item']['id'])->first();
+                $sharerPercent = ProjectHousing::where('name','share-percent[]')->first();
+                $sharerPercentAmount = $sharerPercent->value;
+            }else{
+                $housing = Housing::where('id',$cartJson['item']['id'])->first();
+                $sharerPercent = json_decode($housing->housing_type_data);
+                $sharerPercentAmount = $sharerPercent->{"share-percent"};
+            }
+            $sharer = User::where('username',session()->get('sharer_username'))->first();
+            $sharerPrice = new SharerPrice();
+            $sharerPrice->item_id = $cartJson['item']['id'];
+            $sharerPrice->cart_order_id = $order->id;
+            $sharerPrice->item_type = $cartJson['type'] == "project" ? 1 : 2;
+            $sharerPrice->price = (intval(str_replace('.','',$order->amount)) / 100) * $sharerPercentAmount;
+            $sharerPrice->user_id = $sharer->id;
+            $sharerPrice->status = 0;
+            $sharerPrice->save();
+        }
+
 
         $user = User::where("id", $order->user_id)->first();
         $BuyCart = EmailTemplate::where('slug', "buy-cart")->first();
@@ -195,69 +218,109 @@ class CartController extends Controller
     public function add(Request $request)
     {
         try {
-
-            $type = $request->input('type');
-            $id = $request->input('id');
-            $project = $request->input('project');
-
-            $cartItem = [];
-
-            $cart = $request->session()->get('cart', []); // Get cart data from session
-            http_response_code(500);
-            if ($cart && (($type == 'housing' && $cart['item']['id'] == $id) || ($type == 'project' && $cart['item']['housing'] == $id))) {
-                $request->session()->forget('cart');
-            } else {
-                if ($type == 'project') {
-                    $discount_amount = Offer::where('type', 'project')->where('project_id', $project)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
-                    $project = Project::find($project);
-                    $projectHousing = ProjectHousing::where('project_id', $project->id)
-                        ->where('room_order', $id)
-                        ->whereIn('key', ['Fiyat', 'Kapak Resmi'])
-                        ->get()
-                        ->keyBy('key');
-
-                    $price = $projectHousing['Fiyat']->value;
-                    $image = $projectHousing['Kapak Resmi']->value;
-                    $cartItem = [
-                        'id' => $project->id,
-                        'housing' => $id,
-                        'city' => $project->city->title,
-                        'address' => $project->address,
-                        'title' => $project->project_title,
-                        'price' => $price,
-                        'image' => asset('project_housing_images/' . $image),
-                        'discount_amount' => $discount_amount,
-                    ];
-                } else if ($type == 'housing') {
-                    $discount_amount = Offer::where('type', 'housing')->where('housing_id', $id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
-                    $housing = Housing::find($id);
-                    $housingData = json_decode($housing->housing_type_data);
-
-                    $cartItem = [
-                        'id' => $housing->id,
-                        'city' => $housing->city['title'],
-                        'address' => $housing->address,
-                        'title' => $housing->title,
-                        'price' => $housingData->price[0],
-                        'image' => asset('housing_images/' . $housingData->images[0]),
-                        'discount_amount' => $discount_amount,
-                    ];
-
+            if(auth()->user()->type == 19){
+                $type = $request->input('type');
+                $id = $request->input('id');
+                $project = $request->input('project');
+                
+                if($type == 'project'){
+                    $sharerLinksProjects = ShareLink::select('room_order','item_id')->where('user_id',auth()->user()->id)->where('item_type',1)->get()->keyBy('item_id')->toArray();
+                    $isHas = false;
+                    foreach($sharerLinksProjects as $linkProject){
+                        if($linkProject['item_id'] == $project && $linkProject['room_order'] == $id){
+                            $isHas = true;
+                        }
+                    }
+                    if($isHas){
+                        ShareLink::where('item_id',$project)->where('room_order',$id)->where('item_type',1)->delete();
+                    }else{
+                        ShareLink::create([
+                            "user_id" => auth()->user()->id,
+                            "item_type" => 1,
+                            "item_id" => $project,
+                            'room_order' => $id
+                        ]);
+                    } 
+                }else{
+                    $sharerLinks = array_values(array_keys(ShareLink::where('user_id',auth()->user()->id)->where('item_type',2)->get()->keyBy('item_id')->toArray()));
+                    
+                    if(in_array($id,$sharerLinks)){
+                        ShareLink::where('item_id',$id)->where('item_type',2)->delete();
+                    }else{
+                        ShareLink::create([
+                            "user_id" => auth()->user()->id,
+                            "item_type" => 2,
+                            "item_id" => $id
+                        ]);
+                    } 
                 }
-
-                if (!$cartItem) {
-                    return response(['message' => 'fail']);
-                }
-
-                $cart = [
-                    'item' => $cartItem,
-                    'type' => $type,
-                ];
-
-                $request->session()->put('cart', $cart); // Save cart data to session
+                
                 return response(['message' => 'success']);
+            }else{
+                $type = $request->input('type');
+                $id = $request->input('id');
+                $project = $request->input('project');
+                
+                $cartItem = [];
 
+                $cart = $request->session()->get('cart', []); // Get cart data from session
+                http_response_code(500);
+                if ($cart && (($type == 'housing' && $cart['item']['id'] == $id) || ($type == 'project' && $cart['item']['id'] == $id))) {
+                    $request->session()->forget('cart');
+                } else {
+                    if ($type == 'project') {
+                        $discount_amount = Offer::where('type', 'project')->where('project_id', $project)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
+                        $project = Project::find($project);
+                        $projectHousing = ProjectHousing::where('project_id', $project->id)
+                            ->where('room_order', $id)
+                            ->whereIn('key', ['Fiyat', 'Kapak Resmi'])
+                            ->get()
+                            ->keyBy('key');
+
+                        $price = $projectHousing['Fiyat']->value;
+                        $image = $projectHousing['Kapak Resmi']->value;
+                        $cartItem = [
+                            'id' => $project->id,
+                            'housing' => $id,
+                            'city' => $project->city->title,
+                            'address' => $project->address,
+                            'title' => $project->project_title,
+                            'price' => $price,
+                            'image' => asset('project_housing_images/' . $image),
+                            'discount_amount' => $discount_amount,
+                        ];
+                    } else if ($type == 'housing') {
+                        $discount_amount = Offer::where('type', 'housing')->where('housing_id', $id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
+                        $housing = Housing::find($id);
+                        $housingData = json_decode($housing->housing_type_data);
+
+                        $cartItem = [
+                            'id' => $housing->id,
+                            'city' => $housing->city['title'],
+                            'address' => $housing->address,
+                            'title' => $housing->title,
+                            'price' => $housingData->price[0],
+                            'image' => asset('housing_images/' . $housingData->images[0]),
+                            'discount_amount' => $discount_amount,
+                        ];
+
+                    }
+
+                    if (!$cartItem) {
+                        return response(['message' => 'fail']);
+                    }
+
+                    $cart = [
+                        'item' => $cartItem,
+                        'type' => $type,
+                    ];
+
+                    $request->session()->put('cart', $cart); // Save cart data to session
+                    return response(['message' => 'success']);
+
+                }
             }
+            
 
         } catch (\Exception $e) {
             // Handle exceptions if any

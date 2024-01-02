@@ -4,10 +4,10 @@
     @php
     
     if(isset($projectCartOrders[$housingOrder])){
-                                                    $sold = $projectCartOrders[$housingOrder];
-                                                }else{
-                                                    $sold = null;
-                                                }    @endphp
+        $sold = $projectCartOrders[$housingOrder];
+    }else{
+        $sold = null;
+    }    @endphp
     @php
         function getData($project, $key, $roomOrder)
         {
@@ -595,14 +595,30 @@
                                                 @endif
                                             </button>
                                         @else
-                                            <button class="CartBtn" data-type='project'
-                                                data-project='{{ $project->id }}'
-                                                data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>
-                                                <span class="IconContainer">
-                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                </span>
-                                                <span class="text">Sepete Ekle</span>
-                                            </button>
+                                            @if(auth()->user()->type == 19)
+                                                @if(isset(getData($project, 'share-open[]', $housingOrder)->value) && getData($project, 'share-open[]', $housingOrder)->value)
+                                                    <button class="CartBtn" data-type='project' data-project='{{ $project->id }}' data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>
+                                                        <span class="IconContainer">
+                                                            <img src="{{ asset('link.png') }}" alt="">
+                                                        </span>
+                                                        <span class="text">Koleksiyonuma Ekle</span>
+                                                    </button>
+                                                @else
+                                                    <button class="disabledShareButton" data-type='project' data-project='{{ $project->id }}' data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>
+                                                        <span class="IconContainer">
+                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                        </span>
+                                                        <span class="text">Paylaşıma Kapalı</span>
+                                                    </button>
+                                                @endif
+                                            @else
+                                                <button class="CartBtn" data-type='project' data-project='{{ $project->id }}' data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>
+                                                    <span class="IconContainer">
+                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                    </span>
+                                                    <span class="text">Sepete Ekle</span>
+                                                </button>
+                                            @endif
                                         @endif
                                     @endif
 
@@ -1335,11 +1351,9 @@
                                                                                                                 <button class="btn mobileBtn second-btn CartBtn"
                                                                                                                     disabled
                                                                                                                     @if ($sold->status == '0') style="background: orange !important;width:100%;color:White"
-                                                                                    @else 
-                                                                                    style="background: red !important;width:100%;color:White;height: auto !important" @endif>
+                                                                                                                        @else  style="background: red !important;width:100%;color:White;height: auto !important" @endif>
                                                                                                                                     <span class="IconContainer">
-                                                                                                                        <img src="{{ asset('sc.png') }}"
-                                                                                                                            alt="">
+                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
                                                                                                                     </span>
                                                                                                                     @if ($sold->status == '0')
                                                                                                                         <span class="text">Onay Bekleniyor</span>
@@ -1348,16 +1362,43 @@
                                                                                                                     @endif
                                                                                                                 </button>
                                                                                                             @else
-                                                                                                                <button class="CartBtn mobileBtn"
-                                                                                                                    data-type='project'
-                                                                                                                    data-project='{{ $project->id }}'
-                                                                                                                    data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                                                                    <span class="IconContainer">
-                                                                                                                        <img src="{{ asset('sc.png') }}"
-                                                                                                                            alt="">
-                                                                                                                    </span>
-                                                                                                                    <span class="text">Sepete Ekle</span>
-                                                                                                                </button>
+                                                                                                                @if(auth()->user()->type == 19)
+                                                                                                                    @if(isset(getData($project, 'share-open[]', $i + 1)->value) && getData($project, 'share-open[]', $i + 1)->value)
+                                                                                                                        <button class="CartBtn mobileBtn"
+                                                                                                                            data-type='project'
+                                                                                                                            data-project='{{ $project->id }}'
+                                                                                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                                            <span class="IconContainer">
+                                                                                                                                <img src="{{ asset('sc.png') }}"
+                                                                                                                                    alt="">
+                                                                                                                            </span>
+                                                                                                                            <span class="text">Koleksiyonuma Ekle</span>
+                                                                                                                        </button>    
+                                                                                                                    @else
+                                                                                                                        <button class="disabledShareButton mobileBtn"
+                                                                                                                            data-type='project'
+                                                                                                                            data-project='{{ $project->id }}'
+                                                                                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                                            <span class="IconContainer">
+                                                                                                                                <img src="{{ asset('sc.png') }}"
+                                                                                                                                    alt="">
+                                                                                                                            </span>
+                                                                                                                            <span class="text">Paylaşıma Kapalı</span>
+                                                                                                                        </button>
+                                                                                                                    @endif
+                                                                                                                @else
+                                                                                                                    <button class="CartBtn mobileBtn"
+                                                                                                                        data-type='project'
+                                                                                                                        data-project='{{ $project->id }}'
+                                                                                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                                        <span class="IconContainer">
+                                                                                                                            <img src="{{ asset('sc.png') }}"
+                                                                                                                                alt="">
+                                                                                                                        </span>
+                                                                                                                        <span class="text">Sepete Ekle</span>
+                                                                                                                    </button>
+                                                                                                                @endif
+                                                                                                                
                                                                                                             @endif
                                                                                                         @endif
                                             
@@ -1730,15 +1771,41 @@
                                                                                                         @endif
                                                                                                     </button>
                                                                                                 @else
-                                                                                                    <button class="CartBtn second-btn" data-type='project'
-                                                                                                        data-project='{{ $project->id }}'
-                                                                                                        style="height: auto !important"
-                                                                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                                                        <span class="IconContainer">
-                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                        </span>
-                                                                                                        <span class="text">Sepete Ekle</span>
-                                                                                                    </button>
+                                                                                                    @if(auth()->user()->type == 19)
+                                                                                                        @if(isset(getData($project, 'share-open[]', $i + 1)->value) && getData($project, 'share-open[]', $i + 1)->value)
+                                                                                                            <button class="CartBtn second-btn"
+                                                                                                                data-type='project'
+                                                                                                                data-project='{{ $project->id }}'
+                                                                                                                data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                                <span class="IconContainer">
+                                                                                                                    <img src="{{ asset('link.png') }}"
+                                                                                                                        alt="">
+                                                                                                                </span>
+                                                                                                                <span class="text">Koleksiyonuma Ekle</span>
+                                                                                                            </button>    
+                                                                                                        @else
+                                                                                                            <button class="disabledShareButton second-btn"
+                                                                                                                data-type='project'
+                                                                                                                data-project='{{ $project->id }}'
+                                                                                                                data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                                <span class="IconContainer">
+                                                                                                                    <img src="{{ asset('link.png') }}"
+                                                                                                                        alt="">
+                                                                                                                </span>
+                                                                                                                <span class="text">Paylaşıma Kapalı</span>
+                                                                                                            </button>
+                                                                                                        @endif
+                                                                                                    @else
+                                                                                                        <button class="CartBtn second-btn" data-type='project'
+                                                                                                            data-project='{{ $project->id }}'
+                                                                                                            style="height: auto !important"
+                                                                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                            <span class="IconContainer">
+                                                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                            </span>
+                                                                                                            <span class="text">Sepete Ekle</span>
+                                                                                                        </button>
+                                                                                                    @endif
                                                                                                 @endif
                                                                                             @endif
                                             
@@ -1825,14 +1892,36 @@
                                                                                             @endif
                                                                                         </button>
                                                                                     @else
-                                                                                        <button class="CartBtn mobileBtn" data-type='project'
-                                                                                            data-project='{{ $project->id }}'
-                                                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                                            <span class="IconContainer">
-                                                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                                                            </span>
-                                                                                            <span class="text">Sepete Ekle</span>
-                                                                                        </button>
+                                                                                        @if(auth()->user()->type == 19)
+                                                                                            @if(isset(getData($project, 'share-open[]', $i + 1)->value) && getData($project, 'share-open[]', $i + 1)->value)
+                                                                                                <button class="CartBtn mobileBtn" data-type='project'
+                                                                                                    data-project='{{ $project->id }}'
+                                                                                                    data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                    <span class="IconContainer">
+                                                                                                        <img src="{{ asset('link.png') }}" alt="">
+                                                                                                    </span>
+                                                                                                    <span class="text">Koleksiyonuma Ekle</span>
+                                                                                                </button>   
+                                                                                            @else
+                                                                                                <button class="disabledShareButton mobileBtn" data-type='project'
+                                                                                                    data-project='{{ $project->id }}'
+                                                                                                    data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                    <span class="IconContainer">
+                                                                                                        <img src="{{ asset('link.png') }}" alt="">
+                                                                                                    </span>
+                                                                                                    <span class="text">Paylaşıma Kapalı</span>
+                                                                                                </button>
+                                                                                            @endif
+                                                                                        @else
+                                                                                            <button class="CartBtn mobileBtn" data-type='project'
+                                                                                                data-project='{{ $project->id }}'
+                                                                                                data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                <span class="IconContainer">
+                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                </span>
+                                                                                                <span class="text">Sepete Ekle</span>
+                                                                                            </button>
+                                                                                        @endif
                                                                                     @endif
                                                                                 @endif
                                             
@@ -2562,16 +2651,38 @@
                                                                                                                 @endif
                                                                                                             </button>
                                                                                                         @else
-                                                                                                            <button class="CartBtn mobileBtn"
-                                                                                                                data-type='project'
-                                                                                                                data-project='{{ $project->id }}'
-                                                                                                                data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                                                                <span class="IconContainer">
-                                                                                                                    <img src="{{ asset('sc.png') }}"
-                                                                                                                        alt="">
-                                                                                                                </span>
-                                                                                                                <span class="text">Sepete Ekle</span>
-                                                                                                            </button>
+                                                                                                            @if(auth()->user()->type == 19)
+                                                                                                                @if(isset(getData($project, 'share-open[]', $i + 1)->value) && getData($project, 'share-open[]', $i + 1)->value)
+                                                                                                                    <button class="CartBtn mobileBtn" data-type='project'
+                                                                                                                        data-project='{{ $project->id }}'
+                                                                                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                                        <span class="IconContainer">
+                                                                                                                            <img src="{{ asset('link.png') }}" alt="">
+                                                                                                                        </span>
+                                                                                                                        <span class="text">Koleksiyonuma Ekle</span>
+                                                                                                                    </button>   
+                                                                                                                @else
+                                                                                                                    <button class="disabledShareButton mobileBtn" data-type='project'
+                                                                                                                        data-project='{{ $project->id }}'
+                                                                                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                                        <span class="IconContainer">
+                                                                                                                            <img src="{{ asset('link.png') }}" alt="">
+                                                                                                                        </span>
+                                                                                                                        <span class="text">Paylaşıma Kapalı</span>
+                                                                                                                    </button>
+                                                                                                                @endif
+                                                                                                            @else
+                                                                                                                <button class="CartBtn mobileBtn"
+                                                                                                                    data-type='project'
+                                                                                                                    data-project='{{ $project->id }}'
+                                                                                                                    data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                                    <span class="IconContainer">
+                                                                                                                        <img src="{{ asset('sc.png') }}"
+                                                                                                                            alt="">
+                                                                                                                    </span>
+                                                                                                                    <span class="text">Sepete Ekle</span>
+                                                                                                                </button>
+                                                                                                            @endif
                                                                                                         @endif
                                                                                                     @endif
                                         
@@ -2945,15 +3056,40 @@
                                                                                                     @endif
                                                                                                 </button>
                                                                                             @else
-                                                                                                <button class="CartBtn second-btn" data-type='project'
-                                                                                                    data-project='{{ $project->id }}'
-                                                                                                    style="height: auto !important"
-                                                                                                    data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                                                    <span class="IconContainer">
-                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                    </span>
-                                                                                                    <span class="text">Sepete Ekle</span>
-                                                                                                </button>
+                                                                                            
+                                                                                                @if(auth()->user()->type == 19)
+                                                                                                    @if(isset(getData($project, 'share-open[]', $i + 1)->value) && getData($project, 'share-open[]', $i + 1)->value)
+                                                                                                        <button class="CartBtn second-btn" data-type='project'
+                                                                                                            data-project='{{ $project->id }}'
+                                                                                                            style="height: auto !important"
+                                                                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                            <span class="IconContainer">
+                                                                                                                <img src="{{ asset('link.png') }}" alt="">
+                                                                                                            </span>
+                                                                                                            <span class="text">Koleksiyonuma Ekle</span>
+                                                                                                        </button>
+                                                                                                    @else
+                                                                                                        <button class="disabledShareButton second-btn" data-type='project'
+                                                                                                            data-project='{{ $project->id }}'
+                                                                                                            style="height: auto !important"
+                                                                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                            <span class="IconContainer">
+                                                                                                                <img src="{{ asset('link.png') }}" alt="">
+                                                                                                            </span>
+                                                                                                            <span class="text">Paylaşıma Kapalı</span>
+                                                                                                        </button>
+                                                                                                    @endif
+                                                                                                @else
+                                                                                                    <button class="CartBtn second-btn" data-type='project'
+                                                                                                        data-project='{{ $project->id }}'
+                                                                                                        style="height: auto !important"
+                                                                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                        <span class="IconContainer">
+                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                        </span>
+                                                                                                        <span class="text">Sepete Ekle</span>
+                                                                                                    </button>
+                                                                                                @endif
                                                                                             @endif
                                                                                         @endif
                                         
@@ -3040,14 +3176,36 @@
                                                                                         @endif
                                                                                     </button>
                                                                                 @else
-                                                                                    <button class="CartBtn mobileBtn" data-type='project'
-                                                                                        data-project='{{ $project->id }}'
-                                                                                        data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
-                                                                                        <span class="IconContainer">
-                                                                                            <img src="{{ asset('sc.png') }}" alt="">
-                                                                                        </span>
-                                                                                        <span class="text">Sepete Ekle</span>
-                                                                                    </button>
+                                                                                    @if(auth()->user()->type == 19)
+                                                                                        @if(isset(getData($project, 'share-open[]', $i + 1)->value) && getData($project, 'share-open[]', $i + 1)->value)
+                                                                                            <button class="CartBtn mobileBtn" data-type='project'
+                                                                                                data-project='{{ $project->id }}'
+                                                                                                data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                <span class="IconContainer">
+                                                                                                    <img src="{{ asset('link.png') }}" alt="">
+                                                                                                </span>
+                                                                                                <span class="text">Koleksiyonuma Ekle</span>
+                                                                                            </button>
+                                                                                        @else
+                                                                                            <button class="disabledShareButton mobileBtn" data-type='project'
+                                                                                                data-project='{{ $project->id }}'
+                                                                                                data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                                <span class="IconContainer">
+                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                </span>
+                                                                                                <span class="text">Paylaşıma Kapalı</span>
+                                                                                            </button>
+                                                                                        @endif
+                                                                                    @else
+                                                                                        <button class="CartBtn mobileBtn" data-type='project'
+                                                                                            data-project='{{ $project->id }}'
+                                                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                                                            <span class="IconContainer">
+                                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                                            </span>
+                                                                                            <span class="text">Sepete Ekle</span>
+                                                                                        </button>
+                                                                                    @endif
                                                                                 @endif
                                                                             @endif
                                         

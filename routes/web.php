@@ -46,6 +46,7 @@ use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\PageController as ClientPageController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\RegisterController;
+use App\Http\Controllers\Client\SharerController;
 use App\Http\Controllers\Client\SupportChatController;
 use App\Http\Controllers\Client\TaxOfficeController;
 use App\Http\Controllers\Client\VerifyController;
@@ -87,6 +88,9 @@ Route::get('/instituional/search', [InstitutionalController::class, 'search'])->
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
 Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
+Route::get('/paylasim-paneli', [SharerController::class,"index"])->name('sharer.index');
+Route::get('/paylasimci-paneli', [SharerController::class,"sharerPanel"])->name('sharer.panel');
+Route::get('/paylasimci-paneli/{username}', [SharerController::class,"sharerPanelByAnotherUser"])->name('sharer.panel.another.user');
 
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
 Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");
@@ -101,6 +105,7 @@ Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])-
 Route::get('/project_payment_plan', [ClientProjectController::class, "projectPaymentPlan"])->name('get.housing.payment.plan');
 Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->name('project.housing.detail');
 Route::get('/magaza/{slug}', [InstitutionalController::class, "dashboard"])->name('instituional.dashboard');
+Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('instituional.dashboard.filter');
 
 Route::get('/magaza/{slug}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
 Route::get('/magaza/{slug}/proje-ilanlari', [InstitutionalController::class, "projectDetails"])->name('instituional.projects.detail');
@@ -665,6 +670,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/reservations', [DashboardController::class, 'getReservations'])->name('reservations');
 
     Route::get('/projects/{project_id}/housings', [InstitutionalProjectController::class, 'housings'])->name('projects.housings');
+    Route::post('/set_single_data/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingData'])->name('projects.set.single.data');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
     Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');

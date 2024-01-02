@@ -692,7 +692,7 @@ class TempOrderController extends Controller
         $housingType = HousingType::where('id',$data->housing_type_id)->first();
         $formJson = json_decode($housingType->form_json);
         $errors = [];
-        if(!$data->has_blocks){
+        if(!isset($data->has_blocks) || !$data->has_blocks){
             if(isset($data->house_count) && $data->house_count ){
                 for($i = 0; $i < $data->house_count; $i++){
                     foreach($formJson as $json){

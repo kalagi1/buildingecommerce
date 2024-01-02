@@ -42345,3 +42345,18 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     background: #ea2a28;
     color: #fff;
 }
+
+
+.spinner-borderx {
+    animation: infinite-spinner 1s infinite;
+    display: block !important;
+}
+
+@keyframes infinite-spinner {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform : rotate(360deg)
+    }
+}
