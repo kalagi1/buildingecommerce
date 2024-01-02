@@ -271,7 +271,7 @@
                                 @endphp
                             
                                 @if ($userType == 2)
-                                    <a href="{{ url('institutional/choise-advertise-type') }}">
+                                    <a href="{{ url('institutional/ilan-tipi-sec') }}">
                                         @elseif ($userType == 3)
                                     <a href="{{ url('admin/') }}">
 @else
