@@ -726,9 +726,9 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    {!! $housing->city->title !!}
-                                                    {{ '/' }} {!! $housing->county->title !!}
+                                                    {!! optional($housing->city)->title . ' / ' . optional($housing->county)->title . ' / ' . optional($housing->neighborhood)->mahalle_title ?? '' !!}
                                                 </td>
+                                                
                                             </tr>
 
                                             @if ($housing->user->phone)

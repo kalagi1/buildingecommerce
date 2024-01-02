@@ -93,7 +93,8 @@ class HousingController extends Controller {
     {
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
-        $housing = Housing::with('images', "reservations", "user.housings", "user.banners", "brand", "city", "county")->where("id", $id)->first();
+            $housing = Housing::with("neighborhood", 'images', "reservations", "user.housings", "user.banners", "brand", "city", "county")
+        ->where("id", $id)->first();
         $housingSetting = ProjectHouseSetting::all();
         $housingComments = HousingComment::where('housing_id', $id)->where('status', 1)->with('user')->get();
         
@@ -123,7 +124,6 @@ class HousingController extends Controller {
         
         
         $parent = HousingTypeParent::where("slug", $housing->step1_slug)->first();        
-        
         return view('client.housings.detail', compact('housing', 'bankAccounts', 'parent', 'menu', 'housingSetting', 'id', 'housingComments', 'labels'));
     }
     

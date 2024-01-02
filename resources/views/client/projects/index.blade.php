@@ -130,7 +130,8 @@
                                 </tr>
                                 <tr>
                                     <td><strong>İl-İlçe:</strong></td>
-                                    <td>{!! $project->city->title !!} {{ '/' }} {!! $project->county->ilce_title !!}</td>
+                                    <td>                                                    {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title . ' / ' . optional($project->neighbourhood)->mahalle_title ?? '' !!}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><strong>Toplam {{ ucfirst($project->step1_slug) }} Sayısı:</strong></td>

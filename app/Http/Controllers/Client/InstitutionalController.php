@@ -34,7 +34,7 @@ class InstitutionalController extends Controller
                     $query->where('housing_type_id', '5');
                 })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->where("user_id", $store->id)->get();
 
-                $secondhandHousings = Housing::with('images')
+                $secondhandHousings = Housing::with('images',"neighborhood")
                 ->select(
                     'housings.id',
                     'housings.title AS housing_title',
@@ -55,13 +55,16 @@ class InstitutionalController extends Controller
                     \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housings" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
                     \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
                     'cities.title AS city_title', // city tablosundan veri çekme
-                    'districts.ilce_title AS county_title' // district tablosundan veri çekme
+                    'districts.ilce_title AS county_title', // district tablosundan veri çekme
+                    'neighborhoods.mahalle_title AS neighborhood_title',
+
                 )
                 ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
                 ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
                 ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
                 ->leftJoin('cities', 'cities.id', '=', 'housings.city_id') // city tablosunu join etme
                 ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id') // district tablosunu join etme
+                ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
                 ->where('housings.status', 1)
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('doping_time')
@@ -69,7 +72,6 @@ class InstitutionalController extends Controller
                 ->orderByDesc('housings.created_at')
                 ->get();
 
-               
 
                 return view("client.institutional.dashboard", compact("store","slug", "soilProjects", 'projects', 'finishProjects', 'continueProjects', 'secondhandHousings'));
             }

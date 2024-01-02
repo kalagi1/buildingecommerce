@@ -35,8 +35,7 @@ class HomeController extends Controller
             return Menu::getMenuItems();
         });
 
-        $secondhandHousings = Cache::rememberForever('secondhandHousings',function(){
-            return Housing::with('images')
+        $secondhandHousings =  Housing::with('images')
             ->select(
                 'housings.id',
                 'housings.title AS housing_title',
@@ -58,6 +57,7 @@ class HomeController extends Controller
                 \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
                 'cities.title AS city_title', // city tablosundan veri çekme
                 'districts.ilce_title AS county_title',
+                'neighborhoods.mahalle_title AS neighborhood_title',
                 DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "'.date('Y-m-d H:i:s').'" AND end_date >= "'.date('Y-m-d H:i:s').'") as discount_amount'),
             )
             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
@@ -65,13 +65,14 @@ class HomeController extends Controller
             ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
             ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
             ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
+            ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
             ->where('housings.status', 1)
             ->where('project_list_items.item_type', 2)
             ->orderByDesc('doping_time')
             ->orderByDesc('housings.created_at')
             ->get();
             
-        });
+
 
 
 
@@ -711,6 +712,7 @@ class HomeController extends Controller
                 'step2_slug' => $item->step2_slug,
                 'city' => $item->city->title,
                 'county' => $item->county->title,
+                'neighborhood' => $item->neighborhood->mahalle_title,
                 'created_at' => $item->created_at,
                 "action" => $cartStatus,
                 'offSale' => $offSale,

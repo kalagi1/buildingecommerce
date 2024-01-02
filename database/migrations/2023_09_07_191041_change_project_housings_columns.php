@@ -22,7 +22,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('project_housings', function($table) {
-            $table->string('value')->change();
         });
     }
 };

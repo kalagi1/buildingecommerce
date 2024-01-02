@@ -31,7 +31,7 @@ class ProjectController extends Controller
         });
 
         $project = Project::where('slug', $slug)
-        ->with("brand","blocks",'listItemValues', "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
+        ->with("brand","blocks",'listItemValues', "neighbourhood","roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
         ->firstOrFail();
 
         $projectCartOrders = DB::table('cart_orders')
@@ -120,7 +120,7 @@ class ProjectController extends Controller
     public function detail($slug)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $slug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $slug)->with("brand", "roomInfo","neighbourhood", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         $project->roomInfo = $project->roomInfo;
         $project->brand = $project->brand;
         $project->housingType = $project->housingType;
@@ -492,7 +492,7 @@ class ProjectController extends Controller
     public function projectHousingDetail($projectSlug, $housingOrder,Request $request)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $projectSlug)->with("brand","neighbourhood", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
         $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
@@ -520,13 +520,14 @@ class ProjectController extends Controller
 
         $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
 
+    
         return view('client.projects.project_housing', compact('blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
     public function projectHousingDetailAjax($projectSlug,$housingOrder,Request $request)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $projectSlug)->with("brand", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $projectSlug)->with("brand","neighbourhood", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
         $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
