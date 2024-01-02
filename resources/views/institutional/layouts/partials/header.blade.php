@@ -394,7 +394,7 @@
                 </div> --}}
                 <ul class="navbar-nav navbar-nav-icons flex-row">
                     <li class="nav-item" style="margin-right:10px">
-                        <a href="{{ url('institutional/choise-advertise-type') }}">
+                        <a href="{{ url('institutional/ilan-tipi-sec') }}">
                             <button type="button" class="buyUserRequest">
                                 <span class="buyUserRequest__text"> 
                                     <div class="mobile-show"><i class="fa fa-plus"></i></div>

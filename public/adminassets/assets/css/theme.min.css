@@ -42360,3 +42360,45 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
         transform : rotate(360deg)
     }
 }
+
+.image-opa{
+    position: absolute;
+    width: 100%;
+    max-width: 100px;
+    height: 100%;
+    background: #333333b1;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    display: none;
+    cursor: pointer;
+}
+
+.image-with-hover{
+    position: relative;
+}
+
+.image-with-hover:hover .image-opa{
+    display: flex;
+}
+
+.choise-adv-inner img{
+    width: 100%;
+}
+
+.choise-adv-inner .card_title{
+    display: flex;
+    justify-content: center;
+    margin-top:15px;
+}
+
+.choise-adv-inner .card_title p{
+    color: #fff !important;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    padding: 5px 20px;
+    margin: 0 auto;
+    border-radius: 5px;
+}

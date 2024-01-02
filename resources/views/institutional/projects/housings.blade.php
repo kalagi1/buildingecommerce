@@ -56,10 +56,10 @@
                                             <th>No.</th>
                                             <th>Görsel</th>
                                             <th class="sort" data-sort="room_count">İlan Adı</th>
-                                            <th class="sort" data-sort="room_count">Oda Sayısı</th>
-                                            <th class="sort" data-sort="number_of_floors">Kat Sayısı</th>
-                                            <th class="sort" data-sort="squaremeters">Metrekare (m<sup>2</sup>)</th>
                                             <th class="sort" data-sort="price">Fiyat</th>
+                                            <th class="sort" data-sort="price">Taksitli Fiyat</th>
+                                            <th class="sort" data-sort="price">Taksit Sayısı</th>
+                                            <th class="sort" data-sort="price">Peşinat</th>
                                             <th class="sort" data-sort="sold">Satış Durumu</th>
                                             <th class="sort" data-sort="sold">İşlemler</th>
                                         </tr>
@@ -75,68 +75,121 @@
                                             <tr>
                                                 <td>{{ $j + 1 }}</td>
                                                 <td class="image">
-                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
-                                                        alt="home-1" class="img-responsive"
-                                                        style="height: 100px !important;object-fit:cover">
+                                                    <div class="image-with-hover">
+                                                        <input type="file" class="d-none change-image">
+                                                        <div class="image-opa">
+                                                            Resmi Güncelle
+                                                        </div>
+                                                        <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
+                                                            alt="home-1" class="img-responsive"
+                                                            style="max-height: 100px !important;max-width:100px;object-fit:cover">
+                                                    </div>
                                                 </td>
                                                 <td class="image">
-                                                    {{ getData($project, 'advertise_title[]', $i + 1)->value }}
+                                                    <div class="d-flex" style="align-items: center">
+                                                        <div class="input d-none d-flex" style="align-items: flex-start;">
+                                                            <input type="text" name="advertise_title[]" style="width: 120px;" value="{{ getData($project, 'advertise_title[]', $i + 1)->value }}">
+                                                            <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
+                                                            <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
+                                                        </div>
+                                                        <div class="text d-flex" style="align-items: flex-start;">
+                                                            <span class="value-text">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</span>
+                                                            <span class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i class="fa fa-edit"></i></span>
+                                                        </div>
+                                                        
+                                                    </div>
                                                 </td>
-                                                @if (isset($project->listItemValues) &&
-                                                        isset($project->listItemValues->column1_name) &&
-                                                        $project->listItemValues->column1_name)
-                                                    <td class="room_count">
-                                                        <i class="fa fa-circle circleIcon mr-1"></i>
-                                                        <span>
-                                                            {{ getData($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column1_additional) &&
-                                                                    $project->listItemValues->column1_additional)
-                                                                {{ $project->listItemValues->column2_additional }}
-                                                            @endif
-                                                        </span>
-                                                @endif
-                                                </td>
-                                                <td class="room_count">
-                                                    @if (isset($project->listItemValues) &&
-                                                            isset($project->listItemValues->column2_name) &&
-                                                            $project->listItemValues->column2_name)
-                                                        <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                        <span>{{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column2_additional) &&
-                                                                    $project->listItemValues->column2_additional)
-                                                                {{ $project->listItemValues->column2_additional }}
-                                                            @endif
-                                                        </span>
-                                                    @endif
-                                                </td>
-                                                <td class="room_count">
-                                                    @if (isset($project->listItemValues) &&
-                                                            isset($project->listItemValues->column3_name) &&
-                                                            $project->listItemValues->column3_name)
-                                                        <i class="fa fa-circle circleIcon mr-1"></i>
-                                                        <span>
-                                                            {{ getData($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column3_additional) &&
-                                                                    $project->listItemValues->column3_additional)
-                                                                {{ $project->listItemValues->column3_additional }}
-                                                            @endif
-                                                        </span>
-                                                    @endif
-                                                </td>
-
+        
                                                 <td class="price">
-                                                    {{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}₺
-
-                                                    <span class="badge badge-phoenix badge-phoenix-primary"><i class="fa fa-edit"></i></span>
+                                                    <div class="d-flex">
+                                                        <div class="input d-none d-flex" style="align-items: center">
+                                                            <input type="text" name="price[]" class="price-only" style="width: 120px;" value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}">
+                                                            <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
+                                                            <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
+                                                        </div>
+                                                        <div class="text d-flex" style="align-items: flex-start;">
+                                                            <span class="value-text">{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺</span>
+                                                            <span class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i class="fa fa-edit"></i></span>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </td>
+        
+                                                <td class="price">
+                                                    @if(getData($project, 'installments-price[]', $i + 1))
+                                                    <div class="d-flex">
+                                                        <div class="input d-none d-flex" style="align-items: center">
+                                                            <input type="text" name="installments-price[]" class="price-only" style="width: 120px;" value="{{ number_format(getData($project, 'installments-price[]', $i + 1)->value, 0, ',', '.') }}">
+                                                            <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
+                                                            <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
+                                                        </div>
+                                                        <div class="text d-flex" style="align-items: flex-start;">
+                                                            <span class="value-text">{{ number_format(getData($project, 'installments-price[]', $i + 1)->value, 0, ',', '.') }}₺</span>
+                                                            <span class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i class="fa fa-edit"></i></span>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                                
+                                                <td class="price">
+                                                    @if(getData($project, 'installments[]', $i + 1))
+                                                    <div class="d-flex">
+                                                        <div class="input d-none d-flex" style="align-items: center">
+                                                            <input type="number" min="1" max="150" name="installments[]" class="number-only" style="width: 120px;" value="{{ getData($project, 'installments[]', $i + 1)->value }}">
+                                                            <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
+                                                            <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
+                                                        </div>
+                                                        <div class="text d-flex" style="align-items: flex-start;">
+                                                            <span class="value-text">{{getData($project, 'installments[]', $i + 1)->value }}</span>
+                                                            <span class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i class="fa fa-edit"></i></span>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+        
+                                                
+                                                <td class="price">
+                                                    @if(getData($project, 'advance[]', $i + 1))
+                                                    <div class="d-flex">
+                                                        <div class="input d-none d-flex" style="align-items: center">
+                                                            <input type="text" name="advance[]" class="price-only" style="width: 120px;" value="{{ number_format(getData($project, 'advance[]', $i + 1)->value, 0, ',', '.') }}">
+                                                            <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
+                                                            <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
+                                                        </div>
+                                                        <div class="text d-flex" style="align-items: flex-start;">
+                                                            <span class="value-text">{{ number_format(getData($project, 'advance[]', $i + 1)->value, 0, ',', '.') }}₺</span>
+                                                            <span class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i class="fa fa-edit"></i></span>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    @else
+                                                        -
+                                                    @endif
                                                 </td>
                                                 <td class="sold">
                                                     @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                                        <button class="badge badge-phoenix badge-phoenix-danger">Satışa Kapatıldı</button>
-                                                        <p style="color: red;margin-top:10px;width:200px;" class="off-sale-red-text">Alıcılara satışa
-                                                            kapalı olarak gözükecektir.</p>
+                                                        <div class="input d-none d-flex" style="align-items: center">
+                                                            <select name="off_sale[]" id="">
+                                                                <option value="[]" >Satışa Açık</option>
+                                                                <option value="['Satışa Kapalı']" selected>Satışa Kapalı</option>
+                                                            </select>
+                                                            <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" input-type="select" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
+                                                            <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
+                                                        </div>
+                                                        <div class="text d-flex">
+                                                            
+                                                            <button class="badge badge-phoenix badge-phoenix-danger value-text">Satışa Kapatıldı</button>
+                                                            <span class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i class="fa fa-edit"></i></span>
+                                                        </div>
+                                                        <p style="color: red;margin-top:10px;width:200px;" class="off-sale-red-text">Alıcılara satışa kapalı
+                                                            olarak
+                                                            gözükecektir.</p>
                                                     @else
                                                         @if ($sold && $sold[0]->status == 1)
                                                             <button class="badge badge-phoenix badge-phoenix-danger">Satıldı</button>
@@ -145,7 +198,18 @@
                                                         @elseif ($sold && $sold[0]->status == 2)
                                                             <button class="badge badge-phoenix badge-phoenix-success">Tekrar Satışta</button>
                                                         @else
-                                                            <button class="badge badge-phoenix badge-phoenix-success">Satışa Açık</button>
+                                                            <div class="input d-none d-flex" style="align-items: center">
+                                                                <select name="off_sale[]" id="">
+                                                                    <option value="[]" selected>Satışa Açık</option>
+                                                                    <option value="['Satışa Kapalı']" >Satışa Kapalı</option>
+                                                                </select>
+                                                                <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" input-type="select" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
+                                                                <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
+                                                            </div>
+                                                            <div class="text d-flex">
+                                                                <button class="badge badge-phoenix badge-phoenix-success value-text">Satışa Açık</button>
+                                                                <span class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i class="fa fa-edit"></i></span>
+                                                            </div>
                                                         @endif
                                                     @endif
                                                 </td>
@@ -188,18 +252,24 @@
                                     <tr>
                                         <td>{{ $i + 1 }}</td>
                                         <td class="image">
-                                            <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
-                                                alt="home-1" class="img-responsive"
-                                                style="max-height: 100px !important;max-width: 100px;object-fit:cover">
+                                            <div class="image-with-hover">
+                                                <input type="file" class="d-none change-image">
+                                                <div class="image-opa">
+                                                    Resmi Güncelle
+                                                </div>
+                                                <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
+                                                    alt="home-1" class="img-responsive"
+                                                    style="max-height: 100px !important;max-width:100px;object-fit:cover">
+                                            </div>
                                         </td>
                                         <td class="image">
-                                            <div class="d-flex">
-                                                <div class="input d-none d-flex" style="align-items: center">
+                                            <div class="d-flex" style="align-items: center">
+                                                <div class="input d-none d-flex" style="align-items: flex-start;">
                                                     <input type="text" name="advertise_title[]" style="width: 120px;" value="{{ getData($project, 'advertise_title[]', $i + 1)->value }}">
                                                     <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
                                                     <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
                                                 </div>
-                                                <div class="text d-flex">
+                                                <div class="text d-flex" style="align-items: flex-start;">
                                                     <span class="value-text">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</span>
                                                     <span class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i class="fa fa-edit"></i></span>
                                                 </div>
@@ -210,12 +280,12 @@
                                         <td class="price">
                                             <div class="d-flex">
                                                 <div class="input d-none d-flex" style="align-items: center">
-                                                    <input type="text" name="price[]" class="price-only" style="width: 120px;" value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}">
+                                                    <input type="text" name="price[]" class="price-only" style="width: 120px;" value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}">
                                                     <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
                                                     <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
                                                 </div>
-                                                <div class="text d-flex">
-                                                    <span class="value-text">{{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}₺</span>
+                                                <div class="text d-flex" style="align-items: flex-start;">
+                                                    <span class="value-text">{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺</span>
                                                     <span class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i class="fa fa-edit"></i></span>
                                                 </div>
                                                 
@@ -226,12 +296,12 @@
                                             @if(getData($project, 'installments-price[]', $i + 1))
                                             <div class="d-flex">
                                                 <div class="input d-none d-flex" style="align-items: center">
-                                                    <input type="text" name="installments-price[]" class="price-only" style="width: 120px;" value="{{ number_format(getData($project, 'installments-price[]', $i + 1)->value, 2, ',', '.') }}">
+                                                    <input type="text" name="installments-price[]" class="price-only" style="width: 120px;" value="{{ number_format(getData($project, 'installments-price[]', $i + 1)->value, 0, ',', '.') }}">
                                                     <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
                                                     <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
                                                 </div>
-                                                <div class="text d-flex">
-                                                    <span class="value-text">{{ number_format(getData($project, 'installments-price[]', $i + 1)->value, 2, ',', '.') }}₺</span>
+                                                <div class="text d-flex" style="align-items: flex-start;">
+                                                    <span class="value-text">{{ number_format(getData($project, 'installments-price[]', $i + 1)->value, 0, ',', '.') }}₺</span>
                                                     <span class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i class="fa fa-edit"></i></span>
                                                 </div>
                                                 
@@ -249,7 +319,7 @@
                                                     <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
                                                     <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
                                                 </div>
-                                                <div class="text d-flex">
+                                                <div class="text d-flex" style="align-items: flex-start;">
                                                     <span class="value-text">{{getData($project, 'installments[]', $i + 1)->value }}</span>
                                                     <span class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i class="fa fa-edit"></i></span>
                                                 </div>
@@ -265,12 +335,12 @@
                                             @if(getData($project, 'advance[]', $i + 1))
                                             <div class="d-flex">
                                                 <div class="input d-none d-flex" style="align-items: center">
-                                                    <input type="text" name="price[]" class="price-only" style="width: 120px;" value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 2, ',', '.') }}">
+                                                    <input type="text" name="advance[]" class="price-only" style="width: 120px;" value="{{ number_format(getData($project, 'advance[]', $i + 1)->value, 0, ',', '.') }}">
                                                     <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
                                                     <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
                                                 </div>
-                                                <div class="text d-flex">
-                                                    <span class="value-text">{{ number_format(getData($project, 'advance[]', $i + 1)->value, 2, ',', '.') }}₺</span>
+                                                <div class="text d-flex" style="align-items: flex-start;">
+                                                    <span class="value-text">{{ number_format(getData($project, 'advance[]', $i + 1)->value, 0, ',', '.') }}₺</span>
                                                     <span class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i class="fa fa-edit"></i></span>
                                                 </div>
                                                 
@@ -405,7 +475,7 @@
 
                     $.toast({
                         heading: 'Başarılı',
-                        text: 'Başarıyla güncellediniz',
+                        text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
                         position: 'top-right',
                         stack: false
                     })
@@ -450,6 +520,47 @@
             }else{
                 $(this).closest('.form-group').find('.error-text').remove();
             }
+        })
+
+        $('.image-opa').click(function(){
+            $(this).closest('.image-with-hover').find('input').trigger('click')
+        })
+
+        $('.change-image').change(function(){
+            var input = this;
+            var newVal = this.files[0];
+            var roomOrder = "1";
+            var formdata = new FormData();  
+            formdata.append('file',newVal);
+            formdata.append('roomOrder',roomOrder);
+            formdata.append('_token',"{{ csrf_token() }}");
+            jQuery.ajax({
+                url: "{{route('institutional.projects.set.single.image',$project->id)}}",
+                type: "POST",
+                data: formdata,
+                processData: false,
+                contentType: false,
+                success:function(res){
+                    res = JSON.parse(res);
+                    if(res.status){
+                        $.toast({
+                            heading: 'Başarılı',
+                            text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
+                            position: 'top-right',
+                            stack: false
+                        })
+                    }
+                }
+            });
+            var thisx = $(this);
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                // Resmi görüntülemek için bir div oluşturun
+                thisx.parent('.image-with-hover').find('img').attr('src',e.target.result)
+            };
+
+            // Resmi okuyun
+            reader.readAsDataURL(input.files[0]);
         })
     </script>
 @endsection
