@@ -1049,168 +1049,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
-    <!-- lightbox2 CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- lightbox2 JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZwT" crossorigin="anonymous">
-
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-    </script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-
-    <script>
-        if (window.innerWidth <= 768) {
-            var mobileMove = $(".mobileMove").html();
-            console.log(mobileMove);
-            $("#listingDetailsSlider").after(mobileMove);
-            $(".mobileMove").remove();
-            $(".removeClass").removeClass("mt-5");
-        }
-
-        function redirectToPage() {
-            window.location.href = "/giris-yap";
-        }
-
-        function initMap() {
-            // İlk harita görüntüsü
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {
-                    lat: {{ $housing->latitude }},
-                    lng: {{ $housing->longitude }}
-                },
-                zoom: 8
-            });
-
-            // Harita üzerinde bir konum gösterme
-            var marker = new google.maps.Marker({
-                position: {
-                    lat: {{ $housing->latitude }},
-                    lng: {{ $housing->longitude }}
-                },
-                map: map,
-                title: 'Default Location'
-            });
-        }
-
-        function submitForm() {
-            var formData = new FormData($('#commentForm')[0]);
-            $.ajax({
-                url: $('#commentForm').attr('action'),
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Yorum Gönderildi',
-                        text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
-                    });
-                },
-                error: function(error) {
-                    window.location.href = "/giris-yap";
-                    console.log(error);
-                }
-            });
-        }
-        $(document).ready(function() {
-            $('.listingDetailsSliderNav').slick({
-                slidesToShow: 5,
-                slidesToScroll: 4,
-                dots: false,
-                loop: true,
-                autoplay: false,
-                arrows: false,
-                margin: 20,
-                adaptiveHeight: true,
-                responsive: [{
-                    breakpoint: 993,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 2,
-                        dots: false,
-                        arrows: false
-                    }
-                }, {
-                    breakpoint: 769,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
-                        dots: false,
-                        arrows: false
-                    }
-                }]
-            });
-        });
-        jQuery('.rating-area .rating').on('mouseover', function() {
-            jQuery('.rating-area .rating polygon').attr('fill', 'none');
-            for (var i = 0; i <= $(this).index(); ++i)
-                jQuery('.rating-area .rating polygon').eq(i).attr('fill', 'gold');
-        });
-
-        jQuery('.rating-area .rating').on('mouseleave', function() {
-            jQuery('.rating-area .rating:not(.selected) polygon').attr('fill', 'none');
-        });
-
-        jQuery('.rating-area .rating').on('click', function() {
-            jQuery('.rating-area .rating').removeClass('selected');
-            for (var i = 0; i <= $(this).index(); ++i)
-                jQuery('.rating-area .rating').eq(i).addClass('selected');
-
-            $('#rate').val($(this).index() + 1);
-        });
-
-
-
-        function showLocation() {
-            var location = document.getElementById('locationInput').value;
-
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {
-                    lat: {{ $housing->longitude }},
-                    lng: {{ $housing->latitude }}
-                },
-                zoom: 12
-            });
-
-            var marker = new google.maps.Marker({
-                position: {
-                    lat: {{ $housing->longitude }},
-                    lng: {{ $housing->latitude }}
-                },
-                map: map,
-                title: location
-            });
-        }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     @if ($housing->step2_slug == 'gunluk-kiralik')
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
+            $(document).ready(function() {
                 var maxUser = parseInt("{{ getData($housing, 'max_user') }}"); // $housing'ten max_user değerini alın
 
                 var inputElement = document.querySelector('input[name="person_count"]');
@@ -1252,10 +1096,6 @@
                         }
                     }
                 }
-            });
-
-            $(document).ready(function() {
-
                 $(".reservation").on("click", function() {
                     if ($(".showPrice").hasClass("d-none")) {
                         $(".reservationBtn").removeAttr("data-toggle data-target");
