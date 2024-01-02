@@ -786,7 +786,7 @@
                                                                                                                     </ul>
 
                                                         <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between">
-                                                            <li style="font-size: 15px; font-weight: 700; flex: 1;height:28px" class="priceFont">
+                                                            <li style="font-size: 15px; font-weight: 700; flex: 1;height:35px" class="priceFont">
                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                                     res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                     : numberFormat(res.housing_type.price) + " ₺"
