@@ -89,18 +89,44 @@ class HousingController extends Controller {
 
         return redirect()->back();
     }
-
     public function show($id)
     {
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
-        $housing = Housing::with('images', "reservations","user.housings", "user.banners", "brand", "city", "county")->where("id", $id)->first();
+        $housing = Housing::with('images', "reservations", "user.housings", "user.banners", "brand", "city", "county")->where("id", $id)->first();
         $housingSetting = ProjectHouseSetting::all();
         $housingComments = HousingComment::where('housing_id', $id)->where('status', 1)->with('user')->get();
-
-        $parent = HousingTypeParent::where("slug",$housing->step1_slug)->first();
-        return view('client.housings.detail', compact('housing',"bankAccounts","parent", 'menu', 'housingSetting', 'id', 'housingComments'));
+        
+        $labels = [];
+        $housingTypeData = json_decode($housing->housing_type_data, true);
+        
+        foreach ($housingTypeData as $key => $value) {
+            $housingType = HousingType::find($housing->housing_type_id);
+        
+            if ($housingType) {
+                $formJsonItems = json_decode($housingType->form_json, true) ?? [];
+        
+                foreach ($formJsonItems as $formJsonItem) {
+                    $formJsonItemName = rtrim($formJsonItem['name'], '[]');
+        
+                    // Remove the last character '1' if it exists in the key
+                    $keyWithoutLastCharacter = rtrim($key, '1');
+        
+                    // Check for equality after removing the last character
+                    if (isset($formJsonItem['name']) && $formJsonItemName === $keyWithoutLastCharacter) {
+                        $labels[$formJsonItem['label']] = $value;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        
+        $parent = HousingTypeParent::where("slug", $housing->step1_slug)->first();        
+        
+        return view('client.housings.detail', compact('housing', 'bankAccounts', 'parent', 'menu', 'housingSetting', 'id', 'housingComments', 'labels'));
     }
+    
 
     public function list(Request $request)
     {

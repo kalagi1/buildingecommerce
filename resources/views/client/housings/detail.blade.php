@@ -256,195 +256,53 @@
                                                             </span>
                                                         </td>
                                                     </tr>
-
-                                                    @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
-                                                        @php
-                                                            $turkceKarsilik = [
-                                                                'price' => 'Fiyat',
-                                                                'numberoffloors' => 'Bulunduğu Kat',
-                                                                'squaremeters' => 'm² (Net)',
-                                                                'room_count' => 'Oda Sayısı',
-                                                                'front1' => 'Cephe',
-                                                                'm2gross' => 'm² (Brüt)',
-                                                                'buildingage' => 'Bina Yaşı',
-                                                                'heating' => 'Isıtma',
-                                                                'balcony' => 'Balkon',
-                                                                'daily_rent' => 'Günlük Fiyat',
-                                                                'max_user' => 'Kişi Sayısı',
-                                                                'deposit' => 'Depozito',
-                                                                'end_time' => 'Çıkış Saati',
-                                                                'start_time' => 'Giriş Saati',
-                                                                'ulasim1' => 'Ulaşım',
-                                                                'muhit1' => 'Muhit',
-                                                                'star_count' => 'Yıldız Sayısı',
-                                                                'kitchen_settings1' => 'Mutfak Özellikleri',
-                                                                'room_settings1' => 'Oda Özellikleri',
-                                                                'room_types1' => 'Oda Çeşitleri',
-                                                                'facility_settings1' => 'Tesis Özellikleri',
-                                                                'bath_settings1' => 'Banyo Özellikleri',
-                                                                'use_withs1' => 'Ortak Kullanım',
-                                                                'views1' => 'Manzara',
-                                                                'infrastructures1' => 'Altyapılar',
-                                                                'activities1' => 'Aktiviteler',
-                                                                'konut_tipi1' => 'Konut Tipi',
-                                                                'manzara1' => 'Manzara',
-                                                                'engelliye_uygun1' => 'Engelliye Uygun',
-                                                                'numberofbathrooms' => 'Banyo Sayısı',
-                                                                'usingstatus' => 'Kullanım Durumu',
-                                                                'dues' => 'Aidat',
-                                                                'titledeedstatus' => 'Tapu Durumu',
-                                                                'external_features1' => 'Dış Özellikler',
-                                                                'swap' => 'Takas',
-                                                                'swap1' => 'Takas',
-                                                                'internal_features1' => 'İç Özellikler',
-                                                                'floorlocation' => 'Kat Sayısı',
-                                                                'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
-                                                                'furnished1' => 'Eşyalı',
-                                                                'buysellurgent1' => 'Acil Satılık',
-                                                                'structure' => 'Yapının Durumu',
-                                                                'bed_count' => 'Yatak Sayısı',
-                                                                'food_drink1' => 'Yeme İçme',
-                                                                'meeting1' => 'Toplantı & Kongre',
-                                                                'proximity1' => 'Yakınlık',
-                                                                'transportation1' => 'Ulaşım',
-                                                                'facilities1' => 'Tesis Aktiviteleri',
-                                                                'availableforLoan' => 'Krediye Uygun',
-                                                                'images' => 'Galeri',
-                                                                'usagePurpose1' => 'Kullanım Amacı',
-                                                                'generalFeatures1' => 'Genel Özellikler',
-                                                                'infrastructure1' => 'Altyapı',
-                                                            ];
-                                                            $key = $turkceKarsilik[$key] ?? $key;
-                                                        @endphp
-
-                                                        @if (
-                                                            $key != 'image' &&
-                                                                $key != 'Galeri' &&
-                                                                $key != 'İç Özellikler' &&
-                                                                $key != 'Dış Özellikler' &&
-                                                                $key != 'Muhit' &&
-                                                                $key != 'Ulaşım' &&
-                                                                $key != 'Engelliye Uygun' &&
-                                                                $key != 'Konut Tipi' &&
-                                                                $key != 'payment-plan1')
-                                                            </tr>
-
-                                                            <td>
-                                                                @if ($key == 'Fiyat')
-                                                                    <span class=" mr-1">{{ $key }}:</span>
-                                                                    <span class="det" style="color: black; ">
-                                                                        {{ number_format($val[0], 0, ',', '.') }}
-                                                                        ₺
-                                                                    </span>
+                                                   
+                                                    @foreach ($labels as $label => $val)
+                                                    @if ($label != "Kapak Resmi")
+                                                    <tr>
+                                                        <td>
+                                                            @if ($label == 'Fiyat')
+                                                                <span class="mr-1">{{ $label }}:</span>
+                                                                <span class="det" style="color: black;">{{ number_format($val[0], 0, ',', '.') }} ₺</span>
+                                                            @else
+                                                                <span class="mr-1">{{ $label }}:</span>
+                                                                @if ($label == 'm² (Net)<br>')
+                                                                    <span class="det">{{ $val[0] }} m2</span>
+                                                                @elseif ($label == 'Özellikler')
+                                                                    <ul>
+                                                                        @foreach ($val as $ozellik)
+                                                                            <li>{{ $ozellik }}</li>
+                                                                        @endforeach
+                                                                    </ul>
                                                                 @else
-                                                                    <span class=" mr-1">{{ $key }}:</span>
-                                                                    @if ($key == 'm² (Net)')
-                                                                        <span class="det">{{ $val[0] }}
-                                                                            m2</span>
-                                                                    @elseif ($key == 'Özellikler')
-                                                                        <ul>
-                                                                            @foreach ($val as $ozellik)
-                                                                                <li>{{ $ozellik }}</li>
-                                                                            @endforeach
-                                                                        </ul>
-                                                                    @else
-                                                                        <span
-                                                                            class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
-                                                                    @endif
+                                                                    <span class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
                                                                 @endif
-                                                            </td>
-                                                            </tr>
-                                                        @endif
-                                                    @endforeach
+                                                            @endif
+                                                        </td>
+                                                    </tr> 
+                                                    @endif
+                                                   
+                                                @endforeach
 
                                                 </tbody>
                                             </table>
 
 
 
-                                            @foreach (json_decode($housing->housing_type_data, true) as $key => $val)
-                                                @php
-                                                    $turkceKarsilik = [
-                                                        'price' => 'Fiyat',
-                                                        'numberoffloors' => 'Bulunduğu Kat',
-                                                        'squaremeters' => 'm² (Net)',
-                                                        'room_count' => 'Oda Sayısı',
-                                                        'front1' => 'Cephe',
-                                                        'm2gross' => 'm² (Brüt)',
-                                                        'buildingage' => 'Bina Yaşı',
-                                                        'heating' => 'Isıtma',
-                                                        'balcony' => 'Balkon',
-                                                        'daily_rent' => 'Günlük Fiyat',
-                                                        'max_user' => 'Kişi Sayısı',
-                                                        'deposit' => 'Depozito',
-                                                        'end_time' => 'Çıkış Saati',
-                                                        'start_time' => 'Giriş Saati',
-                                                        'ulasim1' => 'Ulaşım',
-                                                        'muhit1' => 'Muhit',
-                                                        'star_count' => 'Yıldız Sayısı',
-                                                        'kitchen_settings1' => 'Mutfak Özellikleri',
-                                                        'room_settings1' => 'Oda Özellikleri',
-                                                        'room_types1' => 'Oda Çeşitleri',
-                                                        'facility_settings1' => 'Tesis Özellikleri',
-                                                        'bath_settings1' => 'Banyo Özellikleri',
-                                                        'use_withs1' => 'Ortak Kullanım',
-                                                        'views1' => 'Manzara',
-                                                        'infrastructures1' => 'Altyapılar',
-                                                        'activities1' => 'Aktiviteler',
-                                                        'konut_tipi1' => 'Konut Tipi',
-                                                        'manzara1' => 'Manzara',
-                                                        'engelliye_uygun1' => 'Engelliye Uygun',
-                                                        'numberofbathrooms' => 'Banyo Sayısı',
-                                                        'usingstatus' => 'Kullanım Durumu',
-                                                        'dues' => 'Aidat',
-                                                        'titledeedstatus' => 'Tapu Durumu',
-                                                        'external_features1' => 'Dış Özellikler',
-                                                        'swap' => 'Takas',
-                                                        'swap1' => 'Takas',
-                                                        'islandnumber' => 'Ada No',
-                                                        'parcelnumber' => 'Parsel No',
-                                                        'sheetnumber' => 'Pafta No',
-                                                        'floorprovision' => 'Kat Karşılığı',
-                                                        'canbenavigatedviavideocall' => 'Görüntülü Arama ile Gezilebilir',
-                                                        'internal_features1' => 'İç Özellikler',
-                                                        'floorlocation' => 'Kat Sayısı',
-                                                        'canbenavigatedviavideocall1' => 'Görüntülü Arama İle Gezilebilir',
-                                                        'furnished1' => 'Eşyalı',
-                                                        'furnished' => 'Eşyalı',
-                                                        'buysellurgent1' => 'Acil Satılık',
-                                                        'structure' => 'Yapının Durumu',
-                                                        'bed_count' => 'Yatak Sayısı',
-                                                        'food_drink1' => 'Yeme İçme',
-                                                        'meeting1' => 'Toplantı & Kongre',
-                                                        'proximity1' => 'Yakınlık',
-                                                        'transportation1' => 'Ulaşım',
-                                                        'facilities1' => 'Tesis Aktiviteleri',
-                                                        'availableforLoan' => 'Krediye Uygun',
-                                                        'images' => 'Galeri',
-                                                        'usagePurpose1' => 'Kullanım Amacı',
-                                                        'generalFeatures1' => 'Genel Özellikler',
-                                                        'infrastructure1' => 'Altyapı',
-                                                    ];
-
-                                                    $key = $turkceKarsilik[$key] ?? $key;
-                                                @endphp
-
-
-                                                @if (is_array($val))
-                                                    @if (count($val) > 1)
-                                                        @if ($key != 'Galeri')
-                                                            <h5 class="mt-5">{{ $key }}</h5>
-                                                            <ul class="homes-list clearfix">
-                                                                @foreach ($val as $item)
-                                                                    <li><i class="fa fa-check-square"
-                                                                            aria-hidden="true"></i><span>{{ $item }}</span>
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        @endif
+                                            @foreach ($labels as $label => $val)
+                                            @if (is_array($val))
+                                                @if (count($val) > 1)
+                                                    @if ($label != 'Galeri')
+                                                        <h5 class="mt-5">{{ $label }}</h5>
+                                                        <ul class="homes-list clearfix">
+                                                            @foreach ($val as $item)
+                                                                <li><i class="fa fa-check-square" aria-hidden="true"></i><span>{{ $item }}</span></li>
+                                                            @endforeach
+                                                        </ul>
                                                     @endif
                                                 @endif
-                                            @endforeach
+                                            @endif
+                                        @endforeach
                                         </div>
                                     </div>
                                 </div>
