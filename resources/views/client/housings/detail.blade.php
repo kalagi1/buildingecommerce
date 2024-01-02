@@ -675,15 +675,32 @@
                                                         </button>
                                                     @endif
                                                 @else
-                                                    <button class="CartBtn" data-type='housing'
-                                                        data-id='{{ $housing->id }}'>
-                                                        <span class="IconContainer">
-                                                            <img src="{{ asset('sc.png') }}"
-                                                                alt="">
+                                                @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
+                                                @php
+                                                    $buttonStyle = '';
+                                                    $buttonText = '';
+                                                    if ($sold[0]->status == '0') {
+                                                        $buttonStyle = 'background: orange !important; width: 100%; color: white;';
+                                                        $buttonText = 'Onay Bekleniyor';
+                                                    } else {
+                                                        $buttonStyle = 'background: red !important; width: 100%; color: white;';
+                                                        $buttonText = 'Satıldı';
+                                                    }
+                                                @endphp
 
-                                                        </span>
-                                                            <span class="text">Sepete Ekle</span>
-                                                    </button>
+                                                <button class="btn second-btn soldBtn" 
+                                                    style="{{ $buttonStyle }}">
+                                                    <span class="text">{{ $buttonText }}</span>
+                                                </button>
+                                            @else
+                                                <button class="CartBtn" data-type='housing'
+                                                    data-id='{{ $housing->id }}'>
+                                                    <span class="IconContainer">
+                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                    </span>
+                                                    <span class="text">Sepete Ekle</span>
+                                                </button>
+                                            @endif
                                                 @endif
                                             @endif
 
