@@ -283,7 +283,7 @@ class ProjectController extends Controller
             $secondAreaList = null;
         }
 
-        if(isset($tempDataFull) && isset($tempData->step2_slug) && $tempData->step2_slug){
+        if(isset($tempDataFull) && isset($tempData->step2_slug) && isset($tempData->step1_slug) && $tempData->step1_slug && $tempData->step2_slug){
             $topParent = HousingTypeParent::whereNull('parent_id')->where('slug',$tempData->step1_slug)->first();
             $topParentSecond = HousingTypeParent::where('parent_id',$topParent->id)->where('slug',$tempData->step2_slug)->first();
             array_push($areaSlugs,$topParentSecond->title);
@@ -292,7 +292,7 @@ class ProjectController extends Controller
             $housingTypes = null;
         }
         
-        if(isset($tempDataFull) && isset($tempData->step3_slug) && $tempData->step3_slug){
+        if(isset($tempDataFull) && isset($tempData->step3_slug) && isset($tempData->step2_slug) && $tempData->step2_slug && isset($tempData->step1_slug) && $tempData->step1_slug && $tempData->step3_slug){
             $housingTypeTemp = HousingTypeParentConnection::where('slug',$tempData->step3_slug)->where("parent_id",$topParentSecond->id)->join('housing_types','housing_types.id',"=","housing_type_parent_connections.housing_type_id")->first();
             
             array_push($areaSlugs,$housingTypeTemp->title);
@@ -328,7 +328,7 @@ class ProjectController extends Controller
         $tempDataFull2 = Project::where('slug', $slug)->first();
         $housingType = HousingType::where('id', $tempDataFull->housing_type_id)->first();
         $tempUpdate = TempOrder::where('item_type', 3)->where('user_id', auth()->user()->id)->first();
-        if ($tempUpdate && json_decode($tempUpdate->data)->data_slug == $slug) {
+        if ($tempUpdate && isset($tempUpdate->data) && $tempUpdate->data && isset(json_decode($tempUpdate->data)->data_slug) && json_decode($tempUpdate->data)->data_slug &&  json_decode($tempUpdate->data)->data_slug == $slug) {
             $tempUpdateHas = true;
             $tempDataFull = $tempUpdate;
 

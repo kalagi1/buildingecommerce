@@ -29851,3 +29851,8 @@ a {
             translate: 47px 47px;
             box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
         }
+
+
+.b-estate-form{
+    border: 1px solid #eee;
+}
