@@ -178,6 +178,7 @@
     .box {
         width: 300px;
     z-index: 9999;
+    height: 300px !important;
     height: 200px;
     border-radius: 10px;
     transition: 0.5s;
