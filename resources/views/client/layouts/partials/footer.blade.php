@@ -185,7 +185,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
     padding: 0px;
-    left: -95px;
+    left: -74px;
     margin-top: 5px;
     background-color: #F4F4F4;
     -webkit-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.2);
