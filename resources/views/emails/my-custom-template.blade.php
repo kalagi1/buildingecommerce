@@ -51,32 +51,6 @@
             </tr>
 
 
-            <tr>
-                <td colspan="2"
-                    style="background-color: #212121; padding: calc(20px + (26 - 20) * ((100vw - 320px) / (1920 - 320))) 0">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <table border="0" cellpadding="0" cellspacing="0" align="center"
-                                        style="vertical-align: middle; margin: 0 auto; width: 326px">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <p
-                                                        style="font-weight: 800; font-size: calc(11px + (12 - 11) * ((100vw - 320px) / (1920 - 320))); line-height: 23px; text-align: center; letter-spacing: 0.5px; color: #e4e4e4; margin-top: 15px; text-transform: uppercase;">
-                                                        2023 © Copyright - All Rights Reserved. @innovaticacode
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
         </tbody>
     </table>
 

@@ -55,7 +55,7 @@
     $(document).ready(function () {
         $(".box").hide();
 
-            $(".notification").hover(
+            $(".notification").click(
                 function () {
                     $(".box").toggle();
                 },

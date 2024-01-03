@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\BankAccount;
 use App\Models\CartOrder;
+use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\Housing;
 use App\Models\Offer;
@@ -26,80 +27,30 @@ class CartController extends Controller {
         $this->middleware( 'auth' );
     }
 
-    // public function add( Request $request )
-    // {
-    //     $type = $request->input( 'type' );
-    //     $id = $request->input( 'id' );
-    //     $project = $request->input( 'project' );
-
-    //     $cartItem = [];
-    //     if ( $type == 'project' ) {
-    //         $project = Project::find( $project );
-    //         $price = ProjectHousing::select( 'value' )->where( 'project_id', $project )->where( 'room_order', $id )->where( 'key', 'Fiyat' )->first()[ 'value' ];
-    //         $image = ProjectHousing::select( 'value' )->where( 'project_id', $project )->where( 'room_order', $id )->where( 'key', 'Kapak Resmi' )->first()[ 'value' ];
-    //         $cartItem = [
-    //             'id' => $id,
-    //             'project' => $project->id,
-    //             'city' => $project->city->title,
-    //             'address' => $project->address,
-    //             'title' => $project->project_title,
-    //             'price' => $price,
-    //             'image' => asset( 'project_housing_images/' . $image ),
-    // ];
-    //     } else if ( $type == 'housing' ) {
-    //         $housing = Housing::find( $id );
-    //         $housingData = json_decode( $housing->housing_type_data );
-
-    //         $cartItem = [
-    //             'id' => $housing->id,
-    //             'city' => $housing->city[ 'title' ],
-    //             'address' => $housing->address,
-    //             'title' => $housing->title,
-    //             'price' => $housingData->price[ 0 ],
-    //             'image' => asset( 'housing_images/' . json_decode( $housingData->images )[ 0 ] ),
-    // ];
-
-    //     }
-    //     // Find the product in the database
-
-    //     if ( !$cartItem ) {
-    //         return response( [ 'message' => 'fail' ] );
-    //     }
-
-    //     $cart = $request->session()->get( 'cart', [] );
-    // Get cart data from session
-
-    //     // Eğer sepeti temizlemeyi onaylamışsa, mevcut sepeti temizleyin
-    //     if ( $request->input( 'clear_cart' ) === 'yes' ) {
-    //         $request->session()->forget( 'cart' );
-    //     }
-
-    //     // Add a new product to the cart
-    //     $cart = [
-    //         'item' => $cartItem,
-    //         'type' => $type,
-    // ];
-
-    //     $request->session()->put( 'cart', $cart );
-    // Save cart data to session
-
-    //     return response( [ 'message' => 'success' ] );
-    // }
-
     public function payCart( Request $request ) {
         if ( !$request->session()->get( 'cart' ) ) {
             return redirect()->back()->withErrors( [ 'pay' => 'Sepet boş.' ] );
         }
 
-        $order = new CartOrder;
-        $order->user_id = auth()->user()->id;
-        $order->bank_id = $request->input( 'banka_id' );
-        $cartJson = $request->session()->get( 'cart' );
-        $order->amount = str_replace( ',', '.', number_format( floatval( str_replace( '.', '', $request->session()->get( 'cart' )[ 'item' ][ 'price' ] - $request->session()->get( 'cart' )[ 'item' ][ 'discount_amount' ] ) ) * 0.01, 0, ',', '.' ) );
-        $order->cart = json_encode( $request->session()->get( 'cart' ) );
-        $order->status = '0';
-        $order->key = $request->input( 'key' );
-        $order->save();
+        function getHouse( $project, $key, $roomOrder ) {
+            foreach ( $project->roomInfo as $room ) {
+                if ( $room->room_order == $roomOrder && $room->name == $key ) {
+                    return $room;
+                }
+            }
+        }
+
+        $cartJson = $request->session()->get( 'cart' ) ;
+    
+            $order = new CartOrder;
+            $order->user_id = auth()->user()->id;
+            $order->bank_id = $request->input( 'banka_id' );
+            $order->amount = str_replace( ',', '.', number_format( floatval( str_replace( '.', '', $cartJson[ 'item' ][ 'price' ] - $cartJson[ 'item' ][ 'discount_amount' ] ) ) * 0.01, 0, ',', '.' ) );
+            $order->cart = json_encode( $cartJson );
+            $order->status = '0';
+            $order->key = $request->input( 'key' );
+            $order->save();
+        
 
         $cartOrder = CartOrder::where( 'id', $order->id )->with( 'bank' )->first();
         $o = json_decode( $cartOrder );
@@ -110,40 +61,44 @@ class CartController extends Controller {
             $housingTypeImage = asset( 'housing_images/' . json_decode( Housing::find( $productDetails->id ?? 0 )->housing_type_data ?? '[]' )->image ?? null );
             $city = Housing::find( $productDetails->id ?? 0 )->city->title;
             $county = Housing::find( $productDetails->id ?? 0 )->county->title;
-            $neighborhood = Housing::find( $productDetails->id ?? 0 )->neighborhood->mahalle_title;
+            $neighborhood = Housing::find( $productDetails->id ?? 0 )->neighborhood->mahalle_title ? Housing::find( $productDetails->id ?? 0 )->neighborhood->mahalle_title : null;
+            $code = Housing::find( $productDetails->id ?? 0 )->id + 2000000;
+            $store = Housing::find( $productDetails->id ?? 0 )->user->name;
+            $room = null;
 
         } else {
             $project = Project::where( 'id', $productDetails->id )
             ->with( 'brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images' )
             ->first();
             $city = $project->city->title;
-            $county = $project->county->title;
-            $neighborhood = $project->neighborhood->mahalle_title;
+            $county = $project->county->ilce_title;
+            $neighborhood = $project->neighbourhood ? $project->neighbourhood->mahalle_title : null;
             $housingImage = getHouse( $project, 'image[]', $productDetails->housing )->value;
             $housingTypeImage = URL::to( '/' ) . '/project_housing_images/' . $housingImage;
-        }
+            $code = $project->id + $productDetails->housing +1000000;
+            $store = $project->user->name;
+            $room = $productDetails->housing;
 
-        $productTable = 
+        }
+        $productTable =
         '<table style="width:100%;border-collapse: collapse;">
             <tr>
-            <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Emlak Görseli</th>
+                <th style="border: 1px solid #dddddd;width:120px; text-align: left; padding: 8px;">Emlak Görseli</th>
                 <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Emlak</th>
-                <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Fiyat</th>
-                <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">İl-İlçe</th>
-
+                <th style="border: 1px solid #dddddd; width:50px;text-align: left; padding: 8px;">Fiyat</th>
+                <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Ödeme Kodu</th>
+                <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">İl-İlçe-Mahalle</th>
+                <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Mağaza</th>
             </tr>
             <tr>
-            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"><img src="' . $housingTypeImage . '" style="max-width:100px;max-height:100px;" alt="Product Image"></td>
-                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $productDetails->title . '</td>
-                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $order->amount . "  ₺". '</td>
-                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $city . $county.'</td>
-
+                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"><img src="' . $housingTypeImage . '" style="max-width:100px;max-height:100px;" alt="Product Image"></td>
+                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $productDetails->title . ( $room ? ' Projesinde' . $room . " No'lu Daire" : null ) . '<br>' . '#' . $code . '</td>
+                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $order->amount . ' ₺' . '</td>
+                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $order->key . '</td>
+                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $city . ' / ' . $county . ' / ' . $neighborhood . '</td>
+                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $store . '</td>
             </tr>
         </table>';
-    
-
-            return $productTable;
-
 
         if ( session()->get( 'sharer_username' ) ) {
             if ( $cartJson[ 'type' ] == 'project' ) {
@@ -185,6 +140,7 @@ class CartController extends Controller {
                 'username' => $user->name,
                 'companyName' => 'Emlak Sepette',
                 'email' => $user->email,
+                'table' => $productTable,
                 'token' => $user->email_verification_token,
             ];
 
@@ -193,6 +149,16 @@ class CartController extends Controller {
             }
 
             Mail::to( $user->email )->send( new CustomMail( $BuyCart->subject, $BuyCartContent ) );
+
+            DocumentNotification::create( [
+                'user_id' => $user->id,
+                'text' =>  '#' . $code . " No'lu emlak siparişiniz için teşekkür ederiz. Siparişiniz, ödeme onayı için yönetici onayına gönderilmiştir. "
+                . 'Onay süreci tamamlandığında size bilgi verilecektir.',
+                'item_id' => $order->id,
+                'link' => route( 'client.profile.cart-orders' ),
+                'owner_id' => $user->id,
+                'is_visible' => true,
+            ] );
 
             $NewOrder = EmailTemplate::where( 'slug', 'new-order' )->first();
 
@@ -207,14 +173,6 @@ class CartController extends Controller {
             $NewOrderContent = $NewOrder->body;
 
             $admins = User::where( 'type', '3' )->get();
-
-            function getHouse( $project, $key, $roomOrder ) {
-                foreach ( $project->roomInfo as $room ) {
-                    if ( $room->room_order == $roomOrder && $room->name == $key ) {
-                        return $room;
-                    }
-                }
-            }
 
             foreach ( $admins as $key => $admin ) {
                 $housingTypeImage = '';
@@ -237,6 +195,7 @@ class CartController extends Controller {
                     'bankAccount' => $cartOrder->bank->receipent_full_name,
                     'companyName' => 'Emlak Sepette',
                     'email' => $user->email,
+                    'table' => $productTable,
                     'token' => $user->email_verification_token,
                 ];
 
@@ -244,7 +203,7 @@ class CartController extends Controller {
                     $NewOrderContent = str_replace( '{{' . $key . '}}', $value, $NewOrderContent );
                 }
 
-                Mail::to( $admin->email )->send( new CustomMail( $NewOrder->subject, $NewOrderContent ) );
+                Mail::to( $admin->email )->send( new CustomMail( $NewOrder->subject,  $NewOrderContent ) );
 
             }
 
@@ -253,6 +212,7 @@ class CartController extends Controller {
             return redirect()->route( 'pay.success', [ 'cart_order' => $order->id ] );
         }
 
+  
         public function paySuccess( Request $request, CartOrder $cart_order ) {
 
             return view( 'client.cart.pay-success', compact( 'cart_order' ) );

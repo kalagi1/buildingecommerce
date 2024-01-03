@@ -226,7 +226,14 @@
                                                                                 <div
                                                                                     class="d-flex align-items-center justify-content-between position-relative">
                                                                                     <div class="d-flex">
+                                                                                        <div
+                                                                                            class="avatar avatar-m status-online me-3" style="width:45px !important">
+                                                                                            <img class="rounded-circle avatar-placeholder"
+                                                                                            style="max-width:40px !important"
+                                                                                                src="https://prium.github.io/phoenix/v1.14.0/assets/img/team/40x40/avatar.webp"
+                                                                                                alt=""></div>
                                                                                         <div class="flex-1 me-sm-3">
+                                                                                            <h4 class="fs-9 text-body-emphasis" style="font-size: 11px;text-align:left;margin-bottom:0 !important">{{Auth::user()->name}}</h4>
                                                                                             <p
                                                                                                 class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
                                                                                                 {!! $notification->text !!}

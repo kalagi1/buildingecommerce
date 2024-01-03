@@ -52,22 +52,34 @@
                                             <tr>
                                                 <td>
                                                     <strong>Alıcı Bilgileri</strong>
-                                                    <ul>
-                                                        <li> İsim Soyisim: {{ $data['invoice']['order']['user']['name'] }}
+                                                    <ul style="list-style: none">
+                                                        <li> 
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
+                                                            İsim Soyisim: {{ $data['invoice']['order']['user']['name'] }}
                                                         </li>
-                                                        <li> E-Mail: {{ $data['invoice']['order']['user']['email'] }} </li>
+
+                                                        <li>                                                        <i class="fa fa-circle circleIcon mr-1"></i>
+                                                            E-Mail: {{ $data['invoice']['order']['user']['email'] }} </li>
                                                     </ul>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
                                                     <strong>Satıcı Bilgileri</strong>
-                                                    <ul>
-                                                        <li> Mağaza: {{ $data['project']['user']['name'] }} </li>
-                                                        <li> E-Mail: {{ $data['project']['user']['email'] }} </li>
-                                                        <li> Vergi No: {{ $data['project']['user']['taxNumber'] }} </li>
+                                                    <ul style="list-style: none">
+                                                        <li> 
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
+                                                            Mağaza: {{ $data['project']['user']['name'] }} </li>
+                                                        <li> 
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
+                                                            E-Mail: {{ $data['project']['user']['email'] }} </li>
+                                                        <li> 
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
+                                                            Vergi No: {{ $data['project']['user']['taxNumber'] }} </li>
                                                         @if ($data['project']['user']['phone'])
-                                                            <li> Telefon: {{ $data['project']['user']['phone'] }} </li>
+                                                            <li> 
+                                                                <i class="fa fa-circle circleIcon mr-1"></i>
+                                                                Telefon: {{ $data['project']['user']['phone'] }} </li>
                                                         @endif
                                                     </ul>
                                                 </td>
@@ -75,7 +87,9 @@
                                             <tr>
                                                 <td>
                                                     {{ $data['project']['city']['title'] }} {{ ' / ' }}
-                                                    {{ $data['project']['county']['ilce_title'] }}
+                                                    {{ $data['project']['county']['ilce_title'] ?$data['project']['county']['ilce_title'] :$data['project']['county']['title'] }} {{ ' / ' }}
+                                                    {{ $data['project']['neighborhood']['mahalle_title']  ?  $data['project']['neighborhood']['mahalle_title']  : $data['project']['neighbourhood']['mahalle_title'] }}
+
                                                 </td>
                                             </tr>
                                             <tr>
@@ -94,12 +108,13 @@
                                             <tr>
                                                 <td colspan="3" class="text-end fw-bold">Ara Tutar</td>
                                                 <td class="text-right fw-bold">
-                                                    {{ number_format($data['invoice']['total_amount'], 2) }} ₺</td>
+                                                   <strong style="font-weight: 600 !important"> {{ number_format($data['invoice']['total_amount'], 2) }} ₺</strong></td>
                                             </tr>
                                             </tr>
                                             <tr>
                                                 <td colspan="3" class="text-end fw-bold">%1 Kapora Tutarı</td>
-                                                <td class="text-right fw-bold">{{ $data['invoice']['order']['amount'] }} ₺
+                                                <td class="text-right fw-bold">
+                                                    <strong style="font-weight: 600 !important">{{ $data['invoice']['order']['amount'] }} ₺</strong>
                                                 </td>
                                             </tr>
                                         </tbody>

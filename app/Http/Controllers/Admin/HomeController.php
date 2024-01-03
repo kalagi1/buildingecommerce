@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\CartOrder;
+use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\Housing;
 use App\Models\HousingComment;
@@ -34,12 +35,12 @@ class HomeController extends Controller {
     }
 
     public function getOrders() {
-        $cartOrders = CartOrder::with( 'user' )->orderByDesc('created_at')->get();
+        $cartOrders = CartOrder::with( 'user' )->orderByDesc( 'created_at' )->get();
         return view( 'admin.orders.index', compact( 'cartOrders' ) );
     }
 
     public function getReservations() {
-        $housingReservations = Reservation::with( 'user', 'housing',"owner" )
+        $housingReservations = Reservation::with( 'user', 'housing', 'owner' )
         ->get();
 
         return view( 'admin.reservations.index', compact( 'housingReservations' ) );
@@ -88,35 +89,27 @@ class HomeController extends Controller {
 
         Mail::to( $user->email )->send( new CustomMail( $newSeller->subject, $newSellerContent ) );
 
-        $newSeller = EmailTemplate::where( 'slug', 'new-seller' )->first();
+        DocumentNotification::create( [
+            'user_id' => $user->id,
+            'text' => '#' . $cartOrder->id . " No'lu siparişiniz onaylandı. Fatura detayları için tıklayın.",
+            'item_id' => $cartOrder->id,
+            'link' => route( 'client.invoice.show', $cartOrder->id),
+            'owner_id' => $user->id,
+            'is_visible' => true,
+        ] );
 
-        if ( !$newSeller ) {
-            return response()->json( [
-                'message' => 'Email template not found.',
-                'status' => 203,
-                'success' => true,
-            ], 203 );
+        // DocumentNotification for Admin
+        $admins = User::where( 'type', '3' )->get();
+        foreach ( $admins as $admin ) {
+            DocumentNotification::create( [
+                'user_id' => $admin->id,
+                'text' => '#' . $cartOrder->id . " No'lu emlak siparişi onaylandı.",
+                'item_id' => $cartOrder->id,
+                'link' => route( 'admin.orders'),
+                'owner_id' => 4,
+                'is_visible' => true,
+            ] );
         }
-
-        $newSellerContent = $newSeller->body;
-
-        $newSellerVariables = [
-            'customerName' => $user->name,
-            'customerEmail' => $user->email,
-            'salesAmount' => $cartOrder->amount,
-            'salesDate' => $cartOrder->created_at,
-            'companyName' => 'Emlak Sepette',
-            'email' => $user->email,
-            'token' => $user->email_verification_token,
-            'storeOwnerName' => $project ? $project->user->name : '',
-            'invoiceLink' => route( 'institutional.invoice.show', $cartOrder->id ),
-        ];
-
-        foreach ( $newSellerVariables as $key => $value ) {
-            $newSellerContent = str_replace( '{{' . $key . '}}', $value, $newSellerContent );
-        }
-
-        Mail::to( $user->email )->send( new CustomMail( $newSeller->subject, $newSellerContent ) );
 
         return redirect()->back();
     }
