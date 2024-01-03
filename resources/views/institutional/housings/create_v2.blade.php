@@ -1008,8 +1008,10 @@ Emlak İlanı Ekle
                                         
                                     if(oldData[inputNamex[0]+(i)]){
                                         oldData[inputNamex[0]+(i)].map((checkbox) => {
-                                            if(checkbox.trim() == $(item).attr("value").trim()){
-                                                $(item).attr('checked','checked')
+                                            if(checkbox){
+                                                if(checkbox.trim() == $(item).attr("value").trim()){
+                                                    $(item).attr('checked','checked')
+                                                }
                                             }
                                         })
                                     }

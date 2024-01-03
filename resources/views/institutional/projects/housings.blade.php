@@ -21,17 +21,17 @@
             <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
 
                 @if ($project->have_blocks == 1)
-                <ul class="nav nav-underline" id="myTab" role="tablist">
-                    @foreach ($project->blocks as $block)
-                        <li class="nav-item{{ $loop->first ? ' active' : '' }}" role="presentation">
-                            <a class="nav-link{{ $loop->first ? ' active' : '' }}" id="{{ $block['id'] }}-tab"
-                                data-bs-toggle="tab" href="#tab-{{ $block['id'] }}" role="tab"
-                                aria-controls="tab-{{ $block['id'] }}" aria-selected="true">
-                                {{ $block['block_name'] }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
+                    <ul class="nav nav-underline" id="myTab" role="tablist">
+                        @foreach ($project->blocks as $block)
+                            <li class="nav-item{{ $loop->first ? ' active' : '' }}" role="presentation">
+                                <a class="nav-link{{ $loop->first ? ' active' : '' }}" id="{{ $block['id'] }}-tab"
+                                    data-bs-toggle="tab" href="#tab-{{ $block['id'] }}" role="tab"
+                                    aria-controls="tab-{{ $block['id'] }}" aria-selected="true">
+                                    {{ $block['block_name'] }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
                     @foreach ($project->blocks as $key => $block)
                     <div class="tab-pane fade{{ $loop->first ? ' active show' : '' }}" id="tab-{{ $block['id'] }}"
                         role="tabpanel" aria-labelledby="{{ $block['id'] }}-tab">
@@ -177,7 +177,7 @@
                                                         <div class="input d-none d-flex" style="align-items: center">
                                                             <select name="off_sale[]" id="">
                                                                 <option value="[]" >Satışa Açık</option>
-                                                                <option value="['Satışa Kapalı']" selected>Satışa Kapalı</option>
+                                                                <option value='["Satışa Kapalı"]' selected>Satışa Kapalı</option>
                                                             </select>
                                                             <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" input-type="select" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
                                                             <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
@@ -201,7 +201,7 @@
                                                             <div class="input d-none d-flex" style="align-items: center">
                                                                 <select name="off_sale[]" id="">
                                                                     <option value="[]" selected>Satışa Açık</option>
-                                                                    <option value="['Satışa Kapalı']" >Satışa Kapalı</option>
+                                                                    <option value='["Satışa Kapalı"]' >Satışa Kapalı</option>
                                                                 </select>
                                                                 <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" input-type="select" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
                                                                 <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
@@ -354,7 +354,7 @@
                                                 <div class="input d-none d-flex" style="align-items: center">
                                                     <select name="off_sale[]" id="">
                                                         <option value="[]" >Satışa Açık</option>
-                                                        <option value="['Satışa Kapalı']" selected>Satışa Kapalı</option>
+                                                        <option value='["Satışa Kapalı"]' selected>Satışa Kapalı</option>
                                                     </select>
                                                     <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" input-type="select" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
                                                     <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
@@ -378,7 +378,7 @@
                                                     <div class="input d-none d-flex" style="align-items: center">
                                                         <select name="off_sale[]" id="">
                                                             <option value="[]" selected>Satışa Açık</option>
-                                                            <option value="['Satışa Kapalı']" >Satışa Kapalı</option>
+                                                            <option value='["Satışa Kapalı"]' >Satışa Kapalı</option>
                                                         </select>
                                                         <span class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex" input-type="select" room-order="{{$i + 1}}"><i class="fa fa-check"></i></span>
                                                         <span class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
@@ -529,7 +529,7 @@
         $('.change-image').change(function(){
             var input = this;
             var newVal = this.files[0];
-            var roomOrder = "1";
+            var roomOrder = parseInt($(this).closest('tr').index()) + 1;
             var formdata = new FormData();  
             formdata.append('file',newVal);
             formdata.append('roomOrder',roomOrder);

@@ -12,7 +12,6 @@
         }
     @endphp
     <div class="content">
-        
         <div class="mt-4">
             <div class="second-area">
                 <div class="row">
@@ -129,7 +128,6 @@
             $('#rulesOpenModal').addClass('d-block')
         })
         var houseCount = {{ isset($project->room_count) ? $project->room_count : 0 }};
-        console.log(houseCount);
         if (!isNaN(houseCount) && houseCount > 0) {
             var houseType = {{ isset($project->housing_type_id) ? $project->housing_type_id : 0 }};
             if (houseType != 0) {
@@ -287,6 +285,11 @@
                                 }
                             }
                         }
+                        
+                        @if(in_array(3,array_merge(array_keys($project->housingTypes->keyBy('housing_type_id')->toArray()))))
+                            $('.continue-disabled').closest('.form-group').remove();
+                        @endif
+                        
                         for (let i = {{$roomOrder}}; i < {{$roomOrder + 1}}; i++) {
                             for (var j = 0; j < formInputs.length; j++) {
                                 if (formInputs[j].type == "number" || formInputs[j].type == "text") {
@@ -323,31 +326,28 @@
                                     checkboxName = checkboxName.split('[]');
                                     checkboxName = checkboxName[0];
                                     $($('input[name="' + inputNamex[0] + [i] + '[][]"]')).map((key, item) => {
-                                        console.log(getOldData(i, inputName), inputName)
                                         if (getOldData(i, inputName)) {
                                             JSON.parse(getOldData(i, inputName)).map((checkbox) => {
-                                                console.log(checkbox);
-                                                if ($(item).attr("value").trim() ==
-                                                    "taksitli") {
-                                                    if ($(item).attr("value") != undefined &&
-                                                        checkbox == $(item).attr("value")
-                                                        .trim()) {
-                                                        $(item).closest('.tab-pane').find(
-                                                            'second-payment-plan').closest(
-                                                            'div').removeClass('d-none')
-                                                        $(item).attr('checked', 'checked')
+                                                if($(item).attr("value")){
+                                                    if ($(item).attr("value").trim() == "taksitli") {
+                                                        if ($(item).attr("value") != undefined && checkbox == $(item).attr("value").trim()) {
+                                                            $(item).closest('.tab-pane').find(
+                                                                'second-payment-plan').closest(
+                                                                'div').removeClass('d-none')
+                                                            $(item).attr('checked', 'checked')
+                                                        } else {
+                                                            $(item).closest('.tab-pane').find(
+                                                                'second-payment-plan').closest(
+                                                                'div').addClass('d-none')
+                                                        }
                                                     } else {
-                                                        $(item).closest('.tab-pane').find(
-                                                            'second-payment-plan').closest(
-                                                            'div').addClass('d-none')
-                                                    }
-                                                } else {
-                                                    if ($(item).attr("value") != undefined &&
-                                                        checkbox == $(item).attr("value")
-                                                        .trim()) {
-                                                        $(item).attr('checked', 'checked')
+                                                        if ($(item).attr("value") != undefined &&
+                                                            checkbox == $(item).attr("value").trim()) {
+                                                            $(item).attr('checked', 'checked')
+                                                        }
                                                     }
                                                 }
+                                                
                                             })
                                         }
                                     });
