@@ -89,10 +89,11 @@
                                 @csrf
                                 <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
                                     <input type="text" name="searchTerm" id="ss-box" placeholder="Ara ..">
-                                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon"></button>
+                                    <button type="submit" class="fa fa-search btn btn-primary"
+                                        id="search-icon"></button>
                                 </div>
                             </form>
-                            
+
                             <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
                                 style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px;">
                             </div>
@@ -105,25 +106,27 @@
                                         $notifications = App\Models\DocumentNotification::with('user')
                                             ->orderBy('created_at', 'desc')
                                             ->where('owner_id', Auth::user()->id)
-                                            ->where('readed', '0')
                                             ->limit(10)
                                             ->get();
                                     @endphp
 
 
                                     @if (auth()->user()->type == 1)
-                                    <a href="{{ route('client.index') }}"
-                                    style="padding-right: 15px;">
-                                        @include('client.layouts.partials.user_icon', ['text' => 'Hesabım'])
-                                    </a>
-                                        
+                                        <a href="{{ route('client.index') }}" style="padding-right: 15px;">
+                                            @include('client.layouts.partials.user_icon', [
+                                                'text' => 'Hesabım',
+                                            ])
+                                        </a>
+
                                         <a href="{{ route('cart') }}"
-                                        style="    border-left: 1px solid #666;
+                                            style="    border-left: 1px solid #666;
                                         padding-left: 15px;
                                         border-right: 1px solid #666;
                                         padding-right: 15px;
                                     }">
-                                            @include('client.layouts.partials.cart_icon', ['text' => 'Sepetim'])
+                                            @include('client.layouts.partials.cart_icon', [
+                                                'text' => 'Sepetim',
+                                            ])
                                         </a>
                                     @elseif (auth()->user()->type != 1 && auth()->user()->type != 3)
                                         @include('client.layouts.partials.dropdown_user_icon', [
@@ -151,113 +154,97 @@
                                                 ],
                                             ],
                                         ])
-                                         <a href="{{ route('cart') }}"
-                                         style="border-left: 1px solid #666;
+                                        <a href="{{ route('cart') }}"
+                                            style="border-left: 1px solid #666;
                                          padding-left: 15px;
                                          border-right: 1px solid #666;
                                          padding-right: 15px;">
-                                            @include('client.layouts.partials.cart_icon', ['text' => 'Sepetim'])
+                                            @include('client.layouts.partials.cart_icon', [
+                                                'text' => 'Sepetim',
+                                            ])
                                         </a>
                                     @elseif (auth()->user()->type == 3)
-                                        <a href="{{url('admin/')}}"
-                                        style="
+                                        <a href="{{ url('admin/') }}"
+                                            style="
                                         border-right: 1px solid #666;
                                         padding-right: 15px;">
-                                            @include('client.layouts.partials.user_icon', ['text' => 'Admin'])
+                                            @include('client.layouts.partials.user_icon', [
+                                                'text' => 'Admin',
+                                            ])
                                         </a>
-                                       
                                     @endif
-                                    @else
+                                @else
                                     <a href="{{ route('client.login') }}" class="userIcon">
-                                        @include('client.layouts.partials.user_icon', ['text' => 'Giriş Yap'])
+                                        @include('client.layouts.partials.user_icon', [
+                                            'text' => 'Giriş Yap',
+                                        ])
                                     </a>
                                     <a href="{{ route('cart') }}"
-                                    style="border-left: 1px solid #666;
+                                        style="border-left: 1px solid #666;
                                     padding-left: 15px;">
-                                        @include('client.layouts.partials.cart_icon', ['text' => 'Sepetim'])
+                                        @include('client.layouts.partials.cart_icon', [
+                                            'text' => 'Sepetim',
+                                        ])
                                     </a>
                                 @endauth
-                                
-                           
+
+
                                 @if (Auth::check())
-                                <div class="notification">
-                                    <div class="notBtn" >
-                                        @php
-                                            $unreadNotifications = $notifications->where('readed', 0);
-                                            $unreadCount = $unreadNotifications->count();
-                                        @endphp
+                                    <div class="notification">
+                                        <div class="notBtn">
+                                            @php
+                                                $unreadNotifications = $notifications->where('readed', 0);
+                                                $unreadCount = $unreadNotifications->count();
+                                            @endphp
 
-                                        @if ($unreadCount)
-                                            <div class="number">{{ $unreadCount }}</div>
-                                        @endif
+                                            @if ($unreadCount)
+                                                <div class="number">{{ $unreadCount }}</div>
+                                            @endif
 
-                                        <i class="fas fa-bell"></i>
-                                        <div class="box">
-                                            <div class="display">
-                                                <div class="card position-relative border-0">
-                                                    <div class="card-header p-2">
-                                                        <div class="d-flex justify-content-between">
-                                                            <h5 class="text-black mb-0" style="font-size:12px">
-                                                                Bildirimler</h5>
+
+                                            <i class="fas fa-bell"></i>
+                                            <div class="box">
+                                                <div class="display">
+                                                    <div class="card position-relative border-0">
+                                                        <div class="card-header p-2">
+                                                            <div class="d-flex justify-content-between">
+                                                                <h5 class="text-black mb-0" style="font-size:12px">
+                                                                    Bildirimler</h5>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="card-body p-0">
-                                                        <div class="scrollbar-overlay" style="height: 27rem;">
-                                                            <div class="border-300">
-                                                                @if (count($notifications) == 0)
-                                                                    <span class="p-3 text-center">Bildirim Yok</span>
-                                                                @else
-                                                                    @foreach ($notifications as $notification)
-                                                                        <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{ $notification->readed == 0 ? 'unread' : 'read' }} border-bottom"
-                                                                            data-id="{{ $notification->id }}"
-                                                                            data-link="{{ $notification->link }}">
-                                                                            <div
-                                                                                class="d-flex align-items-center justify-content-between position-relative">
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="avatar avatar-m status-online me-3">
-                                                                                        <svg viewBox="0 0 24 24"
-                                                                                            width="24"
-                                                                                            height="24"
-                                                                                            stroke="currentColor"
-                                                                                            stroke-width="2"
-                                                                                            fill="none"
-                                                                                            stroke-linecap="round"
-                                                                                            stroke-linejoin="round"
-                                                                                            class="css-i6dzq1">
-                                                                                            <circle cx="12"
-                                                                                                cy="12"
-                                                                                                r="10"></circle>
-                                                                                            <line x1="12"
-                                                                                                y1="16"
-                                                                                                x2="12"
-                                                                                                y2="12">
-                                                                                            </line>
-                                                                                            <line x1="12"
-                                                                                                y1="8"
-                                                                                                x2="12.01"
-                                                                                                y2="8">
-                                                                                            </line>
-                                                                                        </svg>
-                                                                                    </div>
-                                                                                    <div class="flex-1 me-sm-3">
-                                                                                        <p
-                                                                                            class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
-                                                                                            {!! $notification->text !!}
-                                                                                        </p>
-                                                                                        @php
-                                                                                            $notificationCreatedAt = $notification->created_at;
-                                                                                            date_default_timezone_set('Europe/Istanbul');
-                                                                                            $notificationCreatedAtDate = date('d.m.Y', strtotime($notificationCreatedAt));
-                                                                                            $notificationCreatedAtTime = date('H:i', strtotime($notificationCreatedAt));
-                                                                                            $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedAt));
-                                                                                        @endphp
+                                                        <div class="card-body p-0">
+                                                            <div class="scrollbar-overlay" style="height: 27rem;">
+                                                                <div class="border-300">
+                                                                    @if (count($notifications) == 0)
+                                                                        <span class="p-3 text-center">Bildirim
+                                                                            Yok</span>
+                                                                    @else
+                                                                        @foreach ($notifications as $notification)
+                                                                            <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{ $notification->readed == 0 ? 'unread' : 'read' }} border-bottom"
+                                                                                data-id="{{ $notification->id }}"
+                                                                                data-link="{{ $notification->link }}">
+                                                                                <div
+                                                                                    class="d-flex align-items-center justify-content-between position-relative">
+                                                                                    <div class="d-flex">
+                                                                                        <div class="flex-1 me-sm-3">
+                                                                                            <p
+                                                                                                class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
+                                                                                                {!! $notification->text !!}
+                                                                                            </p>
+                                                                                            @php
+                                                                                                $notificationCreatedAt = $notification->created_at;
+                                                                                                date_default_timezone_set('Europe/Istanbul');
+                                                                                                $notificationCreatedAtDate = date('d.m.Y', strtotime($notificationCreatedAt));
+                                                                                                $notificationCreatedAtTime = date('H:i', strtotime($notificationCreatedAt));
+                                                                                                $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedAt));
+                                                                                            @endphp
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
-                                                                    @endforeach
-                                                                @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -265,49 +252,48 @@
                                             </div>
                                         </div>
                                     </div>
-                            </div>
-                                @php
-                                    $userType = Auth::user()->type;
-                                @endphp
-                            
-                                @if ($userType == 2)
-                                    <a href="{{ url('institutional/ilan-tipi-sec') }}">
-                                        @elseif ($userType == 3)
-                                    <a href="{{ url('admin/') }}">
-@else
-<a href="{{ url('sat-kirala/') }}">
-                                @endif
-                            
-                                <button type="button" class="buyUserRequest ml-3">
-                                    <span class="buyUserRequest__text">
-                                        @if ($userType == 2)
-                                            İlan Ekle
-                                        @elseif ($userType == 1)
-                                            Sat Kirala
-                                            @else
-                                            Yönetim
-                                        @endif
-                                    </span>
-                                    <span class="buyUserRequest__icon">
-                                        <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                    </span>
-                                </button>
-                            
-                                @if ($userType == 2)
+                                    @php
+                                        $userType = Auth::user()->type;
+                                    @endphp
+
+                                    @php
+                                        $link = '';
+                                        $text = '';
+
+                                        switch ($userType) {
+                                            case 2:
+                                                $link = url('institutional/choose-advertise');
+                                                $text = 'İlan Ekle';
+                                                break;
+                                            case 3:
+                                                $link = url('admin/');
+                                                $text = 'Yönetim';
+                                                break;
+                                            default:
+                                                $link = url('sat-kirala/');
+                                                $text = 'Sat Kirala';
+                                        }
+                                    @endphp
+
+                                    <a href="{{ $link }}">
+                                        <button type="button" class="buyUserRequest ml-3">
+                                            <span class="buyUserRequest__text">{{ $text }}</span>
+                                            <span class="buyUserRequest__icon">
+                                                <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                            </span>
+                                        </button>
+                                    </a>
+                                @else
+                                    <a href="{{ route('satKirala') }}">
+                                        <button type="button" class="buyUserRequest ml-3">
+                                            <span class="buyUserRequest__text"> Sat Kirala</span>
+                                            <span class="buyUserRequest__icon">
+                                                <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                            </span>
+                                        </button>
                                     </a>
                                 @endif
-                            
-                            @else
-                                <a href="{{ route('satKirala') }}">
-                                    <button type="button" class="buyUserRequest ml-3">
-                                        <span class="buyUserRequest__text"> Sat Kirala</span>
-                                        <span class="buyUserRequest__icon">
-                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                        </span>
-                                    </button>
-                                </a>
-                            @endif
-                            
+
 
 
 
@@ -330,13 +316,15 @@
                                             <span class="caret"></span>
                                         @endif
                                     </a>
-                
+
                                     @if (!empty($menuItem['children']))
-                                        @include('client.layouts.partials.menu-item', ['items' => $menuItem['children']])
+                                        @include('client.layouts.partials.menu-item', [
+                                            'items' => $menuItem['children'],
+                                        ])
                                     @endif
                                 </li>
                             @endforeach
-                
+
                             @foreach ($headerLinks as $link)
                                 <li>
                                     <a href="{{ url('sayfa/' . $link->slug) }}">
@@ -347,20 +335,20 @@
                         </ul>
                     </nav>
                 </div>
-                
+
                 <div class="p-0 position-relative d-lg-none">
                     <div class="input-group search">
                         <input type="text" id="ss-box-mobile" placeholder="Ara ..">
                         <i class="fa fa-search"></i>
                     </div>
-                    
+
                 </div>
             </div>
 
 
         </header>
         <div class="clearfix"></div>
-        
+
         <div id="preloader">
             <div id="status">
                 <div class="status-mes"></div>

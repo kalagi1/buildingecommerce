@@ -51,7 +51,7 @@ class HomeController extends Controller {
         $fatura = new Invoice();
         $fatura->order_id = $cartOrder->id;
         $fatura->total_amount = $cart->item->price;
-        $fatura->invoice_number = 'INV-' . time() . $cartOrder->id;
+        $fatura->invoice_number = 'FTR-' . time() . $cartOrder->id;
         // Fatura numarası oluşturabilirsiniz.
         $fatura->save();
 

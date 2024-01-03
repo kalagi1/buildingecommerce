@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\Chat;
 use App\Models\City;
+use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
@@ -161,6 +162,7 @@ class RegisterController extends Controller
         {
             Mail::to($request->input("email"))->send(new CustomMail($emailTemplate->subject, $content));
             session()->flash('success', 'Hesabınız oluşturuldu. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
+
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['status' => 'Onay e-postası gönderilemedi.']);
         }

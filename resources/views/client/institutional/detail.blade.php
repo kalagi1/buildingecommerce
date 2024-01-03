@@ -113,7 +113,7 @@
                 <div class="seller-info-container">
 
                     <div class="seller-info-container__wrapper"><img
-                            src="https://cdn.dsmcdn.com/seller-store/resources/activation-date-web-icon.svg" alt="icon"
+                            src="{{url('images/artboard.png')}}" alt="icon"
                             class="seller-info-container__wrapper__img">
                         <div class="seller-info-container__wrapper__text-container"><span
                                 class="seller-info-container__wrapper__text-container__title">Katılma Tarihi</span><span
@@ -169,7 +169,7 @@
                                                         style="width: 10.89px; height: 10.89px; transition: transform 0.2s ease-in-out 0s;">
                                                         <path class="star"
                                                             d="M13.668 5.014a.41.41 0 0 1 .21.695l-3.15 3.235.756 4.53a.4.4 0 0 1-.376.5.382.382 0 0 1-.179-.046l-3.91-2.14-3.9 2.164a.372.372 0 0 1-.408-.03.41.41 0 0 1-.155-.397l.733-4.557-3.17-3.217a.415.415 0 0 1-.1-.415.396.396 0 0 1 .313-.277l4.368-.68L6.64.229A.386.386 0 0 1 6.986 0c.146 0 .281.087.348.226L9.3 4.364l4.368.65z"
-                                                            style="fill: #e54242; transition: fill 0.2s ease-in-out 0s;">
+                                                            style="fill: rgb(255, 192, 0); transition: fill 0.2s ease-in-out 0s;">
                                                         </path>
                                                     </svg>
                                                 </div>
