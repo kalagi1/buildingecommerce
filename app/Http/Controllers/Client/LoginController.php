@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\City;
+use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\SubscriptionPlan;
 use App\Models\Town;
@@ -48,6 +49,50 @@ class LoginController extends Controller {
             } elseif ( $user->status == 1 ) {
                 if ( Auth::attempt( $credentials ) ) {
                     $user = Auth::user();
+                    $updateUser = User::where("id",Auth::user()->id)->first();
+
+                    if ($user->type == 1 && !$user->last_login) {
+                        // Bireysel kullanıcı için ilk giriş hoş geldiniz mesajı
+                        DocumentNotification::create([
+                            'user_id' => $user->id,
+                            'text' => 'Sayın ' . $user->name . ', Emlak Sepette ailesine hoş geldiniz! İhtiyaçlarınıza uygun emlakları keşfetmek veya güvenli bir şekilde tatil rezervasyonu yapmak için sitemizi kullanabilirsiniz. İyi günler dileriz.',
+                            'item_id' => $user->id,
+                            'link' => route('index'),
+                            'owner_id' => $user->id,
+                            'is_visible' => true,
+                        ]);
+                    
+                        // last_login alanını güncelle
+                        $updateUser->update(['last_login' => now()]);
+                    } elseif ($user->type == 2 && !$user->last_login) {
+                        // Kurumsal kullanıcı için ilk giriş hoş geldiniz mesajı
+                        DocumentNotification::create([
+                            'user_id' => $user->id,
+                            'text' => 'Sayın ' . $user->name . ', Emlak Sepette ailesine hoş geldiniz! Kurumsal hesabınızla projeler veya emlaklarınızı satışa sunabilirsiniz. İhtiyaçlarınıza uygun işlemleri gerçekleştirmek için sitemizi kullanabilirsiniz. İyi çalışmalar dileriz.',
+                            'item_id' => $user->id,
+                            'link' => route('index'),
+                            'owner_id' => $user->id,
+                            'is_visible' => true,
+                        ]);
+                    
+                        // last_login alanını güncelle
+                        $updateUser->update(['last_login' => now()]);
+                    } elseif ($user->type != 3 && $user->type != 1 && $user->type != 2 && !$user->last_login) {
+                        // Kurumsal alt kullanıcı için hoş geldiniz mesajı
+                        DocumentNotification::create([
+                            'user_id' => $user->id,
+                            'text' => 'Sayın ' . $user->name . ', Emlak Sepette ailesine hoş geldiniz! Kurumsal hesabınızın verdiği yetkilere göre işlemleri gerçekleştirebilirsiniz. İhtiyaçlarınıza uygun işlemleri gerçekleştirmek için sitemizi kullanabilirsiniz. İyi çalışmalar dileriz.',
+                            'item_id' => $user->id,
+                            'link' => route('index'),
+                            'owner_id' => $user->id,
+                            'is_visible' => true,
+                        ]);
+                    
+                        // last_login alanını güncelle
+                        $updateUser->update(['last_login' => now()]);
+                    }
+                    
+
                     if ( $user->type == 3 ) {
                         return redirect()->intended( '/admin' );
                     } elseif ( $user->type != 1 && $user->type != '3' ) {
@@ -59,7 +104,7 @@ class LoginController extends Controller {
                         }
                         return redirect()->intended( '/hesabim' );
                     }
-                }else{
+                } else {
                     session()->flash( 'warning', 'Giriş Başarısız. Lütfen bilgilerinizi kontrol ediniz.' );
 
                     return redirect()->route( 'client.login' );
@@ -117,9 +162,8 @@ class LoginController extends Controller {
 
         return redirect( '/giris-yap' );
     }
-    
 
-    public function googleLogin(){
+    public function googleLogin() {
         $client = new Client();
 
         // Google OAuth 2.0 ayarları
@@ -146,34 +190,34 @@ class LoginController extends Controller {
     public function redirectGoogle(){
         try {
             // Eğer Google tarafından yönlendirildikten sonra URL'de 'code' parametresi varsa
-            if (isset($_GET['code'])) {
-                $client = new Client();
-        
-                // Google OAuth 2.0 ayarları
-                $googleClientId = '100415302281-rvn82j7fm253npg6invrb35v8pbg9dl7.apps.googleusercontent.com';
-                $googleClientSecret = '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';
-                $redirectUri = 'http://127.0.0.1:8000/login-with-google';
-                $tokenUrl = 'https://accounts.google.com/o/oauth2/token';
-        
-                // 'code' parametresini al
-                $code = $_GET['code'];
-                // Erişim belirteci için istek gönder
-                $response = $client->post($tokenUrl, [
-                    'form_params' => [
-                        'code' => $code,
-                        'client_id' => $googleClientId,
-                        'client_secret' => $googleClientSecret,
-                        'redirect_uri' => $redirectUri,
-                        'grant_type' => 'authorization_code',
-                    ],
-                ]);
-                
-                $tokenData = json_decode($response->getBody(), true);
-        
-                // Erişim belirteci ve refresh belirtecini al
-                $accessToken = $tokenData['access_token'];
-        
-                // Kullanıcı bilgilerini almak için Google API'sine istek yap
+        if ( isset( $_GET[ 'code' ] ) ) {
+            $client = new Client();
+
+            // Google OAuth 2.0 ayarları
+            $googleClientId = '100415302281-rvn82j7fm253npg6invrb35v8pbg9dl7.apps.googleusercontent.com';
+            $googleClientSecret = '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';
+            $redirectUri = 'http://127.0.0.1:8000/login-with-google';
+            $tokenUrl = 'https://accounts.google.com/o/oauth2/token';
+
+            // 'code' parametresini al
+            $code = $_GET[ 'code' ];
+            // Erişim belirteci için istek gönder
+            $response = $client->post( $tokenUrl, [
+                'form_params' => [
+                    'code' => $code,
+                    'client_id' => $googleClientId,
+                    'client_secret' => $googleClientSecret,
+                    'redirect_uri' => $redirectUri,
+                    'grant_type' => 'authorization_code',
+                ],
+            ] );
+
+            $tokenData = json_decode( $response->getBody(), true );
+
+            // Erişim belirteci ve refresh belirtecini al
+            $accessToken = $tokenData[ 'access_token' ];
+
+            // Kullanıcı bilgilerini almak için Google API'sine istek yap
                 $userInfoUrl = 'https://www.googleapis.com/oauth2/v1/userinfo';
                 $userInfoResponse = $client->get($userInfoUrl, [
                     'headers' => [
@@ -288,8 +332,8 @@ class LoginController extends Controller {
             'scope' => 'email', // İzin verilecek alanlar
         ];
 
-        $facebookLoginUrl = $baseUri . '?' . http_build_query($params);
+        $facebookLoginUrl = $baseUri . '?' . http_build_query( $params );
 
-        return redirect($facebookLoginUrl);
+            return redirect( $facebookLoginUrl );
+        }
     }
-}

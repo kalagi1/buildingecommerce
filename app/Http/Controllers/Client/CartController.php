@@ -147,7 +147,9 @@ class CartController extends Controller
             $BuyCartContent = str_replace("{{" . $key . "}}", $value, $BuyCartContent);
         }
 
-        // Mail::to($user->email)->send(new CustomMail($BuyCart->subject, $BuyCartContent));
+        Mail::to( $user->email )->send( new CustomMail( $BuyCart->subject, $BuyCartContent ) );
+
+
         $cartOrder = CartOrder::where("id", $order->id)->with("bank")->first();
 
         $NewOrder = EmailTemplate::where('slug', "new-order")->first();
@@ -201,7 +203,9 @@ class CartController extends Controller
                 $NewOrderContent = str_replace("{{" . $key . "}}", $value, $NewOrderContent);
             }
 
-            // Mail::to($admin->email)->send(new CustomMail($NewOrder->subject, $NewOrderContent));
+            Mail::to( $admin->email )->send( new CustomMail( $NewOrder->subject, $NewOrderContent ) );
+
+
         }
 
         session()->forget('cart');

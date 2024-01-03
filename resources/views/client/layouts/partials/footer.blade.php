@@ -144,7 +144,7 @@
         text-align: center;
         position: absolute;
         top: 0;
-        left: 60px;
+        left: 27px;
         padding: 0;
         border-style: solid;
         border-width: 2px;
@@ -164,33 +164,34 @@
         padding-bottom: 10px;
         color: black;
         margin-left: 20px;
+        margin-right: 20px;
+
     }
 
     .fs--1 {
         text-align: left;
-        font-size: 11px;
+        font-size: 11px !important;
         line-height: 11px;
         margin-bottom: 0 !important;
     }
 
     .box {
-        width: 250px;
-        z-index: 9999;
-        height: 200px;
-        border-radius: 10px;
-        transition: 0.5s;
-        position: absolute;
-        overflow-y: scroll;
-        overflow-x: hidden;
-
-        padding: 0px;
-        left: -42px;
-        margin-top: 5px;
-        background-color: #F4F4F4;
-        -webkit-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.2);
-        -moz-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
-        box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
-        cursor: context-menu;
+        width: 300px;
+    z-index: 9999;
+    height: 200px;
+    border-radius: 10px;
+    transition: 0.5s;
+    position: absolute;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0px;
+    left: -95px;
+    margin-top: 5px;
+    background-color: #F4F4F4;
+    -webkit-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
+    cursor: context-menu;
     }
 
     .fas:hover {
