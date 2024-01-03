@@ -106,13 +106,14 @@
                                         @foreach ($housingTypeData as $housingType)
                                             @if ($housingType->type != 'file' && isset($housingType->name))
                                                 @if ($housingType->type == 'checkbox-group')
-                                                    <div class="view-form-json col-md-12 mt-2">
-                                                        <label for=""
-                                                            style="font-weight: bold;">{!! $housingType->label !!}</label>
-                                                            @foreach (json_decode(getData($i + 1, $housingType->name, $housingData)) as $checkboxItem)
-                                                            <p class="mb-1">{{ $checkboxItem == "pesin" ? 'Peşin' : $checkboxItem }}</p>
-                                                        @endforeach
-                                                    </div>
+                                                    @if(getData($i + 1, $housingType->name, $housingData) && is_array(json_decode(getData($i + 1, $housingType->name, $housingData))))
+                                                        <div class="view-form-json col-md-12 mt-2">
+                                                            <label for="" style="font-weight: bold;">{!! $housingType->label !!}</label>
+                                                                @foreach (json_decode(getData($i + 1, $housingType->name, $housingData)) as $checkboxItem)
+                                                                    <p class="mb-1">{{ $checkboxItem == "pesin" ? 'Peşin' : $checkboxItem }}</p>
+                                                                @endforeach
+                                                        </div>
+                                                    @endif
                                                 @else
                                                     @if(getData($i + 1, $housingType->name, $housingData))
                                                     <div class="view-form-json col-md-3 mt-2">
