@@ -24640,6 +24640,10 @@ form label.error {
     color: #fff;
 }
 
+#search-icon {
+    background: #e54242 !important;
+    border: #e54242 !important;
+}
 .google-maps .fa-search {
     margin-right: .5rem;
 }
