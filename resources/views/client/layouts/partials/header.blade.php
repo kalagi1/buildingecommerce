@@ -88,7 +88,7 @@
                             <form action="{{ route('search.results') }}" method="GET" id="search-form">
                                 @csrf
                                 <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
-                                    <input type="text" name="searchTerm" id="ss-box" placeholder="Ara ..">
+                                    <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
                                     <button type="submit" class="fa fa-search btn btn-primary"
                                         id="search-icon"></button>
                                 </div>
@@ -226,14 +226,18 @@
                                                                                 <div
                                                                                     class="d-flex align-items-center justify-content-between position-relative">
                                                                                     <div class="d-flex">
-                                                                                        <div
-                                                                                            class="avatar avatar-m status-online me-3" style="width:45px !important">
+                                                                                        <div class="avatar avatar-m status-online me-3"
+                                                                                            style="width:45px !important">
                                                                                             <img class="rounded-circle avatar-placeholder"
-                                                                                            style="max-width:40px !important"
+                                                                                                style="max-width:40px !important"
                                                                                                 src="https://prium.github.io/phoenix/v1.14.0/assets/img/team/40x40/avatar.webp"
-                                                                                                alt=""></div>
+                                                                                                alt="">
+                                                                                        </div>
                                                                                         <div class="flex-1 me-sm-3">
-                                                                                            <h4 class="fs-9 text-body-emphasis" style="font-size: 11px;text-align:left;margin-bottom:0 !important">{{Auth::user()->name}}</h4>
+                                                                                            <h4 class="fs-9 text-body-emphasis"
+                                                                                                style="font-size: 11px;text-align:left;margin-bottom:0 !important">
+                                                                                                {{ Auth::user()->name }}
+                                                                                            </h4>
                                                                                             <p
                                                                                                 class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
                                                                                                 {!! $notification->text !!}
@@ -344,9 +348,29 @@
                 </div>
 
                 <div class="p-0 position-relative d-lg-none">
-                    <div class="input-group search">
-                        <input type="text" id="ss-box-mobile" placeholder="Ara ..">
-                        <i class="fa fa-search"></i>
+                    <form action="{{ route('search.results') }}" method="GET" id="search-form">
+                        @csrf
+                        <div class="input-group search ml-3 d-xl-flex d-lg-flex"
+                            style="
+                            width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin-left: 0 !important;">
+                            <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
+                            <button type="submit" class="fa fa-search btn btn-primary" id="search-icon"></button>
+                        </div>
+                    </form>
+
+                    <div class="header-search-box flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
+                        style="    top: 100%;
+                        z-index: 100;
+                        width: 100%;
+                        gap: 12px;
+                        max-height: 296px;
+                        overflow-y: scroll;
+                        margin-left: 0 !important;">
                     </div>
 
                 </div>

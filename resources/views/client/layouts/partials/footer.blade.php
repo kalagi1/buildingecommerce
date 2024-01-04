@@ -1221,9 +1221,7 @@
 </script>
 
 <script>
-    'use strict';
-    $(function() {
-        const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+   const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {
@@ -1339,7 +1337,7 @@
             }, 1000); // 1 saniye gecikmeli AJAX isteği başlat
         }
 
-        $('#ss-box').on('input', function() {
+        $('.ss-box').on('input', function() {
             let term = $(this).val();
 
             if (term != '') {
@@ -1349,8 +1347,6 @@
                 $('.header-search-box').removeClass('d-flex').addClass('d-none');
             }
         });
-    });
-
     $(document).click(function(event) {
 
         if (
@@ -1366,7 +1362,7 @@
 <script>
     'use strict';
     $(function() {
-        const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {
