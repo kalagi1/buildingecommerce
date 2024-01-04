@@ -133,7 +133,7 @@
                                             'mainLink' => 'Mağazam',
                                             'links' => [
                                                 [
-                                                    'url' => route('institutional.index'),
+                                                    'url' => route('institutional.projects.index'),
                                                     'icon' => 'fa-user',
                                                     'text' => 'Hesabım',
                                                 ],
@@ -143,7 +143,7 @@
                                                     'text' => 'İlanlarım',
                                                 ],
                                                 [
-                                                    'url' => url('institutional/create_project_v2'),
+                                                    'url' => url('institutional/ilan-tipi-sec'),
                                                     'icon' => 'fa-plus',
                                                     'text' => 'İlan Ekle',
                                                 ],
@@ -269,7 +269,7 @@
 
                                         switch ($userType) {
                                             case 2:
-                                                $link = url('institutional/choose-advertise');
+                                                $link = url('institutional/ilan-tipi-sec');
                                                 $text = 'İlan Ekle';
                                                 break;
                                             case 3:

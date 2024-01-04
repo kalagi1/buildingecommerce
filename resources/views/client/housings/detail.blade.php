@@ -1530,7 +1530,7 @@ function updateQuantity(change) {
 
         .trStyle tr td {
             width: 100%;
-            font-size: 13px;
+            font-size: 11px;
         }
 
         @media (max-width:768px) {

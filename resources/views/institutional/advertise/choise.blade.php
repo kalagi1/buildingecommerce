@@ -3,7 +3,7 @@
 @section('content')
     <div class="content">
         <div class="row justify-content-center">
-            <div class="col-md-4">
+            <div class="col-md-4 col-6">
                 <div class="choise-adv">
                     <a class="choise-adv-inner" href="{{ route('institutional.project.create.v2') }}">
                         <div class="card_image"> 
@@ -16,8 +16,8 @@
                     </a>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="choise-adv" style="    border-left: 1px solid #c1bebe;">
+            <div class="col-md-4 col-6">
+                <div class="choise-adv">
                     <a class="choise-adv-inner" href="{{ route('institutional.housing.create.v2') }}">
                         <div class="card_image"> <img
                                 src="{{URL::to('/')}}/emlak.png" />

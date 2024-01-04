@@ -667,9 +667,6 @@
                             </ul>
                             <span style="font-size: 11px !important">{!! $housing->city_title !!}
                                 {{ '/' }} {!! $housing->county_title !!}
-                                {!! isset($housing->neighborhood_title) && $housing->neighborhood_title !== ''
-                                ?  '/ ' .$housing->neighborhood_title
-                                : null !!}
                             </span>
                         </div>
 
@@ -743,9 +740,6 @@
                                                                         <span> {{ $housing->city_title }}
                                                                             {{ '/' }}
                                                                             {{ $housing->county_title }}
-                                                                            {!! isset($housing->neighborhood_title) && $housing->neighborhood_title !== ''
-                                                                            ?  '/ ' .$housing->neighborhood_title
-                                                                            : null !!}
                                                                         </span>
 
                                                                     </p>
@@ -970,9 +964,6 @@
                                                                     <span> {{ $housing->city_title }}
                                                                         {{ '/' }}
                                                                         {{ $housing->county_title }}
-                                                                        {!! isset($housing->neighborhood_title) && $housing->neighborhood_title !== ''
-                                                                        ?  '/ ' .$housing->neighborhood_title
-                                                                        : null !!}
                                                                     </span>
 
                                                                 </p>
