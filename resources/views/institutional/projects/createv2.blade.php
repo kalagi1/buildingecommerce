@@ -478,7 +478,8 @@ d-none @endif">Daireleri
                                                         isset($tempData->featured_data_day) &&
                                                         $tempData->featured_data_day == $price->day) selected @endif
                                                     value="{{ $price->day }}">{{ $price->day / 7 }} Hafta
-                                                    ({{ $price->price }} TL)</option>
+                                                    ({{ $price->price }} TL)
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -504,7 +505,8 @@ d-none @endif">Daireleri
                                                         isset($tempData->top_row_data_day) &&
                                                         $tempData->top_row_data_day == $price->day) selected @endif
                                                     value="{{ $price->day }}">{{ $price->day / 7 }} Hafta
-                                                    ({{ $price->price }} TL)</option>
+                                                    ({{ $price->price }} TL)
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -1157,7 +1159,7 @@ d-none @endif">Daireleri
                         if (clickIndex > currentIndex) {
                             var nextHousing = true;
                             $('.tab-pane.active input[required="required"]').map((key,
-                            item) => {
+                                item) => {
                                 if (!$(item).val() && $(item).attr('type') != "file") {
                                     nextHousing = false;
                                     $(item).addClass("error-border")
@@ -1165,7 +1167,7 @@ d-none @endif">Daireleri
                             })
 
                             $('.tab-pane.active select[required="required"]').map((key,
-                            item) => {
+                                item) => {
                                 if (!$(item).val() || $(item).val() == "Seçiniz") {
                                     nextHousing = false;
                                     $(item).addClass("error-border")
@@ -1211,7 +1213,7 @@ d-none @endif">Daireleri
                         var transactionIndex = 0;
                         $('.tab-pane').prepend(
                             '<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>'
-                            );
+                        );
                         var order = parseInt($(this).val()) - 1;
                         var currentOrder = parseInt($(this).closest('.item-left-area').index());
                         var arrayValues = {};
@@ -1263,21 +1265,22 @@ d-none @endif">Daireleri
                                                             if ($(item)
                                                                 .attr(
                                                                     'value')
-                                                                ) {
+                                                            ) {
                                                                 if ($(item)
                                                                     .attr(
                                                                         'value'
-                                                                        )
+                                                                    )
                                                                     .trim() ==
                                                                     data[i][
                                                                         key[
-                                                                            0]
+                                                                            0
+                                                                            ]
                                                                     ][k]) {
                                                                     $(item)
                                                                         .prop(
                                                                             'checked',
                                                                             true
-                                                                            );
+                                                                        );
                                                                 }
                                                             }
                                                         }
@@ -1402,7 +1405,7 @@ d-none @endif">Daireleri
                             } else {
                                 $(this).closest('.form-group').append(
                                     '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                    )
+                                )
                                 $('.price-only').val("");
                             }
 
@@ -1428,7 +1431,7 @@ d-none @endif">Daireleri
                             } else {
                                 $(this).closest('.form-group').append(
                                     '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                    )
+                                )
                                 $(this).val("");
                             }
 
@@ -1632,7 +1635,7 @@ d-none @endif">Daireleri
                                                     if (t != renderHtml.length - 1) {
                                                         renderHtmlx += renderHtml[t] + (
                                                             json[lm].name.split('[]')[0]
-                                                            ) + i + '[]-' + i;
+                                                        ) + i + '[]-' + i;
                                                     } else {
                                                         renderHtmlx += renderHtml[t];
                                                     }
@@ -1648,7 +1651,7 @@ d-none @endif">Daireleri
                                                     if (t != renderHtml.length - 1) {
                                                         renderHtmlx += renderHtml[t] + (
                                                             json[lm].name.split('[]')[0]
-                                                            ) + i + '[][]';
+                                                        ) + i + '[][]';
                                                     } else {
                                                         renderHtmlx += renderHtml[t];
                                                     }
@@ -1670,7 +1673,7 @@ d-none @endif">Daireleri
                                     confirmHousings();
 
                                     $('.dropzonearea').closest('.formbuilder-file')
-                                .remove();
+                                        .remove();
 
 
                                     var csrfToken = "{{ csrf_token() }}";
@@ -1706,7 +1709,7 @@ d-none @endif">Daireleri
                                                 .map((key, item) => {
                                                     if (!$(item).val() && $(
                                                             item).attr(
-                                                        'type') != "file") {
+                                                            'type') != "file") {
                                                         nextHousing = false;
                                                         $(item).addClass(
                                                             "error-border")
@@ -1751,10 +1754,10 @@ d-none @endif">Daireleri
                                                 $('html, body').animate({
                                                     scrollTop: $(
                                                             '.tab-pane.active'
-                                                            ).offset().top -
+                                                        ).offset().top -
                                                         parseFloat($(
                                                             '.navbar-top'
-                                                            ).css(
+                                                        ).css(
                                                             'height'))
                                                 }, 100);
                                             }
@@ -1766,7 +1769,7 @@ d-none @endif">Daireleri
                                             $('.item-left-area p').removeClass(
                                                 'active')
                                             $(this).children('p').addClass(
-                                            'active');
+                                                'active');
                                             $('.tab-pane.active').removeClass(
                                                 'active');
                                             $('.tab-pane').eq(clickIndex).addClass(
@@ -1780,7 +1783,7 @@ d-none @endif">Daireleri
                                         var transactionIndex = 0;
                                         $('.tab-pane').prepend(
                                             '<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>'
-                                            );
+                                        );
                                         var order = parseInt($(this).val()) - 1;
                                         var currentOrder = parseInt($(this).closest(
                                             '.item-left-area').index());
@@ -1828,29 +1831,32 @@ d-none @endif">Daireleri
                                                             null) {
                                                             $('select[name="' +
                                                                     key[
-                                                                        0] +
+                                                                        0
+                                                                        ] +
                                                                     '[]"]'
-                                                                    )
+                                                                )
                                                                 .find(
                                                                     'option'
-                                                                    )
+                                                                )
                                                                 .prop(
                                                                     'selected',
                                                                     false
-                                                                    );
+                                                                );
                                                         } else {
                                                             $('select[name="' +
                                                                     key[
-                                                                        0] +
+                                                                        0
+                                                                        ] +
                                                                     '[]"]'
-                                                                    )
+                                                                )
                                                                 .val(
                                                                     data[
                                                                         i
-                                                                        ]
+                                                                    ]
                                                                     [key[
-                                                                        0]]
-                                                                    );
+                                                                        0
+                                                                        ]]
+                                                                );
                                                         }
                                                     } else {
                                                         if (data[i]
@@ -1859,129 +1865,144 @@ d-none @endif">Daireleri
                                                             if (data[i]
                                                                 .type ==
                                                                 "checkbox-group"
-                                                                ) {
+                                                            ) {
                                                                 if (data[
                                                                         i
-                                                                        ]
+                                                                    ]
                                                                     [key[
-                                                                        0]] ==
+                                                                        0
+                                                                        ]] ==
                                                                     null
-                                                                    ) {
+                                                                ) {
                                                                     $('input[name="' +
                                                                             key[
-                                                                                0] +
+                                                                                0
+                                                                                ] +
                                                                             '1[][]"]'
-                                                                            )
+                                                                        )
                                                                         .prop(
                                                                             "checked",
                                                                             false
-                                                                            );
+                                                                        );
                                                                 } else {
                                                                     $('input[name="' +
                                                                             key[
-                                                                                0] +
+                                                                                0
+                                                                                ] +
                                                                             '1[][]"]'
-                                                                            )
+                                                                        )
                                                                         .map(
                                                                             (keyx,
                                                                                 item
-                                                                                ) => {
+                                                                            ) => {
                                                                                 $(item)
                                                                                     .prop(
                                                                                         'checked',
                                                                                         false
-                                                                                        );
+                                                                                    );
                                                                                 for (
                                                                                     var k =
                                                                                         0; k <
                                                                                     data[
                                                                                         i
-                                                                                        ]
+                                                                                    ]
                                                                                     [key[
-                                                                                        0]]
+                                                                                        0
+                                                                                        ]]
                                                                                     .length; k++
-                                                                                    ) {
+                                                                                ) {
                                                                                     if ($(
-                                                                                            item)
+                                                                                            item
+                                                                                            )
                                                                                         .attr(
                                                                                             'value'
-                                                                                            )
-                                                                                        ) {
+                                                                                        )
+                                                                                    ) {
                                                                                         if ($(
-                                                                                                item)
+                                                                                                item
+                                                                                                )
                                                                                             .attr(
                                                                                                 'value'
-                                                                                                )
+                                                                                            )
                                                                                             .trim() ==
                                                                                             data[
                                                                                                 i
-                                                                                                ]
+                                                                                            ]
                                                                                             [key[
-                                                                                                0]]
+                                                                                                0
+                                                                                                ]]
                                                                                             [
-                                                                                                k]
-                                                                                            ) {
+                                                                                                k
+                                                                                            ]
+                                                                                        ) {
                                                                                             $(item)
                                                                                                 .prop(
                                                                                                     'checked',
                                                                                                     true
-                                                                                                    );
+                                                                                                );
                                                                                         }
                                                                                     }
                                                                                 }
 
                                                                             }
-                                                                            )
+                                                                        )
                                                                 }
                                                             } else {
                                                                 if (data[
                                                                         i
-                                                                        ]
+                                                                    ]
                                                                     [key[
-                                                                        0]] ==
+                                                                        0
+                                                                        ]] ==
                                                                     null
-                                                                    ) {
+                                                                ) {
                                                                     $('input[name="' +
                                                                             key[
-                                                                                0] +
+                                                                                0
+                                                                                ] +
                                                                             '[]"]'
-                                                                            )
+                                                                        )
                                                                         .val(
                                                                             ""
-                                                                            );
+                                                                        );
                                                                 } else {
                                                                     $('input[name="' +
                                                                             key[
-                                                                                0] +
+                                                                                0
+                                                                                ] +
                                                                             '[]"]'
-                                                                            )
+                                                                        )
                                                                         .val(
                                                                             data[
                                                                                 i
-                                                                                ]
+                                                                            ]
                                                                             [key[
-                                                                                0]]
-                                                                            );
+                                                                                0
+                                                                                ]]
+                                                                        );
                                                                 }
                                                             }
                                                         } else {
                                                             console.log(
                                                                 data[
                                                                     i
-                                                                    ]
+                                                                ]
                                                                 [key[
-                                                                    0]]
-                                                                );
+                                                                    0
+                                                                    ]]
+                                                            );
                                                             if (data[i][
                                                                     key[
-                                                                        0]
+                                                                        0
+                                                                        ]
                                                                 ] ==
                                                                 null) {
                                                                 $('.project_imaget img')
                                                                     .remove();
                                                             } else {
                                                                 if ($(
-                                                                        '.project_imaget img')
+                                                                        '.project_imaget img'
+                                                                        )
                                                                     .length >
                                                                     0) {
                                                                     $('.project_imaget img')
@@ -1990,10 +2011,11 @@ d-none @endif">Daireleri
                                                                             "{{ URL::to('/') }}/storage/project_images/" +
                                                                             data[
                                                                                 i
-                                                                                ]
+                                                                            ]
                                                                             [key[
-                                                                                0]]
-                                                                            )
+                                                                                0
+                                                                                ]]
+                                                                        )
                                                                 } else {
                                                                     $('.project_imaget')
                                                                         .html(
@@ -2001,11 +2023,12 @@ d-none @endif">Daireleri
                                                                             "{{ URL::to('/') }}/storage/project_images/" +
                                                                             data[
                                                                                 i
-                                                                                ]
+                                                                            ]
                                                                             [key[
-                                                                                0]] +
+                                                                                0
+                                                                                ]] +
                                                                             '">'
-                                                                            )
+                                                                        )
                                                                 }
                                                             }
                                                         }
@@ -2042,7 +2065,7 @@ d-none @endif">Daireleri
                                             formData.append('order', parseInt(
                                                 lastOrders) + (parseInt($(
                                                 '.house_order_input'
-                                                ).val()) - 1));
+                                            ).val()) - 1));
                                             formData.append('item_type', 1);
                                             if ($(this).hasClass('only-one')) {
                                                 formData.append('only-one', "1");
@@ -2072,7 +2095,7 @@ d-none @endif">Daireleri
                                                 processData: false,
                                                 contentType: false,
                                                 success: function(
-                                                response) {},
+                                                    response) {},
                                             });
 
                                             confirmHousings();
@@ -2123,7 +2146,7 @@ d-none @endif">Daireleri
                                                 $(this).closest('.form-group')
                                                     .append(
                                                         '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                                        )
+                                                    )
                                                 $('.price-only').val("");
                                             }
 
@@ -2147,7 +2170,7 @@ d-none @endif">Daireleri
                                     $('.number-only').keyup(function() {
                                         $('.number-only .error-text').remove();
                                         if ($(this).val() != parseInt($(this)
-                                        .val())) {
+                                                .val())) {
                                             if ($(this).closest('.form-group').find(
                                                     '.error-text').length > 0) {
                                                 $(this).val("");
@@ -2155,7 +2178,7 @@ d-none @endif">Daireleri
                                                 $(this).closest('.form-group')
                                                     .append(
                                                         '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                                        )
+                                                    )
                                                 $(this).val("");
                                             }
 
@@ -2201,7 +2224,7 @@ d-none @endif">Daireleri
                                             formData.append('order', (lastOrders +
                                                 parseInt($(
                                                     '.house_order_input'
-                                                    ).val()) - 1));
+                                                ).val()) - 1));
                                             formData.append('_token', csrfToken);
                                             formData.append('file', this.files[0]);
                                             formData.append('item_type', 1);
@@ -2212,11 +2235,12 @@ d-none @endif">Daireleri
                                                 processData: false,
                                                 contentType: false,
                                                 success: function(
-                                                response) {},
+                                                    response) {},
                                                 error: function() {
                                                     // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
                                                     alert(
-                                                        "Dosya yüklenemedi.");
+                                                        "Dosya yüklenemedi."
+                                                        );
                                                 }
                                             });
 
@@ -2224,7 +2248,7 @@ d-none @endif">Daireleri
                                                 // Resmi görüntülemek için bir div oluşturun
                                                 var imageDiv = $(
                                                     '<div class="project_imaget"></div>'
-                                                    );
+                                                );
 
                                                 // Resmi oluşturun ve div içine ekleyin
                                                 var image = $('<img>').attr(
@@ -2232,7 +2256,7 @@ d-none @endif">Daireleri
                                                 imageDiv.append(image);
                                                 // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
                                                 $('.cover-photo').html(
-                                                imageDiv);
+                                                    imageDiv);
 
                                                 $('.tab-pane.active .cover-image-by-housing-type')
                                                     .parent('div').find(
@@ -2457,25 +2481,25 @@ d-none @endif">Daireleri
                                             } else {
                                                 $('input[name="' + key[0] + '1[][]"]').map((keyx,
                                                     item) => {
-                                                        $(item).prop('checked', false)
-                                                        for (var k = 0; k < data[i][key[0]]
-                                                            .length; k++) {
-                                                            if ($(item).attr('value')) {
-                                                                if ($(item).attr('value').trim() ==
-                                                                    data[i][key[0]][k]) {
-                                                                    $(item).prop('checked', true);
-                                                                }
+                                                    $(item).prop('checked', false)
+                                                    for (var k = 0; k < data[i][key[0]]
+                                                        .length; k++) {
+                                                        if ($(item).attr('value')) {
+                                                            if ($(item).attr('value').trim() ==
+                                                                data[i][key[0]][k]) {
+                                                                $(item).prop('checked', true);
                                                             }
                                                         }
+                                                    }
 
-                                                    })
+                                                })
                                             }
                                         } else {
                                             if (data[i][key[0]] == null) {
                                                 $('input[name="' + key[0] + '[]"]').val("");
                                             } else {
                                                 $('input[name="' + key[0] + '[]"]').val(data[i][key[
-                                                0]]);
+                                                    0]]);
                                             }
                                         }
                                     } else {
@@ -2529,7 +2553,7 @@ d-none @endif">Daireleri
                 $.ajax({
                     url: "{{ URL::to('/') }}/institutional/get_house_data?item_type=1&order=" + (
                         lastOrders + parseInt($('.house_order_input').val()) - 2
-                        ), // AJAX isteği yapılacak URL
+                    ), // AJAX isteği yapılacak URL
                     type: "GET", // GET isteği
                     dataType: "json", // Gelen veri tipi JSON
                     success: function(data) {
@@ -2658,7 +2682,7 @@ d-none @endif">Daireleri
                     $.ajax({
                         url: "{{ URL::to('/') }}/institutional/get_house_data?item_type=1&order=" + (
                             lastOrders + parseInt($('.house_order_input').val())
-                            ), // AJAX isteği yapılacak URL
+                        ), // AJAX isteği yapılacak URL
                         type: "GET", // GET isteği
                         dataType: "json", // Gelen veri tipi JSON
                         xhr: function() {
@@ -2695,25 +2719,25 @@ d-none @endif">Daireleri
                                             } else {
                                                 $('input[name="' + key[0] + '1[][]"]').map((keyx,
                                                     item) => {
-                                                        $(item).prop('checked', false)
-                                                        for (var k = 0; k < data[i][key[0]]
-                                                            .length; k++) {
-                                                            if ($(item).attr('value')) {
-                                                                if ($(item).attr('value').trim() ==
-                                                                    data[i][key[0]][k]) {
-                                                                    $(item).prop('checked', true);
-                                                                }
+                                                    $(item).prop('checked', false)
+                                                    for (var k = 0; k < data[i][key[0]]
+                                                        .length; k++) {
+                                                        if ($(item).attr('value')) {
+                                                            if ($(item).attr('value').trim() ==
+                                                                data[i][key[0]][k]) {
+                                                                $(item).prop('checked', true);
                                                             }
                                                         }
+                                                    }
 
-                                                    })
+                                                })
                                             }
                                         } else {
                                             if (data[i][key[0]] == null) {
                                                 $('input[name="' + key[0] + '[]"]').val("");
                                             } else {
                                                 $('input[name="' + key[0] + '[]"]').val(data[i][key[
-                                                0]]);
+                                                    0]]);
                                             }
                                         }
                                     } else {
@@ -3228,7 +3252,7 @@ d-none @endif">Daireleri
 
 
                                     $('.tab-pane.active input[type="file"]').map((key,
-                                    item) => {
+                                        item) => {
                                         if ($(item).parent('div').find(
                                                 '.project_imaget').length == 0) {
                                             nextHousing = false;
@@ -3268,7 +3292,7 @@ d-none @endif">Daireleri
                                 var transactionIndex = 0;
                                 $('.tab-pane').prepend(
                                     '<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>'
-                                    );
+                                );
                                 var order = parseInt($(this).val()) - 1;
                                 var currentOrder = parseInt($(this).closest('.item-left-area')
                                     .index());
@@ -3317,56 +3341,61 @@ d-none @endif">Daireleri
                                                                     0] +
                                                                 '1[][]"]').prop(
                                                                 "checked", false
-                                                                );
+                                                            );
                                                         } else {
                                                             $('input[name="' + key[
                                                                     0] +
                                                                 '1[][]"]').map((
-                                                                    keyx, item
-                                                                    ) => {
-                                                                    $(item)
-                                                                        .prop(
-                                                                            'checked',
-                                                                            false
-                                                                            );
-                                                                    for (var k =
-                                                                            0; k <
-                                                                        data[i][
-                                                                            key[
-                                                                                0]
-                                                                        ]
-                                                                        .length; k++
-                                                                        ) {
+                                                                keyx, item
+                                                            ) => {
+                                                                $(item)
+                                                                    .prop(
+                                                                        'checked',
+                                                                        false
+                                                                    );
+                                                                for (var k =
+                                                                        0; k <
+                                                                    data[i][
+                                                                        key[
+                                                                            0
+                                                                            ]
+                                                                    ]
+                                                                    .length; k++
+                                                                ) {
+                                                                    if ($(
+                                                                            item
+                                                                            )
+                                                                        .attr(
+                                                                            'value'
+                                                                        )
+                                                                    ) {
                                                                         if ($(
-                                                                                item)
+                                                                                item
+                                                                                )
                                                                             .attr(
                                                                                 'value'
-                                                                                )
-                                                                            ) {
-                                                                            if ($(
-                                                                                    item)
-                                                                                .attr(
-                                                                                    'value'
-                                                                                    )
-                                                                                .trim() ==
-                                                                                data[
-                                                                                    i
-                                                                                    ]
-                                                                                [key[
-                                                                                    0]]
-                                                                                [
-                                                                                    k]
-                                                                                ) {
-                                                                                $(item)
-                                                                                    .prop(
-                                                                                        'checked',
-                                                                                        true
-                                                                                        );
-                                                                            }
+                                                                            )
+                                                                            .trim() ==
+                                                                            data[
+                                                                                i
+                                                                            ]
+                                                                            [key[
+                                                                                0
+                                                                                ]]
+                                                                            [
+                                                                                k
+                                                                            ]
+                                                                        ) {
+                                                                            $(item)
+                                                                                .prop(
+                                                                                    'checked',
+                                                                                    true
+                                                                                );
                                                                         }
                                                                     }
+                                                                }
 
-                                                                })
+                                                            })
                                                         }
                                                     } else {
                                                         if (data[i][key[0]] ==
@@ -3398,7 +3427,7 @@ d-none @endif">Daireleri
                                                                 .html('<img src="' +
                                                                     "{{ URL::to('/') }}/storage/project_images/" +
                                                                     data[i][key[
-                                                                    0]] + '">')
+                                                                        0]] + '">')
                                                         }
                                                     }
                                                 }
@@ -3421,7 +3450,7 @@ d-none @endif">Daireleri
                                     }
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr(
-                                    "content");
+                                        "content");
                                     formData.append('_token', csrfToken);
                                     formData.append('value', $(this).val());
                                     if ($(this).hasClass('only-one')) {
@@ -3498,7 +3527,7 @@ d-none @endif">Daireleri
                                     } else {
                                         $(this).closest('.form-group').append(
                                             '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                            )
+                                        )
                                         $('.price-only').val("");
                                     }
 
@@ -3526,7 +3555,7 @@ d-none @endif">Daireleri
                                     } else {
                                         $(this).closest('.form-group').append(
                                             '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                            )
+                                        )
                                         $(this).val("");
                                     }
 
@@ -3563,7 +3592,7 @@ d-none @endif">Daireleri
 
                                     var formData = new FormData();
                                     var csrfToken = $("meta[name='csrf-token']").attr(
-                                    "content");
+                                        "content");
                                     var lastOrders = 0;
                                     if (hasBlocks) {
                                         for (var i = 0; i < selectedBlock; i++) {
@@ -4357,7 +4386,7 @@ d-none @endif">Daireleri
                                             item) => {
                                             oldData[(checkboxName + i)].map((checkbox) => {
                                                 if (checkbox[0] == $(item).attr(
-                                                    "value")) {
+                                                        "value")) {
                                                     $(item).attr('checked', 'checked')
                                                 }
                                             })
@@ -4429,7 +4458,7 @@ d-none @endif">Daireleri
                             success: function(response) {
                                 // Yanıt başarılı olduğunda çalışacak kod
                                 var countiesSelect = $(
-                                '#neighbourhood'); // counties id'li select'i seç
+                                    '#neighbourhood'); // counties id'li select'i seç
                                 countiesSelect.empty(); // Select içeriğini temizle
                                 var countyId =
                                     @if (isset($tempData->neighbourhood_id))
@@ -4652,7 +4681,7 @@ d-none @endif">Daireleri
                         }
                     } else {
                         topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) -
-                        100;
+                            100;
                     }
                     $('.finish-tick').addClass('error-border')
                 }
@@ -4753,7 +4782,7 @@ d-none @endif">Daireleri
                         }
                     } else {
                         topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) -
-                        100;
+                            100;
                     }
                     $('.cover-photo-area').addClass('error-border')
                 }
@@ -4792,7 +4821,7 @@ d-none @endif">Daireleri
                     next = false;
                     if (topError) {
                         if ($('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css(
-                            'height')) - 100 < topError) {
+                                'height')) - 100 < topError) {
                             topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css(
                                 'height')) - 100;
                         }
@@ -4943,7 +4972,7 @@ d-none @endif">Daireleri
             $('.breadcrumb').find('.breadcrumb-after-item').remove()
             $.ajax({
                 url: "{{ URL::to('/') }}/institutional/get_housing_type_childrens/" +
-                itemSlug, // AJAX isteği yapılacak URL
+                    itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function(data) {
@@ -4982,7 +5011,7 @@ d-none @endif">Daireleri
                             url: "{{ URL::to('/') }}/institutional/get_housing_type_childrens/" +
                                 itemSlug + '?parent_slug=' + $('.area-list').eq(0).find(
                                     'li.selected').attr(
-                                'slug'), // AJAX isteği yapılacak URL
+                                    'slug'), // AJAX isteği yapılacak URL
                             type: "GET", // GET isteği
                             dataType: "json", // Gelen veri tipi JSON
                             success: function(data) {
@@ -5011,7 +5040,7 @@ d-none @endif">Daireleri
                                 $('.area-list').eq(2).find('li').click(function() {
                                     $(this).append(
                                         '<div class="loading-icon"><i class="fa fa-spinner"></i></div>'
-                                        )
+                                    )
                                     itemSlug = $(this).attr('slug');
                                     var thisx = $(this);
                                     changeData(itemSlug, 'step3_slug')
@@ -5034,44 +5063,49 @@ d-none @endif">Daireleri
                                                     'selected');
                                             changeData(data,
                                                 'housing_type_id'
-                                                );
+                                            );
                                             console.log(data);
                                             selectedid = data;
                                             thisx.addClass(
                                                 'selected')
                                             thisx.find(
                                                 '.loading-icon'
-                                                ).remove();
+                                            ).remove();
                                             $('.breadcrumb')
                                                 .append(
                                                     '<span class="breadcrumb-after-item">' +
                                                     (thisx
-                                                    .html()) +
+                                                        .html()
+                                                        ) +
                                                     '</span>')
                                             $('.breadcrumb-v2')
                                                 .append(
                                                     '<span class="breadcrumb-after-item">' +
                                                     (thisx
-                                                    .html()) +
+                                                        .html()
+                                                        ) +
                                                     '</span>')
                                             $('.last-housing-text')
                                                 .html(
                                                     'Önceki ' +
                                                     (thisx
-                                                    .html()) +
+                                                        .html()
+                                                        ) +
                                                     '')
                                             $('.next-housing-text')
                                                 .html(
                                                     'Sonraki ' +
                                                     (thisx
-                                                    .html()) +
+                                                        .html()
+                                                        ) +
                                                     '')
 
                                             $('.housings_title')
                                                 .html(
                                                     'Bu Projede Kaç Adet ' +
                                                     (thisx
-                                                    .html()) +
+                                                        .html()
+                                                        ) +
                                                     ' Var')
 
                                             thisx.addClass(
@@ -5112,7 +5146,7 @@ d-none @endif">Daireleri
             $.ajax({
                 url: "{{ URL::to('/') }}/institutional/get_housing_type_childrens/" + itemSlug +
                     '?parent_slug=' + $('.area-list').eq(0).find('li.selected').attr(
-                    'slug'), // AJAX isteği yapılacak URL
+                        'slug'), // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function(data) {
@@ -5193,7 +5227,7 @@ d-none @endif">Daireleri
             $('.breadcrumb-v2').find('.breadcrumb-after-item').eq(2).remove()
             $.ajax({
                 url: "{{ URL::to('/') }}/institutional/get_housing_type_id/" +
-                itemSlug, // AJAX isteği yapılacak URL
+                    itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function(data) {
