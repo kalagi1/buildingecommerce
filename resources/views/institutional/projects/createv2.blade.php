@@ -9,7 +9,6 @@
 
     </div>
 
-    <div id="app">
         <div class="load-area d-none">
             <div class="progress">
                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -131,7 +130,7 @@
                 </div>
             </div>
         </div>
-        <div class="content">
+        <div class="content" id="app">
             <h4 class="mb-2 lh-sm @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
 
                 Proje İlanı Ekle
@@ -807,7 +806,6 @@ d-none @endif">Daireleri
                 </div>
             </div>
         </div>
-    </div>
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
