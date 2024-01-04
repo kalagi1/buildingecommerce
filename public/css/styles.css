@@ -1166,6 +1166,10 @@ img {
 }
 
 @media screen and (max-width: 768px) {
+    .brand-head .navbar-item {
+        font-size: 11px !important;
+        text-align: center;
+    }
     .bg-3 {
         padding-top: 1rem;
     }
