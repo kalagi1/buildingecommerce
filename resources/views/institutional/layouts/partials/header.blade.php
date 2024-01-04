@@ -88,7 +88,7 @@
         display: block !important;
     }
     .mobile-hidden {
-        display: show !important;
+        display: none !important;
     }
     }
 
@@ -222,12 +222,10 @@
                         aria-controls="navbarVerticalCollapse" aria-expanded="false"
                         aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                 class="toggle-line"></span></span></button>
-                    <div class="d-flex align-items-center">
-                        <div class="d-flex align-items-center">
-                            <a href="{{ route('index') }}"><img
+                    <div class="d-flex align-items-center ">
+                            <a href="{{ route('index') }}" class="mobile-hidden"><img
                                     src="{{ URL::to('/') }}/images/emlaksepettelogo.png" class="logo"
                                     alt=""></a>
-                        </div>
                     </div>
                 </div>
                 {{-- <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
@@ -6217,15 +6215,7 @@
                             aria-controls="navbarTopCollapse" aria-expanded="false"
                             aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                     class="toggle-line"></span></span></button>
-                        <a class="navbar-brand me-1 me-sm-3" href="index.html">
-                            <div class="d-flex align-items-center">
-                                <div class="d-flex align-items-center"><img
-                                        src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
-                                        alt="phoenix" width="27" />
-                                    <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
-                                </div>
-                            </div>
-                        </a>
+                        
                     </div>
                     <div class="search-box navbar-top-search-box d-none d-lg-block"
                         data-list='{"valueNames":["title"]}' style="width:25rem;">

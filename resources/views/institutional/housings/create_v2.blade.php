@@ -1,6 +1,15 @@
 @extends('institutional.layouts.master')
 
 @section('content')
+<div class="mobileApp">
+    <div class="content">
+        <span>Emlak eklemek için lütfen web masaüstü versiyonu kullanın.</span>
+
+    </div>
+
+</div>
+
+<div id="app">
     @if($hasTemp)
         <div class="pop-up-v2">
             <div class="pop-back">
@@ -317,6 +326,7 @@ Emlak İlanı Ekle
             </div>
         </div>
     </div>
+</div>
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
@@ -3339,6 +3349,21 @@ Emlak İlanı Ekle
 @endsection
 
 @section('css')
+<style>
+    .mobileApp {
+        display: none
+    }
+
+    @media only screen and (max-width: 768px) {
+        #app {
+            display: none;
+        }
+
+        .mobileApp {
+            display: block
+        }
+    }
+</style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
         integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
