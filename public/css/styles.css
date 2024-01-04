@@ -8654,7 +8654,6 @@ a.button {
 }
 .input-group.search {
     display: flex;
-    border: 1px solid #e6e6e6;
     overflow: hidden;
     background-color: #fff;
     flex-wrap: nowrap;
