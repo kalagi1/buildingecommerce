@@ -22457,11 +22457,7 @@ a.btn_1 {
     z-index: 9999999;
 }
 
-@media (max-width:768px) {
-    .brand-head .navbar-item {
-        padding: 13px !important
-    }
-}
+
 
 .sticky-bar {
     position: sticky;
