@@ -8655,6 +8655,7 @@ a.button {
 .input-group.search {
     display: flex;
     overflow: hidden;
+    border:1px solid #e6e6e6;
     background-color: #fff;
     flex-wrap: nowrap;
     justify-content: space-between;
@@ -8757,6 +8758,9 @@ a.button {
 
 
 @media screen and (max-width: 768px) {
+    .input-group.search {
+      border: none !important;
+    }
     .ps-page__dashboard {
         margin-top: 20px
     }
