@@ -31,8 +31,8 @@
                 </div>
             </div>
         @endif
-        <div class="content">
-            <h4 class="mb-2 lh-sm @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
+        <div class="content" id="app">
+                        <h4 class="mb-2 lh-sm @if (isset($tempDataFull->step_order) && $tempDataFull->step_order != 1) d-none @endif">
 
                 Emlak İlanı Ekle
             </h4>
@@ -371,7 +371,6 @@
                 </div>
             </div>
         </div>
-    </div>
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
