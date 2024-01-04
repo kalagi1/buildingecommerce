@@ -110,25 +110,30 @@ class ProjectController extends Controller
                         }
                     } else {
                         if ($housingTypeInputs[$j]->type != "checkbox-group" && !str_contains($housingTypeInputs[$j]->className, 'project-disabled')) {
-                            if (isset($housingTypeInputs[$j]->name) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null) {
-                                if (str_contains($housingTypeInputs[$j]->className, 'price-only')){
-                                    ProjectHousing::create([
-                                        "key" => $housingTypeInputs[$j]->label,
-                                        "name" => $housingTypeInputs[$j]->name,
-                                        "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2))) ? str_replace('.','',$request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0]) : str_replace('.','',$request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0]),
-                                        "project_id" => $project->id,
-                                        "room_order" => $roomOrder,
-                                    ]);
-                                }else{
-                                    ProjectHousing::create([
-                                        "key" => $housingTypeInputs[$j]->label,
-                                        "name" => $housingTypeInputs[$j]->name,
-                                        "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2))) ? $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0] : $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0],
-                                        "project_id" => $project->id,
-                                        "room_order" => $roomOrder,
-                                    ]);
+                            if(in_array(3,array_merge(array_keys($project->housingTypes->keyBy('housing_type_id')->toArray()))) && str_contains($housingTypeInputs[$j]->className, 'continue-disabled')){
+
+                            }else{
+                                if (isset($housingTypeInputs[$j]->name) && $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i] != null) {
+                                    if (str_contains($housingTypeInputs[$j]->className, 'price-only')){
+                                        ProjectHousing::create([
+                                            "key" => $housingTypeInputs[$j]->label,
+                                            "name" => $housingTypeInputs[$j]->name,
+                                            "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2))) ? str_replace('.','',$request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0]) : str_replace('.','',$request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0]),
+                                            "project_id" => $project->id,
+                                            "room_order" => $roomOrder,
+                                        ]);
+                                    }else{
+                                        ProjectHousing::create([
+                                            "key" => $housingTypeInputs[$j]->label,
+                                            "name" => $housingTypeInputs[$j]->name,
+                                            "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2))[$i]) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2))) ? $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0] : $request->input(substr($housingTypeInputs[$j]->name, 0, -2))[0],
+                                            "project_id" => $project->id,
+                                            "room_order" => $roomOrder,
+                                        ]);
+                                    }
                                 }
                             }
+                            
                         } else {
                             ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
@@ -145,6 +150,7 @@ class ProjectController extends Controller
 
             return redirect()->route('institutional.projects.housings',$project->id);
         }catch(Throwable $e){
+            
             return Redirect::back()->withErrors(['msg' => $e->getMessage()]);
         }
         
@@ -499,8 +505,8 @@ class ProjectController extends Controller
                     }
                 }
             }
-            $paymentPlanOrder = 0;
             for ($i = 0; $i < $houseCount; $i++) {
+                $paymentPlanOrder = 0;
                 for ($j = 0; $j < count($housingTypeInputs); $j++) {
                     if ($housingTypeInputs[$j]->type != "checkbox-group" && $housingTypeInputs[$j]->type != "file") {
                         if ($housingTypeInputs[$j]->name == "installments[]" || $housingTypeInputs[$j]->name == "advance[]" || $housingTypeInputs[$j]->name == "installments-price[]") {

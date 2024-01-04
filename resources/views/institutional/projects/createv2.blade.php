@@ -733,7 +733,6 @@
                     }, 1000);
                 @endif
             @endif
-
             @if(isset($tempDataFull->data) && isset($tempData->statuses) && $tempData->statuses)
                 @if(in_array('3',$tempData->statuses))
                     var isContinueProject = 1;
@@ -743,6 +742,7 @@
             @else
                 var isContinueProject = 0;
             @endif
+
 
             @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && $tempData->step1_slug )
                 @if($tempData->step1_slug == "arsa")
@@ -1007,8 +1007,10 @@
                                                         $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
                                                             $(item).prop('checked',false);
                                                             for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                                if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                                    $(item).prop('checked',true);
+                                                                if($(item).attr('value')){
+                                                                    if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                        $(item).prop('checked',true);
+                                                                    }
                                                                 }
                                                             }
                                                             
@@ -1480,8 +1482,10 @@
                                                                     $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
                                                                         $(item).prop('checked',false);
                                                                         for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                                            if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                                                $(item).prop('checked',true);
+                                                                            if($(item).attr('value')){
+                                                                                if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                                    $(item).prop('checked',true);
+                                                                                }
                                                                             }
                                                                         }
                                                                         
@@ -1772,8 +1776,10 @@
                                                 $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
                                                     $(item).prop('checked',false)
                                                     for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                        if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                            $(item).prop('checked',true);
+                                                        if($(item).attr('value')){
+                                                            if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                $(item).prop('checked',true);
+                                                            }
                                                         }
                                                     }
                                                     
@@ -1879,8 +1885,10 @@
                                                     $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
                                                         $(item).prop('checked',false)
                                                         for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                            if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                                $(item).prop('checked',true);
+                                                            if($(item).attr('value')){
+                                                                if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                    $(item).prop('checked',true);
+                                                                }
                                                             }
                                                         }
                                                         
@@ -1959,8 +1967,10 @@
                                             $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
                                                 $(item).prop('checked',false);
                                                 for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                    if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                        $(item).prop('checked',true);
+                                                    if($(item).attr('value')){
+                                                        if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                            $(item).prop('checked',true);
+                                                        }
                                                     }
                                                 }
                                                 
@@ -2088,8 +2098,10 @@
                                                     $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
                                                         $(item).prop('checked',false)
                                                         for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                            if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                                $(item).prop('checked',true);
+                                                            if($(item).attr('value')){
+                                                                if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                    $(item).prop('checked',true);
+                                                                }
                                                             }
                                                         }
                                                         
@@ -2486,8 +2498,10 @@
                                         
                                     if(oldData[inputNamex[0]+(i)]){
                                         oldData[inputNamex[0]+(i)].map((checkbox) => {
-                                            if(checkbox.trim() == $(item).attr("value").trim()){
-                                                $(item).attr('checked','checked')
+                                            if(checkbox && $(item).attr("value")){
+                                                if(checkbox.trim() == $(item).attr("value").trim()){
+                                                    $(item).attr('checked','checked')
+                                                }
                                             }
                                         })
                                     }
@@ -2639,8 +2653,10 @@
                                                             $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
                                                                 $(item).prop('checked',false);
                                                                 for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                                    if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                                        $(item).prop('checked',true);
+                                                                    if($(item).attr('value')){
+                                                                        if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                            $(item).prop('checked',true);
+                                                                        }
                                                                     }
                                                                 }
                                                                 
