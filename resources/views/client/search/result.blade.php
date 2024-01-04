@@ -89,7 +89,7 @@
                                                                 <img src="{{ asset('storage/profile_images/' . $result['photo']) }}"
                                                                     alt="home-1" class="img-responsive brand-image-pp">
                                                                 <span
-                                                                    style="font-size:11px !important;">{{ $result['name'] }}</span>
+                                                                    style="font-size:9px !important;">{{ $result['name'] }}</span>
                                                             </div>
                                                         </div>
                                                     </div>

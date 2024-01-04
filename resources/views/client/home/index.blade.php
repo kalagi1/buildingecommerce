@@ -118,7 +118,7 @@
                                             <div class="homes">
                                                 <img src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
                                                     alt="home-1" class="img-responsive brand-image-pp">
-                                                <span style="font-size:11px !important;">{{ $brand->name }}</span>
+                                                <span style="font-size:9px !important;">{{ $brand->name }}</span>
                                             </div>
                                         </div>
                                     </div>
