@@ -93,7 +93,7 @@ class HomeController extends Controller {
             'user_id' => $user->id,
             'text' => '#' . $cartOrder->id . " No'lu siparişiniz onaylandı. Fatura detayları için tıklayın.",
             'item_id' => $cartOrder->id,
-            'link' => route( 'client.invoice.show', $cartOrder->id),
+            'link' => $user->type == "1" ? route( 'client.invoice.show', $cartOrder->id ) : route('institutional.invoice.show', $cartOrder->id),
             'owner_id' => $user->id,
             'is_visible' => true,
         ] );
@@ -105,7 +105,7 @@ class HomeController extends Controller {
                 'user_id' => $admin->id,
                 'text' => '#' . $cartOrder->id . " No'lu emlak siparişi onaylandı.",
                 'item_id' => $cartOrder->id,
-                'link' => route( 'admin.orders'),
+                'link' => route( 'admin.orders' ),
                 'owner_id' => 4,
                 'is_visible' => true,
             ] );
@@ -116,6 +116,29 @@ class HomeController extends Controller {
 
     public function unapproveOrder( CartOrder $cartOrder ) {
         $cartOrder->update( [ 'status' => '2' ] );
+        $user = User::where( 'id', $cartOrder->user_id )->first();
+
+        DocumentNotification::create( [
+            'user_id' => $user->id,
+            'text' => '#' . $cartOrder->id . " No'lu siparişiniz maalesef onaylanmadı. Ödeme alınamadı ve ilan tekrar satışa çıkarılacaktır. ",
+            'item_id' => $cartOrder->id,
+            'link' => $user->type == "1" ? route( 'client.invoice.show', $cartOrder->id ) : route('institutional.invoice.show', $cartOrder->id),
+            'owner_id' => $user->id,
+            'is_visible' => true,
+        ] );
+
+        // Notify Admin about the unapproved order
+        $admins = User::where( 'type', '3' )->get();
+        foreach ( $admins as $admin ) {
+            DocumentNotification::create( [
+                'user_id' => $admin->id,
+                'text' => '#' . $cartOrder->id . " No'lu sipariş onaylanmadı. Ödeme alınamadı. İlan tekrar satışa çıkarılacak.",
+                'item_id' => $cartOrder->id,
+                'link' => route( 'admin.orders' ),
+                'owner_id' => 4,
+                'is_visible' => true,
+            ] );
+        }
         return redirect()->back();
     }
 

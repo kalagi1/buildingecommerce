@@ -137,17 +137,20 @@
 
     .number {
         height: 22px;
-        width: 22px;
-        background-color: #d63031;
-        border-radius: 20px;
-        color: white;
-        text-align: center;
-        position: absolute;
-        top: 0;
-        left: 27px;
-        padding: 0;
-        border-style: solid;
-        border-width: 2px;
+    width: 22px;
+    background-color: #d63031;
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    position: absolute;
+    top: 1px;
+    left: 27px;
+    display: flex;
+    padding: 0;
+    font-size: 10px;
+    border-style: solid;
+    align-items: center;
+    justify-content: center;
     }
 
     .number:empty {

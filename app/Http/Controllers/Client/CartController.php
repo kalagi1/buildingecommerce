@@ -155,7 +155,7 @@ class CartController extends Controller {
                 'text' =>  '#' . $code . " No'lu emlak siparişiniz için teşekkür ederiz. Siparişiniz, ödeme onayı için yönetici onayına gönderilmiştir. "
                 . 'Onay süreci tamamlandığında size bilgi verilecektir.',
                 'item_id' => $order->id,
-                'link' => route( 'client.profile.cart-orders' ),
+                'link' => $user->type == 1 ? route( 'client.profile.cart-orders' ):route( 'institutional.profile.cart-orders' ) ,
                 'owner_id' => $user->id,
                 'is_visible' => true,
             ] );
