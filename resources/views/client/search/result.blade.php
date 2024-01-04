@@ -70,7 +70,7 @@
             <div class="header-search-box-page">
                 {{-- Result count --}}
                 @if (count($results['merchants']) > 0)
-                    <div class="font-weight-bold p-2 small mt-2" style="background-color: #EEE;">MAĞAZALAR
+                    <div class="font-weight-bold p-2 small mt-2 mb-3" style="background-color: #EEE;">MAĞAZALAR
                         ({{ count($results['merchants']) }})</div>
 
 
@@ -104,7 +104,7 @@
                 @endif
                 {{-- Housing results --}}
                 @if (count($results['housings']) > 0)
-                    <div class="font-weight-bold p-2 small mt-2" style="background-color: #EEE;">EMLAK İLANLARI
+                    <div class="font-weight-bold p-2 small mt-2 mb-3" style="background-color: #EEE;">EMLAK İLANLARI
                         ({{ count($results['housings']) }})</div>
                     <section class="featured portfolio rec-pro disc bg-white">
                         <div class="container">
@@ -593,7 +593,7 @@
 
                 {{-- Project results --}}
                 @if (count($results['projects']) > 0)
-                    <div class="font-weight-bold p-2 small mt-2" style="background-color: #EEE;">PROJELER
+                    <div class="font-weight-bold p-2 small mt-2 mb-3" style="background-color: #EEE;">PROJELER
                         ({{ count($results['projects']) }})</div>
                     <div class="row mt-2">
                         @foreach ($results['projects'] as $result)
