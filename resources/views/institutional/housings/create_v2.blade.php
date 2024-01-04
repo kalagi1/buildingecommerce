@@ -9,7 +9,6 @@
 
     </div>
 
-    <div id="app">
         @if ($hasTemp)
             <div class="pop-up-v2">
                 <div class="pop-back">
