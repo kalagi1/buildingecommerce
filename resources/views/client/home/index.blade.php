@@ -528,7 +528,7 @@
                                                 </button>
                                             @else
                                                 @if ($sold != null && $sold != '2')
-                                                    <button class="btn mobileBtn second-btn " 
+                                                    <button class="btn mobileCBtn second-btn " 
                                                         @if ($sold == '0') style="background: orange !important;width:100%;color:White"
                                                             @else 
                                                             style="background: red !important;width:100%;color:White" @endif>
