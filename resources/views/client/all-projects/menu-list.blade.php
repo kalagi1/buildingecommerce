@@ -718,9 +718,14 @@
                                             alt=""></a>
                                 </div>
                                 <div class="sc-2-detail">
-                                    <h4 class="sc-jb-title"><a href="${res.url}">${res.title}</a></h4>
+                                    <h4 class="sc-jb-title"><a href="{res.url}">${res.title}</a></h4>
+                                    <span>${res.city.title}
+                                        /
+                                        ${res.county.ilce_title}
+                                        </span>
                                 </div>
                             </div>
+                            
                         </div>
                                     `
                                 );
