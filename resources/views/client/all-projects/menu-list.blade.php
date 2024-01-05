@@ -39,7 +39,6 @@
 
             #clear-filters,
             #close-filters {
-                border: 1px solid #CCC;
                 width: 90%;
                 padding: 10px !important;
                 margin: 0 auto;
