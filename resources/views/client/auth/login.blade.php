@@ -490,6 +490,7 @@
                 success: function(data) {
                     var countySelect = $('#countySelect');
                     countySelect.empty();
+                    countySelect.append('<option value="">İlçe Seçiniz</option>');
                     $.each(data, function(index, county) {
                         countySelect.append('<option value="' + county.ilce_key + '">' + county
                             .ilce_title +
@@ -508,6 +509,8 @@
                 success: function(data) {
                     var neighborhoodSelect = $('#neighborhoodSelect');
                     neighborhoodSelect.empty();
+                    neighborhoodSelect.append('<option value="">Mahalle Seçiniz</option>');
+
                     $.each(data, function(index, county) {
                         neighborhoodSelect.append('<option value="' + county.mahalle_key +
                             '">' +
