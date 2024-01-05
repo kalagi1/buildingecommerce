@@ -246,7 +246,7 @@
                         </div>
                         <h4 class="mb-3 housings_title has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif">Bu @if(isset($tempData->has_blocks) && $tempData->has_blocks) Blokta @else Projede @endif  Kaç Adet @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif Var</h4><input value="@if(isset($tempData->has_blocks) && $tempData->has_blocks) {{isset($tempData->house_count0) ? $tempData->house_count0 : ''}} @else {{isset($tempData->house_count) ? $tempData->house_count : ''}} @endif" class="form-control mb-5 housing_count_input has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif" type="text" id="house_count" name="house_count" placeholder="Kaç Adet Konutunuz Var" />
                         
-                        <span id="generate_tabs" style="width: 170px;justify-content: center" class="d-flex btn btn-primary mb-5 has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif">Daireleri Oluştur</span>
+                        <span id="generate_tabs" style="width: 230px;justify-content: center" class="d-flex btn btn-primary mb-5 has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif">İlan Formunu Oluştur</span>
                         <div class="row full-area">
                             <div class="col-sm-12">
                                 <div class="card p-3">
@@ -3027,7 +3027,6 @@
 
             function toThirdArea(){
                 $('.finish-button').trigger('click');
-
                 if(nextTemp){
                     $.ajax({
                         method: "POST",
@@ -3816,6 +3815,7 @@
                     $('input[name="name"]').addClass('error-border')
                     topError = $('input[name="name"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
                 }
+
                 $.ajax({
                     method: "GET",
                     url: "{{ route('institutional.temp.order.location.control') }}",
@@ -3824,8 +3824,8 @@
                         _token: csrfToken
                     },
                     success: function(response) {
-                        next = false;
                         if(!response){
+                            next = false;
                             $('#mapContainer').parent('div').prepend('<div style="border-radius:0;color:#fff;" class="alert alert-danger">Haritada konumu seçmeniz gerekiyor</div>')
                             topError = $('#mapContainer').offset().top - parseFloat($('.navbar-top').css( 'height')) - 100;
                             
