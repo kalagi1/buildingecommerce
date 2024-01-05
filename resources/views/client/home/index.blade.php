@@ -192,7 +192,7 @@
                             <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="150">
                                 <div class="small-category-2">
                                     <div class="small-category-2-thumb img-1">
-                                        <a href="{{ route('project.detail', $project->project->slug) }}"><img src="{{ URL::to('/') . '/storage/profile_images/' . $project->project->user->profile_image }}" alt=""></a>
+                                        <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}" alt=""></a>
                                     </div>
                                     <div class="sc-2-detail">
                                         <h4 class="sc-jb-title"><a href="{{ route('project.detail', $project->project->slug) }}">{{ $project->project->project_title }}</a></h4>
