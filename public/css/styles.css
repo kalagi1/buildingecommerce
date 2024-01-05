@@ -2896,7 +2896,8 @@ section.services-home {
     border-radius: 50%;
 }
 .homepage-9 .small-category-2-thumb img {
-    width: 170px;
+    width: 150px;
+    object-fit: cover;
     height: 100px;
 }
 .homepage-9 .sc-2-detail {
