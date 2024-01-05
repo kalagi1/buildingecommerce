@@ -790,7 +790,7 @@
                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                                     res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                     : numberFormat(res.housing_type.price) + " ₺"
-                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#EA2B2E !important' class='mobilePriceStyle'>/ 1 Gece</span>"
+                                                                    : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:#EA2B2E !important' class='mobilePriceStyle'>1 Gece</span>"
                                                                 }
                                                             </li>
                                                         </ul>
@@ -912,7 +912,7 @@
                                                         ? res.offSale || (res.action === 'payment_await' || res.action === 'sold')
                                                             ? " "
                                                             : numberFormat(res.housing_type.price) + " ₺"
-                                                        : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red' class='mobilePriceStyle'>/ 1 Gece</span>"
+                                                        : numberFormat(res.housing_type.daily_rent) + " ₺" + " <span  style='font-size:12px; color:Red' class='mobilePriceStyle'>1 Gece</span>"
                                                     }
                                                 </span>
                                             </div>

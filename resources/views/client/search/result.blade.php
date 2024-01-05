@@ -212,7 +212,7 @@
                                                                         {{ number_format(json_decode($result['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                         ₺
                                                                         <span style="font-size:11px; color:Red"
-                                                                            class="mobilePriceStyle">/ 1 Gece</span>
+                                                                            class="mobilePriceStyle">1 Gece</span>
                                                                     @else
                                                                         {{ number_format(json_decode($result['housing_type_data'])->price[0], 0, ',', '.') }}
                                                                         ₺
@@ -223,7 +223,7 @@
                                                                     {{ number_format(json_decode($result['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                     ₺
                                                                     <span style="font-size:11px; color:Red"
-                                                                        class="mobilePriceStyle">/ 1 Gece</span>
+                                                                        class="mobilePriceStyle">1 Gece</span>
                                                                 @else
                                                                     {{ number_format(json_decode($result['housing_type_data'])->price[0], 0, ',', '.') }}
                                                                     ₺
