@@ -13,6 +13,23 @@ use Throwable;
 
 class TempOrderController extends Controller
 {
+
+    public function locationControl(Request $request){
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+
+        $tempData = json_decode($tempOrder->data);
+
+        if(isset($tempData->location)){
+            if(!$tempData->location){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            return false;
+        }
+    }
+
     public function dataChange(Request $request){
         $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
         

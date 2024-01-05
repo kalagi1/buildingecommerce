@@ -79,7 +79,7 @@
                                     <div>
                                         <input name="location" class="form-control" id="location" readonly type="hidden"
                                             value="@if (isset($housing->longitude) && isset($housing->latitude) ) {{ $housing->latitude.','.$housing->longitude }}@else 32.9231576,37.3927733 @endif" />
-                                        <div id="mapContainer"></div>
+                                        <div style="height: 350px;" id="mapContainer"></div>
                                     </div>
                                 </div>
                             </div>
@@ -127,6 +127,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async defer></script>
 
     <script>
         @if(!isset($tempDataFull) || !isset($tempData) || !isset($tempData->top_row))
@@ -135,6 +136,145 @@
         @if(!isset($tempDataFull) || !isset($tempData) || !isset($tempData->featured))
             changeData(0,"featured");
         @endif
+
+        var map;
+        var markers = [];
+        function initMap(cityName,zoomLevel) {
+            // Harita oluştur
+            map = new google.maps.Map(document.getElementById('mapContainer'), {
+                zoom: 10,  // Başlangıç zoom seviyesi
+                center: {lat: 41.0082, lng: 28.9784}  // Başlangıç merkez koordinatları (İstanbul örneği)
+            });
+
+
+            google.maps.event.addListener(map, 'click', function(event) {
+                clearMarkers(); // Tüm işaretçileri temizleyin
+                placeMarker(event.latLng); // Yeni işaretçiyi ekleyin
+            });
+
+            if (cityName) {
+                // Google Haritalar Geocoding API'yi kullanarak şehir adını koordinatlara dönüştür
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ address: cityName }, function(results, status) {
+                if (status === 'OK') {
+                    // Başarılı ise haritayı zoomla
+                    map.setCenter(results[0].geometry.location);
+                    map.setZoom(zoomLevel);  // İstediğiniz zoom seviyesini ayarlayabilirsiniz
+                } else {
+                    alert('Şehir bulunamadı: ' + status);
+                }
+                });
+            }
+        }
+
+        
+        window.initMap = initMap;
+
+        function placeMarker(location) {
+            // İşaretçiyi oluşturun
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+
+            // Bilgi penceresi oluşturun (isteğe bağlı)
+            var infowindow = new google.maps.InfoWindow({
+                content: 'Koordinatlar: ' + location.lat() + ', ' + location.lng()
+            });
+
+            
+            $('#mapContainer').parent('div').find('.alert-danger').remove();
+            $('#location').val(location.lat()+','+location.lng())
+
+            // İşaretçiye tıklandığında bilgi penceresini gösterin
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+
+            markers.push(marker); // İşaretçiyi dizide saklayın
+        }
+
+        
+        function clearMarkers() {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+            markers = [];
+        }
+
+        
+        @if(isset($housing->latitude) && $housing->latitude && isset($housing->longitude) && $housing->longitude)
+            setTimeout(() => {
+                var marker = new google.maps.Marker({
+                    position: {lat: {{$housing->latitude}}, lng: {{$housing->longitude}}},
+                    map: map,
+                });
+
+                markers.push(marker); // İşaretçiyi dizide saklayın
+            }, 2000);
+        @endif
+
+        @if(isset($housing->city_id))
+            @php 
+                $cityJs = DB::table('cities')->where('id',$housing->city_id)->first();
+            @endphp
+
+            cityName = "{{$cityJs->title}}";
+            @if(isset($housing->county_id))
+                @php 
+                    $countyJs = DB::table('districts')->where('ilce_key',$housing->county_id)->first();
+                @endphp
+
+                countyName = "{{$countyJs->ilce_title}}";
+                @if(isset($housing->neighbourhood_id))
+                    @php 
+                        $countyJs = DB::table('neighborhoods')->where('mahalle_id',$housing->neighbourhood_id)->first();
+                    @endphp
+
+                    neighbourhoodName = "{{$countyJs->mahalle_title}}";
+                    
+                    setTimeout(() => {
+                        initMap(cityName+','+countyName+','+neighbourhoodName,13);
+                    }, 1000);
+                @else 
+                    setTimeout(() => {
+                    initMap(cityName+','+countyName,13);
+                    }, 1000);
+                @endif
+            @else
+                setTimeout(() => {
+                    initMap(cityName,10);
+                }, 1000);
+            @endif
+        @endif
+
+        $('#cities').change(function(){
+            var selectedCity = $(this).val(); // Seçilen şehir değerini al
+            cityName = $('#cities option[value="'+selectedCity+'"]').html()
+            initMap(cityName,10)
+            if($(this).val() != ""){
+                $(this).removeClass('error-border');
+            }
+        })
+
+        $('#counties').change(function(){
+            var selectedCounty = $(this).val(); // Seçilen şehir değerini al
+            countyName = $('#counties option[value="'+selectedCounty+'"]').html()
+            initMap(cityName+','+countyName,13);
+            if($(this).val() != ""){
+                $(this).removeClass('error-border');
+            }
+        })
+
+        $('#neighbourhood').change(function(){
+            
+            neighbourhoodName = $('#neighbourhood option[value="'+$(this).val()+'"]').html()
+            initMap(cityName+','+countyName+','+neighbourhoodName,15)
+            if($(this).val() != ""){
+                $(this).removeClass('error-border');
+            }
+        })
+
         $('.doping-square').click(function(){
             if($(this).hasClass('selected')){
                 if($(this).attr('data-id') == "1"){
@@ -1402,21 +1542,6 @@
                 }
 
             }
-            $('#location').leafletLocationPicker({
-                alwaysOpen: true,
-                mapContainer: "#mapContainer",
-                height: 300,
-                width: '100%',
-                map: {
-                    zoom: 5
-                },
-                event: 'click',
-                onChangeLocation: function(location) {
-                    var latitude = location.latlng.lat;
-                    var longitude = location.latlng.lng;
-                    changeData(latitude + ',' + longitude, 'location');
-                }
-            });
 
             const houseCountInput = document.getElementById('house_count');
             const generateTabsButton = document.getElementById('generate_tabs');
