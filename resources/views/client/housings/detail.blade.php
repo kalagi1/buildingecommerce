@@ -997,7 +997,7 @@
                 slidesToShow: 5,
                 slidesToScroll: 4,
                 dots: false,
-                loop: true,
+                loop: false,
                 autoplay: false,
                 arrows: false,
                 margin: 20,
