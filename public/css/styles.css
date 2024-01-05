@@ -2876,7 +2876,34 @@ section.services-home {
 /*------------------------------------*/
 /*-- 6. SECTION FEATURED PROPERTIES --*/
 /*------------------------------------*/
-
+.homepage-9 .small-category-2 {
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #ebebeb;
+    overflow: hidden;
+    margin-bottom: 30px;
+    padding: 0px;
+    align-items: center;
+    display: flex;
+}
+.homepage-9 .small-category-2-thumb {
+    width: 170px;
+    float: left;
+    display: table;
+    height: 100px;
+    background: #fff;
+    padding: 0px;
+    border-radius: 50%;
+}
+.homepage-9 .small-category-2-thumb img {
+    width: 170px;
+    height: 100px;
+}
+.homepage-9 .sc-2-detail {
+    display: table;
+    margin-left: 25px;
+    float: left;
+}
 section.portfolio {
     padding: 30px 0;
     background: #f7f7f7;
