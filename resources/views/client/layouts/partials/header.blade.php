@@ -138,6 +138,11 @@
                                                     'text' => 'Hesabım',
                                                 ],
                                                 [
+                                                    'url' => route('institutional.profile.cart-orders'),
+                                                    'icon' => 'fa-shopping-cart',
+                                                    'text' => 'Siparişlerim',
+                                                ],
+                                                [
                                                     'url' => route('institutional.projects.index'),
                                                     'icon' => 'fa-home',
                                                     'text' => 'İlanlarım',
