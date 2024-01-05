@@ -18554,6 +18554,8 @@ span {
 
     .inner-pages .headings-2 .listing-title-bar h3 {
         font-size: 24px;
+        width: 100%;
+        text-align: center;
     }
 
     .schedule.widget-boxed.mt-33 {
@@ -29875,7 +29877,7 @@ a {
         .button-effect {
             border: solid 1px #e6e6e6;
             width: 48px;
-            height: 48px;
+            height: 48px !important;
             border-radius: 50%;
             display: flex;
             align-items: center;
