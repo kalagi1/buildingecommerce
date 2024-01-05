@@ -829,7 +829,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Rezervasyon Adımı</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true"  class="closeTimes">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -1224,7 +1224,7 @@
 
             $(document).ready(function() {
                 // Başlangıçta ödeme düğmesini devre dışı bırak
-                $('#completePaymentButton').prop('disabled', true);
+                $('#completePaymentButton').prop('disabled', false);
 
 
                 $('.bank-account').on('click', function() {
@@ -1244,12 +1244,17 @@
                     // IBAN bilgisini ekranda göster
                     $('#ibanInfo').text(selectedBankTitle + " : " + selectedBankIban);
                     // Ödeme düğmesini etkinleştir
-                    $('#completePaymentButton').prop('disabled', false);
                 });
 
                 $('#completePaymentButton').on('click', function() {
+                    if ($('.bank-account.selected').length === 0) {
+                    toastr.error('Lütfen banka seçimi yapınız.')
+
+                } else {
                     $('#paymentModal').removeClass('show');
                     $('#finalConfirmationModal').modal('show');
+                }
+                  
                 });
             });
 

@@ -187,6 +187,10 @@ button {
     padding-bottom: 150px !important;
 }
 
+.bank-account.selected{
+    border: 1px solid #e54242 !important;
+}
+
 @media (max-width: 768px) {
     .bank-account {
         margin: 20px;
@@ -18520,7 +18524,9 @@ span {
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     }
 }
-
+.closeTimes{
+    font-size: 20px !important;
+}
 @media screen and (max-width: 991px) {
     .property.wprt-image-video {
         margin-top: 2.5rem;
@@ -18551,6 +18557,7 @@ span {
     .single.reviews.leve-comments {
         margin-bottom: 30px !important;
     }
+   
 
     .inner-pages .headings-2 .listing-title-bar h3 {
         font-size: 24px;
