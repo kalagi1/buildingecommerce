@@ -88,6 +88,7 @@
             .mobile-header {
                 background: #2d67bd;
                 color: #FFF;
+                font-size:11px;
                 padding: 12px 16px;
             }
         }
