@@ -422,16 +422,19 @@
                                 <span>Filtrele</span>
                             </div>
                             <select id="sort-select" class="form-control"
-                                style="        background: #f0f0f0 !important;
-                           padding: 6px;
-                           cursor: pointer;
-                           width: 50%;
-                           text-align: center;
-                           color: black !important;
-                           padding: 0 !important;
-                           margin: 0 !important;
-                           height: 35px !important;
-                           border-left:1px solid #c9c9c9  !important">
+                                style="       background: #f0f0f0 !important;
+                                padding: 6px;
+                                cursor: pointer;
+                                width: 50%;
+                                text-align: center;
+                                display: flex;
+                                color: black !important;
+                                padding: 0 !important;
+                                margin: 0 !important;
+                                height: 35px !important;
+                                border-left: 1px solid #c9c9c9 !important;
+                                align-items: center;
+                                justify-content: center;">
                                 <option value="sort">Sırala</option>
                                 <option value="price-asc">Fiyata göre (Önce en düşük)</option>
                                 <option value="price-desc">Fiyata göre (Önce en yüksek)</option>
