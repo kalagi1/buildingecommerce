@@ -23191,9 +23191,9 @@ a.btn_1 {
 
         @media (max-width: 768px) {
             .statusHome {
+                flex: inherit;
                 width: 100% !important;
-                max-width: 100% !important;
-                flex: auto !important;
+                max-width: 50% !important;
             }
         }
 .ud-btn:hover,
