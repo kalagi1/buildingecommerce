@@ -23195,6 +23195,7 @@ a.btn_1 {
                 font-weight: 600;
                 width: 60% !important;
                 font-size: 12px;
+                text-align: right;
                 color: #274abb !important;
             }
         }
@@ -27534,6 +27535,7 @@ input[type="checkbox"]::before {
     .mobileCBtn {
         width: 115px !important;
     height: 30px !important;
+    padding: 0;
     }
 
 }

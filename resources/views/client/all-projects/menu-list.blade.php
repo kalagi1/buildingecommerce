@@ -906,7 +906,8 @@
                                                                                                         </button>`
                                                                 }
                                                                     </div>
-                                                                    <span class="ml-auto text-primary priceFont">
+                                                                    <span class="ml-auto text-primary priceFont"
+                                                                    style="text-align:right">
                                                                         ${
                                                         res.step2_slug !== "gunluk-kiralik"
                                                         ? res.offSale || (res.action === 'payment_await' || res.action === 'sold')
