@@ -235,7 +235,6 @@ button {
 .featured .allView,
 .popular-places button {
     border: none;
-    padding: 10px 15px;
     border-radius: 5px;
     display: flex;
 
