@@ -873,8 +873,10 @@
 
         @media (max-width:768px) {
             #sort-select {
-                margin: 15px 0;
-                width: 200px;
+               /* margin: 15px 0; */
+    border-radius: 0 !important;
+    width: 200px;
+    border: 0 !important;
             }
 
             .circleIcon {
