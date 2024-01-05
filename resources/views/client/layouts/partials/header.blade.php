@@ -347,37 +347,38 @@
                     </nav>
                 </div>
 
-                <div class="p-0 position-relative d-lg-none">
-                    <form action="{{ route('search.results') }}" method="GET" id="search-form">
-                        @csrf
-                        <div class="input-group search ml-3 d-xl-flex d-lg-flex"
-                            style="
-                            width: 100%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    margin-left: 0 !important;">
-                            <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
-                            <button type="submit" class="fa fa-search btn btn-primary" id="search-icon"></button>
-                        </div>
-                    </form>
-
-                    <div class="header-search-box flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
-                        style="    top: 100%;
-                        z-index: 100;
-                        width: 100%;
-                        gap: 12px;
-                        max-height: 296px;
-                        overflow-y: scroll;
-                        margin-left: 0 !important;">
-                    </div>
-
-                </div>
+             
             </div>
 
 
         </header>
+        <div class="p-0 position-relative d-lg-none">
+            <form action="{{ route('search.results') }}" method="GET" id="search-form">
+                @csrf
+                <div class="input-group search ml-3 d-xl-flex d-lg-flex"
+                    style="
+                    width: 100%;
+                margin: 0 auto;
+                display: flex;
+                justify-content: center;
+                padding: 0;
+                margin-left: 0 !important;">
+                    <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
+                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon"></button>
+                </div>
+            </form>
+
+            <div class="header-search-box flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
+                style="    top: 100%;
+                z-index: 100;
+                width: 100%;
+                gap: 12px;
+                max-height: 296px;
+                overflow-y: scroll;
+                margin-left: 0 !important;">
+            </div>
+
+        </div>
         <div class="clearfix"></div>
 
         <div id="preloader">
