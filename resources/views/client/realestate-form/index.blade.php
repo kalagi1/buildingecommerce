@@ -58,7 +58,7 @@
                         </div>
                         <div class="form-group col-md-12">
                             <label for="">İlan Açıklaması</label>
-                            <textarea name="" class="form-control" id="" cols="30" rows="10" style="height: 100px !important;" ></textarea>
+                            <textarea name="" class="form-control" id="" cols="30" rows="10" style="height: 80px !important;" ></textarea>
                         </div>
                         
                         <div class="col-md-12">

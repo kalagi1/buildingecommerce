@@ -402,7 +402,7 @@
                                                                                             <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
                                                                                                 alt="{{ $project->housingType->title }}"
                                                                                                 class="img-responsive"
-                                                                                                style="height: 100px !important;">
+                                                                                                style="height: 80px !important;">
                                                                                         </div>
                                                                                     </div>
                                                                                 </a>
@@ -637,7 +637,7 @@
                                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
                                                                             alt="{{ $project->housingType->title }}"
                                                                             class="img-responsive"
-                                                                            style="height: 100px !important;">
+                                                                            style="height: 80px !important;">
                                                                     </div>
                                                                 </div>
                                                             </a>
@@ -926,7 +926,7 @@
                                                 @endif
                                             </button>
                                         @else
-                                            <button class="CartBtn second-btn mobileCBtn" data-type='project'
+                                            <button class="CartBtn second-btn soldBtn" data-type='project'
                                                 data-project='{{ $project->id }}'
                                                 data-id='{{ getData($project, 'price[]', $housingOrder)->room_order }}'>
                                                 <span class="IconContainer">

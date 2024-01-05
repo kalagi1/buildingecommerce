@@ -593,7 +593,7 @@
                                             style="width: 130px; height: 128px;">
                                             <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
                                                 alt="{{ $housing->housing_title }}" class="img-responsive"
-                                                style="height: 100px !important;">
+                                                style="height: 80px !important;">
                                         </div>
                                     </div>
                                 </a>

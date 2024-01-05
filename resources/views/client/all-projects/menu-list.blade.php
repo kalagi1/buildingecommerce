@@ -848,7 +848,7 @@
                                                     <div class="homes-img h-100 d-flex align-items-center"
                                                         style="width: 110px; height: 128px;">
                                                         <img src="${res.image}" alt="${res.title}" class="img-responsive"
-                                                            style="height: 100px !important;">
+                                                            style="height: 80px !important;">
                                                     </div>
                                                 </div>
                                             </a>

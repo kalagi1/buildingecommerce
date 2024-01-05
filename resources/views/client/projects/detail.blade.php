@@ -488,7 +488,7 @@
                                             style="width: 130px; height: 128px;">
                                             <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
                                                 alt="{{ $project->housingType->title }}" class="img-responsive"
-                                                style="height: 100px !important;">
+                                                style="height: 80px !important;">
                                         </div>
                                     </div>
                                 </a>

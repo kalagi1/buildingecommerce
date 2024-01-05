@@ -258,7 +258,7 @@
                                                     </tr>
 
                                                     @foreach ($labels as $label => $val)
-                                                    {{$val[0]}}
+                                                
                                                         @if ($label != 'Kapak Resmi' && $val[0] != 0)
                                                             <tr>
                                                                 <td>
