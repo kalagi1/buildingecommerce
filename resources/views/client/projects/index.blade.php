@@ -714,19 +714,24 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="w-100"
-                                                style="height: 40px; background-color: #8080802e; margin-top: 20px">
+                                            <div class="w-100" style="height: 40px; background-color: #8080802e; margin-top: 20px">
                                                 <div class="d-flex justify-content-between align-items-center"
-                                                    style="height: 100%;padding: 10px">
+                                                    style="height: 100%">
+                                                    <span style="    height: 100%;
+                                                    font-size: 11px !important;
+                                                    width: 15% !important;
+                                                    padding: 3px 10px;
+                                                    background: #EA2B2E !important;
+                                                    color: white;
+                                                    text-align: center;">No <br> {{$room_order}}</span>
                                                     <ul class="d-flex justify-content-start align-items-center h-100 w-100"
-                                                        style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
-
+                                                        style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:start;margin-bottom:0 !important">
+                    
                                                         @if (isset($project->listItemValues) &&
                                                                 isset($project->listItemValues->column1_name) &&
                                                                 $project->listItemValues->column1_name)
                                                             <li class="d-flex align-items-center itemCircleFont">
-                                                                <i class="fa fa-circle circleIcon mr-1"
-                                                                    aria-hidden="true"></i>
+                                                                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                                                 <span>
                                                                     {{ getData($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
                                                                     @if (isset($project->listItemValues) &&
@@ -741,8 +746,7 @@
                                                                 isset($project->listItemValues->column2_name) &&
                                                                 $project->listItemValues->column2_name)
                                                             <li class="d-flex align-items-center itemCircleFont">
-                                                                <i class="fa fa-circle circleIcon mr-1"
-                                                                    aria-hidden="true"></i>
+                                                                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                                                 <span>
                                                                     {{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
                                                                     @if (isset($project->listItemValues) &&
@@ -757,8 +761,7 @@
                                                                 isset($project->listItemValues->column3_name) &&
                                                                 $project->listItemValues->column3_name)
                                                             <li class="d-flex align-items-center itemCircleFont">
-                                                                <i class="fa fa-circle circleIcon mr-1"
-                                                                    aria-hidden="true"></i>
+                                                                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                                                 <span>
                                                                     {{ getData($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
                                                                     @if (isset($project->listItemValues) &&
@@ -770,9 +773,12 @@
                                                             </li>
                                                         @endif
                                                     </ul>
-
+                    
                                                     <span
-                                                        style="font-size: 11px !important;width:60% !important">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
+                                                        style="    font-size: 11px !important;
+                                                        width: 60% !important;
+                                                        text-align: right;
+                                                        margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
                                                 </div>
                                             </div>
                                             <hr>
@@ -921,60 +927,72 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="w-100"
-                                        style="height: 40px; background-color: #8080802e; margin-top: 20px">
-                                        <ul class="d-flex justify-content-around align-items-center h-100"
-                                            style="list-style: none; padding: 0; font-weight: 600">
-                                            <li class="d-flex align-items-center itemCircleFont">
-                                                <i class="fa fa-circle circleIcon"></i>
-                                                {{ $room_order }} <span> No'lu</span>
-                                            </li>
-                                            @if (isset($project->listItemValues) &&
-                                                    isset($project->listItemValues->column1_name) &&
-                                                    $project->listItemValues->column1_name)
-                                                <li class="the-icons custom-width flex-1">
-                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                    <span>
-                                                        {{ getData($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
-                                                        @if (isset($project->listItemValues) &&
-                                                                isset($project->listItemValues->column1_additional) &&
-                                                                $project->listItemValues->column1_additional)
-                                                            {{ $project->listItemValues->column1_additional }}
-                                                        @endif
-                                                    </span>
-                                                </li>
-                                            @endif
-                                            @if (isset($project->listItemValues) &&
-                                                    isset($project->listItemValues->column2_name) &&
-                                                    $project->listItemValues->column2_name)
-                                                <li class="the-icons custom-width flex-1">
-                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                    <span>
-                                                        {{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
-                                                        @if (isset($project->listItemValues) &&
-                                                                isset($project->listItemValues->column2_additional) &&
-                                                                $project->listItemValues->column2_additional)
-                                                            {{ $project->listItemValues->column2_additional }}
-                                                        @endif
-                                                    </span>
-                                                </li>
-                                            @endif
-                                            @if (isset($project->listItemValues) &&
-                                                    isset($project->listItemValues->column3_name) &&
-                                                    $project->listItemValues->column3_name)
-                                                <li class="the-icons custom-width flex-1">
-                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                    <span>
-                                                        {{ getData($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
-                                                        @if (isset($project->listItemValues) &&
-                                                                isset($project->listItemValues->column3_additional) &&
-                                                                $project->listItemValues->column3_additional)
-                                                            {{ $project->listItemValues->column3_additional }}
-                                                        @endif
-                                                    </span>
-                                                </li>
-                                            @endif
-                                        </ul>
+                                    <div class="w-100" style="height: 40px; background-color: #8080802e; margin-top: 20px">
+                                        <div class="d-flex justify-content-between align-items-center"
+                                            style="height: 100%">
+                                            <span style="    height: 100%;
+                                            font-size: 11px !important;
+                                            width: 15% !important;
+                                            padding: 3px 10px;
+                                            background: #EA2B2E !important;
+                                            color: white;
+                                            text-align: center;">No <br> {{$room_order}}</span>
+                                            <ul class="d-flex justify-content-start align-items-center h-100 w-100"
+                                                style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:start;margin-bottom:0 !important">
+            
+                                                @if (isset($project->listItemValues) &&
+                                                        isset($project->listItemValues->column1_name) &&
+                                                        $project->listItemValues->column1_name)
+                                                    <li class="d-flex align-items-center itemCircleFont">
+                                                        <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                        <span>
+                                                            {{ getData($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
+                                                            @if (isset($project->listItemValues) &&
+                                                                    isset($project->listItemValues->column1_additional) &&
+                                                                    $project->listItemValues->column1_additional)
+                                                                {{ $project->listItemValues->column1_additional }}
+                                                            @endif
+                                                        </span>
+                                                    </li>
+                                                @endif
+                                                @if (isset($project->listItemValues) &&
+                                                        isset($project->listItemValues->column2_name) &&
+                                                        $project->listItemValues->column2_name)
+                                                    <li class="d-flex align-items-center itemCircleFont">
+                                                        <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                        <span>
+                                                            {{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
+                                                            @if (isset($project->listItemValues) &&
+                                                                    isset($project->listItemValues->column2_additional) &&
+                                                                    $project->listItemValues->column2_additional)
+                                                                {{ $project->listItemValues->column2_additional }}
+                                                            @endif
+                                                        </span>
+                                                    </li>
+                                                @endif
+                                                @if (isset($project->listItemValues) &&
+                                                        isset($project->listItemValues->column3_name) &&
+                                                        $project->listItemValues->column3_name)
+                                                    <li class="d-flex align-items-center itemCircleFont">
+                                                        <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                                        <span>
+                                                            {{ getData($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
+                                                            @if (isset($project->listItemValues) &&
+                                                                    isset($project->listItemValues->column3_additional) &&
+                                                                    $project->listItemValues->column3_additional)
+                                                                {{ $project->listItemValues->column3_additional }}
+                                                            @endif
+                                                        </span>
+                                                    </li>
+                                                @endif
+                                            </ul>
+            
+                                            <span
+                                                style="    font-size: 11px !important;
+                                                width: 60% !important;
+                                                text-align: right;
+                                                margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
+                                        </div>
                                     </div>
                                     <hr>
                                 @endfor
@@ -1421,9 +1439,16 @@
                         </div>
                         <div class="w-100" style="height: 40px; background-color: #8080802e; margin-top: 20px">
                             <div class="d-flex justify-content-between align-items-center"
-                                style="height: 100%;padding: 10px">
+                                style="height: 100%">
+                                <span style="    height: 100%;
+                                font-size: 11px !important;
+                                width: 15% !important;
+                                padding: 3px 10px;
+                                background: #EA2B2E !important;
+                                color: white;
+                                text-align: center;">No <br> {{$room_order}}</span>
                                 <ul class="d-flex justify-content-start align-items-center h-100 w-100"
-                                    style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
+                                    style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:start;margin-bottom:0 !important">
 
                                     @if (isset($project->listItemValues) &&
                                             isset($project->listItemValues->column1_name) &&
@@ -1473,7 +1498,10 @@
                                 </ul>
 
                                 <span
-                                    style="font-size: 11px !important;width:60% !important">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
+                                    style="    font-size: 11px !important;
+                                    width: 60% !important;
+                                    text-align: right;
+                                    margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
                             </div>
                         </div>
                         <hr>
