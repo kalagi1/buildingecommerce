@@ -1215,6 +1215,7 @@ class ProjectController extends Controller
             "image" => $tempData->image,
             "city_id" => $tempData->city_id,
             "county_id" => $tempData->county_id,
+            "neighbourhood_id" => $tempData->neighbourhood_id,
             "status" => "2",
         ]);
 

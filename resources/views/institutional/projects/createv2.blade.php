@@ -663,7 +663,7 @@
                     }
                     });
                 }
-                }
+            }
 
             
             window.initMap = initMap;
@@ -688,15 +688,14 @@
                 });
 
                 markers.push(marker); // İşaretçiyi dizide saklayın
-                }
+            }
 
             
             function clearMarkers() {
-            // Tüm işaretçileri haritadan kaldırın
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(null);
-            }
-            markers = []; // Diziyi temizleyin
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                }
+                markers = [];
             }
             
 
@@ -3817,213 +3816,215 @@
                     $('input[name="name"]').addClass('error-border')
                     topError = $('input[name="name"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
                 }
-
-
-                if(!$('#location').val()){
-                    next = false;
-                    if(topError){
-                        if($('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('#location').parent('div').find('.error-text').remove();
-                    $('#location').parent('div').append('<span class="error-text">Haritadan konum seçmek zorunludur</span>')
-                }
-
-                if(!$('.rules_confirm').is(':checked')){
-                    next = false;
-
-                    if(topError){
-                        if($('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('.finish-tick').addClass('error-border')
-                }
-
-                if(descriptionText == ""){
-                    next = false;
-                    if(topError){
-                        if($('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('.description-field .error-text').remove();
-                    $('.description-field').append('<span class="error-text">Açıklama metnini girmek zorunludur</span>')
-                }
-
-                $('.tab-pane.active input[required="required"]').map((key,item) => {
-                    if(!$(item).val() && $(item).attr('type') != 'file'){
+                $.ajax({
+                    method: "GET",
+                    url: "{{ route('institutional.temp.order.location.control') }}",
+                    data: {
+                        item_type: 1,
+                        _token: csrfToken
+                    },
+                    success: function(response) {
                         next = false;
-
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $(item).addClass("error-border")
-                    }
-                })
-
-                $('.tab-pane.active input[type="file"]').map((key,item) => {
-                    if($(item).parent('div').find('.project_imaget').length == 0){
-                        next = false;
-
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $(item).addClass("error-border")
-                    }
-                })
-
-                $('.tab-pane.active select[required="required"]').map((key,item) => {
-                    if(!$(item).val() || $(item).val() == "Seçiniz"){
-                        next = false;
-                        if(topError){
-                            if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $(item).addClass("error-border")
-                    }
-                })
-
-                
-
-                if($('.photos .project_imagex').length == 0){
-                    next = false;
-                    if(topError){
-                        if($('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('.photo-area').addClass('error-border')
-                }
-
-                if($('.cover-photo .project_imagex').length == 0){
-                    next = false;
-                    if(topError){
-                        if($('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('.cover-photo-area').addClass('error-border')
-                }
-
-                if($('.cover-document .has_file').length == 0){
-                    next = false;
-                    if(topError){
-                        if($('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('.cover-document-area').addClass('error-border')
-                }
-                
-                if(!$('select[name="city_id"]').val()){
-                    next = false;
-                    if(topError){
-                        if($('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('select[name="city_id"]').addClass('error-border')
-                }
-
-                if(!$('select[name="county_id"]').val()){
-                    next = false;
-                    if(topError){
-                        if($('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('select[name="county_id"]').addClass('error-border')
-                }
-
-                if(!$('select[name="neighbourhood_id"]').val()){
-                    next = false;
-                    if(topError){
-                        if($('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                            topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                    }else{
-                        topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                    }
-                    $('select[name="neighbourhood_id"]').addClass('error-border')
-                }
-                
-
-                if($('.pricing-item-first .price-radio.select').length > 0){
-                    if($('.single-price-project-area .pricing-item .price-radio.select').length == 0){
-                        if(topError){
-                            if($('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
-                                topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                            }
-                        }else{
-                            topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
-                        }
-                        $('.single-price-project-area .error-text').remove();
-                        $('.single-price-project-area').append("<p class='error-text'>İlan süresini seçmeniz gerekmektedir</p>")
-                    }
-                }
-                if(next){
-                    nextTemp = true;
-                    $.ajax({
-                        method: "POST",
-                        url: "{{route('institutional.change.step.order')}}",
-                        data : {
-                            order : 3,
-                            item_type : 1,
-                            _token : csrfToken
-                        },
-                        success: function(response) {
-                            response = JSON.parse(response);
-                            if(response.status){
-                                $('.firt-area').addClass('d-none');
-                                $('.second-area').addClass('d-none');
-                                $('.third-area').addClass('d-none');
-                                $('.progress-line').removeClass('step1')
-                                $('.progress-line').removeClass('step2')
-                                $('.progress-line').removeClass('step3')
-                                $('.third-area').removeClass('d-none');
-                                $('.progress-line').addClass('step3')
-                                $('.progress-line li').eq(0).removeClass('current').addClass('done')
-                                $('.progress-line li').eq(1).removeClass('current').addClass('done')
-                                $('.progress-line li').eq(2).addClass('current')
-                            }
+                        if(!response){
+                            $('#mapContainer').parent('div').prepend('<div style="border-radius:0;color:#fff;" class="alert alert-danger">Haritada konumu seçmeniz gerekiyor</div>')
+                            topError = $('#mapContainer').offset().top - parseFloat($('.navbar-top').css( 'height')) - 100;
                             
+                        }else{
+                            $('#mapContainer').parent('div').find('.alert-danger').remove();
                         }
-                    })
-                }else{
-                    nextTemp = false;
-                    $('html, body').animate({
-                        scrollTop: topError
-                    }, 100);
-                }
+
+                        if(!$('.rules_confirm').is(':checked')){
+                            next = false;
+
+                            if(topError){
+                                if($('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $('.finish-tick').addClass('error-border')
+                        }
+
+                        if(descriptionText == ""){
+                            next = false;
+                            if(topError){
+                                if($('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $('.description-field .error-text').remove();
+                            $('.description-field').append('<span class="error-text">Açıklama metnini girmek zorunludur</span>')
+                        }
+
+                        $('.tab-pane.active input[required="required"]').map((key,item) => {
+                            if(!$(item).val() && $(item).attr('type') != 'file'){
+                                next = false;
+
+                                if(topError){
+                                    if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                        topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                    }
+                                }else{
+                                    topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                                $(item).addClass("error-border")
+                            }
+                        })
+
+                        $('.tab-pane.active input[type="file"]').map((key,item) => {
+                            if($(item).parent('div').find('.project_imaget').length == 0){
+                                next = false;
+
+                                if(topError){
+                                    if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                        topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                    }
+                                }else{
+                                    topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                                $(item).addClass("error-border")
+                            }
+                        })
+
+                        $('.tab-pane.active select[required="required"]').map((key,item) => {
+                            if(!$(item).val() || $(item).val() == "Seçiniz"){
+                                next = false;
+                                if(topError){
+                                    if($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                        topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                    }
+                                }else{
+                                    topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                                $(item).addClass("error-border")
+                            }
+                        })
+
+                        if($('.photos .project_imagex').length == 0){
+                            next = false;
+                            if(topError){
+                                if($('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $('.photo-area').addClass('error-border')
+                        }
+
+                        if($('.cover-photo .project_imagex').length == 0){
+                            next = false;
+                            if(topError){
+                                if($('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $('.cover-photo-area').addClass('error-border')
+                        }
+
+                        if($('.cover-document .has_file').length == 0){
+                            next = false;
+                            if(topError){
+                                if($('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $('.cover-document-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $('.cover-document-area').addClass('error-border')
+                        }
+                        
+                        if(!$('select[name="city_id"]').val()){
+                            next = false;
+                            if(topError){
+                                if($('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $('select[name="city_id"]').addClass('error-border')
+                        }
+
+                        if(!$('select[name="county_id"]').val()){
+                            next = false;
+                            if(topError){
+                                if($('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $('select[name="county_id"]').addClass('error-border')
+                        }
+
+                        if(!$('select[name="neighbourhood_id"]').val()){
+                            next = false;
+                            if(topError){
+                                if($('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                    topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                            }else{
+                                topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                            }
+                            $('select[name="neighbourhood_id"]').addClass('error-border')
+                        }
+
+                        if($('.pricing-item-first .price-radio.select').length > 0){
+                            if($('.single-price-project-area .pricing-item .price-radio.select').length == 0){
+                                if(topError){
+                                    if($('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 < topError){
+                                        topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                    }
+                                }else{
+                                    topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100; 
+                                }
+                                $('.single-price-project-area .error-text').remove();
+                                $('.single-price-project-area').append("<p class='error-text'>İlan süresini seçmeniz gerekmektedir</p>")
+                            }
+                        }
+                        
+                        if(next){
+                            nextTemp = true;
+                            $.ajax({
+                                method: "POST",
+                                url: "{{route('institutional.change.step.order')}}",
+                                data : {
+                                    order : 3,
+                                    item_type : 1,
+                                    _token : csrfToken
+                                },
+                                success: function(response) {
+                                    response = JSON.parse(response);
+                                    if(response.status){
+                                        $('.firt-area').addClass('d-none');
+                                        $('.second-area').addClass('d-none');
+                                        $('.third-area').addClass('d-none');
+                                        $('.progress-line').removeClass('step1')
+                                        $('.progress-line').removeClass('step2')
+                                        $('.progress-line').removeClass('step3')
+                                        $('.third-area').removeClass('d-none');
+                                        $('.progress-line').addClass('step3')
+                                        $('.progress-line li').eq(0).removeClass('current').addClass('done')
+                                        $('.progress-line li').eq(1).removeClass('current').addClass('done')
+                                        $('.progress-line li').eq(2).addClass('current')
+                                    }
+                                    
+                                }
+                            })
+                        }else{
+                            nextTemp = false;
+                            $('html, body').animate({
+                                scrollTop: topError
+                            }, 100);
+                        }
+                    }
+                })
             }
            
             
