@@ -1010,37 +1010,6 @@
                                     </table>
 
                                 </div>
-                                <hr>
-                                <div class="first-footer">
-                                    <ul class="netsocials px-2">
-                                        @php
-                                            $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-                                            $host = $_SERVER['HTTP_HOST'];
-                                            $uri = $_SERVER['REQUEST_URI'];
-                                            $shareUrl = $protocol . '://' . $host . $uri;
-                                        @endphp
-                                        <li>
-                                            <a href="https://twitter.com/share?url={{ $shareUrl }}">
-                                                <i class="fa fa-twitter" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://www.instagram.com/">
-                                                <i class="fa fa-instagram" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="whatsapp://send?text={{ $shareUrl }}">
-                                                <i class="fa fa-whatsapp" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                                <i class="fa fa-facebook" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
 
                             </div>
                         </div>
