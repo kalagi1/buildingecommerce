@@ -226,7 +226,6 @@
     </section>
     <!-- END SECTION RECENTLY PROPERTIES -->
 
-bu kodun en iyi versiyonunu yaz
 
 
     <!-- START SECTION RECENTLY PROPERTIES -->
