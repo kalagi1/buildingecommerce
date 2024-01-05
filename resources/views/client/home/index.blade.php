@@ -151,7 +151,6 @@
     <!-- category banner headers ends-->
 
 
-
 <!-- START SECTION POPULAR PLACES -->
 <section class="popular-places home18">
     <div class="container">
@@ -162,10 +161,10 @@
         </div>
 
         @if (count($dashboardProjects))
-            @foreach ($dashboardProjects as $project)
-                <div class="row mt-2 mobile-hidden">
-                    <div class="container">
-                        <div class="row">
+            <div class="row mt-2 mobile-hidden">
+                <div class="container">
+                    <div class="row">
+                        @foreach ($dashboardProjects as $project)
                             <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150">
                                 <div class="project-single no-mb aos-init aos-animate" style="height: 100%;" data-aos="zoom-in" data-aos-delay="150">
                                     <div class="listing-item compact" style="height: 100%;">
@@ -182,17 +181,19 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
+            </div>
 
-                <div class="row mobile-show homepage-9">
-                    <div class="container">
-                        <div class="row">
+            <div class="row mobile-show homepage-9">
+                <div class="container">
+                    <div class="row">
+                        @foreach ($dashboardProjects as $project)
                             <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="150">
                                 <div class="small-category-2">
                                     <div class="small-category-2-thumb img-1">
-                                        <a href="{{ route('project.detail', $project->project->slug) }}"><img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}" alt=""></a>
+                                        <a href="{{ route('project.detail', $project->project->slug) }}"><img src="{{ URL::to('/') . '/storage/profile_images/' . $project->project->user->profile_image }}" alt=""></a>
                                     </div>
                                     <div class="sc-2-detail">
                                         <h4 class="sc-jb-title"><a href="{{ route('project.detail', $project->project->slug) }}">{{ $project->project->project_title }}</a></h4>
@@ -202,16 +203,18 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
-            @endforeach
+            </div>
         @else
             <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
         @endif
+
     </div>
 </section>
 <!-- END SECTION RECENTLY PROPERTIES -->
+
 
 
     <!-- START SECTION RECENTLY PROPERTIES -->
