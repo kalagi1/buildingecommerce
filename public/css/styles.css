@@ -7608,11 +7608,11 @@ a.button,
 }
 
 .home5-right-slider {
-    height: 250px;
+    height: 200px;
 }
 
 .home5-right-slider .owl-stage-outer {
-    height: 250px;
+    height: 200px;
 }
 
 .homepage-5 .home5-right-slider.owl-carousel .owl-prev {
@@ -12984,7 +12984,7 @@ section.visited-cities {
     display: block;
     position: relative;
     overflow: hidden;
-    height: 250px;
+    height: 200px;
 }
 
 .recent-img16 {
