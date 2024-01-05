@@ -412,6 +412,7 @@
                         <div id="sorting-options" class="d-flex align-items-center ml-0 ml-md-auto mr-md-0">
 
                             <div onclick="$('.filters-input-area').slideToggle();"
+                            class="d-lg-none"
                                 style="    background: #f0f0f0 !important;
                               padding: 6px;
                               cursor: pointer;
