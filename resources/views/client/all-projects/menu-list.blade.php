@@ -442,7 +442,7 @@
                                 </div>
                             </div>
                             <div class="mobile-show">
-                                <div class="row pp-col">
+                                <div class="row pp-col homepage-9">
                                 </div>
                             </div>
 
@@ -709,21 +709,19 @@
                                 );
                                 $('.pp-col').append(
                                     `
-                                        <div class="col-sm-12 col-md-6 col-lg-6 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150" style="height:200px">
-                                            <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
-                                                <div class="listing-item compact" style="height:100%">
-                                                    <a href="${res.url}" class="listing-img-container" >
-                                                        <img class="project_brand_profile_image" src="${res.image}" alt="" style="border-radius:7px;">
-                                                        <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
-                                                            <span class="badge badge-phoenix text-left">${res.title} <span class="d-block"><small>${res.city.title} / ${res.county.ilce_title}</small></span></span>
-                                                        
-                                                        </div>
-                                                        <img src="${res.image}" alt=""
-                                                        style="height:100%;object-fit:cover">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+
+                                    <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-delay="150">
+                            <div class="small-category-2">
+                                <div class="small-category-2-thumb img-1">
+                                    <a href="${res.url}"><img src="${res.image}"
+                                            alt=""></a>
+                                </div>
+                                <div class="sc-2-detail">
+                                    <h4 class="sc-jb-title"><a href="${res.url}">${res.title}</a></h4>
+                                </div>
+                            </div>
+                        </div>
                                     `
                                 );
                             @else
