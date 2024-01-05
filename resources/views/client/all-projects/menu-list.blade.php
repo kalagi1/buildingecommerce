@@ -434,7 +434,12 @@
                                 height: 35px !important;
                                 border-left: 1px solid #c9c9c9 !important;
                                 align-items: center;
-                                justify-content: center;">
+                                justify-content: center;
+                                -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-position: right center;
+    background-size: 18px 18px;">
                                 <option value="sort">Sırala</option>
                                 <option value="price-asc">Fiyata göre (Önce en düşük)</option>
                                 <option value="price-desc">Fiyata göre (Önce en yüksek)</option>
