@@ -8759,7 +8759,8 @@ a.button {
 
 @media screen and (max-width: 768px) {
     .input-group.search {
-      border: none !important;
+      border: 1px solid #e6e6e6;
+      border-bottom: none;
     }
     .ps-page__dashboard {
         margin-top: 20px
