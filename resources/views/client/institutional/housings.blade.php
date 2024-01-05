@@ -147,8 +147,9 @@
             </div>
         </div>
     </div>
-       <!-- START SECTION RECENTLY PROPERTIES -->
-       <section class="featured portfolio rec-pro disc bg-white">
+    
+     <!-- START SECTION RECENTLY PROPERTIES -->
+     <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div class="section-title">
@@ -169,7 +170,7 @@
                                             style="width: 130px; height: 128px;">
                                             <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
                                                 alt="{{ $housing->housing_title }}" class="img-responsive"
-                                                style="height: 100px !important;">
+                                                style="height: 80px !important;">
                                         </div>
                                     </div>
                                 </a>
@@ -201,7 +202,7 @@
                                                 </button>
                                             @else
                                                  @if ($sold != null && $sold != '2')
-                                                    <button class="btn mobileBtn second-btn CartBtn" disabled
+                                                    <button class="btn mobileCBtn second-btn" 
                                                         @if ($sold == '0') style="background: orange !important;width:100%;color:White"
                                                             @else 
                                                             style="background: red !important;width:100%;color:White" @endif>
@@ -257,7 +258,7 @@
                                                     @if ($housing->step2_slug == 'gunluk-kiralik')
                                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                         ₺
-                                                        <span style="font-size:11px; color:Red" class="mobilePriceStyle">/
+                                                        <span style="font-size:11px; color:Red" class="mobilePriceStyle">
                                                             1 Gece</span>
                                                     @else
                                                         {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
@@ -268,7 +269,7 @@
                                                 @if ($housing->step2_slug == 'gunluk-kiralik')
                                                     {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                     ₺
-                                                    <span style="font-size:11px; color:Red" class="mobilePriceStyle">/ 1
+                                                    <span style="font-size:11px; color:Red" class="mobilePriceStyle"> 1
                                                         Gece</span>
                                                 @else
                                                     {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
@@ -341,9 +342,6 @@
                             </ul>
                             <span style="font-size: 11px !important">{!! $housing->city_title !!}
                                 {{ '/' }} {!! $housing->county_title !!}
-                                {!! isset($housing->neighborhood_title) && $housing->neighborhood_title !== ''
-                                    ? $housing->neighborhood_title
-                                    : '/ ' . $housing->neighborhood_title !!}
                             </span>
                         </div>
 
@@ -412,7 +410,6 @@
                                                                     <span> {{ $housing->city_title }}
                                                                         {{ '/' }}
                                                                         {{ $housing->county_title }}
-                                                                        {!! !empty($housing->neighborhood_title) ? '/ ' . $housing->neighborhood_title : null !!}
 
                                                                     </span>
 
@@ -521,7 +518,7 @@
 
                                                             @if ($housing->step2_slug != 'gunluk-kiralik')
                                                                 @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                                    <button class="btn second-btn CartBtn" disabled
+                                                                    <button class="btn mobileCBtn second-btn " 
                                                                         style="background: red !important;width:100%;color:White">
 
                                                                         <span class="text">Satıldı</span>
@@ -529,7 +526,7 @@
                                                                 @else
                                                                     @if ($sold != null && $sold != '2')
                                                                     
-                                                                        <button class="btn second-btn CartBtn" disabled
+                                                                        <button class="btn mobileCBtn second-btn" 
                                                                             @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
                                                                             @if ($sold == '0')
                                                                             
@@ -612,6 +609,7 @@
             </div>
         </div>
     </section>
+
 
 
 @endsection

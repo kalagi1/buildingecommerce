@@ -70,7 +70,7 @@
             <div class="header-search-box-page">
                 {{-- Result count --}}
                 @if (count($results['merchants']) > 0)
-                    <div class="font-weight-bold p-2 small mt-2" style="background-color: #EEE;">MAĞAZALAR
+                    <div class="font-weight-bold p-2 small mt-2 mb-3" style="background-color: #EEE;">MAĞAZALAR
                         ({{ count($results['merchants']) }})</div>
 
 
@@ -89,7 +89,7 @@
                                                                 <img src="{{ asset('storage/profile_images/' . $result['photo']) }}"
                                                                     alt="home-1" class="img-responsive brand-image-pp">
                                                                 <span
-                                                                    style="font-size:11px !important;">{{ $result['name'] }}</span>
+                                                                    style="font-size:9px !important;">{{ $result['name'] }}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -104,7 +104,7 @@
                 @endif
                 {{-- Housing results --}}
                 @if (count($results['housings']) > 0)
-                    <div class="font-weight-bold p-2 small mt-2" style="background-color: #EEE;">EMLAK İLANLARI
+                    <div class="font-weight-bold p-2 small mt-2 mb-3" style="background-color: #EEE;">EMLAK İLANLARI
                         ({{ count($results['housings']) }})</div>
                     <section class="featured portfolio rec-pro disc bg-white">
                         <div class="container">
@@ -124,7 +124,7 @@
                                                             style="width: 130px; height: 128px;">
                                                             <img src="{{ URL::to('/') . '/housing_images/' . json_decode($result['housing_type_data'])->image }}"
                                                                 alt="{{ $result['housing_title'] }}" class="img-responsive"
-                                                                style="height: 100px !important;">
+                                                                style="height: 80px !important;">
                                                         </div>
                                                     </div>
                                                 </a>
@@ -212,7 +212,7 @@
                                                                         {{ number_format(json_decode($result['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                         ₺
                                                                         <span style="font-size:11px; color:Red"
-                                                                            class="mobilePriceStyle">/ 1 Gece</span>
+                                                                            class="mobilePriceStyle">1 Gece</span>
                                                                     @else
                                                                         {{ number_format(json_decode($result['housing_type_data'])->price[0], 0, ',', '.') }}
                                                                         ₺
@@ -223,7 +223,7 @@
                                                                     {{ number_format(json_decode($result['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                     ₺
                                                                     <span style="font-size:11px; color:Red"
-                                                                        class="mobilePriceStyle">/ 1 Gece</span>
+                                                                        class="mobilePriceStyle">1 Gece</span>
                                                                 @else
                                                                     {{ number_format(json_decode($result['housing_type_data'])->price[0], 0, ',', '.') }}
                                                                     ₺
@@ -467,7 +467,7 @@
                                                                                                     ₺
                                                                                                     <span
                                                                                                         style="font-size:11px; color:#EA2B2E"
-                                                                                                        class="mobilePriceStyle">/
+                                                                                                        class="mobilePriceStyle">
                                                                                                         1
                                                                                                         Gece</span>
                                                                                                 @else
@@ -481,7 +481,7 @@
                                                                                                 ₺
                                                                                                 <span
                                                                                                     style="font-size:11px; color:#EA2B2E"
-                                                                                                    class="mobilePriceStyle">/
+                                                                                                    class="mobilePriceStyle">
                                                                                                     1
                                                                                                     Gece</span>
                                                                                             @else
@@ -593,7 +593,7 @@
 
                 {{-- Project results --}}
                 @if (count($results['projects']) > 0)
-                    <div class="font-weight-bold p-2 small mt-2" style="background-color: #EEE;">PROJELER
+                    <div class="font-weight-bold p-2 small mt-2 mb-3" style="background-color: #EEE;">PROJELER
                         ({{ count($results['projects']) }})</div>
                     <div class="row mt-2">
                         @foreach ($results['projects'] as $result)

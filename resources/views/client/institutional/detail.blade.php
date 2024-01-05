@@ -113,7 +113,7 @@
                 <div class="seller-info-container">
 
                     <div class="seller-info-container__wrapper"><img
-                            src="{{url('images/artboard.png')}}" alt="icon"
+                            src="{{url('images/artboard-2.svg')}}" alt="icon"
                             class="seller-info-container__wrapper__img">
                         <div class="seller-info-container__wrapper__text-container"><span
                                 class="seller-info-container__wrapper__text-container__title">Katılma Tarihi</span><span
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <div class="seller-info-container__wrapper"><img
-                            src="https://cdn.dsmcdn.com/seller-store/resources/location-web-icon.svg" alt="icon"
+                        src="{{url('images/artboard.svg')}}" alt="icon"
                             class="seller-info-container__wrapper__img">
                         <div class="seller-info-container__wrapper__text-container"><span
                                 class="seller-info-container__wrapper__text-container__title">Konum</span><span
