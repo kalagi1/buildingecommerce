@@ -43,7 +43,7 @@
                 padding: 10px !important;
                 margin: 0 auto;
                 margin: 10px auto;
-                font-size: 11px;
+                font-size: 11px !important;
             }
 
             .filters-input-area {
