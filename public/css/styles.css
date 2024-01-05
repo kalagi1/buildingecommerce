@@ -7638,11 +7638,11 @@ a.button,
 }
 
 .home5-right-slider {
-    height: 200px;
+    height: 250px;
 }
 
 .home5-right-slider .owl-stage-outer {
-    height: 200px;
+    height: 250px;
 }
 
 .homepage-5 .home5-right-slider.owl-carousel .owl-prev {
@@ -8374,12 +8374,19 @@ p {
 }
 
 @media (max-width: 768px) {
-    /* p{
-        font-size: 16px !important;
+    .home5-right-slider {
+        height: 200px;
     }
-    span{
-        font-size: 16px !important;
-    } */
+    
+    .home5-right-slider .owl-stage-outer {
+        height: 200px;
+    }
+    .recent-16 {
+        display: block;
+        position: relative;
+        overflow: hidden;
+        height: 200px;
+    }
 
     .title-fsp {
         margin-top: 10px;
@@ -13009,7 +13016,7 @@ section.visited-cities {
     display: block;
     position: relative;
     overflow: hidden;
-    height: 200px;
+    height: 250px;
 }
 
 .recent-img16 {
