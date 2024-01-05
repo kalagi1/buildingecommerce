@@ -2904,6 +2904,8 @@ section.services-home {
     display: table;
     margin-left: 15px;
     float: left;
+    margin-right: 15px;
+    font-size: 11px;
 }
 section.portfolio {
     padding: 30px 0;
