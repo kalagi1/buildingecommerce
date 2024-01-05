@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg col-xl">
                     <div class="netabout">
-                        <a href="index.html" class="logo">
+                        <a href="{{ URL::to('/') }}" class="logo">
                             <img src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt="netcom">
                         </a>
                     </div>
