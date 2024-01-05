@@ -5185,7 +5185,7 @@ section.counterup {
 
 @media screen and (max-width: 768px) {
     .first-footer .logo img {
-        width: 70%;
+        width: 50%;
         height: auto;
         margin-bottom: 1.6rem;
     }
