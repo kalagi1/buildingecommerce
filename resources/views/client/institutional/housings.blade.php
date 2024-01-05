@@ -258,7 +258,7 @@
                                                     @if ($housing->step2_slug == 'gunluk-kiralik')
                                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                         ₺
-                                                        <span style="font-size:11px; color:Red" class="mobilePriceStyle">/
+                                                        <span style="font-size:11px; color:Red" class="mobilePriceStyle">
                                                             1 Gece</span>
                                                     @else
                                                         {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
@@ -269,7 +269,7 @@
                                                 @if ($housing->step2_slug == 'gunluk-kiralik')
                                                     {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                     ₺
-                                                    <span style="font-size:11px; color:Red" class="mobilePriceStyle">/ 1
+                                                    <span style="font-size:11px; color:Red" class="mobilePriceStyle"> 1
                                                         Gece</span>
                                                 @else
                                                     {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}

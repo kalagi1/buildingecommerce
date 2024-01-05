@@ -467,7 +467,7 @@
                                                                                                     ₺
                                                                                                     <span
                                                                                                         style="font-size:11px; color:#EA2B2E"
-                                                                                                        class="mobilePriceStyle">/
+                                                                                                        class="mobilePriceStyle">
                                                                                                         1
                                                                                                         Gece</span>
                                                                                                 @else
@@ -481,7 +481,7 @@
                                                                                                 ₺
                                                                                                 <span
                                                                                                     style="font-size:11px; color:#EA2B2E"
-                                                                                                    class="mobilePriceStyle">/
+                                                                                                    class="mobilePriceStyle">
                                                                                                     1
                                                                                                     Gece</span>
                                                                                             @else
