@@ -451,6 +451,11 @@ img {
     font-size: 12px;
     line-height: 34px;
 }
+.featured-heads{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 /* .brand-head altındaki tüm öğeler için stil kuralları */
 
@@ -461,6 +466,12 @@ img {
 @media (max-width:768px) {
     .brand-head {
         padding-top: 0;
+        margin-top: 20px;
+    }
+    .search-style{
+        padding: 0 !important;
+        position: relative !important;
+        margin: 0 10px !important;
     }
 }
 
@@ -5048,7 +5059,10 @@ section.counterup {
     height: auto;
     margin-bottom: 1.6rem;
 }
-
+.about_content{
+    display: flex;
+    justify-content: center;
+}
 @media screen and (max-width: 991px) {
     .first-footer .netabout {
         margin-bottom: 0px;
