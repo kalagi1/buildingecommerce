@@ -1996,16 +1996,16 @@
                                 }
                             }
                         }
-
-                        
-                
-                        if(indexItem == 0){
-                            $('.prev-house-bottom').addClass('disabled-button')
-                        }
                         $('.pop-up-v4').addClass('d-none');
                         confirmHousings();
                         $('.house_order_input').val(parseInt($('.house_order_input').val()) - 1)
                         $('.room-order-progress').html(parseInt($('.house_order_input').val()))
+                        
+                        if(parseInt($('.house_order_input').val()) == 1){
+                            thisx.addClass('disabled-button')
+                        }else{
+                            thisx.removeClass('disabled-button')
+                        }
                     },
                     error: function (xhr, status, error) {
                         // İstek hata verdiğinde çalışacak fonksiyon
