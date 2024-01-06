@@ -23398,8 +23398,12 @@ a.btn_1 {
 
 .inner-pages .form-control {
     padding: 9px !important;
-    border: 1px solid #dddddd;
-    color: #717171 !important
+    /* border: none !important; */
+    color: #717171 !important;
+    border-color: #EEE;
+    padding: 0 1rem;
+    margin-top: 10px;
+    border-radius: 0 !important;
 }
 
 @media screen and (max-width: 991px) {
