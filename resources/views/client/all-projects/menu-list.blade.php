@@ -1266,6 +1266,12 @@
                 margin-bottom: 10px;
 
             }
+            #sort-select option{
+                text-align: center;
+                justify-content: center;
+                display: flex;
+                align-items: center
+            }
 
             #sort-select {
                 background: #f0f0f0 !important;
