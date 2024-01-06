@@ -471,7 +471,7 @@ img {
     .search-style{
         padding: 0 !important;
         position: relative !important;
-        margin: 0 10px !important;
+        margin: 10px 10px !important;
     }
 }
 
@@ -26917,6 +26917,7 @@ section.ui-element {
     line-height: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-right: 20px;
 }
 
 .forgot-password a {
