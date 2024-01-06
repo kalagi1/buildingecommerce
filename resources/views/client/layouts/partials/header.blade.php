@@ -46,6 +46,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 
     @yield('styles')
+
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
@@ -357,7 +358,7 @@
 
 
         </header>
-        <div class="p-0 position-relative d-lg-none">
+        <div class=" d-lg-none search-style">
             <form action="{{ route('search.results') }}" method="GET" id="search-form">
                 @csrf
                 <div class="input-group search ml-3 d-xl-flex d-lg-flex"
