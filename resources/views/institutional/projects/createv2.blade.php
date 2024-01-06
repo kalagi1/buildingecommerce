@@ -27,7 +27,6 @@
         </div>
     </div>
     @endif
-    
     <div class="pop-up-v4 d-none">
         <div class="pop-back">
 
@@ -65,26 +64,37 @@
         </div>
     </div>
 
-    <div class="bottom-housing-area align-center col-xl-6 col-md-6 col-6 d-none">
+    <div class="bottom-housing-area align-center col-xl-6 col-md-6 col-6 d-none" style="justify-content: center">
         <div class="row w-100">
             <div class="col-md-12 mbpx-10">
                 <div class="row jc-space-between ">
                     <div class="col-md-5">
-                        <select class="form-control br-10px copy-item" name="" id="">
-                            <option value="">Kopyalamak istediğiniz daireyi seçin</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                        </select>
+                        <div class="d-flex" style="align-items: center">
+                            <div class="show-houing-order " style="width: calc(100% - 30px)"><div class="full-load" style="width: 0%"></div> <span>Daire <span class="room-order-progress">1</span> / <span class="percent-housing">0</span>%</span></div>
+                            <div class="icon" style="margin-left: 5px;" data-toggle="tooltip" data-placement="top" title="Doldurduğunuz konutun doluluk oranını görüntüleyebilirsiniz">
+                                <i class="fa fa-circle-info"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-5">
-                        <div class="show-houing-order "><div class="full-load" style="width: 0%"></div> <span>Daire <span class="room-order-progress">1</span> / <span class="percent-housing">0</span>%</span></div>
+                        <div class="d-flex" style="align-items: center">
+                            <div class="icon" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Aynı olan konutları kopyalamak için bu alanı kullanabilirsiniz">
+                                <i class="fa fa-circle-info"></i>
+                            </div>
+                            
+                            <select class="form-control  copy-item" name="" id="">
+                                <option value="">Kopyalamak istediğiniz daireyi seçin</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -229,8 +239,16 @@
                         <div class="form-group description-field">
                             <label for="">Bu Projede Bloklar Var mı? <span class="required">*</span></label>
                             <div class="form-group">
-                                <input type="radio" @if(isset($tempData->has_blocks) && $tempData->has_blocks) checked @endif class="has_blocks_input" name="has_blocks" value="1" id="yes"><label for="yes">Evet</label>
-                                <input type="radio" @if(isset($tempData->has_blocks) && !$tempData->has_blocks) checked @endif class="has_blocks_input" name="has_blocks" value="0" id="no"><label for="no">Hayır</label>
+                                <div class="flex">
+                                    <div class="form-check form-switch" style="display: inline-block;">
+                                        <input @if(isset($tempData->has_blocks) && $tempData->has_blocks) checked @endif class="form-check-input has_blocks_input" name="has_blocks" value="1" type="radio" role="switch" id="yes" >
+                                        <label for="yes" class="form-check-label">Evet</label>
+                                    </div>
+                                    <div class="form-check form-switch mx-3" style="display: inline-block;">
+                                        <input @if(isset($tempData->has_blocks) && !$tempData->has_blocks) checked @endif  name="has_blocks" class="form-check-input has_blocks_input" value="0" type="radio" role="switch" id="no" >
+                                        <label class="form-check-label" for="no">Hayır</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <h4 class="d-flex ai-center has_blocks-open @if(isset($tempData->has_blocks)) @if(!$tempData->has_blocks) d-none @endif @else d-none  @endif">Bloklar <div class="add-block-button"><i class="fa fa-plus"></i></div> </h4>
@@ -244,10 +262,14 @@
                                 @endforeach
                             @endif
                         </div>
-                        <h4 class="mb-3 housings_title has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif">Bu @if(isset($tempData->has_blocks) && $tempData->has_blocks) Blokta @else Projede @endif  Kaç Adet @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif Var</h4><input value="@if(isset($tempData->has_blocks) && $tempData->has_blocks) {{isset($tempData->house_count0) ? $tempData->house_count0 : ''}} @else {{isset($tempData->house_count) ? $tempData->house_count : ''}} @endif" class="form-control mb-5 housing_count_input has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif" type="text" id="house_count" name="house_count" placeholder="Kaç Adet Konutunuz Var" />
+                        <h4 style="display: inline-block;" class=" housings_title has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif">Bu @if(isset($tempData->has_blocks) && $tempData->has_blocks) Blokta @else Projede @endif  Kaç Adet @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif Var</h4>
+                        <div class="d-flex mt-3 mb-3" style="align-items: center;">
+                            <input style="width: 150px;" value="@if(isset($tempData->has_blocks) && $tempData->has_blocks) {{isset($tempData->house_count0) ? $tempData->house_count0 : ''}} @else {{isset($tempData->house_count) ? $tempData->house_count : ''}} @endif" class="form-control housing_count_input has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif" type="text" id="house_count" name="house_count" placeholder="Kaç Adet Konutunuz Var" />
+                            <span id="generate_tabs" style="width: 230px;justify-content: center" class="mx-2 d-flex btn btn-primary has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif">İlan Formunu Oluştur</span>
+                        </div>
                         
-                        <span id="generate_tabs" style="width: 230px;justify-content: center" class="d-flex btn btn-primary mb-5 has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif">İlan Formunu Oluştur</span>
-                        <div class="row full-area">
+                        
+                        <div class="row full-area d-none">
                             <div class="col-sm-12">
                                 <div class="card p-3">
                                     <div class="tab-content" id="pricingTabContent" role="tabpanel">
@@ -623,6 +645,7 @@
             var cityName = "";
             var countyName = "";
             var neighbourhoodName = "";
+            var fullHouses = [];
             var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
             @if(isset($tempData->has_blocks))
                 @if($tempData->has_blocks)
@@ -805,6 +828,7 @@
                 const tabsContainer = document.getElementById('tabs');
 
                 generateTabsButton.addEventListener('click', function () {
+                    $('.full-area').removeClass('d-none')
                     $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
                     $('.total-house-text').html(houseCountInput.value)
                     $('.bottom-housing-area').removeClass('d-none')
@@ -1943,6 +1967,7 @@
                         lastOrders += parseInt(blockHouseCount[i]);
                     }
                 }
+
                 $.ajax({
                     url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+(lastOrders + parseInt($('.house_order_input').val()) - 2), // AJAX isteği yapılacak URL
                     type: "GET", // GET isteği
@@ -1995,15 +2020,16 @@
                                 }
                             }
                         }
+                        $('.pop-up-v4').addClass('d-none');
+                        confirmHousings();
+                        $('.house_order_input').val(parseInt($('.house_order_input').val()) - 1)
+                        $('.room-order-progress').html(parseInt($('.house_order_input').val()))
+                        
                         if(parseInt($('.house_order_input').val()) == 1){
                             thisx.addClass('disabled-button')
                         }else{
                             thisx.removeClass('disabled-button')
                         }
-                        $('.pop-up-v4').addClass('d-none');
-                        confirmHousings();
-                        $('.house_order_input').val(parseInt($('.house_order_input').val()) - 1)
-                        $('.room-order-progress').html(parseInt($('.house_order_input').val()))
                     },
                     error: function (xhr, status, error) {
                         // İstek hata verdiğinde çalışacak fonksiyon
@@ -2374,6 +2400,7 @@
             });
             var houseCount = @if(isset($tempData->has_blocks) && $tempData->has_blocks) {{isset($tempData->house_count0) ? $tempData->house_count0 : 0}} @else {{isset($tempData->house_count) ? $tempData->house_count : 0}} @endif;
             $('.choise-1').click(function(){
+                $('.full-area').removeClass('d-none')
                 $('.bottom-housing-area').removeClass('d-none')
                 $('.pop-up-v2').addClass('d-none')
                 if(disabledBlocks){
@@ -2691,8 +2718,6 @@
                             
                             $('.project-disabled').closest('.form-group').remove();
 
-                            
-                            confirmHousings();
                             $('.rendered-form input').change(function(){
                                 if($(this).attr('type') != "file"){
                                     var lastOrders = 0;
@@ -2875,6 +2900,7 @@
 
                             $('#tablist').attr('style','height:'+$('.tab-content').css('height')+' !important;flex-wrap:nowrap;overflow:scroll;')
 
+                            confirmHousings();
                         },
                         error: function(error) {
                             console.log(error)
@@ -2935,6 +2961,11 @@
                 }
 
                 var percent = (100 * confirm) / confirmCount;
+                if(percent == 100){
+                    fullHouses.push($('.house_order_input').val())
+                }
+
+                console.log(fullHouses);
                 $('.percent-housing').html((percent.toFixed(2)))
                 $('.full-load').css('width',percent+'%')
                 var htmlCopyItems = "<option value=''>Daire bilgilerini kopyala</option>";

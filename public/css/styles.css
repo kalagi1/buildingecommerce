@@ -6001,7 +6001,7 @@ element.style {
 
 .homepage-2 .portfolio .project-single {
     border-radius: 0 0 8px 8px;
-    z-index: 99999;
+    z-index: 99;
     overflow: visible;
 }
 
