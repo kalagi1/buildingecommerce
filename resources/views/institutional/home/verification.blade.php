@@ -48,8 +48,7 @@
 
                         @if (auth()->user()->record_document_approve)
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                            @else
-                            <span style="color:red"> <i class="fa fa-times"></i> Reddedildi</span>
+                           
                         @endif
                     </label>
                     <input type="file" name="sicil_belgesi" id="sicil_belgesi"
@@ -68,8 +67,7 @@
 
                         @if (auth()->user()->tax_document_approve)
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                            @else
-                            <span style="color:red"> <i class="fa fa-times"></i> Reddedildi</span>
+                           
                         @endif
                     </label>
                     <input type="file" name="vergi_levhasi" id="vergi_levhasi"
