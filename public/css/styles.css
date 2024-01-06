@@ -451,6 +451,11 @@ img {
     font-size: 12px;
     line-height: 34px;
 }
+.featured-heads{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 /* .brand-head altındaki tüm öğeler için stil kuralları */
 
@@ -461,6 +466,12 @@ img {
 @media (max-width:768px) {
     .brand-head {
         padding-top: 0;
+        margin-top: 20px;
+    }
+    .search-style{
+        padding: 0 !important;
+        position: relative !important;
+        margin: 0 10px !important;
     }
 }
 
@@ -2902,7 +2913,7 @@ section.services-home {
 }
 
 .homepage-9 .small-category-2-thumb img {
-    width: 150px !important;
+    width: 135px !important;
     object-fit: cover;
     height: 100px;
 }
@@ -5048,7 +5059,10 @@ section.counterup {
     height: auto;
     margin-bottom: 1.6rem;
 }
-
+.about_content{
+    display: flex;
+    justify-content: center;
+}
 @media screen and (max-width: 991px) {
     .first-footer .netabout {
         margin-bottom: 0px;
@@ -18069,6 +18083,8 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .table th,
 .nav-tabs .nav-link {
     font-size: 12px;
+    width: auto;
+    white-space: nowrap;
 }
 
 .inner-pages .blog .blog-info.details h4,
@@ -23384,8 +23400,12 @@ a.btn_1 {
 
 .inner-pages .form-control {
     padding: 9px !important;
-    border: 1px solid #dddddd;
-    color: #717171 !important
+    /* border: none !important; */
+    color: #717171 !important;
+    border-color: #EEE;
+    padding: 0 1rem;
+    margin-top: 10px;
+    border-radius: 0 !important;
 }
 
 @media screen and (max-width: 991px) {
@@ -29245,8 +29265,8 @@ input[type="checkbox"]::before {
     position: fixed;
     bottom: 0;
     right: 0;
-    width: 52px;
-    height: 52px;
+    width: 42px;
+    height: 42px;
     color: #fff;
     background-color: #0360a5;
     background-position: center center;
@@ -29262,8 +29282,8 @@ input[type="checkbox"]::before {
     position: fixed;
     bottom: 0;
     right: 0;
-    width: 52px;
-    height: 52px;
+    width: 42px;
+    height: 42px;
     color: #fff;
     background-color: #0360a5;
     background-position: center center;

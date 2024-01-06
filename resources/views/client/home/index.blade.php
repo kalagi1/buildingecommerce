@@ -231,11 +231,11 @@
     <!-- START SECTION RECENTLY PROPERTIES -->
     <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
-            <div style="display: flex; justify-content: space-between;">
+            <div class="featured-heads">
                 <div class="section-title">
                     <h2>Tamamlanan Projeler</h2>
                 </div>
-                <a href="https://emlaksepeti.innovaticacode.com/kategori/tamamlanan-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/tamamlanan-projeler" style="font-size: 12px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -253,30 +253,30 @@
                     }
                 }
             @endphp
-            <div class="mobile-show">
-                @foreach ($finishProjects as $project)
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin marginLeftRightZero"
-                        data-aos="zoom-in" data-aos-delay="150" style="height:200px">
-                        <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in"
+          
+            <div class="row mobile-show homepage-9">
+                <div class="container">
+                    <div class="row">
+                        @foreach ($finishProjects as $project)
+                        <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
                             data-aos-delay="150">
-                            <div class="listing-item compact" style="height:100%">
-                                <a href="{{ route('project.detail', $project->slug) }}" class="listing-img-container">
-                                    <img class="project_brand_profile_image"
-                                        src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                        alt="">
-                                    <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
-                                        <span class="badge badge-phoenix">{{ $project->project_title }} <span
-                                                class="d-block mt-1 mb-1"><small>{{ $project->city->title }} /
-                                                    {{ $project->county->ilce_title }}</small></span></span>
-
-                                    </div>
-                                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                        alt="" style="height:100%;object-fit:contain">
-                                </a>
+                            <div class="small-category-2">
+                                <div class="small-category-2-thumb img-1">
+                                    <a href="{{ route('project.detail', $project->slug) }}"><img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
+                                            alt=""></a>
+                                </div>
+                                <div class="sc-2-detail">
+                                    <h4 class="sc-jb-title"><a href="{{ route('project.detail', $project->slug) }}">{{ $project->project_title }}</a></h4>
+                                    <span>{{ $project->city->title }}
+                                        /
+                                        {{ $project->county->ilce_title }}
+                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                                </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
-                @endforeach
+                </div>
             </div>
 
             <div class="mobile-hidden">
@@ -329,41 +329,39 @@
     <!-- START SECTION RECENTLY PROPERTIES -->
     <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
-            <div style="display: flex; justify-content: space-between;">
+            <div class="featured-heads" >
                 <div class="section-title">
                     <h2>Devam Eden Projeler</h2>
                 </div>
-                <a href="https://emlaksepeti.innovaticacode.com/kategori/devam-eden-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/devam-eden-projeler" style="font-size: 12px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
                 </a>
             </div>
-            <div class="mobile-show">
-                @foreach ($continueProjects as $project)
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin marginLeftRightZero"
-                        data-aos="zoom-in" data-aos-delay="150" style="height:200px">
-                        <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in"
+            <div class="row mobile-show homepage-9">
+                <div class="container">
+                    <div class="row">
+                        @foreach ($continueProjects as $project)
+                        <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
                             data-aos-delay="150">
-                            <div class="listing-item compact" style="height:100%">
-                                <a href="{{ route('project.detail', $project->slug) }}" class="listing-img-container">
-                                    <img class="project_brand_profile_image"
-                                        src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                        alt="">
-                                    <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
-                                        <span class="badge badge-phoenix text-left">{{ $project->project_title }} <span
-                                                class="d-block mt-1 mb-1"><small>{{ $project->city->title }} /
-                                                    {{ $project->county->ilce_title }}
-                                                    {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
-
-                                    </div>
-                                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                        alt="" style="height:100%;object-fit:contain">
-                                </a>
+                            <div class="small-category-2">
+                                <div class="small-category-2-thumb img-1">
+                                    <a href="{{ route('project.detail', $project->slug) }}"><img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
+                                            alt=""></a>
+                                </div>
+                                <div class="sc-2-detail">
+                                    <h4 class="sc-jb-title"><a href="{{ route('project.detail', $project->slug) }}">{{ $project->project_title }}</a></h4>
+                                    <span>{{ $project->city->title }}
+                                        /
+                                        {{ $project->county->ilce_title }}
+                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                                </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
-                @endforeach
+                </div>
             </div>
 
             <div class="mobile-hidden">
@@ -415,41 +413,40 @@
     <!-- START SECTION RECENTLY PROPERTIES -->
     <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
-            <div style="display: flex; justify-content: space-between;">
+            <div class="featured-heads" >
                 <div class="section-title">
                     <h2>Topraktan Projeler</h2>
                 </div>
-                <a href="https://emlaksepeti.innovaticacode.com/kategori/topraktan-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
                 </a>
             </div>
-            <div class="mobile-show">
-                @foreach ($soilProjects as $project)
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin marginLeftRightZero"
-                        data-aos="zoom-in" data-aos-delay="150" style="height:200px">
-                        <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in"
+   
+            <div class="row mobile-show homepage-9">
+                <div class="container">
+                    <div class="row">
+                        @foreach ($soilProjects as $project)
+                        <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
                             data-aos-delay="150">
-                            <div class="listing-item compact" style="height:100%">
-                                <a href="{{ route('project.detail', $project->slug) }}" class="listing-img-container">
-                                    <img class="project_brand_profile_image"
-                                        src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                        alt="">
-                                    <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
-                                        <span class="badge badge-phoenix text-left">{{ $project->project_title }} <span
-                                                class="d-block mt-1 mb-1"><small>{{ $project->city->title }} /
-                                                    {{ $project->county->ilce_title }}
-                                                    {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
-
-                                    </div>
-                                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                        alt="" style="height:100%;object-fit:contain">
-                                </a>
+                            <div class="small-category-2">
+                                <div class="small-category-2-thumb img-1">
+                                    <a href="{{ route('project.detail', $project->slug) }}"><img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
+                                            alt=""></a>
+                                </div>
+                                <div class="sc-2-detail">
+                                    <h4 class="sc-jb-title"><a href="{{ route('project.detail', $project->slug) }}">{{ $project->project_title }}</a></h4>
+                                    <span>{{ $project->city->title }}
+                                        /
+                                        {{ $project->county->ilce_title }}
+                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                                </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
-                @endforeach
+                </div>
             </div>
 
             <div class="mobile-hidden">
@@ -1215,10 +1212,10 @@
     @if (Auth::check() && Auth::user()->type != '3')
         <!-- HTML -->
         <button class="chatbox-open">
-            <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-comment" aria-hidden="true"></i>
         </button>
         <button class="chatbox-close">
-            <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-close" aria-hidden="true"></i>
         </button>
         <div class="chatbox-popup">
             <header class="chatbox-popup__header">
