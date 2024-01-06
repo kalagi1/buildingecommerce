@@ -2517,7 +2517,6 @@
                                 }
                             }
                             
-                            confirmHousings();
 
                             $('.dropzonearea').closest('.formbuilder-file').remove();
                             for(let i = 1 ; i <= houseCount; i++){
@@ -2691,6 +2690,9 @@
                             })
                             
                             $('.project-disabled').closest('.form-group').remove();
+
+                            
+                            confirmHousings();
                             $('.rendered-form input').change(function(){
                                 if($(this).attr('type') != "file"){
                                     var lastOrders = 0;
@@ -2909,7 +2911,6 @@
                         if(!$(item).val()){
                             confirmCount += 1;
                         }else{
-                            console.log($(item));
                             confirm += 1;
                             confirmCount += 1;
                         }
@@ -2918,6 +2919,7 @@
                 $('.tab-pane').eq(0).find('select[required="required"]').map((key,item) => {
                     if(!$(item).val() || $(item).val() == "Seçiniz"){
                         confirmCount += 1;
+                        console.log("selectte hata var");
                     }else{
                         confirm += 1;
                         console.log("select");
@@ -4044,8 +4046,7 @@
             var value = $(this).attr('attr-id');
             var key = "statuses";
             var isArray = 1; 
-
-            if($(this).attr('attr-id',3)){
+            if($(this).attr('attr-id') == 3){
                 isContinueProject = true;
             }
 
