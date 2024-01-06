@@ -154,6 +154,11 @@
                                                     'text' => 'Siparişlerim',
                                                 ],
                                                 [
+                                                    'url' => route('favorites'),
+                                                    'icon' => 'fa-heart',
+                                                    'text' => 'Favorilerim',
+                                                ],
+                                                [
                                                     'url' => route('institutional.projects.index'),
                                                     'icon' => 'fa-home',
                                                     'text' => 'İlanlarım',
