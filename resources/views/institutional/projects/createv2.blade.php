@@ -27,7 +27,6 @@
         </div>
     </div>
     @endif
-    
     <div class="pop-up-v4 d-none">
         <div class="pop-back">
 
@@ -70,21 +69,32 @@
             <div class="col-md-12 mbpx-10">
                 <div class="row jc-space-between ">
                     <div class="col-md-5">
-                        <div class="show-houing-order "><div class="full-load" style="width: 0%"></div> <span>Daire <span class="room-order-progress">1</span> / <span class="percent-housing">0</span>%</span></div>
+                        <div class="d-flex" style="align-items: center">
+                            <div class="show-houing-order " style="width: calc(100% - 30px)"><div class="full-load" style="width: 0%"></div> <span>Daire <span class="room-order-progress">1</span> / <span class="percent-housing">0</span>%</span></div>
+                            <div class="icon" style="margin-left: 5px;" data-toggle="tooltip" data-placement="top" title="Doldurduğunuz konutun doluluk oranını görüntüleyebilirsiniz">
+                                <i class="fa fa-circle-info"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-5">
-                        <select class="form-control  copy-item" name="" id="">
-                            <option value="">Kopyalamak istediğiniz daireyi seçin</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                        </select>
+                        <div class="d-flex" style="align-items: center">
+                            <div class="icon" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Aynı olan konutları kopyalamak için bu alanı kullanabilirsiniz">
+                                <i class="fa fa-circle-info"></i>
+                            </div>
+                            
+                            <select class="form-control  copy-item" name="" id="">
+                                <option value="">Kopyalamak istediğiniz daireyi seçin</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
