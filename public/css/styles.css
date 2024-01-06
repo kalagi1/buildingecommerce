@@ -29159,7 +29159,8 @@ input[type="checkbox"]::before {
 }
 
 .msg-text {
-    text-align: left
+    text-align: left;
+    font-size:11px !important;
 }
 
 .msger-inputarea {
