@@ -4,7 +4,7 @@
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
             <button type="button" class="btn btn-close-cart" style="background: black;color:white;font-size:12px"
-            onclick="window.location.href='{{ route('index') }}'">
+                onclick="window.location.href='{{ route('index') }}'">
                 <i class="fa fa-times"></i> Kapat
             </button>
             <div class="row" style="justify-content: end">
@@ -139,7 +139,7 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Ödeme Adımı</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+                                <span aria-hidden="true" class="closeTimes">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
@@ -293,8 +293,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#completePaymentButton').prop('disabled', true);
-
+            $('#completePaymentButton').prop('disabled', false);
 
             $('.bank-account').on('click', function() {
                 // Tüm banka görsellerini seçim olmadı olarak ayarla
@@ -313,12 +312,16 @@
                 // IBAN bilgisini ekranda göster
                 $('#ibanInfo').text(selectedBankTitle + " : " + selectedBankIban);
                 // Ödeme düğmesini etkinleştir
-                $('#completePaymentButton').prop('disabled', false);
             });
 
             $('#completePaymentButton').on('click', function() {
-                $('#paymentModal').modal('hide');
-                $('#finalConfirmationModal').modal('show');
+                if ($('.bank-account.selected').length === 0) {
+                    toastr.error('Lütfen banka seçimi yapınız.')
+
+                } else {
+                    $('#paymentModal').modal('hide');
+                    $('#finalConfirmationModal').modal('show');
+                }
             });
         });
     </script>

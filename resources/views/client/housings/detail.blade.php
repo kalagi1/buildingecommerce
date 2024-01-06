@@ -256,53 +256,57 @@
                                                             </span>
                                                         </td>
                                                     </tr>
-                                                   
+
                                                     @foreach ($labels as $label => $val)
-                                                    @if ($label != "Kapak Resmi")
-                                                    <tr>
-                                                        <td>
-                                                            @if ($label == 'Fiyat')
-                                                                <span class="mr-1">{{ $label }}:</span>
-                                                                <span class="det" style="color: black;">{{ number_format($val[0], 0, ',', '.') }} ₺</span>
-                                                            @else
-                                                                <span class="mr-1">{{ $label }}:</span>
-                                                                @if ($label == 'm² (Net)<br>')
-                                                                    <span class="det">{{ $val[0] }} m2</span>
-                                                                @elseif ($label == 'Özellikler')
-                                                                    <ul>
-                                                                        @foreach ($val as $ozellik)
-                                                                            <li>{{ $ozellik }}</li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                @else
-                                                                    <span class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
-                                                                @endif
-                                                            @endif
-                                                        </td>
-                                                    </tr> 
-                                                    @endif
-                                                   
-                                                @endforeach
+                                                
+                                                        @if ($label != 'Kapak Resmi' && $val[0] != 0)
+                                                            <tr>
+                                                                <td>
+                                                                    @if ($label == 'Fiyat')
+                                                                        <span class="mr-1">{{ $label }}:</span>
+                                                                        <span class="det"
+                                                                            style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
+                                                                            ₺</span>
+                                                                    @else
+                                                                        <span class="mr-1">{{ $label }}:</span>
+                                                                        @if ($label == 'm² (Net)<br>')
+                                                                            <span class="det">{{ $val[0] }}
+                                                                                m2</span>
+                                                                        @elseif ($label == 'Özellikler')
+                                                                            <ul>
+                                                                                @foreach ($val as $ozellik)
+                                                                                    <li>{{ $ozellik }}</li>
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        @else
+                                                                            <span
+                                                                                class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
+                                                                        @endif
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
 
                                                 </tbody>
                                             </table>
 
-
-
                                             @foreach ($labels as $label => $val)
-                                            @if (is_array($val))
-                                                @if (count($val) > 1)
-                                                    @if ($label != 'Galeri')
-                                                        <h5 class="mt-5">{{ $label }}</h5>
-                                                        <ul class="homes-list clearfix">
-                                                            @foreach ($val as $item)
-                                                                <li><i class="fa fa-check-square" aria-hidden="true"></i><span>{{ $item }}</span></li>
-                                                            @endforeach
-                                                        </ul>
+                                                @if (is_array($val))
+                                                    @if (count($val) > 1)
+                                                        @if ($label != 'Galeri')
+                                                            <h5 class="mt-5">{{ $label }}</h5>
+                                                            <ul class="homes-list clearfix">
+                                                                @foreach ($val as $item)
+                                                                    <li><i class="fa fa-check-square"
+                                                                            aria-hidden="true"></i><span>{{ $item }}</span>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
                                                     @endif
                                                 @endif
-                                            @endif
-                                        @endforeach
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -656,51 +660,53 @@
                                                     <span class="text">Satıldı</span>
                                                 </button>
                                             @else
-                                                @if(auth()->check() && auth()->user()->type == 19)
-                                                    @if(isset(json_decode($housing->housing_type_data)->{"share-open"}) && json_decode($housing->housing_type_data)->{"share-open"}[0])
+                                                @if (auth()->check() && auth()->user()->type == 19)
+                                                    @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
+                                                            json_decode($housing->housing_type_data)->{"share-open"}[0]
+                                                    )
                                                         <button class="CartBtn" data-type='housing'
                                                             data-id='{{ $housing->id }}'>
-                                                                <span class="IconContainer">
-                                                                    <img src="{{ asset('link.png') }}" alt="">
-                                                                </span>
-                                                                <span class="text">Koleksiyonuma Ekle</span>
+                                                            <span class="IconContainer">
+                                                                <img src="{{ asset('link.png') }}" alt="">
+                                                            </span>
+                                                            <span class="text">Koleksiyonuma Ekle</span>
                                                         </button>
                                                     @else
                                                         <button class="disabledShareButton" data-type='housing'
                                                             data-id='{{ $housing->id }}'>
-                                                                <span class="IconContainer">
-                                                                    <img src="{{ asset('link.png') }}" alt="">
-                                                                </span>
-                                                                <span class="text">Paylaşıma Kapalı</span>
+                                                            <span class="IconContainer">
+                                                                <img src="{{ asset('link.png') }}" alt="">
+                                                            </span>
+                                                            <span class="text">Paylaşıma Kapalı</span>
                                                         </button>
                                                     @endif
                                                 @else
-                                                @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
-                                                @php
-                                                    $buttonStyle = '';
-                                                    $buttonText = '';
-                                                    if ($sold[0]->status == '0') {
-                                                        $buttonStyle = 'background: orange !important; width: 100%; color: white;';
-                                                        $buttonText = 'Onay Bekleniyor';
-                                                    } else {
-                                                        $buttonStyle = 'background: red !important; width: 100%; color: white;';
-                                                        $buttonText = 'Satıldı';
-                                                    }
-                                                @endphp
+                                                    @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
+                                                        @php
+                                                            $buttonStyle = '';
+                                                            $buttonText = '';
+                                                            if ($sold[0]->status == '0') {
+                                                                $buttonStyle = 'background: orange !important; width: 100%; color: white;';
+                                                                $buttonText = 'Onay Bekleniyor';
+                                                            } else {
+                                                                $buttonStyle = 'background: red !important; width: 100%; color: white;';
+                                                                $buttonText = 'Satıldı';
+                                                            }
+                                                        @endphp
 
-                                                <button class="btn second-btn soldBtn" 
-                                                    style="{{ $buttonStyle }}">
-                                                    <span class="text">{{ $buttonText }}</span>
-                                                </button>
-                                            @else
-                                                <button class="CartBtn" data-type='housing'
-                                                    data-id='{{ $housing->id }}'>
-                                                    <span class="IconContainer">
-                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                    </span>
-                                                    <span class="text">Sepete Ekle</span>
-                                                </button>
-                                            @endif
+                                                        <button class="btn second-btn soldBtn"
+                                                            style="{{ $buttonStyle }}">
+                                                            <span class="text">{{ $buttonText }}</span>
+                                                        </button>
+                                                    @else
+                                                        <button class="CartBtn" data-type='housing'
+                                                            data-id='{{ $housing->id }}'>
+                                                            <span class="IconContainer">
+                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                            </span>
+                                                            <span class="text">Sepete Ekle</span>
+                                                        </button>
+                                                    @endif
                                                 @endif
                                             @endif
 
@@ -743,9 +749,14 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    {!! optional($housing->city)->title . ' / ' . optional($housing->county)->title . ' / ' . optional($housing->neighborhood)->mahalle_title ?? '' !!}
+                                                    {!! optional($housing->city)->title .
+                                                        ' / ' .
+                                                        optional($housing->county)->title .
+                                                        ' / ' .
+                                                        optional($housing->neighborhood)->mahalle_title ??
+                                                        '' !!}
                                                 </td>
-                                                
+
                                             </tr>
 
                                             @if ($housing->user->phone)
@@ -780,34 +791,6 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div>
-                                <hr>
-
-
-                                <div class="first-footer">
-                                    <ul class="netsocials px-2">
-
-                                        <li>
-                                            <a href="https://twitter.com/share?url={{ $shareUrl }}">
-                                                <i class="fa fa-twitter" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://www.instagram.com/">
-                                                <i class="fa fa-instagram" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="whatsapp://send?text={{ $shareUrl }}">
-                                                <i class="fa fa-whatsapp" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                                <i class="fa fa-facebook" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </div>
 
                             </div>
@@ -846,7 +829,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Rezervasyon Adımı</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true"  class="closeTimes">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -1014,7 +997,7 @@
                 slidesToShow: 5,
                 slidesToScroll: 4,
                 dots: false,
-                loop: true,
+                loop: false,
                 autoplay: false,
                 arrows: false,
                 margin: 20,
@@ -1089,45 +1072,45 @@
             $(document).ready(function() {
                 var maxUser = parseInt("{{ getData($housing, 'max_user') }}"); // $housing'ten max_user değerini alın
 
-var inputElement = document.querySelector('input[name="person_count"]');
-var minusButton = document.querySelector('.btn-number[data-type="minus"]');
-var plusButton = document.querySelector('.btn-number[data-type="plus"]');
+                var inputElement = document.querySelector('input[name="person_count"]');
+                var minusButton = document.querySelector('.btn-number[data-type="minus"]');
+                var plusButton = document.querySelector('.btn-number[data-type="plus"]');
 
-minusButton.addEventListener('click', function() {
-    updateQuantity(-1);
-});
+                minusButton.addEventListener('click', function() {
+                    updateQuantity(-1);
+                });
 
-plusButton.addEventListener('click', function() {
-    updateQuantity(1);
-});
+                plusButton.addEventListener('click', function() {
+                    updateQuantity(1);
+                });
 
-function updateQuantity(change) {
-    var currentValue = parseInt(inputElement.value);
-    var newValue = currentValue + change;
+                function updateQuantity(change) {
+                    var currentValue = parseInt(inputElement.value);
+                    var newValue = currentValue + change;
 
-    if (currentValue > maxUser) {
-        plusButton.disabled = true;
-    } else {
-        plusButton.disabled = false;
-    }
-    minusButton.disabled = (newValue <= 0);
+                    if (currentValue > maxUser) {
+                        plusButton.disabled = true;
+                    } else {
+                        plusButton.disabled = false;
+                    }
+                    minusButton.disabled = (newValue <= 0);
 
-    if (newValue >= 0 && newValue <= maxUser) {
-        inputElement.value = newValue;
-    } else {
-        Swal.fire({
-            icon: 'warning',
-            title: 'UYARI!',
-            text: 'Maksimum kişi sayısını aştınız.',
-        });
+                    if (newValue >= 0 && newValue <= maxUser) {
+                        inputElement.value = newValue;
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'UYARI!',
+                            text: 'Maksimum kişi sayısını aştınız.',
+                        });
 
-        if (newValue > maxUser) {
-            plusButton.disabled = true;
-        } else {
-            plusButton.disabled = false;
-        }
-    }
-}
+                        if (newValue > maxUser) {
+                            plusButton.disabled = true;
+                        } else {
+                            plusButton.disabled = false;
+                        }
+                    }
+                }
                 $(".reservation").on("click", function() {
                     if ($(".showPrice").hasClass("d-none")) {
                         $(".reservationBtn").removeAttr("data-toggle data-target");
@@ -1241,7 +1224,7 @@ function updateQuantity(change) {
 
             $(document).ready(function() {
                 // Başlangıçta ödeme düğmesini devre dışı bırak
-                $('#completePaymentButton').prop('disabled', true);
+                $('#completePaymentButton').prop('disabled', false);
 
 
                 $('.bank-account').on('click', function() {
@@ -1261,12 +1244,17 @@ function updateQuantity(change) {
                     // IBAN bilgisini ekranda göster
                     $('#ibanInfo').text(selectedBankTitle + " : " + selectedBankIban);
                     // Ödeme düğmesini etkinleştir
-                    $('#completePaymentButton').prop('disabled', false);
                 });
 
                 $('#completePaymentButton').on('click', function() {
+                    if ($('.bank-account.selected').length === 0) {
+                    toastr.error('Lütfen banka seçimi yapınız.')
+
+                } else {
                     $('#paymentModal').removeClass('show');
                     $('#finalConfirmationModal').modal('show');
+                }
+                  
                 });
             });
 
@@ -1530,7 +1518,7 @@ function updateQuantity(change) {
 
         .trStyle tr td {
             width: 100%;
-            font-size: 13px;
+            font-size: 11px;
         }
 
         @media (max-width:768px) {

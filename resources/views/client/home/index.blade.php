@@ -118,7 +118,7 @@
                                             <div class="homes">
                                                 <img src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
                                                     alt="home-1" class="img-responsive brand-image-pp">
-                                                <span style="font-size:11px !important;">{{ $brand->name }}</span>
+                                                <span style="font-size:9px !important;">{{ $brand->name }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -136,7 +136,7 @@
     <section class="container justify-content-center">
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $status)
-                <div class="col-lg-2 col-md-6 col-sm-6 mb-3 statusHome">
+                <div class="col-lg-2 col-md-6 col-sm-6 mb-3 col-6 statusHome">
                     <a href="{{ url('kategori/' . $status->slug) }}">
                         <button style="background-color: #ea2a28; color: white;" class="w-100">
                             {{ $status->name }}
@@ -152,8 +152,6 @@
 
 
 
-
-
     <!-- START SECTION POPULAR PLACES -->
     <section class="popular-places home18">
         <div class="container">
@@ -162,7 +160,7 @@
                     <h2>Öne Çıkan Projeler</h2>
                 </div>
             </div>
-            <div class="row mt-2">
+            <div class="row mt-2 mobile-hidden">
                 <div class="container">
                     @if (count($dashboardProjects))
                         <div class="row">
@@ -200,9 +198,34 @@
                     @endif
                 </div>
             </div>
+            <div class="row mobile-show homepage-9">
+                <div class="container">
+                    <div class="row">
+                        @foreach ($dashboardProjects as $project)
+                        <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-delay="150">
+                            <div class="small-category-2">
+                                <div class="small-category-2-thumb img-1">
+                                    <a href="{{ route('project.detail', $project->project->slug) }}"><img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}""
+                                            alt=""></a>
+                                </div>
+                                <div class="sc-2-detail">
+                                    <h4 class="sc-jb-title"><a href="{{ route('project.detail', $project->project->slug) }}">{{ $project->project->project_title }}</a></h4>
+                                    <span>{{ $project->project->city->title }}
+                                        /
+                                        {{ $project->project->county->ilce_title }}
+                                        {{ $project->project->neighbourhood ? '/ ' . $project->project->neighbourhood->mahalle_title : null }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <!-- END SECTION RECENTLY PROPERTIES -->
+
 
 
     <!-- START SECTION RECENTLY PROPERTIES -->
@@ -496,7 +519,7 @@
                                             style="width: 130px; height: 128px;">
                                             <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
                                                 alt="{{ $housing->housing_title }}" class="img-responsive"
-                                                style="height: 100px !important;">
+                                                style="height: 80px !important;">
                                         </div>
                                     </div>
                                 </a>
@@ -528,7 +551,7 @@
                                                 </button>
                                             @else
                                                 @if ($sold != null && $sold != '2')
-                                                    <button class="btn mobileBtn second-btn " 
+                                                    <button class="btn mobileCBtn second-btn "
                                                         @if ($sold == '0') style="background: orange !important;width:100%;color:White"
                                                             @else 
                                                             style="background: red !important;width:100%;color:White" @endif>
@@ -583,7 +606,7 @@
                                                     @if ($housing->step2_slug == 'gunluk-kiralik')
                                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                         ₺
-                                                        <span style="font-size:11px; color:Red" class="mobilePriceStyle">/
+                                                        <span style="font-size:11px; color:Red" class="mobilePriceStyle">
                                                             1 Gece</span>
                                                     @else
                                                         {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
@@ -594,7 +617,7 @@
                                                 @if ($housing->step2_slug == 'gunluk-kiralik')
                                                     {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                     ₺
-                                                    <span style="font-size:11px; color:Red" class="mobilePriceStyle">/ 1
+                                                    <span style="font-size:11px; color:Red" class="mobilePriceStyle"> 1
                                                         Gece</span>
                                                 @else
                                                     {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
@@ -667,9 +690,6 @@
                             </ul>
                             <span style="font-size: 11px !important">{!! $housing->city_title !!}
                                 {{ '/' }} {!! $housing->county_title !!}
-                                {!! isset($housing->neighborhood_title) && $housing->neighborhood_title !== ''
-                                ?  '/ ' .$housing->neighborhood_title
-                                : null !!}
                             </span>
                         </div>
 
@@ -743,9 +763,6 @@
                                                                         <span> {{ $housing->city_title }}
                                                                             {{ '/' }}
                                                                             {{ $housing->county_title }}
-                                                                            {!! isset($housing->neighborhood_title) && $housing->neighborhood_title !== ''
-                                                                            ?  '/ ' .$housing->neighborhood_title
-                                                                            : null !!}
                                                                         </span>
 
                                                                     </p>
@@ -856,14 +873,14 @@
 
                                                                 @if ($housing->step2_slug != 'gunluk-kiralik')
                                                                     @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                                        <button class="btn second-btn " 
+                                                                        <button class="btn second-btn "
                                                                             style="background: red !important;width:100%;color:White">
 
                                                                             <span class="text">Satıldı</span>
                                                                         </button>
                                                                     @else
                                                                         @if ($sold != null && $sold != '2')
-                                                                            <button class="btn second-btn " 
+                                                                            <button class="btn second-btn "
                                                                                 @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
                                                                                 @if ($sold == '0')
                                                                                     <span class="text">Onay
@@ -970,9 +987,6 @@
                                                                     <span> {{ $housing->city_title }}
                                                                         {{ '/' }}
                                                                         {{ $housing->county_title }}
-                                                                        {!! isset($housing->neighborhood_title) && $housing->neighborhood_title !== ''
-                                                                        ?  '/ ' .$housing->neighborhood_title
-                                                                        : null !!}
                                                                     </span>
 
                                                                 </p>
@@ -1080,14 +1094,14 @@
 
                                                             @if ($housing->step2_slug != 'gunluk-kiralik')
                                                                 @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                                    <button class="btn second-btn " 
+                                                                    <button class="btn second-btn "
                                                                         style="background: red !important;width:100%;color:White">
 
                                                                         <span class="text">Satıldı</span>
                                                                     </button>
                                                                 @else
                                                                     @if ($sold != null && $sold != '2')
-                                                                        <button class="btn second-btn " 
+                                                                        <button class="btn second-btn "
                                                                             @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
                                                                             @if ($sold == '0')
                                                                                 <span class="text">Onay Bekleniyor</span>

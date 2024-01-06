@@ -589,7 +589,7 @@
                         aria-controls="navbarVerticalCollapse" aria-expanded="false"
                         aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                 class="toggle-line"></span></span></button>
-                    <a class="navbar-brand navbar-brand" href="index.html">phoenix <span
+                    <a class="navbar-brand navbar-brand" href="{{ URL::to('/') }}">phoenix <span
                             class="text-1000 d-none d-sm-inline">slim</span></a>
                 </div>
                 <ul class="navbar-nav navbar-nav-icons flex-row">
@@ -1031,7 +1031,7 @@
                     data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse"
                     aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                             class="toggle-line"></span></span></button>
-                <a class="navbar-brand me-1 me-sm-3" href="index.html">
+                <a class="navbar-brand me-1 me-sm-3" href="{{ URL::to('/') }}">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
                                 src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
@@ -1049,7 +1049,7 @@
                             aria-haspopup="true" aria-expanded="false"><span
                                 class="uil fs-0 me-2 uil-chart-pie"></span>Home</a>
                         <ul class="dropdown-menu navbar-dropdown-caret">
-                            <li><a class="dropdown-item active" href="index.html">
+                            <li><a class="dropdown-item active" href="{{ URL::to('/') }}">
                                     <div class="dropdown-item-wrapper"><span class="me-2 uil"
                                             data-feather="shopping-cart"></span>E commerce</div>
                                 </a></li>
@@ -2330,7 +2330,7 @@
                     data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse"
                     aria-controls="navbarTopCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span
                         class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-                <a class="navbar-brand navbar-brand" href="index.html">phoenix <span
+                <a class="navbar-brand navbar-brand" href="{{ URL::to('/') }}">phoenix <span
                         class="text-1000 d-none d-sm-inline">slim</span></a>
             </div>
             <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center"
@@ -2341,7 +2341,7 @@
                             aria-haspopup="true" aria-expanded="false"><span
                                 class="uil fs-0 me-2 uil-chart-pie"></span>Home</a>
                         <ul class="dropdown-menu navbar-dropdown-caret">
-                            <li><a class="dropdown-item active" href="index.html">
+                            <li><a class="dropdown-item active" href="{{ URL::to('/') }}">
                                     <div class="dropdown-item-wrapper"><span class="me-2 uil"
                                             data-feather="shopping-cart"></span>E commerce</div>
                                 </a></li>
@@ -3626,7 +3626,7 @@
                     aria-controls="navbarVerticalCollapse" aria-expanded="false"
                     aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                             class="toggle-line"></span></span></button>
-                <a class="navbar-brand me-1 me-sm-3" href="index.html">
+                <a class="navbar-brand me-1 me-sm-3" href="{{ URL::to('/') }}">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
                                 src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
@@ -3644,7 +3644,7 @@
                             aria-haspopup="true" aria-expanded="false"><span
                                 class="uil fs-0 me-2 uil-chart-pie"></span>Home</a>
                         <ul class="dropdown-menu navbar-dropdown-caret">
-                            <li><a class="dropdown-item active" href="index.html">
+                            <li><a class="dropdown-item active" href="{{ URL::to('/') }}">
                                     <div class="dropdown-item-wrapper"><span class="me-2 uil"
                                             data-feather="shopping-cart"></span>E commerce</div>
                                 </a></li>
@@ -4933,7 +4933,7 @@
                     aria-controls="navbarVerticalCollapse" aria-expanded="false"
                     aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                             class="toggle-line"></span></span></button>
-                <a class="navbar-brand navbar-brand" href="index.html">phoenix <span
+                <a class="navbar-brand navbar-brand" href="{{ URL::to('/') }}">phoenix <span
                         class="text-1000 d-none d-sm-inline">slim</span></a>
             </div>
             <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center"
@@ -4944,7 +4944,7 @@
                             aria-haspopup="true" aria-expanded="false"><span
                                 class="uil fs-0 me-2 uil-chart-pie"></span>Home</a>
                         <ul class="dropdown-menu navbar-dropdown-caret">
-                            <li><a class="dropdown-item active" href="index.html">
+                            <li><a class="dropdown-item active" href="{{ URL::to('/') }}">
                                     <div class="dropdown-item-wrapper"><span class="me-2 uil"
                                             data-feather="shopping-cart"></span>E commerce</div>
                                 </a></li>
@@ -6230,7 +6230,7 @@
                             aria-controls="navbarTopCollapse" aria-expanded="false"
                             aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                     class="toggle-line"></span></span></button>
-                        <a class="navbar-brand me-1 me-sm-3" href="index.html">
+                        <a class="navbar-brand me-1 me-sm-3" href="{{ URL::to('/') }}">
                             <div class="d-flex align-items-center">
                                 <div class="d-flex align-items-center"><img
                                         src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
@@ -6884,7 +6884,7 @@
                                 aria-haspopup="true" aria-expanded="false"><span
                                     class="uil fs-0 me-2 uil-chart-pie"></span>Home</a>
                             <ul class="dropdown-menu navbar-dropdown-caret">
-                                <li><a class="dropdown-item active" href="index.html">
+                                <li><a class="dropdown-item active" href="{{ URL::to('/') }}">
                                         <div class="dropdown-item-wrapper"><span class="me-2 uil"
                                                 data-feather="shopping-cart"></span>E commerce</div>
                                     </a></li>

@@ -100,7 +100,7 @@ if (!function_exists('getHouse')) {
 
                                             <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $i + 1)->value }}"
                                                 alt="{{ $project->housingType->title }}" class="img-responsive"
-                                                style="height: 100px !important;">
+                                                style="height: 80px !important;">
                                         </div>
                                     </div>
                                 </a>

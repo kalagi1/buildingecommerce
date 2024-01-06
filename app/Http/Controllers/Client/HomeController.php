@@ -91,9 +91,7 @@ class HomeController extends Controller
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
         $brands = User::where("type", "2")->where("status", "1")->get();
-        $sliders = Cache::rememberForever('sliders',function(){
-            return Slider::all();
-        });
+        $sliders =  Slider::all();
         $footerSlider = FooterSlider::all();
 
         $finishProjects = Project::select('projects.*')
