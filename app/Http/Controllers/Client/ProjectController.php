@@ -65,7 +65,15 @@ class ProjectController extends Controller
         for($i = 0; $i < $blockIndex; $i++){
             $startIndex += $project->blocks[$i]->housing_count;
         }
-        $endIndex = $startIndex + 20;
+
+        if($project->blocks[$request->input('block_id') ?? 0]->housing_count > 20){
+            $endIndex = 20 + $startIndex;
+        }else{
+            
+            $endIndex = $project->blocks[$request->input('block_id') ?? 0]->housing_count + $startIndex;
+        }
+
+
         return view('client.projects.index', compact('salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
     }
     
