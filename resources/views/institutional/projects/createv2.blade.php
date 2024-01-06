@@ -2690,6 +2690,9 @@
                             })
                             
                             $('.project-disabled').closest('.form-group').remove();
+
+                            
+                            confirmHousings();
                             $('.rendered-form input').change(function(){
                                 if($(this).attr('type') != "file"){
                                     var lastOrders = 0;
@@ -2900,23 +2903,6 @@
                 })
             })
 
-            $('.choise-2').click(function(){
-                $.ajax({
-                    method: "POST",
-                    url: "{{route('institutional.delete.temp.create')}}",
-                    data : {
-                        item_type : 1,
-                        _token : csrfToken
-                    },
-                    success: function(response) {
-                        response = JSON.parse(response);
-                        if(response.status){
-                            window.location.href = window.location.href
-                        }
-                        
-                    }
-                })
-            })
             function confirmHousings(){
                 var confirm = 0;
                 var confirmCount = 0;
@@ -2933,6 +2919,7 @@
                 $('.tab-pane').eq(0).find('select[required="required"]').map((key,item) => {
                     if(!$(item).val() || $(item).val() == "Seçiniz"){
                         confirmCount += 1;
+                        console.log("selectte hata var");
                     }else{
                         confirm += 1;
                         console.log("select");
