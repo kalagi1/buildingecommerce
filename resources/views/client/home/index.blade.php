@@ -577,7 +577,7 @@
                                             @endif
                                         @else
                                             <button onclick="redirectToReservation()"
-                                                class="reservationBtn CartBtn mobileCBtn">
+                                                class="reservationBtn mobileCBtn">
                                                 <span class="IconContainer">
                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                 </span>

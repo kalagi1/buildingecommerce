@@ -187,7 +187,7 @@ button {
     padding-bottom: 150px !important;
 }
 
-.bank-account.selected{
+.bank-account.selected {
     border: 1px solid #e54242 !important;
 }
 
@@ -235,7 +235,6 @@ button {
 .featured .allView,
 .popular-places button {
     border: none;
-    padding: 10px 15px;
     border-radius: 5px;
     display: flex;
 
@@ -1175,6 +1174,7 @@ img {
         text-align: center;
         padding: 10px;
     }
+
     .bg-3 {
         padding-top: 1rem;
     }
@@ -2890,6 +2890,7 @@ section.services-home {
     align-items: center;
     display: flex;
 }
+
 .homepage-9 .small-category-2-thumb {
     width: 150px;
     float: left;
@@ -2899,11 +2900,13 @@ section.services-home {
     padding: 0px;
     border-radius: 50%;
 }
+
 .homepage-9 .small-category-2-thumb img {
-    width: 150px;
+    width: 150px !important;
     object-fit: cover;
     height: 100px;
 }
+
 .homepage-9 .sc-2-detail {
     display: table;
     margin-left: 15px;
@@ -2911,6 +2914,7 @@ section.services-home {
     margin-right: 15px;
     font-size: 11px;
 }
+
 section.portfolio {
     padding: 30px 0;
     background: #f7f7f7;
@@ -3318,7 +3322,7 @@ section.portfolio {
     height: 250px;
 }
 
-.brand-image-pp{
+.brand-image-pp {
     width: 100%;
     border: 1px solid #e6e6e6;
     z-index: 2;
@@ -3327,15 +3331,16 @@ section.portfolio {
     display: block;
     height: 68px;
     padding: 0;
-    margin: 0; 
+    margin: 0;
 }
 
 .project-head:hover .brand-image-pp {
     border: 1px solid #ea2a28;
 
 }
- /* Basit switch-slider tasarımı */
- .switch-slider {
+
+/* Basit switch-slider tasarımı */
+.switch-slider {
     position: relative;
     display: inline-block;
     width: 63px;
@@ -3375,15 +3380,15 @@ section.portfolio {
     transition: .4s;
 }
 
-.switch-slider input:checked + .slider {
+.switch-slider input:checked+.slider {
     background-color: #2196F3;
 }
 
-.switch-slider input:focus + .slider {
+.switch-slider input:focus+.slider {
     box-shadow: 0 0 1px #2196F3;
 }
 
-.switch-slider input:checked + .slider:before {
+.switch-slider input:checked+.slider:before {
     -webkit-transform: translateX(20px);
     -ms-transform: translateX(20px);
     transform: translateX(20px);
@@ -5186,7 +5191,7 @@ section.counterup {
 
 @media screen and (max-width: 768px) {
     .first-footer .logo img {
-        width: 70%;
+        width: 50%;
         height: auto;
         margin-bottom: 1.6rem;
     }
@@ -8381,10 +8386,11 @@ p {
     .home5-right-slider {
         height: 200px;
     }
-    
+
     .home5-right-slider .owl-stage-outer {
         height: 200px;
     }
+
     .recent-16 {
         display: block;
         position: relative;
@@ -8689,14 +8695,16 @@ a.button {
     font-size: 12px;
     width: 100%;
 }
-#search-icon{
+
+#search-icon {
     height: 40px !important;
     width: 40px !important;
 }
+
 .input-group.search {
     display: flex;
     overflow: hidden;
-    border:1px solid #e6e6e6;
+    border: 1px solid #e6e6e6;
     background-color: #fff;
     flex-wrap: nowrap;
     justify-content: space-between;
@@ -8795,10 +8803,10 @@ a.button {
 
 @media screen and (max-width: 768px) {
     .input-group.search {
-      border: 1px solid #e6e6e6;
-      border-bottom: none;
-      margin-bottom: 30px !important;
+        border: 1px solid #e6e6e6;
+        border-bottom: none;
     }
+
     .ps-page__dashboard {
         margin-top: 20px
     }
@@ -18129,7 +18137,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     color: #EA2B2E;
 }
 
-.checkSquareIcon{
+.checkSquareIcon {
     color: #274abb;
 }
 
@@ -18524,9 +18532,11 @@ span {
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     }
 }
-.closeTimes{
+
+.closeTimes {
     font-size: 20px !important;
 }
+
 @media screen and (max-width: 991px) {
     .property.wprt-image-video {
         margin-top: 2.5rem;
@@ -18557,7 +18567,7 @@ span {
     .single.reviews.leve-comments {
         margin-bottom: 30px !important;
     }
-   
+
 
     .inner-pages .headings-2 .listing-title-bar h3 {
         font-size: 24px;
@@ -20969,10 +20979,12 @@ select:focus {
     }
 }
 
-.header-search-box{
+.header-search-box {
     gap: 5px !important;
 }
-.small, small{
+
+.small,
+small {
     font-size: 11px;
 }
 
@@ -21284,8 +21296,10 @@ select:focus {
     align-items: center;
     width: 100% !important;
     justify-content: center;
-    display: flex !important; /* Flex özelliği burada ekleniyor */
+    display: flex !important;
+    /* Flex özelliği burada ekleniyor */
 }
+
 .tr-single-header h4 {
     margin: 0;
     font-size: 12px;
@@ -21459,7 +21473,7 @@ header.payment-card-header .pull-right img {
 }
 
 .side-list ul li {
-font-size: 12px;
+    font-size: 12px;
     list-style: none;
     padding: 10px 5px;
     display: inline-block;
@@ -23162,56 +23176,61 @@ a.btn_1 {
     -ms-transform-origin: top left;
     transform-origin: top left
 }
-.homes-content .row{
+
+.homes-content .row {
     width: 100% !important;
 }
+
 .btn-white,
 .btn-white2 {
     background-color: #fff;
     font-size: 12px;
     border: 1px solid black;
 }
-   .projectMobileMargin {
-            margin-top: 20px !important;
-        }
 
-        @media (max-width: 768px) {
-            .marginLeftRightZero {
-                padding: 0 !important;
-            }
+.projectMobileMargin {
+    margin-top: 20px !important;
+}
 
-            .section-title {
-                margin-bottom: 20px !important;
-                padding-bottom: 0 !important;
-            }
+@media (max-width: 768px) {
+    .marginLeftRightZero {
+        padding: 0 !important;
+    }
 
-            .circleIcon {
-                font-size: 5px;
-                color: #e54242;
-                padding-right: 5px
-            }
+    .section-title {
+        margin-bottom: 20px !important;
+        padding-bottom: 0 !important;
+    }
 
-            .priceFont {
-                font-weight: 600;
-                width: 60% !important;
-                font-size: 12px;
-                color: #274abb !important;
-            }
-        }
+    .circleIcon {
+        font-size: 5px;
+        color: #e54242;
+        padding-right: 5px
+    }
 
-        .statusHome {
-            width: 20%;
-            max-width: 20%;
-            flex: 0 0 20%;
-        }
+    .priceFont {
+        font-weight: 600;
+        width: 60% !important;
+        font-size: 12px;
+        text-align: right;
+        color: #274abb !important;
+    }
+}
 
-        @media (max-width: 768px) {
-            .statusHome {
-                flex: inherit;
-                width: 100% !important;
-                max-width: 50% !important;
-            }
-        }
+.statusHome {
+    width: 20%;
+    max-width: 20%;
+    flex: 0 0 20%;
+}
+
+@media (max-width: 768px) {
+    .statusHome {
+        flex: inherit;
+        width: 100% !important;
+        max-width: 50% !important;
+    }
+}
+
 .ud-btn:hover,
 .btn-gray:hover,
 .btn-dark:hover,
@@ -24689,16 +24708,17 @@ form label.error {
     background: #e54242 !important;
     border: #e54242 !important;
 }
+
 .google-maps .fa-search {
     margin-right: .5rem;
 }
 
-h6{
-    font-size:12px !important;
+h6 {
+    font-size: 12px !important;
 }
 
 @media screen and (max-width: 768px) {
-  
+
     .google-maps .filter .filter-toggle {
         display: block;
     }
@@ -27526,14 +27546,14 @@ input[type="checkbox"]::before {
     cursor: pointer;
     transition-duration: .5s;
     overflow: hidden;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
     position: relative;
 }
 
 @media (max-width: 768px) {
     .mobileCBtn {
         width: 115px !important;
-    height: 30px !important;
+        height: 30px !important;
+        padding: 0;
     }
 
 }
@@ -27619,7 +27639,7 @@ input[type="checkbox"]::before {
     font-weight: 600;
 }
 
-.disabledShareButton{
+.disabledShareButton {
     width: 100%;
     height: 40px;
     border: none;
@@ -29139,7 +29159,8 @@ input[type="checkbox"]::before {
 }
 
 .msg-text {
-    text-align: left
+    text-align: left;
+    font-size:11px !important;
 }
 
 .msger-inputarea {
@@ -29498,23 +29519,24 @@ a {
         width: 100%;
     }
 
-    .spinner-rotate-infinite{
+    .spinner-rotate-infinite {
         animation: sri 2s infinite
     }
 
     @keyframes sri {
-        0%{
+        0% {
             transform: rotate(0deg);
         }
-        100%{
+
+        100% {
             transform: rotate(360deg);
         }
     }
 
-    .loading-bg{
+    .loading-bg {
         width: 100%;
         position: absolute;
-        background:  rgba(0, 0, 0, .5);
+        background: rgba(0, 0, 0, .5);
         height: 70vh;
         z-index: 999;
         display: flex;
@@ -29524,10 +29546,10 @@ a {
         color: #fff;
     }
 
-    .p-relative{
+    .p-relative {
         position: relative;
     }
-    
+
     :root {
         --loader-background-color: #EEEEEE;
         --loader-highlight-color: #DEDEDE;
@@ -29543,7 +29565,7 @@ a {
         margin-bottom: 20px;
     }
 
-    
+
     .buyUserRequest__icon {
         display: none !important;
 
@@ -29760,154 +29782,154 @@ a {
     width: 100%;
 }
 
-  /* Cool share button made by: csozi | Website: english.csozi.hu*/
+/* Cool share button made by: csozi | Website: english.csozi.hu*/
 
-        .buttons {
-            position: relative;
-            display: grid;
-            place-items: center;
-            height: fit-content;
-            width: fit-content;
-            transition: 0.3s;
-            border-radius: 50%;
-        }
-
-
-        .main-button {
-            background: #ffffff;
-            position: relative;
-            display: grid;
-            place-items: center;
-            z-index: 9999999 !important;
-            padding: 10px;
-            border: none;
-            border: solid 1px #e6e6e6;
-            width: 48px;
-            height: 48px;
-            border-radius: 50% !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.2s;
-            z-index: 100;
-        }
-
-        .buttons .button a {
-            color: black !important;
-        }
-
-        .buttons .button {
-            background: #ffffff;
-            position: absolute;
-            display: grid;
-            place-items: center;
-            padding: 10px;
-            border: none;
-            z-index: 99999 !important;
-            border: solid 1px #e6e6e6;
-            width: 48px;
-            height: 48px;
-            border-radius: 50% !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .discord-button:hover {
-            background: #5865F2;
-        }
-
-        .buttons:hover .discord-button {
-            translate: 70px 0px;
-            box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
-        }
-
-        .buttons button:hover .svg {
-            fill: white !important;
-        }
-        
-
-        .twitter-button:hover {
-            background: #3b5998;
-        }
-
-        .buttons:hover .twitter-button {
-            translate: 47px -47px;
-            box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
-        }
-
-        .reddit-button:hover {
-            background: green;
-        }
-
-        .buttons:hover .reddit-button {
-            translate: 0px -70px;
-            box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
-        }
-
-        .messenger-button:hover {
-            background: #0093FF;
-        }
-
-        .buttons:hover .messenger-button {
-            translate: -47px -47px;
-            box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
-        }
-
-        .pinterest-button:hover {
-            background: #F0002A;
-        }
-
-        .buttons:hover .pinterest-button {
-            translate: -70px 0px;
-            box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
-        }
-
-        .instagram-button:hover {
-            background: #F914AF;
-        }
-
-        .buttons:hover .instagram-button {
-            translate: -47px 47px;
-            box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
-        }
-
-        .snapchat-button:hover {
-            background: #FFFC00;
-        }
-
-           
-
-        .button-effect {
-            border: solid 1px #e6e6e6;
-            width: 48px;
-            height: 48px !important;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
+.buttons {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: fit-content;
+    width: fit-content;
+    transition: 0.3s;
+    border-radius: 50%;
+}
 
 
-        .buttons:hover .snapchat-button {
-            translate: 0px 70px;
-            box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
-        }
+.main-button {
+    background: #ffffff;
+    position: relative;
+    display: grid;
+    place-items: center;
+    z-index: 9999999 !important;
+    padding: 10px;
+    border: none;
+    border: solid 1px #e6e6e6;
+    width: 48px;
+    height: 48px;
+    border-radius: 50% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    z-index: 100;
+}
 
-        .whatsapp-button:hover {
-            background: #25D366;
-        }
+.buttons .button a {
+    color: black !important;
+}
 
-        .buttons:hover .whatsapp-button {
-            translate: 47px 47px;
-            box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
-        }
+.buttons .button {
+    background: #ffffff;
+    position: absolute;
+    display: grid;
+    place-items: center;
+    padding: 10px;
+    border: none;
+    z-index: 99999 !important;
+    border: solid 1px #e6e6e6;
+    width: 48px;
+    height: 48px;
+    border-radius: 50% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.discord-button:hover {
+    background: #5865F2;
+}
+
+.buttons:hover .discord-button {
+    translate: 70px 0px;
+    box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
+}
+
+.buttons button:hover .svg {
+    fill: white !important;
+}
 
 
-.b-estate-form{
+.twitter-button:hover {
+    background: #3b5998;
+}
+
+.buttons:hover .twitter-button {
+    translate: 47px -47px;
+    box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
+}
+
+.reddit-button:hover {
+    background: green;
+}
+
+.buttons:hover .reddit-button {
+    translate: 0px -70px;
+    box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
+}
+
+.messenger-button:hover {
+    background: #0093FF;
+}
+
+.buttons:hover .messenger-button {
+    translate: -47px -47px;
+    box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
+}
+
+.pinterest-button:hover {
+    background: #F0002A;
+}
+
+.buttons:hover .pinterest-button {
+    translate: -70px 0px;
+    box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
+}
+
+.instagram-button:hover {
+    background: #F914AF;
+}
+
+.buttons:hover .instagram-button {
+    translate: -47px 47px;
+    box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
+}
+
+.snapchat-button:hover {
+    background: #FFFC00;
+}
+
+
+
+.button-effect {
+    border: solid 1px #e6e6e6;
+    width: 48px;
+    height: 48px !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+.buttons:hover .snapchat-button {
+    translate: 0px 70px;
+    box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
+}
+
+.whatsapp-button:hover {
+    background: #25D366;
+}
+
+.buttons:hover .whatsapp-button {
+    translate: 47px 47px;
+    box-shadow: 5px 5px 12px #cacaca, -5px -5px 12px #ffffff;
+}
+
+
+.b-estate-form {
     border: 1px solid #eee;
 }
