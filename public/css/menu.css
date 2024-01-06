@@ -1334,7 +1334,6 @@ li.mm-vertical.mm-opened>.mm-panel {
 
 .mm-listview .mm-next.mm-fullsubopen {
     width: 100%;
-    display: none !important;
 }
 
 .mm-listview .mm-next.mm-fullsubopen:before {
@@ -1550,10 +1549,10 @@ em.mm-counter+a.mm-fullsubopen+span {
     padding-right: 90px
 }
 
-/* .mm-listview em.mm-counter+.mm-next.mm-fullsubopen+a,
+.mm-listview em.mm-counter+.mm-next.mm-fullsubopen+a,
 .mm-listview em.mm-counter+.mm-next.mm-fullsubopen+span {
     padding-right: 90px;
-} */
+}
 
 .mm-vertical>.mm-counter {
     top: 12px;
