@@ -35,7 +35,7 @@
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                 </h3>  
               
-                <p class="mb-0">Bu alanda istatistik içeriklerinizi kolaylıkla görüntüleyebilirsiniz.</p>
+                <p class="mb-0">Emlak sepette ile ücretsiz sınırsız süresiz ilan paylaşımı yaparak ilanlarinizin satılmasına aracılık ediyoruz. Değerli kurumsal üyelerimiz sizlerden aylık sabit ücret almıyoruz. İlanlarınizin daha hızlı satılmasına ve kiralanmasina aracılık yapıyoruz.</p>
             </div>
         </div>
 
