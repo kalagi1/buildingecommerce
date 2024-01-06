@@ -1272,7 +1272,7 @@
                 padding: 6px !important;
                 cursor: pointer;
                 border: 0 !important;
-                width: 50%;
+                width: 202px;
                 border-radius: 0 !important;
                 text-align: center;
                 display: flex;
