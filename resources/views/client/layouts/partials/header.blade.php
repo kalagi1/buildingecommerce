@@ -72,11 +72,6 @@
                 <div class="header-center">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="leftSide">
-                            
-                            <div id="logo">
-                                <a href="{{ route('index') }}"><img
-                                        src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt=""></a>
-                            </div>
                             <div class="mmenu-trigger d-xl-none d-block d-lg-none ">
                                 <button class="hamburger hamburger--collapse" type="button">
                                     <span class="hamburger-box">
@@ -84,6 +79,11 @@
                                     </span>
                                 </button>
                             </div>
+                            <div id="logo">
+                                <a href="{{ route('index') }}"><img
+                                        src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt=""></a>
+                            </div>
+
                         </div>
                         <div class="center position-relative">
                             <form action="{{ route('search.results') }}" method="GET" id="search-form">

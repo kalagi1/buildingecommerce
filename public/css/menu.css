@@ -993,7 +993,6 @@ a.button {
     padding: 0;
     margin: 0;
     position: absolute;
-    left: 0;
     right: 0;
     top: 0;
     bottom: 0;
@@ -1334,7 +1333,8 @@ li.mm-vertical.mm-opened>.mm-panel {
 }
 
 .mm-listview .mm-next.mm-fullsubopen {
-    width: 100%
+    width: 100%;
+    display: none !important;
 }
 
 .mm-listview .mm-next.mm-fullsubopen:before {
@@ -1480,7 +1480,6 @@ html.mm-opening .mm-menu.mm-opened~.mm-slideout {
     -webkit-transform: translate(80%, 0);
     -ms-transform: translate(80%, 0);
     transform: translate(-80%, 0);
-    -webkit-transform: translate3d(80%, 0, 0);
 }
 
 @media all and (max-width:175px) {
@@ -1551,10 +1550,10 @@ em.mm-counter+a.mm-fullsubopen+span {
     padding-right: 90px
 }
 
-.mm-listview em.mm-counter+.mm-next.mm-fullsubopen+a,
+/* .mm-listview em.mm-counter+.mm-next.mm-fullsubopen+a,
 .mm-listview em.mm-counter+.mm-next.mm-fullsubopen+span {
     padding-right: 90px;
-}
+} */
 
 .mm-vertical>.mm-counter {
     top: 12px;
