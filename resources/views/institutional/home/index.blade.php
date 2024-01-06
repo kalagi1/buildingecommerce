@@ -62,10 +62,10 @@
     @if (Auth::check() && Auth::user()->type !="3")
     <!-- HTML -->
 <button class="chatbox-open">
-  <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+  <i class="fa fa-comment" aria-hidden="true"></i>
 </button>
 <button class="chatbox-close">
-  <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+  <i class="fa fa-close" aria-hidden="true"></i>
 </button>
 <div class="chatbox-popup">
   <header class="chatbox-popup__header">
