@@ -5059,9 +5059,8 @@ section.counterup {
     height: auto;
     margin-bottom: 1.6rem;
 }
-.about_content{
-    display: flex;
-    justify-content: center;
+.about_content h3{
+ width: 100%;
 }
 @media screen and (max-width: 991px) {
     .first-footer .netabout {
@@ -13147,6 +13146,13 @@ section.visited-cities {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+    height: 200px;
+    width: 350px;
+}
+.heitwo{
+    height: 200px;
+    width: 350px;
+    margin: 0 auto;
 }
 
 /*----------------------------*/
