@@ -463,17 +463,6 @@ img {
     padding-top: 2.4rem;
 }
 
-@media (max-width:768px) {
-    .brand-head {
-        padding-top: 0;
-        margin-top: 20px;
-    }
-    .search-style{
-        padding: 0 !important;
-        position: relative !important;
-        margin: 0 10px !important;
-    }
-}
 
 .brand-head .card {
     border: none;
@@ -485,7 +474,27 @@ img {
     height: 100px;
     object-fit: cover;
     width: 100%;
+    display: flex;
+    align-items: center;
 }
+
+@media (max-width:768px) {
+    .brand-head {
+        padding-top: 0;
+        margin-top: 20px;
+    }
+    
+    .brand-head .card-img-top {
+        height: 70px !important;
+    
+    }
+    .search-style{
+        padding: 0 !important;
+        position: relative !important;
+        margin: 0 10px !important;
+    }
+}
+
 
 .share-icons .button {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -549,9 +558,8 @@ img {
 
 
 .brand-head .brands-square {
-    position: absolute;
-    top: 30px;
-    padding-left: 30px;
+
+margin-left:30px;
     display: flex;
     align-items: center;
 }
@@ -1181,7 +1189,7 @@ img {
 
 @media screen and (max-width: 768px) {
     .brand-head .navbar-item {
-        font-size: 11px !important;
+        font-size: 10px !important;
         text-align: center;
         padding: 10px;
     }
@@ -1476,8 +1484,10 @@ section.recently.portfolio {
 
 
 .homes-tag.featured {
-    width: 84px !important;
-    background: #18ba60 !important;
+    background: #e54242 !important;
+    text-align: center;
+    padding: 5px;
+    font-size: 11px;
 }
 
 .recently .homes .button {
@@ -3056,11 +3066,6 @@ section.portfolio {
 .homes-img {
     position: relative;
     overflow: hidden;
-}
-
-.homes-tag.featured {
-    width: 84px !important;
-    background: #18ba60 !important;
 }
 
 .portfolio .homes .button {
@@ -16345,10 +16350,6 @@ a.button {
         padding-left: 0px !important;
     }
 
-    .inner-pages .pro-wrapper .detail-wrapper-body p {
-        margin-bottom: 30px !important;
-    }
-
     .single.detail-wrapper.grid {
         margin-left: 0px;
     }
@@ -17180,6 +17181,10 @@ section.google-map-right {
 }
 
 @media screen and (max-width: 768px) {
+    .listing-details-sliders .left,
+    .listing-details-sliders .right{
+        display: none !important;
+    }
 
     .inner-pages.half-map-view.list .portfolio .homes-content,
     .inner-pages.half-map-view.list .map-list {
@@ -17240,7 +17245,6 @@ section.google-map-right {
 /*---------------------------------------*/
 
 section.single-proper {
-    padding: 0 0 6rem 0;
     background: #f5f7fb;
 }
 
@@ -19757,9 +19761,9 @@ ul.the-agents-details li a {
     margin-bottom: 0px;
 }
 
-section.single-proper.details {
+/* section.single-proper.details {
     padding: 3rem 0 !important;
-}
+} */
 
 .agents.det .portfolio {
     margin-bottom: 30px;
@@ -21050,10 +21054,10 @@ small {
         padding: 0.5rem 1rem !important;
     }
 
-
+/* 
     section.single-proper.details {
         padding: 2rem 0 !important;
-    }
+    } */
 
     .dashboard-bd .left-side {
         width: 80% !important;

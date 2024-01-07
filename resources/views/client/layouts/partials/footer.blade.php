@@ -577,13 +577,15 @@
                                                     ))) /
                                             parseInt(installementData)))) + '₺';
                                     }
+                                    var isMobile = window.innerWidth < 768;
+
                                     html += "<tr>" +
-                                        "<td>" + paymentPlanDatax[paymentPlanData[j]] + "</td>" +
-                                        "<td>" + formatPrice(priceData) + "₺</td>" +
-                                        "<td>" + installementData + "</td>" +
-                                        "<td>" + advanceData + "</td>" +
-                                        "<td>" + monhlyPrice + "</td>" +
-                                        "</tr>"
+    "<td>" + (isMobile ? "<strong>Ödeme Türü:</strong> " : "") + paymentPlanDatax[paymentPlanData[j]] + "</td>" +
+    "<td>" + (isMobile ? "<strong>Fiyat:</strong> " : "") + formatPrice(priceData) + "₺</td>" +
+"<td>" + (isMobile ? "<strong>Taksit Sayısı:</strong> " : "") + installementData + "</td>" +
+"<td>" + (isMobile ? "<strong>Peşin Ödenecek Tutar:</strong> " : "") + advanceData + "</td>" +
+"<td>" + (isMobile ? "<strong>Aylık Ödenecek Tutar:</strong> " : "") + monhlyPrice + "</td>" +
+    "</tr>"
                                 }
 
                                 tempPlans.push(paymentPlanData[j])

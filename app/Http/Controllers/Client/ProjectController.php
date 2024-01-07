@@ -65,7 +65,8 @@ class ProjectController extends Controller
         for($i = 0; $i < $blockIndex; $i++){
             $startIndex += $project->blocks[$i]->housing_count;
         }
-        
+        $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
+        $status = HousingStatus::where("id", $project->status_id)->first();
 
         // if($project->blocks[$request->input('block_id') ?? 0]->housing_count > 20){
         //     $endIndex = 20 + $startIndex;
@@ -75,7 +76,7 @@ class ProjectController extends Controller
         // }
 
         $endIndex=20;
-        return view('client.projects.index', compact('salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+        return view('client.projects.index', compact('salesCloseProjectHousingCount','status','parent','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
     }
     
     public function ajaxIndex($slug,Request $request){
