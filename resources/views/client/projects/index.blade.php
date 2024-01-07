@@ -2259,7 +2259,16 @@ out center;`;
 
         }
 
+        .title-fs{
+            display: none
+        }
+
         @media (max-width:768px) {
+            
+        .title-fs{
+            display: block;
+            border-bottom: none !important;
+        }
             .inner-pages .headings-2 .listing-title-bar h3 span {
                 font-size: 16px !important;
             }
