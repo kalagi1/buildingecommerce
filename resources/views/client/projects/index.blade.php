@@ -1032,7 +1032,7 @@
 
                                                                             <span
                                                                                 style="    font-size: 9px !important;
-                                                                                        width: 57% !important;
+                                                                                        width: 50% !important;
                                                                                         text-align: right;
                                                                                         margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
                                                                         </div>
@@ -1263,7 +1263,7 @@
 
                                                                     <span
                                                                         style="    font-size: 9px !important;
-                                                                                width: 57% !important;
+                                                                                width: 50% !important;
                                                                                 text-align: right;
                                                                                 margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
                                                                 </div>
@@ -1798,7 +1798,7 @@
 
                                                 <span
                                                     style="    font-size: 9px !important;
-                                                                                width: 57% !important;
+                                                                                width: 50% !important;
                                                                                 text-align: right;
                                                                                 margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
                                             </div>
