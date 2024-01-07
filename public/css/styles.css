@@ -17181,10 +17181,6 @@ section.google-map-right {
 }
 
 @media screen and (max-width: 768px) {
-    .listing-details-sliders .left,
-    .listing-details-sliders .right{
-        display: none !important;
-    }
 
     .inner-pages.half-map-view.list .portfolio .homes-content,
     .inner-pages.half-map-view.list .map-list {

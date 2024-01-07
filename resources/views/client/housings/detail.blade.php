@@ -444,7 +444,7 @@
                                     </form>
 
                                 </div>
-                                <div class="tab-pane fade  blog-info details" id="map" role="tabpanel"
+                                <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                                     aria-labelledby="contact-tab">
                                     <div class="similar-property featured portfolio p-0 bg-white">
 

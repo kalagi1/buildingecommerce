@@ -671,7 +671,7 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane fade  blog-info details housingsListTab" id="contact" role="tabpanel"
+                        <div class="tab-pane fade  blog-info details housingsListTab mb-30" id="contact" role="tabpanel"
                             aria-labelledby="contact-tab">
                             <h5 class="mb-4">Diğer Konutlar</h5>
 
@@ -2115,7 +2115,7 @@
                         @endif
                     </div>
 
-                    <div class="tab-pane fade  blog-info details" id="map" role="tabpanel"
+                    <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                         aria-labelledby="contact-tab">
                         <div id="map"></div>
                     </div>
