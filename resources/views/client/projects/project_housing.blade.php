@@ -673,11 +673,12 @@
                         </div>
                         <div class="tab-pane fade  blog-info details housingsListTab mb-30" id="contact" role="tabpanel"
                             aria-labelledby="contact-tab">
-                            <h5 class="mb-4">Diğer Konutlar</h5>
+                  
 
                             @if ($project->have_blocks == 1)
                                 <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="container">
+                                        <h5 class="mb-4">Diğer Konutlar</h5>
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 ">
                                                 <div class="tabbed-content button-tabs">
@@ -1539,6 +1540,7 @@
                         <div class="properties-right list featured portfolio blog pb-5 bg-white">
                             <div class="mobile-hidden">
                                 <div class="container">
+                                    <h5 class="mb-4">Diğer Konutlar</h5>
                                     <div class="row project-filter-reverse blog-pots">
                                         @for ($i = 0; $i < $project->room_count; $i++)
                                             @php
@@ -1855,6 +1857,7 @@
                             </div>
                             <div class="mobile-show">
                                 <div class="container">
+                                    <h5 class="mb-4">Diğer Konutlar</h5>
                                     @for ($i = 0; $i < $project->room_count; $i++)
                                         @php
                                             $room_order = $i + 1;
