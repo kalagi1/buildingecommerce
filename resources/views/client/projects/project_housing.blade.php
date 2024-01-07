@@ -397,7 +397,7 @@
                                                 @if ($soldStatus == '0') style="background: orange !important;color:White"
                                             @else style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
                                                 @if ($soldStatus == '0')
-                                                    <span class="text">Onay Bekleniyor</span>
+                                                    <span class="text">Rezerve Edildi</span>
                                                 @else
                                                     <span class="text">Satıldı</span>
                                                 @endif
@@ -671,9 +671,9 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane fade  blog-info details housingsListTab mb-30" id="contact" role="tabpanel"
-                            aria-labelledby="contact-tab">
-                  
+                        <div class="tab-pane fade  blog-info details housingsListTab mb-30" id="contact"
+                            role="tabpanel" aria-labelledby="contact-tab">
+
 
                             @if ($project->have_blocks == 1)
                                 <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
@@ -2339,14 +2339,46 @@
                                             parseInt(installementData)))) + '₺';
                                     }
                                     var isMobile = window.innerWidth < 768;
+                                    html += "<tr>";
 
-html += "<tr>" +
-    "<td>" + (isMobile ? "<strong>Ödeme Türü:</strong> " : "") + paymentPlanDatax[paymentPlanData[j]] + "</td>" +
-    "<td>" + (isMobile ? "<strong>Fiyat:</strong> " : "") + formatPrice(priceData) + "₺</td>" +
-"<td>" + (isMobile ? "<strong>Taksit Sayısı:</strong> " : "") + installementData + "</td>" +
-"<td>" + (isMobile ? "<strong>Peşin Ödenecek Tutar:</strong> " : "") + advanceData + "</td>" +
-"<td>" + (isMobile ? "<strong>Aylık Ödenecek Tutar:</strong> " : "") + monhlyPrice + "</td>" +
-    "</tr>"
+                                    // Function to check if the value is empty or not
+                                    function isNotEmpty(value) {
+                                        return value !== "" && value !== undefined && value !== "-" &&
+                                            value !== null;
+                                    }
+
+                                    if (!isMobile && isNotEmpty(paymentPlanDatax[paymentPlanData[j]])) {
+                                        html += "<td>" + (isMobile ? "<strong>Ödeme Türü:</strong> " :
+                                            "") + paymentPlanDatax[paymentPlanData[j]] + "</td>";
+                                    }
+
+                                    if (!isMobile || isNotEmpty(formatPrice(priceData))) {
+                                        html += "<td>" + (isMobile ? paymentPlanDatax[paymentPlanData[
+                                                j]] + " " + "<strong>Fiyat:</strong> " : "") +
+                                            formatPrice(priceData) + "₺</td>";
+                                    }
+
+
+                                    if (!isMobile || isNotEmpty(advanceData)) {
+                                        html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
+                                            "") + advanceData + "</td>";
+                                    }
+
+                                    if (!isMobile || isNotEmpty(monhlyPrice)) {
+                                        html += "<td>" + (isMobile ?
+                                                "<strong>Aylık Ödenecek Tutar:</strong> " : "") +
+                                            monhlyPrice + "</td>";
+                                    }
+
+                                    
+                                    if (!isMobile || isNotEmpty(installementData)) {
+                                        html += "<td>" + (isMobile ?
+                                                "<strong>Taksit Sayısı:</strong> " : "") +
+                                            installementData + "</td>";
+                                    }
+
+                                    html += "</tr>";
+
                                 }
 
                                 tempPlans.push(paymentPlanData[j])
@@ -2589,6 +2621,7 @@ out center;`;
                 left: 30% !important;
                 margin: 0 auto;
             }
+
             .listingDetailsSliderNav {
                 display: none !important;
             }

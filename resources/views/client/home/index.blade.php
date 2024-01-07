@@ -556,7 +556,7 @@
                                                             <img src="{{ asset('sc.png') }}" alt="">
                                                         </span>
                                                         @if ($sold == '0')
-                                                            <span class="text">Onay Bekleniyor</span>
+                                                            <span class="text">Rezerve Edildi</span>
                                                         @else
                                                             <span class="text">Satıldı</span>
                                                         @endif
@@ -1101,7 +1101,7 @@
                                                                         <button class="btn second-btn "
                                                                             @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
                                                                             @if ($sold == '0')
-                                                                                <span class="text">Onay Bekleniyor</span>
+                                                                                <span class="text">Rezerve Edildi</span>
                                                                             @else
                                                                                 <span class="text">Satıldı</span>
                                                                             @endif

@@ -687,7 +687,7 @@
                                                             $buttonText = '';
                                                             if ($sold[0]->status == '0') {
                                                                 $buttonStyle = 'background: orange !important; width: 100%; color: white;';
-                                                                $buttonText = 'Onay Bekleniyor';
+                                                                $buttonText = 'Rezerve Edildi';
                                                             } else {
                                                                 $buttonStyle = 'background: red !important; width: 100%; color: white;';
                                                                 $buttonText = 'Satıldı';
