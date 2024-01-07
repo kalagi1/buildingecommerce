@@ -763,7 +763,7 @@
             breakpoint: 769,
             settings: {
                 slidesToShow: 4.5,
-                slidesToScroll: 1,
+                slidesToScroll: 4,
                 dots: false,
                 arrows: false
             }
