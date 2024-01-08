@@ -262,6 +262,31 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
+                                                        <span class="autoWidthTr">Yapımcı Firma:</span>
+                                                        <span class="det" style="color: black;">{{ $project->create_company ? $project->create_company: "Belirtilmedi" }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Başlangıç Tarihi:</span>
+                                                        <span class="det" style="color: black;">{{ $project->start_date  ? $project->start_date : "Belirtilmedi" }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Bitiş Tarihi:</span>
+                                                        <span class="det" style="color: black;">{{ $project->project_end_date ? $project->project_end_date: "Belirtilmedi" }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>
+                                                        <span class="det" style="color: black;">{{ $project->total_project_area ? $project->total_project_area : "Belirtilmedi" }}</span>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>
                                                         <span class="autoWidthTr">İletişim No:</span>
                                                         <span class="det" style="color: black;">{!! $project->user->phone ? $project->user->phone : 'Belirtilmedi' !!}</span>
                                                     </td>

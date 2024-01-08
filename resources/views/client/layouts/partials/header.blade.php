@@ -164,11 +164,6 @@
                                                     'text' => 'İlanlarım',
                                                 ],
                                                 [
-                                                    'url' => route('favorites'),
-                                                    'icon' => 'fa-heart',
-                                                    'text' => 'Favorilerim',
-                                                ],
-                                                [
                                                     'url' => url('institutional/ilan-tipi-sec'),
                                                     'icon' => 'fa-plus',
                                                     'text' => 'İlan Ekle',
