@@ -1,6 +1,23 @@
 @extends('client.layouts.master')
 
 @section('content')
+@php
+    
+    function implodeData($array)
+        {
+            $html = '';
+
+            for ($i = 0; $i < count($array); $i++) {
+                if ($i == 0) {
+                    $html .= ' ' . $array[$i];
+                } else {
+                    $html .= ', ' . $array[$i];
+                }
+            }
+
+            return $html;
+        }
+@endphp
     <div class="loading-full d-none">
         <div class="back-opa">
 
@@ -188,12 +205,15 @@
                     <div class="mobileMove">
                         <div class="single widget storeInfo ">
                             <div class="widget-boxed">
-                                <div class="widget-boxed-header">
-                                    <h4>Mağaza Bilgileri</h4>
-                                </div>
-                                <div class="widget-boxed-body">
+                                <div class="widget-boxed-body" style="padding: 0 !important">
                                     <div class="sidebar-widget author-widget2">
-                                        <div class="author-box clearfix d-flex align-items-center">
+                                        <h2 class="classifiedInfo">     {!! ucwords(mb_strtolower(optional($project->city)->title, 'UTF-8')) .
+                                            ' / ' .
+                                            ucwords(mb_strtolower(optional($project->county)->ilce_title, 'UTF-8')) !!}
+                                        @if ($project->neighbourhood)
+                                            {!! ' / ' . ucwords(mb_strtolower(optional($project->neighbourhood)->mahalle_title, 'UTF-8')) !!}
+                                        @endif</h2>
+                                        {{-- <div class="author-box clearfix d-flex align-items-center">
                                             <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
                                                 alt="author-image" class="author__img">
                                             <div> <a
@@ -204,61 +224,96 @@
                                                     {{ $project->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }}
                                                 </p>
                                             </div>
-                                        </div>
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <td>
-                                                    Proje No: #{{ $project->id }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Proje Durumu : {{ $status->name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    İl-İlçe-Mahalle :
-                                                    {!! ucwords(mb_strtolower(optional($project->city)->title, 'UTF-8')) .
-                                                        ' / ' .
-                                                        ucwords(mb_strtolower(optional($project->county)->ilce_title, 'UTF-8')) !!}
-                                                    @if ($project->neighbourhood)
-                                                        {!! ' / ' . ucwords(mb_strtolower(optional($project->neighbourhood)->mahalle_title, 'UTF-8')) !!}
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @if ($project->user->phone)
+                                        </div> --}}
+                                        <table class="table homes-content" style="margin-bottom: 0 !important">
+                                            <tbody>
                                                 <tr>
                                                     <td>
-                                                        Telefon :
-                                                        <a style="text-decoration: none;color:inherit"
-                                                            href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                                        <strong class="autoWidthTr">Mağaza:</strong>
+                                                        <span class="det" style="color: black;">{!! $project->user->name !!}</span>
                                                     </td>
                                                 </tr>
-                                            @endif
-                                            @if ($project->step1_slug)
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span >Proje Adı:</span></strong>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->project_title }}</span>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td>
-                                                        Proje Tipi :
-                                                        @if ($project->step2_slug)
-                                                            @if ($project->step2_slug == 'kiralik')
-                                                                Kiralık
-                                                            @elseif ($project->step2_slug == 'satilik')
-                                                                Satılık
-                                                            @else
-                                                                Günlük Kiralık
+                                                        <span class="autoWidthTr">Proje Durumu:</span>
+                                                        <span class="det" style="color: black;">{{ $status->name }}</span>
+                                                    </td>
+                                                </tr>
+                                             
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span > İl-İlçe-Mahalle:</span></strong>
+                                                        <span class="det" style="color: black;">
+                                                            {!! ucwords(mb_strtolower(optional($project->city)->title, 'UTF-8')) .
+                                                                ' / ' .
+                                                                ucwords(mb_strtolower(optional($project->county)->ilce_title, 'UTF-8')) !!}
+                                                            @if ($project->neighbourhood)
+                                                                {!! ' / ' . ucwords(mb_strtolower(optional($project->neighbourhood)->mahalle_title, 'UTF-8')) !!}
                                                             @endif
-                                                        @endif
-                                                        {{ $project->housingtype->title }}
+                                                        </span>
                                                     </td>
                                                 </tr>
-                                            @endif
-                                            <tr>
-                                                <td>
-                                                    E-Posta :
-                                                    <a style="text-decoration: none;color:inherit"
-                                                        href="mailto:{!! $project->user->email !!}">{!! $project->user->email !!}</a>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">İletişim No:</span>
+                                                        <span class="det" style="color: black;">{!! $project->user->phone ? $project->user->phone : 'Belirtilmedi' !!}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span>E-Posta:</span></strong>
+                                                        <span class="det" style="color: black;">{!! $project->user->email !!}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span >{{ ucfirst($project->step1_slug) }}
+                                                                Tipi:</span></strong>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->housingtype->title }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span >Toplam {{ ucfirst($project->step1_slug) }}
+                                                                Sayısı:</span></strong>
+                                                        <span class="det" style="color: black;">{{ $project->room_count }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span>Satışa Açık {{ ucfirst($project->step1_slug) }}
+                                                                Sayısı:</span></strong>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span>Satılan {{ ucfirst($project->step1_slug) }}
+                                                                Sayısı:</span></strong>
+                                                        <span class="det" style="color: black;">{{ $project->cartOrders }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <strong class="autoWidthTr"><span>Satışa Kapalı {{ ucfirst($project->step1_slug) }}
+                                                                Sayısı:</span></strong>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $salesCloseProjectHousingCount }}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+            
                                         </table>
+            
 
                                     </div>
 
@@ -292,15 +347,22 @@
                 <div class="col-md-12">
 
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="general-tab" data-bs-toggle="tab"
+                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                                type="button" role="tab" aria-controls="home"
+                                aria-selected="true">Açıklama</button>
+                        </li>
+                        <li class="nav-item d-lg-none" role="presentation">
+                            <button class="nav-link" id="general-tab" data-bs-toggle="tab"
                                 data-bs-target="#general" type="button" role="tab" aria-controls="general"
                                 aria-selected="true">Genel Bilgi</button>
                         </li>
+                      
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-                                type="button" role="tab" aria-controls="home"
-                                aria-selected="true">Açıklama</button>
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+                                type="button" role="tab" aria-controls="profile"
+                                aria-selected="false">Özellikler</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
@@ -314,9 +376,10 @@
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active blog-info details mb-30 single homes-content" id="general"
+                        <div class="tab-pane d-lg-none fade blog-info details mb-30 single homes-content" id="general"
                             role="tabpanel" aria-labelledby="general-tab">
                             <h5 class="mb-4">Genel Bilgi</h5>
+                           
                             <table class="table" style="margin-bottom: 0 !important">
                                 <tbody class="trStyle">
                                     <tr>
@@ -407,7 +470,133 @@
 
 
                         </div>
-                        <div class="tab-pane fade blog-info details mb-30" id="home" role="tabpanel"
+                        <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
+                        aria-labelledby="profile-tab">
+                        <div class="similar-property featured portfolio p-0 bg-white">
+
+                            <div class="single homes-content">
+                                <h5 class="mb-4">Özellikler</h5>
+
+                                <table class="table ">
+                                    <tbody class="trStyle">
+                                        <tr>
+                                            <td>
+                                                <span class="mr-1">İlan No:</span>
+                                                <span class="det" style="color: black;">
+                                                    #{{ $project->id }}
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        @foreach ($projectHousingSetting as $key => $housingSetting)
+                                            @php
+                                                $isArrayCheck = $housingSetting->is_array;
+                                                $onProject = false;
+                                                $valueArray = [];
+
+                                                if ($isArrayCheck) {
+                                                    $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
+                                                    if (isset($valueArray)) {
+                                                        $value = implodeData($valueArray);
+                                                    }
+                                                } elseif ($housingSetting->is_parent_table) {
+                                                    $value = $project[$housingSetting->column_name];
+                                                    $onProject = true;
+                                                } else {
+                                                    foreach ($project->roomInfo as $roomInfo) {
+                                                        if ($roomInfo->room_order == 1) {
+                                                            if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                                if ($roomInfo['value'] == '["on"]') {
+                                                                    $value = 'Evet';
+                                                                } elseif ($roomInfo['value'] == '["off"]') {
+                                                                    $value = 'Hayır';
+                                                                } else {
+                                                                    $value = $roomInfo['value'];
+                                                                }
+                                                                $onProject = true;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                            @endphp
+
+                                            @if (!$isArrayCheck && (isset($value) && $value !== ''))
+                                                <tr>
+                                                    @if ($housingSetting->label == 'Fiyat')
+                                                        <td> <span class=" mr-1">{{ $housingSetting->label }}:</span>
+                                                            <span class="det" style="color: black; ">
+                                                                {{ number_format($value, 0, ',', '.') }} ₺
+                                                            </span>
+                                                        </td>
+                                                    @else
+                                                        <td> <span
+                                                                class=" mr-1">{{ $housingSetting->label }}:</span>{{ $value }}
+                                                        </td>
+                                                    @endif
+                                                </tr>
+                                            @endif
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+
+
+
+                                @foreach ($projectHousingSetting as $housingSetting)
+                                    @php
+                                        $isArrayCheck = $housingSetting->is_array;
+                                        $onProject = false;
+                                        $valueArray = [];
+
+                                        if ($isArrayCheck) {
+                                            $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
+                                            if (isset($valueArray)) {
+                                                $value = implodeData($valueArray);
+                                            }
+                                        } elseif ($housingSetting->is_parent_table) {
+                                            $value = $project[$housingSetting->column_name];
+                                            $onProject = true;
+                                        } else {
+                                            foreach ($project->roomInfo as $roomInfo) {
+                                                if ($roomInfo->room_order == 1) {
+                                                    if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                        if ($roomInfo['value'] == '["on"]') {
+                                                            $value = 'Evet';
+                                                        } elseif ($roomInfo['value'] == '["off"]') {
+                                                            $value = 'Hayır';
+                                                        } else {
+                                                            $value = $roomInfo['value'];
+                                                        }
+                                                        $onProject = true;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    @endphp
+
+                                    @if ($isArrayCheck)
+                                        @if (isset($valueArray) && $valueArray != null)
+                                            <div class="mt-5">
+                                                <h5>{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:
+                                                </h5>
+                                                <ul class="homes-list clearfix checkSquareIcon">
+                                                    @foreach ($valueArray as $ozellik)
+                                                        <li><i class="fa fa-check-square"
+                                                                aria-hidden="true"></i><span>{{ $ozellik }}</span>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </div>
+
+
+                        </div>
+                    </div>
+                        <div class="tab-pane fade show active blog-info details mb-30" id="home" role="tabpanel"
                             aria-labelledby="home-tab">
                             <h5 class="mb-4">Açıklama</h5>
 
@@ -1995,12 +2184,6 @@ out center;`;
             });
         })
 
-        if (window.innerWidth <= 768) {
-            var mobileMove = $(".mobileMove").html();
-
-            $(".single-proper").after(mobileMove);
-            $(".mobileMove").remove();
-        }
 
 
         $("#addToCart").click(function() {
@@ -2092,7 +2275,7 @@ out center;`;
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         .trStyle tr {
-            width: 50%;
+            width: 33%;
             border: 1px solid #dee2e6;
         }
 
@@ -2100,10 +2283,6 @@ out center;`;
         .trStyle tr {
             display: flex;
             flex-wrap: wrap;
-        }
-
-        .trStyle tr {
-            width: 50%;
         }
 
         .trStyle tr td {
@@ -2210,6 +2389,9 @@ out center;`;
         }
 
         @media (max-width:768px) {
+            .storeInfo {
+                display: none !important;
+            }
             .listingDetailsSliderNav {
                 display: none !important;
             }
@@ -2249,9 +2431,6 @@ out center;`;
             flex-wrap: wrap;
         }
 
-        .trStyle tr {
-            width: 50%;
-        }
 
         .trStyle tr td {
             width: 100%;
@@ -2323,6 +2502,11 @@ out center;`;
             display: none
         }
 
+        .autoWidthTr{
+            width:150px !important;
+            display: inline-flex;
+        }
+
         @media (max-width: 768px) {
             .mobileTagProject {
                 width: 150px !important;
@@ -2387,6 +2571,11 @@ out center;`;
 
         }
 
+        .classifiedInfo {
+            font-size: 12px;
+    color: #039;
+    padding: 3px 10px 10px 0;
+        }
 
         .loading-spinner {
             text-align: center

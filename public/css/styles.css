@@ -17259,6 +17259,10 @@ section.headings-2 {
     background: #f5f7fb !important;
 }
 
+td .mr-1 {
+    width: 150px !important;
+    display: inline-flex !important; 
+}
 
 .menu__tabs {
     list-style: none;
@@ -18139,7 +18143,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .inner-pages .blog .homes-content .homes-list li {
-    width: 33%;
+    width: 25%;
     float: left;
     font-size: 12px;
     line-height: 36px;
@@ -18293,7 +18297,7 @@ span {
 
     .inner-pages .single.homes-content .homes-list li,
     .inner-pages .portfolio .homes-content .homes-list li {
-        width: 100% !important;
+        width: 50% !important;
         line-height: 27px;
         margin-bottom: 13px;
     }

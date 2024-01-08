@@ -582,18 +582,22 @@
 
                                     // Function to check if the value is empty or not
                                     function isNotEmpty(value) {
-                                        return value !== "" && value !== undefined && value !== "-" &&
+                                        return value !== "" && value !== undefined && value !==
+                                            "-" &&
                                             value !== null;
                                     }
 
-                                    if (!isMobile && isNotEmpty(paymentPlanDatax[paymentPlanData[j]])) {
-                                        html += "<td>" + (isMobile ? "<strong>Ödeme Türü:</strong> " :
+                                    if (!isMobile && isNotEmpty(paymentPlanDatax[paymentPlanData[
+                                            j]])) {
+                                        html += "<td>" + (isMobile ?
+                                            "<strong>Ödeme Türü:</strong> " :
                                             "") + paymentPlanDatax[paymentPlanData[j]] + "</td>";
                                     }
 
                                     if (!isMobile || isNotEmpty(formatPrice(priceData))) {
-                                        html += "<td>" + (isMobile ? paymentPlanDatax[paymentPlanData[
-                                                j]] + " " + "<strong>Fiyat:</strong> " : "") +
+                                        html += "<td>" + (isMobile ? paymentPlanDatax[
+                                                paymentPlanData[
+                                                    j]] + " " + "<strong>Fiyat:</strong> " : "") +
                                             formatPrice(priceData) + "₺</td>";
                                     }
 
@@ -609,7 +613,7 @@
                                             monhlyPrice + "</td>";
                                     }
 
-                                    
+
                                     if (!isMobile || isNotEmpty(installementData)) {
                                         html += "<td>" + (isMobile ?
                                                 "<strong>Taksit Sayısı:</strong> " : "") +
@@ -977,7 +981,7 @@
                                     toastr.success("Ürün Koleksiyonunuza Eklendi");
                                     if (!button.classList.contains("mobile")) {
                                         button.textContent =
-                                        "Koleksiyonuma Eklendi";
+                                            "Koleksiyonuma Eklendi";
                                     }
                                 @else
                                     toastr.success("Ürün Sepete Eklendi");

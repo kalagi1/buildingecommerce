@@ -52,6 +52,8 @@ class ProjectController extends Controller
             ->where("status", "1")
             ->get();
 
+            $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
+
         $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
         $selectedPage = $request->input('selected_page') ?? 0;
         $blockIndex = $request->input('block_id') ?? 0;
@@ -74,9 +76,9 @@ class ProjectController extends Controller
             
         //     $endIndex = $project->blocks[$request->input('block_id') ?? 0]->housing_count + $startIndex;
         // }
-
+        $projectHousing = $project->roomInfo->keyBy('name');
         $endIndex=20;
-        return view('client.projects.index', compact('salesCloseProjectHousingCount','status','parent','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+        return view('client.projects.index', compact('salesCloseProjectHousingCount','projectHousing','projectHousingSetting','status','parent','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
     }
     
     public function ajaxIndex($slug,Request $request){
