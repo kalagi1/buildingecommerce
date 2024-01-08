@@ -2606,7 +2606,6 @@ out center;`;
         .trStyle tr {
             display: flex;
             flex-wrap: wrap;
-            border: 1px solid #dee2e6;
         }
 
         
@@ -2618,6 +2617,8 @@ out center;`;
         .trStyle tr td {
             width: 100%;
             font-size: 11px;
+            border: 1px solid #dee2e6;
+
 
         }
 
