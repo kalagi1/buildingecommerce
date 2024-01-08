@@ -264,7 +264,7 @@
                                             <div class="icon-area">
                                                 <i class="fa fa-calendar-days"></i>
                                             </div>
-                                            <input type="date" value="{{isset($tempData->start_date) ? $tempData->start_date : ''}}" class="start_date" onkeyup="changeData(this.value,'start_date')">
+                                            <input type="date" value="{{isset($tempData->start_date) ? $tempData->start_date : ''}}" class="start_date" onchange="changeData(this.value,'start_date')" onkeyup="changeData(this.value,'start_date')">
                                         </div>
                                     </div>
                                     
@@ -274,7 +274,7 @@
                                             <div class="icon-area">
                                                 <i class="fa fa-calendar-days"></i>
                                             </div>
-                                            <input type="date" value="{{isset($tempData->end_date) ? $tempData->end_date : ''}}" class="end_date" onkeyup="changeData(this.value,'end_date')">
+                                            <input type="date" value="{{isset($tempData->end_date) ? $tempData->end_date : ''}}" class="end_date" onchange="changeData(this.value,'end_date')" onkeyup="changeData(this.value,'end_date')">
                                         </div>
                                     </div>
                                 </div>
