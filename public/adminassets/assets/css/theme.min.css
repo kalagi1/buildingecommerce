@@ -42497,3 +42497,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     border-radius: 100%;
     cursor: pointer;
 }
+
+.jq-toast-wrap.top-right{
+    z-index: 9999999 !important;
+}

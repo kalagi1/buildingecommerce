@@ -563,114 +563,136 @@
             $('.total-change-modal').removeClass('d-none');
 
             $('.single-adv-do').click(function(){
-                $(this).html('<i class="fa fa-spinner spinner-borderx"></i>')
-                $.ajax({
-                    method: "POST",
-                    url: "{{route('institutional.projects.set.single.data',$project->id)}}",
-                    data: { inputName: inputName, newVal: newVal , roomOrder : roomOrder , "_token": "{{ csrf_token() }}", allData : 0 }
-                })
-                .done(function( res ) {
-                    res = JSON.parse(res);
-                    if(res.status){
-                        thisx.html('<i class="fa fa-check"></i>')
-                        thisx.closest('td').find('.input').addClass('d-none');
-                        thisx.closest('td').find('.text').removeClass('d-none');
+                if($('#rules_confirmx').is(':checked')){
+                    $.ajax({
+                        method: "POST",
+                        url: "{{route('institutional.projects.set.single.data',$project->id)}}",
+                        data: { inputName: inputName, newVal: newVal , roomOrder : roomOrder , "_token": "{{ csrf_token() }}", allData : 0 }
+                    })
+                    .done(function( res ) {
+                        res = JSON.parse(res);
+                        if(res.status){
+                            thisx.html('<i class="fa fa-check"></i>')
+                            thisx.closest('td').find('.input').addClass('d-none');
+                            thisx.closest('td').find('.text').removeClass('d-none');
 
-                        if(thisx.closest('td').find('.input').find('input').hasClass('price-only')){
+                            if(thisx.closest('td').find('.input').find('input').hasClass('price-only')){
 
-                            var newTextVal =  newVal.replace(/\D/g, '');
-                            // Her üç basamakta bir nokta ekleyin
-                            newTextVal = newTextVal.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                                var newTextVal =  newVal.replace(/\D/g, '');
+                                // Her üç basamakta bir nokta ekleyin
+                                newTextVal = newTextVal.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-                            thisx.closest('td').find('.text').find('.value-text').html(newTextVal+'₺')
-                        }else{
-                            if(inputName == "off_sale[]"){
-                                if(newVal != "[]"){
-                                    newVal = "Satışa Kapalı";
-                                    thisx.closest('td').find('.text').find('.value-text').removeClass('badge-phoenix-success').addClass('badge-phoenix-danger')
-                                    thisx.closest('td').append('<p class="off-sale-red-text" style="color: red;margin-top:10px;width:200px;">Alıcılara satışa kapalı olarak gözükecektir.</p>')
-                                }else{
-                                    newVal = "Satışa Açık";
-                                    thisx.closest('td').find('.text').find('.value-text').addClass('badge-phoenix-success').removeClass('badge-phoenix-danger')
-                                    thisx.closest('td').find('.off-sale-red-text').remove();
+                                thisx.closest('td').find('.text').find('.value-text').html(newTextVal+'₺')
+                            }else{
+                                if(inputName == "off_sale[]"){
+                                    if(newVal != "[]"){
+                                        newVal = "Satışa Kapalı";
+                                        thisx.closest('td').find('.text').find('.value-text').removeClass('badge-phoenix-success').addClass('badge-phoenix-danger')
+                                        thisx.closest('td').append('<p class="off-sale-red-text" style="color: red;margin-top:10px;width:200px;">Alıcılara satışa kapalı olarak gözükecektir.</p>')
+                                    }else{
+                                        newVal = "Satışa Açık";
+                                        thisx.closest('td').find('.text').find('.value-text').addClass('badge-phoenix-success').removeClass('badge-phoenix-danger')
+                                        thisx.closest('td').find('.off-sale-red-text').remove();
+                                    }
                                 }
+                                thisx.closest('td').find('.text').find('.value-text').html(newVal)
                             }
-                            thisx.closest('td').find('.text').find('.value-text').html(newVal)
+
+                            $.toast({
+                                heading: 'Başarılı',
+                                text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
+                                position: 'top-right',
+                                stack: false
+                            })
+
+                            $('.total-change-modal').addClass('d-none')
+                            $('#rules_confirmx').prop('checked',false);
                         }
+                    });
+                }else{
+                    $.toast({
+                        heading: 'Hata',
+                        text: 'İlan verme kurallarını onaylamanız gerekmektedir',
+                        position: 'top-right',
+                        stack: false
+                    })
+                }
 
-                        $.toast({
-                            heading: 'Başarılı',
-                            text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
-                            position: 'top-right',
-                            stack: false
-                        })
-
-                        $('.total-change-modal').addClass('d-none')
-                    }
-                });
+                
             })
             
             $('.all-adv-do').click(function(){
-                $.ajax({
-                    method: "POST",
-                    url: "{{route('institutional.projects.set.single.data',$project->id)}}",
-                    data: { inputName: inputName, newVal: newVal , roomOrder : roomOrder , "_token": "{{ csrf_token() }}" , allData : 1 }
-                })
-                .done(function( res ) {
-                    res = JSON.parse(res);
-                    var indexTd = thisx.closest('td').index();
-                    if(res.status){
-                        thisx.html('<i class="fa fa-check"></i>')
+                
+                if($('#rules_confirmx').is(':checked')){
+                    $.ajax({
+                        method: "POST",
+                        url: "{{route('institutional.projects.set.single.data',$project->id)}}",
+                        data: { inputName: inputName, newVal: newVal , roomOrder : roomOrder , "_token": "{{ csrf_token() }}" , allData : 1 }
+                    })
+                    .done(function( res ) {
+                        res = JSON.parse(res);
+                        var indexTd = thisx.closest('td').index();
+                        if(res.status){
+                            thisx.html('<i class="fa fa-check"></i>')
 
-                        $('tbody tr').map(tr => {
-                        })
-
-                        $('tbody.list tr').map((key,tr) => {
-                            $(tr).find('td').eq(indexTd).find('.input').addClass('d-none');
-                            $(tr).find('td').eq(indexTd).find('.text').removeClass('d-none');
-                        })
-                        
-                        if(thisx.closest('td').find('.input').find('input').hasClass('price-only')){
-
-                            var newTextVal =  newVal.replace(/\D/g, '');
-                            // Her üç basamakta bir nokta ekleyin
-                            newTextVal = newTextVal.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                            $('tbody.list tr').map((key,tr) => {
-                                $(tr).find('td').eq(indexTd).find('.text').find('.value-text').html(newTextVal+'₺')
+                            $('tbody tr').map(tr => {
                             })
-                        }else{
-                            if(inputName == "off_sale[]"){
-                                if(newVal != "[]"){
-                                    newVal = "Satışa Kapalı";
-                                    
-                                    $('tbody.list tr').map((key,tr) => {
-                                        $(tr).find('td').eq(indexTd).find('.text').find('.value-text').removeClass('badge-phoenix-success').addClass('badge-phoenix-danger');
-                                        $(tr).find('td').eq(indexTd).append('<p class="off-sale-red-text" style="color: red;margin-top:10px;width:200px;">Alıcılara satışa kapalı olarak gözükecektir.</p>');
-                                    })
-                                }else{
-                                    newVal = "Satışa Açık";
-                                    $('tbody.list tr').map((key,tr) => {
-                                        $(tr).find('td').eq(indexTd).find('.text').find('.value-text').addClass('badge-phoenix-success').removeClass('badge-phoenix-danger');
-                                        $(tr).find('td').eq(indexTd).find('.off-sale-red-text').remove();;
-                                    })
+
+                            $('tbody.list tr').map((key,tr) => {
+                                $(tr).find('td').eq(indexTd).find('.input').addClass('d-none');
+                                $(tr).find('td').eq(indexTd).find('.text').removeClass('d-none');
+                            })
+                            
+                            if(thisx.closest('td').find('.input').find('input').hasClass('price-only')){
+
+                                var newTextVal =  newVal.replace(/\D/g, '');
+                                // Her üç basamakta bir nokta ekleyin
+                                newTextVal = newTextVal.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                                $('tbody.list tr').map((key,tr) => {
+                                    $(tr).find('td').eq(indexTd).find('.text').find('.value-text').html(newTextVal+'₺')
+                                })
+                            }else{
+                                if(inputName == "off_sale[]"){
+                                    if(newVal != "[]"){
+                                        newVal = "Satışa Kapalı";
+                                        
+                                        $('tbody.list tr').map((key,tr) => {
+                                            $(tr).find('td').eq(indexTd).find('.text').find('.value-text').removeClass('badge-phoenix-success').addClass('badge-phoenix-danger');
+                                            $(tr).find('td').eq(indexTd).append('<p class="off-sale-red-text" style="color: red;margin-top:10px;width:200px;">Alıcılara satışa kapalı olarak gözükecektir.</p>');
+                                        })
+                                    }else{
+                                        newVal = "Satışa Açık";
+                                        $('tbody.list tr').map((key,tr) => {
+                                            $(tr).find('td').eq(indexTd).find('.text').find('.value-text').addClass('badge-phoenix-success').removeClass('badge-phoenix-danger');
+                                            $(tr).find('td').eq(indexTd).find('.off-sale-red-text').remove();;
+                                        })
+                                    }
                                 }
+
+                                $('tbody.list tr').map((key,tr) => {
+                                    $(tr).find('td').eq(indexTd).find('.text').find('.value-text').html(newVal)
+                                })
                             }
 
-                            $('tbody.list tr').map((key,tr) => {
-                                $(tr).find('td').eq(indexTd).find('.text').find('.value-text').html(newVal)
+                            $.toast({
+                                heading: 'Başarılı',
+                                text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
+                                position: 'top-right',
+                                stack: false
                             })
+
+                            $('.total-change-modal').addClass('d-none')
+                            $('#rules_confirmx').prop('checked',false);
                         }
-
-                        $.toast({
-                            heading: 'Başarılı',
-                            text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
-                            position: 'top-right',
-                            stack: false
-                        })
-
-                        $('.total-change-modal').addClass('d-none')
-                    }
-                });
+                    });
+                }else{
+                    $.toast({
+                        heading: 'Hata',
+                        text: 'İlan verme kurallarını onaylamanız gerekmektedir',
+                        position: 'top-right',
+                        stack: false
+                    })
+                }
             })
         })
         
@@ -725,81 +747,99 @@
             $('.total-change-modal').removeClass('d-none');
 
             $('.single-adv-do').click(function(){
-                var formdata = new FormData();  
-                formdata.append('file',newVal);
-                formdata.append('roomOrder',roomOrder);
-                formdata.append('_token',"{{ csrf_token() }}");
-                jQuery.ajax({
-                    url: "{{route('institutional.projects.set.single.image',$project->id)}}",
-                    type: "POST",
-                    data: formdata,
-                    processData: false,
-                    contentType: false,
-                    success:function(res){
-                        res = JSON.parse(res);
-                        if(res.status){
-                            $.toast({
-                                heading: 'Başarılı',
-                                text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
-                                position: 'top-right',
-                                stack: false
-                            })
+                if($('#rules_confirmx').is(':checked')){
+                    var formdata = new FormData();  
+                    formdata.append('file',newVal);
+                    formdata.append('roomOrder',roomOrder);
+                    formdata.append('_token',"{{ csrf_token() }}");
+                    jQuery.ajax({
+                        url: "{{route('institutional.projects.set.single.image',$project->id)}}",
+                        type: "POST",
+                        data: formdata,
+                        processData: false,
+                        contentType: false,
+                        success:function(res){
+                            res = JSON.parse(res);
+                            if(res.status){
+                                $.toast({
+                                    heading: 'Başarılı',
+                                    text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
+                                    position: 'top-right',
+                                    stack: false
+                                })
+                            }
                         }
-                    }
-                });
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    // Resmi görüntülemek için bir div oluşturun
-                    thisx.parent('.image-with-hover').find('img').attr('src',e.target.result)
-                };
+                    });
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        // Resmi görüntülemek için bir div oluşturun
+                        thisx.parent('.image-with-hover').find('img').attr('src',e.target.result)
+                    };
 
-                // Resmi okuyun
-                reader.readAsDataURL(input.files[0]);
+                    // Resmi okuyun
+                    reader.readAsDataURL(input.files[0]);
 
-                $('.total-change-modal').addClass('d-none')
+                    $('.total-change-modal').addClass('d-none')
+                    $('#rules_confirmx').prop('checked',false);
+                }else{
+                    $.toast({
+                        heading: 'Hata',
+                        text: 'İlan verme kurallarını onaylamanız gerekmektedir',
+                        position: 'top-right',
+                        stack: false
+                    })
+                }
             })
 
             
             
             $('.all-adv-do').click(function(){
-                var formdata = new FormData();  
-                formdata.append('file',newVal);
-                formdata.append('allData',1);
-                formdata.append('roomOrder',roomOrder);
-                formdata.append('_token',"{{ csrf_token() }}");
-                jQuery.ajax({
-                    url: "{{route('institutional.projects.set.single.image',$project->id)}}",
-                    type: "POST",
-                    data: formdata,
-                    processData: false,
-                    contentType: false,
-                    success:function(res){
-                        res = JSON.parse(res);
-                        if(res.status){
-                            $.toast({
-                                heading: 'Başarılı',
-                                text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
-                                position: 'top-right',
-                                stack: false
-                            })
+                if($('#rules_confirmx').is(':checked')){
+                    var formdata = new FormData();  
+                    formdata.append('file',newVal);
+                    formdata.append('allData',1);
+                    formdata.append('roomOrder',roomOrder);
+                    formdata.append('_token',"{{ csrf_token() }}");
+                    jQuery.ajax({
+                        url: "{{route('institutional.projects.set.single.image',$project->id)}}",
+                        type: "POST",
+                        data: formdata,
+                        processData: false,
+                        contentType: false,
+                        success:function(res){
+                            res = JSON.parse(res);
+                            if(res.status){
+                                $.toast({
+                                    heading: 'Başarılı',
+                                    text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
+                                    position: 'top-right',
+                                    stack: false
+                                })
+                            }
                         }
-                    }
-                });
-                var thisx = $(this);
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    // Resmi görüntülemek için bir div oluşturun
-                    $('tbody.list tr').map((key,tr) => {
-                        console.log($(tr).find('td').eq(1).find('.image-with-hover'));
-                        $(tr).find('td').eq(1).find('.image-with-hover').find('img').attr('src',e.target.result)
+                    });
+                    var thisx = $(this);
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        // Resmi görüntülemek için bir div oluşturun
+                        $('tbody.list tr').map((key,tr) => {
+                            console.log($(tr).find('td').eq(1).find('.image-with-hover'));
+                            $(tr).find('td').eq(1).find('.image-with-hover').find('img').attr('src',e.target.result)
+                        })
+                    };
+
+                    // Resmi okuyun
+                    reader.readAsDataURL(input.files[0]);
+                    $('#rules_confirmx').prop('checked',false);
+                    $('.total-change-modal').addClass('d-none')
+                }else{
+                    $.toast({
+                        heading: 'Hata',
+                        text: 'İlan verme kurallarını onaylamanız gerekmektedir',
+                        position: 'top-right',
+                        stack: false
                     })
-                };
-
-                // Resmi okuyun
-                reader.readAsDataURL(input.files[0]);
-
-                $('.total-change-modal').addClass('d-none')
-                
+                }
             })
             
         })
