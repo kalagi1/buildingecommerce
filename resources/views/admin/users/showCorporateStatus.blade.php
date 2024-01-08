@@ -34,100 +34,185 @@
                                 @endif
                                 <form action="{{ route('admin.update-corporate-status', ['user' => $user_e->id]) }}"
                                     method="POST" class="row">
-                                    <div class="col-12">
-                                        @if ($user_e->type == 2)
-                                            <div class="form-group">
-                                                <a target="_blank"
-                                                    href="{{ route('admin.get.tax-document', ['user' => $user_e->id]) }}"
-                                                    class="btn btn-blue mb-2">İmza Sirküsünü Gör</a>
-                                                <select name="tax_document_approve" class="form-control">
-                                                    <option
-                                                        value="0"{{ $user_e->tax_document_approve == 0 ? ' selected' : null }}>
-                                                        İmza Sirküsünü Onaylamıyorum</option>
-                                                    <option
-                                                        value="1"{{ $user_e->tax_document_approve == 1 ? ' selected' : null }}>
-                                                        İmza Sirküsünü Onaylıyorum</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <a target="_blank"
-                                                    href="{{ route('admin.get.record-document', ['user' => $user_e->id]) }}"
-                                                    class="btn btn-blue mb-2">Vergi Levhasını Gör</a>
-                                                <select name="record_document_approve" class="form-control">
-                                                    <option
-                                                        value="0"{{ $user_e->record_document_approve == 0 ? ' selected' : null }}>
-                                                        Vergi Levhasını Onaylamıyorum</option>
-                                                    <option
-                                                        value="1"{{ $user_e->record_document_approve == 1 ? ' selected' : null }}>
-                                                        Vergi Levhasını Onaylıyorum</option>
-                                                </select>
-                                            </div>
-                                        @endif
+                                    @csrf
+                                    @if ($user_e->type == 2)
                                         <div class="form-group">
-                                            <a target="_blank"
-                                                href="{{ route('admin.get.identity-document', ['user' => $user_e->id]) }}"
-                                                class="btn btn-blue mb-2">Yetkilinin Kimlik Belgesini Gör</a>
-                                            @csrf
+                                            <label for="vergi_levhasi" class="mb-2 d-flex align-items-center">İmza Sirküsü:
+
+                                                @if (!is_null($user_e->tax_document))
+                                                    <div class="ml-2 mr-2">
+                                                        <a target="_blank"
+                                                            href="{{ route('admin.get.tax-document', ['user' => $user_e->id]) }}"
+                                                            download><i class="fa fa-download"></i></a>
+                                                    </div>
+                                                @endif
+
+                                                @if ($user_e->tax_document_approve)
+                                                    <span class="checkmark"></span> <span
+                                                        style="color:green">Onaylandı</span>
+                                                @endif
+                                            </label>
+                                            <select name="tax_document_approve" class="form-control">
+                                                <option
+                                                    value="0"{{ $user_e->tax_document_approve == 0 ? ' selected' : null }}>
+                                                    Onaylamıyorum</option>
+                                                <option
+                                                    value="1"{{ $user_e->tax_document_approve == 1 ? ' selected' : null }}>
+                                                    Onaylıyorum</option>
+                                            </select>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="sicil_belgesi" class="mb-2 d-flex align-items-center">Vergi Levhası:
+
+                                                @if (!is_null($user_e->record_document))
+                                                    <div class="ml-2 mr-2">
+                                                        <a target="_blank"
+                                                            href="{{ route('admin.get.record-document', ['user' => $user_e->id]) }}"
+                                                            download><i class="fa fa-download"></i></a>
+                                                    </div>
+                                                @endif
+
+                                                @if ($user_e->record_document_approve)
+                                                    <span class="checkmark"></span> <span
+                                                        style="color:green">Onaylandı</span>
+                                                @endif
+                                            </label>
+                                            <select name="record_document_approve" class="form-control">
+                                                <option
+                                                    value="0"{{ $user_e->record_document_approve == 0 ? ' selected' : null }}>
+                                                    Onaylamıyorum</option>
+                                                <option
+                                                    value="1"{{ $user_e->record_document_approve == 1 ? ' selected' : null }}>
+                                                    Onaylıyorum</option>
+                                            </select>
+                                        </div>
+                                    @endif
+                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'Emlakçı')
+                                        <div class="form-group">
+                                            <label for="kimlik_belgesi" class="mb-2 d-flex align-items-center">Taşınmaz
+                                                Yetki Belgesi:
+
+
+                                                @if (!is_null($user_e->identity_document))
+                                                    <div class="ml-2 mr-2">
+                                                        <a target="_blank"
+                                                            href="{{ route('admin.get.identity-document', ['user' => $user_e->id]) }}"
+                                                            download><i class="fa fa-download"></i></a>
+                                                    </div>
+                                                @endif
+
+                                                @if ($user_e->identity_document_approve)
+                                                    <span class="checkmark"></span> <span
+                                                        style="color:green">Onaylandı</span>
+                                                @endif
+                                            </label>
                                             <select name="identity_document_approve" class="form-control">
                                                 <option
                                                     value="0"{{ $user_e->identity_document_approve == 0 ? ' selected' : null }}>
-                                                    Yetkilinin Kimlik Belgesini Onaylamıyorum</option>
+                                                    Onaylamıyorum</option>
                                                 <option
                                                     value="1"{{ $user_e->identity_document_approve == 1 ? ' selected' : null }}>
-                                                    Yetkilinin Kimlik Belgesini Onaylıyorum</option>
+                                                    Onaylıyorum</option>
                                             </select>
                                         </div>
-                                        @if ($user_e->type == 2)
-                                            <div class="form-group">
-                                                <a target="_blank"
-                                                    href="{{ route('admin.get.company-document', ['user' => $user_e->id]) }}"
-                                                    class="btn btn-blue mb-2">Müteahhitlik Belgesini Gör</a>
-                                                <select name="company_document_approve" class="form-control">
-                                                    <option
-                                                        value="0"{{ $user_e->company_document_approve == 0 ? ' selected' : null }}>
-                                                        Müteahhitlik Belgesini Onaylamıyorum</option>
-                                                    <option
-                                                        value="1"{{ $user_e->company_document_approve == 1 ? ' selected' : null }}>
-                                                        Müteahhitlik Belgesini Onaylıyorum</option>
-                                                </select>
-                                            </div>
-                                        @endif
+                                    @endif
+                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'Turizm')
                                         <div class="form-group">
-                                            <label for="note">Not:</label>
-                                            <textarea name="note" id="note" rows="5" class="form-control">{{ $user_e->corporate_account_note }}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="status">Durum:</label>
-                                            <select name="status" id="status" class="form-control">
+                                            <label for="kimlik_belgesi" class="mb-2 d-flex align-items-center">Acenta
+                                                Belgesi:
+
+
+                                                @if (!is_null($user_e->identity_document))
+                                                    <div class="ml-2 mr-2">
+                                                        <a target="_blank"
+                                                            href="{{ route('admin.get.identity-document', ['user' => $user_e->id]) }}"
+                                                            download><i class="fa fa-download"></i></a>
+                                                    </div>
+                                                @endif
+                                                @if ($user_e->identity_document_approve)
+                                                    <span class="checkmark"></span> <span
+                                                        style="color:green">Onaylandı</span>
+                                                @endif
+                                            </label>
+                                            <select name="identity_document_approve" class="form-control">
                                                 <option
-                                                    value="0"{{ $user_e->corporate_account_status == 0 ? ' selected' : null }}>
-                                                    Onaylanmadı</option>
+                                                    value="0"{{ $user_e->identity_document_approve == 0 ? ' selected' : null }}>
+                                                    Onaylamıyorum</option>
                                                 <option
-                                                    value="1"{{ $user_e->corporate_account_status == 1 ? ' selected' : null }}>
-                                                    Onaylandı</option>
+                                                    value="1"{{ $user_e->identity_document_approve == 1 ? ' selected' : null }}>
+                                                    Onaylıyorum</option>
                                             </select>
                                         </div>
+                                    @endif
+                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'İnşaat')
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-primary btn-lg">Firma Onayını
-                                                Güncelle</button>
+                                            <label for="insaat_belgesi" class="mb-2 d-flex align-items-center">Müteahhitlik
+                                                Belgesi (Opsiyonel):
+
+                                                @if (!is_null($user_e->company_document))
+                                                    <div class="ml-2 mr-2">
+                                                        <a target="_blank"
+                                                            href="{{ route('admin.get.company-document', ['user' => $user_e->id]) }}"
+                                                            download><i class="fa fa-download"></i></a>
+                                                    </div>
+                                                @else
+                                                    <span style="color: red;margin-left:5px"> Belge Yüklenmedi</span>
+                                                @endif
+
+                                                @if ($user_e->company_document_approve)
+                                                    <span class="checkmark"></span> <span
+                                                        style="color:green">Onaylandı</span>
+                                                @endif
+
+                                            </label>
+                                            <select name="company_document_approve" class="form-control">
+                                                <option
+                                                    value="0"{{ $user_e->company_document_approve == 0 ? ' selected' : null }}>
+                                                    Onaylamıyorum</option>
+                                                <option
+                                                    value="1"{{ $user_e->company_document_approve == 1 ? ' selected' : null }}>
+                                                    Onaylıyorum</option>
+                                            </select>
                                         </div>
+                                    @endif
+                                    <div class="form-group">
+                                        <label for="note">Not:</label>
+                                        <textarea name="note" id="note" rows="5" class="form-control">{{ $user_e->corporate_account_note }}</textarea>
                                     </div>
-                                </form>
+                                    <div class="form-group">
+                                        <label for="status">Durum:</label>
+                                        <select name="status" id="status" class="form-control">
+                                            <option
+                                                value="0"{{ $user_e->corporate_account_status == 0 ? ' selected' : null }}>
+                                                Onaylanmadı</option>
+                                            <option
+                                                value="1"{{ $user_e->corporate_account_status == 1 ? ' selected' : null }}>
+                                                Onaylandı</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-lg">Firma Onayını
+                                            Güncelle</button>
+                                    </div>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
-            <div class="toast align-items-center text-white bg-dark border-0 light" id="icon-copied-toast" role="alert"
-                aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body p-3"></div><button class="btn-close btn-close-white me-2 m-auto" type="button"
-                        data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
+    </div>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div class="toast align-items-center text-white bg-dark border-0 light" id="icon-copied-toast" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body p-3"></div><button class="btn-close btn-close-white me-2 m-auto" type="button"
+                    data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
+    </div>
 
     </div>
 @endsection
@@ -137,6 +222,14 @@
         .btn-blue {
             background-color: #0080c7 !important;
             color: white
-        }En geç 12 saat içerisinde
+        }
+
+        .ml-2 {
+            margin-left: 5px;
+        }
+
+        .mr-2 {
+            margin-right: 5px;
+        }
     </style>
 @endsection

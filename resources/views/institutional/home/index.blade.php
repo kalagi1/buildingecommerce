@@ -35,8 +35,11 @@
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                 </h3>  
               
-                <p class="mb-0">Bu alanda istatistik içeriklerinizi kolaylıkla görüntüleyebilirsiniz.</p>
-            </div>
+                <span style="color:black" class="mt-5">Emlak Sepette, ücretsiz ve sınırsız süresiz ilan paylaşımı imkanı sunarak ilanlarınızın satışına aracılık eder. Değerli kurumsal üyelerimizden aylık sabit ücret talep etmez. İlanlarınızın daha hızlı satılmasına ve kiralanmasına yardımcı oluruz.
+
+                    Emlak ilanlarında, toplam fiyat üzerinden %0.5 komisyon uygulanır.
+                    Toplu konut projelerinde ise toplam fiyat üzerinden %1 komisyon alınır.</span>
+                                </div>
         </div>
 
 
@@ -59,10 +62,10 @@
     @if (Auth::check() && Auth::user()->type !="3")
     <!-- HTML -->
 <button class="chatbox-open">
-  <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+  <i class="fa fa-comment" aria-hidden="true"></i>
 </button>
 <button class="chatbox-close">
-  <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+  <i class="fa fa-close" aria-hidden="true"></i>
 </button>
 <div class="chatbox-popup">
   <header class="chatbox-popup__header">
