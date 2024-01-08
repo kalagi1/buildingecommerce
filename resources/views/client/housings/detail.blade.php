@@ -296,261 +296,7 @@
                             </div>
 
 
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                @if ($housing->step2_slug == 'gunluk-kiralik')
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
-                                            data-bs-target="#rez" type="button" role="tab" aria-controls="rez"
-                                            aria-selected="true"> Takvim</button>
-                                    </li>
-                                @endif
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif"
-                                        id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                                        role="tab" aria-controls="home" aria-selected="true">Açıklama</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                        data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
-                                        aria-selected="false">Özellikler</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#map"
-                                        type="button" role="tab" aria-controls="contact"
-                                        aria-selected="false">Harita</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                        data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
-                                        aria-selected="false">Yorumlar</button>
-                                </li>
-
-
-                            </ul>
-                            <div class="tab-content" id="myTabContent">
-                                @if ($housing->step2_slug == 'gunluk-kiralik')
-                                    <div class="tab-pane fade show active blog-info details mb-30" id="rez"
-                                        role="tabpanel" aria-labelledby="rez-tab">
-                                        <div id="reservation-calendar"></div>
-                                    </div>
-                                @endif
-
-                                <div class="tab-pane fade blog-info details mb-30 mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
-                                    id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    {!! $housing->description !!}
-                                </div>
-                                <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
-                                    aria-labelledby="profile-tab">
-                                    <div class="similar-property featured portfolio p-0 bg-white">
-
-                                        <div class="single homes-content">
-                                            <!-- title -->
-                                            <h5 class="mb-4">Özellikler</h5>
-                                            <table class="table table-bordered">
-                                                <tbody class="trStyle">
-                                                    <tr>
-                                                        <td>
-                                                            <span class="mr-1">İlan No:</span>
-                                                            <span class="det" style="color: black;">
-                                                                {{ $housing->id + 2000000 }}
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-
-                                                    @foreach ($labels as $label => $val)
-                                                        @if ($label != 'Kapak Resmi' && $val[0] != 0)
-                                                            <tr>
-                                                                <td>
-                                                                    @if ($label == 'Fiyat')
-                                                                        <span class="mr-1">{{ $label }}:</span>
-                                                                        <span class="det"
-                                                                            style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
-                                                                            ₺</span>
-                                                                    @else
-                                                                        <span class="mr-1">{{ $label }}:</span>
-                                                                        @if ($label == 'm² (Net)<br>')
-                                                                            <span class="det">{{ $val[0] }}
-                                                                                m2</span>
-                                                                        @elseif ($label == 'Özellikler')
-                                                                            <ul>
-                                                                                @foreach ($val as $ozellik)
-                                                                                    <li>{{ $ozellik }}</li>
-                                                                                @endforeach
-                                                                            </ul>
-                                                                        @else
-                                                                            <span
-                                                                                class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
-                                                                        @endif
-                                                                    @endif
-                                                                </td>
-                                                            </tr>
-                                                        @endif
-                                                    @endforeach
-
-                                                </tbody>
-                                            </table>
-
-                                            @foreach ($labels as $label => $val)
-                                                @if (is_array($val))
-                                                    @if (count($val) > 1)
-                                                        @if ($label != 'Galeri')
-                                                            <h5 class="mt-5">{{ $label }}</h5>
-                                                            <ul class="homes-list clearfix">
-                                                                @foreach ($val as $item)
-                                                                    <li><i class="fa fa-check-square"
-                                                                            aria-hidden="true"></i><span>{{ $item }}</span>
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        @endif
-                                                    @endif
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade  blog-info details mb-30" id="contact" role="tabpanel"
-                                    aria-labelledby="contact-tab">
-                                    <h5 class="mt-4">Yorumlar</h5>
-                                    @if (count($housingComments))
-                                        <div class="flex flex-col gap-6">
-                                            @foreach ($housingComments as $comment)
-                                                <div class="bg-white border rounded-md pb-3 mb-3"
-                                                    style="border-bottom: 1px solid #E6E6E6 !important; ">
-                                                    <div class="head d-flex w-full">
-                                                        <div>
-                                                            <div class="">
-                                                                {{ $comment->user->name }}</div>
-                                                            <i
-                                                                class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
-                                                        </div>
-                                                        <div class="ml-auto order-2">
-                                                            @for ($i = 0; $i < $comment->rate; ++$i)
-                                                                <svg enable-background="new 0 0 50 50" height="24px"
-                                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50"
-                                                                    width="24px" xml:space="preserve"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                    <rect fill="none" height="50" width="50" />
-                                                                    <polygon fill="gold"
-                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                        stroke="gold" stroke-miterlimit="10"
-                                                                        stroke-width="2" />
-                                                                </svg>
-                                                            @endfor
-                                                            @for ($i = 0; $i < 5 - $comment->rate; ++$i)
-                                                                <svg enable-background="new 0 0 50 50" height="24px"
-                                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50"
-                                                                    width="24px" xml:space="preserve"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                    <rect fill="none" height="50" width="50" />
-                                                                    <polygon fill="none"
-                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                        stroke="gold" stroke-miterlimit="10"
-                                                                        stroke-width="2" />
-                                                                </svg>
-                                                            @endfor
-                                                        </div>
-                                                    </div>
-                                                    <div class="body py-3">
-                                                        {{ $comment->comment }}
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        @foreach (json_decode($comment->images, true) as $img)
-                                                            <div class="col-md-2 col-3 mb-3">
-                                                                <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                                    data-lightbox="gallery">
-                                                                    <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                                        style="object-fit: cover;width:100%" />
-                                                                </a>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @else
-                                        <span class="mb-3">Bu konut için henüz yorum yapılmadı.</span>
-                                    @endif
-
-                                    <form action="{{ route('housing.send-comment', ['id' => $id]) }}" method="POST"
-                                        enctype="multipart/form-data" class="mt-5">
-                                        @csrf
-                                        <input type="hidden" name="rate" id="rate" />
-                                        <h5>Yeni Yorum Ekle</h5>
-
-                                        <div class="d-flex align-items-center w-full" style="gap: 6px;">
-                                            <div class="d-flex rating-area">
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                            </div>
-                                            <div class="ml-auto">
-                                                <input type="hidden" style="visibility: hidden;" class="fileinput"
-                                                    name="images[]" multiple accept="image/*" />
-                                                <button type="button" class="btn btn-primary q-button "
-                                                    onClick="jQuery('.fileinput').trigger('click');">Resimleri
-                                                    Seç</button>
-                                            </div>
-                                        </div>
-                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..."></textarea>
-                                        <button type="submit" class="ud-btn btn-white2 mt-3">Yorumu Gönder<i
-                                                class="fal fa-arrow-right-long"></i></button>
-
-                                    </form>
-
-                                </div>
-                                <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
-                                    aria-labelledby="contact-tab">
-                                    <div class="similar-property featured portfolio p-0 bg-white">
-
-                                        <div id="map"></div>
-                                    </div>
-                                </div>
-                            </div>
+                           
 
                         </div>
                     </div>
@@ -932,6 +678,265 @@
                     </div>
 
                 </aside>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        @if ($housing->step2_slug == 'gunluk-kiralik')
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
+                                    data-bs-target="#rez" type="button" role="tab" aria-controls="rez"
+                                    aria-selected="true"> Takvim</button>
+                            </li>
+                        @endif
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif"
+                                id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                                role="tab" aria-controls="home" aria-selected="true">Açıklama</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                                aria-selected="false">Özellikler</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#map"
+                                type="button" role="tab" aria-controls="contact"
+                                aria-selected="false">Harita</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
+                                aria-selected="false">Yorumlar</button>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        @if ($housing->step2_slug == 'gunluk-kiralik')
+                            <div class="tab-pane fade show active blog-info details mb-30" id="rez"
+                                role="tabpanel" aria-labelledby="rez-tab">
+                                <div id="reservation-calendar"></div>
+                            </div>
+                        @endif
+
+                        <div class="tab-pane fade blog-info details mb-30 mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
+                            id="home" role="tabpanel" aria-labelledby="home-tab">
+                            {!! $housing->description !!}
+                        </div>
+                        <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
+                            aria-labelledby="profile-tab">
+                            <div class="similar-property featured portfolio p-0 bg-white">
+
+                                <div class="single homes-content">
+                                    <!-- title -->
+                                    <h5 class="mb-4">Özellikler</h5>
+                                    <table class="table table-bordered">
+                                        <tbody class="trStyle">
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">İlan No:</span>
+                                                    <span class="det" style="color: black;">
+                                                        {{ $housing->id + 2000000 }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+
+                                            @foreach ($labels as $label => $val)
+                                                @if ($label != 'Kapak Resmi' && $val[0] != 0)
+                                                    <tr>
+                                                        <td>
+                                                            @if ($label == 'Fiyat')
+                                                                <span class="mr-1">{{ $label }}:</span>
+                                                                <span class="det"
+                                                                    style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
+                                                                    ₺</span>
+                                                            @else
+                                                                <span class="mr-1">{{ $label }}:</span>
+                                                                @if ($label == 'm² (Net)<br>')
+                                                                    <span class="det">{{ $val[0] }}
+                                                                        m2</span>
+                                                                @elseif ($label == 'Özellikler')
+                                                                    <ul>
+                                                                        @foreach ($val as $ozellik)
+                                                                            <li>{{ $ozellik }}</li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                @else
+                                                                    <span
+                                                                        class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
+                                                                @endif
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+
+                                    @foreach ($labels as $label => $val)
+                                        @if (is_array($val))
+                                            @if (count($val) > 1)
+                                                @if ($label != 'Galeri')
+                                                    <h5 class="mt-5">{{ $label }}</h5>
+                                                    <ul class="homes-list clearfix">
+                                                        @foreach ($val as $item)
+                                                            <li><i class="fa fa-check-square"
+                                                                    aria-hidden="true"></i><span>{{ $item }}</span>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade  blog-info details mb-30" id="contact" role="tabpanel"
+                            aria-labelledby="contact-tab">
+                            <h5 class="mt-4">Yorumlar</h5>
+                            @if (count($housingComments))
+                                <div class="flex flex-col gap-6">
+                                    @foreach ($housingComments as $comment)
+                                        <div class="bg-white border rounded-md pb-3 mb-3"
+                                            style="border-bottom: 1px solid #E6E6E6 !important; ">
+                                            <div class="head d-flex w-full">
+                                                <div>
+                                                    <div class="">
+                                                        {{ $comment->user->name }}</div>
+                                                    <i
+                                                        class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
+                                                </div>
+                                                <div class="ml-auto order-2">
+                                                    @for ($i = 0; $i < $comment->rate; ++$i)
+                                                        <svg enable-background="new 0 0 50 50" height="24px"
+                                                            id="Layer_1" version="1.1" viewBox="0 0 50 50"
+                                                            width="24px" xml:space="preserve"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                            <rect fill="none" height="50" width="50" />
+                                                            <polygon fill="gold"
+                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                stroke="gold" stroke-miterlimit="10"
+                                                                stroke-width="2" />
+                                                        </svg>
+                                                    @endfor
+                                                    @for ($i = 0; $i < 5 - $comment->rate; ++$i)
+                                                        <svg enable-background="new 0 0 50 50" height="24px"
+                                                            id="Layer_1" version="1.1" viewBox="0 0 50 50"
+                                                            width="24px" xml:space="preserve"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                            <rect fill="none" height="50" width="50" />
+                                                            <polygon fill="none"
+                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                stroke="gold" stroke-miterlimit="10"
+                                                                stroke-width="2" />
+                                                        </svg>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                            <div class="body py-3">
+                                                {{ $comment->comment }}
+                                            </div>
+                                            <div class="row mt-3">
+                                                @foreach (json_decode($comment->images, true) as $img)
+                                                    <div class="col-md-2 col-3 mb-3">
+                                                        <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                            data-lightbox="gallery">
+                                                            <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                                style="object-fit: cover;width:100%" />
+                                                        </a>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <span class="mb-3">Bu konut için henüz yorum yapılmadı.</span>
+                            @endif
+
+                            <form action="{{ route('housing.send-comment', ['id' => $id]) }}" method="POST"
+                                enctype="multipart/form-data" class="mt-5">
+                                @csrf
+                                <input type="hidden" name="rate" id="rate" />
+                                <h5>Yeni Yorum Ekle</h5>
+
+                                <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                    <div class="d-flex rating-area">
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <rect fill="none" height="50" width="50" />
+                                            <polygon fill="none"
+                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                        </svg>
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <rect fill="none" height="50" width="50" />
+                                            <polygon fill="none"
+                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                        </svg>
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <rect fill="none" height="50" width="50" />
+                                            <polygon fill="none"
+                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                        </svg>
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <rect fill="none" height="50" width="50" />
+                                            <polygon fill="none"
+                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                        </svg>
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <rect fill="none" height="50" width="50" />
+                                            <polygon fill="none"
+                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <input type="hidden" style="visibility: hidden;" class="fileinput"
+                                            name="images[]" multiple accept="image/*" />
+                                        <button type="button" class="btn btn-primary q-button "
+                                            onClick="jQuery('.fileinput').trigger('click');">Resimleri
+                                            Seç</button>
+                                    </div>
+                                </div>
+                                <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..."></textarea>
+                                <button type="submit" class="ud-btn btn-white2 mt-3">Yorumu Gönder<i
+                                        class="fal fa-arrow-right-long"></i></button>
+
+                            </form>
+
+                        </div>
+                        <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
+                            aria-labelledby="contact-tab">
+                            <div class="similar-property featured portfolio p-0 bg-white">
+
+                                <div id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
@@ -1632,7 +1637,7 @@
         }
 
         .trStyle tr {
-            width: 50%;
+            width: 33%;
         }
 
         .trStyle tr td {
