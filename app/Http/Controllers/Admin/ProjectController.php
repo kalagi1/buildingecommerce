@@ -169,67 +169,66 @@ class ProjectController extends Controller {
             ] );
         }
 
+        // DocumentNotification::create(
+        //     [
+        //         'user_id' => auth()->user()->id,
+        //         'text' => '#'.$projectId." No'lu projeniz şu anda yayında!",
+        //         'item_id' => $project->id,
+        //         'link' => route( 'project.detail', [ 'slug' => $project->slug ] ),
+        //         'owner_id' => $project->user->id,
+        //         'is_visible' => true,
+        //     ]
+        // );
 
-        DocumentNotification::create(
-            [
-                'user_id' => auth()->user()->id,
-                'text' => '#'.$projectId." No'lu projeniz şu anda yayında!",
-                'item_id' => $project->id,
-                'link' => route( 'project.detail', [ 'slug' => $project->slug ] ),
-                'owner_id' => $project->user->id,
-                'is_visible' => true,
-            ]
-        );
+        // if ( $project->status == 2 ) {
+        //     foreach ( $project->dopingOrder as $doping ) {
+        //         $startDate = Carbon::createFromFormat( 'Y-m-d', $doping->standOut->start_date );
+        //         $endDate = Carbon::createFromFormat( 'Y-m-d', $doping->standOut->end_date );
+        //         $dayCount = $startDate->diffInDays( $endDate );
+        //         $now = Carbon::now();
+        //         $endDate = Carbon::now()->addDays( $dayCount );
+        //         DopingOrder::where( 'id', $doping->id )->update( [
+        //             'status' => 1,
+        //             'admin_id' => Auth::user()->id
+        //         ] );
 
-        if ( $project->status == 2 ) {
-            foreach ( $project->dopingOrder as $doping ) {
-                $startDate = Carbon::createFromFormat( 'Y-m-d', $doping->standOut->start_date );
-                $endDate = Carbon::createFromFormat( 'Y-m-d', $doping->standOut->end_date );
-                $dayCount = $startDate->diffInDays( $endDate );
-                $now = Carbon::now();
-                $endDate = Carbon::now()->addDays( $dayCount );
-                DopingOrder::where( 'id', $doping->id )->update( [
-                    'status' => 1,
-                    'admin_id' => Auth::user()->id
-                ] );
+        //         StandOutUser::where( 'id', $doping->standOut->id )->update( [
+        //             'start_date' => $now->format( 'y-m-d' ),
+        //             'end_date' => $endDate->format( 'y-m-d' ),
+        //         ] );
+        //     }
 
-                StandOutUser::where( 'id', $doping->standOut->id )->update( [
-                    'start_date' => $now->format( 'y-m-d' ),
-                    'end_date' => $endDate->format( 'y-m-d' ),
-                ] );
-            }
+        // } else {
+        //     DocumentNotification::create(
+        //         [
+        //             'user_id' => auth()->user()->id,
+        //             'text' => "#".$projectId." No'lu projeniz pasife alındı!",
+        //             'item_id' => $project->id,
+        //             'link' => route( 'institutional.project.edit.v2', [ 'projectSlug' => $project->slug ] ),
+        //             'owner_id' => $project->user->id,
+        //             'is_visible' => true,
+        //         ]
+        //     );
 
-        } else {
-            DocumentNotification::create(
-                [
-                    'user_id' => auth()->user()->id,
-                    'text' => "#".$projectId." No'lu projeniz pasife alındı!",
-                    'item_id' => $project->id,
-                    'link' => route( 'institutional.project.edit.v2', [ 'projectSlug' => $project->slug ] ),
-                    'owner_id' => $project->user->id,
-                    'is_visible' => true,
-                ]
-            );
+        // }
 
-        }
-
-        if ( $project->status == 1 ) {
-            Log::create( [
-                'item_type' => 1,
-                'item_id' => $projectId,
-                'reason' => "#".$projectId." No'lu projeniz admin tarafından pasife alındı.",
-                'is_rejected' => 0,
-                'user_id' => auth()->user()->id,
-            ] );
-        } else {
-            Log::create( [
-                'item_type' => 1,
-                'item_id' => $projectId,
-                'reason' => "#".$projectId." No'lu projeniz admin tarafından aktif edildi.",
-                'is_rejected' => 0,
-                'user_id' => auth()->user()->id,
-            ] );
-        }
+        // if ( $project->status == 1 ) {
+        //     Log::create( [
+        //         'item_type' => 1,
+        //         'item_id' => $projectId,
+        //         'reason' => "#".$projectId." No'lu projeniz admin tarafından pasife alındı.",
+        //         'is_rejected' => 0,
+        //         'user_id' => auth()->user()->id,
+        //     ] );
+        // } else {
+        //     Log::create( [
+        //         'item_type' => 1,
+        //         'item_id' => $projectId,
+        //         'reason' => "#".$projectId." No'lu projeniz admin tarafından aktif edildi.",
+        //         'is_rejected' => 0,
+        //         'user_id' => auth()->user()->id,
+        //     ] );
+        // }
 
         return redirect()->route( 'admin.projects.detail', $projectId );
     }
