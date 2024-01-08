@@ -17878,6 +17878,10 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     display: table-cell !important;
 }
 
+.payment-plan td {
+    display: table-cell !important;
+}
+
 .table td {
     display: flex;
     justify-content: space-between
