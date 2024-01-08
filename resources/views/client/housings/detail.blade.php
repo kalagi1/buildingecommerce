@@ -211,7 +211,8 @@
                                                 @if ($discountAmount)
                                                     <svg viewBox="0 0 24 24" width="24" height="24"
                                                         stroke="currentColor" stroke-width="2" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                        class="css-i6dzq1">
                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                     </svg>
@@ -258,7 +259,8 @@
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $key => $image)
                                         <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
-                                            <a href="{{ asset('housing_images/' . $image) }}" data-lightbox="image-gallery">
+                                            <a href="{{ asset('housing_images/' . $image) }}"
+                                                data-lightbox="image-gallery">
                                                 <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
                                                     alt="slider-listing">
                                             </a>
@@ -276,7 +278,8 @@
                                 <div class="listingDetailsSliderNav mt-3">
                                     {{-- Kapak Görseli --}}
                                     <div class="item active" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-0" data-slide-to="0"
+                                            data-target="#listingDetailsSlider">
                                             <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
                                                 class="img-fluid altSlider" alt="listing-small">
                                         </a>
@@ -296,7 +299,7 @@
                             </div>
 
 
-                           
+
 
                         </div>
                     </div>
@@ -406,9 +409,9 @@
                                                                 <i class="fa fa-minus"></i>
                                                             </button>
                                                         </span>
-                                                        <input type="text" name="person_count"
+                                                        <input type="number" name="person_count"
                                                             class="border-0 text-center form-control input-number"
-                                                            data-min="0" data-max="10" value="1">
+                                                            data-min="1" data-max="10" value="1">
                                                         <span class="input-group-btn">
                                                             <button type="button"
                                                                 class="btn counter-btn theme-cl btn-number"
@@ -589,7 +592,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                   <span> İlan No :</span>
+                                                    <span> İlan No :</span>
                                                     <span class="det">
                                                         #{{ $housing->id + 2000000 }}
                                                     </span>
@@ -598,14 +601,14 @@
                                             <tr>
                                                 <td>
                                                     İl-İlçe-Mahalle :
-                                                   <span class="det">
-                                                    {!! optional($housing->city)->title .
-                                                        ' / ' .
-                                                        optional($housing->county)->title .
-                                                        ' / ' .
-                                                        optional($housing->neighborhood)->mahalle_title ??
-                                                        '' !!}
-                                                   </span>
+                                                    <span class="det">
+                                                        {!! optional($housing->city)->title .
+                                                            ' / ' .
+                                                            optional($housing->county)->title .
+                                                            ' / ' .
+                                                            optional($housing->neighborhood)->mahalle_title ??
+                                                            '' !!}
+                                                    </span>
                                                 </td>
 
                                             </tr>
@@ -616,7 +619,7 @@
                                                         Telefon :
                                                         <span class="det">
                                                             <a style="text-decoration: none;color:inherit"
-                                                            href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                                                href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -625,20 +628,20 @@
                                             <tr>
                                                 <td>
                                                     Proje Tipi :
-                                                  <span class="det">
-                                                    @if ($housing->step1_slug)
-                                                    @if ($housing->step2_slug)
-                                                        @if ($housing->step2_slug == 'kiralik')
-                                                            Kiralık
-                                                        @elseif ($housing->step2_slug == 'satilik')
-                                                            Satılık
-                                                        @else
-                                                            Günlük Kiralık
+                                                    <span class="det">
+                                                        @if ($housing->step1_slug)
+                                                            @if ($housing->step2_slug)
+                                                                @if ($housing->step2_slug == 'kiralik')
+                                                                    Kiralık
+                                                                @elseif ($housing->step2_slug == 'satilik')
+                                                                    Satılık
+                                                                @else
+                                                                    Günlük Kiralık
+                                                                @endif
+                                                            @endif
+                                                            {{ $parent->title }}
                                                         @endif
-                                                    @endif
-                                                    {{ $parent->title }}
-                                                @endif
-                                                  </span>
+                                                    </span>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -646,9 +649,9 @@
                                                     E-Posta :
                                                     <span class="det">
                                                         <a style="text-decoration: none;color:inherit"
-                                                        href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
+                                                            href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
                                                     </span>
-                                                   
+
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -690,13 +693,13 @@
                             </li>
                         @endif
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif"
-                                id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                                role="tab" aria-controls="home" aria-selected="true">Açıklama</button>
+                            <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif" id="home-tab"
+                                data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab"
+                                aria-controls="home" aria-selected="true">Açıklama</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+                                type="button" role="tab" aria-controls="profile"
                                 aria-selected="false">Özellikler</button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -705,8 +708,8 @@
                                 aria-selected="false">Harita</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
+                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
+                                type="button" role="tab" aria-controls="contact"
                                 aria-selected="false">Yorumlar</button>
                         </li>
 
@@ -714,8 +717,8 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                            <div class="tab-pane fade show active blog-info details mb-30" id="rez"
-                                role="tabpanel" aria-labelledby="rez-tab">
+                            <div class="tab-pane fade show active blog-info details mb-30" id="rez" role="tabpanel"
+                                aria-labelledby="rez-tab">
                                 <div id="reservation-calendar"></div>
                             </div>
                         @endif
@@ -819,8 +822,7 @@
                                                             <rect fill="none" height="50" width="50" />
                                                             <polygon fill="gold"
                                                                 points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                stroke="gold" stroke-miterlimit="10"
-                                                                stroke-width="2" />
+                                                                stroke="gold" stroke-miterlimit="10" stroke-width="2" />
                                                         </svg>
                                                     @endfor
                                                     @for ($i = 0; $i < 5 - $comment->rate; ++$i)
@@ -832,8 +834,7 @@
                                                             <rect fill="none" height="50" width="50" />
                                                             <polygon fill="none"
                                                                 points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                stroke="gold" stroke-miterlimit="10"
-                                                                stroke-width="2" />
+                                                                stroke="gold" stroke-miterlimit="10" stroke-width="2" />
                                                         </svg>
                                                     @endfor
                                                 </div>
@@ -949,7 +950,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Rezervasyon Adımı</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="closeTimes" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="closeTimes">&times;</span>
                     </button>
                 </div>
@@ -977,7 +978,8 @@
                             </div>
                             <div id="ibanInfo"></div>
                             <strong>Ödeme işlemini tamamlamak için, lütfen bu
-                                <span style="color:red" id="uniqueCode"></span> kodu kullanarak ödemenizi
+                                <span style="color:red;font-size:15px !important;font-weight:bold" id="uniqueCode"></span>
+                                kodu kullanarak ödemenizi
                                 yapın. IBAN açıklama
                                 alanına
                                 bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak işlemi
@@ -1000,29 +1002,65 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="finalConfirmationModalLabel">Ödeme Onayı</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" class="closeTimes">&times;</span>
+                    <button type="button" class="closeTimes" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="closeTimes"> &times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</p>
-                    <ol>
-                        <li>
-                            <strong style="color:red" id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
-                            alanına yazdığınızdan emin olun.
-                        </li>
-                        <li>
-                            Son olarak, işlemi bitirmek için aşağıdaki butona tıklayın: <br>
-                          
-                        </li>
-                    </ol>
-                    <button type="button" id="submitBtn" class="btn btn-primary paySuccess mt-3"
-                    style="float: right">Ödemeyi Tamamla
-                        <svg viewBox="0 0 576 512" class="svgIcon">
-                            <path
-                                d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
-                            </path>
-                        </svg></button>
+                    <div class="container">
+                        <span>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</span> <br>
+                        <span>1. <strong style="color:red;font-size:15px;font-weight:bold" id="uniqueCodeRetry"></strong>
+                            kodunu EFT/Havale açıklama
+                            alanına yazdığınızdan emin olun.</span>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fullName">Ad Soyad *</label>
+                                    <input type="text" class="form-control" id="fullName" name="fullName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">E-posta *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tc">TC *</label>
+                                    <input type="number" class="form-control" id="tc" name="tc" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Telefon *</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address">Adres *</label>
+                                    <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="notes">Notlar:</label>
+                                    <textarea class="form-control" id="notes" name="notes" rows="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="submitBtn" class="btn btn-primary paySuccess mt-3">Ödemeyi Tamamla
+                            <svg viewBox="0 0 576 512" class="svgIcon">
+                                <path
+                                    d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                </path>
+                            </svg></button>
+
+
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -1295,6 +1333,14 @@
                 }
 
                 $('#submitBtn').click(function() {
+                    // Kullanıcı bilgileri
+                    var fullName = $('#fullName').val();
+                    var email = $('#email').val();
+                    var tc = $('#tc').val();
+                    var phone = $('#phone').val();
+                    var address = $('#address').val();
+                    var notes = $('#notes').val();
+
                     var price = parseInt("{{ getData($housing, 'daily_rent') }}");
                     var checkInDate = $('#date-checkin').val();
                     var checkOutDate = $('#date-checkout').val();
@@ -1308,9 +1354,21 @@
                     var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
                     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
+                    // Gerekli alanları kontrol et
+                    if (!fullName || !email || !tc || !phone || !address) {
+                        // Eksik bilgi varsa kullanıcıyı uyar
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata!',
+                            text: 'Lütfen tüm zorunlu alanları doldurun.',
+                        });
+                        return; // Fonksiyonu burada sonlandır
+                    }
 
+                    // Diğer bilgileri burada alabilir ve kullanabilirsiniz
                     var personCount = $('input[name="person_count"]').val();
 
+                    // AJAX ile sunucuya gönder
                     $.ajax({
                         url: "{{ route('reservation.store') }}",
                         type: "POST",
@@ -1322,9 +1380,15 @@
                             housing_id: {{ $housing->id }},
                             owner_id: {{ $housing->user->id }},
                             price: price * diffDays,
-                            key: key
+                            key: key,
+                            fullName: fullName, 
+                            email: email,
+                            tc: tc,
+                            phone: phone,
+                            address: address,
                         },
                         success: function(response) {
+                            // Başarılı durumunda yapılacaklar
                             $('#finalConfirmationModal').modal('hide');
                             $('.modal-backdrop').removeClass('show');
 
@@ -1332,8 +1396,6 @@
                                 icon: 'success',
                                 title: 'Başarılı!',
                                 text: response.message,
-                            }).then(function() {
-                                location.reload(); 
                             });
                         },
                         error: function(error) {
@@ -1342,6 +1404,7 @@
                         }
                     });
                 });
+
             });
 
             $(document).ready(function() {
@@ -1373,10 +1436,10 @@
                         toastr.error('Lütfen banka seçimi yapınız.')
 
                     } else {
-                        $('#paymentModal').removeClass('show');
-                        $('#paymentModal').modal('hide');
+                        $('#paymentModal').removeClass('show').hide();
                         $('.modal-backdrop').removeClass('show');
                         $('#finalConfirmationModal').modal('show');
+
                     }
 
                 });
