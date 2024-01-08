@@ -531,7 +531,9 @@
                                                         </td>
                                                     @else
                                                         <td> <span
-                                                                class=" mr-1">{{ $housingSetting->label }}:</span>{{ $value }}
+                                                                class=" mr-1">{{ $housingSetting->label }}:</span>
+                                                                
+                                                                <span class="det">{{ $value }}</span>
                                                         </td>
                                                     @endif
                                                 </tr>
@@ -2291,6 +2293,10 @@ out center;`;
             font-size: 11px;
 
         }
+        .table td{
+            display: flex;
+            justify-content: space-between
+        }
 
         .table td,
         .table th {
@@ -2500,11 +2506,6 @@ out center;`;
 
         .mobileTagProject {
             display: none
-        }
-
-        .autoWidthTr{
-            width:150px !important;
-            display: inline-flex;
         }
 
         @media (max-width: 768px) {
