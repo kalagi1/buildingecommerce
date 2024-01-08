@@ -17856,7 +17856,10 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     position: relative;
     border: 1px solid #eaeff5;
 }
-
+   .table td{
+            display: flex;
+            justify-content: space-between
+        }
 .widget-boxed .input-group .fa {
     font-size: 16px !important;
     color: black;

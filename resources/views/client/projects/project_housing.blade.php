@@ -442,26 +442,34 @@
                                         <table class="table table-bordered">
                                             <tr>
                                                 <td>
-                                                    İlan No: #{{ $housingOrder + $project->id + 1000000 }}
+                                                    İlan No:
+                                                    <span class="det">
+                                                        #{{ $housingOrder + $project->id + 1000000 }}
+                                                    </span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
                                                     İl-İlçe-Mahalle :
+                                                   <span class="det">
                                                     {!! ucwords(mb_strtolower(optional($project->city)->title, 'UTF-8')) .
-                                                        ' / ' .
-                                                        ucwords(mb_strtolower(optional($project->county)->ilce_title, 'UTF-8')) !!}
-                                                    @if ($project->neighbourhood)
-                                                        {!! ' / ' . ucwords(mb_strtolower(optional($project->neighbourhood)->mahalle_title, 'UTF-8')) !!}
-                                                    @endif
+                                                    ' / ' .
+                                                    ucwords(mb_strtolower(optional($project->county)->ilce_title, 'UTF-8')) !!}
+                                                @if ($project->neighbourhood)
+                                                    {!! ' / ' . ucwords(mb_strtolower(optional($project->neighbourhood)->mahalle_title, 'UTF-8')) !!}
+                                                @endif
+                                                   </span>
+                                                   
                                                 </td>
                                             </tr>
                                             @if ($project->user->phone)
                                                 <tr>
                                                     <td>
                                                         Telefon :
-                                                        <a style="text-decoration: none;color:inherit"
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
                                                             href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             @endif
@@ -469,6 +477,8 @@
                                                 <tr>
                                                     <td>
                                                         Proje Tipi :
+                                                      <span class="det">
+                                                      
                                                         @if ($project->step2_slug)
                                                             @if ($project->step2_slug == 'kiralik')
                                                                 Kiralık
@@ -479,14 +489,16 @@
                                                             @endif
                                                         @endif
                                                         {{ $project->housingtype->title }}
+                                                      </span>
                                                     </td>
                                                 </tr>
                                             @endif
                                             <tr>
                                                 <td>
                                                     E-Posta :
-                                                    <a style="text-decoration: none;color:inherit"
-                                                        href="mailto:{!! $project->user->email !!}">{!! $project->user->email !!}</a>
+                                                    <span class="det">  <a style="text-decoration: none;color:inherit"
+                                                        href="mailto:{!! $project->user->email !!}">{!! $project->user->email !!}</a></span>
+                                                  
                                                 </td>
                                             </tr>
                                         </table>
@@ -552,7 +564,7 @@
                                 <div class="single homes-content">
                                     <h5 class="mb-4">Özellikler</h5>
 
-                                    <table class="table table-bordered">
+                                    <table class="table">
                                         <tbody class="trStyle">
                                             <tr>
                                                 <td>
@@ -2594,10 +2606,13 @@ out center;`;
         .trStyle tr {
             display: flex;
             flex-wrap: wrap;
+            border: 1px solid #dee2e6;
         }
 
+        
+
         .trStyle tr {
-            width: 50%;
+            width: 33%;
         }
 
         .trStyle tr td {
