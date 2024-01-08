@@ -42424,3 +42424,32 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .tooltip{
     z-index: 99999;
 }
+
+.bottom-housing-area .icon{
+    cursor: pointer;
+}
+
+
+.icon-input{
+    display: flex;
+}
+
+.icon-input{
+    border: 1px solid #ced4da;
+}
+
+.icon-input .icon-area{
+    padding: 0 10px;
+    background: #e54242;
+    color: #fff;
+    display:flex;
+    align-items: center;
+}
+
+.icon-input input{
+    border:none;
+    padding:8px 5px;
+    width: 100%;
+    outline:0;
+    font-size:12px;
+}
