@@ -42012,6 +42012,13 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
         transition: all 0.3s;
     }
 
+    .buyUserRequest .buyUserRequest__text:hover {
+        transform: translateX(20px);
+        color: #fff !important ;
+        font-weight: 600;
+        line-height: 14px;
+    }
+
     .buyUserRequest .buyUserRequest__text {
         transform: translateX(20px);
         color: #fff;
