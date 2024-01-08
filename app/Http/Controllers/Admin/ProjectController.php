@@ -163,7 +163,12 @@ class ProjectController extends Controller {
             Project::where( 'id', $projectId )->update( [
                 'status' => 1,
             ] );
+        }else{
+            Project::where( 'id', $projectId )->update( [
+                'status' => 0,
+            ] );
         }
+
 
         DocumentNotification::create(
             [
@@ -205,9 +210,7 @@ class ProjectController extends Controller {
                     'is_visible' => true,
                 ]
             );
-            Project::where( 'id', $projectId )->update( [
-                'status' => 0,
-            ] );
+
         }
 
         if ( $project->status == 1 ) {
