@@ -451,7 +451,8 @@ img {
     font-size: 12px;
     line-height: 34px;
 }
-.featured-heads{
+
+.featured-heads {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -483,12 +484,13 @@ img {
         padding-top: 0;
         margin-top: 20px;
     }
-    
+
     .brand-head .card-img-top {
         height: 70px !important;
-    
+
     }
-    .search-style{
+
+    .search-style {
         padding: 0 !important;
         position: relative !important;
         margin: 0 10px !important;
@@ -559,7 +561,7 @@ img {
 
 .brand-head .brands-square {
 
-margin-left:30px;
+    margin-left: 30px;
     display: flex;
     align-items: center;
 }
@@ -5064,10 +5066,12 @@ section.counterup {
     height: auto;
     margin-bottom: 1.6rem;
 }
-.about_content{
+
+.about_content {
     display: flex;
     justify-content: center;
 }
+
 @media screen and (max-width: 991px) {
     .first-footer .netabout {
         margin-bottom: 0px;
@@ -17261,7 +17265,7 @@ section.headings-2 {
 
 td .mr-1 {
     width: 150px !important;
-    display: inline-flex !important; 
+    display: inline-flex !important;
 }
 
 .menu__tabs {
@@ -17404,7 +17408,8 @@ td .mr-1 {
     margin-bottom: 0 !important;
     text-transform: capitalize !important;
 }
-.inner-pages .headings-2 .listing-title-bar h3:after{
+
+.inner-pages .headings-2 .listing-title-bar h3:after {
     color: #EA2B2E;
     background-color: #EA2B2E;
     color: black;
@@ -17868,10 +17873,16 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     position: relative;
     border: 1px solid #eaeff5;
 }
-   .table td{
-            display: flex;
-            justify-content: space-between
-        }
+
+.payment-plan-table td {
+    display: table-cell !important;
+}
+
+.table td {
+    display: flex;
+    justify-content: space-between
+}
+
 .widget-boxed .input-group .fa {
     font-size: 16px !important;
     color: black;
@@ -21064,7 +21075,7 @@ small {
         padding: 0.5rem 1rem !important;
     }
 
-/* 
+    /* 
     section.single-proper.details {
         padding: 2rem 0 !important;
     } */
@@ -29193,7 +29204,7 @@ input[type="checkbox"]::before {
 
 .msg-text {
     text-align: left;
-    font-size:11px !important;
+    font-size: 11px !important;
 }
 
 .msger-inputarea {
