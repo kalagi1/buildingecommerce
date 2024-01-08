@@ -407,6 +407,31 @@
         </div>
     </div>
 
+    <div class="total-change-modal d-none">
+        <div class="bg"></div>
+        <div class="model-content">
+            <div class="close"><i class="fa fa-times"></i></div>
+            <h4 class="total-change-title">
+                İlan Başlığı
+            </h4>
+            <span class="total-change-value">Deneme İlanı</span>
+            <div class="mt-4">
+                <div class="d-flex">
+                    <button type="button" style="width: auto;display:block;border-radius: .25rem;" class="single-adv-do buyUserRequest">
+                        <span class="buyUserRequest__text"> 
+                            <div>Sadece belirtilen ilana uygula</div>
+                        </span>
+                    </button>
+                    <button type="button" style="width: auto;display:block;border-radius: .25rem;" class="all-adv-do buyUserRequest mx-3">
+                        <span class="buyUserRequest__text"> 
+                            <div>Tüm ilanlara uygula</div>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <style>
         .fade:not(.show){
             display:  none !important;
@@ -418,6 +443,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
     <script>
+        $('.total-change-modal .close').click(function(){
+            $('.total-change-modal').addClass('d-none');
+        })
+
+        
+        $('.total-change-modal .bg').click(function(){
+            $('.total-change-modal').addClass('d-none');
+        })
+
         $('.edit-button-table').click(function(){
             $(this).closest('td').find('.input').removeClass('d-none');
             $(this).closest('td').find('.text').addClass('d-none');
@@ -429,7 +463,6 @@
         })
 
         $('.success-button-table').click(function(){
-            $(this).html('<i class="fa fa-spinner spinner-borderx"></i>')
             if($(this).attr('input-type') == "select"){
                 var newVal = $(this).closest('.input').find('select').val();
                 var inputName = $(this).closest('.input').find('select').attr('name');
@@ -437,52 +470,123 @@
                 var newVal = $(this).closest('.input').find('input').val();
                 var inputName = $(this).closest('.input').find('input').attr('name');
             }
-                var roomOrder = $(this).attr('room-order');
-                var thisx = $(this);
-            $.ajax({
-                method: "POST",
-                url: "{{route('institutional.projects.set.single.data',$project->id)}}",
-                data: { inputName: inputName, newVal: newVal , roomOrder : roomOrder , "_token": "{{ csrf_token() }}" }
-            })
-            .done(function( res ) {
-                res = JSON.parse(res);
-                if(res.status){
-                    thisx.html('<i class="fa fa-check"></i>')
-                    thisx.closest('td').find('.input').addClass('d-none');
-                    thisx.closest('td').find('.text').removeClass('d-none');
 
-                    if(thisx.closest('td').find('.input').find('input').hasClass('price-only')){
+            var roomOrder = $(this).attr('room-order');
+            var thisx = $(this);
 
-                        var newTextVal =  newVal.replace(/\D/g, '');
-                        // Her üç basamakta bir nokta ekleyin
-                        newTextVal = newTextVal.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            $('.total-change-modal').removeClass('d-none');
 
-                        thisx.closest('td').find('.text').find('.value-text').html(newTextVal+'₺')
-                    }else{
-                        if(inputName == "off_sale[]"){
-                            if(newVal != "[]"){
-                                newVal = "Satışa Kapalı";
-                                thisx.closest('td').find('.text').find('.value-text').removeClass('badge-phoenix-success').addClass('badge-phoenix-danger')
-                                thisx.closest('td').append('<p class="off-sale-red-text" style="color: red;margin-top:10px;width:200px;">Alıcılara satışa kapalı olarak gözükecektir.</p>')
-                            }else{
-                                newVal = "Satışa Açık";
-                                thisx.closest('td').find('.text').find('.value-text').addClass('badge-phoenix-success').removeClass('badge-phoenix-danger')
-                                thisx.closest('td').find('.off-sale-red-text').remove();
+            $('.single-adv-do').click(function(){
+                $(this).html('<i class="fa fa-spinner spinner-borderx"></i>')
+                $.ajax({
+                    method: "POST",
+                    url: "{{route('institutional.projects.set.single.data',$project->id)}}",
+                    data: { inputName: inputName, newVal: newVal , roomOrder : roomOrder , "_token": "{{ csrf_token() }}", allData : 0 }
+                })
+                .done(function( res ) {
+                    res = JSON.parse(res);
+                    if(res.status){
+                        thisx.html('<i class="fa fa-check"></i>')
+                        thisx.closest('td').find('.input').addClass('d-none');
+                        thisx.closest('td').find('.text').removeClass('d-none');
+
+                        if(thisx.closest('td').find('.input').find('input').hasClass('price-only')){
+
+                            var newTextVal =  newVal.replace(/\D/g, '');
+                            // Her üç basamakta bir nokta ekleyin
+                            newTextVal = newTextVal.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                            thisx.closest('td').find('.text').find('.value-text').html(newTextVal+'₺')
+                        }else{
+                            if(inputName == "off_sale[]"){
+                                if(newVal != "[]"){
+                                    newVal = "Satışa Kapalı";
+                                    thisx.closest('td').find('.text').find('.value-text').removeClass('badge-phoenix-success').addClass('badge-phoenix-danger')
+                                    thisx.closest('td').append('<p class="off-sale-red-text" style="color: red;margin-top:10px;width:200px;">Alıcılara satışa kapalı olarak gözükecektir.</p>')
+                                }else{
+                                    newVal = "Satışa Açık";
+                                    thisx.closest('td').find('.text').find('.value-text').addClass('badge-phoenix-success').removeClass('badge-phoenix-danger')
+                                    thisx.closest('td').find('.off-sale-red-text').remove();
+                                }
                             }
+                            thisx.closest('td').find('.text').find('.value-text').html(newVal)
                         }
-                        thisx.closest('td').find('.text').find('.value-text').html(newVal)
+
+                        $.toast({
+                            heading: 'Başarılı',
+                            text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
+                            position: 'top-right',
+                            stack: false
+                        })
+
+                        $('.total-change-modal').addClass('d-none')
                     }
+                });
+            })
+            
+            $('.all-adv-do').click(function(){
+                $.ajax({
+                    method: "POST",
+                    url: "{{route('institutional.projects.set.single.data',$project->id)}}",
+                    data: { inputName: inputName, newVal: newVal , roomOrder : roomOrder , "_token": "{{ csrf_token() }}" , allData : 1 }
+                })
+                .done(function( res ) {
+                    res = JSON.parse(res);
+                    var indexTd = thisx.closest('td').index();
+                    if(res.status){
+                        thisx.html('<i class="fa fa-check"></i>')
 
-                    $.toast({
-                        heading: 'Başarılı',
-                        text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
-                        position: 'top-right',
-                        stack: false
-                    })
-                }
-            });
+                        $('tbody tr').map(tr => {
+                        })
+
+                        $('tbody.list tr').map((key,tr) => {
+                            $(tr).find('td').eq(indexTd).find('.input').addClass('d-none');
+                            $(tr).find('td').eq(indexTd).find('.text').removeClass('d-none');
+                        })
+                        
+                        if(thisx.closest('td').find('.input').find('input').hasClass('price-only')){
+
+                            var newTextVal =  newVal.replace(/\D/g, '');
+                            // Her üç basamakta bir nokta ekleyin
+                            newTextVal = newTextVal.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                            $('tbody.list tr').map((key,tr) => {
+                                $(tr).find('td').eq(indexTd).find('.text').find('.value-text').html(newTextVal+'₺')
+                            })
+                        }else{
+                            if(inputName == "off_sale[]"){
+                                if(newVal != "[]"){
+                                    newVal = "Satışa Kapalı";
+                                    
+                                    $('tbody.list tr').map((key,tr) => {
+                                        $(tr).find('td').eq(indexTd).find('.text').find('.value-text').removeClass('badge-phoenix-success').addClass('badge-phoenix-danger');
+                                        $(tr).find('td').eq(indexTd).append('<p class="off-sale-red-text" style="color: red;margin-top:10px;width:200px;">Alıcılara satışa kapalı olarak gözükecektir.</p>');
+                                    })
+                                }else{
+                                    newVal = "Satışa Açık";
+                                    $('tbody.list tr').map((key,tr) => {
+                                        $(tr).find('td').eq(indexTd).find('.text').find('.value-text').addClass('badge-phoenix-success').removeClass('badge-phoenix-danger');
+                                        $(tr).find('td').eq(indexTd).find('.off-sale-red-text').remove();;
+                                    })
+                                }
+                            }
+
+                            $('tbody.list tr').map((key,tr) => {
+                                $(tr).find('td').eq(indexTd).find('.text').find('.value-text').html(newVal)
+                            })
+                        }
+
+                        $.toast({
+                            heading: 'Başarılı',
+                            text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
+                            position: 'top-right',
+                            stack: false
+                        })
+
+                        $('.total-change-modal').addClass('d-none')
+                    }
+                });
+            })
         })
-
         
 
         $('.price-only').keyup(function(){
@@ -530,37 +634,88 @@
             var input = this;
             var newVal = this.files[0];
             var roomOrder = parseInt($(this).closest('tr').index()) + 1;
-            var formdata = new FormData();  
-            formdata.append('file',newVal);
-            formdata.append('roomOrder',roomOrder);
-            formdata.append('_token',"{{ csrf_token() }}");
-            jQuery.ajax({
-                url: "{{route('institutional.projects.set.single.image',$project->id)}}",
-                type: "POST",
-                data: formdata,
-                processData: false,
-                contentType: false,
-                success:function(res){
-                    res = JSON.parse(res);
-                    if(res.status){
-                        $.toast({
-                            heading: 'Başarılı',
-                            text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
-                            position: 'top-right',
-                            stack: false
-                        })
-                    }
-                }
-            });
             var thisx = $(this);
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                // Resmi görüntülemek için bir div oluşturun
-                thisx.parent('.image-with-hover').find('img').attr('src',e.target.result)
-            };
+            
+            $('.total-change-modal').removeClass('d-none');
 
-            // Resmi okuyun
-            reader.readAsDataURL(input.files[0]);
+            $('.single-adv-do').click(function(){
+                var formdata = new FormData();  
+                formdata.append('file',newVal);
+                formdata.append('roomOrder',roomOrder);
+                formdata.append('_token',"{{ csrf_token() }}");
+                jQuery.ajax({
+                    url: "{{route('institutional.projects.set.single.image',$project->id)}}",
+                    type: "POST",
+                    data: formdata,
+                    processData: false,
+                    contentType: false,
+                    success:function(res){
+                        res = JSON.parse(res);
+                        if(res.status){
+                            $.toast({
+                                heading: 'Başarılı',
+                                text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
+                                position: 'top-right',
+                                stack: false
+                            })
+                        }
+                    }
+                });
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    // Resmi görüntülemek için bir div oluşturun
+                    thisx.parent('.image-with-hover').find('img').attr('src',e.target.result)
+                };
+
+                // Resmi okuyun
+                reader.readAsDataURL(input.files[0]);
+
+                $('.total-change-modal').addClass('d-none')
+            })
+
+            
+            
+            $('.all-adv-do').click(function(){
+                var formdata = new FormData();  
+                formdata.append('file',newVal);
+                formdata.append('allData',1);
+                formdata.append('roomOrder',roomOrder);
+                formdata.append('_token',"{{ csrf_token() }}");
+                jQuery.ajax({
+                    url: "{{route('institutional.projects.set.single.image',$project->id)}}",
+                    type: "POST",
+                    data: formdata,
+                    processData: false,
+                    contentType: false,
+                    success:function(res){
+                        res = JSON.parse(res);
+                        if(res.status){
+                            $.toast({
+                                heading: 'Başarılı',
+                                text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
+                                position: 'top-right',
+                                stack: false
+                            })
+                        }
+                    }
+                });
+                var thisx = $(this);
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    // Resmi görüntülemek için bir div oluşturun
+                    $('tbody.list tr').map((key,tr) => {
+                        console.log($(tr).find('td').eq(1).find('.image-with-hover'));
+                        $(tr).find('td').eq(1).find('.image-with-hover').find('img').attr('src',e.target.result)
+                    })
+                };
+
+                // Resmi okuyun
+                reader.readAsDataURL(input.files[0]);
+
+                $('.total-change-modal').addClass('d-none')
+                
+            })
+            
         })
     </script>
 @endsection
