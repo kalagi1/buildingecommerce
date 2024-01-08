@@ -127,11 +127,7 @@
 
                             <div class="detail-wrapper-body">
                                 <div class="listing-title-bar">
-                                    <h3>
-
-                                        <span class="title-fs">{{ $project->project_title }}</span>
-
-                                    </h3>
+                                   <h3>{{ $project->project_title }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -269,15 +265,20 @@
                                                 <tr>
                                                     <td>
                                                         <span class="autoWidthTr">Başlangıç Tarihi:</span>
-                                                        <span class="det" style="color: black;">{{ $project->start_date  ? $project->start_date : "Belirtilmedi" }}</span>
+                                                        <span class="det" style="color: black;">
+                                                            {{ $project->start_date ? \Carbon\Carbon::parse($project->start_date)->format('d.m.Y') : "Belirtilmedi" }}
+                                                        </span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         <span class="autoWidthTr">Bitiş Tarihi:</span>
-                                                        <span class="det" style="color: black;">{{ $project->project_end_date ? $project->project_end_date: "Belirtilmedi" }}</span>
+                                                        <span class="det" style="color: black;">
+                                                            {{ $project->project_end_date ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y') : "Belirtilmedi" }}
+                                                        </span>
                                                     </td>
                                                 </tr>
+                                                
                                                 <tr>
                                                     <td>
                                                         <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>

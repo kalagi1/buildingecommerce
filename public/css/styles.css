@@ -17404,6 +17404,18 @@ td .mr-1 {
     margin-bottom: 0 !important;
     text-transform: capitalize !important;
 }
+.inner-pages .headings-2 .listing-title-bar h3:after{
+    color: #EA2B2E;
+    background-color: #EA2B2E;
+    color: black;
+    display: block;
+    height: 3px;
+    font-weight: bold;
+    content: " ";
+    width: 50px;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+}
 
 .reservation-list {
     width: 100%;
@@ -23406,7 +23418,6 @@ a.btn_1 {
     color: #717171 !important;
     border-color: #EEE;
     padding: 0 1rem;
-    margin-top: 10px;
     border-radius: 0 !important;
 }
 

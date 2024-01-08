@@ -64,7 +64,7 @@
                 <i class="fa fa-spinner"></i>
             </div>
         </div>
-        <div class="brand-head">
+        <div class="brand-head mb-30">
             <div class="container">
                 <div class="card mb-3">
                     <div class="card-img-top" style="background-color: {{ $project->user->banner_hex_code }}">
