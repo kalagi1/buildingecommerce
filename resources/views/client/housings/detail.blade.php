@@ -588,7 +588,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <table class="table table-bordered">
+                                    <table class="table">
                                         <tbody>
                                             <tr>
                                                 <td>
@@ -734,7 +734,7 @@
                                 <div class="single homes-content">
                                     <!-- title -->
                                     <h5 class="mb-4">Özellikler</h5>
-                                    <table class="table table-bordered">
+                                    <table class="table ">
                                         <tbody class="trStyle">
                                             <tr>
                                                 <td>
@@ -1706,6 +1706,7 @@
         .trStyle tr td {
             width: 100%;
             font-size: 11px;
+            border: 1px solid #dee2e6;
         }
 
         @media (max-width:768px) {
