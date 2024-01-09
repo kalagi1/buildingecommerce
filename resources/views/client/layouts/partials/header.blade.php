@@ -154,14 +154,14 @@
                                                     'text' => 'Siparişlerim',
                                                 ],
                                                 [
-                                                    'url' => route('institutional.projects.index'),
-                                                    'icon' => 'fa-home',
-                                                    'text' => 'İlanlarım',
-                                                ],
-                                                [
                                                     'url' => route('favorites'),
                                                     'icon' => 'fa-heart',
                                                     'text' => 'Favorilerim',
+                                                ],
+                                                [
+                                                    'url' => route('institutional.projects.index'),
+                                                    'icon' => 'fa-home',
+                                                    'text' => 'İlanlarım',
                                                 ],
                                                 [
                                                     'url' => url('institutional/ilan-tipi-sec'),

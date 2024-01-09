@@ -41,16 +41,21 @@ class CartController extends Controller {
         }
 
         $cartJson = $request->session()->get( 'cart' ) ;
-    
-            $order = new CartOrder;
-            $order->user_id = auth()->user()->id;
-            $order->bank_id = $request->input( 'banka_id' );
-            $order->amount = str_replace( ',', '.', number_format( floatval( str_replace( '.', '', $cartJson[ 'item' ][ 'price' ] - $cartJson[ 'item' ][ 'discount_amount' ] ) ) * 0.01, 0, ',', '.' ) );
-            $order->cart = json_encode( $cartJson );
-            $order->status = '0';
-            $order->key = $request->input( 'key' );
-            $order->save();
-        
+
+        $order = new CartOrder;
+        $order->user_id = auth()->user()->id;
+        $order->bank_id = $request->input( 'banka_id' );
+        $order->amount = str_replace( ',', '.', number_format( floatval( str_replace( '.', '', $cartJson[ 'item' ][ 'price' ] - $cartJson[ 'item' ][ 'discount_amount' ] ) ) * 0.01, 0, ',', '.' ) );
+        $order->cart = json_encode( $cartJson );
+        $order->status = '0';
+        $order->key = $request->input( 'key' );
+        $order->full_name = $request->input( 'fullName' );
+        $order->email = $request->input( 'email' );
+        $order->phone = $request->input( 'phone' );
+        $order->address = $request->input( 'address' );
+        $order->tc = $request->input( 'tc' );
+        $order->notes = $request->input( 'notes' );
+        $order->save();
 
         $cartOrder = CartOrder::where( 'id', $order->id )->with( 'bank' )->first();
         $o = json_decode( $cartOrder );
@@ -80,27 +85,28 @@ class CartController extends Controller {
             $room = $productDetails->housing;
 
         }
+            
         $productTable =
-        '<table style="width:100%;border-collapse: collapse;">
-            <tr>
-                <th style="border: 1px solid #dddddd;width:120px; text-align: left; padding: 8px;">Emlak Görseli</th>
-                <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Emlak</th>
-                <th style="border: 1px solid #dddddd; width:50px;text-align: left; padding: 8px;">Fiyat</th>
-                <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Ödeme Kodu</th>
-                <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">İl-İlçe-Mahalle</th>
-                <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Mağaza</th>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"><img src="' . $housingTypeImage . '" style="max-width:100px;max-height:100px;" alt="Product Image"></td>
-                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $productDetails->title . ( $room ? ' Projesinde' . $room . " No'lu Daire" : null ) . '<br>' . '#' . $code . '</td>
-                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $order->amount . ' ₺' . '</td>
-                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $order->key . '</td>
-                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $city . ' / ' . $county . ' / ' . $neighborhood . '</td>
-                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $store . '</td>
-            </tr>
-        </table>';
+            '<table style="width:100%;border-collapse: collapse;">
+                <tr>
+                    <th style="border: 1px solid #dddddd;width:120px; text-align: left; padding: 8px;">Emlak Görseli</th>
+                    <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Emlak</th>
+                    <th style="border: 1px solid #dddddd; width:50px;text-align: left; padding: 8px;">Fiyat</th>
+                    <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Ödeme Kodu</th>
+                    <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">İl-İlçe-Mahalle</th>
+                    <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Mağaza</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"><img src="' . $housingTypeImage . '" style="max-width:100px;max-height:100px;" alt="Product Image"></td>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $productDetails->title . ( $room ? ' Projesinde' . $room . " No'lu Daire" : null ) . '<br>' . '#' . $code . '</td>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $order->amount . ' ₺' . '</td>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $order->key . '</td>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $city . ' / ' . $county . ' / ' . $neighborhood . '</td>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">' . $store . '</td>
+                </tr>
+            </table>';
 
-        if ( session()->get( 'sharer_username' ) ) {
+                if ( session()->get( 'sharer_username' ) ) {
             if ( $cartJson[ 'type' ] == 'project' ) {
                 $project = Project::where( 'id', $cartJson[ 'item' ][ 'id' ] )->first();
                 $sharerPercent = ProjectHousing::where( 'name', 'share-percent[]' )->first();
@@ -212,7 +218,6 @@ class CartController extends Controller {
             return redirect()->route( 'pay.success', [ 'cart_order' => $order->id ] );
         }
 
-  
         public function paySuccess( Request $request, CartOrder $cart_order ) {
 
             return view( 'client.cart.pay-success', compact( 'cart_order' ) );
@@ -220,7 +225,7 @@ class CartController extends Controller {
 
         public function add( Request $request ) {
             try {
-                if ( auth()->user()->type == 19 ) {
+                if ( auth()->user()->type == 21 ) {
                     $type = $request->input( 'type' );
                     $id = $request->input( 'id' );
                     $project = $request->input( 'project' );

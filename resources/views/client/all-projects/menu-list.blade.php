@@ -804,7 +804,7 @@
                                                                     res.action === 'payment_await' ?
                                                                         `<button
                                                                                                                                     class="btn second-btn " 
-                                                                                                                                    style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                                                                                    style="background: orange !important;width:100%;color:White">Rezerve Edildi
                                                                                                                                 </button>`
                                                                         :
                                                                         res.action === 'sold' ?
@@ -881,7 +881,7 @@
                                                         res.action === 'payment_await' ?
                                                             `<button
                                                                                                                         class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                        style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                                                                        style="background: orange !important;width:100%;color:White">Rezerve Edildi
                                                                                                                     </button>`
                                                             :
                                                             res.action === 'sold' ?

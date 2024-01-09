@@ -1,167 +1,201 @@
 @extends('client.layouts.master')
 
 @section('content')
-<div class="brand-head">
-    <div class="container">
-        <div class="card mb-3">
-            <div class="card-img-top" style="background-color: {{ $institutional->banner_hex_code }}">
-                <div class="brands-square">
-                    <img src="{{ url('storage/profile_images/' . $institutional->profile_image) }}" alt="" class="brand-logo">
-                    <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($institutional->name)) }}" style="color:White">{{ $institutional->name }}
-                            <style type="text/css">
-                                .st0 {
-                                    fill: #e54242;
-                                }
+    <div class="brand-head">
+        <div class="container">
+            <div class="card mb-3">
+                <div class="card-img-top" style="background-color: {{ $institutional->banner_hex_code }}">
+                    <div class="brands-square">
+                        <img src="{{ url('storage/profile_images/' . $institutional->profile_image) }}" alt=""
+                            class="brand-logo">
+                        <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($institutional->name)) }}"
+                                style="color:White">{{ $institutional->name }}
+                                <style type="text/css">
+                                    .st0 {
+                                        fill: #e54242;
+                                    }
 
-                                .st1 {
-                                    opacity: 0.15;
-                                }
+                                    .st1 {
+                                        opacity: 0.15;
+                                    }
 
-                                .st2 {
-                                    fill: #FFFFFF;
-                                }
-                            </style>
-                            <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1" width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <g>
-                                    <path class="st0" d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
-                                    <g class="st1">
-                                        <path d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
-                                        <path d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
-                                        <path d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
-                                        <path d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
+                                    .st2 {
+                                        fill: #FFFFFF;
+                                    }
+                                </style>
+                                <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1" width="24px"
+                                    height="24px" viewBox="0 0 120 120" xml:space="preserve"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <g>
+                                        <path class="st0"
+                                            d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
+                                        <g class="st1">
+                                            <path
+                                                d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
+                                            <path
+                                                d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
+                                            <path d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
+                                            <path
+                                                d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
+                                        </g>
+                                        <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
+                                        <path class="st2"
+                                            d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
                                     </g>
-                                    <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
-                                    <path class="st2" d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
-                                </g>
-                            </svg>
-                        </a></p>
-                    <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                    <p class="brand-name">Projeler</p>
+                                </svg>
+                            </a></p>
+                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                        <p class="brand-name">Projeler</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <nav class="navbar" style="padding: 0 !important">
+                        <div class="navbar-items">
+                            <a class="navbar-item"
+                                href="{{ route('instituional.dashboard', Str::slug($institutional->name)) }}">Anasayfa</a>
+                            <a class="navbar-item"
+                                href="{{ route('instituional.profile', Str::slug($institutional->name)) }}">Mağaza
+                                Profili</a>
+                            <a class="navbar-item active"
+                                href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Proje
+                                İlanları</a>
+                            <a class="navbar-item"
+                                href="{{ route('instituional.housings', Str::slug($institutional->name)) }}">Emlak
+                                İlanları</a>
+                        </div>
+                        <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
+                            @csrf
+                            <input class="search-input" type="search" placeholder="Mağazada Ara" id="search-project"
+                                aria-label="Search" name="q">
+                            <div class="header-search__suggestions">
+                                <div class="header-search__suggestions__section">
+                                    <h5>Projeler</h5>
+                                    <div class="header-search__suggestions__section__items">
+                                        @foreach ($institutional->projects as $item)
+                                            <a href="{{ route('project.detail', ['slug' => $item->slug]) }}"
+                                                class="project-item"
+                                                data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
+                        </form>
+
+                    </nav>
                 </div>
             </div>
-            <div class="card-body">
-                <nav class="navbar" style="padding: 0 !important">
-                    <div class="navbar-items">
-                        <a class="navbar-item" href="{{ route('instituional.dashboard', Str::slug($institutional->name)) }}">Anasayfa</a>
-                        <a class="navbar-item" href="{{ route('instituional.profile', Str::slug($institutional->name)) }}">Mağaza
-                            Profili</a>
-                        <a class="navbar-item active" href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Proje
-                            İlanları</a>
-                        <a class="navbar-item" href="{{ route('instituional.housings', Str::slug($institutional->name)) }}">Emlak
-                            İlanları</a>
+        </div>
+    </div>
+
+
+
+
+    <section class="featured portfolio rec-pro disc bg-white">
+        <div class="container">
+            @if (count($institutional->projects))
+                <div class="row mobile-show homepage-9">
+                    <div class="container">
+                        <div class="row">
+                            @foreach ($institutional->projects as $project)
+                                <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
+                                    data-aos-delay="150">
+                                    <div class="small-category-2">
+                                        <div class="small-category-2-thumb img-1">
+                                            <a href="{{ route('project.detail', $project->slug) }}"><img
+                                                    src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
+                                                    alt=""></a>
+                                        </div>
+                                        <div class=" sc-2-detail">
+                                            <h4 class="sc-jb-title"><a
+                                                    href="{{ route('project.detail', $project->slug) }}">{{ $project->project_title }}</a>
+                                            </h4>
+                                            <span>{{ $project->city->title }}
+                                                /
+                                                {{ $project->county->ilce_title }}
+                                                {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                    <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
-                        @csrf
-                        <input class="search-input" type="search" placeholder="Mağazada Ara" id="search-project" aria-label="Search" name="q">
-                        <div class="header-search__suggestions">
-                            <div class="header-search__suggestions__section">
-                                <h5>Projeler</h5>
-                                <div class="header-search__suggestions__section__items">
-                                    @foreach ($institutional->projects as $item)
-                                    <a href="{{ route('project.detail', ['slug' => $item->slug]) }}" class="project-item" data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
+                </div>
+
+                <div class="mobile-hidden">
+                    @if (count($institutional->projects))
+                        <div class="properties-right list featured portfolio blog pb-5 bg-white">
+                            <div class="container">
+                                <div class="row project-filter-reverse blog-pots finish-projects-web">
+                                    @foreach ($institutional->projects as $project)
+                                        <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin"
+                                            data-aos="zoom-in" data-aos-delay="150" style="height:200px">
+                                            <div class="project-single no-mb aos-init aos-animate" style="height:100%"
+                                                data-aos="zoom-in" data-aos-delay="150">
+                                                <div class="listing-item compact" style="height:100%">
+                                                    <a href="{{ route('project.detail', $project->slug) }}"
+                                                        class="listing-img-container">
+                                                        <img class="project_brand_profile_image"
+                                                            src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
+                                                            alt="">
+                                                        <div class="listing-img-content"
+                                                            style="padding-left:10px;text-transform:uppercase;">
+                                                            <span
+                                                                class="badge badge-phoenix text-left">{{ $project->project_title }}
+                                                                <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
+                                                                        /
+                                                                        {{ $project->county->ilce_title }}
+                                                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
+
+                                                        </div>
+                                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                                                            alt="" style="height:100%;object-fit:contain">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endforeach
                                 </div>
                             </div>
                         </div>
-                        <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
-                    </form>
-
-                </nav>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-@if (count($institutional->projects))
-<section class="featured portfolio rec-pro disc bg-white">
-    <div class="container">
-      
-        <div class="row mobile-show homepage-9">
-            <div class="container">
-                <div class="row">
-                    @foreach ($institutional->projects as $project)
-                    <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="150">
-                        <div class="small-category-2">
-                            <div class="small-category-2-thumb img-1">
-                                <a href="{{ route('project.detail', $project->slug) }}"><img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
-                                            alt=""></a>
-                                </div>
-                                <div class=" sc-2-detail">
-                                    <h4 class="sc-jb-title"><a href="{{ route('project.detail', $project->slug) }}">{{ $project->project_title }}</a></h4>
-                                    <span>{{ $project->city->title }}
-                                        /
-                                        {{ $project->county->ilce_title }}
-                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
+                    @else
+                        <p>Henüz İlan Yayınlanmadı</p>
+                    @endif
                 </div>
-            </div>
-        </div>
-
-        <div class="mobile-hidden">
-            @if (count($institutional->projects))
-            <div class="properties-right list featured portfolio blog pb-5 bg-white">
-                <div class="container">
-                    <div class="row project-filter-reverse blog-pots finish-projects-web">
-                        @foreach ($institutional->projects as $project)
-                        <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150" style="height:200px">
-                            <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
-                                <div class="listing-item compact" style="height:100%">
-                                    <a href="{{ route('project.detail', $project->slug) }}" class="listing-img-container">
-                                        <img class="project_brand_profile_image" src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}" alt="">
-                                        <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;">
-                                            <span class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
-                                                        /
-                                                        {{ $project->county->ilce_title }}
-                                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
-
-                                        </div>
-                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}" alt="" style="height:100%;object-fit:contain">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
             @else
-            <p>Henüz İlan Yayınlanmadı</p>
+                <div class="section-title">
+                    <h2>Proje İlanları</h2> 
+                </div>
+                <p>Henüz Proje Yayınlanmadı</p>
             @endif
-        </div>
 
-    </div>
-</section>
-@endif
+        </div>
+    </section>
+
 
 
 
 @endsection
 
 @section('scripts')
-<script>
-    'use strict';
-    $('#search-project').on('input', function() {
-        let val = $(this).val();
-        $('.project-item').each(function() {
-            if ($(this).data('title').toLowerCase().search(val) == -1)
-                $(this).addClass('d-none');
-            else
-                $(this).removeClass('d-none');
+    <script>
+        'use strict';
+        $('#search-project').on('input', function() {
+            let val = $(this).val();
+            $('.project-item').each(function() {
+                if ($(this).data('title').toLowerCase().search(val) == -1)
+                    $(this).addClass('d-none');
+                else
+                    $(this).removeClass('d-none');
+            });
         });
-    });
-</script>
+    </script>
 @endsection
 
 @section('styles')
-<style>
-    .projectMobileMargin {
-        margin-bottom: 20px !important;
-    }
-</style>
+    <style>
+        .projectMobileMargin {
+            margin-bottom: 20px !important;
+        }
+    </style>
 @endsection

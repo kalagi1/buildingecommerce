@@ -32,7 +32,7 @@
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">İndirim Tutarı (TL)</label>
                                             <input name="discount_amount" class="form-control" id="validationCustom01"
-                                                type="number" min="0" value="" required="">
+                                                type="number" min="0" placeholder="0" required="">
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-6">
@@ -45,7 +45,7 @@
                                         <div class="col-md-6 item-housing">
                                             <label class="form-label">Konut</label>
                                             <select name="housing_id" id="housing_id" class="form-control">
-                                                <option value="#" selected disabled></option>
+                                                <option value="#" selected disabled>Seçiniz</option>
                                                 @foreach ($housings as $housing)
                                                     <option value="{{ $housing->id }}">{{ $housing->title }}</option>
                                                 @endforeach
@@ -54,25 +54,30 @@
                                         <div class="col-12 item-project" style="display: none;">
                                             <label class="form-label" for="validationCustom01">Proje</label>
                                             <select name="project_id" class="form-control" id="project_id">
-                                                <option value="#" selected disabled></option>
-                                                @foreach($projects as $project)
-                                                    <option value="{{$project->id}}">{{$project->project_title}}</option>
+                                                <option value="#" selected disabled>Seçiniz</option>
+                                                @foreach ($projects as $project)
+                                                    <option value="{{ $project->id }}">{{ $project->project_title }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-12 item-project" style="display: none;">
                                             <label class="form-label" for="validationCustom01">Projeye Ait Konutlar</label>
-                                            <a href="#" class="small float-right" id="select-all-ph">Projenin Tüm Konutları</a>
-                                            <select name="project_housings[]" class="form-control" id="project_housings" multiple>
+                                            <a href="#" class="small float-right" id="select-all-ph">Projenin Tüm
+                                                Konutları</a>
+                                            <select name="project_housings[]" class="form-control" id="project_housings"
+                                                multiple>
                                             </select>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">Başlangıç Tarihi</label>
-                                            <input type="date" name="start_date" class="form-control" id="start_date" required/>
+                                            <input type="date" name="start_date" class="form-control" id="start_date"
+                                                required />
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">Bitiş Tarihi</label>
-                                            <input type="date" name="end_date" class="form-control" id="end_date" required/>
+                                            <input type="date" name="end_date" class="form-control" id="end_date"
+                                                required />
                                         </div>
 
                                         <div id="renderForm"></div>
@@ -93,10 +98,8 @@
 @endsection
 @section('scripts')
     <script>
-        $('#type').on('change', function()
-        {
-            switch ($(this).val())
-            {
+        $('#type').on('change', function() {
+            switch ($(this).val()) {
                 case "housing":
                     $('.item-housing').slideDown();
                     $('.item-project').slideUp();
@@ -109,40 +112,39 @@
             }
         });
 
-        $('#select-all-ph').on('click', function()
-        {
+        $('#select-all-ph').on('click', function() {
             $('#project_housings option').prop('selected', true);
         });
 
-        $('#project_id').change(function(){
-          var selectedProject = $(this).val(); // Seçilen şehir değerini al
+        $('#project_id').change(function() {
+            var selectedProject = $(this).val(); // Seçilen şehir değerini al
+            var countiesSelect = $('#project_housings'); // counties id'li select'i seç
 
-          // AJAX isteği yap
-          $.ajax({
-              url: '{{route("institutional.offers.get-project-housings")}}', // Endpoint URL'si (get.counties olarak varsayalım)
-              method: 'GET',
-              data: { id: selectedProject }, // Şehir verisini isteğe ekle
-              dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
-              success: function(response) {
-                
-                  // Yanıt başarılı olduğunda çalışacak kod
-                  var countiesSelect = $('#project_housings'); // counties id'li select'i seç
-                  countiesSelect.empty(); // Select içeriğini temizle
-
-                  // Dönen yanıttaki ilçeleri döngüyle ekleyin
-                  for (var i = 0; i < response.length; i++) {
-                      countiesSelect.append($('<option>', {
-                          value: response[i]._ROOM_ORDER, // İlçe ID'si
-                          text: response[i].label // İlçe adı
-                      }));
-                  }
-              },
-              error: function(xhr, status, error) {
-                  // Hata durumunda çalışacak kod
-                  console.error('Hata: ' + error);
-              }
-          });
-      });
+            $.ajax({
+                url: '{{ route('institutional.offers.get-project-housings') }}', // Endpoint URL'si (get.counties olarak varsayalım)
+                method: 'GET',
+                data: {
+                    id: selectedProject
+                }, 
+                dataType: 'json', 
+                beforeSend: function() {
+                    countiesSelect.html('<option value="">"#' + selectedProject + '" numaralı projeye ait konutlar yükleniyor...</option>');
+                },
+                success: function(response) {
+                    countiesSelect.empty(); 
+                    for (var i = 1; i < response.length; i++) {
+                        countiesSelect.append($('<option>', {
+                            value: response[i].i, // İlçe ID'si
+                            text: response[i].label + " " + i + " No'lu Daire"// İlçe adı
+                        }));
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Hata durumunda çalışacak kod
+                    console.error('Hata: ' + error);
+                }
+            });
+        });
     </script>
     @stack('scripts')
 @endsection

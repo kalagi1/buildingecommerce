@@ -111,7 +111,7 @@
                                         @else 
                                         style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                         @if ($sold[0]->status == '0')
-                                                            <span class="text">Onay Bekleniyor</span>
+                                                            <span class="text">Rezerve Edildi</span>
                                                         @else
                                                             <span class="text">Satıldı</span>
                                                         @endif
