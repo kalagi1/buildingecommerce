@@ -52,18 +52,18 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $(".box").hide();
 
-            $(".notification").click(
-                function () {
-                    $(".box").toggle();
-                },
-                function () {
-                    $(".box").toggle();
-                }
-            );
-        });
+        $(".notification").click(
+            function() {
+                $(".box").toggle();
+            },
+            function() {
+                $(".box").toggle();
+            }
+        );
+    });
     document.addEventListener("DOMContentLoaded", function() {
         var notificationCards = document.querySelectorAll(".notification-card");
 
@@ -137,20 +137,20 @@
 
     .number {
         height: 22px;
-    width: 22px;
-    background-color: #d63031;
-    border-radius: 20px;
-    color: white;
-    text-align: center;
-    position: absolute;
-    top: 1px;
-    left: 27px;
-    display: flex;
-    padding: 0;
-    font-size: 10px;
-    border-style: solid;
-    align-items: center;
-    justify-content: center;
+        width: 22px;
+        background-color: #d63031;
+        border-radius: 20px;
+        color: white;
+        text-align: center;
+        position: absolute;
+        top: 1px;
+        left: 27px;
+        display: flex;
+        padding: 0;
+        font-size: 10px;
+        border-style: solid;
+        align-items: center;
+        justify-content: center;
     }
 
     .number:empty {
@@ -180,22 +180,22 @@
 
     .box {
         width: 300px;
-    z-index: 9999;
-    height: 300px !important;
-    height: 200px;
-    border-radius: 10px;
-    transition: 0.5s;
-    position: absolute;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    padding: 0px;
-    left: -74px;
-    margin-top: 5px;
-    background-color: #F4F4F4;
-    -webkit-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
-    box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
-    cursor: context-menu;
+        z-index: 9999;
+        height: 300px !important;
+        height: 200px;
+        border-radius: 10px;
+        transition: 0.5s;
+        position: absolute;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding: 0px;
+        left: -74px;
+        margin-top: 5px;
+        background-color: #F4F4F4;
+        -webkit-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
+        box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
+        cursor: context-menu;
     }
 
     .fas:hover {
@@ -577,13 +577,50 @@
                                                     ))) /
                                             parseInt(installementData)))) + '₺';
                                     }
-                                    html += "<tr>" +
-                                        "<td>" + paymentPlanDatax[paymentPlanData[j]] + "</td>" +
-                                        "<td>" + formatPrice(priceData) + "₺</td>" +
-                                        "<td>" + installementData + "</td>" +
-                                        "<td>" + advanceData + "</td>" +
-                                        "<td>" + monhlyPrice + "</td>" +
-                                        "</tr>"
+                                    var isMobile = window.innerWidth < 768;
+                                    html += "<tr>";
+
+                                    // Function to check if the value is empty or not
+                                    function isNotEmpty(value) {
+                                        return value !== "" && value !== undefined && value !==
+                                            "-" &&
+                                            value !== null;
+                                    }
+
+                                    if (!isMobile && isNotEmpty(paymentPlanDatax[paymentPlanData[
+                                            j]])) {
+                                        html += "<td>" + (isMobile ?
+                                            "<strong>Ödeme Türü:</strong> " :
+                                            "") + paymentPlanDatax[paymentPlanData[j]] + "</td>";
+                                    }
+
+                                    if (!isMobile || isNotEmpty(formatPrice(priceData))) {
+                                        html += "<td>" + (isMobile ? paymentPlanDatax[
+                                                paymentPlanData[
+                                                    j]] + " " + "<strong>Fiyat:</strong> " : "") +
+                                            formatPrice(priceData) + "₺</td>";
+                                    }
+
+
+                                    if (!isMobile || isNotEmpty(advanceData)) {
+                                        html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
+                                            "") + advanceData + "</td>";
+                                    }
+
+                                    if (!isMobile || isNotEmpty(monhlyPrice)) {
+                                        html += "<td>" + (isMobile ?
+                                                "<strong>Aylık Ödenecek Tutar:</strong> " : "") +
+                                            monhlyPrice + "</td>";
+                                    }
+
+
+                                    if (!isMobile || isNotEmpty(installementData)) {
+                                        html += "<td>" + (isMobile ?
+                                                "<strong>Taksit Sayısı:</strong> " : "") +
+                                            installementData + "</td>";
+                                    }
+
+                                    html += "</tr>";
                                 }
 
                                 tempPlans.push(paymentPlanData[j])
@@ -761,7 +798,7 @@
             breakpoint: 769,
             settings: {
                 slidesToShow: 4.5,
-                slidesToScroll: 1,
+                slidesToScroll: 5,
                 dots: false,
                 arrows: false
             }
@@ -886,7 +923,11 @@
 
             if (isProductInCart(productId, project)) {
                 Swal.fire({
-                    title: @if(auth()->check() && auth()->user()->type == 19) "Ürünü koleksiyonunuzdan kaldırmak istiyor musunuz?" @else "Ürünü sepetten kaldırmak istiyor musunuz?" @endif ,
+                    title: @if (auth()->check() && auth()->user()->type == 21)
+                        "Ürünü koleksiyonunuzdan kaldırmak istiyor musunuz?"
+                    @else
+                        "Ürünü sepetten kaldırmak istiyor musunuz?"
+                    @endif ,
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonText: "Evet, Kaldır",
@@ -914,15 +955,19 @@
                 });
             } else {
                 Swal.fire({
-                    @if(auth()->check() && auth()->user()->type == 19)
+                    @if (auth()->check() && auth()->user()->type == 21)
                         title: 'Koleksiyonunuza eklemek istiyor musunuz?',
                     @else
                         title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
-                        'Mevcut sepeti temizlemek istiyor musunuz?',
+                            'Mevcut sepeti temizlemek istiyor musunuz?',
                     @endif
                     icon: 'question',
                     showCancelButton: true,
-                    confirmButtonText: @if(auth()->check() && auth()->user()->type == 19) 'Evet' @else isCartEmpty() ? 'Evet' : 'Evet, temizle' @endif,
+                    confirmButtonText: @if (auth()->check() && auth()->user()->type == 21)
+                        'Evet'
+                    @else
+                        isCartEmpty() ? 'Evet' : 'Evet, temizle'
+                    @endif ,
                     cancelButtonText: 'Hayır',
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -932,10 +977,11 @@
                             data: JSON.stringify(cart),
                             contentType: "application/json;charset=UTF-8",
                             success: function(response) {
-                                @if(auth()->check() && auth()->user()->type == 19)
+                                @if (auth()->check() && auth()->user()->type == 21)
                                     toastr.success("Ürün Koleksiyonunuza Eklendi");
                                     if (!button.classList.contains("mobile")) {
-                                        button.textContent = "Koleksiyonuma Eklendi";
+                                        button.textContent =
+                                            "Koleksiyonuma Eklendi";
                                     }
                                 @else
                                     toastr.success("Ürün Sepete Eklendi");
@@ -980,8 +1026,8 @@
                 }
 
                 if (isProductInCart(productId, product)) {
-                    
-                    @if(auth()->check() && auth()->user()->type == 19)
+
+                    @if (auth()->check() && auth()->user()->type == 21)
                         if (!button.classList.contains("mobile")) {
                             button.querySelector(".text").textContent = "Koleksiyonuma eklendi";
                         }
@@ -1004,14 +1050,14 @@
         }
 
         function isProductInCart(productId, product) {
-            @if(auth()->check() && auth()->user()->type == 19)
+            @if (auth()->check() && auth()->user()->type == 21)
                 var links = @json($sharerLinks);
-                console.log(productId,links,links.includes(productId));
+                console.log(productId, links, links.includes(productId));
                 if (links.length != 0) {
                     if (links.includes(parseInt(productId))) {
                         return true; // Ürün sepette bulundu
                     }
-                    
+
                 }
                 return false; // Ürün sepette bulunamadı
             @else
@@ -1097,7 +1143,7 @@
 
             favoriteButtons.forEach(function(button) {
                 var housingId = button.getAttribute("data-housing-id");
-                
+
                 $.ajax({
                     url: "{{ route('get.housing.favorite.status', ['id' => ':id']) }}"
                         .replace(':id', housingId),
@@ -1221,132 +1267,132 @@
 </script>
 
 <script>
-   const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
-        let timeout; // AJAX isteği için zamanlayıcı değişkeni
+    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+    let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
-        function showSearchingMessage() {
-            $('.header-search-box').empty().append(
-                '<div class="font-weight-bold p-2 small" style="background-color: #EEE;">Aranıyor...</div>');
+    function showSearchingMessage() {
+        $('.header-search-box').empty().append(
+            '<div class="font-weight-bold p-2 small" style="background-color: #EEE;">Aranıyor...</div>');
+    }
+
+    function hideSearchingMessage() {
+        $('.header-search-box div:contains("Aranıyor...")').remove();
+    }
+
+    function drawHeaderSearchbox(searchTerm) {
+        showSearchingMessage();
+
+        if (timeout) {
+            clearTimeout(timeout); // Önceki AJAX isteğini iptal et
         }
 
-        function hideSearchingMessage() {
-            $('.header-search-box div:contains("Aranıyor...")').remove();
-        }
+        timeout = setTimeout(function() {
+            $.ajax({
+                url: "{{ route('get-search-list') }}",
+                method: "GET",
+                data: {
+                    searchTerm
+                },
+                success: function(data) {
+                    let hasResults = false;
 
-        function drawHeaderSearchbox(searchTerm) {
-            showSearchingMessage();
-
-            if (timeout) {
-                clearTimeout(timeout); // Önceki AJAX isteğini iptal et
-            }
-
-            timeout = setTimeout(function() {
-                $.ajax({
-                    url: "{{ route('get-search-list') }}",
-                    method: "GET",
-                    data: {
-                        searchTerm
-                    },
-                    success: function(data) {
-                        let hasResults = false;
-
-                        // Housing search
-                        if (data.housings.length > 0) {
-                            hasResults = true;
-                            $('.header-search-box').append(`
+                    // Housing search
+                    if (data.housings.length > 0) {
+                        hasResults = true;
+                        $('.header-search-box').append(`
                                 <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
                             `);
-                            console.log(data.housings);
-                            data.housings.forEach((e) => {
-                                const imageUrl =
-                                    `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                                const formattedName = e.name.charAt(0)
+                        console.log(data.housings);
+                        data.housings.forEach((e) => {
+                            const imageUrl =
+                                `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                            const formattedName = e.name.charAt(0)
                                 .toUpperCase() + e.name.slice(1);
 
-                                $('.header-search-box').append(`
+                            $('.header-search-box').append(`
                             <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
                                 <span>${formattedName}</span>
                             </a>
                         `);
 
-                            });
-                        }
+                        });
+                    }
 
-                        // Project search
-                        if (data.projects.length > 0) {
-                            hasResults = true;
-                            $('.header-search-box').append(`
+                    // Project search
+                    if (data.projects.length > 0) {
+                        hasResults = true;
+                        $('.header-search-box').append(`
                                 <div class="font-weight-bold p-2 small" style="background-color: #EEE;">PROJELER</div>
                             `);
-                            console.log(data.projects);
-                            data.projects.forEach((e) => {
-                                const imageUrl =
-                                    `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                                const formattedName = e.name.charAt(0)
+                        console.log(data.projects);
+                        data.projects.forEach((e) => {
+                            const imageUrl =
+                                `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                            const formattedName = e.name.charAt(0)
                                 .toUpperCase() + e.name.slice(1);
 
-                                $('.header-search-box').append(`
+                            $('.header-search-box').append(`
                                     <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
                                         <span>${formattedName}</span>
                                     </a>
                                 `);
-                            });
-                        }
+                        });
+                    }
 
-                        // Merchant search
-                        if (data.merchants.length > 0) {
-                            hasResults = true;
-                            $('.header-search-box').append(`
+                    // Merchant search
+                    if (data.merchants.length > 0) {
+                        hasResults = true;
+                        $('.header-search-box').append(`
                                 <div class="font-weight-bold p-2 small" style="background-color: #EEE;">MAĞAZALAR</div>
                             `);
-                            data.merchants.forEach((e) => {
-                                const imageUrl =
-                                    `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                                const formattedName = e.name.charAt(0)
+                        data.merchants.forEach((e) => {
+                            const imageUrl =
+                                `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                            const formattedName = e.name.charAt(0)
                                 .toUpperCase() + e.name.slice(1);
 
-                                $('.header-search-box').append(`
+                            $('.header-search-box').append(`
                                     <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
                                         <span>${formattedName}</span>
                                     </a>
                                 `);
-                            });
-                        }
+                        });
+                    }
 
-                        // Veri yoksa veya herhangi bir sonuç yoksa "Sonuç Bulunamadı" mesajını görüntüle
-                        if (!hasResults) {
-                            $('.header-search-box').append(`
+                    // Veri yoksa veya herhangi bir sonuç yoksa "Sonuç Bulunamadı" mesajını görüntüle
+                    if (!hasResults) {
+                        $('.header-search-box').append(`
                                 <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç bulunamadı</div>
                             `);
-                        } else {
-                            hideSearchingMessage
-                                (); // AJAX başarılı olduğunda "Aranıyor..." yazısını kaldır
-                        }
-
-                        if ($('.header-search-box').children().length > 3) {
-                            $('.header-search-box').css('overflow-y',
-                                'scroll'
-                            ); // 7'den fazla sonuç varsa kaydırma çubuğunu etkinleştir
-                        } else {
-                            $('.header-search-box').css('overflow-y',
-                                'unset'
-                            ); // 7 veya daha az sonuç varsa kaydırma çubuğunu devre dışı bırak
-                        }
+                    } else {
+                        hideSearchingMessage
+                            (); // AJAX başarılı olduğunda "Aranıyor..." yazısını kaldır
                     }
-                });
-            }, 1000); // 1 saniye gecikmeli AJAX isteği başlat
+
+                    if ($('.header-search-box').children().length > 3) {
+                        $('.header-search-box').css('overflow-y',
+                            'scroll'
+                        ); // 7'den fazla sonuç varsa kaydırma çubuğunu etkinleştir
+                    } else {
+                        $('.header-search-box').css('overflow-y',
+                            'unset'
+                        ); // 7 veya daha az sonuç varsa kaydırma çubuğunu devre dışı bırak
+                    }
+                }
+            });
+        }, 1000); // 1 saniye gecikmeli AJAX isteği başlat
+    }
+
+    $('.ss-box').on('input', function() {
+        let term = $(this).val();
+
+        if (term != '') {
+            $('.header-search-box').addClass('d-flex').removeClass('d-none');
+            drawHeaderSearchbox(term);
+        } else {
+            $('.header-search-box').removeClass('d-flex').addClass('d-none');
         }
-
-        $('.ss-box').on('input', function() {
-            let term = $(this).val();
-
-            if (term != '') {
-                $('.header-search-box').addClass('d-flex').removeClass('d-none');
-                drawHeaderSearchbox(term);
-            } else {
-                $('.header-search-box').removeClass('d-flex').addClass('d-none');
-            }
-        });
+    });
     $(document).click(function(event) {
 
         if (
@@ -1402,7 +1448,7 @@
                                 const imageUrl =
                                     `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
                                 const formattedName = e.name.charAt(0)
-                                .toUpperCase() + e.name.slice(1);
+                                    .toUpperCase() + e.name.slice(1);
 
                                 $('.header-search-box-mobile').append(`
                                     <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
@@ -1424,7 +1470,7 @@
                                 const imageUrl =
                                     `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
                                 const formattedName = e.name.charAt(0)
-                                .toUpperCase() + e.name.slice(1);
+                                    .toUpperCase() + e.name.slice(1);
 
                                 $('.header-search-box-mobile').append(`
                                     <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
@@ -1444,7 +1490,7 @@
                                 const imageUrl =
                                     `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
                                 const formattedName = e.name.charAt(0)
-                                .toUpperCase() + e.name.slice(1);
+                                    .toUpperCase() + e.name.slice(1);
 
                                 $('.header-search-box-mobile').append(`
                                     <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">

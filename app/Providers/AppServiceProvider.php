@@ -59,7 +59,12 @@ class AppServiceProvider extends ServiceProvider
             Cache::put($cacheKey, $cachedData, now()->addHours(1));
         }
     
-        View::composer(["client.layouts.partials.header", "client.layouts.partials.footer", "client.client-panel*"], function ($view) use ($cachedData) {
+        View::composer(["client.layouts.partials.header","client.layouts.partials.footer", "client.client-panel*"], function ($view) use ($cachedData) {
+            if (Auth::check()) {
+                $sharerLinks = ShareLink::where("user_id",Auth::user()->id)->first();
+                $view->with("sharerLinks", $sharerLinks);
+
+            }
             $view->with($cachedData);
             $this->composeView($view, 'client_menu.json');
         });

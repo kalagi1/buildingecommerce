@@ -451,7 +451,8 @@ img {
     font-size: 12px;
     line-height: 34px;
 }
-.featured-heads{
+
+.featured-heads {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -463,17 +464,6 @@ img {
     padding-top: 2.4rem;
 }
 
-@media (max-width:768px) {
-    .brand-head {
-        padding-top: 0;
-        margin-top: 20px;
-    }
-    .search-style{
-        padding: 0 !important;
-        position: relative !important;
-        margin: 0 10px !important;
-    }
-}
 
 .brand-head .card {
     border: none;
@@ -485,7 +475,28 @@ img {
     height: 100px;
     object-fit: cover;
     width: 100%;
+    display: flex;
+    align-items: center;
 }
+
+@media (max-width:768px) {
+    .brand-head {
+        padding-top: 0;
+        margin-top: 20px;
+    }
+
+    .brand-head .card-img-top {
+        height: 70px !important;
+
+    }
+
+    .search-style {
+        padding: 0 !important;
+        position: relative !important;
+        margin: 0 10px !important;
+    }
+}
+
 
 .share-icons .button {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -549,9 +560,8 @@ img {
 
 
 .brand-head .brands-square {
-    position: absolute;
-    top: 30px;
-    padding-left: 30px;
+
+    margin-left: 30px;
     display: flex;
     align-items: center;
 }
@@ -1181,7 +1191,7 @@ img {
 
 @media screen and (max-width: 768px) {
     .brand-head .navbar-item {
-        font-size: 11px !important;
+        font-size: 10px !important;
         text-align: center;
         padding: 10px;
     }
@@ -1476,8 +1486,10 @@ section.recently.portfolio {
 
 
 .homes-tag.featured {
-    width: 84px !important;
-    background: #18ba60 !important;
+    background: #e54242 !important;
+    text-align: center;
+    padding: 5px;
+    font-size: 11px;
 }
 
 .recently .homes .button {
@@ -3056,11 +3068,6 @@ section.portfolio {
 .homes-img {
     position: relative;
     overflow: hidden;
-}
-
-.homes-tag.featured {
-    width: 84px !important;
-    background: #18ba60 !important;
 }
 
 .portfolio .homes .button {
@@ -5059,10 +5066,12 @@ section.counterup {
     height: auto;
     margin-bottom: 1.6rem;
 }
-.about_content{
+
+.about_content {
     display: flex;
     justify-content: center;
 }
+
 @media screen and (max-width: 991px) {
     .first-footer .netabout {
         margin-bottom: 0px;
@@ -16345,10 +16354,6 @@ a.button {
         padding-left: 0px !important;
     }
 
-    .inner-pages .pro-wrapper .detail-wrapper-body p {
-        margin-bottom: 30px !important;
-    }
-
     .single.detail-wrapper.grid {
         margin-left: 0px;
     }
@@ -17240,7 +17245,6 @@ section.google-map-right {
 /*---------------------------------------*/
 
 section.single-proper {
-    padding: 0 0 6rem 0;
     background: #f5f7fb;
 }
 
@@ -17259,11 +17263,10 @@ section.headings-2 {
     background: #f5f7fb !important;
 }
 
-.inner-pages .headings-2 .listing-title-bar h3 span {
-    border-bottom: 4px solid black !important;
-    font-size: 23px !important;
+td .mr-1 {
+    width: 150px !important;
+    display: inline-flex !important;
 }
-
 
 .menu__tabs {
     list-style: none;
@@ -17404,6 +17407,19 @@ section.headings-2 {
     color: #222;
     margin-bottom: 0 !important;
     text-transform: capitalize !important;
+}
+
+.inner-pages .headings-2 .listing-title-bar h3:after {
+    color: #EA2B2E;
+    background-color: #EA2B2E;
+    color: black;
+    display: block;
+    height: 3px;
+    font-weight: bold;
+    content: " ";
+    width: 50px;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .reservation-list {
@@ -17858,6 +17874,19 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     border: 1px solid #eaeff5;
 }
 
+.payment-plan-table td {
+    display: table-cell !important;
+}
+
+.payment-plan td {
+    display: table-cell !important;
+}
+
+.table td {
+    display: flex;
+    justify-content: space-between
+}
+
 .widget-boxed .input-group .fa {
     font-size: 16px !important;
     color: black;
@@ -18144,7 +18173,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .inner-pages .blog .homes-content .homes-list li {
-    width: 33%;
+    width: 25%;
     float: left;
     font-size: 12px;
     line-height: 36px;
@@ -18298,7 +18327,7 @@ span {
 
     .inner-pages .single.homes-content .homes-list li,
     .inner-pages .portfolio .homes-content .homes-list li {
-        width: 100% !important;
+        width: 50% !important;
         line-height: 27px;
         margin-bottom: 13px;
     }
@@ -19757,9 +19786,9 @@ ul.the-agents-details li a {
     margin-bottom: 0px;
 }
 
-section.single-proper.details {
+/* section.single-proper.details {
     padding: 3rem 0 !important;
-}
+} */
 
 .agents.det .portfolio {
     margin-bottom: 30px;
@@ -21050,10 +21079,10 @@ small {
         padding: 0.5rem 1rem !important;
     }
 
-
+    /* 
     section.single-proper.details {
         padding: 2rem 0 !important;
-    }
+    } */
 
     .dashboard-bd .left-side {
         width: 80% !important;
@@ -23404,7 +23433,6 @@ a.btn_1 {
     color: #717171 !important;
     border-color: #EEE;
     padding: 0 1rem;
-    margin-top: 10px;
     border-radius: 0 !important;
 }
 
@@ -29180,7 +29208,7 @@ input[type="checkbox"]::before {
 
 .msg-text {
     text-align: left;
-    font-size:11px !important;
+    font-size: 11px !important;
 }
 
 .msger-inputarea {

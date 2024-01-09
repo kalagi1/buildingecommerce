@@ -52,12 +52,14 @@ class ProjectController extends Controller
         });
 
 
-        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
         $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
             ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
             ->groupBy('project_id')
             ->where("status", "1")
             ->get();
+
+            $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
 
         $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
         $selectedPage = $request->input('selected_page') ?? 0;
@@ -76,6 +78,7 @@ class ProjectController extends Controller
 
 
         return view('client.projects.index', compact('projectHousingsList','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+
     }
     
     public function ajaxIndex($slug,Request $request){

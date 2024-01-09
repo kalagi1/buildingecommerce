@@ -556,7 +556,7 @@
                                                             <img src="{{ asset('sc.png') }}" alt="">
                                                         </span>
                                                         @if ($sold == '0')
-                                                            <span class="text">Onay Bekleniyor</span>
+                                                            <span class="text">Rezerve Edildi</span>
                                                         @else
                                                             <span class="text">Satıldı</span>
                                                         @endif
@@ -894,7 +894,7 @@
                                                                                         alt="">
 
                                                                                 </span>
-                                                                                @if (auth()->check() && auth()->user()->type == 19)
+                                                                                @if (auth()->check() && auth()->user()->type == 21)
                                                                                     @if (json_decode($housing->housing_type_data)->{"share-open"}[0])
                                                                                         <span class="text">Koleksiyonuma
                                                                                             Ekle</span>
@@ -1101,13 +1101,13 @@
                                                                         <button class="btn second-btn "
                                                                             @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
                                                                             @if ($sold == '0')
-                                                                                <span class="text">Onay Bekleniyor</span>
+                                                                                <span class="text">Rezerve Edildi</span>
                                                                             @else
                                                                                 <span class="text">Satıldı</span>
                                                                             @endif
                                                                         </button>
                                                                     @else
-                                                                        @if (auth()->check() && auth()->user()->type == 19)
+                                                                        @if (auth()->check() && auth()->user()->type == 21)
                                                                             @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
                                                                                     json_decode($housing->housing_type_data)->{"share-open"}[0]
                                                                             )

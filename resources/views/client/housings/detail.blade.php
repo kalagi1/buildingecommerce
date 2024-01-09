@@ -40,6 +40,106 @@
 @endphp
 @section('content')
     <section class="single-proper blog details bg-white">
+        <div class="loading-full d-none">
+            <div class="back-opa">
+
+            </div>
+            <div class="content-loading">
+                <i class="fa fa-spinner"></i>
+            </div>
+        </div>
+        <div class="brand-head mb-30">
+            <div class="container">
+                <div class="card mb-3">
+                    <div class="card-img-top" style="background-color: {{ $housing->user->banner_hex_code }}">
+                        <div class="brands-square">
+                            <img src="{{ url('storage/profile_images/' . $housing->user->profile_image) }}" alt=""
+                                class="brand-logo">
+                            <p class="brand-name"><a
+                                    href="{{ route('instituional.profile', Str::slug($housing->user->name)) }}"
+                                    style="color:White;">
+                                    {{ $housing->user->name }}
+                                    <style type="text/css">
+                                        .st0 {
+                                            fill: #e54242;
+                                        }
+
+                                        .st1 {
+                                            opacity: 0.15;
+                                        }
+
+                                        .st2 {
+                                            fill: #FFFFFF;
+                                        }
+                                    </style>
+                                    <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1"
+                                        width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g>
+                                            <path class="st0"
+                                                d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
+                                            <g class="st1">
+                                                <path
+                                                    d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
+                                                <path
+                                                    d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
+                                                <path
+                                                    d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
+                                                <path
+                                                    d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
+                                            </g>
+                                            <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
+                                            <path class="st2"
+                                                d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
+                                        </g>
+                                    </svg>
+                                </a></p>
+                            <div class="mobile-hidden" style="display: flex">
+                                <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                                <p class="brand-name">{{ $housing->title }}</p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="card-body">
+                        <nav class="navbar" style="padding: 0 !important">
+                            <div class="navbar-items">
+                                <a class="navbar-item"
+                                    href="{{ route('instituional.dashboard', Str::slug($housing->user->name)) }}">Anasayfa</a>
+                                <a class="navbar-item"
+                                    href="{{ route('instituional.profile', Str::slug($housing->user->name)) }}">Mağaza
+                                    Profili</a>
+                                <a class="navbar-item"
+                                    href="{{ route('instituional.projects.detail', Str::slug($housing->user->name)) }}">Proje
+                                    İlanları</a>
+                                <a class="navbar-item"
+                                    href="{{ route('instituional.housings', Str::slug($housing->user->name)) }}">Emlak
+                                    İlanları</a>
+                            </div>
+                            <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
+                                @csrf
+                                <input class="search-input" type="search" placeholder="Mağazada Ara" id="search-project"
+                                    aria-label="Search" name="q">
+                                <div class="header-search__suggestions">
+                                    <div class="header-search__suggestions__section">
+                                        <h5>Projeler</h5>
+                                        <div class="header-search__suggestions__section__items">
+                                            @foreach ($housing->user->projects as $item)
+                                                <a href="{{ route('project.detail', ['slug' => $item->slug]) }}"
+                                                    class="project-item"
+                                                    data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
+                            </form>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="container">
             <div class="row mb-3">
                 <div class="col-md-8">
@@ -111,7 +211,8 @@
                                                 @if ($discountAmount)
                                                     <svg viewBox="0 0 24 24" width="24" height="24"
                                                         stroke="currentColor" stroke-width="2" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                        class="css-i6dzq1">
                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                     </svg>
@@ -158,7 +259,8 @@
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $key => $image)
                                         <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
-                                            <a href="{{ asset('housing_images/' . $image) }}" data-lightbox="image-gallery">
+                                            <a href="{{ asset('housing_images/' . $image) }}"
+                                                data-lightbox="image-gallery">
                                                 <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
                                                     alt="slider-listing">
                                             </a>
@@ -176,7 +278,8 @@
                                 <div class="listingDetailsSliderNav mt-3">
                                     {{-- Kapak Görseli --}}
                                     <div class="item active" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-0" data-slide-to="0"
+                                            data-target="#listingDetailsSlider">
                                             <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
                                                 class="img-fluid altSlider" alt="listing-small">
                                         </a>
@@ -196,262 +299,7 @@
                             </div>
 
 
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                @if ($housing->step2_slug == 'gunluk-kiralik')
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
-                                            data-bs-target="#rez" type="button" role="tab" aria-controls="rez"
-                                            aria-selected="true"> Takvim</button>
-                                    </li>
-                                @endif
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif"
-                                        id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                                        role="tab" aria-controls="home" aria-selected="true">Açıklama</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                        data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
-                                        aria-selected="false">Özellikler</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#map"
-                                        type="button" role="tab" aria-controls="contact"
-                                        aria-selected="false">Harita</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                        data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
-                                        aria-selected="false">Yorumlar</button>
-                                </li>
 
-
-                            </ul>
-                            <div class="tab-content" id="myTabContent">
-                                @if ($housing->step2_slug == 'gunluk-kiralik')
-                                    <div class="tab-pane fade show active blog-info details mb-30" id="rez"
-                                        role="tabpanel" aria-labelledby="rez-tab">
-                                        <div id="reservation-calendar"></div>
-                                    </div>
-                                @endif
-
-                                <div class="tab-pane fade blog-info details mb-30 mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
-                                    id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    {!! $housing->description !!}
-                                </div>
-                                <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
-                                    aria-labelledby="profile-tab">
-                                    <div class="similar-property featured portfolio p-0 bg-white">
-
-                                        <div class="single homes-content">
-                                            <!-- title -->
-                                            <h5 class="mb-4">Özellikler</h5>
-                                            <table class="table table-bordered">
-                                                <tbody class="trStyle">
-                                                    <tr>
-                                                        <td>
-                                                            <span class="mr-1">İlan No:</span>
-                                                            <span class="det" style="color: black;">
-                                                                {{ $housing->id + 2000000 }}
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-
-                                                    @foreach ($labels as $label => $val)
-                                                
-                                                        @if ($label != 'Kapak Resmi' && $val[0] != 0)
-                                                            <tr>
-                                                                <td>
-                                                                    @if ($label == 'Fiyat')
-                                                                        <span class="mr-1">{{ $label }}:</span>
-                                                                        <span class="det"
-                                                                            style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
-                                                                            ₺</span>
-                                                                    @else
-                                                                        <span class="mr-1">{{ $label }}:</span>
-                                                                        @if ($label == 'm² (Net)<br>')
-                                                                            <span class="det">{{ $val[0] }}
-                                                                                m2</span>
-                                                                        @elseif ($label == 'Özellikler')
-                                                                            <ul>
-                                                                                @foreach ($val as $ozellik)
-                                                                                    <li>{{ $ozellik }}</li>
-                                                                                @endforeach
-                                                                            </ul>
-                                                                        @else
-                                                                            <span
-                                                                                class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
-                                                                        @endif
-                                                                    @endif
-                                                                </td>
-                                                            </tr>
-                                                        @endif
-                                                    @endforeach
-
-                                                </tbody>
-                                            </table>
-
-                                            @foreach ($labels as $label => $val)
-                                                @if (is_array($val))
-                                                    @if (count($val) > 1)
-                                                        @if ($label != 'Galeri')
-                                                            <h5 class="mt-5">{{ $label }}</h5>
-                                                            <ul class="homes-list clearfix">
-                                                                @foreach ($val as $item)
-                                                                    <li><i class="fa fa-check-square"
-                                                                            aria-hidden="true"></i><span>{{ $item }}</span>
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        @endif
-                                                    @endif
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade  blog-info details" id="contact" role="tabpanel"
-                                    aria-labelledby="contact-tab">
-                                    <h5 class="mt-4">Yorumlar</h5>
-                                    @if (count($housingComments))
-                                        <div class="flex flex-col gap-6">
-                                            @foreach ($housingComments as $comment)
-                                                <div class="bg-white border rounded-md pb-3 mb-3"
-                                                    style="border-bottom: 1px solid #E6E6E6 !important; ">
-                                                    <div class="head d-flex w-full">
-                                                        <div>
-                                                            <div class="">
-                                                                {{ $comment->user->name }}</div>
-                                                            <i
-                                                                class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
-                                                        </div>
-                                                        <div class="ml-auto order-2">
-                                                            @for ($i = 0; $i < $comment->rate; ++$i)
-                                                                <svg enable-background="new 0 0 50 50" height="24px"
-                                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50"
-                                                                    width="24px" xml:space="preserve"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                    <rect fill="none" height="50" width="50" />
-                                                                    <polygon fill="gold"
-                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                        stroke="gold" stroke-miterlimit="10"
-                                                                        stroke-width="2" />
-                                                                </svg>
-                                                            @endfor
-                                                            @for ($i = 0; $i < 5 - $comment->rate; ++$i)
-                                                                <svg enable-background="new 0 0 50 50" height="24px"
-                                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50"
-                                                                    width="24px" xml:space="preserve"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                                    <rect fill="none" height="50" width="50" />
-                                                                    <polygon fill="none"
-                                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                                        stroke="gold" stroke-miterlimit="10"
-                                                                        stroke-width="2" />
-                                                                </svg>
-                                                            @endfor
-                                                        </div>
-                                                    </div>
-                                                    <div class="body py-3">
-                                                        {{ $comment->comment }}
-                                                    </div>
-                                                    <div class="row mt-3">
-                                                        @foreach (json_decode($comment->images, true) as $img)
-                                                            <div class="col-md-2 col-3 mb-3">
-                                                                <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                                    data-lightbox="gallery">
-                                                                    <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                                        style="object-fit: cover;width:100%" />
-                                                                </a>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @else
-                                        <span class="mb-3">Bu konut için henüz yorum yapılmadı.</span>
-                                    @endif
-
-                                    <form action="{{ route('housing.send-comment', ['id' => $id]) }}" method="POST"
-                                        enctype="multipart/form-data" class="mt-5">
-                                        @csrf
-                                        <input type="hidden" name="rate" id="rate" />
-                                        <h5>Yeni Yorum Ekle</h5>
-
-                                        <div class="d-flex align-items-center w-full" style="gap: 6px;">
-                                            <div class="d-flex rating-area">
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                                <svg class="rating" enable-background="new 0 0 50 50" height="24px"
-                                                    id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
-                                                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                    <rect fill="none" height="50" width="50" />
-                                                    <polygon fill="none"
-                                                        points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
-                                                        stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
-                                                </svg>
-                                            </div>
-                                            <div class="ml-auto">
-                                                <input type="hidden" style="visibility: hidden;" class="fileinput"
-                                                    name="images[]" multiple accept="image/*" />
-                                                <button type="button" class="btn btn-primary q-button "
-                                                    onClick="jQuery('.fileinput').trigger('click');">Resimleri
-                                                    Seç</button>
-                                            </div>
-                                        </div>
-                                        <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..."></textarea>
-                                        <button type="submit" class="ud-btn btn-white2 mt-3">Yorumu Gönder<i
-                                                class="fal fa-arrow-right-long"></i></button>
-
-                                    </form>
-
-                                </div>
-                                <div class="tab-pane fade  blog-info details" id="map" role="tabpanel"
-                                    aria-labelledby="contact-tab">
-                                    <div class="similar-property featured portfolio p-0 bg-white">
-
-                                        <div id="map"></div>
-                                    </div>
-                                </div>
-                            </div>
 
                         </div>
                     </div>
@@ -561,9 +409,9 @@
                                                                 <i class="fa fa-minus"></i>
                                                             </button>
                                                         </span>
-                                                        <input type="text" name="person_count"
+                                                        <input type="number" name="person_count"
                                                             class="border-0 text-center form-control input-number"
-                                                            data-min="0" data-max="10" value="0">
+                                                            data-min="1" data-max="10" value="1">
                                                         <span class="input-group-btn">
                                                             <button type="button"
                                                                 class="btn counter-btn theme-cl btn-number"
@@ -660,7 +508,7 @@
                                                     <span class="text">Satıldı</span>
                                                 </button>
                                             @else
-                                                @if (auth()->check() && auth()->user()->type == 19)
+                                                @if (auth()->check() && auth()->user()->type == 21)
                                                     @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
                                                             json_decode($housing->housing_type_data)->{"share-open"}[0]
                                                     )
@@ -687,7 +535,7 @@
                                                             $buttonText = '';
                                                             if ($sold[0]->status == '0') {
                                                                 $buttonStyle = 'background: orange !important; width: 100%; color: white;';
-                                                                $buttonText = 'Onay Bekleniyor';
+                                                                $buttonText = 'Rezerve Edildi';
                                                             } else {
                                                                 $buttonStyle = 'background: red !important; width: 100%; color: white;';
                                                                 $buttonText = 'Satıldı';
@@ -744,49 +592,66 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    İlan No: {{ $housing->id + 2000000 }}
+                                                    <span> İlan No :</span>
+                                                    <span class="det">
+                                                        #{{ $housing->id + 2000000 }}
+                                                    </span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    {!! optional($housing->city)->title .
-                                                        ' / ' .
-                                                        optional($housing->county)->title .
-                                                        ' / ' .
-                                                        optional($housing->neighborhood)->mahalle_title ??
-                                                        '' !!}
+                                                    İl-İlçe-Mahalle :
+                                                    <span class="det">
+                                                        {!! optional($housing->city)->title .
+                                                            ' / ' .
+                                                            optional($housing->county)->title .
+                                                            ' / ' .
+                                                            optional($housing->neighborhood)->mahalle_title ??
+                                                            '' !!}
+                                                    </span>
                                                 </td>
 
                                             </tr>
 
                                             @if ($housing->user->phone)
                                                 <tr>
-                                                    <td><a style="text-decoration: none;color:inherit"
-                                                            href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                                    <td>
+                                                        Telefon :
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             @endif
 
                                             <tr>
                                                 <td>
-                                                    @if ($housing->step1_slug)
-                                                        @if ($housing->step2_slug)
-                                                            @if ($housing->step2_slug == 'kiralik')
-                                                                Kiralık
-                                                            @elseif ($housing->step2_slug == 'satilik')
-                                                                Satılık
-                                                            @else
-                                                                Günlük Kiralık
+                                                    Proje Tipi :
+                                                    <span class="det">
+                                                        @if ($housing->step1_slug)
+                                                            @if ($housing->step2_slug)
+                                                                @if ($housing->step2_slug == 'kiralik')
+                                                                    Kiralık
+                                                                @elseif ($housing->step2_slug == 'satilik')
+                                                                    Satılık
+                                                                @else
+                                                                    Günlük Kiralık
+                                                                @endif
                                                             @endif
+                                                            {{ $parent->title }}
                                                         @endif
-                                                        {{ $parent->title }}
-                                                    @endif
+                                                    </span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a style="text-decoration: none;color:inherit"
-                                                        href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
+                                                    E-Posta :
+                                                    <span class="det">
+                                                        <a style="text-decoration: none;color:inherit"
+                                                            href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
+                                                    </span>
+
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -817,6 +682,263 @@
 
                 </aside>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        @if ($housing->step2_slug == 'gunluk-kiralik')
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="rez-tab" data-bs-toggle="tab"
+                                    data-bs-target="#rez" type="button" role="tab" aria-controls="rez"
+                                    aria-selected="true"> Takvim</button>
+                            </li>
+                        @endif
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link @if ($housing->step2_slug != 'gunluk-kiralik') active @endif" id="home-tab"
+                                data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab"
+                                aria-controls="home" aria-selected="true">Açıklama</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+                                type="button" role="tab" aria-controls="profile"
+                                aria-selected="false">Özellikler</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#map"
+                                type="button" role="tab" aria-controls="contact"
+                                aria-selected="false">Harita</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
+                                type="button" role="tab" aria-controls="contact"
+                                aria-selected="false">Yorumlar</button>
+                        </li>
+
+
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        @if ($housing->step2_slug == 'gunluk-kiralik')
+                            <div class="tab-pane fade show active blog-info details mb-30" id="rez" role="tabpanel"
+                                aria-labelledby="rez-tab">
+                                <div id="reservation-calendar"></div>
+                            </div>
+                        @endif
+
+                        <div class="tab-pane fade blog-info details mb-30 mb-30 @if ($housing->step2_slug != 'gunluk-kiralik') show active @endif"
+                            id="home" role="tabpanel" aria-labelledby="home-tab">
+                            {!! $housing->description !!}
+                        </div>
+                        <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
+                            aria-labelledby="profile-tab">
+                            <div class="similar-property featured portfolio p-0 bg-white">
+
+                                <div class="single homes-content">
+                                    <!-- title -->
+                                    <h5 class="mb-4">Özellikler</h5>
+                                    <table class="table table-bordered">
+                                        <tbody class="trStyle">
+                                            <tr>
+                                                <td>
+                                                    <span class="mr-1">İlan No:</span>
+                                                    <span class="det" style="color: black;">
+                                                        {{ $housing->id + 2000000 }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+
+                                            @foreach ($labels as $label => $val)
+                                                @if ($label != 'Kapak Resmi' && $val[0] != 0)
+                                                    <tr>
+                                                        <td>
+                                                            @if ($label == 'Fiyat')
+                                                                <span class="mr-1">{{ $label }}:</span>
+                                                                <span class="det"
+                                                                    style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
+                                                                    ₺</span>
+                                                            @else
+                                                                <span class="mr-1">{{ $label }}:</span>
+                                                                @if ($label == 'm² (Net)<br>')
+                                                                    <span class="det">{{ $val[0] }}
+                                                                        m2</span>
+                                                                @elseif ($label == 'Özellikler')
+                                                                    <ul>
+                                                                        @foreach ($val as $ozellik)
+                                                                            <li>{{ $ozellik }}</li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                @else
+                                                                    <span
+                                                                        class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
+                                                                @endif
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+
+                                    @foreach ($labels as $label => $val)
+                                        @if (is_array($val))
+                                            @if (count($val) > 1)
+                                                @if ($label != 'Galeri')
+                                                    <h5 class="mt-5">{{ $label }}</h5>
+                                                    <ul class="homes-list clearfix">
+                                                        @foreach ($val as $item)
+                                                            <li><i class="fa fa-check-square"
+                                                                    aria-hidden="true"></i><span>{{ $item }}</span>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade  blog-info details mb-30" id="contact" role="tabpanel"
+                            aria-labelledby="contact-tab">
+                            <h5 class="mt-4">Yorumlar</h5>
+                            @if (count($housingComments))
+                                <div class="flex flex-col gap-6">
+                                    @foreach ($housingComments as $comment)
+                                        <div class="bg-white border rounded-md pb-3 mb-3"
+                                            style="border-bottom: 1px solid #E6E6E6 !important; ">
+                                            <div class="head d-flex w-full">
+                                                <div>
+                                                    <div class="">
+                                                        {{ $comment->user->name }}</div>
+                                                    <i
+                                                        class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
+                                                </div>
+                                                <div class="ml-auto order-2">
+                                                    @for ($i = 0; $i < $comment->rate; ++$i)
+                                                        <svg enable-background="new 0 0 50 50" height="24px"
+                                                            id="Layer_1" version="1.1" viewBox="0 0 50 50"
+                                                            width="24px" xml:space="preserve"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                            <rect fill="none" height="50" width="50" />
+                                                            <polygon fill="gold"
+                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                stroke="gold" stroke-miterlimit="10" stroke-width="2" />
+                                                        </svg>
+                                                    @endfor
+                                                    @for ($i = 0; $i < 5 - $comment->rate; ++$i)
+                                                        <svg enable-background="new 0 0 50 50" height="24px"
+                                                            id="Layer_1" version="1.1" viewBox="0 0 50 50"
+                                                            width="24px" xml:space="preserve"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                            <rect fill="none" height="50" width="50" />
+                                                            <polygon fill="none"
+                                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                                stroke="gold" stroke-miterlimit="10" stroke-width="2" />
+                                                        </svg>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                            <div class="body py-3">
+                                                {{ $comment->comment }}
+                                            </div>
+                                            <div class="row mt-3">
+                                                @foreach (json_decode($comment->images, true) as $img)
+                                                    <div class="col-md-2 col-3 mb-3">
+                                                        <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                            data-lightbox="gallery">
+                                                            <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                                style="object-fit: cover;width:100%" />
+                                                        </a>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <span class="mb-3">Bu konut için henüz yorum yapılmadı.</span>
+                            @endif
+
+                            <form action="{{ route('housing.send-comment', ['id' => $id]) }}" method="POST"
+                                enctype="multipart/form-data" class="mt-5">
+                                @csrf
+                                <input type="hidden" name="rate" id="rate" />
+                                <h5>Yeni Yorum Ekle</h5>
+
+                                <div class="d-flex align-items-center w-full" style="gap: 6px;">
+                                    <div class="d-flex rating-area">
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <rect fill="none" height="50" width="50" />
+                                            <polygon fill="none"
+                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                        </svg>
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <rect fill="none" height="50" width="50" />
+                                            <polygon fill="none"
+                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                        </svg>
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <rect fill="none" height="50" width="50" />
+                                            <polygon fill="none"
+                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                        </svg>
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <rect fill="none" height="50" width="50" />
+                                            <polygon fill="none"
+                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                        </svg>
+                                        <svg class="rating" enable-background="new 0 0 50 50" height="24px"
+                                            id="Layer_1" version="1.1" viewBox="0 0 50 50" width="24px"
+                                            xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <rect fill="none" height="50" width="50" />
+                                            <polygon fill="none"
+                                                points="25,3.553 30.695,18.321 46.5,19.173   34.214,29.152 38.287,44.447 25,35.848 11.712,44.447 15.786,29.152 3.5,19.173 19.305,18.321 "
+                                                stroke="#000000" stroke-miterlimit="10" stroke-width="2" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <input type="hidden" style="visibility: hidden;" class="fileinput"
+                                            name="images[]" multiple accept="image/*" />
+                                        <button type="button" class="btn btn-primary q-button "
+                                            onClick="jQuery('.fileinput').trigger('click');">Resimleri
+                                            Seç</button>
+                                    </div>
+                                </div>
+                                <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..."></textarea>
+                                <button type="submit" class="ud-btn btn-white2 mt-3">Yorumu Gönder<i
+                                        class="fal fa-arrow-right-long"></i></button>
+
+                            </form>
+
+                        </div>
+                        <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
+                            aria-labelledby="contact-tab">
+                            <div class="similar-property featured portfolio p-0 bg-white">
+
+                                <div id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
@@ -828,8 +950,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Rezervasyon Adımı</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"  class="closeTimes">&times;</span>
+                    <button type="button" class="closeTimes" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="closeTimes">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -856,7 +978,8 @@
                             </div>
                             <div id="ibanInfo"></div>
                             <strong>Ödeme işlemini tamamlamak için, lütfen bu
-                                <span style="color:red" id="uniqueCode"></span> kodu kullanarak ödemenizi
+                                <span style="color:red;font-size:15px !important;font-weight:bold" id="uniqueCode"></span>
+                                kodu kullanarak ödemenizi
                                 yapın. IBAN açıklama
                                 alanına
                                 bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak işlemi
@@ -864,10 +987,9 @@
 
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
                     <button type="button" @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
-                        class="btn btn-primary btn-lg btn-block mb-3" id="completePaymentButton">Satın Al
+                        class="btn btn-primary btn-lg btn-block mb-3 mt-3" id="completePaymentButton"
+                        style="width:150px;float:right">Satın Al
                     </button>
                 </div>
             </div>
@@ -880,27 +1002,65 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="finalConfirmationModalLabel">Ödeme Onayı</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="closeTimes" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="closeTimes"> &times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</p>
-                    <ol>
-                        <li>
-                            <strong style="color:red" id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
-                            alanına yazdığınızdan emin olun.
-                        </li>
-                        <li>
-                            Son olarak, işlemi bitirmek için aşağıdaki butona tıklayın: <br>
-                            <button type="button" id="submitBtn" class="btn btn-primary paySuccess mt-3">Ödemeyi Tamamla
-                                <svg viewBox="0 0 576 512" class="svgIcon">
-                                    <path
-                                        d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
-                                    </path>
-                                </svg></button>
-                        </li>
-                    </ol>
+                    <div class="container">
+                        <span>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</span> <br>
+                        <span>1. <strong style="color:red;font-size:15px;font-weight:bold" id="uniqueCodeRetry"></strong>
+                            kodunu EFT/Havale açıklama
+                            alanına yazdığınızdan emin olun.</span>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fullName">Ad Soyad *</label>
+                                    <input type="text" class="form-control" id="fullName" name="fullName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">E-posta *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tc">TC *</label>
+                                    <input type="number" class="form-control" id="tc" name="tc" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Telefon *</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address">Adres *</label>
+                                    <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="notes">Notlar:</label>
+                                    <textarea class="form-control" id="notes" name="notes" rows="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="submitBtn" class="btn btn-primary paySuccess mt-3">Ödemeyi Tamamla
+                            <svg viewBox="0 0 576 512" class="svgIcon">
+                                <path
+                                    d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                </path>
+                            </svg></button>
+
+
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -1173,6 +1333,14 @@
                 }
 
                 $('#submitBtn').click(function() {
+                    // Kullanıcı bilgileri
+                    var fullName = $('#fullName').val();
+                    var email = $('#email').val();
+                    var tc = $('#tc').val();
+                    var phone = $('#phone').val();
+                    var address = $('#address').val();
+                    var notes = $('#notes').val();
+
                     var price = parseInt("{{ getData($housing, 'daily_rent') }}");
                     var checkInDate = $('#date-checkin').val();
                     var checkOutDate = $('#date-checkout').val();
@@ -1186,9 +1354,21 @@
                     var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
                     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
+                    // Gerekli alanları kontrol et
+                    if (!fullName || !email || !tc || !phone || !address) {
+                        // Eksik bilgi varsa kullanıcıyı uyar
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata!',
+                            text: 'Lütfen tüm zorunlu alanları doldurun.',
+                        });
+                        return; // Fonksiyonu burada sonlandır
+                    }
 
+                    // Diğer bilgileri burada alabilir ve kullanabilirsiniz
                     var personCount = $('input[name="person_count"]').val();
 
+                    // AJAX ile sunucuya gönder
                     $.ajax({
                         url: "{{ route('reservation.store') }}",
                         type: "POST",
@@ -1200,9 +1380,15 @@
                             housing_id: {{ $housing->id }},
                             owner_id: {{ $housing->user->id }},
                             price: price * diffDays,
-                            key: key
+                            key: key,
+                            fullName: fullName, 
+                            email: email,
+                            tc: tc,
+                            phone: phone,
+                            address: address,
                         },
                         success: function(response) {
+                            // Başarılı durumunda yapılacaklar
                             $('#finalConfirmationModal').modal('hide');
                             $('.modal-backdrop').removeClass('show');
 
@@ -1210,8 +1396,6 @@
                                 icon: 'success',
                                 title: 'Başarılı!',
                                 text: response.message,
-                            }).then(function() {
-                                location.reload(); // Sayfayı yenile
                             });
                         },
                         error: function(error) {
@@ -1220,6 +1404,7 @@
                         }
                     });
                 });
+
             });
 
             $(document).ready(function() {
@@ -1248,13 +1433,15 @@
 
                 $('#completePaymentButton').on('click', function() {
                     if ($('.bank-account.selected').length === 0) {
-                    toastr.error('Lütfen banka seçimi yapınız.')
+                        toastr.error('Lütfen banka seçimi yapınız.')
 
-                } else {
-                    $('#paymentModal').removeClass('show');
-                    $('#finalConfirmationModal').modal('show');
-                }
-                  
+                    } else {
+                        $('#paymentModal').removeClass('show').hide();
+                        $('.modal-backdrop').removeClass('show');
+                        $('#finalConfirmationModal').modal('show');
+
+                    }
+
                 });
             });
 
@@ -1513,7 +1700,7 @@
         }
 
         .trStyle tr {
-            width: 50%;
+            width: 33%;
         }
 
         .trStyle tr td {

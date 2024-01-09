@@ -228,6 +228,7 @@ return $a;
     </div>
 </div>
 
+@if (count($store->banners))
 <section class="featured portfolio rec-pro disc bg-white">
     <div class="container">
         <div class="portfolio col-xl-12 bannerResize">
@@ -253,7 +254,9 @@ return $a;
             </div>
         </div>
     </div>
-</section>
+</section> 
+@endif
+
 
 
 @if (count($projects))
@@ -263,7 +266,7 @@ return $a;
             <div class="section-title">
                 <h2>Tüm Projeler</h2>
             </div>
-            <a href="https://emlaksepeti.innovaticacode.com/kategori/topraktan-projeler" style="font-size: 12px;">
+            <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
                 <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                     Tümünü Gör
                 </button>
@@ -338,7 +341,7 @@ return $a;
             <div class="section-title">
                 <h2>Tamamlanan Projeler</h2>
             </div>
-            <a href="https://emlaksepeti.innovaticacode.com/kategori/topraktan-projeler" style="font-size: 12px;">
+            <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
                 <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                     Tümünü Gör
                 </button>
@@ -414,7 +417,7 @@ return $a;
             <div class="section-title">
                 <h2>Devam Eden Projeler</h2>
             </div>
-            <a href="https://emlaksepeti.innovaticacode.com/kategori/topraktan-projeler" style="font-size: 12px;">
+            <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
                 <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                     Tümünü Gör
                 </button>
@@ -489,7 +492,7 @@ return $a;
             <div class="section-title">
                 <h2>Topraktan Projeler</h2>
             </div>
-            <a href="https://emlaksepeti.innovaticacode.com/kategori/topraktan-projeler" style="font-size: 12px;">
+            <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
                 <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                     Tümünü Gör
                 </button>
@@ -559,8 +562,8 @@ return $a;
 
 
 
-
-<!-- START SECTION RECENTLY PROPERTIES -->
+@if (count($secondhandHousings))
+    <!-- START SECTION RECENTLY PROPERTIES -->
 <section class="featured portfolio rec-pro disc bg-white">
     <div class="container">
         <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -614,7 +617,7 @@ return $a;
                                     </span>
 
                                     @if ($sold == '0')
-                                    <span class="text">Onay Bekleniyor</span>
+                                    <span class="text">Rezerve Edildi</span>
                                     @else
                                     <span class="text">Satıldı</span>
                                     @endif
@@ -908,13 +911,13 @@ return $a;
                                             <button class="btn mobileCBtn second-btn" @if ($sold=='0' ) style="background: orange !important;width:100%;color:White" @else style="background: red !important;width:100%;color:White" @endif>
                                                 @if ($sold == '0')
 
-                                                <span class="text">Onay Bekleniyor</span>
+                                                <span class="text">Rezerve Edildi</span>
                                                 @else
                                                 <span class="text">Satıldı</span>
                                                 @endif
                                             </button>
                                             @else
-                                            @if (auth()->check() && auth()->user()->type == 19)
+                                            @if (auth()->check() && auth()->user()->type == 21)
                                             @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
                                             json_decode($housing->housing_type_data)->{"share-open"}[0]
                                             )
@@ -978,6 +981,8 @@ return $a;
         </div>
     </div>
 </section>
+@endif
+
 
 
 @endsection
