@@ -17,15 +17,16 @@
 
             return $html;
         }
+        $projectHousings = [];
+        $discountAmount = null;
     @endphp
    
+   
         @foreach ($offer as $item)
-            @if (isset($item['project_housings']) && is_array(json_decode($item['project_housings'], true)))
                 @php
                     $projectHousings = json_decode($item['project_housings'], true);
                     $discountAmount = $item['discount_amount'];
                 @endphp
-            @endif
         @endforeach
 
     <div class="loading-full d-none">
