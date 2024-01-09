@@ -10,6 +10,7 @@ use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\Log;
 use App\Models\Project;
+use App\Models\ProjectHousing;
 use App\Models\ProjectHousings;
 use App\Models\StandOutUser;
 use Carbon\Carbon;
@@ -65,12 +66,18 @@ class ProjectController extends Controller {
     }
 
     public function detail( $id ) {
+        $startTime = microtime(true);
         $defaultMessages = DefaultMessage::get();
         $project = Project::where( 'id', $id )->first();
+        $projectHousings = ProjectHousing::where('project_id',$id)->get();
+        $projectHousingsList = [];
+        $combinedValues = $projectHousings->map(function ($item) use(&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
         $housingTypeData = HousingType::where( 'id', $project->housing_type_id )->first();
         $housingTypeData = json_decode( $housingTypeData->form_json );
         $housingData = $project->roomInfo;
-        return view( 'admin.projects.detail', compact( 'project', 'housingTypeData', 'housingData', 'defaultMessages' ) );
+        return view( 'admin.projects.detail', compact( 'startTime','project','projectHousingsList', 'housingTypeData', 'housingData', 'defaultMessages' ) );
     }
 
     public function setStatus( $projectId, Request $request ) {
