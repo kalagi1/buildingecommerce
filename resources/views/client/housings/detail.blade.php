@@ -639,7 +639,7 @@
                                                                     Günlük Kiralık
                                                                 @endif
                                                             @endif
-                                                            {{-- {{ $parent ?? $parent->title }} --}}
+                                                            {{  $parent->title }}
                                                         @endif
                                                     </span>
                                                 </td>
@@ -746,7 +746,7 @@
                                             </tr>
 
                                             @foreach ($labels as $label => $val)
-                                                @if ($label != 'Kapak Resmi' && $val[0] != 0)
+                                                @if ($label != 'Kapak Resmi')
                                                     <tr>
                                                         <td>
                                                             @if ($label == 'Fiyat')
