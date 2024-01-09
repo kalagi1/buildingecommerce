@@ -141,7 +141,7 @@
             </div>
         </div>
         <div class="container">
-            <div class="row mb-3">
+            <div class="row mb-3" style="align-items: center">
                 <div class="col-md-8">
                     <div class="container">
                         <div class="headings-2 pt-0">
