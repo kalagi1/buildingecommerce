@@ -639,6 +639,7 @@
                                                                     Günlük Kiralık
                                                                 @endif
                                                             @endif
+                                                            {{dd($parent)}}
                                                             {{ $parent->title ?? $parent->title }}
                                                         @endif
                                                     </span>
