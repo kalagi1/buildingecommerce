@@ -1706,6 +1706,7 @@
         .trStyle tr td {
             width: 100%;
             font-size: 11px;
+            border-bottom: none !important;
             border: 1px solid #dee2e6;
         }
 
