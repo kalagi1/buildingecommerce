@@ -70,22 +70,20 @@ class OfferController extends Controller
     {
 
         $data = DB::select('SELECT
-            DISTINCT(project_id) AS pid,
-            room_order AS _ROOM_ORDER,
-            CONCAT(
-                room_order,
-                ". ",
-                (SELECT value FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `name` = "room_count[]"),
-                " Odalı ",
-                (SELECT value FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `name` = "squaremeters[]"),
-                " Metrekare ",
-                (SELECT value FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `name` = "price[]"),
-                " Fiyatlı Daire"
-            ) AS label
-        FROM
-            project_housings
-        WHERE room_order > 0 AND project_id = ?', [$request->input('id'), $request->input('id'), $request->input('id'), $request->input('id')]);
-
+        DISTINCT(project_id) AS pid,
+        room_order AS _ROOM_ORDER,
+        CONCAT(
+            (SELECT MAX(value) FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `name` = "room_count[]"),
+            " Odalı ",
+            (SELECT MAX(value) FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `name` = "squaremeters[]"),
+            " Metrekare ",
+            (SELECT MAX(value) FROM project_housings WHERE project_id = ? AND room_order = _ROOM_ORDER AND `name` = "price[]"),
+            " Fiyatlı"
+        ) AS label
+    FROM
+        project_housings
+    WHERE room_order > 0 AND project_id = ?', [$request->input('id'), $request->input('id'), $request->input('id'), $request->input('id')]);
+    
         return response()->json($data);
     }
 

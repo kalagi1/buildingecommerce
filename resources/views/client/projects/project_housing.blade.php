@@ -214,7 +214,14 @@
                                                             <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                             <polyline points="17 18 23 18 23 12"></polyline>
                                                         </svg>
+                                                        <h6
+                                                        style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                        {{ number_format(getData($project, 'price[]', $housingOrder)->value, 0, ',', '.') }}
+                                                        ₺
+                                                    </h6>
+                                                    <br>
                                                     @endif
+                                                   
                                                     {{ number_format(getData($project, 'price[]', $housingOrder)->value - $discountAmount, 0, ',', '.') }}
                                                     ₺
                                                 </h4>
@@ -231,10 +238,16 @@
                                                     <svg viewBox="0 0 24 24" width="24" height="24"
                                                         stroke="currentColor" stroke-width="2" fill="none"
                                                         stroke-linecap="round" stroke-linejoin="round"
-                                                        class="css-i6dzq1">
+                                                        class="css-i6dzq1"
+                                                        style="margin-right: 5px">
                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                     </svg>
+                                                    <span
+                                                    style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                    {{ number_format(getData($project, 'price[]', $housingOrder)->value, 0, ',', '.') }}
+                                                    ₺
+                                                </span>
                                                 @endif
                                                 @if ($offSaleValue == '[]')
                                                     {{ number_format(getData($project, 'price[]', $housingOrder)->value - $discountAmount, 0, ',', '.') }}
@@ -451,15 +464,15 @@
                                             <tr>
                                                 <td>
                                                     İl-İlçe-Mahalle :
-                                                   <span class="det">
-                                                    {!! ucwords(mb_strtolower(optional($project->city)->title, 'UTF-8')) .
-                                                    ' / ' .
-                                                    ucwords(mb_strtolower(optional($project->county)->ilce_title, 'UTF-8')) !!}
-                                                @if ($project->neighbourhood)
-                                                    {!! ' / ' . ucwords(mb_strtolower(optional($project->neighbourhood)->mahalle_title, 'UTF-8')) !!}
-                                                @endif
-                                                   </span>
-                                                   
+                                                    <span class="det">
+                                                        {!! ucwords(mb_strtolower(optional($project->city)->title, 'UTF-8')) .
+                                                            ' / ' .
+                                                            ucwords(mb_strtolower(optional($project->county)->ilce_title, 'UTF-8')) !!}
+                                                        @if ($project->neighbourhood)
+                                                            {!! ' / ' . ucwords(mb_strtolower(optional($project->neighbourhood)->mahalle_title, 'UTF-8')) !!}
+                                                        @endif
+                                                    </span>
+
                                                 </td>
                                             </tr>
                                             @if ($project->user->phone)
@@ -468,7 +481,7 @@
                                                         Telefon :
                                                         <span class="det">
                                                             <a style="text-decoration: none;color:inherit"
-                                                            href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                                                href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -477,28 +490,28 @@
                                                 <tr>
                                                     <td>
                                                         Proje Tipi :
-                                                      <span class="det">
-                                                      
-                                                        @if ($project->step2_slug)
-                                                            @if ($project->step2_slug == 'kiralik')
-                                                                Kiralık
-                                                            @elseif ($project->step2_slug == 'satilik')
-                                                                Satılık
-                                                            @else
-                                                                Günlük Kiralık
+                                                        <span class="det">
+
+                                                            @if ($project->step2_slug)
+                                                                @if ($project->step2_slug == 'kiralik')
+                                                                    Kiralık
+                                                                @elseif ($project->step2_slug == 'satilik')
+                                                                    Satılık
+                                                                @else
+                                                                    Günlük Kiralık
+                                                                @endif
                                                             @endif
-                                                        @endif
-                                                        {{ $project->housingtype->title }}
-                                                      </span>
+                                                            {{ $project->housingtype->title }}
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             @endif
                                             <tr>
                                                 <td>
                                                     E-Posta :
-                                                    <span class="det">  <a style="text-decoration: none;color:inherit"
-                                                        href="mailto:{!! $project->user->email !!}">{!! $project->user->email !!}</a></span>
-                                                  
+                                                    <span class="det"> <a style="text-decoration: none;color:inherit"
+                                                            href="mailto:{!! $project->user->email !!}">{!! $project->user->email !!}</a></span>
+
                                                 </td>
                                             </tr>
                                         </table>
@@ -2382,7 +2395,7 @@
                                             monhlyPrice + "</td>";
                                     }
 
-                                    
+
                                     if (!isMobile || isNotEmpty(installementData)) {
                                         html += "<td>" + (isMobile ?
                                                 "<strong>Taksit Sayısı:</strong> " : "") +
@@ -2608,7 +2621,7 @@ out center;`;
             flex-wrap: wrap;
         }
 
-        
+
 
         .trStyle tr {
             width: 33%;

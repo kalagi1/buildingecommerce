@@ -390,8 +390,7 @@
                         $countyJs = DB::table('neighborhoods')->where('mahalle_id',$tempData->neighbourhood_id)->first();
                     @endphp
 
-                    console.log($countyJs);
-                    neighbourhoodName = "{{$countyJs->mahalle_title ?? $countyJs->mahalle_title}}";
+                    neighbourhoodName = "{{$countyJs->mahalle_title}}";
                     
                     setTimeout(() => {
                         initMap(cityName+','+countyName+','+neighbourhoodName,13);
