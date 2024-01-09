@@ -41,7 +41,7 @@ class RegisterController extends Controller
             'phone' => [
                 'required_if:type,2&regex:/^05[0-9]{9}$/',
             ],
-            'type' => 'required|in:1,2',
+            'type' => 'required|in:1,2,21',
             'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
             'activity' => 'required_if:type,2',
             'county_id' => "required_if:type,2",

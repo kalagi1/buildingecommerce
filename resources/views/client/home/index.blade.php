@@ -894,7 +894,7 @@
                                                                                         alt="">
 
                                                                                 </span>
-                                                                                @if (auth()->check() && auth()->user()->type == 19)
+                                                                                @if (auth()->check() && auth()->user()->type == 21)
                                                                                     @if (json_decode($housing->housing_type_data)->{"share-open"}[0])
                                                                                         <span class="text">Koleksiyonuma
                                                                                             Ekle</span>
@@ -1107,7 +1107,7 @@
                                                                             @endif
                                                                         </button>
                                                                     @else
-                                                                        @if (auth()->check() && auth()->user()->type == 19)
+                                                                        @if (auth()->check() && auth()->user()->type == 21)
                                                                             @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
                                                                                     json_decode($housing->housing_type_data)->{"share-open"}[0]
                                                                             )

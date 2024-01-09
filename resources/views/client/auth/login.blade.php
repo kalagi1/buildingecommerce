@@ -131,18 +131,21 @@
                                             <label class="q-label">Kullanıcı Türü</label>
                                             <div class="button-group">
                                                 <button
-                                                    class="user-type-button individual active {{ old('type') == 1 ? 'active' : '' }}"
+                                                    class="user-type-button individual {{ old('type') == 1 ? 'active' : '' }}"
                                                     data-user-type="1" type="button">Bireysel</button>
                                                 <button
                                                     class="user-type-button institutional {{ old('type') == 2 ? 'active' : '' }}"
                                                     data-user-type="2" type="button">Kurumsal</button>
+                                                <button
+                                                    class="user-type-button sharer {{ old('type') == 21 ? 'active' : '' }}"
+                                                    data-user-type="21" type="button">Paylaşımcı</button>
                                             </div>
                                             <input type="hidden" name="type" id="user-type-input"
                                                 value="{{ old('type', 1) }}">
                                         </div>
 
 
-                                        <div class="individual-form {{ old('type') == 1 ? 'd-show' : '' }} {{ old('type') == 2 ? 'hidden' : '' }} "
+                                        <div class="individual-form {{ old('type') == 1 || old('type') == 21 ? 'd-show' : '' }} {{ old('type') == 2 ? 'hidden' : '' }} "
                                             id="individualForm">
 
                                             <!-- İsim -->
@@ -454,7 +457,7 @@
                 individualForm.style.display = 'none';
                 corporateForm.style.display = 'none';
 
-                if (userType === '1') {
+                if (userType === '1' || userType === '21') {
                     individualForm.style.display = 'block';
                     corporateForm.classList.remove('d-show');
                 } else if (userType === '2') {

@@ -923,7 +923,7 @@
 
             if (isProductInCart(productId, project)) {
                 Swal.fire({
-                    title: @if (auth()->check() && auth()->user()->type == 19)
+                    title: @if (auth()->check() && auth()->user()->type == 21)
                         "Ürünü koleksiyonunuzdan kaldırmak istiyor musunuz?"
                     @else
                         "Ürünü sepetten kaldırmak istiyor musunuz?"
@@ -955,7 +955,7 @@
                 });
             } else {
                 Swal.fire({
-                    @if (auth()->check() && auth()->user()->type == 19)
+                    @if (auth()->check() && auth()->user()->type == 21)
                         title: 'Koleksiyonunuza eklemek istiyor musunuz?',
                     @else
                         title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
@@ -963,7 +963,7 @@
                     @endif
                     icon: 'question',
                     showCancelButton: true,
-                    confirmButtonText: @if (auth()->check() && auth()->user()->type == 19)
+                    confirmButtonText: @if (auth()->check() && auth()->user()->type == 21)
                         'Evet'
                     @else
                         isCartEmpty() ? 'Evet' : 'Evet, temizle'
@@ -977,7 +977,7 @@
                             data: JSON.stringify(cart),
                             contentType: "application/json;charset=UTF-8",
                             success: function(response) {
-                                @if (auth()->check() && auth()->user()->type == 19)
+                                @if (auth()->check() && auth()->user()->type == 21)
                                     toastr.success("Ürün Koleksiyonunuza Eklendi");
                                     if (!button.classList.contains("mobile")) {
                                         button.textContent =
@@ -1027,7 +1027,7 @@
 
                 if (isProductInCart(productId, product)) {
 
-                    @if (auth()->check() && auth()->user()->type == 19)
+                    @if (auth()->check() && auth()->user()->type == 21)
                         if (!button.classList.contains("mobile")) {
                             button.querySelector(".text").textContent = "Koleksiyonuma eklendi";
                         }
@@ -1050,7 +1050,7 @@
         }
 
         function isProductInCart(productId, product) {
-            @if (auth()->check() && auth()->user()->type == 19)
+            @if (auth()->check() && auth()->user()->type == 21)
                 var links = @json($sharerLinks);
                 console.log(productId, links, links.includes(productId));
                 if (links.length != 0) {

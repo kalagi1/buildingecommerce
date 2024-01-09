@@ -508,7 +508,7 @@
                                                     <span class="text">Satıldı</span>
                                                 </button>
                                             @else
-                                                @if (auth()->check() && auth()->user()->type == 19)
+                                                @if (auth()->check() && auth()->user()->type == 21)
                                                     @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
                                                             json_decode($housing->housing_type_data)->{"share-open"}[0]
                                                     )
