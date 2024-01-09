@@ -387,10 +387,10 @@
                 countyName = "{{$countyJs->ilce_title}}";
                 @if(isset($tempData->neighbourhood_id))
                     @php 
-                        $countyJs = DB::table('neighborhoods')->where('mahalle_id',$tempData->neighbourhood_id)->first();
+                        $neighbourhoodJs = DB::table('neighborhoods')->where('mahalle_id',$tempData->neighbourhood_id)->first();
                     @endphp
 
-                    neighbourhoodName = "{{$countyJs->mahalle_title}}";
+                    neighbourhoodName = "{{isset($neighbourhoodJs->mahalle_title) && $neighbourhoodJs->mahalle_title ? $neighbourhoodJs->mahalle_title : ""}}";
                     
                     setTimeout(() => {
                         initMap(cityName+','+countyName+','+neighbourhoodName,13);

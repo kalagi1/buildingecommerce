@@ -141,14 +141,6 @@
                     </div>
                 </div>
             </div>
-            @php 
-                $endTime = microtime(true);
-
-                $elapsedTime = $endTime - $startTime;
-
-                // Elapsed time'ı ekrana yazdır
-                echo "Geçen Süre: " . number_format($elapsedTime, 5) . " saniye";
-            @endphp
             <div class="col-12 col-xl-4">
                 <div class="row g-2">
                     <div class="col-12 col-xl-12">
