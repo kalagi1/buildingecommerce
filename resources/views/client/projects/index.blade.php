@@ -547,21 +547,13 @@
 
                                             @endphp
 
-                                            @if (!$isArrayCheck && (isset($value) && $value !== ''))
+                                            @if (!$isArrayCheck && (isset($value) && $value !== '') && $housingSetting->label != 'Fiyat')
                                                 <tr>
-                                                    @if ($housingSetting->label == 'Fiyat')
-                                                        <td> <span class=" mr-1">{{ $housingSetting->label }}:</span>
-                                                            <span class="det" style="color: black; ">
-                                                                {{ number_format($value, 0, ',', '.') }} ₺
-                                                            </span>
-                                                        </td>
-                                                    @else
                                                         <td> <span
                                                                 class=" mr-1">{{ $housingSetting->label }}:</span>
                                                                 
                                                                 <span class="det">{{ $value }}</span>
                                                         </td>
-                                                    @endif
                                                 </tr>
                                             @endif
                                         @endforeach

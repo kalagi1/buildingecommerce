@@ -60,7 +60,9 @@ class AppServiceProvider extends ServiceProvider
         }
     
         View::composer(["client.layouts*", "client.client-panel*"], function ($view) use ($cachedData) {
+            $sharerLinks = ShareLink::where("user_id",Auth::user()->id)->first();
             $view->with($cachedData);
+            $view->with("sharerLinks", $sharerLinks);
             $this->composeView($view, 'client_menu.json');
         });
     }

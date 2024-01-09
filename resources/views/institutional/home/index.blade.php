@@ -35,7 +35,7 @@
                         class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                 </h3>  
               
-                <span style="color:black" class="mt-5">Emlak Sepette, ücretsiz ve sınırsız süresiz ilan paylaşımı imkanı sunarak ilanlarınızın satışına aracılık eder. Değerli kurumsal üyelerimizden aylık sabit ücret talep etmez. İlanlarınızın daha hızlı satılmasına ve kiralanmasına yardımcı oluruz.
+                <span style="color:black" class="mt-5">Emlak Sepette, ücretsiz ve sınırsız süresiz ilan paylaşımı imkanı sunarak ilanlarınızın satışına aracılık eder. Değerli kurumsal üyelerimizden aylık sabit ücret talep etmez. İlanlarınızın daha hızlı satılmasına ve kiralanmasına aracı oluruz.
 
                     Emlak ilanlarında, toplam fiyat üzerinden %0.5 komisyon uygulanır.
                     Toplu konut projelerinde ise toplam fiyat üzerinden %1 komisyon alınır.</span>
