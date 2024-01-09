@@ -1984,7 +1984,6 @@ Emlak İlanı Ekle
                     _token: csrfToken
                 },
                 success: function(response) {
-                    next = false;
                     if(!response){
                         $('#mapContainer').parent('div').prepend('<div style="border-radius:0;color:#fff;" class="alert alert-danger">Haritada konumu seçmeniz gerekiyor</div>')
                         topError = $('#mapContainer').offset().top - parseFloat($('.navbar-top').css( 'height')) - 100;
