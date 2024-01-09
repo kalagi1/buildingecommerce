@@ -746,7 +746,7 @@
                                             </tr>
 
                                             @foreach ($labels as $label => $val)
-                                                @if ($label != 'Kapak Resmi')
+                                                @if ($label != 'Kapak Resmi' && $label != "Taksitli Satış")
                                                     <tr>
                                                         <td>
                                                             @if ($label == 'Fiyat')
