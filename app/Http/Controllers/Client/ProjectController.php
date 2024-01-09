@@ -45,6 +45,13 @@ class ProjectController extends Controller
         $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
         $lastHousingCount = 0;
 
+        $projectHousings = ProjectHousing::where('project_id',$project->id)->get();
+        $projectHousingsList = [];
+        $combinedValues = $projectHousings->map(function ($item) use(&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
+
+
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
             ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
@@ -65,16 +72,10 @@ class ProjectController extends Controller
         for($i = 0; $i < $blockIndex; $i++){
             $startIndex += $project->blocks[$i]->housing_count;
         }
-
-        if($project->blocks[$request->input('block_id') ?? 0]->housing_count > 20){
-            $endIndex = 20 + $startIndex;
-        }else{
-            
-            $endIndex = $project->blocks[$request->input('block_id') ?? 0]->housing_count + $startIndex;
-        }
+        $endIndex = 20 + $startIndex;
 
 
-        return view('client.projects.index', compact('salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+        return view('client.projects.index', compact('projectHousingsList','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
     }
     
     public function ajaxIndex($slug,Request $request){
@@ -140,12 +141,18 @@ class ProjectController extends Controller
         $project->images = $project->images;
         $project->listItemValues = $project->listItemValues;
 
+        $projectHousings = ProjectHousing::where('project_id',$project->id)->get();
+        $projectHousingsList = [];
+        $combinedValues = $projectHousings->map(function ($item) use(&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
+
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         if ($project->status == 0) {
             return view('client.projects.product_not_found', compact('menu', 'project'));
         }
 
-        return view('client.projects.detail', compact('menu', 'project', 'offer'));
+        return view('client.projects.detail', compact('menu','projectHousingsList', 'project', 'offer'));
     }
 
     public function projectPaymentPlan(Request $request)

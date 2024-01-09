@@ -213,7 +213,7 @@
                 <div class="row project-filter-reverse blog-pots">
                     @for ($i = 0; $i < $project->room_count; $i++)
                         @php
-                            $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
+                            $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$i+1, $project->id]);
                         @endphp
 
                         <div class="col-md-12 col-12">
@@ -244,7 +244,7 @@
                                                         </div>
                                                         <div class="homes position-relative">
                                                             <!-- homes img -->
-                                                            <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
+                                                            <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i+1]['image[]'] }}"
                                                                 alt="home-1" class="img-responsive"
                                                                 style="height: 120px !important;object-fit:cover">
                                                             @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
@@ -252,7 +252,7 @@
                                                                     style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
                                                                     <div
                                                                         style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
-                                                                        {{ '%' . round(($offer->discount_amount / getData($project, 'price[]', $i + 1)->value) * 100) }}
+                                                                        {{ '%' . round(($offer->discount_amount / $projectHousingsList[$i+1]['price[]']) * 100) }}
                                                                         <svg viewBox="0 0 24 24" width="16"
                                                                             height="16" stroke="currentColor"
                                                                             stroke-width="2" fill="none"
@@ -297,7 +297,7 @@
                                                             <i class="fa fa-circle circleIcon mr-1"
                                                                 aria-hidden="true"></i>
                                                             <span>
-                                                                {{ getData($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
+                                                                {{ $projectHousingsList[$i+1][$project->listItemValues->column1_name . '[]']}}
                                                                 @if (isset($project->listItemValues) &&
                                                                         isset($project->listItemValues->column1_additional) &&
                                                                         $project->listItemValues->column1_additional)
@@ -311,7 +311,7 @@
                                                             <i class="fa fa-circle circleIcon mr-1"
                                                                 aria-hidden="true"></i>
                                                             <span>
-                                                                {{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
+                                                                {{ $projectHousingsList[$i+1][$project->listItemValues->column2_name . '[]'] }}
                                                                 @if (isset($project->listItemValues) &&
                                                                         isset($project->listItemValues->column2_additional) &&
                                                                         $project->listItemValues->column2_additional)
@@ -325,7 +325,7 @@
                                                             <i class="fa fa-circle circleIcon mr-1"
                                                                 aria-hidden="true"></i>
                                                             <span>
-                                                                {{ getData($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
+                                                                {{$projectHousingsList[$i+1][$project->listItemValues->column3_name . '[]']}}
                                                                 @if (isset($project->listItemValues) &&
                                                                         isset($project->listItemValues->column3_additional) &&
                                                                         $project->listItemValues->column3_additional)
@@ -340,18 +340,18 @@
                                                                 @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                                     <h6
                                                                         style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
+                                                                        {{ number_format($projectHousingsList[$i+1]['price[]'] - $offer->discount_amount, 0, ',', '.') }}
                                                                         ₺</h6>
                                                                     <h6
                                                                         style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
-                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
+                                                                        {{ number_format($projectHousingsList[$i+1]['price[]'], 0, ',', '.') }}
                                                                         ₺
 
                                                                     </h6>
                                                                 @else
                                                                     <h6
                                                                         style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600">
-                                                                        {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
+                                                                        {{ number_format($projectHousingsList[$i+1]['price[]'], 0, ',', '.') }}
                                                                         ₺
                                                                     </h6>
                                                                 @endif
@@ -372,18 +372,18 @@
                                                         @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                             <h6
                                                                 style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
-                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}
+                                                                {{ number_format($projectHousingsList[$i+1]['price[]'] , 0, ',', '.') }}
                                                                 ₺
                                                             </h6>
                                                             <h6
                                                                 style="color: #e54242;position: relative;top:4px;font-weight:600;font-size:20px;">
-                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value - $offer->discount_amount, 0, ',', '.') }}
+                                                                {{ number_format($projectHousingsList[$i+1]['price[]'] - $offer->discount_amount, 0, ',', '.') }}
 
                                                                 ₺</h6>
                                                         @else
                                                             <h6
                                                                 style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600">
-                                                                {{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺
+                                                                {{ number_format($projectHousingsList[$i+1]['price[]'], 0, ',', '.') }}₺
                                                             </h6>
                                                         @endif
                                                     </span>
@@ -393,7 +393,7 @@
                                             <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
                                                 <div class="homes-button" style="width:100%;height:100%">
                                                     <button class="first-btn payment-plan-button"
-                                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) || getData($project, 'off_sale[]', $i + 1)->value != '[]') ? '1' : '0' }}
+                                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) || $projectHousingsList[$i+1]['off_sale[]'] != '[]') ? '1' : '0' }}
                                                         project-id="{{ $project->id }}" order="{{ $i }}">
                                                         Ödeme Detayları </button>
                                                     @if ($sold && $sold[0]->status != '2')
@@ -410,7 +410,7 @@
                                                     @else
                                                         <button class="CartBtn second-btn" data-type='project'
                                                             data-project='{{ $project->id }}'
-                                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                                            data-id='{{ $i+1 }}'>
                                                             <span class="IconContainer">
                                                                 <img src="{{ asset('sc.png') }}" alt="">
                                                             </span>
@@ -455,7 +455,7 @@
                                         <!-- homes img -->
                                         <div class="homes-img h-100 d-flex align-items-center"
                                             style="width: 130px; height: 128px;">
-                                            <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
+                                            <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i+1]['image[]'] }}"
                                                 alt="{{ $project->housingType->title }}" class="img-responsive"
                                                 style="height: 80px !important;">
                                         </div>
@@ -468,7 +468,7 @@
                                 <a style="text-decoration: none; height: 100%"
                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                     <h3>
-                                        @php($advertiseTitle = getData($project, 'advertise_title[]', $i + 1)->value ?? null)
+                                        @php($advertiseTitle = $projectHousingsList[$i+1]['advertise_title[]'] ?? null)
 
                                         @if ($advertiseTitle)
                                             {{ $advertiseTitle }}
@@ -489,7 +489,7 @@
                                         <button class="addToCart mobile px-2"
                                             style="width: 100%; border: none; background-color: #274abb; border-radius: .25rem; padding: 5px 0px; color: white;"
                                             data-type='project' data-project='{{ $project->id }}'
-                                            data-id='{{ getData($project, 'price[]', $i + 1)->room_order }}'>
+                                            data-id='{{ $i + 1 }}'>
                                             <img src="{{ asset('images/sc.png') }}" alt="sc" width="24px"
                                                 height="24px" style="width: 24px !important; height: 24px !important;" />
                                         </button>
@@ -503,7 +503,7 @@
                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                             </svg>
                                         @endif
-                                        {{ number_format(getData($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
+                                        {{ number_format($projectHousingsList[$i+1]['price[]'] - $discount_amount, 0, ',', '.') }}
                                         ₺
                                     </span>
                                 </div>
@@ -529,7 +529,7 @@
                                     <li class="d-flex align-items-center itemCircleFont">
                                         <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                         <span>
-                                            {{ getData($project, $project->listItemValues->column1_name . '[]', $i + 1)->value }}
+                                            {{ $projectHousingsList[$i+1][$project->listItemValues->column1_name . '[]']}}
                                             @if (isset($project->listItemValues) &&
                                                     isset($project->listItemValues->column1_additional) &&
                                                     $project->listItemValues->column1_additional)
@@ -544,7 +544,7 @@
                                     <li class="d-flex align-items-center itemCircleFont">
                                         <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                         <span>
-                                            {{ getData($project, $project->listItemValues->column2_name . '[]', $i + 1)->value }}
+                                            {{ $projectHousingsList[$i+1][$project->listItemValues->column2_name . '[]'] }}
                                             @if (isset($project->listItemValues) &&
                                                     isset($project->listItemValues->column2_additional) &&
                                                     $project->listItemValues->column2_additional)
@@ -559,7 +559,7 @@
                                     <li class="d-flex align-items-center itemCircleFont">
                                         <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                         <span>
-                                            {{ getData($project, $project->listItemValues->column3_name . '[]', $i + 1)->value }}
+                                            {{ $projectHousingsList[$i+1][$project->listItemValues->column3_name . '[]'] }}
                                             @if (isset($project->listItemValues) &&
                                                     isset($project->listItemValues->column3_additional) &&
                                                     $project->listItemValues->column3_additional)

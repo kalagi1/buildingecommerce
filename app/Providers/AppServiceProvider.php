@@ -59,7 +59,7 @@ class AppServiceProvider extends ServiceProvider
             Cache::put($cacheKey, $cachedData, now()->addHours(1));
         }
     
-        View::composer(["client.layouts*", "client.client-panel*"], function ($view) use ($cachedData) {
+        View::composer(["client.layouts.partials.header", "client.layouts.partials.footer", "client.client-panel*"], function ($view) use ($cachedData) {
             $view->with($cachedData);
             $this->composeView($view, 'client_menu.json');
         });
