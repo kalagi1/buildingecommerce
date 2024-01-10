@@ -116,7 +116,8 @@
                             @else
                                 <button type="button" class="btn btn-primary btn-lg btn-block " data-toggle="modal"
                                     data-target="#paymentModal"
-                                    style="    height: 50px !important;
+                                    style="
+                                    height: 50px !important;
                                 font-size: 12px;
                                 margin: 0 auto;">
                                     {{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}
@@ -125,6 +126,7 @@
                             @endif
                         </div>
                     </div>
+                    
                 </div>
             </div>
 
@@ -149,91 +151,33 @@
                                 </div>
 
                                 <div class="invoice-body">
-                                    <table class="table table-bordered d-none d-md-table">
-                                        <!-- Tabloyu sadece tablet ve daha büyük ekranlarda göster -->
-                                        <thead>
-                                            <tr>
-                                                <th>Ürün Görseli</th>
-                                                <th>Ürün Adı</th>
-                                                <th>Miktar</th>
-                                                <th>Fiyat</th>
-                                                <th>Toplam</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <a
-                                                        href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
-                                                            alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                                            style="width:100px" class="img-fluid"></a>
-                                                </td>
-                                                <td>{{ $cart['item']['title'] }}</td>
-                                                <td>1</td>
-                                                <td>{{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 0, ',', '.') }}
-                                                    ₺</td>
-                                                <td>{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}
-                                                    ₺</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <!-- Mobilde sadece alt alta liste göster -->
-                                    <div class="d-md-none">
-                                        <ul class="list-group">
-
-                                            <li class="list-group-item">
-                                                <strong>Ürün Görseli:</strong>
-                                                <a
-                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housing.detail', ['slug' => App\Models\Project::find($cart['item']['id'])->slug ?? '']) }}"><img
-                                                        alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                                        class="img-fluid"></a>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <strong>Ürün Adı:</strong> {{ $cart['item']['title'] }}
-                                            </li>
-                                            <li class="list-group-item">
-                                                <strong>Miktar:</strong> 1
-                                            </li>
-                                            <li class="list-group-item">
-                                                <strong>Fiyat:</strong>
-                                                {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 0, ',', '.') }}
-                                                ₺
-                                            </li>
-                                            <li class="list-group-item">
-                                                <strong>Toplam:</strong>
-                                                {{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}
-                                                ₺
-                                            </li>
-                                        </ul>
+                                    <div class="invoice-total mt-3">
+                                        <strong class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</strong>
+                                        <div class="row mb-3 px-5 mt-3">
+                                            @foreach ($bankAccounts as $bankAccount)
+                                                <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
+                                                    data-iban="{{ $bankAccount->iban }}"
+                                                    data-title="{{ $bankAccount->receipent_full_name }}">
+                                                    <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
+                                                        style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <div id="ibanInfo"></div>
+                                        <strong>Ödeme işlemini tamamlamak için, lütfen bu
+                                            <span style="color:red;font-size:15px !important;font-weight:bold" id="uniqueCode"></span> kodu kullanarak ödemenizi
+                                            yapın. IBAN açıklama
+                                            alanına
+                                            bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak işlemi
+                                            bitirin.</strong>
+    
                                     </div>
                                 </div>
-                                <div class="invoice-total mt-3">
-                                    <strong class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</strong>
-                                    <div class="row mb-3 px-5 mt-3">
-                                        @foreach ($bankAccounts as $bankAccount)
-                                            <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
-                                                data-iban="{{ $bankAccount->iban }}"
-                                                data-title="{{ $bankAccount->receipent_full_name }}">
-                                                <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
-                                                    style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div id="ibanInfo"></div>
-                                    <strong>Ödeme işlemini tamamlamak için, lütfen bu
-                                        <span style="color:red" id="uniqueCode"></span> kodu kullanarak ödemenizi
-                                        yapın. IBAN açıklama
-                                        alanına
-                                        bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak işlemi
-                                        bitirin.</strong>
-
-                                </div>
+                             
                             </div>
-                        </div>
-                        <div class="modal-footer">
                             <button type="button" @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
-                                class="btn btn-primary btn-lg btn-block mb-3" id="completePaymentButton">Satın Al
+                                class="btn btn-primary btn-lg btn-block mb-3 mt-3" id="completePaymentButton"
+                                style="width:150px;float:right">Satın Al
                             </button>
                         </div>
                     </div>
@@ -251,28 +195,65 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</p>
-                            <ol>
-                                <li>
-                                    <strong style="color:red" id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
-                                    alanına yazdığınızdan emin olun.
-                                </li>
-                                <li>
-                                    Son olarak, işlemi bitirmek için aşağıdaki butona tıklayın: <br>
-                                    <form action="{{ route('pay.cart') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="key" id="orderKey">
-                                        <input type="hidden" name="banka_id" id="bankaID">
-
-                                        <button type="submit" class="btn btn-primary paySuccess mt-3">Ödemeyi Tamamla
-                                            <svg viewBox="0 0 576 512" class="svgIcon">
-                                                <path
-                                                    d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
-                                                </path>
-                                            </svg></button>
-                                    </form>
-                                </li>
-                            </ol>
+                           <div class="container">
+                            <span>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</span> <br>
+                            <span>1. <strong style="color:red;font-size:15px;font-weight:bold" id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
+                                alanına yazdığınızdan emin olun.</span>
+                           
+                                <form action="{{ route('pay.cart') }}" method="POST">   
+                                    @csrf
+                                    <input type="hidden" name="key" id="orderKey">
+                                    <input type="hidden" name="banka_id" id="bankaID">
+                                
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="fullName">Ad Soyad:</label>
+                                                <input type="text" class="form-control" id="fullName" name="fullName" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="email">E-posta:</label>
+                                                <input type="email" class="form-control" id="email" name="email" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="tc">TC:</label>
+                                                <input type="number" class="form-control" id="tc" name="tc" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="phone">Telefon:</label>
+                                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="address">Adres:</label>
+                                                <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="notes">Notlar:</label>
+                                                <textarea class="form-control" id="notes" name="notes" rows="5"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                    <button type="submit" class="btn btn-primary paySuccess" style="float:right">Ödemeyi Tamamla
+                                        <svg viewBox="0 0 576 512" class="svgIcon">
+                                            <path
+                                                d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                </form>
+                                
+                           </div>
                         </div>
                     </div>
                 </div>

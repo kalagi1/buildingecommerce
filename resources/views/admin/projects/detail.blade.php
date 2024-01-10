@@ -106,20 +106,20 @@
                                         @foreach ($housingTypeData as $housingType)
                                             @if ($housingType->type != 'file' && isset($housingType->name))
                                                 @if ($housingType->type == 'checkbox-group')
-                                                    @if(getData($i + 1, $housingType->name, $housingData) && is_array(json_decode(getData($i + 1, $housingType->name, $housingData))))
+                                                    @if(isset($projectHousingsList[$i+1][$housingType->name]) && is_array(json_decode($projectHousingsList[$i+1][$housingType->name])))
                                                         <div class="view-form-json col-md-12 mt-2">
                                                             <label for="" style="font-weight: bold;">{!! $housingType->label !!}</label>
-                                                                @foreach (json_decode(getData($i + 1, $housingType->name, $housingData)) as $checkboxItem)
+                                                                @foreach (json_decode($projectHousingsList[$i+1][$housingType->name]) as $checkboxItem)
                                                                     <p class="mb-1">{{ $checkboxItem == "pesin" ? 'Peşin' : $checkboxItem }}</p>
                                                                 @endforeach
                                                         </div>
                                                     @endif
                                                 @else
-                                                    @if(getData($i + 1, $housingType->name, $housingData))
+                                                    @if(isset($projectHousingsList[$i+1][$housingType->name]))
                                                     <div class="view-form-json col-md-3 mt-2">
                                                         <label for=""
                                                             style="font-weight: bold;">{!! $housingType->label !!}</label>
-                                                        <p>{{ getData($i + 1, $housingType->name, $housingData) ?  getData($i + 1, $housingType->name, $housingData) : ''}}</p>
+                                                        <p>{{ $projectHousingsList[$i+1][$housingType->name] ?  $projectHousingsList[$i+1][$housingType->name] : ''}}</p>
                                                     </div>
                                                     @endif
                                                 @endif
@@ -128,7 +128,7 @@
                                                 @else
                                                     <div class="view-form-json mt-4 col-md-12">
                                                         <img style="width:150px;"
-                                                            src="{{ URL::to('/') . '/project_housing_images/' . getData($i + 1, $housingType->name, $housingData) }}"
+                                                            src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i+1][$housingType->name] }}"
                                                             alt="">
                                                     </div>
                                                 @endif

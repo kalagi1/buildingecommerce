@@ -74,7 +74,7 @@ Emlak İlanı Ekle
                             <ul>
                                 @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && $tempData->step1_slug)
                                     @foreach($secondAreaList as $secondAreaItem)
-                                        <li @if($tempData->step2_slug == $secondAreaItem->slug) class="selected" @endif slug="{{$secondAreaItem->slug}}">{{$secondAreaItem->title}}</li>
+                                        <li @if(isset($tempData->step2_slug) && $tempData->step2_slug && $tempData->step2_slug == $secondAreaItem->slug) class="selected" @endif slug="{{$secondAreaItem->slug}}">{{$secondAreaItem->title}}</li>
                                     @endforeach
                                 @endif
                             </ul>
@@ -83,7 +83,7 @@ Emlak İlanı Ekle
                             <ul>
                                 @if(isset($tempDataFull->data) && isset($tempData->step1_slug) && isset($tempData->step2_slug) && $tempData->step1_slug && $tempData->step2_slug)
                                     @foreach($housingTypes as $housingType)
-                                        <li @if($tempData->step3_slug == $housingType->slug) class="selected" @endif slug="{{$housingType->slug}}">{{$housingType->title}}</li>
+                                        <li @if(isset($tempData->step3_slug) && $tempData->step3_slug && $tempData->step3_slug == $housingType->slug) class="selected" @endif slug="{{$housingType->slug}}">{{$housingType->title}}</li>
                                     @endforeach
                                 @endif
                             </ul>
@@ -1984,7 +1984,6 @@ Emlak İlanı Ekle
                     _token: csrfToken
                 },
                 success: function(response) {
-                    next = false;
                     if(!response){
                         $('#mapContainer').parent('div').prepend('<div style="border-radius:0;color:#fff;" class="alert alert-danger">Haritada konumu seçmeniz gerekiyor</div>')
                         topError = $('#mapContainer').offset().top - parseFloat($('.navbar-top').css( 'height')) - 100;

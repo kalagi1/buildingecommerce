@@ -115,6 +115,51 @@
                             <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')"
                                 class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea>
                         </div>
+
+                        <div class="card p-3 mb-4">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Yapımcı Firma</label>
+                                        <div class="icon-input">
+                                            <div class="icon-area">
+                                                <i class="fa fa-building"></i>
+                                            </div>
+                                            <input type="text" value="{{isset($tempData->create_company) ? $tempData->create_company : ''}}" class="create_company" onkeyup="changeData(this.value,'create_company')">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Toplam Proje Alanı (M2)</label>
+                                        <div class="icon-input">
+                                            <div class="icon-area">
+                                                <svg style="width: 20px;height: 20px;" fill="#ffffff" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 491.541 491.541" xml:space="preserve"> <g> <path d="M350.373,116.048H24.445C10.942,116.048,0,126.988,0,140.492V466.42c0,13.503,10.942,24.445,24.445,24.445h325.928 c13.503,0,24.444-10.942,24.444-24.445V140.492C374.817,126.988,363.876,116.048,350.373,116.048z M325.928,441.975H48.889V164.936 h277.039V441.975z"/> <path d="M486.695,411.913h-26.513V126.63h26.513c1.958,0,3.724-1.178,4.472-2.991c0.756-1.814,0.342-3.892-1.05-5.283 l-42.802-42.802c-1.894-1.894-4.965-1.894-6.858,0l-42.803,42.802c-1.392,1.392-1.806,3.469-1.05,5.283 c0.749,1.813,2.515,2.991,4.473,2.991h26.513v285.283h-26.513c-1.958,0-3.724,1.177-4.473,2.991 c-0.755,1.815-0.342,3.893,1.05,5.285l42.803,42.802c1.893,1.894,4.965,1.894,6.858,0l42.802-42.802 c1.393-1.392,1.807-3.469,1.05-5.285C490.419,413.09,488.654,411.913,486.695,411.913z"/> <path d="M70.676,94.563c1.392,1.392,3.469,1.806,5.284,1.05c1.814-0.747,2.992-2.514,2.992-4.472V64.628h285.283v26.513 c0,1.958,1.177,3.725,2.991,4.472c1.814,0.756,3.891,0.342,5.284-1.05l42.802-42.802c1.894-1.895,1.894-4.967,0-6.86L372.51,2.1 c-1.393-1.393-3.469-1.807-5.284-1.051c-1.814,0.748-2.991,2.514-2.991,4.472v26.515H78.952V5.521c0-1.957-1.177-3.724-2.992-4.472 c-1.814-0.756-3.892-0.342-5.284,1.051L27.875,44.901c-1.894,1.893-1.894,4.965,0,6.86L70.676,94.563z"/> </g> </svg>
+                                            </div>
+                                            <input type="text" value="{{isset($tempData->total_project_area) && $tempData->total_project_area ?  number_format(str_replace('.','',$tempData->total_project_area), 0, ',', '.')  : ''}}" class="total_project_area price-only" onkeyup="changeData(this.value,'total_project_area')">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mt-2">
+                                        <label for="">Başlangıç Tarihi</label>
+                                        <div class="icon-input">
+                                            <div class="icon-area">
+                                                <i class="fa fa-calendar-days"></i>
+                                            </div>
+                                            <input type="date" value="{{isset($tempData->start_date) ? $tempData->start_date : ''}}" class="start_date" onchange="changeData(this.value,'start_date')" onkeyup="changeData(this.value,'start_date')">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mt-2">
+                                        <label for="">Bitiş Tarihi</label>
+                                        <div class="icon-input">
+                                            <div class="icon-area">
+                                                <i class="fa fa-calendar-days"></i>
+                                            </div>
+                                            <input type="date" value="{{isset($tempData->project_end_date) ? $tempData->project_end_date : ''}}" class="project_end_date" onchange="changeData(this.value,'project_end_date')" onkeyup="changeData(this.value,'project_end_date')">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                        
                         <div class="address">
                             <span class="section-title">Adres Bilgileri</span>
@@ -251,6 +296,7 @@
 
         var map;
         var markers = [];
+        
         function initMap(cityName,zoomLevel) {
             // Harita oluştur
             map = new google.maps.Map(document.getElementById('mapContainer'), {
@@ -311,6 +357,22 @@
             markers = [];
         }
 
+
+        $('.price-only').keyup(function(){
+            if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                $('.price-only').val("");
+            }else{
+                let inputValue = $(this).val();
+
+                // Sadece sayı karakterlerine izin ver
+                inputValue = inputValue.replace(/\D/g, '');
+
+                // Her üç basamakta bir nokta ekleyin
+                inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                $(this).val(inputValue)
+            }
+        })
+
         @if(isset($tempData->city_id))
             @php 
                 $cityJs = DB::table('cities')->where('id',$tempData->city_id)->first();
@@ -325,10 +387,10 @@
                 countyName = "{{$countyJs->ilce_title}}";
                 @if(isset($tempData->neighbourhood_id))
                     @php 
-                        $countyJs = DB::table('neighborhoods')->where('mahalle_id',$tempData->neighbourhood_id)->first();
+                        $neighbourhoodJs = DB::table('neighborhoods')->where('mahalle_id',$tempData->neighbourhood_id)->first();
                     @endphp
 
-                    neighbourhoodName = "{{$countyJs->mahalle_title}}";
+                    neighbourhoodName = "{{isset($neighbourhoodJs->mahalle_title) && $neighbourhoodJs->mahalle_title ? $neighbourhoodJs->mahalle_title : ""}}";
                     
                     setTimeout(() => {
                         initMap(cityName+','+countyName+','+neighbourhoodName,13);
@@ -1300,24 +1362,6 @@
                             confirmHousings();
                         })
 
-                        $('.price-only').keyup(function() {
-                            $('.price-only .error-text').remove();
-                            if ($('.price-only').val() != parseFloat($('.price-only').val())) {
-                                if ($('.price-only').closest('.form-group').find('.error-text').length >
-                                    0) {
-                                    $('.price-only').val("");
-                                } else {
-                                    $(this).closest('.form-group').append(
-                                        '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                    )
-                                    $('.price-only').val("");
-                                }
-
-                            } else {
-                                $(this).closest('.form-group').find('.error-text').remove();
-                            }
-                        })
-
                         $('.number-only').keyup(function() {
                             $('.number-only .error-text').remove();
                             if ($(this).val() != parseInt($(this).val())) {
@@ -2177,25 +2221,6 @@
 
                         $('.dropzonearea').closest('.formbuilder-file').remove();
 
-                        $('.price-only').keyup(function() {
-                            $('.price-only .error-text').remove();
-                            if ($('.price-only').val() != parseFloat($('.price-only')
-                                    .val())) {
-                                if ($('.price-only').closest('.form-group').find(
-                                        '.error-text').length > 0) {
-                                    $('.price-only').val("");
-                                } else {
-                                    $(this).closest('.form-group').append(
-                                        '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                    )
-                                    $('.price-only').val("");
-                                }
-
-                            } else {
-                                $(this).closest('.form-group').find('.error-text')
-                                    .remove();
-                            }
-                        })
 
                         $('.number-only').keyup(function() {
                             $('.number-only .error-text').remove();

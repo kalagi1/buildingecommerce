@@ -1,7 +1,6 @@
 @extends('institutional.layouts.master')
 
 @section('content')
-
     <div class="load-area d-none">
         <div class="progress">
             <div class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -28,7 +27,6 @@
         </div>
     </div>
     @endif
-    
     <div class="pop-up-v4 d-none">
         <div class="pop-back">
 
@@ -66,26 +64,37 @@
         </div>
     </div>
 
-    <div class="bottom-housing-area align-center col-xl-6 col-md-6 col-6 d-none">
+    <div class="bottom-housing-area align-center col-xl-6 col-md-6 col-6 d-none" style="justify-content: center">
         <div class="row w-100">
             <div class="col-md-12 mbpx-10">
                 <div class="row jc-space-between ">
                     <div class="col-md-5">
-                        <select class="form-control br-10px copy-item" name="" id="">
-                            <option value="">Kopyalamak istediğiniz daireyi seçin</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                        </select>
+                        <div class="d-flex" style="align-items: center">
+                            <div class="show-houing-order " style="width: calc(100% - 30px)"><div class="full-load" style="width: 0%"></div> <span>Daire <span class="room-order-progress">1</span> / <span class="percent-housing">0</span>%</span></div>
+                            <div class="icon" style="margin-left: 5px;" data-toggle="tooltip" data-placement="top" title="Doldurduğunuz konutun doluluk oranını görüntüleyebilirsiniz">
+                                <i class="fa fa-circle-info"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-5">
-                        <div class="show-houing-order "><div class="full-load" style="width: 0%"></div> <span>Daire <span class="room-order-progress">1</span> / <span class="percent-housing">0</span>%</span></div>
+                        <div class="d-flex" style="align-items: center">
+                            <div class="icon" style="margin-right: 5px;" data-toggle="tooltip" data-placement="top" title="Aynı olan konutları kopyalamak için bu alanı kullanabilirsiniz">
+                                <i class="fa fa-circle-info"></i>
+                            </div>
+                            
+                            <select class="form-control  copy-item" name="" id="">
+                                <option value="">Kopyalamak istediğiniz daireyi seçin</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -227,11 +236,63 @@
                             <label for="">Proje Açıklaması <span class="required">*</span></label>
                             <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')" class="form-control">{{isset($tempData->description) ? $tempData->description : ''}}</textarea>
                         </div>
+                        <div class="card p-3 mb-4">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Yapımcı Firma</label>
+                                        <div class="icon-input">
+                                            <div class="icon-area">
+                                                <i class="fa fa-building"></i>
+                                            </div>
+                                            <input type="text" value="{{isset($tempData->create_company) ? $tempData->create_company : ''}}" class="create_company" onkeyup="changeData(this.value,'create_company')">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Toplam Proje Alanı (M2)</label>
+                                        <div class="icon-input">
+                                            <div class="icon-area">
+                                                <svg style="width: 20px;height: 20px;" fill="#ffffff" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 491.541 491.541" xml:space="preserve"> <g> <path d="M350.373,116.048H24.445C10.942,116.048,0,126.988,0,140.492V466.42c0,13.503,10.942,24.445,24.445,24.445h325.928 c13.503,0,24.444-10.942,24.444-24.445V140.492C374.817,126.988,363.876,116.048,350.373,116.048z M325.928,441.975H48.889V164.936 h277.039V441.975z"/> <path d="M486.695,411.913h-26.513V126.63h26.513c1.958,0,3.724-1.178,4.472-2.991c0.756-1.814,0.342-3.892-1.05-5.283 l-42.802-42.802c-1.894-1.894-4.965-1.894-6.858,0l-42.803,42.802c-1.392,1.392-1.806,3.469-1.05,5.283 c0.749,1.813,2.515,2.991,4.473,2.991h26.513v285.283h-26.513c-1.958,0-3.724,1.177-4.473,2.991 c-0.755,1.815-0.342,3.893,1.05,5.285l42.803,42.802c1.893,1.894,4.965,1.894,6.858,0l42.802-42.802 c1.393-1.392,1.807-3.469,1.05-5.285C490.419,413.09,488.654,411.913,486.695,411.913z"/> <path d="M70.676,94.563c1.392,1.392,3.469,1.806,5.284,1.05c1.814-0.747,2.992-2.514,2.992-4.472V64.628h285.283v26.513 c0,1.958,1.177,3.725,2.991,4.472c1.814,0.756,3.891,0.342,5.284-1.05l42.802-42.802c1.894-1.895,1.894-4.967,0-6.86L372.51,2.1 c-1.393-1.393-3.469-1.807-5.284-1.051c-1.814,0.748-2.991,2.514-2.991,4.472v26.515H78.952V5.521c0-1.957-1.177-3.724-2.992-4.472 c-1.814-0.756-3.892-0.342-5.284,1.051L27.875,44.901c-1.894,1.893-1.894,4.965,0,6.86L70.676,94.563z"/> </g> </svg>
+                                            </div>
+                                            <input type="text" value="{{isset($tempData->total_project_area) ? $tempData->total_project_area : ''}}" class="total_project_area price-only" onkeyup="changeData(this.value,'total_project_area')">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mt-2">
+                                        <label for="">Başlangıç Tarihi</label>
+                                        <div class="icon-input">
+                                            <div class="icon-area">
+                                                <i class="fa fa-calendar-days"></i>
+                                            </div>
+                                            <input type="date" value="{{isset($tempData->start_date) ? $tempData->start_date : ''}}" class="start_date" onchange="changeData(this.value,'start_date')" onkeyup="changeData(this.value,'start_date')">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mt-2">
+                                        <label for="">Bitiş Tarihi</label>
+                                        <div class="icon-input">
+                                            <div class="icon-area">
+                                                <i class="fa fa-calendar-days"></i>
+                                            </div>
+                                            <input type="date" value="{{isset($tempData->end_date) ? $tempData->end_date : ''}}" class="end_date" onchange="changeData(this.value,'end_date')" onkeyup="changeData(this.value,'end_date')">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group description-field">
                             <label for="">Bu Projede Bloklar Var mı? <span class="required">*</span></label>
                             <div class="form-group">
-                                <input type="radio" @if(isset($tempData->has_blocks) && $tempData->has_blocks) checked @endif class="has_blocks_input" name="has_blocks" value="1" id="yes"><label for="yes">Evet</label>
-                                <input type="radio" @if(isset($tempData->has_blocks) && !$tempData->has_blocks) checked @endif class="has_blocks_input" name="has_blocks" value="0" id="no"><label for="no">Hayır</label>
+                                <div class="flex">
+                                    <div class="form-check form-switch" style="display: inline-block;">
+                                        <input @if(isset($tempData->has_blocks) && $tempData->has_blocks) checked @endif class="form-check-input has_blocks_input" name="has_blocks" value="1" type="radio" role="switch" id="yes" >
+                                        <label for="yes" class="form-check-label">Evet</label>
+                                    </div>
+                                    <div class="form-check form-switch mx-3" style="display: inline-block;">
+                                        <input @if(isset($tempData->has_blocks) && !$tempData->has_blocks) checked @endif  name="has_blocks" class="form-check-input has_blocks_input" value="0" type="radio" role="switch" id="no" >
+                                        <label class="form-check-label" for="no">Hayır</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <h4 class="d-flex ai-center has_blocks-open @if(isset($tempData->has_blocks)) @if(!$tempData->has_blocks) d-none @endif @else d-none  @endif">Bloklar <div class="add-block-button"><i class="fa fa-plus"></i></div> </h4>
@@ -245,10 +306,14 @@
                                 @endforeach
                             @endif
                         </div>
-                        <h4 class="mb-3 housings_title has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif">Bu @if(isset($tempData->has_blocks) && $tempData->has_blocks) Blokta @else Projede @endif  Kaç Adet @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif Var</h4><input value="@if(isset($tempData->has_blocks) && $tempData->has_blocks) {{isset($tempData->house_count0) ? $tempData->house_count0 : ''}} @else {{isset($tempData->house_count) ? $tempData->house_count : ''}} @endif" class="form-control mb-5 housing_count_input has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif" type="text" id="house_count" name="house_count" placeholder="Kaç Adet Konutunuz Var" />
+                        <h4 style="display: inline-block;" class=" housings_title has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif">Bu @if(isset($tempData->has_blocks) && $tempData->has_blocks) Blokta @else Projede @endif  Kaç Adet @if($housingTypeTempX) {{$housingTypeTempX->title}} @endif Var</h4>
+                        <div class="d-flex mt-3 mb-3" style="align-items: center;">
+                            <input style="width: 150px;" value="@if(isset($tempData->has_blocks) && $tempData->has_blocks) {{isset($tempData->house_count0) ? $tempData->house_count0 : ''}} @else {{isset($tempData->house_count) ? $tempData->house_count : ''}} @endif" class="form-control housing_count_input has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif" type="text" id="house_count" name="house_count" placeholder="Kaç Adet Konutunuz Var" />
+                            <span id="generate_tabs" style="width: 230px;justify-content: center" class="mx-2 d-flex btn btn-primary has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif">İlan Formunu Oluştur</span>
+                        </div>
                         
-                        <span id="generate_tabs" style="width: 230px;justify-content: center" class="d-flex btn btn-primary mb-5 has_blocks-close @if(isset($tempData->has_blocks)) @if($tempData->has_blocks) d-none @endif @else d-none @endif">İlan Formunu Oluştur</span>
-                        <div class="row full-area">
+                        
+                        <div class="row full-area d-none">
                             <div class="col-sm-12">
                                 <div class="card p-3">
                                     <div class="tab-content" id="pricingTabContent" role="tabpanel">
@@ -624,6 +689,7 @@
             var cityName = "";
             var countyName = "";
             var neighbourhoodName = "";
+            var fullHouses = [];
             var selectedid = @if(isset($tempData) && isset($tempData->housing_type_id)) {{$tempData->housing_type_id}} @else 0 @endif;
             @if(isset($tempData->has_blocks))
                 @if($tempData->has_blocks)
@@ -806,6 +872,7 @@
                 const tabsContainer = document.getElementById('tabs');
 
                 generateTabsButton.addEventListener('click', function () {
+                    $('.full-area').removeClass('d-none')
                     $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
                     $('.total-house-text').html(houseCountInput.value)
                     $('.bottom-housing-area').removeClass('d-none')
@@ -1944,6 +2011,7 @@
                         lastOrders += parseInt(blockHouseCount[i]);
                     }
                 }
+
                 $.ajax({
                     url: "{{URL::to('/')}}/institutional/get_house_data?item_type=1&order="+(lastOrders + parseInt($('.house_order_input').val()) - 2), // AJAX isteği yapılacak URL
                     type: "GET", // GET isteği
@@ -1996,15 +2064,16 @@
                                 }
                             }
                         }
+                        $('.pop-up-v4').addClass('d-none');
+                        confirmHousings();
+                        $('.house_order_input').val(parseInt($('.house_order_input').val()) - 1)
+                        $('.room-order-progress').html(parseInt($('.house_order_input').val()))
+                        
                         if(parseInt($('.house_order_input').val()) == 1){
                             thisx.addClass('disabled-button')
                         }else{
                             thisx.removeClass('disabled-button')
                         }
-                        $('.pop-up-v4').addClass('d-none');
-                        confirmHousings();
-                        $('.house_order_input').val(parseInt($('.house_order_input').val()) - 1)
-                        $('.room-order-progress').html(parseInt($('.house_order_input').val()))
                     },
                     error: function (xhr, status, error) {
                         // İstek hata verdiğinde çalışacak fonksiyon
@@ -2375,6 +2444,7 @@
             });
             var houseCount = @if(isset($tempData->has_blocks) && $tempData->has_blocks) {{isset($tempData->house_count0) ? $tempData->house_count0 : 0}} @else {{isset($tempData->house_count) ? $tempData->house_count : 0}} @endif;
             $('.choise-1').click(function(){
+                $('.full-area').removeClass('d-none')
                 $('.bottom-housing-area').removeClass('d-none')
                 $('.pop-up-v2').addClass('d-none')
                 if(disabledBlocks){
@@ -2518,7 +2588,6 @@
                                 }
                             }
                             
-                            confirmHousings();
 
                             $('.dropzonearea').closest('.formbuilder-file').remove();
                             for(let i = 1 ; i <= houseCount; i++){
@@ -2692,6 +2761,7 @@
                             })
                             
                             $('.project-disabled').closest('.form-group').remove();
+
                             $('.rendered-form input').change(function(){
                                 if($(this).attr('type') != "file"){
                                     var lastOrders = 0;
@@ -2874,6 +2944,7 @@
 
                             $('#tablist').attr('style','height:'+$('.tab-content').css('height')+' !important;flex-wrap:nowrap;overflow:scroll;')
 
+                            confirmHousings();
                         },
                         error: function(error) {
                             console.log(error)
@@ -2910,7 +2981,6 @@
                         if(!$(item).val()){
                             confirmCount += 1;
                         }else{
-                            console.log($(item));
                             confirm += 1;
                             confirmCount += 1;
                         }
@@ -2919,6 +2989,7 @@
                 $('.tab-pane').eq(0).find('select[required="required"]').map((key,item) => {
                     if(!$(item).val() || $(item).val() == "Seçiniz"){
                         confirmCount += 1;
+                        console.log("selectte hata var");
                     }else{
                         confirm += 1;
                         console.log("select");
@@ -2934,6 +3005,11 @@
                 }
 
                 var percent = (100 * confirm) / confirmCount;
+                if(percent == 100){
+                    fullHouses.push($('.house_order_input').val())
+                }
+
+                console.log(fullHouses);
                 $('.percent-housing').html((percent.toFixed(2)))
                 $('.full-load').css('width',percent+'%')
                 var htmlCopyItems = "<option value=''>Daire bilgilerini kopyala</option>";
@@ -4045,8 +4121,7 @@
             var value = $(this).attr('attr-id');
             var key = "statuses";
             var isArray = 1; 
-
-            if($(this).attr('attr-id',3)){
+            if($(this).attr('attr-id') == 3){
                 isContinueProject = true;
             }
 

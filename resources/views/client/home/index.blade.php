@@ -235,7 +235,7 @@
                 <div class="section-title">
                     <h2>Tamamlanan Projeler</h2>
                 </div>
-                <a href="https://emlaksepeti.innovaticacode.com/kategori/tamamlanan-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/tamamlanan-projeler" style="font-size: 12px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -333,7 +333,7 @@
                 <div class="section-title">
                     <h2>Devam Eden Projeler</h2>
                 </div>
-                <a href="https://emlaksepeti.innovaticacode.com/kategori/devam-eden-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/devam-eden-projeler" style="font-size: 12px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -417,7 +417,7 @@
                 <div class="section-title">
                     <h2>Topraktan Projeler</h2>
                 </div>
-                <a href="https://emlaksepeti.innovaticacode.com/kategori/topraktan-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -556,7 +556,7 @@
                                                             <img src="{{ asset('sc.png') }}" alt="">
                                                         </span>
                                                         @if ($sold == '0')
-                                                            <span class="text">Onay Bekleniyor</span>
+                                                            <span class="text">Rezerve Edildi</span>
                                                         @else
                                                             <span class="text">Satıldı</span>
                                                         @endif
@@ -894,7 +894,7 @@
                                                                                         alt="">
 
                                                                                 </span>
-                                                                                @if (auth()->check() && auth()->user()->type == 19)
+                                                                                @if (auth()->check() && auth()->user()->type == 21)
                                                                                     @if (json_decode($housing->housing_type_data)->{"share-open"}[0])
                                                                                         <span class="text">Koleksiyonuma
                                                                                             Ekle</span>
@@ -1101,13 +1101,13 @@
                                                                         <button class="btn second-btn "
                                                                             @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
                                                                             @if ($sold == '0')
-                                                                                <span class="text">Onay Bekleniyor</span>
+                                                                                <span class="text">Rezerve Edildi</span>
                                                                             @else
                                                                                 <span class="text">Satıldı</span>
                                                                             @endif
                                                                         </button>
                                                                     @else
-                                                                        @if (auth()->check() && auth()->user()->type == 19)
+                                                                        @if (auth()->check() && auth()->user()->type == 21)
                                                                             @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
                                                                                     json_decode($housing->housing_type_data)->{"share-open"}[0]
                                                                             )
@@ -1212,10 +1212,10 @@
     @if (Auth::check() && Auth::user()->type != '3')
         <!-- HTML -->
         <button class="chatbox-open">
-            <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-comment" aria-hidden="true"></i>
         </button>
         <button class="chatbox-close">
-            <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-close" aria-hidden="true"></i>
         </button>
         <div class="chatbox-popup">
             <header class="chatbox-popup__header">

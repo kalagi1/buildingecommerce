@@ -607,26 +607,34 @@ class TempOrderController extends Controller
     }
 
     public function getDataByKey($order,$tempData,$key){
-        foreach($tempData->roomInfoKeys as $keyt => $roomInfo){
-            if($keyt.'[]' == $key){
-                if(!is_object($roomInfo) && isset($roomInfo[$order])){
-                    return $roomInfo[$order];
-                }else{
-                    return null;
+        if(isset($tempData->roomInfoKeys)){
+            foreach($tempData->roomInfoKeys as $keyt => $roomInfo){
+                if($keyt.'[]' == $key){
+                    if(!is_object($roomInfo) && isset($roomInfo[$order])){
+                        return $roomInfo[$order];
+                    }else{
+                        return null;
+                    }
                 }
             }
+        }else{
+            return null;
         }
     }
 
     public function getDataByKeyCheckbox($order,$tempData,$key){
-        foreach($tempData->roomInfoKeys as $keyt => $roomInfo){
-            if($keyt.'[]' == $key){
-                if(!is_object($roomInfo) && isset($roomInfo)){
-                    return $roomInfo;
-                }else{
-                    return null;
+        if(isset($tempData->roomInfoKeys)){
+            foreach($tempData->roomInfoKeys as $keyt => $roomInfo){
+                if($keyt.'[]' == $key){
+                    if(!is_object($roomInfo) && isset($roomInfo)){
+                        return $roomInfo;
+                    }else{
+                        return null;
+                    }
                 }
             }
+        }else{
+            return null;
         }
     }
 
@@ -673,19 +681,27 @@ class TempOrderController extends Controller
                 if($data['type'] != "checkbox-group"){
                     if($keyx != "type"){
                         if( $data[$keyx] != null){
-                            $tempData->roomInfoKeys->{$keyx}[($request->input('new_order'))] = $data[$keyx];
-                            $tempData->roomInfoKeys->{$keyx} = array_values($tempData->roomInfoKeys->{$keyx});
+                            if(isset($tempData->roomInfoKeys)){
+                                $tempData->roomInfoKeys->{$keyx}[($request->input('new_order'))] = $data[$keyx];
+                                $tempData->roomInfoKeys->{$keyx} = array_values($tempData->roomInfoKeys->{$keyx});
+                            }
                         }else{
-                            $tempData->roomInfoKeys->{$keyx}[($request->input('new_order'))] = null;
-                            $tempData->roomInfoKeys->{$keyx} = array_values($tempData->roomInfoKeys->{$keyx});
+                            if(isset($tempData->roomInfoKeys)){
+                                $tempData->roomInfoKeys->{$keyx}[($request->input('new_order'))] = null;
+                                $tempData->roomInfoKeys->{$keyx} = array_values($tempData->roomInfoKeys->{$keyx});
+                            }
                         }
                     }
                 }else{
                     if($keyx != "type"){
                         if($data[$keyx] && $data[$keyx] != null){
-                            $tempData->roomInfoKeys->{$keyx.($request->input('new_order') + 1)} = $data[$keyx];
+                            if(isset($tempData->roomInfoKeys)){
+                                $tempData->roomInfoKeys->{$keyx.($request->input('new_order') + 1)} = $data[$keyx];
+                            }
                         }else{
-                            $tempData->roomInfoKeys->{$keyx.($request->input('new_order') + 1)} = [];
+                            if(isset($tempData->roomInfoKeys)){
+                                $tempData->roomInfoKeys->{$keyx.($request->input('new_order') + 1)} = [];
+                            }
                         }
                     }
                 }

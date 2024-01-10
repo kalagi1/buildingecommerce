@@ -454,6 +454,10 @@ class ProjectController extends Controller
                 "step1_slug" => $tempOrder->step1_slug,
                 "step2_slug" => $tempOrder->step2_slug,
                 "project_title" => $tempOrder->name,
+                "create_company" => $tempOrder->create_company,
+                "total_project_area" => str_replace('.','',$tempOrder->total_project_area),
+                "start_date" => $tempOrder->start_date,
+                "project_end_date" => $tempOrder->end_date,
                 "slug" => Str::slug($tempOrder->name),
                 "address" => "asd",
                 "location" => $tempOrder->location,
@@ -1209,6 +1213,10 @@ class ProjectController extends Controller
 
         Project::where('id', $tempData->id)->update([
             "project_title" => $tempData->project_title,
+            "create_company" => $tempData->create_company,
+            "total_project_area" => str_replace('.','',$tempData->total_project_area),
+            "start_date" => $tempData->start_date,
+            "project_end_date" => $tempData->project_end_date,
             "slug" => Str::slug($tempData->project_title),
             "description" => $tempData->description,
             "location" => $tempData->location,
@@ -1263,9 +1271,16 @@ class ProjectController extends Controller
     }
 
     public function setSingleHousingData(Request $request,$projectId){
-        ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('roomOrder'))->where('name',$request->input('inputName'))->update([
-            "value" => str_replace('.', '', $request->input('newVal'))
-        ]);
+
+        if($request->input('allData')){
+            ProjectHousing::where('project_id',$projectId)->where('name',$request->input('inputName'))->update([
+                "value" => str_replace('.', '', $request->input('newVal'))
+            ]);
+        }else{
+            ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('roomOrder'))->where('name',$request->input('inputName'))->update([
+                "value" => str_replace('.', '', $request->input('newVal'))
+            ]);
+        }
         
         Project::where('id',$projectId)->update([
             "status" => 2
@@ -1282,9 +1297,16 @@ class ProjectController extends Controller
             $fileName = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('project_housing_images'), $fileName);
         } 
-        ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('roomOrder'))->where('name','image[]')->update([
-            "value" => $fileName
-        ]);
+
+        if($request->input('allData')){
+            ProjectHousing::where('project_id',$projectId)->where('name','image[]')->update([
+                "value" => $fileName
+            ]);
+        }else{
+            ProjectHousing::where('project_id',$projectId)->where('room_order',$request->input('roomOrder'))->where('name','image[]')->update([
+                "value" => $fileName
+            ]);
+        }
         
         Project::where('id',$projectId)->update([
             "status" => 2

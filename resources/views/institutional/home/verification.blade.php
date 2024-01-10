@@ -37,73 +37,104 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="vergi_levhasi" class="mb-2">İmza Sirküsü: @if (auth()->user()->tax_document_approve)
-                            <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                        @endif
-
-                        @if (!is_null(auth()->user()->tax_document))
-                            <div>
-                                <a target="_blank" href="{{ route('institutional.get.tax-document') }}"
-                                    class="btn btn-blue">İmza Sirküsünü Gör</a>
-                            </div>
-                        @endif
-                    </label>
-                    <input type="file" name="vergi_levhasi" id="vergi_levhasi"
-                        class="form-control {{ auth()->user()->tax_document_approve ? ' green-border' : 'red-border' }}"
-                        accept=".png,.jpeg,.jpg"{{ auth()->user()->tax_document_approve ? ' ' : null }} />
-
-                </div>
-
-                <div class="form-group">
-                    <label for="sicil_belgesi" class="mb-2">Vergi Levhası:
-                        @if (auth()->user()->record_document_approve)
-                            <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                        @endif
+                    <label for="sicil_belgesi" class="mb-2 d-flex align-items-center">Vergi Levhası:
 
                         @if (!is_null(auth()->user()->record_document))
-                            <div>
-                                <a target="_blank" href="{{ route('institutional.get.record-document') }}"
-                                    class="btn btn-blue">Vergi Levhasını Gör</a>
+                            <div class="ml-2 mr-2">
+                                <a target="_blank" href="{{ route('institutional.get.record-document') }}" download><i
+                                        class="fa fa-download"></i></a>
                             </div>
+                        @endif
+
+                        @if (auth()->user()->record_document_approve)
+                            <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
+                           
                         @endif
                     </label>
                     <input type="file" name="sicil_belgesi" id="sicil_belgesi"
-                        class="form-control {{ auth()->user()->record_document_approve ? ' green-border' : 'red-border' }}"
+                        class="form-control {{ auth()->user()->record_document_approve ? ' green-border' : '' }}"
                         accept=".png,.jpeg,.jpg"{{ auth()->user()->record_document_approve == 0 ? ' ' : null }} />
                 </div>
                 <div class="form-group">
-                    <label for="kimlik_belgesi" class="mb-2">Yetkilinin Kimlik Belgesi:
-                        @if (auth()->user()->identity_document_approve)
-                            <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                        @endif
+                    <label for="vergi_levhasi" class="mb-2 d-flex align-items-center">İmza Sirküsü:
 
-                        @if (!is_null(auth()->user()->identity_document))
-                            <div>
-                                <a target="_blank" href="{{ route('institutional.get.identity-document') }}"
-                                    class="btn btn-blue">Yetkilinin Kimlik Belgesini Gör</a>
+                        @if (!is_null(auth()->user()->tax_document))
+                            <div class="ml-2 mr-2">
+                                <a target="_blank" href="{{ route('institutional.get.tax-document') }}" download><i
+                                        class="fa fa-download"></i></a>
                             </div>
                         @endif
+
+                        @if (auth()->user()->tax_document_approve)
+                            <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
+                           
+                        @endif
                     </label>
-                    <input type="file" name="kimlik_belgesi" id="kimlik_belgesi"
-                        class="form-control {{ auth()->user()->identity_document_approve ? ' green-border' : 'red-border' }}"
-                        accept=".png,.jpeg,.jpg"{{ auth()->user()->identity_document_approve == 0 ? ' ' : null }} />
+                    <input type="file" name="vergi_levhasi" id="vergi_levhasi"
+                        class="form-control {{ auth()->user()->tax_document_approve ? ' green-border' : '' }}"
+                        accept=".png,.jpeg,.jpg"{{ auth()->user()->tax_document_approve ? ' ' : null }} />
+
                 </div>
+                @if (auth()->user()->type == 2 && auth()->user()->corporate_type == 'Emlakçı')
+                    <div class="form-group">
+                        <label for="kimlik_belgesi" class="mb-2 d-flex align-items-center">Taşınmaz Yetki Belgesi:
+
+
+                            @if (!is_null(auth()->user()->identity_document))
+                                <div class="ml-2 mr-2">
+                                    <a target="_blank" href="{{ route('institutional.get.identity-document') }}" download><i
+                                            class="fa fa-download"></i></a>
+                                </div>
+                            @endif
+
+                            @if (auth()->user()->identity_document_approve)
+                                <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
+                                @endif
+                        </label>
+                        <input type="file" name="kimlik_belgesi" id="kimlik_belgesi"
+                            class="form-control {{ auth()->user()->identity_document_approve ? ' green-border' : '' }}"
+                            accept=".png,.jpeg,.jpg"{{ auth()->user()->identity_document_approve == 0 ? ' ' : null }} />
+                    </div>
+                @endif
+                @if (auth()->user()->type == 2 && auth()->user()->corporate_type == 'Turizm')
+                    <div class="form-group">
+                        <label for="kimlik_belgesi" class="mb-2 d-flex align-items-center">Acenta Belgesi:
+
+
+                            @if (!is_null(auth()->user()->identity_document))
+                                <div class="ml-2 mr-2">
+                                    <a target="_blank" href="{{ route('institutional.get.identity-document') }}"
+                                        download><i class="fa fa-download"></i></a>
+                                </div>
+                            @endif
+                            @if (auth()->user()->identity_document_approve)
+                                <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
+                                @endif
+                        </label>
+                        <input type="file" name="kimlik_belgesi" id="kimlik_belgesi"
+                            class="form-control {{ auth()->user()->identity_document_approve ? ' green-border' : '' }}"
+                            accept=".png,.jpeg,.jpg"{{ auth()->user()->identity_document_approve == 0 ? ' ' : null }} />
+                    </div>
+                @endif
 
                 @if (auth()->user()->type == 2 && auth()->user()->corporate_type == 'İnşaat')
                     <div class="form-group">
-                        <label for="insaat_belgesi" class="mb-2">Müteahhitlik Belgesi:
+                        <label for="insaat_belgesi" class="mb-2 d-flex align-items-center">Müteahhitlik Belgesi (Opsiyonel):
+
+                            @if (!is_null(auth()->user()->company_document))
+                                <div class="ml-2 mr-2">
+                                    <a target="_blank" href="{{ route('institutional.get.company-document') }}"
+                                        class=" mb-2"><i class="fa fa-download"></i></a>
+                                </div>
+                            @endif
+
                             @if (auth()->user()->company_document_approve)
                                 <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
                             @endif
+
                         </label>
-                        @if (!is_null(auth()->user()->company_document))
-                            <div>
-                                <a target="_blank" href="{{ route('institutional.get.company-document') }}"
-                                    class="btn btn-blue mb-2">Müteahhitlik Belgesini Gör</a>
-                            </div>
-                        @endif
                         <input type="file" name="insaat_belgesi" id="insaat_belgesi"
-                            class="form-control {{ auth()->user()->company_document_approve ? ' green-border' : 'red-border' }}"
+                            class="form-control {{ auth()->user()->company_document_approve ? ' green-border' : '' }}"
                             accept=".png,.jpeg,.jpg"{{ auth()->user()->company_document_approve == 0 ? ' ' : null }} />
                     </div>
                 @endif
@@ -140,8 +171,12 @@
             border: 2px solid green;
         }
 
-        .red-border {
-            border: 2px solid #EA2B2E;
+        .ml-2 {
+            margin-left: 5px;
+        }
+
+        .mr-2 {
+            margin-right: 5px;
         }
 
         .checkmark::after {

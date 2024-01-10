@@ -94,7 +94,7 @@
                                         <div class="order-header-info" style="flex-direction: column;">
                                             <b>Sipariş Tarihi: {{ $tarih }}</b>
                                             <b>Sipariş Durumu:   {!! [
-                                                '0' => '<span class="text-warning">Onay Bekleniyor</span>',
+                                                '0' => '<span class="text-warning">Rezerve Edildi</span>',
                                                 '1' => '<span class="text-success">Ödeme Onaylandı</span>',
                                                 '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
                                             ][$order->status] !!}</b>

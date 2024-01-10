@@ -33,6 +33,8 @@ class ProjectController extends Controller
         $project = Project::where('slug', $slug)
         ->with("brand","blocks",'listItemValues', "neighbourhood","roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
         ->firstOrFail();
+        $projectHousing = $project->roomInfo->keyBy('name');
+
 
         $projectCartOrders = DB::table('cart_orders')
         ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
@@ -45,12 +47,21 @@ class ProjectController extends Controller
         $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
         $lastHousingCount = 0;
 
-        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+        $projectHousings = ProjectHousing::where('project_id',$project->id)->get();
+        $projectHousingsList = [];
+        $combinedValues = $projectHousings->map(function ($item) use(&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
+
+
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
         $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
             ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
             ->groupBy('project_id')
             ->where("status", "1")
             ->get();
+
+            $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
 
         $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
         $selectedPage = $request->input('selected_page') ?? 0;
@@ -65,8 +76,12 @@ class ProjectController extends Controller
         for($i = 0; $i < $blockIndex; $i++){
             $startIndex += $project->blocks[$i]->housing_count;
         }
-        $endIndex = $startIndex + 20;
-        return view('client.projects.index', compact('salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+        $endIndex = 20 + $startIndex;
+        $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
+        $status = HousingStatus::where("id", $project->status_id)->first();
+
+        return view('client.projects.index', compact('projectHousingsList','projectHousing','projectHousingSetting','parent','status','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+
     }
     
     public function ajaxIndex($slug,Request $request){
@@ -132,12 +147,18 @@ class ProjectController extends Controller
         $project->images = $project->images;
         $project->listItemValues = $project->listItemValues;
 
+        $projectHousings = ProjectHousing::where('project_id',$project->id)->get();
+        $projectHousingsList = [];
+        $combinedValues = $projectHousings->map(function ($item) use(&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
+
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         if ($project->status == 0) {
             return view('client.projects.product_not_found', compact('menu', 'project'));
         }
 
-        return view('client.projects.detail', compact('menu', 'project', 'offer'));
+        return view('client.projects.detail', compact('menu','projectHousingsList', 'project', 'offer'));
     }
 
     public function projectPaymentPlan(Request $request)

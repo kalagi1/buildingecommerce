@@ -127,6 +127,7 @@
             $('#rulesOpenModal').addClass('show')
             $('#rulesOpenModal').addClass('d-block')
         })
+        
         var houseCount = {{ isset($project->room_count) ? $project->room_count : 0 }};
         if (!isNaN(houseCount) && houseCount > 0) {
             var houseType = {{ isset($project->housing_type_id) ? $project->housing_type_id : 0 }};

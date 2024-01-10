@@ -186,10 +186,6 @@ class UserController extends Controller
     {
         $request->validate(
             [
-                'tax_document_approve' => 'nullable|in:0,1',
-                'record_document_approve' => 'nullable|in:0,1',
-                'identity_document_approve' => 'required|in:0,1',
-                'company_document_approve' => 'nullable|in:0,1',
                 'status' => 'required|in:0,1',
             ]
         );

@@ -804,7 +804,7 @@
                                                                     res.action === 'payment_await' ?
                                                                         `<button
                                                                                                                                     class="btn second-btn " 
-                                                                                                                                    style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                                                                                    style="background: orange !important;width:100%;color:White">Rezerve Edildi
                                                                                                                                 </button>`
                                                                         :
                                                                         res.action === 'sold' ?
@@ -881,7 +881,7 @@
                                                         res.action === 'payment_await' ?
                                                             `<button
                                                                                                                         class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                        style="background: orange !important;width:100%;color:White">Onay Bekleniyor
+                                                                                                                        style="background: orange !important;width:100%;color:White">Rezerve Edildi
                                                                                                                     </button>`
                                                             :
                                                             res.action === 'sold' ?
@@ -1266,13 +1266,19 @@
                 margin-bottom: 10px;
 
             }
+            #sort-select option{
+                text-align: center;
+                justify-content: center;
+                display: flex;
+                align-items: center
+            }
 
             #sort-select {
                 background: #f0f0f0 !important;
                 padding: 6px !important;
                 cursor: pointer;
                 border: 0 !important;
-                width: 50%;
+                width: 202px;
                 border-radius: 0 !important;
                 text-align: center;
                 display: flex;

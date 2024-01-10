@@ -90,10 +90,20 @@
                                 @csrf
                                 <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
                                     <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
-                                    <button type="submit" class="fa fa-search btn btn-primary"
-                                        id="search-icon"></button>
+                                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon" onclick="return validateForm()"></button>
                                 </div>
                             </form>
+                            
+                            <script>
+                                function validateForm() {
+                                    var searchTerm = document.getElementById("search-form").elements["searchTerm"].value;
+                                    if (searchTerm.trim() === "") {
+                                        return false; // Form post edilmez
+                                    }
+                                    return true; // Form post edilir
+                                }
+                            </script>
+                            
 
                             <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
                                 style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px;">
@@ -142,6 +152,11 @@
                                                     'url' => route('institutional.profile.cart-orders'),
                                                     'icon' => 'fa-shopping-cart',
                                                     'text' => 'Siparişlerim',
+                                                ],
+                                                [
+                                                    'url' => route('favorites'),
+                                                    'icon' => 'fa-heart',
+                                                    'text' => 'Favorilerim',
                                                 ],
                                                 [
                                                     'url' => route('institutional.projects.index'),
@@ -370,9 +385,20 @@
                 padding: 0;
                 margin-left: 0 !important;">
                     <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
-                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon"></button>
+                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon" onclick="return validateForm()"></button>
                 </div>
             </form>
+
+            
+            <script>
+                function validateForm() {
+                    var searchTerm = document.getElementById("search-form").elements["searchTerm"].value;
+                    if (searchTerm.trim() === "") {
+                        return false; // Form post edilmez
+                    }
+                    return true; // Form post edilir
+                }
+            </script>
 
             <div class="header-search-box flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
                 style="    top: 100%;

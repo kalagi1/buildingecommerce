@@ -41,7 +41,7 @@ class RegisterController extends Controller
             'phone' => [
                 'required_if:type,2&regex:/^05[0-9]{9}$/',
             ],
-            'type' => 'required|in:1,2',
+            'type' => 'required|in:1,2,21',
             'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
             'activity' => 'required_if:type,2',
             'county_id' => "required_if:type,2",
@@ -103,6 +103,7 @@ class RegisterController extends Controller
         $user->activity = $request->input("activity");
         $user->county_id = $request->input("county_id");
         $user->city_id = $request->input("city_id");
+        $user->phone = $request->input("phone");
         $user->neighborhood_id = $request->input("neighborhood_id");
         $user->username = $request->input("username");
         $user->account_type = $accountType;

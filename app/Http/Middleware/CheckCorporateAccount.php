@@ -32,7 +32,6 @@ class CheckCorporateAccount
      */
     public function handle(Request $request, Closure $next): Response
     {
-        /*
         if (auth()->user()->parent_id != NULL && \App\Models\User::find(auth()->user()->parent_id)->corporate_account_status == 0)
         {
             die('Bağlı olduğunuz ana kurum hesabı onaylanmamış.');
@@ -45,7 +44,6 @@ class CheckCorporateAccount
         {
             return redirect()->route('institutional.index');
         }
-        */
         return $next($request);
     }
 }

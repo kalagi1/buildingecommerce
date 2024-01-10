@@ -48,7 +48,7 @@
                                         {{ $current->subscriptionPlan->id == $plan->id && $current->status != 2 ? 'disabled' : '' }}>
                                         @if ($current->subscriptionPlan->id == $plan->id && $current->status != 2)
                                             @if ($current->status == 0)
-                                                Onay Bekleniyor
+                                                Rezerve Edildi
                                             @else
                                                 AKTİF
                                             @endif
