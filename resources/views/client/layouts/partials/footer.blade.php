@@ -424,9 +424,9 @@
                     <tr>
                         <th>Ödeme Türü</th>
                         <th>Fiyat</th>
-                        <th>Taksit Sayısı</th>
                         <th>Peşin Ödenecek Tutar</th>
                         <th>Aylık Ödenecek Tutar</th>
+                        <th>Taksit Sayısı</th>
                     </tr>
                 </thead>
                 <tbody>
