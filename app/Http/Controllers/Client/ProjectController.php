@@ -537,12 +537,19 @@ class ProjectController extends Controller
         for($i = 0; $i < $blockIndex; $i++){
             $startIndex += $project->blocks[$i]->housing_count;
         }
+
+        $projectHousings = ProjectHousing::where('project_id',$project->id)->get();
+        $projectHousingsList = [];
+        $combinedValues = $projectHousings->map(function ($item) use(&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
+
         $endIndex = $startIndex + 20;
 
         $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
 
     
-        return view('client.projects.project_housing', compact('blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+        return view('client.projects.project_housing', compact('projectHousingsList','blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
     public function projectHousingDetailAjax($projectSlug,$housingOrder,Request $request)
