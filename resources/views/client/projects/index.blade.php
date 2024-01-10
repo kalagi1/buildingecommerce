@@ -158,9 +158,9 @@
 
                                 {{-- Kapak Görseli --}}
                                 <div class="item carousel-item active" data-slide-number="-1">
-                                    <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
+                                    <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
                                         data-lightbox="image-gallery">
-                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
+                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
                                             class="img-fluid" alt="slider-listing">
                                     </a>
                                 </div>
@@ -188,7 +188,7 @@
                                 {{-- Kapak Görseli --}}
                                 <div class="item active" style="margin: 10px; cursor: pointer">
                                     <a id="carousel-selector--1" data-slide-to="-1" data-target="#listingDetailsSlider">
-                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
+                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
                                             class="img-fluid carousel-indicator-image" alt="listing-small">
                                     </a>
                                 </div>
