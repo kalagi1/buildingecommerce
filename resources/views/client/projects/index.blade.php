@@ -2055,7 +2055,7 @@
                     </div>
                     <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                         aria-labelledby="contact-tab">
-                        <div id="map"></div>
+                        <div id="mapContainer" style="height: 300px"></div>
                     </div>
                 </div>
             </div>
@@ -2071,14 +2071,54 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
+    
 
     <script>
+        function initMap() {
+            // İlk harita görüntüsü
+            var map = new google.maps.Map(document.getElementById('mapContainer'), {
+                center: {
+                    lat: {{ explode(',', $project->location)[0] }},
+                    lng: {{ explode(',', $project->location)[1] }}
+                },
+                zoom: 8
+            });
+
+            // Harita üzerinde bir konum gösterme
+            var marker = new google.maps.Marker({
+                position: {
+                    lat: {{ explode(',', $project->location)[0] }},
+                    lng: {{ explode(',', $project->location)[1] }}
+                },
+                map: map,
+                title: 'Default Location'
+            });
+        }
+
+        function showLocation() {
+            var location = document.getElementById('locationInput').value;
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: {{ explode(',', $project->location)[0] }},
+                    lng: {{ explode(',', $project->location)[1] }}
+                },
+                zoom: 12
+            });
+
+            var marker = new google.maps.Marker({
+                position: {
+                    lat: {{ explode(',', $project->location)[0] }},
+                    lng: {{ explode(',', $project->location)[1] }}
+                },
+                map: map,
+                title: location
+            });
+        }
+            
         @php
             $location = explode(',', $project->location);
             $location['latitude'] = $location[0];
@@ -2087,107 +2127,7 @@
             $location = json_encode($location);
             $location = json_decode($location);
         @endphp
-        var map = L.map('map').setView([{{ $location->latitude }}, {{ $location->longitude }}], 13);
-        var marker = L.marker([{{ $location->latitude }}, {{ $location->longitude }}]).addTo(map);
-
-        // OpenStreetMap katmanını haritaya ekleyin
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        var overpassUrl = 'https://overpass-api.de/api/interpreter';
-        var query = `[out:json];
-(
-    node["public_transport"](around:1000,{{ $location->latitude }},{{ $location->longitude }});
-    way["public_transport"](around:1000,{{ $location->latitude }},{{ $location->longitude }});
-    relation["public_transport"](around:1000,{{ $location->latitude }},{{ $location->longitude }});
-);
-out center;`;
-        var url = `${overpassUrl}?data=${encodeURIComponent(query)}`;
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                var listingsContainer = document.querySelector('.slick-lancersx'); // Listeyi içeren div
-                listingsContainer.innerHTML = ''; // Önceki içeriği temizleyin
-                data.elements.forEach(element => {
-                    var lat = element.lat;
-                    var lon = element.lon;
-                    var name = element.tags.name || 'Bilinmeyen Mağaza';
-
-                    // Yeni bir liste öğesi oluşturun
-                    var listingItem = document.createElement('div');
-                    listingItem.classList.add('agents-grid');
-                    listingItem.dataset.aos = 'fade-up';
-                    listingItem.dataset.aosDelay = '150';
-                    if (element.tags.highway == "bus_stop" || element.tags.type == "public_transport") {
-                        // Liste içeriğini oluşturun
-                        listingItem.innerHTML = `
-                    <div class="landscapes" style="width: 140px; border: solid 1px #dcdcdc !important; ">
-                        <div class="project-single">
-                            <div class="project-inner project-head">
-                                <div class="location-card">
-                                    <div class="location-card-head">
-                                        <img src="https://www..com/assets/images/durak:7299b7f721d8e670e9d070f1f816991a.png" alt="">
-                                    </div>
-                                    <div class="location-card-body">
-                                        ${element.tags.type == "public_transport" ? `<p>${name} Metro Durağı </p>` : `<p>${name} Otobüs Durağı</p>`}
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-
-                        // Listeyi ekrana ekleyin
-                        listingsContainer.appendChild(listingItem);
-                    }
-
-
-
-
-                });
-
-                $('.slick-lancersx').slick({
-                    infinite: false,
-                    slidesToShow: 6,
-                    slidesToScroll: 1,
-                    dots: false,
-                    arrows: true,
-                    adaptiveHeight: true,
-                    responsive: [{
-                            breakpoint: 1024,
-                            settings: {
-                                slidesToShow: 2,
-                                slidesToScroll: 2,
-                                dots: false,
-                                arrows: false
-                            }
-                        },
-                        {
-                            breakpoint: 993,
-                            settings: {
-                                slidesToShow: 4,
-                                slidesToScroll: 4,
-                                dots: false,
-                                arrows: false
-                            }
-                        },
-                        {
-                            breakpoint: 769,
-                            settings: {
-                                slidesToShow: 3,
-                                slidesToScroll: 3,
-                                dots: false,
-                                arrows: false
-                            }
-                        }
-                    ]
-                });
-            })
-            .catch(error => console.error('Hata:', error));
+       
     </script>
     <script>
         $('.project-housing-pagination li').click(function() {
