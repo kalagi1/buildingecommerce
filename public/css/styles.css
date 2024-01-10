@@ -467,6 +467,17 @@ img {
     padding-top: 2.4rem;
 }
 
+@media (max-width:768px) {
+    .brand-head {
+        padding-top: 0;
+        margin-top: 20px;
+    }
+    .search-style{
+        padding: 0 !important;
+        position: relative !important;
+        margin: 10px 10px !important;
+    }
+}
 
 .brand-head .card {
     border: none;
@@ -5068,6 +5079,10 @@ section.counterup {
     width: 80%;
     height: auto;
     margin-bottom: 1.6rem;
+}
+
+.about_content h3{
+ width: 100%;
 }
 
 .about_content {
@@ -13159,6 +13174,13 @@ section.visited-cities {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+    height: 200px;
+    width: 350px;
+}
+.heitwo{
+    height: 200px;
+    width: 350px;
+    margin: 0 auto;
 }
 
 /*----------------------------*/
@@ -26938,6 +26960,7 @@ section.ui-element {
     line-height: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-right: 20px;
 }
 
 .forgot-password a {

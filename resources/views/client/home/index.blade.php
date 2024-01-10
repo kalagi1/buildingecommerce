@@ -93,7 +93,7 @@
                         <a href="javascript:void()" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                             <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
                                 style="background-image: url({{ url('storage/sliders/' . $slider->image) }});"></div>
-                            <div class="recent-img16 sliderSize img-fluid img-center mobile-show"
+                            <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo"
                                 style="background-image: url({{ url('storage/sliders/' . $slider->mobile_image) }});"></div>
 
                         </a>
@@ -1197,7 +1197,7 @@
                                 <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
                                     style="background-image: url({{ url('storage/footer-sliders/' . $slider->image) }});">
                                 </div>
-                                <div class="recent-img16 sliderSize img-fluid img-center mobile-show"
+                                <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo"
                                     style="background-image: url({{ url('storage/footer-sliders/' . $slider->mobile_image) }});">
                                 </div>
 
