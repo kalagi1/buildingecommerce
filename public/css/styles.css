@@ -13174,8 +13174,6 @@ section.visited-cities {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    height: 200px;
-    width: 350px;
 }
 .heitwo{
     height: 200px;
@@ -14642,6 +14640,11 @@ a.btn-white {
 }
 
 @media (max-width: 768px) {
+    .img-center {
+        background-size: cover;
+        background-position: inherit !important;
+        background-repeat: inherit !important;
+    }
     .th-18 .google-maps .filter form {
         background: #f55d2c;
     }
