@@ -136,10 +136,10 @@
                                                 <button
                                                     class="user-type-button institutional {{ old('type') == 2 ? 'active' : '' }}"
                                                     data-user-type="2" type="button">Kurumsal</button>
-                                                <button
+                                                {{-- <button
                                                     class="user-type-button sharer {{ old('type') == 21 ? 'active' : '' }}"
                                                     data-user-type="21" type="button"
-                                                    style="color:#e54242">Emlak Sepette İle Para Kazan </button>
+                                                    style="color:#e54242">Emlak Sepette İle Para Kazan </button> --}}
                                             </div>
                                             <input type="hidden" name="type" id="user-type-input"
                                                 value="{{ old('type', 1) }}">

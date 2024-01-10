@@ -567,99 +567,103 @@
                             </div>
                         @endif
 
-                        <div class="widget-boxed removeClass mt-5">
-                            <div class="widget-boxed-header">
-                                <h4>Mağaza Bilgileri</h4>
-                            </div>
-                            <div class="widget-boxed-body">
-                                <div class="sidebar-widget author-widget2">
-
-                                    <div class="author-box clearfix d-flex align-items-center">
-                                        <img src="{{ URL::to('/') . '/storage/profile_images/' . $housing->user->profile_image }}"
-                                            alt="author-image" class="author__img">
-                                        <div>
-                                            <a
-                                                href="{{ route('instituional.dashboard', Str::slug($housing->user->name)) }}">
-                                                <h4 class="author__title">{!! $housing->user->name !!}</h4>
-                                            </a>
-
-                                            <p class="author__meta">
-                                                {{ $housing->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
-                                            </p>
+                        <div class="moveStore">
+                            <div class="widget-boxed removeClass mt-5">
+                                <div class="widget-boxed-header">
+                                    <h4>Mağaza Bilgileri</h4>
+                                </div>
+                                <div class="widget-boxed-body">
+                                    <div class="sidebar-widget author-widget2">
+    
+                                        <div class="author-box clearfix d-flex align-items-center">
+                                            <img src="{{ URL::to('/') . '/storage/profile_images/' . $housing->user->profile_image }}"
+                                                alt="author-image" class="author__img">
+                                            <div>
+                                                <a
+                                                    href="{{ route('instituional.dashboard', Str::slug($housing->user->name)) }}">
+                                                    <h4 class="author__title">{!! $housing->user->name !!}</h4>
+                                                </a>
+    
+                                                <p class="author__meta">
+                                                    {{ $housing->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <span> İlan No :</span>
-                                                    <span class="det">
-                                                        #{{ $housing->id + 2000000 }}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    İl-İlçe-Mahalle :
-                                                    <span class="det">
-                                                        {!! optional($housing->city)->title .
-                                                            ' / ' .
-                                                            optional($housing->county)->title .
-                                                            ' / ' .
-                                                            optional($housing->neighborhood)->mahalle_title ??
-                                                            '' !!}
-                                                    </span>
-                                                </td>
-
-                                            </tr>
-
-                                            @if ($housing->user->phone)
+                                        <table class="table">
+                                            <tbody>
                                                 <tr>
                                                     <td>
-                                                        Telefon :
+                                                        <span> İlan No :</span>
                                                         <span class="det">
-                                                            <a style="text-decoration: none;color:inherit"
-                                                                href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                                            #{{ $housing->id + 2000000 }}
                                                         </span>
                                                     </td>
                                                 </tr>
-                                            @endif
-
-                                            <tr>
-                                                <td>
-                                                    Proje Tipi :
-                                                    <span class="det">
-                                                        @if ($housing->step1_slug)
-                                                            @if ($housing->step2_slug)
-                                                                @if ($housing->step2_slug == 'kiralik')
-                                                                    Kiralık
-                                                                @elseif ($housing->step2_slug == 'satilik')
-                                                                    Satılık
-                                                                @else
-                                                                    Günlük Kiralık
+                                                <tr>
+                                                    <td>
+                                                        İl-İlçe-Mahalle :
+                                                        <span class="det">
+                                                            {!! optional($housing->city)->title .
+                                                                ' / ' .
+                                                                optional($housing->county)->title .
+                                                                ' / ' .
+                                                                optional($housing->neighborhood)->mahalle_title ??
+                                                                '' !!}
+                                                        </span>
+                                                    </td>
+    
+                                                </tr>
+    
+                                                @if ($housing->user->phone)
+                                                    <tr>
+                                                        <td>
+                                                            Telefon :
+                                                            <span class="det">
+                                                                <a style="text-decoration: none;color:inherit"
+                                                                    href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @endif
+    
+                                                <tr>
+                                                    <td>
+                                                        Proje Tipi :
+                                                        <span class="det">
+                                                            @if ($housing->step1_slug)
+                                                                @if ($housing->step2_slug)
+                                                                    @if ($housing->step2_slug == 'kiralik')
+                                                                        Kiralık
+                                                                    @elseif ($housing->step2_slug == 'satilik')
+                                                                        Satılık
+                                                                    @else
+                                                                        Günlük Kiralık
+                                                                    @endif
                                                                 @endif
+                                                                {{  $parent->title }}
                                                             @endif
-                                                            {{  $parent->title }}
-                                                        @endif
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    E-Posta :
-                                                    <span class="det">
-                                                        <a style="text-decoration: none;color:inherit"
-                                                            href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
-                                                    </span>
-
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        E-Posta :
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
+                                                        </span>
+    
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+    
                                 </div>
-
                             </div>
                         </div>
+
+                     
                         @if (count($housing->user->banners) > 0)
                             <div class="widget-boxed popular mt-5">
                                 <div class="widget-boxed-header">
@@ -1100,10 +1104,13 @@
     <script>
         if (window.innerWidth <= 768) {
             var mobileMove = $(".mobileMove").html();
-            console.log(mobileMove);
             $("#listingDetailsSlider").after(mobileMove);
             $(".mobileMove").remove();
-            $(".removeClass").removeClass("mt-5");
+            var store = $(".moveStore").html();
+            $("#myTabContent").after(store);
+            $(".moveStore").addClass("mb-30");
+            $(".moveStore").remove();
+
         }
 
         function redirectToPage() {
@@ -1710,6 +1717,16 @@
         }
 
         @media (max-width:768px) {
+            .listingDetailsSliderNav {
+                display: none !important;
+            }
+            #listingDetailsSlider{
+                padding: 0 !important;
+                margin-bottom: 30px !important;
+            }
+            .schedule.widget-boxed{
+                margin-bottom: 30px !important;
+            }
             .trStyle tr {
                 width: 100%;
             }
