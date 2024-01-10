@@ -62,7 +62,7 @@
 
                     <div class="pb-6">
                         <div id="lealsTable"
-                            data-list='{"valueNames":["name","email","phone","contact","company","date"],"page":10,"pagination":true}'>
+                            data-list='{"valueNames":["name","email","phone","contact","company","date"],"page":20,"pagination":true}'>
 
 
                             <div class="table-responsive scrollbar mx-n1 px-1 border-top">
