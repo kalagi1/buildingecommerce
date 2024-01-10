@@ -153,7 +153,7 @@
 
 
     <!-- START SECTION POPULAR PLACES -->
-    <section class="popular-places home18">
+    <section class="popular-places home18 mb-5">
         <div class="container">
             <div style="display: flex; justify-content: space-between;">
                 <div class="section-title">

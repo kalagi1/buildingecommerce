@@ -82,8 +82,8 @@
                                         <div class="social-account-login-buttons pb-3">
                                             <div class="q-layout social-login-button flex flex-1">
 
-                                                <div class="social-login-icon" style="background-color: black;">
-                                                    <i class="fa fa-apple"></i>
+                                                <div class="social-login-icon" style="background-color: #007bff;">
+                                                    <i class="fa fa-facebook"></i>
                                                 </div>
                                                 <div class="flex flex-column">
                                                     <div>
