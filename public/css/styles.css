@@ -17626,11 +17626,6 @@ h4.widget_author__name {
     object-fit: contain;
 }
 
-.single-proper .mb-30,
-.property-location.map {
-    margin-bottom: 30px !important;
-}
-
 .listing-details-sliders .right i {
     font-size: 23px;
     margin-left: 14px;
