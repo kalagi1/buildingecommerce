@@ -18608,7 +18608,7 @@ span {
 
 
     .inner-pages .headings-2 .listing-title-bar h3 {
-        font-size: 24px;
+        font-size: 14px !important;
         width: 100%;
         text-align: center;
     }
@@ -21027,6 +21027,9 @@ small {
 }
 
 @media screen and (max-width: 768px) {
+    .inner-pages .headings-2 .listing-title-bar h3:after{
+        display: none !important;
+    }
     .nav-tabs {
         align-items: stretch;
         overflow-x: auto;
