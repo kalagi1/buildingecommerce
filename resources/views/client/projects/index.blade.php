@@ -2447,6 +2447,7 @@ out center;`;
 
             #listingDetailsSlider {
                 padding: 0 !important;
+                margin-bottom: 30px !important;
             }
 
             .storeInfo {
