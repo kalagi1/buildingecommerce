@@ -2942,6 +2942,7 @@ section.services-home {
     width: 135px !important;
     object-fit: cover;
     height: 100px;
+    max-width: 135px !important;
 }
 
 .homepage-9 .sc-2-detail {
