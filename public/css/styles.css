@@ -120,9 +120,12 @@ h5 {
     padding: 5px 15px;
 }
 
+.mb-30{
+    margin-bottom: 30px !important;
+}
+
 .nav-tabs {
     border: none !important;
-    margin-top: 40px !important;
 }
 
 .nav-link {
@@ -464,6 +467,17 @@ img {
     padding-top: 2.4rem;
 }
 
+@media (max-width:768px) {
+    .brand-head {
+        padding-top: 0;
+        margin-top: 20px;
+    }
+    .search-style{
+        padding: 0 !important;
+        position: relative !important;
+        margin: 10px 10px !important;
+    }
+}
 
 .brand-head .card {
     border: none;
@@ -5065,6 +5079,10 @@ section.counterup {
     width: 80%;
     height: auto;
     margin-bottom: 1.6rem;
+}
+
+.about_content h3{
+ width: 100%;
 }
 
 .about_content {
@@ -13157,6 +13175,11 @@ section.visited-cities {
     background-position: center center;
     background-repeat: no-repeat;
 }
+.heitwo{
+    height: 200px;
+    width: 350px;
+    margin: 0 auto;
+}
 
 /*----------------------------*/
 /*--- 33. PARALLAX HOME 17 ---*/
@@ -14617,6 +14640,11 @@ a.btn-white {
 }
 
 @media (max-width: 768px) {
+    .img-center {
+        background-size: cover;
+        background-position: inherit !important;
+        background-repeat: inherit !important;
+    }
     .th-18 .google-maps .filter form {
         background: #f55d2c;
     }
@@ -17397,7 +17425,6 @@ section.headings-2 {
 
 .inner-pages .headings-2 .listing-title-bar h3 {
     font-size: 16px;
-    line-height: 34px;
     font-weight: 600;
     color: #222;
     margin-bottom: 0 !important;
@@ -17411,7 +17438,6 @@ section.headings-2 {
     display: block;
     height: 3px;
     font-weight: bold;
-    content: " ";
     width: 50px;
 }
 
@@ -18167,7 +18193,12 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     line-height: 36px;
     list-style: none;
     justify-content: center;
-    color: #EA2B2E;
+    color: #274abb;
+}
+
+.reservation-list li{
+    width:50%;
+    text-align: center;
 }
 
 .checkSquareIcon {
@@ -18184,7 +18215,7 @@ span {
 
 .inner-pages .blog .homes-content .homes-list li:last-child {
     border: none;
-}
+}   
 
 .inner-pages .blog .homes-content.details-2 {
     background: black;
@@ -18281,7 +18312,6 @@ span {
     }
 
     .single.detail-wrapper {
-        margin-top: 30px;
         margin-left: 0px;
     }
 
@@ -26936,6 +26966,7 @@ section.ui-element {
     line-height: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-right: 20px;
 }
 
 .forgot-password a {
