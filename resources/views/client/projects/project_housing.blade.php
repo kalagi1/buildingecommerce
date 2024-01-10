@@ -2733,7 +2733,7 @@ out center;`;
 
             .payment-plan-table th,
             .payment-plan-table td {
-                display: block;
+                display: block !important;
                 width: 100%;
             }
 

@@ -17263,11 +17263,6 @@ section.headings-2 {
     background: #f5f7fb !important;
 }
 
-td .mr-1 {
-    width: 150px !important;
-    display: inline-flex !important;
-}
-
 .menu__tabs {
     list-style: none;
     overflow: hidden;
