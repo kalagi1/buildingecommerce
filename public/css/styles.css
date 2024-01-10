@@ -5086,10 +5086,6 @@ section.counterup {
  width: 100%;
 }
 
-.about_content {
-    display: flex;
-    justify-content: center;
-}
 
 @media screen and (max-width: 991px) {
     .first-footer .netabout {
