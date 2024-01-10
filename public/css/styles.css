@@ -2929,7 +2929,7 @@ section.services-home {
 }
 
 .homepage-9 .small-category-2-thumb {
-    width: 150px;
+    width: 135px;
     float: left;
     display: table;
     height: 100px;
@@ -5358,6 +5358,7 @@ section.counterup {
 @media screen and (max-width: 767px) {
     .first-footer .navigation h3 {
         margin-top: 3rem;
+        font-size:15px !important;
     }
 }
 
