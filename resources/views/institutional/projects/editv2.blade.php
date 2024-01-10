@@ -1613,8 +1613,8 @@
                     success: function(response) {
                         // Dosya yükleme başarılı ise sunucudan gelen yanıtı görüntüle
                         for (let i = 0; i < response.length; i++) {
-                            var imageDiv = $('<div class="project_imagex" order="'+response[i]?+'"></div>');
-                            var image = $('<img>').attr('src', '{{URL::to('/')}}/storage/project_images/'+response[i]?);
+                            var imageDiv = $('<div class="project_imagex" order="'+response[i]+'"></div>');
+                            var image = $('<img>').attr('src', '{{URL::to('/')}}/storage/project_images/'+response[i]);
                             var imageButtons = $('<div>').attr('class','image-buttons');
                             var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
                             imageButtons.append(imageButtonsIcon)
@@ -2337,10 +2337,10 @@
                     // Dönen yanıttaki ilçeleri döngüyle ekleyin
                     for (var i = 0; i < response.length; i++) {
                         countiesSelect.append($('<option>', {
-                            value: response[i]?.ilce_key, // İlçe ID'si
-                            text: response[i]?.ilce_title, // İlçe adı
-                            key_x: response[i]?.key_x,
-                            selected: (response[i]?.ilce_key == countyId ? true : false)
+                            value: response[i].ilce_key, // İlçe ID'si
+                            text: response[i].ilce_title, // İlçe adı
+                            key_x: response[i].key_x,
+                            selected: (response[i].ilce_key == countyId ? true : false)
                         }));
                     }
 
@@ -2371,9 +2371,9 @@
 
                                 for (var i = 0; i < response.length; i++) {
                                     countiesSelect.append($('<option>', {
-                                        value: response[i]?.mahalle_id, // İlçe ID'si
-                                        text: response[i]?.mahalle_title, // İlçe adı
-                                        selected: (response[i]?.mahalle_id == countyId ?
+                                        value: response[i].mahalle_id, // İlçe ID'si
+                                        text: response[i].mahalle_title, // İlçe adı
+                                        selected: (response[i].mahalle_id == countyId ?
                                             true : false)
                                     }));
                                 }
@@ -2411,9 +2411,9 @@
                     // Dönen yanıttaki ilçeleri döngüyle ekleyin
                     for (var i = 0; i < response.length; i++) {
                         countiesSelect.append($('<option>', {
-                            value: response[i]?.ilce_key, // İlçe ID'si
-                            text: response[i]?.ilce_title, // İlçe adı
-                            key_x: response[i]?.key_x,
+                            value: response[i].ilce_key, // İlçe ID'si
+                            text: response[i].ilce_title, // İlçe adı
+                            key_x: response[i].key_x,
                         }));
                     }
 
@@ -2446,8 +2446,8 @@
                     // Dönen yanıttaki ilçeleri döngüyle ekleyin
                     for (var i = 0; i < response.length; i++) {
                         countiesSelect.append($('<option>', {
-                            value: response[i]?.mahalle_id, // İlçe ID'si
-                            text: response[i]?.mahalle_title, // İlçe adı
+                            value: response[i].mahalle_id, // İlçe ID'si
+                            text: response[i].mahalle_title, // İlçe adı
                         }));
                     }
                 },

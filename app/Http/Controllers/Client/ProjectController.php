@@ -33,6 +33,8 @@ class ProjectController extends Controller
         $project = Project::where('slug', $slug)
         ->with("brand","blocks",'listItemValues', "neighbourhood","roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
         ->firstOrFail();
+        $projectHousing = $project->roomInfo->keyBy('name');
+
 
         $projectCartOrders = DB::table('cart_orders')
         ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
@@ -75,9 +77,10 @@ class ProjectController extends Controller
             $startIndex += $project->blocks[$i]->housing_count;
         }
         $endIndex = 20 + $startIndex;
+        $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
+        $status = HousingStatus::where("id", $project->status_id)->first();
 
-
-        return view('client.projects.index', compact('projectHousingsList','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+        return view('client.projects.index', compact('projectHousingsList','projectHousing','projectHousingSetting','parent','status','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
 
     }
     

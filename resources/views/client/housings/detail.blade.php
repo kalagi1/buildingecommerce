@@ -141,7 +141,7 @@
             </div>
         </div>
         <div class="container">
-            <div class="row mb-3">
+            <div class="row mb-3" style="align-items: center">
                 <div class="col-md-8">
                     <div class="container">
                         <div class="headings-2 pt-0">
@@ -588,7 +588,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <table class="table table-bordered">
+                                    <table class="table">
                                         <tbody>
                                             <tr>
                                                 <td>
@@ -639,7 +639,7 @@
                                                                     Günlük Kiralık
                                                                 @endif
                                                             @endif
-                                                            {{ $parent->title }}
+                                                            {{  $parent->title }}
                                                         @endif
                                                     </span>
                                                 </td>
@@ -734,7 +734,7 @@
                                 <div class="single homes-content">
                                     <!-- title -->
                                     <h5 class="mb-4">Özellikler</h5>
-                                    <table class="table table-bordered">
+                                    <table class="table ">
                                         <tbody class="trStyle">
                                             <tr>
                                                 <td>
@@ -746,7 +746,7 @@
                                             </tr>
 
                                             @foreach ($labels as $label => $val)
-                                                @if ($label != 'Kapak Resmi' && $val[0] != 0)
+                                                @if ($label != 'Kapak Resmi' && $label != "Taksitli Satış" && isset($val[0]) && $val[0] != 0 && $val != "[]")
                                                     <tr>
                                                         <td>
                                                             @if ($label == 'Fiyat')
@@ -1706,6 +1706,7 @@
         .trStyle tr td {
             width: 100%;
             font-size: 11px;
+            border: 1px solid #dee2e6;
         }
 
         @media (max-width:768px) {

@@ -17263,11 +17263,6 @@ section.headings-2 {
     background: #f5f7fb !important;
 }
 
-td .mr-1 {
-    width: 150px !important;
-    display: inline-flex !important;
-}
-
 .menu__tabs {
     list-style: none;
     overflow: hidden;
@@ -17418,8 +17413,6 @@ td .mr-1 {
     font-weight: bold;
     content: " ";
     width: 50px;
-    margin-top: 0.5rem;
-    margin-bottom: 1.5rem;
 }
 
 .reservation-list {
@@ -17631,11 +17624,6 @@ h4.widget_author__name {
     height: 100%;
     width: 100%;
     object-fit: contain;
-}
-
-.single-proper .mb-30,
-.property-location.map {
-    margin-bottom: 30px !important;
 }
 
 .listing-details-sliders .right i {
@@ -18615,7 +18603,7 @@ span {
 
 
     .inner-pages .headings-2 .listing-title-bar h3 {
-        font-size: 24px;
+        font-size: 14px !important;
         width: 100%;
         text-align: center;
     }
@@ -21034,6 +21022,9 @@ small {
 }
 
 @media screen and (max-width: 768px) {
+    .inner-pages .headings-2 .listing-title-bar h3:after{
+        display: none !important;
+    }
     .nav-tabs {
         align-items: stretch;
         overflow-x: auto;
@@ -27041,7 +27032,8 @@ section.ui-element {
 
 .user-type-button {
     flex: 1;
-    padding: 10px;
+    padding: 5px;
+    font-size: 12px;
     text-align: center;
     cursor: pointer;
     border: 1px solid #ccc;

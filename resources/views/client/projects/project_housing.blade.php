@@ -2632,7 +2632,6 @@ out center;`;
             font-size: 11px;
             border: 1px solid #dee2e6;
 
-
         }
 
         .mobileTagProject {
@@ -2657,6 +2656,8 @@ out center;`;
 
             #listingDetailsSlider {
                 padding: 0 !important;
+                margin-bottom: 30px !important;
+
             }
 
             .title-fs {
@@ -2734,7 +2735,7 @@ out center;`;
 
             .payment-plan-table th,
             .payment-plan-table td {
-                display: block;
+                display: block !important;
                 width: 100%;
             }
 
