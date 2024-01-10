@@ -17435,7 +17435,6 @@ section.headings-2 {
     display: block;
     height: 3px;
     font-weight: bold;
-    content: " ";
     width: 50px;
 }
 
@@ -18185,14 +18184,18 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .inner-pages .blog .homes-content .homes-list li {
-    width: 50%;
-    text-align: center;
+    width: 25%;
     float: left;
     font-size: 12px;
     line-height: 36px;
     list-style: none;
     justify-content: center;
-    color: #EA2B2E;
+    color: #274abb;
+}
+
+.reservation-list li{
+    width:50%;
+    text-align: center;
 }
 
 .checkSquareIcon {
@@ -18209,7 +18212,7 @@ span {
 
 .inner-pages .blog .homes-content .homes-list li:last-child {
     border: none;
-}
+}   
 
 .inner-pages .blog .homes-content.details-2 {
     background: black;
