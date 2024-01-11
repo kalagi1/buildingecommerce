@@ -513,7 +513,7 @@ class ProjectController extends Controller
     public function projectHousingDetail($projectSlug, $housingOrder,Request $request)
     {
         $menu = Menu::getMenuItems();
-        $project = Project::where('slug', $projectSlug)->with("brand","neighbourhood", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('slug', $projectSlug)->with("brand","neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
         $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
@@ -537,18 +537,16 @@ class ProjectController extends Controller
         for($i = 0; $i < $blockIndex; $i++){
             $startIndex += $project->blocks[$i]->housing_count;
         }
-
         $projectHousings = ProjectHousing::where('project_id',$project->id)->get();
         $projectHousingsList = [];
         $combinedValues = $projectHousings->map(function ($item) use(&$projectHousingsList) {
             $projectHousingsList[$item->room_order][$item->name] = $item->value;
         });
 
-        $endIndex = $startIndex + 20;
+        $endIndex = $project->house_count;
 
         $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
 
-    
         return view('client.projects.project_housing', compact('projectHousingsList','blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
@@ -639,5 +637,15 @@ class ProjectController extends Controller
         $projects = $projects->get();
         $menu = Menu::getMenuItems();
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
+    }
+
+    public function getProjectHousingByStartAndEnd(Request $request,$projectId,$housingOrder){
+        $projectHousings = ProjectHousing::where('project_id',$projectId)->where('room_order','>',$request->input('start'))->where('room_order','<=',$request->input('end'))->get();
+
+        $projectHousingsList = [];
+        $combinedValues = $projectHousings->map(function ($item,$key) use(&$projectHousingsList,$request) {
+            $projectHousingsList[$item->room_order- $request->input('start')][$item->name] = $item->value;
+        });
+        return $projectHousingsList;
     }
 }

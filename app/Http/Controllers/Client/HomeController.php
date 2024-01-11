@@ -98,7 +98,7 @@ class HomeController extends Controller
             ->with("city", "county",'user')
             ->whereHas('housingStatus', function ($query) {
                 $query->where('housing_type_id', '2');
-            })->with("housings", 'brand', 'roomInfo','listItemValues', 'housingType')
+            })->with( 'brand', 'roomInfo','listItemValues', 'housingType')
             ->orderBy("created_at", "desc")
             ->where('projects.status', 1)
             ->get();
@@ -108,7 +108,7 @@ class HomeController extends Controller
         ->with("city", "county",'user')
         ->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '3');
-        })->with("housings", 'brand', 'roomInfo', 'housingType')
+        })->with( 'brand', 'roomInfo', 'housingType')
         ->where('status', 1)
         ->orderBy("created_at", "desc")
         ->get();
@@ -122,8 +122,7 @@ class HomeController extends Controller
 
         $soilProjects = Project::with("city", "county",'user')->whereHas('housingStatus', function ($query) {
             $query->where('housing_type_id', '5');
-        })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
-
+        })->with( 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->get();
         return view('client.home.index', compact('start','sharerLinks','menu', "soilProjects", 'finishProjects', 'continueProjects', 'sliders', 'secondhandHousings', 'brands', 'dashboardProjects', 'dashboardStatuses', 'footerSlider'));
     }
 
