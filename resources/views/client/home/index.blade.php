@@ -968,7 +968,7 @@
                                                                     @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
                                                                             json_decode($housing->housing_type_data)->{"share-open"}[0]
                                                                            
-                                                                    )  class="btn addCollection" data-bs-toggle="modal" data-bs-target="#addCollection" data-type='housing'  data-housing-id="{{ $housing->id }}" 
+                                                                    )  class="btn addCollection" data-bs-toggle="modal" data-bs-target="#addCollection" data-type='housing' data-id="{{ $housing->id }}" 
                                                                 @else
                                                                 class="btn addCollection disabledShareButton" @endif>
                                                                     <i class="fa fa-bookmark"></i>

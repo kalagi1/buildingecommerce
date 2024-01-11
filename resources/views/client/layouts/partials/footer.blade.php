@@ -52,20 +52,23 @@
 <div class="modal fade" id="addCollection" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header"> <h3 class="modal-title fs-5" id="exampleModalLabel">Koleksiyona Ekle</h3></div>
+            <div class="modal-header">
+                <h3 class="modal-title fs-5" id="exampleModalLabel">Koleksiyona Ekle</h3>
+            </div>
             <div class="modal-body">
                 <span>Koleksiyonlarınız Yükleniyor...</span>
 
-               
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-              </div>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="newCollectionModal" tabindex="-1" aria-labelledby="newCollectionModalLabel" aria-hidden="true">
+<div class="modal fade" id="newCollectionModal" tabindex="-1" aria-labelledby="newCollectionModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -73,9 +76,8 @@
             </div>
             <div class="modal-body">
                 <label for="newCollectionNameInput">Yeni Koleksiyon Adı:</label>
-                <input type="text" id="newCollectionNameInput" name="collection_name"
-                class="form-control mb-3"
-                style="height: 45px !important" placeholder="Yeni Koleksiyon Adı">
+                <input type="text" id="newCollectionNameInput" name="collection_name" class="form-control mb-3"
+                    style="height: 45px !important" placeholder="Yeni Koleksiyon Adı">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
@@ -92,80 +94,154 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script>
-    // İlk Modal'a tıklanınca işlemler
-    $('body').on('click', '.addCollection', function (event) {
+    function isProductInCollection(productId, product) {
+        var links = @json($sharerLinks);
+        if (links != null && links.length != 0) {
+            if (links.includes(parseInt(productId))) {
+                return true; // Ürün sepette bulundu
+            }
+
+        }
+        return false;
+    }
+    $('body').on('click', '.addCollection', function(event) {
         event.preventDefault();
+
+        var button = event.target;
+        var productId = $(this).data("id");
+        var project = null;
+
+        if ($(this).data("type") == "project") {
+            project = $(this).data("project");
+        }
+
 
         fetch('/getCollections')
             .then(response => response.json())
             .then(data => {
-                let modalContent = '<div class="modal-header"><h3 class="modal-title fs-5" id="exampleModalLabel">Koleksiyona Ekle</h3></div><div class="modal-body">';
+                let modalContent =
+                    '<div class="modal-header"><h3 class="modal-title fs-5" id="exampleModalLabel">Koleksiyona Ekle</h3></div><div class="modal-body">';
 
                 if (data.collections.length > 0) {
-                    modalContent += '<span class="collectionTitle mb-3">Koleksiyonlarından birini seç veya yeni bir koleksiyon oluştur</span>';
+                    modalContent +=
+                        '<span class="collectionTitle mb-3">Koleksiyonlarından birini seç veya yeni bir koleksiyon oluştur</span>';
                     modalContent += '<div class="collection-item-wrapper" id="selectedCollectionWrapper">';
-                    modalContent += '<ul class="list-group" id="collectionList" style="justify-content: space-between;">';
+                    modalContent +=
+                        '<ul class="list-group" id="collectionList" style="justify-content: space-between;">';
                     data.collections.forEach(collection => {
                         modalContent +=
                             `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important" data-collection-id="${collection.id}">${collection.name}</li>`;
                     });
-                    modalContent += '<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important"><i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle</li>';
+                    modalContent +=
+                        '<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important"><i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle</li>';
                     modalContent += '</ul>';
                     modalContent += '</div>';
                 } else {
                     modalContent += '<p>Henüz koleksiyonun yok. Yeni koleksiyon oluştur:</p>';
                 }
 
-                modalContent += '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button></div>';
+                modalContent +=
+                    '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button></div>';
                 let modal = document.getElementById('addCollection');
                 let modalBody = modal.querySelector('.modal-content');
                 modalBody.innerHTML = modalContent;
 
-                // Koleksiyon ekleyen butona tıklandığında
                 document.querySelectorAll('#collectionList li').forEach(item => {
-                    item.addEventListener('click', function () {
+                    item.addEventListener('click', function() {
                         let selectedCollectionId = this.getAttribute('data-collection-id');
-                        closeModal();
+
+                        var cart = {
+                            id: productId, // productId nereden alındığını kontrol etmelisiniz
+                            type: $(this).data("type"),
+                            project: project, // project nereden alındığını kontrol etmelisiniz
+                            _token: "{{ csrf_token() }}",
+                            clear_cart: "no",
+                            selectedCollectionId: selectedCollectionId
+                        };
+
+                        if (isProductInCollection(productId, project)) {
+
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('add.to.cart') }}",
+                                data: JSON.stringify(cart),
+                                contentType: "application/json;charset=UTF-8",
+                                success: function(response) {
+                                    toastr.error(
+                                        "Ürün koleksiyondan Kaldırıldı."
+                                    );
+                                    button.classList.remove(
+                                        "bg-success");
+                                },
+                                error: function(error) {
+                                    console.error(error);
+                                }
+                            });
+                        } else {
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('add.to.cart') }}",
+                                data: JSON.stringify(cart),
+                                contentType: "application/json;charset=UTF-8",
+                                success: function(response) {
+                                    toastr.success(
+                                        "Ürün Koleksiyonunuza Eklendi"
+                                    );
+                                    if (!button.classList
+                                        .contains("mobile")) {;
+                                    }
+                                    button.classList.add(
+                                        "bg-success");
+                                        
+                                },
+                                error: function(error) {
+                                    console.error(error);
+                                }
+                            });
+                            closeModal();
+                        }
                     });
                 });
 
+
                 // "Yeni Ekle" butonuna tıklandığında ikinci modalı aç
-                document.querySelector('#collectionList li:last-child').addEventListener('click', function () {
-                    $('#addCollection').modal('hide');
-                    $('#newCollectionModal').modal('show');
-                });
+                document.querySelector('#collectionList li:last-child').addEventListener('click',
+                    function() {
+                        $('#addCollection').modal('hide');
+                        $('#newCollectionModal').modal('show');
+                    });
             });
     });
+    $('#saveNewCollectionBtn').on('click', function() {
+        let newCollectionName = $('#newCollectionNameInput').val();
+        if (newCollectionName) {
+            // AJAX ile yeni koleksiyonu backend'e kaydet
+            $.ajax({
+                type: 'POST', // Veri gönderme yöntemi (POST)
+                url: '/collections', // Verilerin gönderileceği URL
+                data: {
+                    collection_name: newCollectionName,
+                    _token: "{{ csrf_token() }}",
+                }, // Gönderilecek veri
+                success: function(response) {
+                    console.log(response);
+                    if (response) {
+                        $('#newCollectionModal').modal('hide');
+                        $('#newCollectionNameInput').val(" ");
+                        toastr.success('Yeni koleksiyon oluşturuldu: ' + newCollectionName);
 
-   // Yeni koleksiyon eklenen butona tıklandığında
-$('#saveNewCollectionBtn').on('click', function () {
-    let newCollectionName = $('#newCollectionNameInput').val();
-    if (newCollectionName) {
-        // AJAX ile yeni koleksiyonu backend'e kaydet
-        $.ajax({
-            type: 'POST', // Veri gönderme yöntemi (POST)
-            url: '/collections', // Verilerin gönderileceği URL
-            data: { collection_name: newCollectionName ,
-                _token: "{{ csrf_token() }}",}, // Gönderilecek veri
-            success: function (response) {
-                console.log(response);
-                if (response) {
-                    $('#newCollectionModal').modal('hide');
-                    $('#newCollectionNameInput').val(" ");
-                    toastr.success('Yeni koleksiyon oluşturuldu: ' + newCollectionName);
-
-                } else {
-                    toastr.error('Koleksiyon eklenirken bir hata oluştu.');
+                    } else {
+                        toastr.error('Koleksiyon eklenirken bir hata oluştu.');
+                    }
+                },
+                error: function(error) {
+                    console.error('Koleksiyon eklenirken bir hata oluştu:', error);
                 }
-            },
-            error: function (error) {
-                console.error('Koleksiyon eklenirken bir hata oluştu:', error);
-            }
-        });
-    } else {
-        toastr.warning('Lütfen yeni bir koleksiyon adı girin.');
-    }
-});
+            });
+        } else {
+            toastr.warning('Lütfen yeni bir koleksiyon adı girin.');
+        }
+    });
 
     function closeModal() {
         $('#addCollection').modal('hide');
@@ -407,11 +483,11 @@ $('#saveNewCollectionBtn').on('click', function () {
         justify-content: start;
     }
 
-    .collectionTitle{
+    .collectionTitle {
         width: 100%;
-    display: block;
-    color: black;
-    font-size: 13px !important;
+        display: block;
+        color: black;
+        font-size: 13px !important;
     }
 
     .circleIcon {
@@ -1153,6 +1229,8 @@ $('#saveNewCollectionBtn').on('click', function () {
             var cart = @json(session('cart', []));
             return cart.length <= 0;
         }
+
+
 
         function isProductInCart(productId, product) {
             var cart = @json(session('cart', []));

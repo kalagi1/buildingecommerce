@@ -27710,6 +27710,9 @@ input[type="checkbox"]::before {
 .disabledShareButton .fa-bookmark:before{
     color:white !important;
 }
+.bg-success .fa-bookmark:before{
+    color:white !important;
+}
 .disabledShareButton {
     width: 100%;
     height: 40px;

@@ -85,9 +85,9 @@ class CartController extends Controller {
             $room = $productDetails->housing;
 
         }
-            
+
         $productTable =
-            '<table style="width:100%;border-collapse: collapse;">
+        '<table style="width:100%;border-collapse: collapse;">
                 <tr>
                     <th style="border: 1px solid #dddddd;width:120px; text-align: left; padding: 8px;">Emlak Görseli</th>
                     <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Emlak</th>
@@ -106,7 +106,7 @@ class CartController extends Controller {
                 </tr>
             </table>';
 
-                if ( session()->get( 'sharer_username' ) ) {
+        if ( session()->get( 'sharer_username' ) ) {
             if ( $cartJson[ 'type' ] == 'project' ) {
                 $project = Project::where( 'id', $cartJson[ 'item' ][ 'id' ] )->first();
                 $sharerPercent = ProjectHousing::where( 'name', 'share-percent[]' )->first();
@@ -225,7 +225,7 @@ class CartController extends Controller {
 
         public function add( Request $request ) {
             try {
-                if ( auth()->user()->type == 9 ) {
+                if ( auth()->user()->type == 21 ) {
                     $type = $request->input( 'type' );
                     $id = $request->input( 'id' );
                     $project = $request->input( 'project' );
@@ -244,6 +244,7 @@ class CartController extends Controller {
                             ShareLink::create( [
                                 'user_id' => auth()->user()->id,
                                 'item_type' => 1,
+                                'collection_id' =>  $request->input( 'selectedCollectionId' ),
                                 'item_id' => $project,
                                 'room_order' => $id
                             ] );
@@ -251,14 +252,15 @@ class CartController extends Controller {
 
                     } else {
                         $sharerLinks = array_values( array_keys( ShareLink::where( 'user_id', auth()->user()->id )->where( 'item_type', 2 )->get()->keyBy( 'item_id' )->toArray() ) );
-
                         if ( in_array( $id, $sharerLinks ) ) {
                             ShareLink::where( 'item_id', $id )->where( 'item_type', 2 )->delete();
                         } else {
                             ShareLink::create( [
                                 'user_id' => auth()->user()->id,
                                 'item_type' => 2,
-                                'item_id' => $id
+                                'item_id' => $id,
+                                'collection_id' =>  $request->input( 'selectedCollectionId' ),
+
                             ] );
                         }
 
