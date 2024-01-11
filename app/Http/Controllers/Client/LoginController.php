@@ -49,49 +49,58 @@ class LoginController extends Controller {
             } elseif ( $user->status == 1 ) {
                 if ( Auth::attempt( $credentials ) ) {
                     $user = Auth::user();
-                    $updateUser = User::where("id",Auth::user()->id)->first();
+                    $updateUser = User::where( 'id', Auth::user()->id )->first();
 
-                    if ($user->type == 1 && !$user->last_login) {
+                    if ( $user->type == 1 && !$user->last_login ) {
                         // Bireysel kullanıcı için ilk giriş hoş geldiniz mesajı
-                        DocumentNotification::create([
+                        DocumentNotification::create( [
                             'user_id' => $user->id,
                             'text' => 'Sayın ' . $user->name . ', Emlak Sepette ailesine hoş geldiniz! İhtiyaçlarınıza uygun emlakları keşfetmek veya güvenli bir şekilde tatil rezervasyonu yapmak için sitemizi kullanabilirsiniz. İyi günler dileriz.',
                             'item_id' => $user->id,
-                            'link' => route('index'),
+                            'link' => route( 'index' ),
                             'owner_id' => $user->id,
                             'is_visible' => true,
-                        ]);
-                    
+                        ] );
+
                         // last_login alanını güncelle
-                        $updateUser->update(['last_login' => now()]);
-                    } elseif ($user->type == 2 && !$user->last_login) {
+                        $updateUser->update( [ 'last_login' => now() ] );
+                    } elseif ( $user->type == 2 && !$user->last_login ) {
                         // Kurumsal kullanıcı için ilk giriş hoş geldiniz mesajı
-                        DocumentNotification::create([
+                        DocumentNotification::create( [
                             'user_id' => $user->id,
                             'text' => 'Sayın ' . $user->name . ', Emlak Sepette ailesine hoş geldiniz! Kurumsal hesabınızla projeler veya emlaklarınızı satışa sunabilirsiniz. İhtiyaçlarınıza uygun işlemleri gerçekleştirmek için sitemizi kullanabilirsiniz. İyi çalışmalar dileriz.',
                             'item_id' => $user->id,
-                            'link' => route('index'),
+                            'link' => route( 'index' ),
                             'owner_id' => $user->id,
                             'is_visible' => true,
-                        ]);
-                    
+                        ] );
+
                         // last_login alanını güncelle
-                        $updateUser->update(['last_login' => now()]);
-                    } elseif ($user->type != 3 && $user->type != 1 && $user->type != 2 && !$user->last_login) {
+                        $updateUser->update( [ 'last_login' => now() ] );
+                    } elseif ( $user->type != 3 && $user->type != 1 && $user->type != 2 &&  $user->type != 21 && !$user->last_login ) {
                         // Kurumsal alt kullanıcı için hoş geldiniz mesajı
-                        DocumentNotification::create([
+                        DocumentNotification::create( [
                             'user_id' => $user->id,
                             'text' => 'Sayın ' . $user->name . ', Emlak Sepette ailesine hoş geldiniz! Kurumsal hesabınızın verdiği yetkilere göre işlemleri gerçekleştirebilirsiniz. İhtiyaçlarınıza uygun işlemleri gerçekleştirmek için sitemizi kullanabilirsiniz. İyi çalışmalar dileriz.',
                             'item_id' => $user->id,
-                            'link' => route('index'),
+                            'link' => route( 'index' ),
                             'owner_id' => $user->id,
                             'is_visible' => true,
-                        ]);
-                    
+                        ] );
+
                         // last_login alanını güncelle
-                        $updateUser->update(['last_login' => now()]);
+                        $updateUser->update( [ 'last_login' => now() ] );
+                    } elseif ( $user->type == 21 && !$user->last_login && $user->type != 1 && $user->type != 2 ) {
+                        DocumentNotification::create( [
+                            'user_id' => $user->id,
+                            'text' => 'Merhaba ' . $user->name . '! Emlak Kulüp ailesine hoş geldiniz! Emlak Sepette projeleri ve konutları koleksiyonunuza ekleyip paylaşarak kazanç elde edebilirsiniz. Sadece sizinle paylaşılan linkler üzerinden yapılan alışverişlerden komisyon alacaksınız. İyi kazançlar dileriz!',
+                            'item_id' => $user->id,
+                            'link' => route( 'index' ),
+                            'owner_id' => $user->id,
+                            'is_visible' => true,
+                        ] );
+
                     }
-                    
 
                     if ( $user->type == 3 ) {
                         return redirect()->intended( '/admin' );
