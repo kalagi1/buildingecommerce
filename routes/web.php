@@ -34,6 +34,7 @@ use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChan
 use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboardController;
 use App\Http\Controllers\ClientPanel\ProfileController as ClientPanelProfileController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\CollectionController;
 use App\Http\Controllers\Client\ReservationController;
 use App\Http\Controllers\Client\CountyController;
 use App\Http\Controllers\Client\FavoriteController;
@@ -156,7 +157,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
     Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
     Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
+
 });
+Route::get('/getCollections', [CollectionController::class, 'getCollections']);
+Route::resource('collections', CollectionController::class);
 
 Route::get('/login_with_google', [ClientLoginController::class, "googleLogin"])->name('client.google.login');
 Route::get('/login-with-google', [ClientLoginController::class, "redirectGoogle"])->name('redirect.google.login');

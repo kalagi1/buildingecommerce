@@ -49,7 +49,129 @@
         </div>
     </div>
 </footer>
+<div class="modal fade" id="addCollection" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"> <h3 class="modal-title fs-5" id="exampleModalLabel">Koleksiyona Ekle</h3></div>
+            <div class="modal-body">
+                <span>Koleksiyonlarınız Yükleniyor...</span>
+
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+              </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newCollectionModal" tabindex="-1" aria-labelledby="newCollectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title fs-5" id="newCollectionModalLabel">Yeni Koleksiyon Ekle</h3>
+            </div>
+            <div class="modal-body">
+                <label for="newCollectionNameInput">Yeni Koleksiyon Adı:</label>
+                <input type="text" id="newCollectionNameInput" name="collection_name"
+                class="form-control mb-3"
+                style="height: 45px !important" placeholder="Yeni Koleksiyon Adı">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" id="saveNewCollectionBtn">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+    // İlk Modal'a tıklanınca işlemler
+    $('body').on('click', '.addCollection', function (event) {
+        event.preventDefault();
+
+        fetch('/getCollections')
+            .then(response => response.json())
+            .then(data => {
+                let modalContent = '<div class="modal-header"><h3 class="modal-title fs-5" id="exampleModalLabel">Koleksiyona Ekle</h3></div><div class="modal-body">';
+
+                if (data.collections.length > 0) {
+                    modalContent += '<span class="collectionTitle mb-3">Koleksiyonlarından birini seç veya yeni bir koleksiyon oluştur</span>';
+                    modalContent += '<div class="collection-item-wrapper" id="selectedCollectionWrapper">';
+                    modalContent += '<ul class="list-group" id="collectionList" style="justify-content: space-between;">';
+                    data.collections.forEach(collection => {
+                        modalContent +=
+                            `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important" data-collection-id="${collection.id}">${collection.name}</li>`;
+                    });
+                    modalContent += '<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important"><i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle</li>';
+                    modalContent += '</ul>';
+                    modalContent += '</div>';
+                } else {
+                    modalContent += '<p>Henüz koleksiyonun yok. Yeni koleksiyon oluştur:</p>';
+                }
+
+                modalContent += '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button></div>';
+                let modal = document.getElementById('addCollection');
+                let modalBody = modal.querySelector('.modal-content');
+                modalBody.innerHTML = modalContent;
+
+                // Koleksiyon ekleyen butona tıklandığında
+                document.querySelectorAll('#collectionList li').forEach(item => {
+                    item.addEventListener('click', function () {
+                        let selectedCollectionId = this.getAttribute('data-collection-id');
+                        closeModal();
+                    });
+                });
+
+                // "Yeni Ekle" butonuna tıklandığında ikinci modalı aç
+                document.querySelector('#collectionList li:last-child').addEventListener('click', function () {
+                    $('#addCollection').modal('hide');
+                    $('#newCollectionModal').modal('show');
+                });
+            });
+    });
+
+   // Yeni koleksiyon eklenen butona tıklandığında
+$('#saveNewCollectionBtn').on('click', function () {
+    let newCollectionName = $('#newCollectionNameInput').val();
+    if (newCollectionName) {
+        // AJAX ile yeni koleksiyonu backend'e kaydet
+        $.ajax({
+            type: 'POST', // Veri gönderme yöntemi (POST)
+            url: '/collections', // Verilerin gönderileceği URL
+            data: { collection_name: newCollectionName ,
+                _token: "{{ csrf_token() }}",}, // Gönderilecek veri
+            success: function (response) {
+                console.log(response);
+                if (response) {
+                    $('#newCollectionModal').modal('hide');
+                    $('#newCollectionNameInput').val(" ");
+                    toastr.success('Yeni koleksiyon oluşturuldu: ' + newCollectionName);
+
+                } else {
+                    toastr.error('Koleksiyon eklenirken bir hata oluştu.');
+                }
+            },
+            error: function (error) {
+                console.error('Koleksiyon eklenirken bir hata oluştu:', error);
+            }
+        });
+    } else {
+        toastr.warning('Lütfen yeni bir koleksiyon adı girin.');
+    }
+});
+
+    function closeModal() {
+        $('#addCollection').modal('hide');
+        $('#newCollectionModal').modal('hide');
+    }
+</script>
 
 <script>
     $(document).ready(function() {
@@ -283,6 +405,13 @@
         display: flex;
         align-items: center;
         justify-content: start;
+    }
+
+    .collectionTitle{
+        width: 100%;
+    display: block;
+    color: black;
+    font-size: 13px !important;
     }
 
     .circleIcon {
@@ -884,8 +1013,7 @@
 <script src="{{ URL::to('/') }}/js/script.js"></script>
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 <!-- SweetAlert2 CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
@@ -894,11 +1022,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
+
+
+
         checkFavorites();
         checkProjectFavorites();
         var cart = @json(session('cart', []));
 
-        // Tüm "Sepete Ekle" düğmelerini seçin
         var addToCartButtons = document.querySelectorAll(".CartBtn");
         $('body').on('click', '.CartBtn', function(event) {
             event.preventDefault();
@@ -923,11 +1053,7 @@
 
             if (isProductInCart(productId, project)) {
                 Swal.fire({
-                    title: @if (auth()->check() && auth()->user()->type == 21)
-                        "Ürünü koleksiyonunuzdan kaldırmak istiyor musunuz?"
-                    @else
-                        "Ürünü sepetten kaldırmak istiyor musunuz?"
-                    @endif ,
+                    title: "Ürünü sepetten kaldırmak istiyor musunuz?",
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonText: "Evet, Kaldır",
@@ -955,19 +1081,13 @@
                 });
             } else {
                 Swal.fire({
-                    @if (auth()->check() && auth()->user()->type == 21)
-                        title: 'Koleksiyonunuza eklemek istiyor musunuz?',
-                    @else
-                        title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
-                            'Mevcut sepeti temizlemek istiyor musunuz?',
-                    @endif
+
+                    title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
+                        'Mevcut sepeti temizlemek istiyor musunuz?',
+
                     icon: 'question',
                     showCancelButton: true,
-                    confirmButtonText: @if (auth()->check() && auth()->user()->type == 21)
-                        'Evet'
-                    @else
-                        isCartEmpty() ? 'Evet' : 'Evet, temizle'
-                    @endif ,
+                    confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
                     cancelButtonText: 'Hayır',
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -977,18 +1097,10 @@
                             data: JSON.stringify(cart),
                             contentType: "application/json;charset=UTF-8",
                             success: function(response) {
-                                @if (auth()->check() && auth()->user()->type == 21)
-                                    toastr.success("Ürün Koleksiyonunuza Eklendi");
-                                    if (!button.classList.contains("mobile")) {
-                                        button.textContent =
-                                            "Koleksiyonuma Eklendi";
-                                    }
-                                @else
-                                    toastr.success("Ürün Sepete Eklendi");
-                                    if (!button.classList.contains("mobile")) {
-                                        button.textContent = "Sepete Eklendi";
-                                    }
-                                @endif
+                                toastr.success("Ürün Sepete Eklendi");
+                                if (!button.classList.contains("mobile")) {
+                                    button.textContent = "Sepete Eklendi";
+                                }
                                 button.classList.add("bg-success");
                                 window.location.href = "/sepetim";
 
@@ -1026,16 +1138,9 @@
                 }
 
                 if (isProductInCart(productId, product)) {
-
-                    @if (auth()->check() && auth()->user()->type == 21)
-                        if (!button.classList.contains("mobile")) {
-                            button.querySelector(".text").textContent = "Koleksiyonuma eklendi";
-                        }
-                    @else
-                        if (!button.classList.contains("mobile")) {
-                            button.querySelector(".text").textContent = "Sepete Eklendi";
-                        }
-                    @endif
+                    if (!button.classList.contains("mobile")) {
+                        button.querySelector(".text").textContent = "Sepete Eklendi";
+                    }
 
                     button.classList.add("bg-success");
                 } else {
@@ -1050,33 +1155,19 @@
         }
 
         function isProductInCart(productId, product) {
-            @if (auth()->check() && auth()->user()->type == 21)
-                var links = @json($sharerLinks);
-                console.log(productId, links, links.includes(productId));
-                if (links.length != 0) {
-                    if (links.includes(parseInt(productId))) {
+            var cart = @json(session('cart', []));
+            if (cart.length != 0) {
+                if (product != null) {
+                    if (cart.item.id == product && cart.item.housing == productId) {
+                        return true;
+                    }
+                } else {
+                    if (cart.item.id == productId) {
                         return true; // Ürün sepette bulundu
                     }
-
                 }
-                return false; // Ürün sepette bulunamadı
-            @else
-                var cart = @json(session('cart', []));
-                if (cart.length != 0) {
-                    if (product != null) {
-                        if (cart.item.id == product && cart.item.housing == productId) {
-                            return true;
-                        }
-                    } else {
-                        console.log(productId);
-                        console.log(cart.item.id);
-                        if (cart.item.id == productId) {
-                            return true; // Ürün sepette bulundu
-                        }
-                    }
-                }
-                return false; // Ürün sepette bulunamadı
-            @endif
+            }
+            return false;
         }
 
         function checkProjectFavorites() {

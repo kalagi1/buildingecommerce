@@ -225,7 +225,7 @@ class CartController extends Controller {
 
         public function add( Request $request ) {
             try {
-                if ( auth()->user()->type == 21 ) {
+                if ( auth()->user()->type == 9 ) {
                     $type = $request->input( 'type' );
                     $id = $request->input( 'id' );
                     $project = $request->input( 'project' );

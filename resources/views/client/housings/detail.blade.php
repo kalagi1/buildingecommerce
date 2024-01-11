@@ -508,53 +508,30 @@
                                                     <span class="text">Satıldı</span>
                                                 </button>
                                             @else
-                                                @if (auth()->check() && auth()->user()->type == 21)
-                                                    @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
-                                                            json_decode($housing->housing_type_data)->{"share-open"}[0]
-                                                    )
-                                                        <button class="CartBtn" data-type='housing'
-                                                            data-id='{{ $housing->id }}'>
-                                                            <span class="IconContainer">
-                                                                <img src="{{ asset('link.png') }}" alt="">
-                                                            </span>
-                                                            <span class="text">Koleksiyonuma Ekle</span>
-                                                        </button>
-                                                    @else
-                                                        <button class="disabledShareButton" data-type='housing'
-                                                            data-id='{{ $housing->id }}'>
-                                                            <span class="IconContainer">
-                                                                <img src="{{ asset('link.png') }}" alt="">
-                                                            </span>
-                                                            <span class="text">Paylaşıma Kapalı</span>
-                                                        </button>
-                                                    @endif
-                                                @else
-                                                    @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
-                                                        @php
-                                                            $buttonStyle = '';
-                                                            $buttonText = '';
-                                                            if ($sold[0]->status == '0') {
-                                                                $buttonStyle = 'background: orange !important; width: 100%; color: white;';
-                                                                $buttonText = 'Rezerve Edildi';
-                                                            } else {
-                                                                $buttonStyle = 'background: red !important; width: 100%; color: white;';
-                                                                $buttonText = 'Satıldı';
-                                                            }
-                                                        @endphp
+                                                @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
+                                                    @php
+                                                        $buttonStyle = '';
+                                                        $buttonText = '';
+                                                        if ($sold[0]->status == '0') {
+                                                            $buttonStyle = 'background: orange !important; width: 100%; color: white;';
+                                                            $buttonText = 'Rezerve Edildi';
+                                                        } else {
+                                                            $buttonStyle = 'background: red !important; width: 100%; color: white;';
+                                                            $buttonText = 'Satıldı';
+                                                        }
+                                                    @endphp
 
-                                                        <button class="btn second-btn soldBtn"
-                                                            style="{{ $buttonStyle }}">
-                                                            <span class="text">{{ $buttonText }}</span>
-                                                        </button>
-                                                    @else
-                                                        <button class="CartBtn" data-type='housing'
-                                                            data-id='{{ $housing->id }}'>
-                                                            <span class="IconContainer">
-                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                            </span>
-                                                            <span class="text">Sepete Ekle</span>
-                                                        </button>
-                                                    @endif
+                                                    <button class="btn second-btn soldBtn" style="{{ $buttonStyle }}">
+                                                        <span class="text">{{ $buttonText }}</span>
+                                                    </button>
+                                                @else
+                                                    <button class="CartBtn" data-type='housing'
+                                                        data-id='{{ $housing->id }}'>
+                                                        <span class="IconContainer">
+                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                        </span>
+                                                        <span class="text">Sepete Ekle</span>
+                                                    </button>
                                                 @endif
                                             @endif
 
@@ -574,7 +551,7 @@
                                 </div>
                                 <div class="widget-boxed-body">
                                     <div class="sidebar-widget author-widget2">
-    
+
                                         <div class="author-box clearfix d-flex align-items-center">
                                             <img src="{{ URL::to('/') . '/storage/profile_images/' . $housing->user->profile_image }}"
                                                 alt="author-image" class="author__img">
@@ -583,7 +560,7 @@
                                                     href="{{ route('instituional.dashboard', Str::slug($housing->user->name)) }}">
                                                     <h4 class="author__title">{!! $housing->user->name !!}</h4>
                                                 </a>
-    
+
                                                 <p class="author__meta">
                                                     {{ $housing->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
                                                 </p>
@@ -611,9 +588,9 @@
                                                                 '' !!}
                                                         </span>
                                                     </td>
-    
+
                                                 </tr>
-    
+
                                                 @if ($housing->user->phone)
                                                     <tr>
                                                         <td>
@@ -625,7 +602,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-    
+
                                                 <tr>
                                                     <td>
                                                         Proje Tipi :
@@ -640,7 +617,7 @@
                                                                         Günlük Kiralık
                                                                     @endif
                                                                 @endif
-                                                                {{  $parent->title }}
+                                                                {{ $parent->title }}
                                                             @endif
                                                         </span>
                                                     </td>
@@ -652,18 +629,18 @@
                                                             <a style="text-decoration: none;color:inherit"
                                                                 href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
                                                         </span>
-    
+
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
-    
+
                                 </div>
                             </div>
                         </div>
 
-                     
+
                         @if (count($housing->user->banners) > 0)
                             <div class="widget-boxed popular mt-5">
                                 <div class="widget-boxed-header">
@@ -750,7 +727,7 @@
                                             </tr>
 
                                             @foreach ($labels as $label => $val)
-                                                @if ($label != 'Kapak Resmi' && $label != "Taksitli Satış" && isset($val[0]) && $val[0] != 0 && $val != "[]")
+                                                @if ($label != 'Kapak Resmi' && $label != 'Taksitli Satış' && isset($val[0]) && $val[0] != 0 && $val != '[]')
                                                     <tr>
                                                         <td>
                                                             @if ($label == 'Fiyat')
@@ -1388,7 +1365,7 @@
                             owner_id: {{ $housing->user->id }},
                             price: price * diffDays,
                             key: key,
-                            fullName: fullName, 
+                            fullName: fullName,
                             email: email,
                             tc: tc,
                             phone: phone,
@@ -1720,13 +1697,16 @@
             .listingDetailsSliderNav {
                 display: none !important;
             }
-            #listingDetailsSlider{
+
+            #listingDetailsSlider {
                 padding: 0 !important;
                 margin-bottom: 30px !important;
             }
-            .schedule.widget-boxed{
+
+            .schedule.widget-boxed {
                 margin-bottom: 30px !important;
             }
+
             .trStyle tr {
                 width: 100%;
             }
