@@ -30,7 +30,7 @@ class ChangePasswordController extends Controller
         ]);
 
         if (!Hash::check($request->current_password, $user->password)) {
-            return redirect()->back()->withErrors(['current_password' => 'Mevcut şifre hatalı.']);
+            return redirect()->route('institutional.password.edit')->with('error', 'Mevcut şifre hatalı.');
         }
 
         $user->password = Hash::make($request->new_password);

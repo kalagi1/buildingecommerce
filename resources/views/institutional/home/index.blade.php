@@ -4,106 +4,118 @@
 @section('content')
     <div class="content">
         @if (isset($userLog->parent))
-        <div class="row gy-3 mb-6 justify-content-between">
-            <div class="col-md-12 col-auto">
+            <div class="row gy-3 mb-6 justify-content-between">
+                <div class="col-md-12 col-auto">
                     <span class="badge bg-info "> Kurumsal Hesap:
                         {{ $userLog->parent->name }}</span>
-             
+
+                </div>
             </div>
-        </div>
         @endif
-        <div class="d-flex mb-5 " id="scrollspyStats"><span class="fa-stack me-2 ms-n1"><svg
-                    class="svg-inline--fa fa-circle fa-stack-2x text-primary" aria-hidden="true" focusable="false"
-                    data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512" data-fa-i2svg="">
-                    <path fill="currentColor"
-                        d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z">
-                    </path>
-                </svg><!-- <i class="fas fa-circle fa-stack-2x text-primary"></i> Font Awesome fontawesome.com --><svg
-                    class="svg-inline--fa fa-percent fa-inverse fa-stack-1x text-primary-soft" aria-hidden="true"
-                    focusable="false" data-prefix="fas" data-icon="percent" role="img"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
-                    <path fill="currentColor"
-                        d="M374.6 73.39c-12.5-12.5-32.75-12.5-45.25 0l-320 320c-12.5 12.5-12.5 32.75 0 45.25C15.63 444.9 23.81 448 32 448s16.38-3.125 22.62-9.375l320-320C387.1 106.1 387.1 85.89 374.6 73.39zM64 192c35.3 0 64-28.72 64-64S99.3 64.01 64 64.01S0 92.73 0 128S28.7 192 64 192zM320 320c-35.3 0-64 28.72-64 64s28.7 64 64 64s64-28.72 64-64S355.3 320 320 320z">
-                    </path>
-                </svg><!-- <i class="fa-inverse fa-stack-1x text-primary-soft fas fa-percentage"></i> Font Awesome fontawesome.com --></span>
-            <div class="col">
-                <h3 class="mb-0 text-primary position-relative fw-bold">
-                    <span class="bg-soft pe-2">
-                        {{ $userLog->name }} Hoş Geldiniz.
-                    </span><span
-                        class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
-                </h3>  
-              
-                <span style="color:black" class="mt-5">Emlak Sepette, ücretsiz ve sınırsız süresiz ilan paylaşımı imkanı sunarak ilanlarınızın satışına aracılık eder. Değerli kurumsal üyelerimizden aylık sabit ücret talep etmez. İlanlarınızın daha hızlı satılmasına ve kiralanmasına aracı oluruz.
-
-                    Emlak ilanlarında, toplam fiyat üzerinden %0.5 komisyon uygulanır.
-                    Toplu konut projelerinde ise toplam fiyat üzerinden %1 komisyon alınır.</span>
-                                </div>
-        </div>
+        @if ($userLog->type != 21)
+            <div class="d-flex mb-5 " id="scrollspyStats"><span class="fa-stack me-2 ms-n1"><svg
+                        class="svg-inline--fa fa-circle fa-stack-2x text-primary" aria-hidden="true" focusable="false"
+                        data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512" data-fa-i2svg="">
+                        <path fill="currentColor"
+                            d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z">
+                        </path>
+                    </svg><!-- <i class="fas fa-circle fa-stack-2x text-primary"></i> Font Awesome fontawesome.com --><svg
+                        class="svg-inline--fa fa-percent fa-inverse fa-stack-1x text-primary-soft" aria-hidden="true"
+                        focusable="false" data-prefix="fas" data-icon="percent" role="img"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
+                        <path fill="currentColor"
+                            d="M374.6 73.39c-12.5-12.5-32.75-12.5-45.25 0l-320 320c-12.5 12.5-12.5 32.75 0 45.25C15.63 444.9 23.81 448 32 448s16.38-3.125 22.62-9.375l320-320C387.1 106.1 387.1 85.89 374.6 73.39zM64 192c35.3 0 64-28.72 64-64S99.3 64.01 64 64.01S0 92.73 0 128S28.7 192 64 192zM320 320c-35.3 0-64 28.72-64 64s28.7 64 64 64s64-28.72 64-64S355.3 320 320 320z">
+                        </path>
+                    </svg><!-- <i class="fa-inverse fa-stack-1x text-primary-soft fas fa-percentage"></i> Font Awesome fontawesome.com --></span>
+                <div class="col">
 
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="bg-white p-3 border rounded-md">
-                    <strong>Firmanızın Konut İstatistiği</strong>
-                    <div id="stat-1" style="height: 350px;"></div>
+
+                    <h3 class="mb-0 text-primary position-relative fw-bold">
+                        <span class="bg-soft pe-2">
+                            {{ $userLog->name }} Hoş Geldiniz.
+                        </span><span
+                            class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
+                    </h3>
+                    <span style="color:black" class="mt-5">Emlak Sepette, ücretsiz, sınırsız ve süresiz ilan paylaşımı
+                        imkanı sunarak ilanlarınızın satışına aracılık eder. Değerli kurumsal üyelerimizden aylık sabit
+                        ücret talep
+                        etmeyiz. İlanlarınızın daha hızlı satılmasına ve kiralanmasına aracılık ederiz.
+
+                        Emlak ilanlarınızın, emlak sepette ile satılması durumunda %0.5 hizmet bedeli alınır.
+                        .</span>
+
+
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="bg-white p-3 border rounded-md">
-                    <strong>Firmanızın Proje İstatistiği</strong>
-                    <div id="stat-2" style="height: 350px;"></div>
+            @else
+            <h2 class="mb-2 text-body-emphasis">EMLAK KULÜP</h2>
+        @endif
+        @if ($userLog->type != 21)
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="bg-white p-3 border rounded-md">
+                        <strong>Firmanızın Konut İstatistiği</strong>
+                        <div id="stat-1" style="height: 350px;"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-white p-3 border rounded-md">
+                        <strong>Firmanızın Proje İstatistiği</strong>
+                        <div id="stat-2" style="height: 350px;"></div>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
+
     </div>
 
-    @if (Auth::check() && Auth::user()->type !="3")
-    <!-- HTML -->
-<button class="chatbox-open">
-  <i class="fa fa-comment" aria-hidden="true"></i>
-</button>
-<button class="chatbox-close">
-  <i class="fa fa-close" aria-hidden="true"></i>
-</button>
-<div class="chatbox-popup">
-  <header class="chatbox-popup__header">
-      <aside style="flex:8">
-          <h4 style="color: white">Emlak Sepette Canlı Destek</h4>
-      </aside>
-  </header>
-  <main class="chatbox-popup__main">
-      <div class="chatbox-messages">
-          <div class="msg left-msg">
+    @if (Auth::check() && Auth::user()->type != '3')
+        <!-- HTML -->
+        <button class="chatbox-open">
+            <i class="fa fa-comment" aria-hidden="true"></i>
+        </button>
+        <button class="chatbox-close">
+            <i class="fa fa-close" aria-hidden="true"></i>
+        </button>
+        <div class="chatbox-popup">
+            <header class="chatbox-popup__header">
+                <aside style="flex:8">
+                    <h4 style="color: white">Emlak Sepette Canlı Destek</h4>
+                </aside>
+            </header>
+            <main class="chatbox-popup__main">
+                <div class="chatbox-messages">
+                    <div class="msg left-msg">
 
-              <div class="msg-bubble">
+                        <div class="msg-bubble">
 
-                  <div class="msg-text">
-                      Merhaba size nasıl yardımcı olabiliriz ?
-                  </div>
-              </div>
-          </div>
+                            <div class="msg-text">
+                                Merhaba size nasıl yardımcı olabiliriz ?
+                            </div>
+                        </div>
+                    </div>
 
-      </div>
-  </main>
-  <footer class="chatbox-popup__footer">
-      <aside style="flex:10">
-          <textarea id="userMessage" type="text" placeholder="Mesajınızı Yazınız..." autofocus
-              onkeydown="handleKeyPress(event)"></textarea>
-      </aside>
-      <aside style="flex:1;color:#888;text-align:center;">
-          <button onclick="sendMessage()" class="btn btn-primary"><i class="fa fa-paper-plane"
-                  aria-hidden="true"></i></button>
-      </aside>
-  </footer>
-</div>
-@endif
+                </div>
+            </main>
+            <footer class="chatbox-popup__footer">
+                <aside style="flex:10">
+                    <textarea id="userMessage" type="text" placeholder="Mesajınızı Yazınız..." autofocus
+                        onkeydown="handleKeyPress(event)"></textarea>
+                </aside>
+                <aside style="flex:1;color:#888;text-align:center;">
+                    <button onclick="sendMessage()" class="btn btn-primary"><i class="fa fa-paper-plane"
+                            aria-hidden="true"></i></button>
+                </aside>
+            </footer>
+        </div>
+    @endif
 @endsection
 
 @section('scripts')
     <script>
-           document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function() {
             // Sayfa yüklendiğinde mevcut sohbet geçmişini çekmek için bir AJAX çağrısı yapabilirsiniz
             fetchChatHistory();
         });
@@ -113,7 +125,7 @@
                 url: 'chat/history',
                 method: 'GET',
                 success: function(response) {
-                    
+
                     renderChatHistory(response);
                 },
                 error: function(error) {
@@ -216,7 +228,7 @@
             $(".chatbox-panel").fadeOut();
             $(".chatbox-open").fadeIn();
         });
-        
+
         var dom = document.getElementById('stat-1');
         var myChart = echarts.init(dom, null, {
             renderer: 'canvas',

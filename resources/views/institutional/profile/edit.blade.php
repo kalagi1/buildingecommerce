@@ -3,11 +3,9 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-5">
                 <div class="card shadow-sm border-300 border-bottom mb-4">
-                    <div class="card-header border-bottom border-300 bg-soft">
-                        <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Profili Güncelle</h4>
-                    </div>
+
                     <div class="card-body">
                         @if ($errors->any())
                             <div class="alert alert-danger text-white">
@@ -33,24 +31,44 @@
                             <div class="corporate-form" id="corporateForm">
                                 <!-- İsim -->
                                 <!-- Profil Resmi -->
-                                <div class="mt-3">
-                                    <img src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
-                                        alt="Profil Resmi" width="100"><br>
-                                    <label class="q-label">Profil Fotoğrafı Seç</label>
-                                    <input type="file" name="profile_image" class="form-control"
-                                        accept=".jpeg, .jpg, .png">
+                                <div>
+                                    <input class="d-none" id="upload-settings-porfile-picture" name="profile_image"
+                                        type="file" accept=".jpeg, .jpg, .png"><label
+                                        class="avatar avatar-4xl status-online cursor-pointer"
+                                        for="upload-settings-porfile-picture"><img
+                                            class="rounded-circle img-thumbnail shadow-sm border-0"
+                                            src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
+                                            width="200" alt=""></label>
                                 </div>
+
+                                <div class="mt-3">
+                                    <label class="q-label">İsim</label>
+                                    <input type="text" name="name" class="form-control"
+                                        value="{{ old('name', $user->name) }}">
+                                </div>
+                                <div class="mt-3">
+                                    <label class="q-label">Telefon</label>
+                                    <input type="number" name="phone" class="form-control"
+                                        value="{{ old('phone', $user->phone) }}">
+                                </div>
+                                @if (Auth::user()->type == 21)
+                                    <div class="mt-3">
+                                        <label class="q-label">Iban</label>
+                                        <input type="number" name="iban" class="form-control"
+                                            value="{{ old('iban', $user->iban) }}">
+                                    </div>
+                                    <div class="mt-3">
+                                        <label class="q-label">İnstagram Kullanıcı Adı</label>
+                                        <input type="text" name="instagramusername" class="form-control"
+                                            value="{{ old('instagramusername', $user->instagramusername) }}">
+                                    </div>
+                                @endif
 
                                 <!-- Banner Rengi -->
                                 <div class="mt-3">
                                     <label class="q-label">Banner Rengi</label><br>
                                     <input type="color" name="banner_hex_code" class="form-control"
                                         value="{{ old('banner_hex_code', $user->banner_hex_code) }}">
-                                </div>
-                                <div class="mt-3">
-                                    <label class="q-label">İsim</label>
-                                    <input type="text" name="name" class="form-control"
-                                        value="{{ old('name', $user->name) }}">
                                 </div>
                             </div>
 
