@@ -30002,3 +30002,11 @@ a {
 .b-estate-form {
     border: 1px solid #eee;
 }
+
+.tab-content{
+    display: none;
+}
+
+.tab-content.active{
+    display: block;
+}
