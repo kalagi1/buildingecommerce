@@ -137,6 +137,8 @@ Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('hou
 
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
+Route::post('addLink/', [CartController::class, 'addLink'])->name('add.to.link');
+
 Route::post('add_to_project_cart/', [CartController::class, 'addProject'])->name('add.to.project.cart');
 
 Route::get('sepetim', [CartController::class, 'index'])->name('cart');

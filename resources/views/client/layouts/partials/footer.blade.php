@@ -186,7 +186,7 @@
 
                             $.ajax({
                                 type: "POST",
-                                url: "{{ route('add.to.cart') }}",
+                                url: "{{ route('add.to.link') }}",
                                 data: JSON.stringify(cart),
                                 contentType: "application/json;charset=UTF-8",
                                 success: function(response) {

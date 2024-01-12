@@ -222,54 +222,55 @@ class CartController extends Controller {
 
             return view( 'client.cart.pay-success', compact( 'cart_order' ) );
         }
+        
+        public function addLink( Request $request ) {
+            $type = $request->input( 'type' );
+            $id = $request->input( 'id' );
+            $project = $request->input( 'project' );
+
+            if ( $type == 'project' ) {
+                $sharerLinksProjects = ShareLink::select( 'room_order', 'item_id' ,'collection_id')->where( 'user_id', auth()->user()->id )->where( 'item_type', 1 )->get()->keyBy( 'item_id' )->toArray();
+                $isHas = false;
+                foreach ( $sharerLinksProjects as $linkProject ) {
+                    if ( $linkProject[ 'item_id' ] == $project && $linkProject[ 'room_order' ] == $id && $linkProject[ 'collection_id' ] == $request->input( 'selectedCollectionId' ) ) {
+                        $isHas = true;
+                    }
+                }
+                if ( !$isHas ) {
+                    ShareLink::create( [
+                        'user_id' => auth()->user()->id,
+                        'item_type' => 1,
+                        'collection_id' =>  $request->input( 'selectedCollectionId' ),
+                        'item_id' => $project,
+                        'room_order' => $id
+                    ] );
+                }else{
+                    return response( [ 'failed' => 'success' ] );
+                }
+                    
+
+            } else {
+                $sharerLinks = array_values( array_keys( ShareLink::where( 'user_id', auth()->user()->id )->where( 'item_type', 2 )->where('collection_id', $request->input( 'selectedCollectionId' ) )->get()->keyBy( 'item_id' )->toArray() ) );
+                if ( !in_array( $id, $sharerLinks ) ) {
+                    ShareLink::create( [
+                        'user_id' => auth()->user()->id,
+                        'item_type' => 2,
+                        'item_id' => $id,
+                        'collection_id' =>  $request->input( 'selectedCollectionId' ),
+
+                    ] );
+                }else{
+                    return response( [ 'failed' => 'success' ] );
+
+                }
+
+            }
+
+            return response( [ 'message' => 'success' ] );
+        }
 
         public function add( Request $request ) {
             try {
-                if ( auth()->user()->type == 21 ) {
-                    $type = $request->input( 'type' );
-                    $id = $request->input( 'id' );
-                    $project = $request->input( 'project' );
-
-                    if ( $type == 'project' ) {
-                        $sharerLinksProjects = ShareLink::select( 'room_order', 'item_id' ,'collection_id')->where( 'user_id', auth()->user()->id )->where( 'item_type', 1 )->get()->keyBy( 'item_id' )->toArray();
-                        $isHas = false;
-                        foreach ( $sharerLinksProjects as $linkProject ) {
-                            if ( $linkProject[ 'item_id' ] == $project && $linkProject[ 'room_order' ] == $id && $linkProject[ 'collection_id' ] == $request->input( 'selectedCollectionId' ) ) {
-                                $isHas = true;
-                            }
-                        }
-                        if ( !$isHas ) {
-                            ShareLink::create( [
-                                'user_id' => auth()->user()->id,
-                                'item_type' => 1,
-                                'collection_id' =>  $request->input( 'selectedCollectionId' ),
-                                'item_id' => $project,
-                                'room_order' => $id
-                            ] );
-                        }else{
-                            return response( [ 'failed' => 'success' ] );
-                        }
-                            
-
-                    } else {
-                        $sharerLinks = array_values( array_keys( ShareLink::where( 'user_id', auth()->user()->id )->where( 'item_type', 2 )->where('collection_id', $request->input( 'selectedCollectionId' ) )->get()->keyBy( 'item_id' )->toArray() ) );
-                        if ( !in_array( $id, $sharerLinks ) ) {
-                            ShareLink::create( [
-                                'user_id' => auth()->user()->id,
-                                'item_type' => 2,
-                                'item_id' => $id,
-                                'collection_id' =>  $request->input( 'selectedCollectionId' ),
-
-                            ] );
-                        }else{
-                            return response( [ 'failed' => 'success' ] );
-
-                        }
-
-                    }
-
-                    return response( [ 'message' => 'success' ] );
-                } else {
                     $type = $request->input( 'type' );
                     $id = $request->input( 'id' );
                     $project = $request->input( 'project' );
@@ -334,7 +335,7 @@ class CartController extends Controller {
                         return response( [ 'message' => 'success' ] );
 
                     }
-                }
+                
 
             } catch ( \Exception $e ) {
                 // Handle exceptions if any
