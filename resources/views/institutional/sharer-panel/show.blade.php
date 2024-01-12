@@ -54,7 +54,7 @@
                                             data-type="{{ $items[$i]->item_type == 1 ? 'project' : 'housing' }}"
                                             data-id="{{ $items[$i]->item_type == 1 ? $items[$i]->room_order : $items[$i]->housing->id }}"
                                             @if ($items[$i]->item_type == 1) data-project="{{ $items[$i]->project->id }}" @endif
-                                            onclick="removeFromCollection(this)">
+                                         >
                                             Koleksiyondan Kaldır
                                         </button>
 
@@ -77,7 +77,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
-        function removeFromCollection(button) {
+        $(".remove-from-collection").on("click", function(){
             var itemType = $(button).data('type');
             var itemId = $(button).data('id');
             var projectId = $(button).data('project');
@@ -102,7 +102,7 @@
                     console.error('Error:', error);
                 }
             });
-        }
+        });
     </script>
 
 @endsection
