@@ -85,13 +85,13 @@
         "text": "Satış",
         "key": "GetOrders",
         "url": "#nv-shopping",
-        "activePath": "institutional/orders*",
+        "activePath": ["institutional/orders*","institutional/my-orders"],
         "subMenu": [
             {
                 "text": "Gayrimenkul Alış",
                 "key": "ShowCartOrders",
                 "url": "institutional.profile.cart-orders",
-                "activePath": "institutional/orders*|institutional/my-orders*"  
+                "activePath": "institutional/my-orders"
             },
             {
                 "text": "Gayrimenkul Satış",
@@ -108,7 +108,7 @@
         "text": "Kiralık",
         "key": "GetReservations",
         "url": "#nv-shopping",
-        "activePath": "institutional/my-reservations*",
+        "activePath": ["institutional/my-reservations*","institutional/reservations"],
         "subMenu": [
             {
                 "text": "Kiraya Verdiklerim",
