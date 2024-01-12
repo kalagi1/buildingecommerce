@@ -2220,6 +2220,8 @@ out center;`;
             document.getElementById('contentblock-' + tabName).classList.add('active');
             console.log($('#contentblock-' + tabName).index())
             var blockIndex = $('#contentblock-' + tabName).index() - 1;
+            var startIndex = 0;
+            var endIndex = 10;
             if($('#contentblock-' + tabName).find('.ajax-list').children('div').length == 0){
                 $.ajax({
                         url: "{{route('project.get.housings.by.start.and.end',[$project->id,$housingOrder])}}?start=0&end=10&block_index="+blockIndex,
