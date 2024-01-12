@@ -91,7 +91,7 @@
                 "text": "Gayrimenkul Alış",
                 "key": "ShowCartOrders",
                 "url": "institutional.profile.cart-orders",
-                "activePath": "institutional/my-orders"
+                "activePath": "institutional/orders*|institutional/my-orders*"  
             },
             {
                 "text": "Gayrimenkul Satış",
