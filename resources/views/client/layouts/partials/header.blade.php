@@ -144,7 +144,7 @@
                                             'mainLink' => 'Mağazam',
                                             'links' => [
                                                 [
-                                                    'url' => route('sharer.index'),
+                                                    'url' => route('institutional.projects.index'),
                                                     'icon' => 'fa-user',
                                                     'text' => 'Hesabım',
                                                 ],
@@ -189,7 +189,7 @@
                                             'mainLink' => 'Mağazam',
                                             'links' => [
                                                 [
-                                                    'url' => route('institutional.index'),
+                                                    'url' => route('sharer.index'),
                                                     'icon' => 'fa-user',
                                                     'text' => 'Hesabım',
                                                 ],
