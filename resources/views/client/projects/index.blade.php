@@ -1057,7 +1057,7 @@
                                                                             style="padding-right:0; width: 110px;">
                                                                             <div class="project-inner project-head">
                                                                                 <a
-                                                                                    href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
+                                                                                    href="{{ route('project.housings.detail', [$project->slug, $i+1]) }}">
                                                                                     <div class="homes">
                                                                                         <!-- homes img -->
                                                                                         <div class="homes-img h-100 d-flex align-items-center"
