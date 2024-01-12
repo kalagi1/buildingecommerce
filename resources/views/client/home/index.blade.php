@@ -202,22 +202,25 @@
                 <div class="container">
                     <div class="row">
                         @foreach ($dashboardProjects as $project)
-                        <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
-                            data-aos-delay="150">
-                            <div class="small-category-2">
-                                <div class="small-category-2-thumb img-1">
-                                    <a href="{{ route('project.detail', $project->project->slug) }}"><img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}""
-                                            alt=""></a>
-                                </div>
-                                <div class="sc-2-detail">
-                                    <h4 class="sc-jb-title"><a href="{{ route('project.detail', $project->project->slug) }}">{{ $project->project->project_title }}</a></h4>
-                                    <span>{{ $project->project->city->title }}
-                                        /
-                                        {{ $project->project->county->ilce_title }}
-                                        {{ $project->project->neighbourhood ? '/ ' . $project->project->neighbourhood->mahalle_title : null }}</span>
+                            <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
+                                data-aos-delay="150">
+                                <div class="small-category-2">
+                                    <div class="small-category-2-thumb img-1">
+                                        <a href="{{ route('project.detail', $project->project->slug) }}"><img
+                                                src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}""
+                                                alt=""></a>
+                                    </div>
+                                    <div class="sc-2-detail">
+                                        <h4 class="sc-jb-title"><a
+                                                href="{{ route('project.detail', $project->project->slug) }}">{{ $project->project->project_title }}</a>
+                                        </h4>
+                                        <span>{{ $project->project->city->title }}
+                                            /
+                                            {{ $project->project->county->ilce_title }}
+                                            {{ $project->project->neighbourhood ? '/ ' . $project->project->neighbourhood->mahalle_title : null }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -253,27 +256,30 @@
                     }
                 }
             @endphp
-          
+
             <div class="row mobile-show homepage-9">
                 <div class="container">
                     <div class="row">
                         @foreach ($finishProjects as $project)
-                        <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
-                            data-aos-delay="150">
-                            <div class="small-category-2">
-                                <div class="small-category-2-thumb img-1">
-                                    <a href="{{ route('project.detail', $project->slug) }}"><img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
-                                            alt=""></a>
-                                </div>
-                                <div class="sc-2-detail">
-                                    <h4 class="sc-jb-title"><a href="{{ route('project.detail', $project->slug) }}">{{ $project->project_title }}</a></h4>
-                                    <span>{{ $project->city->title }}
-                                        /
-                                        {{ $project->county->ilce_title }}
-                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                            <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
+                                data-aos-delay="150">
+                                <div class="small-category-2">
+                                    <div class="small-category-2-thumb img-1">
+                                        <a href="{{ route('project.detail', $project->slug) }}"><img
+                                                src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
+                                                alt=""></a>
+                                    </div>
+                                    <div class="sc-2-detail">
+                                        <h4 class="sc-jb-title"><a
+                                                href="{{ route('project.detail', $project->slug) }}">{{ $project->project_title }}</a>
+                                        </h4>
+                                        <span>{{ $project->city->title }}
+                                            /
+                                            {{ $project->county->ilce_title }}
+                                            {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -329,7 +335,7 @@
     <!-- START SECTION RECENTLY PROPERTIES -->
     <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
-            <div class="featured-heads" >
+            <div class="featured-heads">
                 <div class="section-title">
                     <h2>Devam Eden Projeler</h2>
                 </div>
@@ -343,22 +349,25 @@
                 <div class="container">
                     <div class="row">
                         @foreach ($continueProjects as $project)
-                        <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
-                            data-aos-delay="150">
-                            <div class="small-category-2">
-                                <div class="small-category-2-thumb img-1">
-                                    <a href="{{ route('project.detail', $project->slug) }}"><img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
-                                            alt=""></a>
-                                </div>
-                                <div class="sc-2-detail">
-                                    <h4 class="sc-jb-title"><a href="{{ route('project.detail', $project->slug) }}">{{ $project->project_title }}</a></h4>
-                                    <span>{{ $project->city->title }}
-                                        /
-                                        {{ $project->county->ilce_title }}
-                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                            <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
+                                data-aos-delay="150">
+                                <div class="small-category-2">
+                                    <div class="small-category-2-thumb img-1">
+                                        <a href="{{ route('project.detail', $project->slug) }}"><img
+                                                src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
+                                                alt=""></a>
+                                    </div>
+                                    <div class="sc-2-detail">
+                                        <h4 class="sc-jb-title"><a
+                                                href="{{ route('project.detail', $project->slug) }}">{{ $project->project_title }}</a>
+                                        </h4>
+                                        <span>{{ $project->city->title }}
+                                            /
+                                            {{ $project->county->ilce_title }}
+                                            {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -413,7 +422,7 @@
     <!-- START SECTION RECENTLY PROPERTIES -->
     <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
-            <div class="featured-heads" >
+            <div class="featured-heads">
                 <div class="section-title">
                     <h2>Topraktan Projeler</h2>
                 </div>
@@ -423,27 +432,30 @@
                     </button>
                 </a>
             </div>
-   
+
             <div class="row mobile-show homepage-9">
                 <div class="container">
                     <div class="row">
                         @foreach ($soilProjects as $project)
-                        <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
-                            data-aos-delay="150">
-                            <div class="small-category-2">
-                                <div class="small-category-2-thumb img-1">
-                                    <a href="{{ route('project.detail', $project->slug) }}"><img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
-                                            alt=""></a>
-                                </div>
-                                <div class="sc-2-detail">
-                                    <h4 class="sc-jb-title"><a href="{{ route('project.detail', $project->slug) }}">{{ $project->project_title }}</a></h4>
-                                    <span>{{ $project->city->title }}
-                                        /
-                                        {{ $project->county->ilce_title }}
-                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                            <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
+                                data-aos-delay="150">
+                                <div class="small-category-2">
+                                    <div class="small-category-2-thumb img-1">
+                                        <a href="{{ route('project.detail', $project->slug) }}"><img
+                                                src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
+                                                alt=""></a>
+                                    </div>
+                                    <div class="sc-2-detail">
+                                        <h4 class="sc-jb-title"><a
+                                                href="{{ route('project.detail', $project->slug) }}">{{ $project->project_title }}</a>
+                                        </h4>
+                                        <span>{{ $project->city->title }}
+                                            /
+                                            {{ $project->county->ilce_title }}
+                                            {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -530,6 +542,16 @@
                                     <div class="d-flex" style="gap: 8px;justify-content:space-between;align-items:center">
                                         <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
                                         </h4>
+                                        @if ( Auth::check() && Auth::user()->type == 21)
+                                        <span
+                                            @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
+                                                    json_decode($housing->housing_type_data)->{"share-open"}[0]
+                                            ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
+                                @else
+                                class="btn addCollection mobileAddCollection disabledShareButton" @endif>
+                                            <i class="fa fa-bookmark"></i>
+                                        </span>
+                                    @endif
                                         <span class="btn toggle-favorite bg-white" data-housing-id="{{ $housing->id }}"
                                             style="color: white;">
                                             <i class="fa fa-heart-o"></i>
@@ -573,8 +595,7 @@
                                                 @endif
                                             @endif
                                         @else
-                                            <button onclick="redirectToReservation()"
-                                                class="reservationBtn mobileCBtn">
+                                            <button onclick="redirectToReservation()" class="reservationBtn mobileCBtn">
                                                 <span class="IconContainer">
                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                 </span>
@@ -892,17 +913,8 @@
                                                                                 <span class="IconContainer">
                                                                                     <img src="{{ asset('sc.png') }}"
                                                                                         alt="">
-
                                                                                 </span>
-                                                                                @if (auth()->check() && auth()->user()->type == 21)
-                                                                                    @if (json_decode($housing->housing_type_data)->{"share-open"}[0])
-                                                                                        <span class="text">Koleksiyonuma
-                                                                                            Ekle</span>
-                                                                                    @else
-                                                                                    @endif
-                                                                                @else
-                                                                                    <span class="text">Sepete Ekle</span>
-                                                                                @endif
+                                                                                <span class="text">Sepete Ekle</span>
                                                                             </button>
                                                                         @endif
                                                                     @endif
@@ -961,7 +973,18 @@
                                                                         class="img-responsive">
                                                                 </div>
                                                             </div>
-                                                            <div class="button-effect">
+                                                            <div class="button-effect-div">
+                                                                @if ( Auth::check() && Auth::user()->type == 21)
+                                                                    <span
+                                                                        @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
+                                                                                json_decode($housing->housing_type_data)->{"share-open"}[0]
+                                                                        ) class="btn addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
+                                                            @else
+                                                            class="btn addCollection disabledShareButton" @endif>
+                                                                        <i class="fa fa-bookmark"></i>
+                                                                    </span>
+                                                                @endif
+
                                                                 <span class="btn toggle-favorite bg-white"
                                                                     data-housing-id={{ $housing->id }}>
                                                                     <i class="fa fa-heart-o"></i>
@@ -1107,43 +1130,15 @@
                                                                             @endif
                                                                         </button>
                                                                     @else
-                                                                        @if (auth()->check() && auth()->user()->type == 21)
-                                                                            @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
-                                                                                    json_decode($housing->housing_type_data)->{"share-open"}[0]
-                                                                            )
-                                                                                <button class="CartBtn"
-                                                                                    data-type='housing'
-                                                                                    data-id='{{ $housing->id }}'>
-                                                                                    <span class="IconContainer">
-                                                                                        <img src="{{ asset('link.png') }}"
-                                                                                            alt="">
-                                                                                    </span>
-                                                                                    <span class="text">Koleksiyonuma
-                                                                                        Ekle</span>
-                                                                                </button>
-                                                                            @else
-                                                                                <button class="disabledShareButton"
-                                                                                    data-type='housing'
-                                                                                    data-id='{{ $housing->id }}'>
-                                                                                    <span class="IconContainer">
-                                                                                        <img src="{{ asset('link.png') }}"
-                                                                                            alt="">
-                                                                                    </span>
-                                                                                    <span class="text">Paylaşıma
-                                                                                        Kapalı</span>
-                                                                                </button>
-                                                                            @endif
-                                                                        @else
-                                                                            <button class="CartBtn" data-type='housing'
-                                                                                data-id='{{ $housing->id }}'>
-                                                                                <span class="IconContainer">
-                                                                                    <img src="{{ asset('sc.png') }}"
-                                                                                        alt="">
+                                                                        <button class="CartBtn" data-type='housing'
+                                                                            data-id='{{ $housing->id }}'>
+                                                                            <span class="IconContainer">
+                                                                                <img src="{{ asset('sc.png') }}"
+                                                                                    alt="">
 
-                                                                                </span>
-                                                                                <span class="text">Sepete Ekle</span>
-                                                                            </button>
-                                                                        @endif
+                                                                            </span>
+                                                                            <span class="text">Sepete Ekle</span>
+                                                                        </button>
                                                                     @endif
                                                                 @endif
                                                             @else
@@ -1181,8 +1176,6 @@
             </div>
         </div>
     </section>
-
-
 
 
     <!-- START SECTION RECENTLY PROPERTIES -->

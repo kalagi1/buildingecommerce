@@ -37,7 +37,12 @@
                                                 value="{{ $slider->title }}" required="">
                                             <div class="valid-feedback">İyi Görünüyor!</div>
                                         </div>
-
+                                        <div class="col-md-12">
+                                            <label class="form-label" for="title">Slider URL</label>
+                                            <input name="url" class="form-control" id="url" type="text"
+                                            value="{{ $slider->url }}" required="">
+                                            <div class="valid-feedback">İyi Görünüyor!</div>
+                                        </div>
                                         <div class="col-md-12">
                                             <label class="form-label" for="image">Slider Web Görseli</label>
                                             <div class="mt-2 mb-2">

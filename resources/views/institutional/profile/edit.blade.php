@@ -51,7 +51,7 @@
                                     <input type="number" name="phone" class="form-control"
                                         value="{{ old('phone', $user->phone) }}">
                                 </div>
-                                @if (Auth::user()->type == 21)
+                                @if ( Auth::check() && Auth::user()->type == 21)
                                     <div class="mt-3">
                                         <label class="q-label">Iban</label>
                                         <input type="number" name="iban" class="form-control"

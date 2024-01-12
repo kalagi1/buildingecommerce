@@ -463,7 +463,8 @@
                             <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Özellikler</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Projedeki Diğer Konutlar</button>
+                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Projedeki Diğer Konutlar
+                            </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button" role="tab" aria-controls="payment" project-id="{{ $project->id }}" order="{{ $housingOrder }}" aria-selected="false">Ödeme Planı</button>

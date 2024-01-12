@@ -34,6 +34,7 @@ use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChan
 use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboardController;
 use App\Http\Controllers\ClientPanel\ProfileController as ClientPanelProfileController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\CollectionController;
 use App\Http\Controllers\Client\ReservationController;
 use App\Http\Controllers\Client\CountyController;
 use App\Http\Controllers\Client\FavoriteController;
@@ -92,7 +93,10 @@ Route::get('/instituional/search', [InstitutionalController::class, 'search'])->
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
 Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
-Route::get('/paylasim-paneli', [SharerController::class,"index"])->name('sharer.index');
+Route::get('/koleksiyonlarim', [SharerController::class,"index"])->name('sharer.index');
+Route::get('/koleksiyonlarim/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
+Route::post('/remove-from-collection', [CollectionController::class, 'removeFromCollection'])->name('remove.from.collection');
+
 Route::get('/paylasimci-paneli', [SharerController::class,"sharerPanel"])->name('sharer.panel');
 Route::get('/paylasimci-paneli/{username}', [SharerController::class,"sharerPanelByAnotherUser"])->name('sharer.panel.another.user');
 Route::get('/search/results',[HomeController::class, "searchResults"])->name('search.results');
@@ -156,7 +160,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
     Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
     Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
+
 });
+Route::get('/getCollections', [CollectionController::class, 'getCollections']);
+Route::resource('collections', CollectionController::class);
 
 Route::get('/login_with_google', [ClientLoginController::class, "googleLogin"])->name('client.google.login');
 Route::get('/login-with-google', [ClientLoginController::class, "redirectGoogle"])->name('redirect.google.login');

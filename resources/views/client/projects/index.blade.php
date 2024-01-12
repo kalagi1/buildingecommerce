@@ -720,7 +720,7 @@
                                                                                                             class="project-inner project-head">
 
                                                                                                             <div
-                                                                                                                class="button-effect">
+                                                                                                                class="button-effect-div">
                                                                                                                 <div href="javascript:void()"
                                                                                                                     class="btn toggle-project-favorite bg-white"
                                                                                                                     data-project-housing-id="{{ $i + 1 }}"
@@ -1043,21 +1043,22 @@
                                                             </div>
                                                             <div class="mobile-show">
                                                                 @for ($i = $startIndex; $i < $endIndex; $i++)
-                                                                    @php
-                                                                        $j++;
-                                                                        if (isset($projectCartOrders[$i + 1])) {
-                                                                            $sold = $projectCartOrders[$i + 1];
-                                                                        } else {
-                                                                            $sold = null;
-                                                                        }
-                                                                        $room_order = $i + 1;
-                                                                    @endphp
+                                                                @php
+                                                                    $j++;
+                                                                    if (isset($projectCartOrders[$i + 1])) {
+                                                                        $sold = $projectCartOrders[$i + 1];
+                                                                    } else {
+                                                                        $sold = null;
+                                                                    }
+                                                                    $room_order = $i+1;
+
+                                                                @endphp
                                                                     <div class="d-flex" style="flex-wrap: nowrap">
                                                                         <div class="align-items-center d-flex"
                                                                             style="padding-right:0; width: 110px;">
                                                                             <div class="project-inner project-head">
                                                                                 <a
-                                                                                    href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
+                                                                                    href="{{ route('project.housings.detail', [$project->slug, $i+1]) }}">
                                                                                     <div class="homes">
                                                                                         <!-- homes img -->
                                                                                         <div class="homes-img h-100 d-flex align-items-center"
@@ -1542,7 +1543,19 @@
                                                                                 data-aos="fade-up">
                                                                                 <div class="project-inner project-head">
 
-                                                                                    <div class="button-effect">
+                                                                                    <div class="button-effect-div">
+                                                                                        @if ( Auth::check() && Auth::user()->type == 21)
+                                                                                        <span
+                                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]'])
+                                                                                            ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                              data-type='project'
+                                                                                              data-project='{{ $project->id }}'
+                                                                                              data-id='{{ $i + 1 }}'
+                                                                                @else
+                                                                                class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                                            <i class="fa fa-bookmark"></i>
+                                                                                        </span>
+                                                                                    @endif
                                                                                         <div href="javascript:void()"
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
