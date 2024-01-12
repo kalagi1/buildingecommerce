@@ -541,7 +541,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if (Auth::user()->type == 21)
+                                @if ( Auth::check() && Auth::user()->type == 21)
                                     <div
                                         @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
                                                 json_decode($housing->housing_type_data)->{"share-open"}[0]

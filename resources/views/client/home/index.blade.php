@@ -542,7 +542,7 @@
                                     <div class="d-flex" style="gap: 8px;justify-content:space-between;align-items:center">
                                         <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
                                         </h4>
-                                        @if (Auth::user()->type == 21)
+                                        @if ( Auth::check() && Auth::user()->type == 21)
                                         <span
                                             @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
                                                     json_decode($housing->housing_type_data)->{"share-open"}[0]
@@ -974,7 +974,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="button-effect-div">
-                                                                @if (Auth::user()->type == 21)
+                                                                @if ( Auth::check() && Auth::user()->type == 21)
                                                                     <span
                                                                         @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
                                                                                 json_decode($housing->housing_type_data)->{"share-open"}[0]

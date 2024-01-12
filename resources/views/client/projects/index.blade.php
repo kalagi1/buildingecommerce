@@ -1543,7 +1543,7 @@
                                                                                 <div class="project-inner project-head">
 
                                                                                     <div class="button-effect-div">
-                                                                                        @if (Auth::user()->type == 21)
+                                                                                        @if ( Auth::check() && Auth::user()->type == 21)
                                                                                         <span
                                                                                             @if (isset($projectHousingsList[$i + 1]['share-open[]'])
                                                                                             ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
