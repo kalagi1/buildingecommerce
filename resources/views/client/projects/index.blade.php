@@ -757,52 +757,8 @@
                                                                                                                                 </polyline>
                                                                                                                             </svg>
                                                                                                                         </div>
-
-                                                                                                                <div
-                                                                                                                    class="button-effect">
-                                                                                                                    <div href="javascript:void()"
-                                                                                                                        class="btn toggle-project-favorite bg-white"
-                                                                                                                        data-project-housing-id="{{ $i + 1 }}"
-                                                                                                                        data-project-id={{ $project->id }}>
-                                                                                                                        <i
-                                                                                                                            class="fa fa-heart-o"></i>
                                                                                                                     </div>
-                                                                                                                </div>
-                                                                                                                <div
-                                                                                                                    class="homes position-relative">
-                                                                                                                    <!-- homes img -->
-                                                                                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
-                                                                                                                        alt="home-1"
-                                                                                                                        class="img-responsive"
-                                                                                                                        style="height: 120px !important;object-fit:cover">
-                                                                                                                    @if ($offer && in_array($i + 1, $projectHousingsList))
-                                                                                                                        <div
-                                                                                                                            style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
-                                                                                                                            <div
-                                                                                                                                style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
-                                                                                                                                {{ '%' . round(($discountAmount / $projectHousingsList[$i + 1]['price[]']) * 100) }}
-                                                                                                                                <svg viewBox="0 0 24 24"
-                                                                                                                                    width="16"
-                                                                                                                                    height="16"
-                                                                                                                                    stroke="currentColor"
-                                                                                                                                    stroke-width="2"
-                                                                                                                                    fill="none"
-                                                                                                                                    stroke-linecap="round"
-                                                                                                                                    stroke-linejoin="round"
-                                                                                                                                    class="css-i6dzq1"
-                                                                                                                                    style="transform: rotate(45deg);">
-                                                                                                                                    <polyline
-                                                                                                                                        points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                                                                                    </polyline>
-                                                                                                                                    <polyline
-                                                                                                                                        points="17 18 23 18 23 12">
-                                                                                                                                    </polyline>
-                                                                                                                                </svg>
-                                                                                                                            </div>
-
-                                                                                                                        </div>
-                                                                                                                    @endif
-                                                                                                                </div>
+                                                                                                                @endif
 
                                                                                                             </div>
                                                                                                         </div>
