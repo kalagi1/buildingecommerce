@@ -24,6 +24,7 @@
                                     <span>{{ count($collection->links) }} Emlak</span>
                                 </span>
                                 <input
+                                style="cursor: pointer"
                                     class="form-control form-control-sm mt-3 text-center w-100 text-dark dark__text-gray-100 bg-body-secondary dark__bg-gray-1100"
                                     type="text" readonly="readonly" value="{{ $collection->name }}">
                             </div>
