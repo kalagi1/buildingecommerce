@@ -234,7 +234,7 @@
                         <div class="col-md-12">
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                 <div class="homes-tag button alt featured mobileTagProject">
-                                    <a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}" style="color:White;">{{ $project->user->name }}</a>
+                                    <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
                                 </div>
                                 <div class="carousel-inner">
 
@@ -1954,6 +1954,8 @@
             $("#listingDetailsSlider").after(buyBtn);
             $(".widgetBuyButton").after(moveCollection);
             $(".buyBtn").css("display", "none");
+            $(".moveCollection").css("display", "none");
+
 
         };
 
@@ -2893,10 +2895,7 @@ out center;`;
                 display: none !important;
             }
 
-            .car {
-                display: none !important;
-            }
-
+           
             .inner-pages .pro-wrapper .detail-wrapper-body p {
                 margin-bottom: 0 !important;
             }
