@@ -61,7 +61,7 @@ class AppServiceProvider extends ServiceProvider
     
         View::composer(["client.layouts.partials.header","client.layouts.partials.footer", "client.client-panel*"], function ($view) use ($cachedData) {
             if (Auth::check()) {
-                $sharerLinks = ShareLink::where("user_id",Auth::user()->id)->first();
+                $sharerLinks = ShareLink::where("user_id",Auth::user()->id)->get();
                 $view->with("sharerLinks", $sharerLinks);
 
             }

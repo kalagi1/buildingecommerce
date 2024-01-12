@@ -508,53 +508,30 @@
                                                     <span class="text">Satıldı</span>
                                                 </button>
                                             @else
-                                                @if (auth()->check() && auth()->user()->type == 21)
-                                                    @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
-                                                            json_decode($housing->housing_type_data)->{"share-open"}[0]
-                                                    )
-                                                        <button class="CartBtn" data-type='housing'
-                                                            data-id='{{ $housing->id }}'>
-                                                            <span class="IconContainer">
-                                                                <img src="{{ asset('link.png') }}" alt="">
-                                                            </span>
-                                                            <span class="text">Koleksiyonuma Ekle</span>
-                                                        </button>
-                                                    @else
-                                                        <button class="disabledShareButton" data-type='housing'
-                                                            data-id='{{ $housing->id }}'>
-                                                            <span class="IconContainer">
-                                                                <img src="{{ asset('link.png') }}" alt="">
-                                                            </span>
-                                                            <span class="text">Paylaşıma Kapalı</span>
-                                                        </button>
-                                                    @endif
-                                                @else
-                                                    @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
-                                                        @php
-                                                            $buttonStyle = '';
-                                                            $buttonText = '';
-                                                            if ($sold[0]->status == '0') {
-                                                                $buttonStyle = 'background: orange !important; width: 100%; color: white;';
-                                                                $buttonText = 'Rezerve Edildi';
-                                                            } else {
-                                                                $buttonStyle = 'background: red !important; width: 100%; color: white;';
-                                                                $buttonText = 'Satıldı';
-                                                            }
-                                                        @endphp
+                                                @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
+                                                    @php
+                                                        $buttonStyle = '';
+                                                        $buttonText = '';
+                                                        if ($sold[0]->status == '0') {
+                                                            $buttonStyle = 'background: orange !important; width: 100%; color: white;';
+                                                            $buttonText = 'Rezerve Edildi';
+                                                        } else {
+                                                            $buttonStyle = 'background: red !important; width: 100%; color: white;';
+                                                            $buttonText = 'Satıldı';
+                                                        }
+                                                    @endphp
 
-                                                        <button class="btn second-btn soldBtn"
-                                                            style="{{ $buttonStyle }}">
-                                                            <span class="text">{{ $buttonText }}</span>
-                                                        </button>
-                                                    @else
-                                                        <button class="CartBtn" data-type='housing'
-                                                            data-id='{{ $housing->id }}'>
-                                                            <span class="IconContainer">
-                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                            </span>
-                                                            <span class="text">Sepete Ekle</span>
-                                                        </button>
-                                                    @endif
+                                                    <button class="btn second-btn soldBtn" style="{{ $buttonStyle }}">
+                                                        <span class="text">{{ $buttonText }}</span>
+                                                    </button>
+                                                @else
+                                                    <button class="CartBtn" data-type='housing'
+                                                        data-id='{{ $housing->id }}'>
+                                                        <span class="IconContainer">
+                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                        </span>
+                                                        <span class="text">Sepete Ekle</span>
+                                                    </button>
                                                 @endif
                                             @endif
 
@@ -564,6 +541,54 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if ( Auth::check() && Auth::user()->type == 21)
+                                    <div
+                                        @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
+                                                json_decode($housing->housing_type_data)->{"share-open"}[0]
+                                        ) class="add-to-collections-wrapper addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
+            @else
+            class="add-to-collections-wrapper disabledShareButton addCollection" @endif>
+                                        <div class="add-to-collection-button-wrapper">
+                                            <div class="add-to-collection-button">
+
+                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="32" height="32" fill="#e54242" />
+                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                        <rect width="1440" height="1577"
+                                                            transform="translate(-1100 -1183)" fill="white" />
+                                                        <g id="Group 6131">
+                                                            <g id="Frame 21409">
+                                                                <g id="Group 6385">
+                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                        height="48" rx="8" fill="#e54242 " />
+                                                                    <g id="Group 2664">
+                                                                        <rect id="Rectangle 316" width="32"
+                                                                            height="32" rx="4"
+                                                                            fill="#e54242 " />
+                                                                        <g id="Group 72">
+                                                                            <path id="Rectangle 12"
+                                                                                d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
+                                                                                fill="white" stroke="white"
+                                                                                stroke-width="2" />
+                                                                        </g>
+                                                                    </g>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_1750_971">
+                                                            <rect width="1440" height="1577" fill="white"
+                                                                transform="translate(-1100 -1183)" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg><span class="add-to-collection-button-text">Koleksiyona Ekle</span>
+                                            </div>
+                                            <span class="fa fa-plus"></span>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         @endif
 
@@ -574,7 +599,7 @@
                                 </div>
                                 <div class="widget-boxed-body">
                                     <div class="sidebar-widget author-widget2">
-    
+
                                         <div class="author-box clearfix d-flex align-items-center">
                                             <img src="{{ URL::to('/') . '/storage/profile_images/' . $housing->user->profile_image }}"
                                                 alt="author-image" class="author__img">
@@ -583,7 +608,7 @@
                                                     href="{{ route('instituional.dashboard', Str::slug($housing->user->name)) }}">
                                                     <h4 class="author__title">{!! $housing->user->name !!}</h4>
                                                 </a>
-    
+
                                                 <p class="author__meta">
                                                     {{ $housing->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
                                                 </p>
@@ -611,9 +636,9 @@
                                                                 '' !!}
                                                         </span>
                                                     </td>
-    
+
                                                 </tr>
-    
+
                                                 @if ($housing->user->phone)
                                                     <tr>
                                                         <td>
@@ -625,7 +650,7 @@
                                                         </td>
                                                     </tr>
                                                 @endif
-    
+
                                                 <tr>
                                                     <td>
                                                         Proje Tipi :
@@ -640,7 +665,7 @@
                                                                         Günlük Kiralık
                                                                     @endif
                                                                 @endif
-                                                                {{  $parent->title }}
+                                                                {{ $parent->title }}
                                                             @endif
                                                         </span>
                                                     </td>
@@ -652,18 +677,18 @@
                                                             <a style="text-decoration: none;color:inherit"
                                                                 href="mailto:{!! $housing->user->email !!}">{!! $housing->user->email !!}</a>
                                                         </span>
-    
+
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
-    
+
                                 </div>
                             </div>
                         </div>
 
-                     
+
                         @if (count($housing->user->banners) > 0)
                             <div class="widget-boxed popular mt-5">
                                 <div class="widget-boxed-header">
@@ -750,7 +775,7 @@
                                             </tr>
 
                                             @foreach ($labels as $label => $val)
-                                                @if ($label != 'Kapak Resmi' && $label != "Taksitli Satış" && isset($val[0]) && $val[0] != 0 && $val != "[]")
+                                                @if ($label != 'Kapak Resmi' && $label != 'Taksitli Satış' && isset($val[0]) && $val[0] != 0 && $val != '[]')
                                                     <tr>
                                                         <td>
                                                             @if ($label == 'Fiyat')
@@ -1388,7 +1413,7 @@
                             owner_id: {{ $housing->user->id }},
                             price: price * diffDays,
                             key: key,
-                            fullName: fullName, 
+                            fullName: fullName,
                             email: email,
                             tc: tc,
                             phone: phone,
@@ -1720,13 +1745,17 @@
             .listingDetailsSliderNav {
                 display: none !important;
             }
-            #listingDetailsSlider{
+
+            #listingDetailsSlider {
                 padding: 0 !important;
                 margin-bottom: 30px !important;
             }
-            .schedule.widget-boxed{
+
+            .schedule.widget-boxed ,
+            .add-to-collections-wrapper{
                 margin-bottom: 30px !important;
             }
+
             .trStyle tr {
                 width: 100%;
             }

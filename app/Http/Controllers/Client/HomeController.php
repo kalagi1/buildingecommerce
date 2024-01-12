@@ -688,6 +688,8 @@ class HomeController extends Controller
             $housingTypeData = json_decode($item->housing_type_data, true);
 
             $offSale = isset($housingTypeData['off_sale1']);
+            $share = isset($housingTypeData['share-open']);
+
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
                 'housing_type_title' => $item->housing_type_title,
@@ -706,6 +708,7 @@ class HomeController extends Controller
                 'created_at' => $item->created_at,
                 "action" => $action,
                 'offSale' => $offSale,
+                'share' => $share,
                 'sold' => $item->sold,
                 "column1_additional" => $item->column1_additional ?? null,
                 "column2_additional" => $item->column2_additional ?? null,
