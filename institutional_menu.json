@@ -71,6 +71,15 @@
     {
         "id": "shopping-bag",
         "label": "Mağazam Emlak Sepette",
+        "icon": "bookmark",
+        "text": "Koleksiyonlarım",
+        "key": "GetMyCollection",
+        "url": "#nv-bookmark",
+        "activePath": "institutional/koleksiyonlarim*",
+    },
+    {
+        "id": "shopping-bag",
+        "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
         "text": "Satış",
         "key": "GetOrders",

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Collection;
 use App\Models\ShareLink;
 use App\Models\SharerPrice;
 use App\Models\User;
@@ -13,12 +14,13 @@ class SharerController extends Controller
     public function index(){
         $sharer = User::where('id',auth()->user()->id)->first();
         $items = ShareLink::where('user_id',auth()->user()->id)->get();
+        $collections = Collection::with("links")->where('user_id',auth()->user()->id)->get();
         $itemsArray = [];
         foreach($items as $item){
             $item['project_values'] = $item->projectHousingData($item->item_id)->pluck('value','name')->toArray();
         }
 
-        return view('client.sharer-panel.index',compact('items','sharer'));
+        return view('institutional.sharer-panel.index',compact('items','sharer','collections'));
     }
 
     public function sharerPanel(){

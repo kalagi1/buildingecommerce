@@ -93,7 +93,7 @@ Route::get('/instituional/search', [InstitutionalController::class, 'search'])->
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
 Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
-Route::get('/paylasim-paneli', [SharerController::class,"index"])->name('sharer.index');
+Route::get('/koleksiyonlarim', [SharerController::class,"index"])->name('sharer.index');
 Route::get('/paylasimci-paneli', [SharerController::class,"sharerPanel"])->name('sharer.panel');
 Route::get('/paylasimci-paneli/{username}', [SharerController::class,"sharerPanelByAnotherUser"])->name('sharer.panel.another.user');
 Route::get('/search/results',[HomeController::class, "searchResults"])->name('search.results');
