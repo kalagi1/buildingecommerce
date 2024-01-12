@@ -27,6 +27,15 @@
         "activePath": "institutional/"
     },
     {
+        "id": "shopping-bag",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "bookmark",
+        "text": "Koleksiyonlarım",
+        "key": "GetMyCollection",
+        "url": "sharer.index",
+        "activePath": "institutional/koleksiyonlarim*"
+    },
+    {
         "id": "EditProfile",
         "label": "Hesabım & Yardım",
         "icon": "edit",
@@ -68,15 +77,7 @@
             }
         ]
     },
-    {
-        "id": "shopping-bag",
-        "label": "Mağazam Emlak Sepette",
-        "icon": "bookmark",
-        "text": "Koleksiyonlarım",
-        "key": "GetMyCollection",
-        "url": "#nv-bookmark",
-        "activePath": "institutional/koleksiyonlarim*",
-    },
+  
     {
         "id": "shopping-bag",
         "label": "Mağazam Emlak Sepette",
