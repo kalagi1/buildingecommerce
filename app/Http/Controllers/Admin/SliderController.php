@@ -36,6 +36,7 @@ class SliderController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'url' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif',
             'mobile_image' => 'required|image|mimes:jpeg,png,jpg,gif',
 
@@ -52,6 +53,7 @@ class SliderController extends Controller
         $slider = new Slider();
         $slider->title = $request->input('title');
         $slider->image = $fileName;
+        $slider->url = $request->input('url');
         $slider->mobile_image = $fileNameMobile;
 
         $slider->save();
@@ -63,6 +65,7 @@ class SliderController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'url' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
 
@@ -76,6 +79,8 @@ class SliderController extends Controller
 
         $slider = new FooterSlider();
         $slider->title = $request->input('title');
+        $slider->url = $request->input('url');
+
         $slider->image = $fileName;
         $slider->mobile_image = $fileNameMobile;
         $slider->save();
@@ -97,6 +102,7 @@ class SliderController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'url' => 'required|string|max:255',
             'image' => 'image|mimes:jpeg,png,jpg,gif',
         ]);
 
@@ -116,6 +122,7 @@ class SliderController extends Controller
         }
 
         $slider->title = $request->input('title');
+        $slider->url = $request->input('url');
         $slider->save();
 
         return redirect()->route('admin.sliders.index')->with('success', 'Slider başarıyla güncellendi.');
@@ -125,6 +132,7 @@ class SliderController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'url' => 'required|string|max:255',
             'image' => 'image|mimes:jpeg,png,jpg,gif',
         ]);
 
@@ -145,6 +153,7 @@ class SliderController extends Controller
 
 
         $slider->title = $request->input('title');
+        $slider->url = $request->input('url');
         $slider->save();
 
         return redirect()->route('admin.footer-sliders.index')->with('success', 'Slider başarıyla güncellendi.');

@@ -37,6 +37,13 @@
                                         </div>
 
                                         <div class="col-md-12">
+                                            <label class="form-label" for="title">Slider URL</label>
+                                            <input name="url" class="form-control" id="url" type="text"
+                                                value="" required="">
+                                            <div class="valid-feedback">İyi Görünüyor!</div>
+                                        </div>
+
+                                        <div class="col-md-12">
                                             <label class="form-label" for="image">Slider Web Görseli</label>
                                             <input name="image" class="form-control" id="image" type="file"
                                                 accept="image/*" required />
