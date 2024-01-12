@@ -181,7 +181,7 @@
                                 project: project, // project nereden alındığını kontrol etmelisiniz
                                 _token: "{{ csrf_token() }}",
                                 clear_cart: "no",
-                                selectedCollectionId: selectedCollectionId
+                                selectedCollectionId: parseInt(selectedCollectionId, 10) // Convert to number using parseInt
                             };
 
                             $.ajax({

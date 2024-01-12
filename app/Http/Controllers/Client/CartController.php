@@ -231,11 +231,10 @@ class CartController extends Controller {
             if ( $type == 'project' ) {
                 $sharerLinksProjects = ShareLink::select( 'room_order', 'item_id' ,'collection_id')->where( 'user_id', auth()->user()->id )->where( 'item_type', 1 )->get()->keyBy( 'item_id' )->toArray();
                 $isHas = false;
-                foreach ( $sharerLinksProjects as $linkProject ) {
-                    if ( $linkProject[ 'item_id' ] == $project && $linkProject[ 'room_order' ] == $id && $linkProject[ 'collection_id' ] == $request->input( 'selectedCollectionId' ) ) {
+                $ext = ShareLink::where("item_id", $project)->where("room_order",$id)->where("collection_id",$request->input( 'selectedCollectionId' ))->first();
+                    if ( $ext  ) {
                         $isHas = true;
                     }
-                }
                 if ( !$isHas ) {
                     ShareLink::create( [
                         'user_id' => auth()->user()->id,

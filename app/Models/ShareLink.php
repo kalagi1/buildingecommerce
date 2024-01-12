@@ -22,4 +22,5 @@ class ShareLink extends Model
     public function housing(){
         return $this->hasOne(Housing::class,"id","item_id");
     }
+
 }

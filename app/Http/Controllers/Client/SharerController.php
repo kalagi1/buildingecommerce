@@ -17,6 +17,8 @@ class SharerController extends Controller {
         $itemsArray = [];
         foreach ( $items as $item ) {
             $item[ 'project_values' ] = $item->projectHousingData( $item->item_id )->pluck( 'value', 'name' )->toArray();
+            $item[ 'housing' ] = $item->housing;
+
         }
 
         return view( 'institutional.sharer-panel.index', compact( 'items', 'sharer', 'collections' ) );
@@ -30,8 +32,9 @@ class SharerController extends Controller {
         $itemsArray = [];
         foreach ( $items as $item ) {
             $item[ 'project_values' ] = $item->projectHousingData( $item->item_id )->pluck( 'value', 'name' )->toArray();
+            $item[ 'housing' ] = $item->housing;
+            $item[ 'project' ] = $item->project;
         }
-
         return view( 'institutional.sharer-panel.show', compact( 'items', 'sharer', 'collections', 'collection' ) );
     }
 

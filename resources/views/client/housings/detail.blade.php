@@ -541,13 +541,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if ( Auth::check() && Auth::user()->type == 21)
+                                @if (Auth::check() && Auth::user()->type == 21)
                                     <div
                                         @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
                                                 json_decode($housing->housing_type_data)->{"share-open"}[0]
                                         ) class="add-to-collections-wrapper addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
-            @else
-            class="add-to-collections-wrapper disabledShareButton addCollection" @endif>
+                                                    @else
+                                                    class="add-to-collections-wrapper disabledShareButton addCollection" @endif>
                                         <div class="add-to-collection-button-wrapper">
                                             <div class="add-to-collection-button">
 
@@ -1751,8 +1751,8 @@
                 margin-bottom: 30px !important;
             }
 
-            .schedule.widget-boxed ,
-            .add-to-collections-wrapper{
+            .schedule.widget-boxed,
+            .add-to-collections-wrapper {
                 margin-bottom: 30px !important;
             }
 

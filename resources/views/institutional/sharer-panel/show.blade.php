@@ -15,10 +15,10 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Image</th>
-                                <th>Title</th>
-                                <th>Price</th>
-                                <th>Actions</th>
+                                <th>Kapak Fotoğrafı</th>
+                                <th>İlan Başlığı</th>
+                                <th>Fiyat</th>
+                                <th>Sil</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,22 +29,17 @@
                                             href="{{ $items[$i]->item_type == 1 ? route('project.housings.detail', [$items[$i]->project->slug, $items[$i]->room_order]) : route('housing.show', [$items[$i]->housing->id]) }}">
                                             <img src="{{ $items[$i]->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $items[$i]->project_values['image[]'] : URL::to('/') . '/housing_images/' . json_decode($items[$i]->housing->housing_type_data)->image }}"
                                                 alt="home-1" class="img-responsive"
-                                                style="height: 100px !important; object-fit: cover">
+                                                style="height: 70px !important; object-fit: cover">
                                         </a>
                                     </td>
                                     <td>
                                         {{ $items[$i]->item_type == 1 ? $items[$i]->project_values['advertise_title[]'] : $items[$i]->housing->title }}
+                                        <br>
+                                        <span style="font-size: 12px;font-weight:700">
+                                            {{ $items[$i]->item_type == 1 ? $items[$i]->project->city->title . ' / ' . $items[$i]->project->county->ilce_title . ' / ' . $items[$i]->project->neighbourhood->mahalle_title  : $items[$i]->housing->city->title . ' / ' . $items[$i]->housing->county->title . ' / ' . $items[$i]->housing->neighborhood->mahalle_title }}
+                                            <br>
+                                        </span>
                                     </td>
-                                    {{-- 
-                                    <td>
-                                        {{ $items[$i]->item_type == 1 ? ($items[$i]->project->listItemValues->column1_name ? $items[$i]->project_values[$items[$i]->project->listItemValues->column1_name . '[]'] : '') : ($items[$i]->housing->listItems->column1_name ? json_decode($items[$i]->housing->housing_type_data)->{$items[$i]->housing->listItems->column1_name}[0] ?? '' : '') }}
-                                    </td>
-                                    <td>
-                                        {{ $items[$i]->item_type == 1 ? ($items[$i]->project->listItemValues->column2_name ? $items[$i]->project_values[$items[$i]->project->listItemValues->column2_name . '[]'] : '') : ($items[$i]->housing->listItems->column2_name ? json_decode($items[$i]->housing->housing_type_data)->{$items[$i]->housing->listItems->column2_name}[0] ?? '' : '') }}
-                                    </td>
-                                    <td>
-                                        {{ $items[$i]->item_type == 1 ? ($items[$i]->project->listItemValues->column3_name ? $items[$i]->project_values[$items[$i]->project->listItemValues->column3_name . '[]'] : '') : ($items[$i]->housing->listItems->column3_name ? json_decode($items[$i]->housing->housing_type_data)->{$items[$i]->housing->listItems->column3_name}[0] ?? '' : '') }}
-                                    </td> --}}
                                     <td>
                                         {{ number_format($items[$i]->item_type == 1 ? $items[$i]->project_values['price[]'] : json_decode($items[$i]->housing->housing_type_data)->price[0], 0, ',', '.') }}
                                         ₺
@@ -81,7 +76,7 @@
             var itemType = button.data('type');
             var itemId = button.data('id');
             var projectId = button.data('project');
-    
+
             $.ajax({
                 method: 'POST',
                 url: '/remove-from-collection',
@@ -100,7 +95,6 @@
             });
         });
     </script>
-    
 @endsection
 
 @section('styles')
