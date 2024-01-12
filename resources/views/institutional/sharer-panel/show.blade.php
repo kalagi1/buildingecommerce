@@ -77,10 +77,11 @@
 
     <script>
         $(".remove-from-collection").on("click", function() {
-            var itemType = $(button).data('type');
-            var itemId = $(button).data('id');
-            var projectId = $(button).data('project');
-
+            var button = $(this); // Reference the clicked button
+            var itemType = button.data('type');
+            var itemId = button.data('id');
+            var projectId = button.data('project');
+    
             $.ajax({
                 method: 'POST',
                 url: '/remove-from-collection',
@@ -88,8 +89,7 @@
                     itemType: itemType,
                     itemId: itemId,
                     projectId: projectId,
-                    _token: '{{ csrf_token() }}',
-
+                    _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
                     location.reload();
@@ -100,6 +100,7 @@
             });
         });
     </script>
+    
 @endsection
 
 @section('styles')
