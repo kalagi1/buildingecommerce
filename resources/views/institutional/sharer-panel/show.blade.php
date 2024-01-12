@@ -94,9 +94,8 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        $(button).closest('tr').remove(); 
-                        Swal.success('Silindi!');
-
+                        location.reload();
+; 
                     }
                 },
                 error: function(error) {
