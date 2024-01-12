@@ -53,8 +53,7 @@
                                         <button class="btn btn-info remove-from-collection"
                                             data-type="{{ $items[$i]->item_type == 1 ? 'project' : 'housing' }}"
                                             data-id="{{ $items[$i]->item_type == 1 ? $items[$i]->room_order : $items[$i]->housing->id }}"
-                                            @if ($items[$i]->item_type == 1) data-project="{{ $items[$i]->project->id }}" @endif
-                                         >
+                                            @if ($items[$i]->item_type == 1) data-project="{{ $items[$i]->project->id }}" @endif>
                                             Koleksiyondan Kaldır
                                         </button>
 
@@ -71,20 +70,20 @@
             </div>
         </div>
     </div>
-    @endsection
+@endsection
 
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
-        $(".remove-from-collection").on("click", function(){
+        $(".remove-from-collection").on("click", function() {
             var itemType = $(button).data('type');
             var itemId = $(button).data('id');
             var projectId = $(button).data('project');
 
             $.ajax({
                 method: 'POST',
-                url: '/remove-from-collection', 
+                url: '/remove-from-collection',
                 data: {
                     itemType: itemType,
                     itemId: itemId,
@@ -93,7 +92,7 @@
 
                 },
                 success: function(response) {
-                        location.reload();
+                    location.reload();
                 },
                 error: function(error) {
                     console.error('Error:', error);
@@ -101,7 +100,6 @@
             });
         });
     </script>
-
 @endsection
 
 @section('styles')
