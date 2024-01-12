@@ -234,7 +234,7 @@
                         <div class="col-md-12">
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                                 <div class="homes-tag button alt featured mobileTagProject">
-                                    <a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}" style="color:White;">{{ $project->user->name }}</a>
+                                    <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
                                 </div>
                                 <div class="carousel-inner">
 
@@ -283,7 +283,7 @@
                 </div>
                 <aside class="col-md-4  car">
                     <div class="single widget buyBtn">
-                        <div class="schedule widget-boxed mt-33 mt-0">
+                        <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center">
                                 <div class="col-md-2 col-2">
                                     <div class="button-effect toggle-project-favorite" data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}" data-project-id={{ $project->id }}>
@@ -341,12 +341,12 @@
 
 
                                     @if ($offSaleValue != '[]')
-                                        <button class="btn second-btn  mobileCBtn" style="background: #EA2B2E !important;width:100%;color:White">
+                                        <button class="btn second-btn  " style="background: #EA2B2E !important;width:100%;color:White">
                                             <span class="text">Satışa Kapatıldı</span>
                                         </button>
                                     @else
                                         @if ($soldStatus && $soldStatus != '2')
-                                            <button class="btn second-btn  mobileCBtn" @if ($soldStatus == '0') style="background: orange !important;color:White" @else style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
+                                            <button class="btn second-btn  " @if ($soldStatus == '0') style="background: orange !important;color:White" @else style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
                                                 @if ($soldStatus == '0')
                                                     <span class="text">Rezerve Edildi</span>
                                                 @else
@@ -367,6 +367,56 @@
                             </div>
                         </div>
                     </div>
+                    <div class="moveCollection">
+                        @if (Auth::check() && Auth::user()->type == 21)
+                        <div
+                            @if (isset($projectHousingsList[$housingOrder]['share-open[]'] )) class="add-to-collections-wrapper addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='project'  data-id="{{ $housingOrder }}" data-project="{{ $project->id }}" 
+                                        @else
+                                        class="add-to-collections-wrapper disabledShareButton addCollection" @endif>
+                            <div class="add-to-collection-button-wrapper">
+                                <div class="add-to-collection-button">
+    
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="32" height="32" fill="#e54242" />
+                                        <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                            <rect width="1440" height="1577"
+                                                transform="translate(-1100 -1183)" fill="white" />
+                                            <g id="Group 6131">
+                                                <g id="Frame 21409">
+                                                    <g id="Group 6385">
+                                                        <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                            height="48" rx="8" fill="#e54242 " />
+                                                        <g id="Group 2664">
+                                                            <rect id="Rectangle 316" width="32"
+                                                                height="32" rx="4"
+                                                                fill="#e54242 " />
+                                                            <g id="Group 72">
+                                                                <path id="Rectangle 12"
+                                                                    d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
+                                                                    fill="white" stroke="white"
+                                                                    stroke-width="2" />
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_1750_971">
+                                                <rect width="1440" height="1577" fill="white"
+                                                    transform="translate(-1100 -1183)" />
+                                            </clipPath>
+                                        </defs>
+                                    </svg><span class="add-to-collection-button-text">Koleksiyona Ekle</span>
+                                </div>
+                                <span class="fa fa-plus"></span>
+                            </div>
+                        </div>
+                    @endif
+                    </div>
+                 
+                    
                     <div class="mobileMove">
                         <div class="single widget storeInfo">
                             <div class="widget-boxed">
@@ -667,16 +717,27 @@
                                                                                                             <div
                                                                                                                 class="project-inner project-head">
 
-                                                                                                                <div
-                                                                                                                    class="button-effect">
-                                                                                                                    <div href="javascript:void()"
-                                                                                                                        class="btn toggle-project-favorite bg-white"
-                                                                                                                        data-project-housing-id="{{ $i + 1 }}"
-                                                                                                                        data-project-id={{ $project->id }}>
-                                                                                                                        <i
-                                                                                                                            class="fa fa-heart-o"></i>
-                                                                                                                    </div>
-                                                                                                                </div>
+                                                                                                               
+                                                                                    <div class="button-effect-div">
+                                                                                        @if ( Auth::check() && Auth::user()->type == 21)
+                                                                                        <span
+                                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]'])
+                                                                                            ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                              data-type='project'
+                                                                                              data-project='{{ $project->id }}'
+                                                                                              data-id='{{ $i + 1 }}'
+                                                                                @else
+                                                                                class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                                            <i class="fa fa-bookmark"></i>
+                                                                                        </span>
+                                                                                    @endif
+                                                                                        <div href="javascript:void()"
+                                                                                            class="btn toggle-project-favorite bg-white"
+                                                                                            data-project-housing-id="{{ $i + 1 }}"
+                                                                                            data-project-id={{ $project->id }}>
+                                                                                            <i class="fa fa-heart-o"></i>
+                                                                                        </div>
+                                                                                    </div>
                                                                                                                 <div
                                                                                                                     class="homes position-relative">
                                                                                                                     <!-- homes img -->
@@ -1018,7 +1079,7 @@
                                                                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                                                                 <a style="text-decoration: none; height: 100%"
                                                                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                                                                    <div class="d-flex align-items-center justify-content-between">
+                                                                                    <div class="d-flex justify-content-between" style="gap: 8px">
                                                                                         <h3>
                                                                                             @if (isset($projectHousingsList[$i + 1]['advertise_title[]']))
                                                                                                 {{ $projectHousingsList[$i + 1]['advertise_title[]'] }}
@@ -1029,6 +1090,18 @@
                                                                                                 {{ $project->step1_slug }}
                                                                                             @endif
                                                                                         </h3>
+                                                                                        @if ( Auth::check() && Auth::user()->type == 21)
+                                                                                        <span
+                                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]'])
+                                                                                            ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                              data-type='project'
+                                                                                              data-project='{{ $project->id }}'
+                                                                                              data-id='{{ $i + 1 }}'
+                                                                                @else
+                                                                                class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                                            <i class="fa fa-bookmark"></i>
+                                                                                        </span>
+                                                                                    @endif
                                                                                         <span class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
                                                                                             style="color: white;"
@@ -1243,7 +1316,20 @@
                                                                                 data-aos="fade-up">
                                                                                 <div class="project-inner project-head">
 
-                                                                                    <div class="button-effect">
+                                                                                  
+                                                                                    <div class="button-effect-div">
+                                                                                        @if ( Auth::check() && Auth::user()->type == 21)
+                                                                                        <span
+                                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]'])
+                                                                                            ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                              data-type='project'
+                                                                                              data-project='{{ $project->id }}'
+                                                                                              data-id='{{ $i + 1 }}'
+                                                                                @else
+                                                                                class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                                            <i class="fa fa-bookmark"></i>
+                                                                                        </span>
+                                                                                    @endif
                                                                                         <div href="javascript:void()"
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
@@ -1560,7 +1646,7 @@
                                                         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                                             <a style="text-decoration: none; height: 100%"
                                                                 href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                                                <div class="d-flex align-items-center justify-content-between">
+                                                                <div class="d-flex justify-content-between" style="gap: 8px;">
                                                                     <h3>
                                                                         @if (isset($projectHousingsList[$i + 1]['advertise_title[]']))
                                                                             {{ $projectHousingsList[$i + 1]['advertise_title[]'] }}
@@ -1571,6 +1657,18 @@
                                                                             {{ $project->step1_slug }}
                                                                         @endif
                                                                     </h3>
+                                                                    @if ( Auth::check() && Auth::user()->type == 21)
+                                                                    <span
+                                                                        @if (isset($projectHousingsList[$i + 1]['share-open[]'])
+                                                                        ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                          data-type='project'
+                                                                          data-project='{{ $project->id }}'
+                                                                          data-id='{{ $i + 1 }}'
+                                                            @else
+                                                            class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                        <i class="fa fa-bookmark"></i>
+                                                                    </span>
+                                                                @endif
                                                                     <span class="btn toggle-project-favorite bg-white"
                                                                         data-project-housing-id="{{ $i + 1 }}"
                                                                         style="color: white;"
@@ -1852,8 +1950,12 @@
         if ($(window).width() <= 768) {
 
             var buyBtn = $(".buyBtn").html();
+            var moveCollection  = $(".moveCollection").html();
             $("#listingDetailsSlider").after(buyBtn);
+            $(".widgetBuyButton").after(moveCollection);
             $(".buyBtn").css("display", "none");
+            $(".moveCollection").css("display", "none");
+
 
         };
 
@@ -2258,7 +2360,7 @@ out center;`;
                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                                         <div class="project-inner project-head">
 
-                                                            <div class="button-effect">
+                                                            <div class="button-effect-div">
                                                                 <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{$project->id}}">
                                                                     <i class="fa fa-heart-o"></i>
                                                                 </div>
@@ -2522,7 +2624,7 @@ out center;`;
                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                                         <div class="project-inner project-head">
 
-                                                            <div class="button-effect">
+                                                            <div class="button-effect-div">
                                                                 <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{$project->id}}">
                                                                     <i class="fa fa-heart-o"></i>
                                                                 </div>
@@ -2766,6 +2868,9 @@ out center;`;
 
 
         @media (max-width:768px) {
+            .addCollection{
+                margin-bottom: 30px !important
+            }
             .mobileTagProject {
                 width: 150px !important;
                 z-index: 9;
@@ -2790,10 +2895,7 @@ out center;`;
                 display: none !important;
             }
 
-            .col-md-4 {
-                display: none !important;
-            }
-
+           
             .inner-pages .pro-wrapper .detail-wrapper-body p {
                 margin-bottom: 0 !important;
             }
