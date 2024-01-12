@@ -20,20 +20,34 @@ class CollectionController extends Controller {
         $itemType = $request->input('itemType');
         $itemId = $request->input('itemId');
         $projectId = $request->input('projectId');
-        if ($itemType == 'project') {
-            $link = ShareLink::where('item_id', $projectId)->where('item_type', 1)->where("room_order", $itemId)->first();
-
-            if ($link) {
-                $link->delete();
+    
+        try {
+            if ($itemType == 'project') {
+                $link = ShareLink::where('item_id', $projectId)->where('item_type', 1)->where("room_order", $itemId)->first();
+    
+                if ($link) {
+                    $link->delete();
+                    return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
+                } else {
+                    return response()->json(['success' => false, 'message' => 'Link not found in the collection.']);
+                }
+            } elseif ($itemType == 'housing') {
+                $link = ShareLink::where('item_id', $itemId)->where('item_type', 2)->first();
+    
+                if ($link) {
+                    $link->delete();
+                    return response()->json(['success' => true, 'message' => 'Item removed from the collection.']);
+                } else {
+                    return response()->json(['success' => false, 'message' => 'Link not found in the collection.']);
+                }
+            } else {
+                return response()->json(['success' => false, 'message' => 'Invalid item type.']);
             }
-        } elseif ($itemType == 'housing') {
-            $link = ShareLink::where('item_id', $itemId)->where('item_type', 2)->first();
-
-            if ($link) {
-                $link->delete();
-            }
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error removing item from the collection.']);
         }
     }
+    
 
     public function store( Request $request ) {
 

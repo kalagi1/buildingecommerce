@@ -93,7 +93,11 @@
 
                 },
                 success: function(response) {
-                    $(button).closest('tr').remove(); 
+                    if (response.success) {
+                        $(button).closest('tr').remove(); 
+                        Swal.success('Silindi!');
+
+                    }
                 },
                 error: function(error) {
                     console.error('Error:', error);
