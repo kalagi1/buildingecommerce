@@ -718,13 +718,25 @@
                                                                                                             data-aos="fade-up">
                                                                                                             <div
                                                                                                                 class="button-effect-div">
-                                                                                                                <div href="javascript:void()"
-                                                                                                                    class="btn toggle-project-favorite bg-white"
-                                                                                                                    data-project-housing-id="{{ $i + 1 }}"
-                                                                                                                    data-project-id={{ $project->id }}>
-                                                                                                                    <i
-                                                                                                                        class="fa fa-heart-o"></i>
-                                                                                                                </div>
+                                                                                                              
+                                                                                        @if ( Auth::check() && Auth::user()->type == 21)
+                                                                                        <span
+                                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]'])
+                                                                                            ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                              data-type='project'
+                                                                                              data-project='{{ $project->id }}'
+                                                                                              data-id='{{ $i + 1 }}'
+                                                                                @else
+                                                                                class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                                            <i class="fa fa-bookmark"></i>
+                                                                                        </span>
+                                                                                    @endif
+                                                                                        <div href="javascript:void()"
+                                                                                            class="btn toggle-project-favorite bg-white"
+                                                                                            data-project-housing-id="{{ $i + 1 }}"
+                                                                                            data-project-id={{ $project->id }}>
+                                                                                            <i class="fa fa-heart-o"></i>
+                                                                                        </div>
                                                                                                             </div>
                                                                                                             <div
                                                                                                                 class="homes position-relative">
@@ -1072,7 +1084,7 @@
                                                                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                                                                 <a style="text-decoration: none; height: 100%"
                                                                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                                                                    <div class="d-flex align-items-center justify-content-between">
+                                                                                    <div class="d-flex  justify-content-between" style="gap: 8px">
                                                                                         <h3>
                                                                                             @if (isset($projectHousingsList[$i + 1]['advertise_title[]']))
                                                                                                 {{ $projectHousingsList[$i + 1]['advertise_title[]'] }}
@@ -1083,6 +1095,18 @@
                                                                                                 {{ $project->step1_slug }}
                                                                                             @endif
                                                                                         </h3>
+                                                                                        @if ( Auth::check() && Auth::user()->type == 21)
+                                                                                        <span
+                                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]'])
+                                                                                            ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                              data-type='project'
+                                                                                              data-project='{{ $project->id }}'
+                                                                                              data-id='{{ $i + 1 }}'
+                                                                                @else
+                                                                                class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                                            <i class="fa fa-bookmark"></i>
+                                                                                        </span>
+                                                                                    @endif
                                                                                         <span class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
                                                                                             style="color: white;"
@@ -1626,7 +1650,7 @@
                                                         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                                             <a style="text-decoration: none; height: 100%"
                                                                 href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                                                <div class="d-flex align-items-center justify-content-between">
+                                                                <div class="d-flex justify-content-between" style="gap:8px;">
                                                                     <h3>
                                                                         @if (isset($projectHousingsList[$i + 1]['advertise_title[]']))
                                                                             {{ $projectHousingsList[$i + 1]['advertise_title[]'] }}
@@ -1637,6 +1661,18 @@
                                                                             {{ $project->step1_slug }}
                                                                         @endif
                                                                     </h3>
+                                                                    @if ( Auth::check() && Auth::user()->type == 21)
+                                                                    <span
+                                                                        @if (isset($projectHousingsList[$i + 1]['share-open[]'])
+                                                                        ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                          data-type='project'
+                                                                          data-project='{{ $project->id }}'
+                                                                          data-id='{{ $i + 1 }}'
+                                                            @else
+                                                            class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                        <i class="fa fa-bookmark"></i>
+                                                                    </span>
+                                                                @endif
                                                                     <span class="btn toggle-project-favorite bg-white"
                                                                         data-project-housing-id="{{ $i + 1 }}"
                                                                         style="color: white;"
@@ -1904,7 +1940,7 @@
                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                                         <div class="project-inner project-head">
 
-                                                            <div class="button-effect">
+                                                            <div class="button-effect-div">
                                                                 <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{$project->id}}">
                                                                     <i class="fa fa-heart-o"></i>
                                                                 </div>
@@ -2306,7 +2342,7 @@
                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                                         <div class="project-inner project-head">
 
-                                                            <div class="button-effect">
+                                                            <div class="button-effect-div">
                                                                 <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{$project->id}}">
                                                                     <i class="fa fa-heart-o"></i>
                                                                 </div>
