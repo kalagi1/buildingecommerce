@@ -13,18 +13,21 @@
             <div class="card-body">
                 <div class="row list" id="icon-list">
                     @foreach ($collections as $collection)
-                        <div class="col-lg-3 col-md-4 col-sm-6"><span
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <a href="{{ route('sharer.links.index', ['id' => $collection->id]) }}" class="text-decoration-none">
+
+                            <span
                                 class="icon-list-item d-none">{{ $collection->name }}</span>
-                            <div
-                                class="border rounded-2 p-3 mb-4 text-center bg-body-emphasis dark__bg-gray-1000 shadow-sm"
+                            <div class="border rounded-2 p-3 mb-4 text-center bg-body-emphasis dark__bg-gray-1000 shadow-sm"
                                 style="background-color: #EA2B2E;color:white">
                                 <span class="number" style="display:flex;align-items:center;justify-content:center">
-                                    
                                     <span>{{ count($collection->links) }} Emlak</span>
-                                    </span><input
+                                </span>
+                                <input
                                     class="form-control form-control-sm mt-3 text-center w-100 text-dark dark__text-gray-100 bg-body-secondary dark__bg-gray-1100"
                                     type="text" readonly="readonly" value="{{ $collection->name }}">
                             </div>
+                            </a>
                         </div>
                     @endforeach
 

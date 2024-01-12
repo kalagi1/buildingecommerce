@@ -94,6 +94,8 @@ Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->na
 Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
 Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
 Route::get('/koleksiyonlarim', [SharerController::class,"index"])->name('sharer.index');
+Route::get('/koleksiyonlarim/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
+
 Route::get('/paylasimci-paneli', [SharerController::class,"sharerPanel"])->name('sharer.panel');
 Route::get('/paylasimci-paneli/{username}', [SharerController::class,"sharerPanelByAnotherUser"])->name('sharer.panel.another.user');
 Route::get('/search/results',[HomeController::class, "searchResults"])->name('search.results');
