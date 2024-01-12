@@ -28,7 +28,7 @@ class ProfileController extends Controller
     public function cartOrders()
     {
         $cartOrders = CartOrder::where('user_id', auth()->user()->id)->with("invoice")->orderBy("id", "desc")->get();
-        if (Auth::user()->type == "2") {
+        if (Auth::user()->type != "1") {
             return view('institutional.orders.get', compact('cartOrders'));
 
         } else {
