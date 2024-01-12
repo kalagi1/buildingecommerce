@@ -484,7 +484,8 @@
 <script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
 
 <script>
-    $('.payment-plan-button').click(function() {
+
+    $('body').on('click', '.payment-plan-button', function(event) {
         var order = $(this).attr('order');
         var soldStatus = $(this).data('sold');
 
@@ -642,6 +643,7 @@
         }
 
     })
+    
     $(document).ready(function() {
         const searchInput = $(".search-input");
         const suggestions = $(".header-search__suggestions");
@@ -1179,48 +1181,48 @@
             });
         }
 
-        document.querySelectorAll(".toggle-project-favorite").forEach(function(button) {
-            button.addEventListener("click", function(event) {
-                event.preventDefault();
-                console.log("s");
-                var housingId = this.getAttribute("data-project-housing-id");
-                var projectId = this.getAttribute("data-project-id");
+        $('body').on('click', '.toggle-project-favorite', function(event) {
+            event.preventDefault();
+            console.log("s");
+            var button = event.target;
+            console.log(button);
+            var housingId = this.getAttribute("data-project-housing-id");
+            var projectId = this.getAttribute("data-project-id");
 
-                $.ajax({
-                    url: "{{ route('add.project.housing.to.favorites', ['id' => ':id']) }}"
-                        .replace(':id',
-                            housingId),
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        project_id: projectId,
-                        housing_id: housingId
-                    },
-                    success: function(response) {
-                        if (response.status === 'added') {
-                            toastr.success("Konut Favorilere Eklendi");
-                            button.querySelector("i").classList.remove(
-                                "fa-heart-o");
-                            button.querySelector("i").classList.add(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "text-danger");
-                            button.classList.add("bg-white");
-                        } else if (response.status === 'removed') {
-                            toastr.warning(
-                                "Konut Favorilerden Kaldırıldı");
-                            button.querySelector("i").classList.remove(
-                                "text-danger");
-                            button.querySelector("i").classList.remove(
-                                "fa-heart");
-                            button.querySelector("i").classList.add(
-                                "fa-heart-o");
-                        }
-                    },
-                    error: function(error) {
-                        window.location.href = "/giris-yap";
+            $.ajax({
+                url: "{{ route('add.project.housing.to.favorites', ['id' => ':id']) }}"
+                    .replace(':id',
+                        housingId),
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    project_id: projectId,
+                    housing_id: housingId
+                },
+                success: function(response) {
+                    if (response.status === 'added') {
+                        toastr.success("Konut Favorilere Eklendi");
+                        button.querySelector("i").classList.remove(
+                            "fa-heart-o");
+                        button.querySelector("i").classList.add(
+                            "fa-heart");
+                        button.querySelector("i").classList.add(
+                            "text-danger");
+                        button.classList.add("bg-white");
+                    } else if (response.status === 'removed') {
+                        toastr.warning(
+                            "Konut Favorilerden Kaldırıldı");
+                        button.querySelector("i").classList.remove(
+                            "text-danger");
+                        button.querySelector("i").classList.remove(
+                            "fa-heart");
+                        button.querySelector("i").classList.add(
+                            "fa-heart-o");
                     }
-                });
+                },
+                error: function(error) {
+                    window.location.href = "/giris-yap";
+                }
             });
         });
 
