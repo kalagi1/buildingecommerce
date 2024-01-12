@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Block;
 use App\Models\Brand;
 use App\Models\CartOrder;
 use App\Models\City;
@@ -640,12 +641,43 @@ class ProjectController extends Controller
     }
 
     public function getProjectHousingByStartAndEnd(Request $request,$projectId,$housingOrder){
-        $projectHousings = ProjectHousing::where('project_id',$projectId)->where('room_order','>',$request->input('start'))->where('room_order','<=',$request->input('end'))->get();
+        $blocks = Block::where('project_id',$projectId)->get();
+        $blockStartIndex = 0;
+        for($i = 0 ; $i < $request->input('block_index'); $i++){
+            $blockStartIndex = $blocks[$i]->housing_count;
+        }
+        $blockEndIndex = $blockStartIndex + $blocks[$request->input('block_index')]->housing_count;
+        
+        $projectHousings = ProjectHousing::where("room_order",">=",$blockStartIndex)->where("room_order","<=",$blockEndIndex)->where('project_id',$projectId)->where('room_order','>',$blockStartIndex + $request->input('start'))->where('room_order','<=',$blockStartIndex + $request->input('end'))->get();
 
         $projectHousingsList = [];
-        $combinedValues = $projectHousings->map(function ($item,$key) use(&$projectHousingsList,$request) {
-            $projectHousingsList[$item->room_order- $request->input('start')][$item->name] = $item->value;
+        $combinedValues = $projectHousings->map(function ($item,$key) use(&$projectHousingsList,$request,$blockStartIndex) {
+            $projectHousingsList[$item->room_order - ($request->input('start') + 1) - $blockStartIndex][$item->name] = $item->value;
         });
-        return $projectHousingsList;
+
+        
+        $projectCartOrders = DB::table('cart_orders')
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $projectId)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get()
+        ->keyBy("housing_id");
+
+        $discountAmount = 0;
+
+        $offer = Offer::where('type', 'project')
+            ->where('project_id', $projectId)
+            ->where('start_date', '<=', date('Y-m-d H:i:s'))
+            ->where('end_date', '>=', date('Y-m-d H:i:s'))
+            ->get();
+
+
+        return [
+            "projectHousingsList" => $projectHousingsList,
+            "projectCartOrders" => $projectCartOrders,
+            "offers" => $offer,
+            "blocks" => $blocks
+        ];
     }
 }
