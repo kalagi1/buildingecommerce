@@ -122,7 +122,7 @@
             project = $(this).data("project");
         }
 
-        $(button).data('cart-info', {
+        $(".addCollection").data('cart-info', {
             id: productId,
             type: type,
             project: project,
@@ -153,6 +153,13 @@
                     modalContent += '</div>';
                 } else {
                     modalContent += '<p>Henüz koleksiyonun yok. Yeni koleksiyon oluştur:</p>';
+                    modalContent += '<div class="collection-item-wrapper" id="selectedCollectionWrapper">';
+                    modalContent +=
+                        '<ul class="list-group" id="collectionList" style="justify-content: space-between;">';
+                    modalContent +=
+                        '<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important"><i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle</li>';
+                    modalContent += '</ul>';
+                    modalContent += '</div>';
                 }
 
                 modalContent +=
