@@ -95,6 +95,7 @@ Route::post('notification/read', [NotificationController::class, "markAsRead"])-
 Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
 Route::get('/koleksiyonlarim', [SharerController::class,"index"])->name('sharer.index');
 Route::get('/koleksiyonlarim/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
+Route::post('/remove-from-collection', [CollectionController::class, 'removeFromCollection'])->name('remove.from.collection');
 
 Route::get('/paylasimci-paneli', [SharerController::class,"sharerPanel"])->name('sharer.panel');
 Route::get('/paylasimci-paneli/{username}', [SharerController::class,"sharerPanelByAnotherUser"])->name('sharer.panel.another.user');

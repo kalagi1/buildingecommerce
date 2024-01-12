@@ -15,6 +15,26 @@ class CollectionController extends Controller {
         return response()->json( [ 'collections' => $collections ] );
     }
 
+    public function removeFromCollection(Request $request)
+    {
+        $itemType = $request->input('itemType');
+        $itemId = $request->input('itemId');
+        $projectId = $request->input('projectId');
+        if ($itemType == 'project') {
+            $link = ShareLink::where('item_id', $projectId)->where('item_type', 1)->where("room_order", $itemId)->first();
+
+            if ($link) {
+                $link->delete();
+            }
+        } elseif ($itemType == 'housing') {
+            $link = ShareLink::where('item_id', $itemId)->where('item_type', 2)->first();
+
+            if ($link) {
+                $link->delete();
+            }
+        }
+    }
+
     public function store( Request $request ) {
 
         $cart = $request->input("cart");
@@ -35,7 +55,7 @@ class CollectionController extends Controller {
         $project = $cart['project'];
 
         if ( $type == 'project' ) {
-            $sharerLinksProjects = ShareLink::select( 'room_order', 'item_id' )->where( 'user_id', auth()->user()->id )->where( 'item_type', 1 )->get()->keyBy( 'item_id' )->toArray();
+            $sharerLinksProjects = ShareLink::select( 'room_order', 'item_id' ,"collection_id")->where( 'user_id', auth()->user()->id )->where( 'item_type', 1 )->get()->keyBy( 'item_id' )->toArray();
             $isHas = false;
             foreach ( $sharerLinksProjects as $linkProject ) {
                 if ( $linkProject[ 'item_id' ] == $project && $linkProject[ 'room_order' ] == $id && $linkProject[ 'collection_id' ] == $collection->id ) {

@@ -6,7 +6,7 @@
             <div class="card-header border-bottom bg-body">
                 <div class="row flex-between-center g-2">
                     <div class="col-auto">
-                        <h4 class="mb-0">{{$collection->name}}</h4>
+                        <h4 class="mb-0">{{ $collection->name }}</h4>
                     </div>
                 </div>
             </div>
@@ -17,9 +17,6 @@
                             <tr>
                                 <th>Image</th>
                                 <th>Title</th>
-                                <th>Column 1</th>
-                                <th>Column 2</th>
-                                <th>Column 3</th>
                                 <th>Price</th>
                                 <th>Actions</th>
                             </tr>
@@ -28,13 +25,17 @@
                             @for ($i = 0; $i < count($items); $i++)
                                 <tr>
                                     <td>
-                                        <a href="{{ $items[$i]->item_type == 1 ? route('project.housings.detail', [$items[$i]->project->slug, $items[$i]->room_order]) : route('housing.show', [$items[$i]->housing->id]) }}">
-                                            <img src="{{ $items[$i]->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $items[$i]->project_values['image[]'] : URL::to('/') . '/housing_images/' . json_decode($items[$i]->housing->housing_type_data)->image }}" alt="home-1" class="img-responsive" style="height: 100px !important; object-fit: cover">
+                                        <a
+                                            href="{{ $items[$i]->item_type == 1 ? route('project.housings.detail', [$items[$i]->project->slug, $items[$i]->room_order]) : route('housing.show', [$items[$i]->housing->id]) }}">
+                                            <img src="{{ $items[$i]->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $items[$i]->project_values['image[]'] : URL::to('/') . '/housing_images/' . json_decode($items[$i]->housing->housing_type_data)->image }}"
+                                                alt="home-1" class="img-responsive"
+                                                style="height: 100px !important; object-fit: cover">
                                         </a>
                                     </td>
                                     <td>
                                         {{ $items[$i]->item_type == 1 ? $items[$i]->project_values['advertise_title[]'] : $items[$i]->housing->title }}
                                     </td>
+                                    {{-- 
                                     <td>
                                         {{ $items[$i]->item_type == 1 ? ($items[$i]->project->listItemValues->column1_name ? $items[$i]->project_values[$items[$i]->project->listItemValues->column1_name . '[]'] : '') : ($items[$i]->housing->listItems->column1_name ? json_decode($items[$i]->housing->housing_type_data)->{$items[$i]->housing->listItems->column1_name}[0] ?? '' : '') }}
                                     </td>
@@ -43,22 +44,63 @@
                                     </td>
                                     <td>
                                         {{ $items[$i]->item_type == 1 ? ($items[$i]->project->listItemValues->column3_name ? $items[$i]->project_values[$items[$i]->project->listItemValues->column3_name . '[]'] : '') : ($items[$i]->housing->listItems->column3_name ? json_decode($items[$i]->housing->housing_type_data)->{$items[$i]->housing->listItems->column3_name}[0] ?? '' : '') }}
+                                    </td> --}}
+                                    <td>
+                                        {{ number_format($items[$i]->item_type == 1 ? $items[$i]->project_values['price[]'] : json_decode($items[$i]->housing->housing_type_data)->price[0], 0, ',', '.') }}
+                                        ₺
                                     </td>
                                     <td>
-                                        {{ number_format($items[$i]->item_type == 1 ? $items[$i]->project_values['price[]'] : json_decode($items[$i]->housing->housing_type_data)->price[0], 0, ',', '.') }} ₺
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-info">Kar Oranı: </button>
+                                        <button class="btn btn-info remove-from-collection"
+                                            data-type="{{ $items[$i]->item_type == 1 ? 'project' : 'housing' }}"
+                                            data-id="{{ $items[$i]->item_type == 1 ? $items[$i]->room_order : $items[$i]->housing->id }}"
+                                            @if ($items[$i]->item_type == 1) data-project="{{ $items[$i]->project->id }}" @endif
+                                            onclick="removeFromCollection(this)">
+                                            Koleksiyondan Kaldır
+                                        </button>
+
+
+
                                     </td>
                                 </tr>
                             @endfor
                         </tbody>
                     </table>
-                    
+
+
                 </div>
             </div>
         </div>
     </div>
+    @endsection
+
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        function removeFromCollection(button) {
+            var itemType = $(button).data('type');
+            var itemId = $(button).data('id');
+            var projectId = $(button).data('project');
+
+            $.ajax({
+                method: 'POST',
+                url: '/remove-from-collection', 
+                data: {
+                    itemType: itemType,
+                    itemId: itemId,
+                    projectId: projectId,
+                    _token: '{{ csrf_token() }}',
+
+                },
+                success: function(response) {
+                    $(button).closest('tr').remove(); 
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+    </script>
 
 @endsection
 
