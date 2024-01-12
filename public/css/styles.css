@@ -50,10 +50,12 @@ h3 {
     color: #333;
     font-weight: 600;
 }
-
+#toast-container *{
+    font-size:11px !important;
+}
 h4 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
+    font-size: 10px;
     color: #333;
     font-weight: 600;
 }
@@ -195,6 +197,7 @@ button {
 }
 
 @media (max-width: 768px) {
+  
     .bank-account {
         margin: 20px;
     }
@@ -5950,14 +5953,14 @@ element.style {
     background: transparent !important;
 }
 
-.homepage-2 .featured .project-single .button-effect {
+.homepage-2 .featured .project-single .button-effect-div{
     opacity: 1;
     visibility: visible;
     -webkit-transform: translateX(0%);
     transform: translateX(0%);
 }
 
-.homepage-2 .featured .button-effect {
+.homepage-2 .featured .button-effect-div {
     position: absolute;
     text-align: left;
     bottom: 0;
@@ -5974,8 +5977,42 @@ element.style {
     transition: all 0.4s ease;
     margin-bottom: .7rem;
 }
-
-.homepage-2 .featured .button-effect .btn {
+.add-to-collections-wrapper {
+    background-color: #ffd0d0;
+    padding: 8px;
+    margin-top:30px;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+.add-to-collection-button-wrapper .add-to-collection-button .add-to-collection-button-text {
+    line-height: 16px;
+    color: #333;
+    font-size: 12px !important;
+    font-weight: 600;
+}
+.add-to-collections-wrapper .add-to-collection-button-wrapper .fa-plus {
+    display: block;
+    padding: 4px;
+    font-size: 10.5px;
+    color: #333;
+}
+.add-to-collection-button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.add-to-collection-button-wrapper .add-to-collection-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+#product-detail-app .add-to-collections-wrapper .add-to-collection-button-wrapper .i-plus-bold {
+    display: block;
+    padding: 4px;
+    font-size: 10.5px;
+    color: #333;
+}
+.homepage-2 .featured .button-effect-div .btn {
     display: inline-block;
     color: #fff;
     -webkit-box-shadow: none;
@@ -27708,27 +27745,12 @@ input[type="checkbox"]::before {
 }
 
 .disabledShareButton .fa-bookmark:before{
-    color:white !important;
+    color:black !important;
 }
 .bg-success .fa-bookmark:before{
     color:white !important;
 }
-.disabledShareButton {
-    width: 100%;
-    height: 40px;
-    border: none;
-    background-color: #EA2B2E !important;
-    display: flex;
-    border-radius: 0;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition-duration: .5s;
-    overflow: hidden;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
-    position: relative;
-    color: #fff !important;
-}
+
 
 .CartBtn:hover .IconContainer {
     transform: translateX(70px);
@@ -29976,7 +29998,7 @@ a {
 }
 
 
-/* 
+
 .button-effect {
     width: 48px;
     height: 48px !important;
@@ -29985,7 +30007,7 @@ a {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-} */
+}
 
 
 .buttons:hover .snapchat-button {
@@ -30013,4 +30035,27 @@ a {
 
 .tab-content.active{
     display: block;
+}
+
+
+@media (max-width: 768px) {
+    .mobileAddCollection{
+        border: 1px solid gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 33px;
+    height: 33px !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.11);
+    border: solid 1px #f0f0f0;
+    background: #ffffff;
+    box-sizing: border-box;
+    border-radius: 100%;
+    font-size: 12px;
+    }
+
+    .mobileAddCollection:hover{
+        background-color: white !important;
+        color:black !important
+    }
 }

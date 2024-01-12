@@ -49,7 +49,7 @@
         </div>
     </div>
 </footer>
-<div class="modal fade" id="addCollection" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addCollectionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -93,28 +93,43 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-<script>
-    function isProductInCollection(productId, product) {
-        var links = @json($sharerLinks);
-        if (links != null && links.length != 0) {
-            if (links.includes(parseInt(productId))) {
-                return true; // Ürün sepette bulundu
-            }
 
-        }
-        return false;
-    }
+
+<script>
+    // @if (Auth::check())
+    //     function isProductInCollection(productId, product) {
+    //         var links = @json($sharerLinks);
+    //         if (links != null && links.length != 0) {
+    //             if (links.includes(parseInt(productId))) {
+    //                 return true; // Ürün sepette bulundu
+    //             }
+
+    //         }
+    //         return false;
+    //     }
+    // @endif
+
     $('body').on('click', '.addCollection', function(event) {
         event.preventDefault();
+        $(".modal-backdrop").show();
 
-        var button = event.target;
+        var button = $(this);
         var productId = $(this).data("id");
         var project = null;
+        var type = $(this).data("type");
 
         if ($(this).data("type") == "project") {
             project = $(this).data("project");
         }
 
+        $(button).data('cart-info', {
+            id: productId,
+            type: type,
+            project: project,
+            _token: "{{ csrf_token() }}",
+            clear_cart: "no",
+            selectedCollectionId: null
+        });
 
         fetch('/getCollections')
             .then(response => response.json())
@@ -142,24 +157,25 @@
 
                 modalContent +=
                     '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button></div>';
-                let modal = document.getElementById('addCollection');
+                let modal = document.getElementById('addCollectionModal');
                 let modalBody = modal.querySelector('.modal-content');
                 modalBody.innerHTML = modalContent;
 
                 document.querySelectorAll('#collectionList li').forEach(item => {
                     item.addEventListener('click', function() {
+
                         let selectedCollectionId = this.getAttribute('data-collection-id');
+                        if (!this.isEqualNode(document.querySelector(
+                                '#collectionList li:last-child'))) {
 
-                        var cart = {
-                            id: productId, // productId nereden alındığını kontrol etmelisiniz
-                            type: $(this).data("type"),
-                            project: project, // project nereden alındığını kontrol etmelisiniz
-                            _token: "{{ csrf_token() }}",
-                            clear_cart: "no",
-                            selectedCollectionId: selectedCollectionId
-                        };
-
-                        if (isProductInCollection(productId, project)) {
+                            var cart = {
+                                id: productId, // productId nereden alındığını kontrol etmelisiniz
+                                type: type,
+                                project: project, // project nereden alındığını kontrol etmelisiniz
+                                _token: "{{ csrf_token() }}",
+                                clear_cart: "no",
+                                selectedCollectionId: selectedCollectionId
+                            };
 
                             $.ajax({
                                 type: "POST",
@@ -167,32 +183,18 @@
                                 data: JSON.stringify(cart),
                                 contentType: "application/json;charset=UTF-8",
                                 success: function(response) {
-                                    toastr.error(
-                                        "Ürün koleksiyondan Kaldırıldı."
-                                    );
-                                    button.classList.remove(
-                                        "bg-success");
-                                },
-                                error: function(error) {
-                                    console.error(error);
-                                }
-                            });
-                        } else {
-                            $.ajax({
-                                type: "POST",
-                                url: "{{ route('add.to.cart') }}",
-                                data: JSON.stringify(cart),
-                                contentType: "application/json;charset=UTF-8",
-                                success: function(response) {
-                                    toastr.success(
-                                        "Ürün Koleksiyonunuza Eklendi"
-                                    );
-                                    if (!button.classList
-                                        .contains("mobile")) {;
+
+                                    if (response.failed) {
+                                        toastr.warning(
+                                            "Ürün bu koleksiyonda zaten mevcut."
+                                        );
+                                    } else {
+                                        toastr.success(
+                                            "Ürün Koleksiyonunuza Eklendi"
+                                        );
                                     }
-                                    button.classList.add(
-                                        "bg-success");
-                                        
+
+
                                 },
                                 error: function(error) {
                                     console.error(error);
@@ -204,31 +206,36 @@
                 });
 
 
-                // "Yeni Ekle" butonuna tıklandığında ikinci modalı aç
                 document.querySelector('#collectionList li:last-child').addEventListener('click',
                     function() {
-                        $('#addCollection').modal('hide');
+                        $('#addCollectionModal').modal('hide');
                         $('#newCollectionModal').modal('show');
+
                     });
             });
     });
+
+
     $('#saveNewCollectionBtn').on('click', function() {
+        $(".modal-backdrop").hide();
+
         let newCollectionName = $('#newCollectionNameInput').val();
+        let cartInfo = $('.addCollection').data('cart-info');
         if (newCollectionName) {
-            // AJAX ile yeni koleksiyonu backend'e kaydet
             $.ajax({
-                type: 'POST', // Veri gönderme yöntemi (POST)
-                url: '/collections', // Verilerin gönderileceği URL
+                type: 'POST',
+                url: '/collections',
                 data: {
                     collection_name: newCollectionName,
                     _token: "{{ csrf_token() }}",
-                }, // Gönderilecek veri
+                    cart: cartInfo
+                },
                 success: function(response) {
                     console.log(response);
                     if (response) {
                         $('#newCollectionModal').modal('hide');
                         $('#newCollectionNameInput').val(" ");
-                        toastr.success('Yeni koleksiyon oluşturuldu: ' + newCollectionName);
+                        toastr.success("Ürün Koleksiyonunuza Eklendİ");
 
                     } else {
                         toastr.error('Koleksiyon eklenirken bir hata oluştu.');
@@ -244,7 +251,8 @@
     });
 
     function closeModal() {
-        $('#addCollection').modal('hide');
+        $(".modal-backdrop").hide();
+        $('#addCollectionModal').modal('hide');
         $('#newCollectionModal').modal('hide');
     }
 </script>
@@ -1099,8 +1107,6 @@
 <script>
     $(document).ready(function() {
 
-
-
         checkFavorites();
         checkProjectFavorites();
         var cart = @json(session('cart', []));
@@ -1198,8 +1204,6 @@
             event.preventDefault();
             toastr.error("Paylaşıma kapalı ürünleri koleksiyonunuza ekleyemezsiniz.");
         });
-
-
 
         updateCartButton();
 
@@ -1309,7 +1313,6 @@
 
         function checkFavorites() {
             var favoriteButtons = document.querySelectorAll(".toggle-favorite");
-
             favoriteButtons.forEach(function(button) {
                 var housingId = button.getAttribute("data-housing-id");
 
@@ -1347,6 +1350,7 @@
                 });
             });
         }
+
 
         document.querySelectorAll(".toggle-project-favorite").forEach(function(button) {
             button.addEventListener("click", function(event) {
@@ -1723,11 +1727,9 @@
         });
     });
 </script>
-
-
-
-
 @yield('scripts')
+
+
 
 </div>
 <!-- Wrapper / End -->

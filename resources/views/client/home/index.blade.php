@@ -542,6 +542,16 @@
                                     <div class="d-flex" style="gap: 8px;justify-content:space-between;align-items:center">
                                         <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
                                         </h4>
+                                        @if (Auth::user()->type == 21)
+                                        <span
+                                            @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
+                                                    json_decode($housing->housing_type_data)->{"share-open"}[0]
+                                            ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
+                                @else
+                                class="btn addCollection mobileAddCollection disabledShareButton" @endif>
+                                            <i class="fa fa-bookmark"></i>
+                                        </span>
+                                    @endif
                                         <span class="btn toggle-favorite bg-white" data-housing-id="{{ $housing->id }}"
                                             style="color: white;">
                                             <i class="fa fa-heart-o"></i>
@@ -963,16 +973,18 @@
                                                                         class="img-responsive">
                                                                 </div>
                                                             </div>
-                                                            <div class="button-effect">
-                                                                <span 
-                                                                    @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
-                                                                            json_decode($housing->housing_type_data)->{"share-open"}[0]
-                                                                           
-                                                                    )  class="btn addCollection" data-bs-toggle="modal" data-bs-target="#addCollection" data-type='housing' data-id="{{ $housing->id }}" 
-                                                                @else
-                                                                class="btn addCollection disabledShareButton" @endif>
-                                                                    <i class="fa fa-bookmark"></i>
-                                                                </span>
+                                                            <div class="button-effect-div">
+                                                                @if (Auth::user()->type == 21)
+                                                                    <span
+                                                                        @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
+                                                                                json_decode($housing->housing_type_data)->{"share-open"}[0]
+                                                                        ) class="btn addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
+                                                            @else
+                                                            class="btn addCollection disabledShareButton" @endif>
+                                                                        <i class="fa fa-bookmark"></i>
+                                                                    </span>
+                                                                @endif
+
                                                                 <span class="btn toggle-favorite bg-white"
                                                                     data-housing-id={{ $housing->id }}>
                                                                     <i class="fa fa-heart-o"></i>

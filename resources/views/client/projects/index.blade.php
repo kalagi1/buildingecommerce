@@ -720,7 +720,7 @@
                                                                                                             class="project-inner project-head">
 
                                                                                                             <div
-                                                                                                                class="button-effect">
+                                                                                                                class="button-effect-div">
                                                                                                                 <div href="javascript:void()"
                                                                                                                     class="btn toggle-project-favorite bg-white"
                                                                                                                     data-project-housing-id="{{ $i + 1 }}"
@@ -1542,7 +1542,19 @@
                                                                                 data-aos="fade-up">
                                                                                 <div class="project-inner project-head">
 
-                                                                                    <div class="button-effect">
+                                                                                    <div class="button-effect-div">
+                                                                                        @if (Auth::user()->type == 21)
+                                                                                        <span
+                                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]'])
+                                                                                            ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                              data-type='project'
+                                                                                              data-project='{{ $project->id }}'
+                                                                                              data-id='{{ $i + 1 }}'
+                                                                                @else
+                                                                                class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                                            <i class="fa fa-bookmark"></i>
+                                                                                        </span>
+                                                                                    @endif
                                                                                         <div href="javascript:void()"
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"

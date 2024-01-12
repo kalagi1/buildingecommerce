@@ -234,13 +234,11 @@ class CartController extends Controller {
                         $sharerLinksProjects = ShareLink::select( 'room_order', 'item_id' )->where( 'user_id', auth()->user()->id )->where( 'item_type', 1 )->get()->keyBy( 'item_id' )->toArray();
                         $isHas = false;
                         foreach ( $sharerLinksProjects as $linkProject ) {
-                            if ( $linkProject[ 'item_id' ] == $project && $linkProject[ 'room_order' ] == $id ) {
+                            if ( $linkProject[ 'item_id' ] == $project && $linkProject[ 'room_order' ] == $id && $linkProject[ 'collection_id' ] == $request->input( 'selectedCollectionId' ) ) {
                                 $isHas = true;
                             }
                         }
-                        if ( $isHas ) {
-                            ShareLink::where( 'item_id', $project )->where( 'room_order', $id )->where( 'item_type', 1 )->delete();
-                        } else {
+                        if ( !$isHas ) {
                             ShareLink::create( [
                                 'user_id' => auth()->user()->id,
                                 'item_type' => 1,
@@ -248,13 +246,14 @@ class CartController extends Controller {
                                 'item_id' => $project,
                                 'room_order' => $id
                             ] );
+                        }else{
+                            return response( [ 'failed' => 'success' ] );
                         }
+                            
 
                     } else {
-                        $sharerLinks = array_values( array_keys( ShareLink::where( 'user_id', auth()->user()->id )->where( 'item_type', 2 )->get()->keyBy( 'item_id' )->toArray() ) );
-                        if ( in_array( $id, $sharerLinks ) ) {
-                            ShareLink::where( 'item_id', $id )->where( 'item_type', 2 )->delete();
-                        } else {
+                        $sharerLinks = array_values( array_keys( ShareLink::where( 'user_id', auth()->user()->id )->where( 'item_type', 2 )->where('collection_id', $request->input( 'selectedCollectionId' ) )->get()->keyBy( 'item_id' )->toArray() ) );
+                        if ( !in_array( $id, $sharerLinks ) ) {
                             ShareLink::create( [
                                 'user_id' => auth()->user()->id,
                                 'item_type' => 2,
@@ -262,6 +261,9 @@ class CartController extends Controller {
                                 'collection_id' =>  $request->input( 'selectedCollectionId' ),
 
                             ] );
+                        }else{
+                            return response( [ 'failed' => 'success' ] );
+
                         }
 
                     }
