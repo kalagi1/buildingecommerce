@@ -400,7 +400,7 @@
                                 </li>
                             @endforeach
                             <li>
-                                <a href="https://emlakkulup.emlaksepette.com/">
+                                <a href="https://emlakkulup.emlaksepette.com/" target="_blank">
                                  <b style="font-weight:700 !important;display:flex">
                                     <img style="height: 21px;" class="lazy entered loading" src="{{url('yeniler_2.svg')}}" alt="Yeniler" data-ll-status="loading">
                                     EMLAK KULÜP</b>
