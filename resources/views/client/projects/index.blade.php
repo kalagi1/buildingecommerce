@@ -1042,7 +1042,6 @@
                                                                 </div>
                                                             </div>
                                                             <div class="mobile-show">
-                                                                fdfd
                                                                 @for ($i = $startIndex; $i < $endIndex; $i++)
                                                                 @php
                                                                     $j++;
@@ -1051,6 +1050,8 @@
                                                                     } else {
                                                                         $sold = null;
                                                                     }
+                                                                    $room_order = $i+1;
+
                                                                 @endphp
                                                                     <div class="d-flex" style="flex-wrap: nowrap">
                                                                         <div class="align-items-center d-flex"
