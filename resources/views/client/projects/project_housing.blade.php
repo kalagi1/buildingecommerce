@@ -283,7 +283,7 @@
                 </div>
                 <aside class="col-md-4  car">
                     <div class="single widget buyBtn">
-                        <div class="schedule widget-boxed mt-33 mt-0">
+                        <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center">
                                 <div class="col-md-2 col-2">
                                     <div class="button-effect toggle-project-favorite" data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}" data-project-id={{ $project->id }}>
@@ -367,52 +367,55 @@
                             </div>
                         </div>
                     </div>
-                    @if (Auth::check() && Auth::user()->type == 21)
-                    <div
-                        @if (isset($projectHousingsList[$housingOrder]['share-open[]'] )) class="add-to-collections-wrapper addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='project'  data-id="{{ $housingOrder }}" data-project="{{ $project->id }}" 
-                                    @else
-                                    class="add-to-collections-wrapper disabledShareButton addCollection" @endif>
-                        <div class="add-to-collection-button-wrapper">
-                            <div class="add-to-collection-button">
-
-                                <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="32" height="32" fill="#e54242" />
-                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                        <rect width="1440" height="1577"
-                                            transform="translate(-1100 -1183)" fill="white" />
-                                        <g id="Group 6131">
-                                            <g id="Frame 21409">
-                                                <g id="Group 6385">
-                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                        height="48" rx="8" fill="#e54242 " />
-                                                    <g id="Group 2664">
-                                                        <rect id="Rectangle 316" width="32"
-                                                            height="32" rx="4"
-                                                            fill="#e54242 " />
-                                                        <g id="Group 72">
-                                                            <path id="Rectangle 12"
-                                                                d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
-                                                                fill="white" stroke="white"
-                                                                stroke-width="2" />
+                    <div class="moveCollection">
+                        @if (Auth::check() && Auth::user()->type == 21)
+                        <div
+                            @if (isset($projectHousingsList[$housingOrder]['share-open[]'] )) class="add-to-collections-wrapper addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='project'  data-id="{{ $housingOrder }}" data-project="{{ $project->id }}" 
+                                        @else
+                                        class="add-to-collections-wrapper disabledShareButton addCollection" @endif>
+                            <div class="add-to-collection-button-wrapper">
+                                <div class="add-to-collection-button">
+    
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="32" height="32" fill="#e54242" />
+                                        <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                            <rect width="1440" height="1577"
+                                                transform="translate(-1100 -1183)" fill="white" />
+                                            <g id="Group 6131">
+                                                <g id="Frame 21409">
+                                                    <g id="Group 6385">
+                                                        <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                            height="48" rx="8" fill="#e54242 " />
+                                                        <g id="Group 2664">
+                                                            <rect id="Rectangle 316" width="32"
+                                                                height="32" rx="4"
+                                                                fill="#e54242 " />
+                                                            <g id="Group 72">
+                                                                <path id="Rectangle 12"
+                                                                    d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
+                                                                    fill="white" stroke="white"
+                                                                    stroke-width="2" />
+                                                            </g>
                                                         </g>
                                                     </g>
                                                 </g>
                                             </g>
                                         </g>
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_1750_971">
-                                            <rect width="1440" height="1577" fill="white"
-                                                transform="translate(-1100 -1183)" />
-                                        </clipPath>
-                                    </defs>
-                                </svg><span class="add-to-collection-button-text">Koleksiyona Ekle</span>
+                                        <defs>
+                                            <clipPath id="clip0_1750_971">
+                                                <rect width="1440" height="1577" fill="white"
+                                                    transform="translate(-1100 -1183)" />
+                                            </clipPath>
+                                        </defs>
+                                    </svg><span class="add-to-collection-button-text">Koleksiyona Ekle</span>
+                                </div>
+                                <span class="fa fa-plus"></span>
                             </div>
-                            <span class="fa fa-plus"></span>
                         </div>
+                    @endif
                     </div>
-                @endif
+                 
                     
                     <div class="mobileMove">
                         <div class="single widget storeInfo">
@@ -1947,7 +1950,9 @@
         if ($(window).width() <= 768) {
 
             var buyBtn = $(".buyBtn").html();
+            var moveCollection  = $(".moveCollection").html();
             $("#listingDetailsSlider").after(buyBtn);
+            $(".widgetBuyButton").after(moveCollection);
             $(".buyBtn").css("display", "none");
 
         };
@@ -2861,6 +2866,9 @@ out center;`;
 
 
         @media (max-width:768px) {
+            .addCollection{
+                margin-bottom: 30px !important
+            }
             .mobileTagProject {
                 width: 150px !important;
                 z-index: 9;
@@ -2885,7 +2893,7 @@ out center;`;
                 display: none !important;
             }
 
-            .col-md-4 {
+            .car {
                 display: none !important;
             }
 
