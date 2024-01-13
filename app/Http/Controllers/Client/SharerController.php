@@ -31,7 +31,6 @@ class SharerController extends Controller {
 
     public function showClientLinks($slug, $id)
     {
-        return $slug;
         $institutional = User::where('type', 21)->where('name', Str::slug($slug))->firstOrFail();
     
         $store = User::with('projects.housings', 'housings', 'city', 'town', 'district', 'neighborhood', 'brands', 'banners')
@@ -96,6 +95,8 @@ class SharerController extends Controller {
         $mergedItems = array_map(function($item, $itemArray) {
             return array_merge($item, $itemArray);
         }, $items->toArray(), $itemsArray->toArray());
+
+        return $mergedItems;
 
         return view('client.club.show', compact("store", "mergedItems","collections", "slug", 'projects', 'itemsArray', 'sharer', 'collections', 'collection', 'items'));
     }
