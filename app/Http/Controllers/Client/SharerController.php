@@ -31,6 +31,7 @@ class SharerController extends Controller {
 
     public function showClientLinks($slug, $id)
     {
+        return $slug;
         $institutional = User::where('type', 21)->where('name', Str::slug($slug))->firstOrFail();
     
         $store = User::with('projects.housings', 'housings', 'city', 'town', 'district', 'neighborhood', 'brands', 'banners')
