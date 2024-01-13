@@ -20,7 +20,7 @@
                                 justify-content: space-between;
                                 padding: 5px;
                                 align-items: center;">
-                                    <strong style="font-size: 12px">{{ $collection->name }}</strong>
+                                    <strong style="font-size: 12px">{{ $collection->name }} <i class="fa fa-eye"></i> {{count($collection->clicks)}} Görüntülenme</strong>
 
                                     <div class="col-auto" style="display: flex;align-items:center">
                                         <div>
@@ -143,6 +143,7 @@
                                         </a>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     @endforeach

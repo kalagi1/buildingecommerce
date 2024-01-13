@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\CartOrder;
+use App\Models\Click;
 use App\Models\Collection;
 use App\Models\ShareLink;
 use App\Models\SharerPrice;
@@ -19,7 +20,7 @@ class SharerController extends Controller {
     public function index() {
         $sharer = User::where( 'id', auth()->user()->id )->first();
         $items = ShareLink::where( 'user_id', auth()->user()->id )->get();
-        $collections = Collection::with( 'links' )->where( 'user_id', auth()->user()->id )->get();
+        $collections = Collection::with( 'links' ,"clicks")->where( 'user_id', auth()->user()->id )->get();
         $itemsArray = [];
         foreach ( $items as $item ) {
             $item[ 'project_values' ] = $item->projectHousingData( $item->item_id )->pluck( 'value', 'name' )->toArray();
@@ -30,10 +31,14 @@ class SharerController extends Controller {
         return view( 'institutional.sharer-panel.index', compact( 'items', 'sharer', 'collections' ) );
     }
 
-    public function showClientLinks($slug, $id)
+    public function showClientLinks($slug, $id, Request $request)
     {
         $users = User::where("type",21)->get();
-        
+        Click::create([
+            'collection_id' => $id,
+            'user_id' => auth()->check() ? auth()->id(): null,
+            'ip_address' => $request->ip(),
+        ]);
         foreach ($users as $institutional) {          
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {

@@ -14,6 +14,11 @@ class Collection extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function clicks()
+    {
+        return $this->hasMany(Click::class);
+    }
+    
     public function links()
     {
         return $this->hasMany(ShareLink::class);
