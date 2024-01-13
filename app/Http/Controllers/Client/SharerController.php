@@ -102,6 +102,7 @@ class SharerController extends Controller {
                 $mergedItems = array_map(function($item, $itemArray) {
                     return array_merge($item, $itemArray);
                 }, $items->toArray(), $itemsArray->toArray());
+
         
                 return view('client.club.show', compact("store", "mergedItems","collections", "slug", 'projects', 'itemsArray', 'sharer', 'collections', 'collection', 'items'));
             }

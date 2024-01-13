@@ -97,10 +97,11 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }} <br>
+                                                {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
+                                                <br>
                                                 @if ($item['item_type'] == 1)
-                                                {!! $item['room_order'] . " No'lu Daire <br>" !!}
-                                            @endif                                                <span style="font-size: 12px;font-weight:700">
+                                                    {!! $item['room_order'] . " No'lu Daire <br>" !!}
+                                                @endif <span style="font-size: 12px;font-weight:700">
                                                     {{ $item['item_type'] == 1 ? $item['project']['city']['title'] . ' / ' . $item['project']['county']['ilce_title'] . ' / ' . $item['project']['neighbourhood']['mahalle_title'] : $item['housing']['city']['title'] . ' / ' . $item['housing']['county']['title'] . ' / ' . $item['housing']['neighborhood']['mahalle_title'] }}
                                                     <br>
                                                 </span>
@@ -119,8 +120,7 @@
                                                                 <span class="text">Satıldı</span>
                                                             </button>
                                                         @else
-                                                        
-                                                            @if ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != "noCart")
+                                                            @if ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
                                                                 <button class="btn mobileCBtn second-btn "
                                                                     @if ($item['action'] == 'payment_await') style="background: orange !important;width:100%;height:40px !important;color:White"
                                                     @else style="background: #EA2B2E !important;width:100%;height:40px !important;color:White" @endif>
