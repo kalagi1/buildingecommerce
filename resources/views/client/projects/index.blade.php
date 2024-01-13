@@ -243,13 +243,6 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2">
-                                                        <strong class="autoWidthTr"><span>Proje Adı:</span></strong>
-                                                        <span class="det"
-                                                            style="color: black;">{{ $project->project_title }}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
                                                     <td>
                                                         <span class="autoWidthTr">Proje Durumu:</span>
                                                         <span class="det"
