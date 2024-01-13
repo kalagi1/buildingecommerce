@@ -77,7 +77,7 @@ class SharerController extends Controller {
                     if ($item->item_type == 1) {
 
                         $userProjectIds = $store->projects->pluck('id');
-                        $discount_amount = Offer::where( 'type', 'project' )->where( 'project_id', $userProjectIds )->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
+                        $discount_amount = Offer::where( 'type', 'project' )->where( 'project_id', $item->project->id )->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
 
                         $status = CartOrder::selectRaw('COUNT(*) as count, MAX(status) as status')
                             ->whereIn('json_extract(cart, "$.item.id")', $userProjectIds)
@@ -107,7 +107,6 @@ class SharerController extends Controller {
                 $mergedItems = array_map(function($item, $itemArray) {
                     return array_merge($item, $itemArray);
                 }, $items->toArray(), $itemsArray->toArray());
-return $mergedItems;
         
                 return view('client.club.show', compact("store", "mergedItems","collections", "slug", 'projects', 'itemsArray', 'sharer', 'collections', 'collection', 'items'));
             }

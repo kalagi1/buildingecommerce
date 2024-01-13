@@ -106,8 +106,23 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                ₺
+                                                @if ($item['discount_amount'])
+                                                <svg viewBox="0 0 24 24" width="24" height="24"
+                                                stroke="red" stroke-width="2" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                <polyline points="17 18 23 18 23 12"></polyline>
+                                            </svg>
+                                                <del style="color: red;">
+                                                    {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }} ₺
+                                                </del>
+                                                <span style="color: green;font-size:15px !important">
+                                                    {{ number_format($item['project_values']['price[]']- $item['discount_amount'], 0, ',', '.') }} ₺
+                                                </span>
+                                            @else
+                                                {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }} ₺
+                                            @endif
+                                            
                                             </td>
                                             <td>
 
