@@ -85,6 +85,8 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', [HomeController::class, "index"])->name('index');
+Route::get('/emlak-kulup/{slug}/koleksiyonlar/{id}', [SharerController::class,"showClientLinks"])->name('sharer.links.showClientLinks');
+
 Route::get('/sat-kirala-form', [RealEstateController::class, "index"])->name('real.estate.index');
 Route::get('/sat-kirala', [HomeController::class, "satKirala"])->name('satKirala');
 Route::get('/admin', [AdminHomeController::class, "index"]);
@@ -94,7 +96,6 @@ Route::get('/instituional/search', [InstitutionalController::class, 'search'])->
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
 Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
-Route::get('/emlak-kulup/{slug}/koleksiyonlar/{id}', [SharerController::class,"showClientLinks"])->name('sharer.links.showClientLinks');
 Route::post('/remove-from-collection', [CollectionController::class, 'removeFromCollection'])->name('remove.from.collection');
 
 Route::get('/paylasimci-paneli', [SharerController::class,"sharerPanel"])->name('sharer.panel');
