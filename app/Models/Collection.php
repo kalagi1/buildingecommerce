@@ -18,7 +18,10 @@ class Collection extends Model
     {
         return $this->hasMany(Click::class);
     }
-    
+    public function uniqueClicks()
+    {
+        return $this->clicks()->groupBy(['user_id', 'ip_address'])->selectRaw('COUNT(*) as click_count, user_id, ip_address');
+    }
     public function links()
     {
         return $this->hasMany(ShareLink::class);

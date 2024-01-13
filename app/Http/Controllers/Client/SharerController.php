@@ -34,11 +34,16 @@ class SharerController extends Controller {
     public function showClientLinks($slug, $id, Request $request)
     {
         $users = User::where("type",21)->get();
-        Click::create([
-            'collection_id' => $id,
-            'user_id' => auth()->check() ? auth()->id(): null,
+        $collection = Collection::where("id",$id)->first();
+
+        $clickData = [
+            'collection_id' => $collection->id,
+            'user_id' => auth()->id(),
             'ip_address' => $request->ip(),
-        ]);
+        ];
+    
+        $collection->uniqueClicks()->updateOrCreate(['user_id' => auth()->id(), 'ip_address' => $request->ip()], $clickData);
+    
         foreach ($users as $institutional) {          
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {
