@@ -710,8 +710,13 @@
                                                                                                             style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                                             <p
                                                                                                                 style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
-                                                                                                                No
+																												@if(isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != "[]")
+                                                                                                                    {{ $i + 1 - $lastHousingCount }}. Hisse
+                                                                                                                @else
+                                                                                                                    No
                                                                                                                 <br>{{ $i + 1 - $lastHousingCount }}
+                                                                                                                @endif
+                                                                                                                
                                                                                                             </p>
                                                                                                         </div>
                                                                                                         <div class="project-single mb-0 bb-0 aos-init aos-animate"
@@ -1315,7 +1320,11 @@
                                                                                 style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                 <p
                                                                                     style="padding: 10px;text-align:center; color: white; height: 100%; display: flex; align-items: center; ">
+																					@if(isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != "[]")
+																					{{ $i + 1 }}. Hisse
+																					@else
                                                                                     No<br>{{ $i + 1 }}</p>
+																					@endif
                                                                             </div>
                                                                             <div class="project-single mb-0 bb-0 aos-init aos-animate"
                                                                                 data-aos="fade-up">
@@ -1780,8 +1789,13 @@
                                                                                     padding: 3px 10px;
                                                                                     background: #EA2B2E !important;
                                                                                     color: white;
-                                                                                    text-align: center;">No
-                                                            <br> {{ $room_order }}</span>
+                                                                                    text-align: center;">
+															@if(isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != "[]")
+                                                                                                                    {{ $i + 1 - $lastHousingCount }}. Hisse
+                                                                                                                @else
+                                                                                                                    No
+                                                                                                                <br>{{ $i + 1 - $lastHousingCount }}
+                                                                                                                @endif</span>
                                                         <ul class="d-flex justify-content-start align-items-center h-100 w-100"
                                                             style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:start;margin-bottom:0 !important">
 
