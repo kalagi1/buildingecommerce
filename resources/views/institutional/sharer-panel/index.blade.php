@@ -125,26 +125,21 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}"
-                                            class="text-decoration-none" target="_blank" 
-                                            style="width: 100%">
+                                            class="text-decoration-none" target="_blank" style="width: 100%">
 
-                                            <button style="width:100%"
-                                            class="btn btn-primary me-1 mb-1"
-                                                type="button">
+                                            <button style="width:100%" class="btn btn-primary me-1 mb-1" type="button">
                                                 <i class="fa fa-eye" aria-hidden="true"></i> ÖNİZLEME
                                             </button>
                                         </a>
                                     </div>
                                     <div class="col-md-6">
                                         <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}"
-                                            class="text-decoration-none" target="_blank" 
-                                            style="width: 100%">
+                                            class="text-decoration-none" target="_blank" style="width: 100%">
 
-                                            <button class="btn btn-secondary me-1 mb-1"
-                                            style="width:100%"
-                                            type="button">
-                                            <i class="fa fa-share-alt" aria-hidden="true"></i> PAYLAŞ
-                                        </button>
+                                            <button class="btn btn-secondary me-1 mb-1" style="width:100%"
+                                                type="button">
+                                                <i class="fa fa-share-alt" aria-hidden="true"></i> PAYLAŞ
+                                            </button>
                                         </a>
                                     </div>
                                 </div>
@@ -160,4 +155,16 @@
             </div>
         </div>
     </div>
+@endsection
+
+
+@section('css')
+    <style>
+        @media (max-width:768px) {
+
+            #icon-list div {
+                margin-bottom: 10px
+            }
+        }
+    </style>
 @endsection
