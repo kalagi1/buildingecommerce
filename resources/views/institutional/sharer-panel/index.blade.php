@@ -20,7 +20,10 @@
                                 justify-content: space-between;
                                 padding: 5px;
                                 align-items: center;">
-                                    <strong style="font-size: 12px">{{ $collection->name }} <span style="color:#e54242;margin-left:3px"><i class="fa fa-eye"></i> {{count($collection->clicks)}} Görüntülenme</span></strong>
+                                    <strong style="font-size: 12px">{{ $collection->name }} 
+                                        <a href="{{route('institutional.sharer.viewsLinks.index', $collection->id)}}">
+                                            <span style="color:#e54242;margin-left:3px"><i class="fa fa-eye"></i> {{count($collection->clicks)}} Görüntülenme</span></a>
+                                        </strong>
 
                                     <div class="col-auto" style="display: flex;align-items:center">
                                         <div>

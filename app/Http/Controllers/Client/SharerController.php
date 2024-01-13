@@ -123,7 +123,10 @@ class SharerController extends Controller {
         }
        
     }
-    
+    public function viewsLinks( $id ) {
+        $collection = Collection::with("clicks.user")->where( 'id', $id )->first();
+        return view( 'institutional.sharer-panel.views', compact( "collection" ) );
+    }
     
 
     public function showLinks( $id ) {
