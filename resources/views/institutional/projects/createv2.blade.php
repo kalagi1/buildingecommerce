@@ -3269,8 +3269,6 @@
             })
 
             $('.without-doping').click(function(e){
-                $('.load-area').removeClass('d-none');
-                $('.load-area span').html('Proje Oluşturuluyor')
                 $.ajax({
                     method: "POST",
                     url: "{{route('institutional.project.end.temp.order')}}",
