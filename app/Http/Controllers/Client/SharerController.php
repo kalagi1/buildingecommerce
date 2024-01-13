@@ -9,6 +9,7 @@ use App\Models\ShareLink;
 use App\Models\SharerPrice;
 use App\Models\User;
 use App\Models\Housing;
+use App\Models\Offer;
 use App\Models\Project;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -68,13 +69,16 @@ class SharerController extends Controller {
                                 )
                             )
                         ) : 'noCart';
-            
+                        $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->item_id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
                         $housingTypeData = json_decode($item->housing->housing_type_data, true);
                         $offSale = isset($housingTypeData['off_sale1']);
                     }
             
                     if ($item->item_type == 1) {
+
                         $userProjectIds = $store->projects->pluck('id');
+                        $discount_amount = Offer::where( 'type', 'project' )->where( 'project_id', $userProjectIds )->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
+
                         $status = CartOrder::selectRaw('COUNT(*) as count, MAX(status) as status')
                             ->whereIn('json_extract(cart, "$.item.id")', $userProjectIds)
                             ->get()
@@ -96,13 +100,14 @@ class SharerController extends Controller {
                         'project' => $item->project,
                         'action' => $action,
                         'offSale' => $offSale,
+                        'discount_amount' => $discount_amount
                     ];
                 });
         
                 $mergedItems = array_map(function($item, $itemArray) {
                     return array_merge($item, $itemArray);
                 }, $items->toArray(), $itemsArray->toArray());
-
+return $mergedItems;
         
                 return view('client.club.show', compact("store", "mergedItems","collections", "slug", 'projects', 'itemsArray', 'sharer', 'collections', 'collection', 'items'));
             }

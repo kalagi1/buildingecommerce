@@ -742,7 +742,7 @@
                                     return text;
                                 }
 
-                                var showAddCollectionButton = "{{ Auth::user()->type }}";
+                                var showAddCollectionButton = "{{ Auth::check() ? Auth::user()->type : '' }}";
 
 
                                 // Metni kırp ve üç nokta ekle
