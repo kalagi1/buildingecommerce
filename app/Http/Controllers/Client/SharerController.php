@@ -45,6 +45,7 @@ class SharerController extends Controller {
         $sharer = User::findOrFail(auth()->user()->id);
     
         $items = ShareLink::where('user_id', auth()->user()->id)->where('collection_id', $collection->id)->get();
+       return $items;
         $itemsArray = $items->map(function ($item) use ($store) {
             $action = null;
             $offSale = null;
