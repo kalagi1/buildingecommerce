@@ -133,7 +133,7 @@ if (!function_exists('getHouse')) {
 
                                        @if (getHouse($project, 'off_sale[]', $i + 1)->value != "[]")
                                             <button class="btn   mobileBtn  second-btn CartBtn" disabled
-                                                style="background: red !important;width:100%;color:White">
+                                                style="background: #EA2B2E !important;width:100%;color:White">
                                                 <span class="IconContainer">
                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                 </span>
@@ -144,7 +144,7 @@ if (!function_exists('getHouse')) {
                                                 <button class="btn mobileBtn second-btn CartBtn" disabled
                                                     @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                 @else 
-                                style="background: red !important;width:100%;color:White" @endif>
+                                style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                     <span class="IconContainer">
                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                     </span>
@@ -419,14 +419,14 @@ if (!function_exists('getHouse')) {
                                                         </ul>
                                                         @if (getHouse($project, 'off_sale[]', $i + 1)->value != "[]")
                                                             <button class="btn second-btn CartBtn" disabled
-                                                                style="background: red !important;width:100%;color:White">
+                                                                style="background: #EA2B2E !important;width:100%;color:White">
 
                                                                 <span class="text">Satıldı</span>
                                                             </button>
                                                         @else
                                                             @if ($sold && $sold[0]->status != '2')
                                                                 <button class="btn second-btn CartBtn" disabled
-                                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
+                                                                    @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                                     @if ($sold[0]->status == '0')
                                                                         <span class="text">Rezerve Edildi</span>
                                                                     @else

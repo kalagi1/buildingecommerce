@@ -123,7 +123,7 @@
                                                             @if ($item['action'] && $item['action'] != 'tryBuy')
                                                                 <button class="btn mobileCBtn second-btn "
                                                                     @if ($item['action'] == 'payment_await') style="background: orange !important;width:100%;color:White"
-                                                    @else style="background: red !important;width:100%;color:White" @endif>
+                                                    @else style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                                     <span class="IconContainer">
                                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                                     </span>
@@ -177,7 +177,7 @@
                                                         </button>
                                                     @elseif ($item['action'] && $item['action'] != 'tryBuy')
                                                         <button class="btn second-btn  mobileCBtn"
-                                                            @if ($item['action'] == 'payment_await') style="background: orange !important;color:White" @else  style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
+                                                            @if ($item['action'] == 'payment_await') style="background: orange !important;color:White;width:100%;" @else  style="background: #EA2B2E !important;color:White;height: auto !important;width:100%" @endif>
                                                             @if ($item['action'] == 'payment_await')
                                                                 <span class="text">Onay
                                                                     Bekleniyor</span>

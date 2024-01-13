@@ -516,7 +516,7 @@
                                                             $buttonStyle = 'background: orange !important; width: 100%; color: white;';
                                                             $buttonText = 'Rezerve Edildi';
                                                         } else {
-                                                            $buttonStyle = 'background: red !important; width: 100%; color: white;';
+                                                            $buttonStyle = 'background: #EA2B2E !important; width: 100%; color: white;';
                                                             $buttonText = 'Satıldı';
                                                         }
                                                     @endphp

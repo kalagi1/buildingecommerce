@@ -199,7 +199,7 @@ return $a;
                                                 <button class="btn mobileCBtn second-btn "
                                                     @if ($sold == '0') style="background: orange !important;width:100%;color:White"
                                                         @else 
-                                                        style="background: red !important;width:100%;color:White" @endif>
+                                                        style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                     <span class="IconContainer">
                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                     </span>
@@ -518,14 +518,14 @@ return $a;
                                                             @if ($housing->step2_slug != 'gunluk-kiralik')
                                                                 @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                                     <button class="btn second-btn "
-                                                                        style="background: red !important;width:100%;color:White">
+                                                                        style="background: #EA2B2E !important;width:100%;color:White">
 
                                                                         <span class="text">Satıldı</span>
                                                                     </button>
                                                                 @else
                                                                     @if ($sold != null && $sold != '2')
                                                                         <button class="btn second-btn "
-                                                                            @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
+                                                                            @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                                             @if ($sold == '0')
                                                                                 <span class="text">Onay
                                                                                     Bekleniyor</span>
@@ -741,14 +741,14 @@ return $a;
                                                         @if ($housing->step2_slug != 'gunluk-kiralik')
                                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                                 <button class="btn second-btn "
-                                                                    style="background: red !important;width:100%;color:White">
+                                                                    style="background: #EA2B2E !important;width:100%;color:White">
 
                                                                     <span class="text">Satıldı</span>
                                                                 </button>
                                                             @else
                                                                 @if ($sold != null && $sold != '2')
                                                                     <button class="btn second-btn "
-                                                                        @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: red !important;width:100%;color:White" @endif>
+                                                                        @if ($sold == '0') style="background: orange !important;width:100%;color:White" @else  style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                                         @if ($sold == '0')
                                                                             <span class="text">Rezerve Edildi</span>
                                                                         @else
