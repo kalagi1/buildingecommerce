@@ -1309,6 +1309,7 @@
                     errors.push("Bu Blokta Kaç Tane Konut Var Kısmı Boş Bırakılamaz");
                     $('.block-count').addClass('error-border')
                 }
+                
 
                 if(errors.length == 0){
                     $('.pop-up-v4').removeClass('d-none');
@@ -1369,7 +1370,7 @@
                                         id: selectedid
                                     },
                                     success: function(response) {
-                                        
+                                        console.log(response)
                                         for(var i = 0 ; i < 1; i++ ){
                                             htmlContent += '<div class="tab-pane fade show '+(i == 0 ? 'active' : '')+'" id="TabContent'+(i+1)+'" role="tabpanel">'+
                                                 '<div id="renderForm'+(i+1)+'"></div>'+
@@ -1423,6 +1424,7 @@
                                             
                                             }
                                         }
+                                        $('.full-area').removeClass('d-none');
                                         $('#renderForm'+(i)).html(renderHtmlx);
 
                                         
