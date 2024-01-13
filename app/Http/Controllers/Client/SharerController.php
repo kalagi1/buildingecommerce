@@ -29,9 +29,9 @@ class SharerController extends Controller {
         return view( 'institutional.sharer-panel.index', compact( 'items', 'sharer', 'collections' ) );
     }
 
-    public function showClientLinks($slug, $id)
+    public function showClientLinks($user, $id)
     {
-        $institutional = User::where('type', 21)->where('name', Str::slug($slug))->firstOrFail();
+        $institutional = User::where('type', 21)->where('name', Str::slug($user))->firstOrFail();
     
         $store = User::with('projects.housings', 'housings', 'city', 'town', 'district', 'neighborhood', 'brands', 'banners')
             ->findOrFail($institutional->id);
