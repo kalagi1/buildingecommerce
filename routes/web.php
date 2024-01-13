@@ -52,6 +52,7 @@ use App\Http\Controllers\Client\SharerController;
 use App\Http\Controllers\Client\SupportChatController;
 use App\Http\Controllers\Client\TaxOfficeController;
 use App\Http\Controllers\Client\VerifyController;
+use App\Http\Controllers\Club\ClubController;
 use App\Http\Controllers\Institutional\BankAccountController as InstitutionalBankAccountController;
 use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\BuyController;
@@ -93,8 +94,7 @@ Route::get('/instituional/search', [InstitutionalController::class, 'search'])->
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
 Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
-Route::get('/koleksiyonlarim', [SharerController::class,"index"])->name('sharer.index');
-Route::get('/koleksiyonlarim/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
+Route::get('/emlak-kulup/{slug}/koleksiyonlar/{id}', [SharerController::class,"showClientLinks"])->name('sharer.links.showClientLinks');
 Route::post('/remove-from-collection', [CollectionController::class, 'removeFromCollection'])->name('remove.from.collection');
 
 Route::get('/paylasimci-paneli', [SharerController::class,"sharerPanel"])->name('sharer.panel');
@@ -116,6 +116,7 @@ Route::get('/project_payment_plan', [ClientProjectController::class, "projectPay
 Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->name('project.housing.detail');
 Route::get('/magaza/{slug}', [InstitutionalController::class, "dashboard"])->name('instituional.dashboard');
 Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('instituional.dashboard.filter');
+Route::get('/emlak-kulup/{slug}', [ClubController::class, "dashboard"])->name('club.dashboard');
 
 Route::get('/magaza/{slug}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
 Route::get('/magaza/{slug}/proje-ilanlari', [InstitutionalController::class, "projectDetails"])->name('instituional.projects.detail');
@@ -680,6 +681,11 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
+    Route::get('/my-collections', [SharerController::class,"index"])->name('sharer.index');
+Route::get('/my-collections/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
+Route::delete('/collection/{id}/delete', [SharerController::class, 'deleteCollection'])->name('collection.delete');
+Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])->name('collection.edit');
+
     Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
     Route::get('/orders', [DashboardController::class, 'getOrders'])->name('orders');
     Route::get('/reservations', [DashboardController::class, 'getReservations'])->name('reservations');

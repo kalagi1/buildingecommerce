@@ -14,23 +14,141 @@
                 <div class="row list" id="icon-list">
                     @foreach ($collections as $collection)
                         <div class="col-lg-3 col-md-4 col-sm-6">
-                            <a href="{{ route('sharer.links.index', ['id' => $collection->id]) }}" class="text-decoration-none">
+                            <div class="border rounded-2 px-3 text-center bg-body-emphasis dark__bg-gray-1000 shadow-sm">
+                                <div class="card-header border-bottom bg-white"
+                                    style="    display: flex;
+                                justify-content: space-between;
+                                padding: 5px;
+                                align-items: center;">
+                                    <strong style="font-size: 12px">{{ $collection->name }}</strong>
 
-                            <span
-                                class="icon-list-item d-none">{{ $collection->name }}</span>
-                            <div class="border rounded-2 p-3 mb-4 text-center bg-body-emphasis dark__bg-gray-1000 shadow-sm"
-                                style="background-color: #EA2B2E;color:white">
-                                <span class="number" style="display:flex;align-items:center;justify-content:center">
-                                    <span>{{ count($collection->links) }} Emlak</span>
-                                </span>
-                                <input
-                                style="cursor: pointer"
-                                    class="form-control form-control-sm mt-3 text-center w-100 text-dark dark__text-gray-100 bg-body-secondary dark__bg-gray-1100"
-                                    type="text" readonly="readonly" value="{{ $collection->name }}">
+                                    <div class="col-auto" style="display: flex;align-items:center">
+                                        <div>
+                                            <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}" class="text-decoration-none"
+                                                target="_blank">
+
+                                            <button class="btn btn-sm"
+                                                style="    padding: 0;
+                                            padding-right: 5px !important;"
+                                                type="button">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                            </a>
+                                        </div>
+
+                                        <div>
+                                            <button class="btn btn-sm"
+                                                style="    padding: 0;
+                                            padding-right: 5px !important;"
+                                                type="button">
+                                                <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+
+                                        <div>
+                                            <button class="btn btn-sm" style="padding:0" type="button"
+                                                data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true"
+                                                aria-expanded="true" data-bs-reference="parent">
+                                                <svg class="svg-inline--fa fa-ellipsis" style="transform:rotate(90deg)"
+                                                    data-fa-transform="shrink-2" aria-hidden="true" focusable="false"
+                                                    data-prefix="fas" data-icon="ellipsis" role="img"
+                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+                                                    data-fa-i2svg="" style="transform-origin: 0.4375em 0.5em;">
+                                                    <g transform="translate(224 256)">
+                                                        <g transform="translate(0, 0)  scale(0.875, 0.875)  rotate(0 0 0)">
+                                                            <path fill="currentColor"
+                                                                d="M120 256C120 286.9 94.93 312 64 312C33.07 312 8 286.9 8 256C8 225.1 33.07 200 64 200C94.93 200 120 225.1 120 256zM280 256C280 286.9 254.9 312 224 312C193.1 312 168 286.9 168 256C168 225.1 193.1 200 224 200C254.9 200 280 225.1 280 256zM328 256C328 225.1 353.1 200 384 200C414.9 200 440 225.1 440 256C440 286.9 414.9 312 384 312C353.1 312 328 286.9 328 256z"
+                                                                transform="translate(-224 -256)"></path>
+                                                        </g>
+                                                    </g>
+                                                </svg></button>
+                                            <ul class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
+                                                <li><a class="dropdown-item" data-bs-toggle="modal"
+                                                        data-bs-target="#silModal{{ $collection->id }}">Koleksiyonu Sil</a>
+                                                </li>
+                                                <li><a class="dropdown-item" data-bs-toggle="modal"
+                                                        data-bs-target="#editCollectionModal{{ $collection->id }}">Koleksiyon
+                                                        Adını Düzenle</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- Silme Modalı -->
+                                <div class="modal fade" id="silModal{{ $collection->id }}" tabindex="-1"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="silModalLabel{{ $collection->id }}">Silme
+                                                    İşlemini Onayla</h5>
+                                                <button class="btn p-1" type="button" data-bs-dismiss="modal"
+                                                    aria-label="Kapat">
+                                                    <span class="fas fa-times fs-9"></span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="text-body-tertiary lh-lg mb-0">Bu koleksiyonu silmek
+                                                    istediğinizden emin misiniz?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form
+                                                    action="{{ route('institutional.collection.delete', ['id' => $collection->id]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-primary" type="submit">Sil</button>
+                                                    <button class="btn btn-outline-primary" type="button"
+                                                        data-bs-dismiss="modal">İptal</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <p style="margin-top: 20px"><strong>{{ count($collection->links) }} Emlak</strong></p>
+                                <a href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}"
+                                    class="text-decoration-none">
+                                    <button class="btn" style="color:#EA2B2E;"> Koleksiyona Git</button>
+                                </a>
+                                <div class="modal fade" id="editCollectionModal{{ $collection->id }}" tabindex="-1"
+                                    aria-labelledby="editCollectionModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editCollectionModalLabel">Düzenle</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form
+                                                    action="{{ route('institutional.collection.edit', ['id' => $collection->id]) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="mb-3">
+                                                        <label for="collectionName" class="form-label">Koleksiyon
+                                                            Adı</label>
+                                                        <input type="text" class="form-control" id="collectionName"
+                                                            name="collectionName" value="{{ $collection->name }}"
+                                                            required>
+                                                    </div>
+
+                                                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            </a>
                         </div>
                     @endforeach
+
+
 
 
 
@@ -38,434 +156,4 @@
             </div>
         </div>
     </div>
-    {{-- <div class="container">
-        <div class="list portfolio">
-            <div class="brand-head">
-                <div class="">
-                    <div class="card mb-3">
-                        <div class="card-img-top" style="background-color: {{ $sharer->banner_hex_code }}">
-                            <div class="brands-square w-100">
-                                <img src="{{ url('storage/profile_images/' . $sharer->profile_image) }}" alt="" class="brand-logo">
-                                <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($sharer->name)) }}"
-                                        style="color:White">
-                                        {{ $sharer->name }}
-
-                                        ({{count($items)}} Aktif ilan)
-                                        <style type="text/css">
-                                            .st0 {
-                                                fill: #e54242;
-                                            }
-        
-                                            .st1 {
-                                                opacity: 0.15;
-                                            }
-        
-                                            .st2 {
-                                                fill: #FFFFFF;
-                                            }
-                                        </style>
-                                    </a>
-                                </p>
-                            </div>
-        
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <h3 style="font-size: 23px;" class="mt-5">Linklerim</h3>
-            <div class="row project-filter-reverse blog-pots mt-3">
-                @for ($i = 0; $i < count($items); $i++)
-                    @if ($items[$i]->item_type == 1)
-                        @php 
-                            $project = $items[$i]->project;
-                        @endphp
-
-                        <div class="col-md-12 col-12">
-                            <div class="project-card mb-3">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <a href="{{ route('project.housings.detail', [$project->slug, $items[$i]->room_order]) }}" style="height: 100%">
-                                            <div class="d-flex" style="height: 100%;">
-                                                <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
-                                                    <div class="project-inner project-head">
-                    
-                                                        <div class="button-effect">
-                                                            <div href="javascript:void()" class="btn toggle-project-favorite bg-white"
-                                                                data-project-housing-id="2" data-project-id="292">
-                                                                <i class="fa fa-heart-o"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="homes position-relative">
-                                                            <!-- homes img -->
-                                                            <img src="{{ URL::to('/') . '/project_housing_images/' . $items[$i]['project_values']['image[]']}}"
-                                                                alt="home-1" class="img-responsive"
-                                                                style="height: 120px !important;object-fit:cover">
-                                                        </div>
-                    
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                    
-                    
-                                    <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
-                    
-                                        <div class="row align-items-center justify-content-between mobile-position">
-                                            <div class="col-md-8">
-                                                
-                                                <div class="top-name">
-                                                    {{$items[$i]['project_values']['advertise_title[]']}}
-                                                </div>
-                                                <div class="homes-list-div" style="height: 75px">
-                                                    <ul class="homes-list clearfix pb-3 d-flex">
-                                                        @if (isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
-                                                            <li class="the-icons custom-width flex-1">
-                                                                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                <span>
-                                                                    {{ $items[$i]['project_values'][$project->listItemValues->column1_name . '[]'] }}
-                                                                    @if (isset($project->listItemValues) && isset($project->listItemValues->column1_additional) && $project->listItemValues->column1_additional)
-                                                                        {{ $project->listItemValues->column1_additional }}
-                                                                    @endif
-                                                                </span>
-                                                            </li>
-                                                        @endif
-                                                        @if (isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
-                                                            <li class="the-icons custom-width flex-1">
-                                                                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                <span>
-                                                                    {{ $items[$i]['project_values'][$project->listItemValues->column2_name . '[]'] }}
-                                                                    @if (isset($project->listItemValues) && isset($project->listItemValues->column2_additional) && $project->listItemValues->column2_additional)
-                                                                        {{ $project->listItemValues->column2_additional }}
-                                                                    @endif
-                                                                </span>
-                                                            </li>
-                                                        @endif
-                                                        @if (isset($project->listItemValues) && isset($project->listItemValues->column3_name) && $project->listItemValues->column3_name)
-                                                            <li class="the-icons custom-width flex-1">
-                                                                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                <span>
-                                                                    {{ $items[$i]['project_values'][$project->listItemValues->column3_name . '[]'] }}
-                                                                    @if (isset($project->listItemValues) && isset($project->listItemValues->column3_additional) && $project->listItemValues->column3_additional)
-                                                                        {{ $project->listItemValues->column3_additional }}
-                                                                    @endif
-                                                                </span>
-                                                            </li>
-                                                        @endif
-                    
-                                                        <li class="the-icons mobile-hidden">
-                                                            <span>
-                                                                <h6
-                                                                    style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
-                                                                    {{number_format($items[$i]['project_values']['price[]'], 0, ',', '.')}}
-                                                                    ₺
-                                                                </h6>
-                    
-                    
-                                                            </span>
-                                                        </li>
-                    
-                    
-                                                    </ul>
-                    
-                                                </div>
-                                                <div class="footer">
-                                                    <a href="https://emlaksepette.com/magaza/master-realtor/profil">
-                                                        <img src="https://emlaksepette.com/storage/profile_images/profile_image_1701685905.png"
-                                                            alt="" class="mr-2"> Master Realtor
-                                                    </a>
-                                                    <span class="price-mobile">
-                                                        <h6 style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
-                                                            {{number_format($items[$i]['project_values']['price[]'], 0, ',', '.')}} ₺
-                                                        </h6>
-                    
-                    
-                                                    </span>
-                                                </div>
-                                            </div>
-                    
-                                            <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
-                                                <div class="homes-button" style="width:100%;height:100%">
-                                                    @if (auth()->check())
-                                                        @if (auth()->user()->id == $sharer->id)
-                                                            <button class="first-btn payment-plan-button" project-id="{{$project->id}}" data-sold="0" order="{{$items[$i]['room_order']}}">
-                                                                Kar Oranı : 1%
-                                                            </button>
-                                                        @else 
-                                                            <button class="first-btn payment-plan-button" project-id="{{$project->id}}" data-sold="0" order="{{$items[$i]['room_order']}}">
-                                                                Ödeme Planı
-                                                            </button>
-                                                        @endif
-                                                    @else 
-                                                        <button class="first-btn payment-plan-button" project-id="{{$project->id}}" data-sold="0" order="{{$items[$i]['room_order']}}">
-                                                            Ödeme Planı
-                                                        </button>
-                                                    @endif
-                                                    
-                                                    @if (auth()->check())
-                                                        @if (auth()->user()->id == $sharer->id)
-                                                            <button class="CartBtn second-btn" data-type="project" data-project="{{$project->id}}"
-                                                                style="height: auto !important" data-id="{{$items[$i]['room_order']}}">
-                                                                <span class="IconContainer">
-                                                                    <img src="https://emlaksepette.com/link.png" alt="">
-                                                                </span>
-                                                                <span class="text">Linklerden çıkar</span>
-                                                            </button>
-                                                        @else 
-                                                            <button class="CartBtn second-btn" data-type="project" data-project="{{$project->id}}"
-                                                                style="height: auto !important" data-id="{{$items[$i]['room_order']}}">
-                                                                <span class="IconContainer">
-                                                                    <img src="https://emlaksepette.com/link.png" alt="">
-                                                                </span>
-                                                                <span class="text">Sepete Ekle</span>
-                                                            </button>
-                                                        @endif
-                                                    @else 
-                                                        <button class="CartBtn second-btn" data-type="project" data-project="{{$project->id}}"
-                                                            style="height: auto !important" data-id="{{$items[$i]['room_order']}}">
-                                                            <span class="IconContainer">
-                                                                <img src="https://emlaksepette.com/link.png" alt="">
-                                                            </span>
-                                                            <span class="text">Sepete Ekle</span>
-                                                        </button>
-                                                    @endif
-                    
-                                                </div>
-                                            </div>
-                    
-                    
-                                        </div>
-                    
-                    
-                                    </div>
-                                </div>
-                    
-                            </div>
-                        </div>
-                    @else
-                        @php 
-                            $housing = $items[$i]->housing;
-                            $housingTypeData = json_decode($housing->housing_type_data);
-                        @endphp
-
-                        <div class="col-md-12 col-12">
-                            <div class="project-card mb-3">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <a href="{{ route('housing.show', [$housing->id]) }}" style="height: 100%">
-                                            <div class="d-flex" style="height: 100%;">
-                                                
-                                                <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
-                                                    <div class="project-inner project-head">
-                    
-                                                        <div class="button-effect">
-                                                            <div href="javascript:void()" class="btn toggle-project-favorite bg-white"
-                                                                data-project-housing-id="2" data-project-id="292">
-                                                                <i class="fa fa-heart-o"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="homes position-relative">
-                                                            <!-- homes img -->
-                                                            <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
-                                                                alt="home-1" class="img-responsive"
-                                                                style="height: 120px !important;object-fit:cover">
-                                                        </div>
-                    
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                    
-                    
-                                    <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
-                    
-                                        <div class="row align-items-center justify-content-between mobile-position">
-                                            <div class="col-md-8">
-                                                
-                                                <div class="top-name">
-                                                    {{$housing->title}}
-                                                </div>
-                                                <div class="homes-list-div" style="height: 75px">
-                                                    <ul class="homes-list clearfix pb-3 d-flex">
-                                                        @if ($housing->listItems->column1_name)
-                                                            <li class="the-icons custom-width flex-1">
-                                                                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                <span>
-                                                                    {{ json_decode($housing->housing_type_data)->{$housing->listItems->column1_name}[0] ?? null }}
-                                                                    @if ($housing->listItems->column1_additional)
-                                                                        {{ $housing->listItems->column1_additional }}
-                                                                    @endif
-                                                                </span>
-                                                            </li>
-                                                        @endif
-                                                        
-                                                        @if ($housing->listItems->column2_name)
-                                                            <li class="the-icons custom-width flex-1">
-                                                                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                <span>
-                                                                    {{ json_decode($housing->housing_type_data)->{$housing->listItems->column2_name}[0] ?? null }}
-                                                                    @if ($housing->listItems->column2_additional)
-                                                                        {{ $housing->listItems->column2_additional }}
-                                                                    @endif
-                                                                </span>
-                                                            </li>
-                                                        @endif
-
-                                                        @if ($housing->listItems->column3_name)
-                                                            <li class="the-icons custom-width flex-1">
-                                                                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                <span>
-                                                                    {{ json_decode($housing->housing_type_data)->{$housing->listItems->column3_name}[0] ?? null }}
-                                                                    @if ($housing->listItems->column3_additional)
-                                                                        {{ $housing->listItems->column3_additional }}
-                                                                    @endif
-                                                                </span>
-                                                            </li>
-                                                        @endif
-
-                                                        <li class="the-icons mobile-hidden">
-                                                            <span>
-                                                                <h6
-                                                                    style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
-                                                                    {{number_format($housingTypeData->price[0], 0, ',', '.')}}
-                                                                    ₺
-                                                                </h6>
-                    
-                    
-                                                            </span>
-                                                        </li>
-                    
-                    
-                                                    </ul>
-                    
-                                                </div>
-                                                <div class="footer">
-                                                    <a href="https://emlaksepette.com/magaza/master-realtor/profil">
-                                                        <img src="https://emlaksepette.com/storage/profile_images/profile_image_1701685905.png"
-                                                            alt="" class="mr-2"> Master Realtor
-                                                    </a>
-                                                    <span class="price-mobile">
-                                                        <h6 style="color: #dc3545 !important;position: relative;top:4px;font-weight:600">
-                                                            {{number_format($housingTypeData->price[0], 0, ',', '.')}} ₺
-                                                        </h6>
-                    
-                    
-                                                    </span>
-                                                </div>
-                                            </div>
-                    
-                                            <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
-                                                <div class="homes-button" style="width:100%;height:100%">
-                                                    @if (auth()->check())
-                                                        @if (auth()->user()->id == $sharer->id)
-                                                            <button class="first-btn payment-plan-button" project-id="292" data-sold="0" order="1">
-                                                                Kar Oranı : 1%
-                                                            </button>
-                                                        @else 
-                                                        @endif
-                                                    @else 
-                                                        <button class="first-btn payment-plan-button" project-id="292" data-sold="0" order="1">
-                                                            Ödeme Planı
-                                                        </button>
-                                                    @endif
-                    
-                                                    @if (auth()->check())
-                                                        @if (auth()->user()->id == $sharer->id)
-                                                            <button class="CartBtn second-btn" data-type="housing"
-                                                                style="height: auto !important" data-id="{{$housing->id}}">
-                                                                <span class="IconContainer">
-                                                                    <img src="https://emlaksepette.com/link.png" alt="">
-                                                                </span>
-                                                                <span class="text">Linklerden çıkar</span>
-                                                            </button>
-                                                        @else 
-                                                            <button class="CartBtn second-btn" data-type="housing"
-                                                                style="height: auto !important" data-id="{{$housing->id}}">
-                                                                <span class="IconContainer">
-                                                                    <img src="https://emlaksepette.com/link.png" alt="">
-                                                                </span>
-                                                                <span class="text">Sepete Ekle</span>
-                                                            </button>
-                                                        @endif
-                                                    @else 
-                                                        <button class="CartBtn second-btn" data-type="housing"
-                                                            style="height: auto !important" data-id="{{$housing->id}}">
-                                                            <span class="IconContainer">
-                                                                <img src="https://emlaksepette.com/link.png" alt="">
-                                                            </span>
-                                                            <span class="text">Sepete Ekle</span>
-                                                        </button>
-                                                    @endif
-                    
-                                                </div>
-                                            </div>
-                    
-                    
-                                        </div>
-                    
-                    
-                                    </div>
-                                </div>
-                    
-                            </div>
-                        </div>
-                    @endif
-                
-                @endfor
-            </div>
-        </div>
-    </div> --}}
-@endsection
-
-@section('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <style>
-        .mobile-hidden {
-            display: flex;
-        }
-
-        .desktop-hidden {
-            display: none;
-        }
-
-        .homes-content .footer {
-            display: none
-        }
-
-        .price-mobile {
-            display: flex;
-            align-items: self-end;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-hidden {
-                display: none
-            }
-
-            .desktop-hidden {
-                display: block;
-            }
-
-            .mobile-position {
-                width: 100%;
-                margin: 0 auto;
-                box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
-            }
-
-            .inner-pages .portfolio .homes-content .homes-list-div ul {
-                flex-wrap: wrap
-            }
-
-            .homes-content .footer {
-                display: block;
-                background: none;
-                border-top: 1px solid #e8e8e8;
-                padding-top: 1rem;
-                font-size: 13px;
-                color: #666;
-            }
-
-        }
-    </style>
 @endsection

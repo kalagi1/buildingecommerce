@@ -33,7 +33,7 @@
         "text": "Koleksiyonlarım",
         "key": "GetMyCollection",
         "url": "sharer.index",
-        "activePath": "institutional/koleksiyonlarim*"
+        "activePath": "institutional/my-collections*"
     },
     {
         "id": "EditProfile",

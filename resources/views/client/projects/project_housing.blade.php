@@ -436,7 +436,7 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <table class="table table-bordered">
+                                        <table class="table table-bordered ">
                                             <tr>
                                                 <td>
                                                     İlan No:
@@ -2858,6 +2858,8 @@ out center;`;
         .trStyle tr td {
             width: 100%;
             font-size: 11px;
+            display: flex;
+            justify-content: space-between;
             border: 1px solid #dee2e6;
 
         }

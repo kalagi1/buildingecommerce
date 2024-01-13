@@ -189,9 +189,9 @@
                                             'mainLink' => 'Mağazam',
                                             'links' => [
                                                 [
-                                                    'url' => route('sharer.index'),
-                                                    'icon' => 'fa-user',
-                                                    'text' => 'Hesabım',
+                                                    'url' => route('institutional.sharer.index'),
+                                                    'icon' => 'fa-bookmark',
+                                                    'text' => 'Koleksiyonlarım',
                                                 ],
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),

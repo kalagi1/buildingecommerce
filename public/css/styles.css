@@ -17945,6 +17945,9 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     color: #fff;
 }
 
+.collection-title tr td{
+    display: table-cell !important;
+}
 .widget-boxed-header {
     padding-bottom: 0.5rem;
     padding-top: 0px;
