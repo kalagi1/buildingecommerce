@@ -29,7 +29,7 @@
                                             href="{{ $items[$i]->item_type == 1 ? route('project.housings.detail', [$items[$i]->project->slug, $items[$i]->room_order]) : route('housing.show', [$items[$i]->housing->id]) }}">
                                             <img src="{{ $items[$i]->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $items[$i]->project_values['image[]'] : URL::to('/') . '/housing_images/' . json_decode($items[$i]->housing->housing_type_data)->image }}"
                                                 alt="home-1" class="img-responsive"
-                                                style="height: 70px !important; object-fit: cover">
+                                                style="height: 70px !important; object-fit: cover;width:150px">
                                         </a>
                                     </td>
                                     <td>

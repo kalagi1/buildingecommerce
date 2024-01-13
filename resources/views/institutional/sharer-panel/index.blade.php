@@ -15,7 +15,7 @@
                     @foreach ($collections as $collection)
                         <div class="col-lg-3 col-md-4 col-sm-6">
                             <div class="border rounded-2 px-3 text-center bg-body-emphasis dark__bg-gray-1000 shadow-sm">
-                                <div class="card-header border-bottom bg-white"
+                                <div class="card-header border-bottom bg-white mb-3"
                                     style="    display: flex;
                                 justify-content: space-between;
                                 padding: 5px;
@@ -23,28 +23,6 @@
                                     <strong style="font-size: 12px">{{ $collection->name }}</strong>
 
                                     <div class="col-auto" style="display: flex;align-items:center">
-                                        <div>
-                                            <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}" class="text-decoration-none"
-                                                target="_blank">
-
-                                            <button class="btn btn-sm"
-                                                style="    padding: 0;
-                                            padding-right: 5px !important;"
-                                                type="button">
-                                                <i class="fa fa-eye" aria-hidden="true"></i>
-                                            </button>
-                                            </a>
-                                        </div>
-
-                                        <div>
-                                            <button class="btn btn-sm"
-                                                style="    padding: 0;
-                                            padding-right: 5px !important;"
-                                                type="button">
-                                                <i class="fa fa-share-alt" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-
                                         <div>
                                             <button class="btn btn-sm" style="padding:0" type="button"
                                                 data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true"
@@ -109,7 +87,7 @@
 
 
 
-                                <p style="margin-top: 20px"><strong>{{ count($collection->links) }} Emlak</strong></p>
+                                <span style="width:100%"><strong>{{ count($collection->links) }} Emlak</strong></span><br>
                                 <a href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}"
                                     class="text-decoration-none">
                                     <button class="btn" style="color:#EA2B2E;"> Koleksiyona Git</button>
@@ -142,6 +120,32 @@
 
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}"
+                                            class="text-decoration-none" target="_blank" 
+                                            style="width: 100%">
+
+                                            <button style="width:100%"
+                                            class="btn btn-primary me-1 mb-1"
+                                                type="button">
+                                                <i class="fa fa-eye" aria-hidden="true"></i> ÖNİZLEME
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}"
+                                            class="text-decoration-none" target="_blank" 
+                                            style="width: 100%">
+
+                                            <button class="btn btn-secondary me-1 mb-1"
+                                            style="width:100%"
+                                            type="button">
+                                            <i class="fa fa-share-alt" aria-hidden="true"></i> PAYLAŞ
+                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
