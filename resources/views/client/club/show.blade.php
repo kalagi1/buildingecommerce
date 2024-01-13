@@ -1,137 +1,219 @@
 @extends('client.layouts.master')
 
 @section('content')
-<section>
-    <div class="brand-head">
-        <div class="container">
-            <div class="card mb-3">
-                <div class="card-img-top" style="background-color: {{ $store->banner_hex_code }}">
-                    <div class="brands-square w-100">
-                        <img src="{{ url('storage/profile_images/' . $store->profile_image) }}" alt=""
-                            class="brand-logo">
-                        <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($store->name)) }}"
-                                style="color:White">
-                                {{ $store->name }}
-                                <style type="text/css">
-                                    .st0 {
-                                        fill: #e54242;
-                                    }
+    <section>
+        <div class="brand-head">
+            <div class="container">
+                <div class="card mb-3">
+                    <div class="card-img-top" style="background-color: {{ $store->banner_hex_code }}">
+                        <div class="brands-square w-100">
+                            <img src="{{ url('storage/profile_images/' . $store->profile_image) }}" alt=""
+                                class="brand-logo">
+                            <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($store->name)) }}"
+                                    style="color:White">
+                                    {{ $store->name }}
+                                    <style type="text/css">
+                                        .st0 {
+                                            fill: #e54242;
+                                        }
 
-                                    .st1 {
-                                        opacity: 0.15;
-                                    }
+                                        .st1 {
+                                            opacity: 0.15;
+                                        }
 
-                                    .st2 {
-                                        fill: #FFFFFF;
-                                    }
-                                </style>
-                                @if ($store->corporate_account_status )
-                                    <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1"
-                                        width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <g>
-                                            <path class="st0"
-                                                d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
-                                            <g class="st1">
-                                                <path
-                                                    d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
-                                                <path
-                                                    d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
-                                                <path
-                                                    d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
-                                                <path
-                                                    d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
+                                        .st2 {
+                                            fill: #FFFFFF;
+                                        }
+                                    </style>
+                                    @if ($store->corporate_account_status)
+                                        <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1"
+                                            width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve"
+                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <g>
+                                                <path class="st0"
+                                                    d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
+                                                <g class="st1">
+                                                    <path
+                                                        d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
+                                                    <path
+                                                        d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
+                                                    <path
+                                                        d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
+                                                    <path
+                                                        d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
+                                                </g>
+                                                <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
+                                                <path class="st2"
+                                                    d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
                                             </g>
-                                            <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
-                                            <path class="st2"
-                                                d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
-                                        </g>
-                                    </svg>
-                                @endif
+                                        </svg>
+                                    @endif
 
-                            </a>
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="card-body">
-                    <nav class="navbar" style="padding: 0 !important">
-                        <div class="navbar-items">
-                            <a class="navbar-item active"
-                                href="{{ route('club.dashboard', Str::slug($store->name)) }}">
-                                <b style="font-weight:700 !important;display:flex;align-items:baseline">
-                                    <img style="height: 21px;" class="lazy entered loading" src="http://127.0.0.1:8000/yeniler_2.svg" alt="Yeniler" data-ll-status="loading">
-                                    EMLAK KULÜP</b></a>
+                                </a>
+                            </p>
                         </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="content">
-            <div class="card border mb-3 mt-3" data-list="{&quot;valueNames&quot;:[&quot;icon-list-item&quot;]}">
-               
-                <div class="card-body">
-                    <div class="row project-filter-reverse blog-pots">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Kapak Fotoğrafı</th>
-                                    <th>İlan Başlığı</th>
-                                    <th>Fiyat</th>
-                                    <th>Sil</th>
-                                </tr>
-                            </thead>
-                            <tbody class="collection-title">
-                                @for ($i = 0; $i < count($items); $i++)
-                                    <tr>
-                                        <td>
-                                            <a
-                                                href="{{ $items[$i]->item_type == 1 ? route('project.housings.detail', [$items[$i]->project->slug, $items[$i]->room_order]) : route('housing.show', [$items[$i]->housing->id]) }}">
-                                                <img src="{{ $items[$i]->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $items[$i]->project_values['image[]'] : URL::to('/') . '/housing_images/' . json_decode($items[$i]->housing->housing_type_data)->image }}"
-                                                    alt="home-1" class="img-responsive"
-                                                    style="height: 70px !important; object-fit: cover">
-                                            </a>
-                                        </td>
-                                        <td>
-                                            {{ $items[$i]->item_type == 1 ? $items[$i]->project_values['advertise_title[]'] : $items[$i]->housing->title }} <br>
-                                            {{ $items[$i]->item_type == 1 ? $items[$i]->room_order . " No'lu Daire" : " " }}
-                                            <br>
-                                            <span style="font-size: 12px;font-weight:700">
-                                                {{ $items[$i]->item_type == 1 ? $items[$i]->project->city->title . ' / ' . $items[$i]->project->county->ilce_title . ' / ' . $items[$i]->project->neighbourhood->mahalle_title  : $items[$i]->housing->city->title . ' / ' . $items[$i]->housing->county->title . ' / ' . $items[$i]->housing->neighborhood->mahalle_title }}
-                                                <br>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            {{ number_format($items[$i]->item_type == 1 ? $items[$i]->project_values['price[]'] : json_decode($items[$i]->housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                            ₺
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-info remove-from-collection"
-                                                data-type="{{ $items[$i]->item_type == 1 ? 'project' : 'housing' }}"
-                                                data-id="{{ $items[$i]->item_type == 1 ? $items[$i]->room_order : $items[$i]->housing->id }}"
-                                                @if ($items[$i]->item_type == 1) data-project="{{ $items[$i]->project->id }}" @endif>
-                                                Koleksiyondan Kaldır
-                                            </button>
-    
-    
-    
-                                        </td>
-                                    </tr>
-                                @endfor
-                            </tbody>
-                        </table>
-    
-    
+
+                    </div>
+
+                    <div class="card-body">
+                        <nav class="navbar" style="padding: 0 !important">
+                            <div class="navbar-items">
+                                <a class="navbar-item active" href="{{ route('club.dashboard', Str::slug($store->name)) }}">
+                                    <b style="font-weight:700 !important;display:flex;align-items:baseline">
+                                        <img style="height: 21px;" class="lazy entered loading"
+                                            src="http://127.0.0.1:8000/yeniler_2.svg" alt="Yeniler"
+                                            data-ll-status="loading">
+                                        EMLAK KULÜP</b></a>
+                            </div>
+                        </nav>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-   
+        <div class="container">
+            <div class="content">
+                <div class="card border mb-3 mt-3" data-list="{&quot;valueNames&quot;:[&quot;icon-list-item&quot;]}">
+
+                    <div class="card-body">
+                        <div class="row project-filter-reverse blog-pots">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Kapak Fotoğrafı</th>
+                                        <th>İlan Başlığı</th>
+                                        <th>Fiyat</th>
+                                        <th>Sil</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="collection-title">
+                                    @foreach ($mergedItems as $item)
+                                        <tr>
+                                            <td>
+                                                <a
+                                                    href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
+                                                    <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
+                                                        alt="home-1" class="img-responsive"
+                                                        style="height: 70px !important; object-fit: cover">
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
+                                                <br>
+                                                {{ $item['item_type'] == 1 ? $item['room_order'] . " No'lu Daire" : ' ' }}
+                                                <br>
+                                                <span style="font-size: 12px;font-weight:700">
+                                                    {{ $item['item_type'] == 1 ? $item['project']['city']['title'] . ' / ' . $item['project']['county']['ilce_title'] . ' / ' . $item['project']['neighbourhood']['mahalle_title'] : $item['housing']['city']['title'] . ' / ' . $item['housing']['county']['title'] . ' / ' . $item['housing']['neighborhood']['mahalle_title'] }}
+                                                    <br>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                ₺
+                                            </td>
+                                            <td>
+
+                                                @if ($item['item_type'] != 1)
+                                                    @if ($item['housing']->step2_slug != 'gunluk-kiralik')
+                                                        @if (isset(json_decode($item['housing']['housing_type_data'])->off_sale1[0]))
+                                                            <button class="btn second-btn mobileCBtn"
+                                                                style="background: #EA2B2E !important;width:100%;color:White">
+                                                                <span class="text">Satıldı</span>
+                                                            </button>
+                                                        @else
+                                                            @if ($item['action'] && $item['action'] != 'tryBuy')
+                                                                <button class="btn mobileCBtn second-btn "
+                                                                    @if ($item['action'] == 'payment_await') style="background: orange !important;width:100%;color:White"
+                                                    @else style="background: red !important;width:100%;color:White" @endif>
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                    </span>
+                                                                    @if ($item['action'] == 'payment_await')
+                                                                        <span class="text">Rezerve Edildi</span>
+                                                                    @else
+                                                                        <span class="text">Satıldı</span>
+                                                                    @endif
+                                                                </button>
+                                                            @elseif ($item['action'] == 'payment_await')
+                                                                <button class="btn mobileCBtn second-btn"
+                                                                    style="background: orange !important;width:100%;color:White">
+                                                                    <span class="text">Ödeme Bekleniyor</span>
+                                                                </button>
+                                                            @elseif ($item['action'] == 'tryBuy')
+                                                                <button class="btn mobileCBtn second-btn"
+                                                                    style="background: orange !important;width:100%;color:White">
+                                                                    <span class="text">Satın Al</span>
+                                                                </button>
+                                                            @else
+                                                                <button class="CartBtn mobileCBtn" data-type='housing'
+                                                                    data-id='{{ $item['housing']->id }}'>
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                    </span>
+                                                                    <span class="text">Sepete Ekle</span>
+                                                                </button>
+                                                            @endif
+                                                        @endif
+                                                    @else
+                                                        <button onclick="redirectToReservation()"
+                                                            class="reservationBtn mobileCBtn">
+                                                            <span class="IconContainer">
+                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                            </span>
+                                                            <span class="text">Rezervasyon Yap</span>
+                                                        </button>
+                                                        <script>
+                                                            function redirectToReservation() {
+                                                                window.location.href = "{{ route('housing.show', [$item['housing']->id]) }}";
+                                                            }
+                                                        </script>
+                                                    @endif
+                                                @else
+                                                    @if ($item['project_values']['off_sale[]'] != '[]')
+                                                        <button class="btn second-btn  mobileCBtn"
+                                                            style="background: #EA2B2E !important;width:100%;color:White">
+
+                                                            <span class="text">Satışa
+                                                                Kapatıldı</span>
+                                                        </button>
+                                                    @elseif ($item['action'] && $item['action'] != 'tryBuy')
+                                                        <button class="btn second-btn  mobileCBtn"
+                                                            @if ($item['action'] == 'payment_await') style="background: orange !important;color:White" @else  style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
+                                                            @if ($item['action'] == 'payment_await')
+                                                                <span class="text">Onay
+                                                                    Bekleniyor</span>
+                                                            @else
+                                                                <span class="text">Satıldı</span>
+                                                            @endif
+                                                        </button>
+                                                        @else
+                                                        <button class="CartBtn second-btn mobileCBtn"
+                                                        data-type='project'
+                                                        data-project='{{ $item['project']->id }}'
+                                                        data-id='{{ $item['room_order']  }}'>
+                                                        <span class="IconContainer">
+                                                            <img src="{{ asset('sc.png') }}"
+                                                                alt="">
+                                                        </span>
+                                                        <span class="text">Sepete
+                                                            Ekle</span>
+                                                    </button>
+                                                    @endif
+                                                @endif
+
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection
 
 @section('scripts')
