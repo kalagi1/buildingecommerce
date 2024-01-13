@@ -97,11 +97,10 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
-                                                <br>
-                                                {{ $item['item_type'] == 1 ? $item['room_order'] . " No'lu Daire" : ' ' }}
-                                                <br>
-                                                <span style="font-size: 12px;font-weight:700">
+                                                {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }} <br>
+                                                @if ($item['item_type'] == 1)
+                                                {!! $item['room_order'] . " No'lu Daire <br>" !!}
+                                            @endif                                                <span style="font-size: 12px;font-weight:700">
                                                     {{ $item['item_type'] == 1 ? $item['project']['city']['title'] . ' / ' . $item['project']['county']['ilce_title'] . ' / ' . $item['project']['neighbourhood']['mahalle_title'] : $item['housing']['city']['title'] . ' / ' . $item['housing']['county']['title'] . ' / ' . $item['housing']['neighborhood']['mahalle_title'] }}
                                                     <br>
                                                 </span>
