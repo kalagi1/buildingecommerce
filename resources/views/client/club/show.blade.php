@@ -82,7 +82,6 @@
                                         <th>Kapak Fotoğrafı</th>
                                         <th>İlan Başlığı</th>
                                         <th>Fiyat</th>
-                                        <th>Sil</th>
                                     </tr>
                                 </thead>
                                 <tbody class="collection-title">
@@ -93,7 +92,7 @@
                                                     href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
                                                     <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
                                                         alt="home-1" class="img-responsive"
-                                                        style="height: 70px !important; object-fit: cover">
+                                                        style="height: 70px !important; object-fit: cover;width:100px">
                                                 </a>
                                             </td>
                                             <td>
