@@ -658,8 +658,12 @@
                                                                                                             style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                                             <p
                                                                                                                 style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
-                                                                                                                No
+                                                                                                                @if(isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != "[]")
+                                                                                                                    {{ $i + 1 - $lastHousingCount }}. Hisse
+                                                                                                                @else
+                                                                                                                    No
                                                                                                                 <br>{{ $i + 1 - $lastHousingCount }}
+                                                                                                                @endif
                                                                                                             </p>
                                                                                                         </div>
                                                                                                         <div class="project-single mb-0 bb-0 aos-init aos-animate"
@@ -1136,8 +1140,14 @@
                                                                                                         padding: 3px 10px;
                                                                                                         background: #EA2B2E !important;
                                                                                                         color: white;
-                                                                                                        text-align: center;">No
-                                                                                <br> {{ $room_order - $lastHousingCount }}</span>
+                                                                                                        text-align: center;">
+                                                                                @if(isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != "[]")
+                                                                                {{ $room_order - $lastHousingCount }}. Hisse
+                                                                                @else
+                                                                                No
+                                                                                <br> {{ $room_order - $lastHousingCount }}
+                                                                                @endif
+                                                                                                        </span>
                                                                             <ul class="d-flex justify-content-start align-items-center h-100 w-100"
                                                                                 style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:start;margin-bottom:0 !important">
 
@@ -1237,7 +1247,12 @@
                                                                                 style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                 <p
                                                                                     style="padding: 10px;text-align:center; color: white; height: 100%; display: flex; align-items: center; ">
-                                                                                    No<br>{{ $i + 1 }}</p>
+                                                                                    @if(isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != "[]")
+                                                                                    {{ $i + 1 }}. Hisse
+                                                                                    @else
+                                                                                    No<br>{{ $i + 1 }}
+                                                                                    @endif
+                                                                                   </p>
                                                                             </div>
                                                                             <div class="project-single mb-0 bb-0 aos-init aos-animate"
                                                                                 data-aos="fade-up">
@@ -1672,14 +1687,20 @@
                                                     <div class="d-flex justify-content-between align-items-center"
                                                         style="height: 100%">
                                                         <span
-                                                            style="    height: 100%;
+                                                            style="height: 100%;
                                                                                     font-size: 11px !important;
                                                                                     width: 15% !important;
                                                                                     padding: 3px 10px;
                                                                                     background: #EA2B2E !important;
                                                                                     color: white;
-                                                                                    text-align: center;">No
-                                                            <br> {{ $room_order }}</span>
+                                                                                    text-align: center;">
+                                                            @if(isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != "[]")
+                                                                {{ $room_order }}. Hisse
+                                                            @else
+                                                                No
+                                                                <br> {{ $room_order }}
+                                                            @endif
+                                                            </span>
                                                         <ul class="d-flex justify-content-start align-items-center h-100 w-100"
                                                             style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:start;margin-bottom:0 !important">
 
@@ -2251,8 +2272,14 @@ out center;`;
                                                 <div class="d-flex" style="height: 100%;">
                                                     <div style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                         <p style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
-                                                            No
-                                                            <br>${startIndex+1+i}
+                                                            ${
+                                                                res[i]["share-sale[]"] && res[i]["share-sale[]"] != "[]" ? 
+                                                                    `No <br>${startIndex+1+i}`
+                                                                : 
+                                                                    `${startIndex+1+i}. Hisse`
+
+                                                            }
+                                                            
                                                         </p>
                                                     </div>
                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
