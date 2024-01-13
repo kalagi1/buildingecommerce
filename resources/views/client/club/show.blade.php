@@ -82,6 +82,7 @@
                                         <th>Kapak Fotoğrafı</th>
                                         <th>İlan Başlığı</th>
                                         <th>Fiyat</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody class="collection-title">
