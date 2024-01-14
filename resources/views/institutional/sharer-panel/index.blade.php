@@ -13,17 +13,18 @@
             <div class="card-body">
                 <div class="row list" id="icon-list">
                     @foreach ($collections as $collection)
-                        <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="col-lg-4 col-md-4 col-sm-6 mb-3">
                             <div class="border rounded-2 px-3 text-center bg-body-emphasis dark__bg-gray-1000 shadow-sm">
                                 <div class="card-header border-bottom bg-white mb-3"
-                                    style="    display: flex;
+                                    style="display: flex;
                                 justify-content: space-between;
                                 padding: 5px;
                                 align-items: center;">
-                                    <strong style="font-size: 12px">{{ $collection->name }} 
-                                        <a href="{{route('institutional.sharer.viewsLinks.index', $collection->id)}}">
-                                            <span style="color:#e54242;margin-left:3px"><i class="fa fa-eye"></i> {{count($collection->clicks)}} Görüntülenme</span></a>
-                                        </strong>
+                                    <strong style="font-size: 12px;text-align:left">{{ $collection->name }} <br>
+                                        <a href="{{ route('institutional.sharer.viewsLinks.index', $collection->id) }}">
+                                            <span style="color:#e54242"><i class="fa fa-eye"></i>
+                                                {{ count($collection->clicks) }} Görüntülenme</span></a>
+                                    </strong>
 
                                     <div class="col-auto" style="display: flex;align-items:center">
                                         <div>
@@ -90,7 +91,7 @@
 
 
 
-                                <span style="width:100%"><strong>{{ count($collection->links) }} Emlak</strong></span><br>
+                                <span style="width:100%"><strong>{{ count($collection->links) }} İlan</strong></span><br>
                                 <a href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}"
                                     class="text-decoration-none">
                                     <button class="btn" style="color:#EA2B2E;"> Koleksiyona Git</button>
@@ -130,8 +131,9 @@
                                         <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}"
                                             class="text-decoration-none" target="_blank" style="width: 100%">
 
-                                            <button style="width:100%" class="btn btn-primary me-1 mb-1" type="button">
-                                                <i class="fa fa-eye" aria-hidden="true"></i> ÖNİZLEME
+                                            <button style="width:100%;font-size:10px;padding:3px 0"
+                                                class="btn btn-primary me-1 mb-1" type="button">
+                                                <i class="fa fa-eye" aria-hidden="true"></i> <br> ÖNİZLEME
                                             </button>
                                         </a>
                                     </div>
@@ -139,14 +141,14 @@
                                         <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}"
                                             class="text-decoration-none" target="_blank" style="width: 100%">
 
-                                            <button class="btn btn-secondary me-1 mb-1" style="width:100%"
-                                                type="button">
-                                                <i class="fa fa-share-alt" aria-hidden="true"></i> PAYLAŞ
+                                            <button class="btn btn-secondary me-1 mb-1"
+                                                style="width:100%;font-size:10px;padding:3px 0" type="button">
+                                                <i class="fa fa-share-alt" aria-hidden="true"></i> <br> PAYLAŞ
                                             </button>
                                         </a>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     @endforeach
