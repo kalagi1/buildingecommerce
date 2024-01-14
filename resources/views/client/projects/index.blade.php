@@ -1159,7 +1159,7 @@
                                                                                                 </button>
                                                                                             @else
                                                                                                 <button
-                                                                                                    class="CartBtn second-btn mobileCBtn"
+                                                                                                    class="CartBtn second-btn "
                                                                                                     data-type='project'
                                                                                                     data-project='{{ $project->id }}'
                                                                                                     data-id='{{ $i + 1 }}'>
@@ -1716,7 +1716,7 @@
                                                     @endif
                                                 </button>
                                             @else
-                                                <button class="CartBtn second-btn mobileCBtn" data-type='project'
+                                                <button class="CartBtn second-btn " data-type='project'
                                                     data-project='{{ $project->id }}' data-id='{{ $i + 1 }}'>
                                                     <span class="IconContainer">
                                                         <img src="{{ asset('sc.png') }}" alt="">

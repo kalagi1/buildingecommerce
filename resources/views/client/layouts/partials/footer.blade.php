@@ -1181,16 +1181,14 @@
                 });
             } else {
                 Swal.fire({
-
                     title: isCartEmpty() ? 'Sepete eklemek istiyor musunuz?' :
                         'Mevcut sepeti temizlemek istiyor musunuz?',
-
                     icon: 'question',
                     showCancelButton: true,
                     confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
                     cancelButtonText: 'Hayır',
                 }).then((result) => {
-                    if (result.isConfirmed) {
+                 if (result.isConfirmed) {
                         $.ajax({
                             type: "POST",
                             url: "{{ route('add.to.cart') }}",
