@@ -19,7 +19,7 @@ class InstitutionalController extends Controller
           
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {
-                if (!$institutional || $institutional->type !== 2) {
+                if (!$institutional || $institutional->type != 2) {
                     abort(404);
                 }
                 $store = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'town', 'district', "neighborhood", 'brands', "banners")->first();
