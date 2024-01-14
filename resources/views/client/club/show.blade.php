@@ -570,6 +570,9 @@
         }
 
         @media (max-width: 768px) {
+            .card-body{
+                padding: 0 !important;
+            }
             .mobile-hidden {
                 display: none
             }
