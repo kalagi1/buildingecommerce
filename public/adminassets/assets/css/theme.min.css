@@ -42508,3 +42508,12 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .jq-toast-wrap.top-right{
     z-index: 9999999 !important;
 }
+
+.formbuilder-checkbox-inline{
+    width:24%;
+
+}
+
+.formbuilder-checkbox-inline .formbuilder-checkbox-inline{
+    width: auto !important;
+}
