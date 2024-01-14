@@ -28,22 +28,27 @@
         "activePath": "admin/housing"
     },
     {
-        "id": "comment",
+        "id": "user",
         "label": "EMLAK SEPETTE",
-        "icon": "comments",
-        "text": "Yorumlar",
-        "key": "GetHousingComments",
-        "url": "admin.housings.comments",
-        "activePath": "admin/housing/comments"
-    },
-    {
-        "id": "comment",
-        "label": "EMLAK SEPETTE",
-        "icon": "comments",
-        "text": "Canlı Destek",
-        "key": "GetMessages",
-        "url": "admin.messages",
-        "activePath": "admin/messages"
+        "icon": "user",
+        "text": "Üyeler",
+        "key": "Users",
+        "url": "#nv-users",
+        "activePath": "admin/users",
+        "subMenu": [
+            {
+                "text": "Yeni Ekle",
+                "key": "CreateUser",
+                "url": "admin.users.create",
+                "activePath": "admin/users/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetUsers",
+                "url": "admin.users.index",
+                "activePath": "admin/users"
+            }
+        ]
     },
     {
         "id": "order",
@@ -54,6 +59,7 @@
         "url": "admin.reservations",
         "activePath": "admin/reservations"
     },
+  
     {
         "id": "order",
         "label": "EMLAK SEPETTE",
@@ -84,6 +90,25 @@
         "activePath": "admin/doping_orders"
     },
     {
+        "id": "comment",
+        "label": "EMLAK SEPETTE",
+        "icon": "comments",
+        "text": "Yorumlar",
+        "key": "GetHousingComments",
+        "url": "admin.housings.comments",
+        "activePath": "admin/housing/comments"
+    },
+    {
+        "id": "comment",
+        "label": "EMLAK SEPETTE",
+        "icon": "comments",
+        "text": "Canlı Destek",
+        "key": "GetMessages",
+        "url": "admin.messages",
+        "activePath": "admin/messages"
+    },
+  
+    {
         "id": "ad-banners",
         "label": "EMLAK SEPETTE",
         "icon": "ad",
@@ -92,15 +117,7 @@
         "url": "admin.adBanners.index",
         "activePath": "admin/ad-banners"
     },
-    {
-        "id": "subscriptionPlans",
-        "label": "EMLAK SEPETTE",
-        "icon": "credit-card",
-        "text": "Abonelik Planları",
-        "key": "SubscriptionPlans",
-        "url": "admin.subscriptionPlans.index",
-        "activePath": "admin/subscription-plans"
-    },
+   
     {
         "id": "menu",
         "label": "Yönetim",
@@ -203,6 +220,15 @@
         ]
     },
     {
+        "id": "subscriptionPlans",
+        "label": "EMLAK SEPETTE",
+        "icon": "credit-card",
+        "text": "Abonelik Planları",
+        "key": "SubscriptionPlans",
+        "url": "admin.subscriptionPlans.index",
+        "activePath": "admin/subscription-plans"
+    },
+    {
         "id": "sliders",
         "label": "Yönetim",
         "icon": "image",
@@ -248,29 +274,7 @@
             }
         ]
     },
-    {
-        "id": "user",
-        "label": "Yönetim",
-        "icon": "user",
-        "text": "Üyeler",
-        "key": "Users",
-        "url": "#nv-users",
-        "activePath": "admin/users",
-        "subMenu": [
-            {
-                "text": "Yeni Ekle",
-                "key": "CreateUser",
-                "url": "admin.users.create",
-                "activePath": "admin/users/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetUsers",
-                "url": "admin.users.index",
-                "activePath": "admin/users"
-            }
-        ]
-    },
+  
     {
         "id": "housing_types",
         "label": "EMLAK SEPETTE",
