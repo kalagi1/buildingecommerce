@@ -1200,6 +1200,14 @@
                             }
                         })
 
+                        
+                        $('.maks-3').keyup(function(){
+                            console.log("asd")
+                            if(parseInt($(this).val()) > 3){
+                                $(this).val(3);
+                            }
+                        })
+
                         $('.number-only').keyup(function(){
                             $('.number-only .error-text').remove();
                             if($(this).val() != parseInt($(this).val())){
@@ -1674,6 +1682,13 @@
 
                                             $(this).val(inputValue)
                                             $(this).closest('.form-group').find('.error-text').remove();
+                                        }
+                                    })
+                                    
+                                    $('.maks-3').keyup(function(){
+                                        console.log("asd")
+                                        if(parseInt($(this).val()) > 3){
+                                            $(this).val(3);
                                         }
                                     })
 
@@ -2850,6 +2865,14 @@
                                     $(this).closest('.form-group').find('.error-text').remove();
                                 }
                             })
+
+                            $('.maks-3').keyup(function(){
+                                console.log("asd")
+                                if(parseInt($(this).val()) > 3){
+                                    $(this).val(3);
+                                }
+                            })
+                            
 
                             $('.number-only').keyup(function(){
                                 $('.number-only .error-text').remove();
