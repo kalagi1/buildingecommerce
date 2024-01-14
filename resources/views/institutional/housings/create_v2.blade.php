@@ -1300,13 +1300,12 @@ Emlak İlanı Ekle
                         })
 
                         $('.price-only').keyup(function(){
-                            $('.price-only .error-text').remove();
-                            if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
-                                if($('.price-only').closest('.form-group').find('.error-text').length > 0){
-                                    $('.price-only').val("");
+                            if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                                if($(this).closest('.form-group').find('.error-text').length > 0){
+                                    $(this).val("");
                                 }else{
                                     $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
-                                    $('.price-only').val("");
+                                    $(this).val("");
                                 }
                                 
                             }else{
@@ -1320,6 +1319,13 @@ Emlak İlanı Ekle
 
                                 $(this).val(inputValue)
                                 $(this).closest('.form-group').find('.error-text').remove();
+                            }
+                        })
+
+                        $('.maks-3').keyup(function(){
+                            console.log("asd")
+                            if(parseInt($(this).val()) > 3){
+                                $(this).val(3);
                             }
                         })
 
@@ -2237,9 +2243,30 @@ Emlak İlanı Ekle
         $('.area-list').eq(0).find('li').click(function(){
             itemSlug = $(this).attr('slug');
             var thisx = $(this);
-            changeData(itemSlug,'step1_slug')
-            changeData("",'step3_slug')
-            changeData("",'step2_slug')
+            
+            var formData = new FormData();
+            var csrfToken = $("meta[name='csrf-token']").attr("content");
+            formData.append('_token', csrfToken);
+            formData.append("key","step1_slug");
+            formData.append("value",itemSlug);
+            formData.append("item_type",2);
+            $.ajax({
+                type: "POST",
+                url: "{{route('institutional.temp.order.change.area.list.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if(key == 'pricing-type'){
+                        if(value == 2){
+                            $('.single-price-project-area').removeClass('d-none')
+                            $('.pricing-select-first').addClass('d-none')
+                        }else{
+                            $('.single-price-project-area').addClass('d-none')
+                        }
+                    }
+                },
+            });
             $('.breadcrumb').find('.breadcrumb-after-item').remove()
             $('.breadcrumb').find('.breadcrumb-after-item').remove()
             $('.breadcrumb').find('.breadcrumb-after-item').remove()
@@ -2285,8 +2312,29 @@ Emlak İlanı Ekle
                             isSale = false;
                         }
                         var thisx = $(this);
-                        changeData(itemSlug,'step2_slug')
-                        changeData("",'step3_slug')
+                        var formData = new FormData();
+                        var csrfToken = $("meta[name='csrf-token']").attr("content");
+                        formData.append('_token', csrfToken);
+                        formData.append("key","step2_slug");
+                        formData.append("value",itemSlug);
+                        formData.append("item_type",2);
+                        $.ajax({
+                            type: "POST",
+                            url: "{{route('institutional.temp.order.change.area.list.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                if(key == 'pricing-type'){
+                                    if(value == 2){
+                                        $('.single-price-project-area').removeClass('d-none')
+                                        $('.pricing-select-first').addClass('d-none')
+                                    }else{
+                                        $('.single-price-project-area').addClass('d-none')
+                                    }
+                                }
+                            },
+                        });
                         $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
                         $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
                         $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
@@ -2312,7 +2360,29 @@ Emlak İlanı Ekle
                                 $('.area-list').eq(2).find('li').click(function(){
                                     itemSlug = $(this).attr('slug');
                                     var thisx = $(this);
-                                    changeData(itemSlug,'step3_slug')
+                                    var formData = new FormData();
+                                    var csrfToken = $("meta[name='csrf-token']").attr("content");
+                                    formData.append('_token', csrfToken);
+                                    formData.append("key","step3_slug");
+                                    formData.append("value",itemSlug);
+                                    formData.append("item_type",2);
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{route('institutional.temp.order.change.area.list.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                        data: formData,
+                                        processData: false,
+                                        contentType: false,
+                                        success: function(response) {
+                                            if(key == 'pricing-type'){
+                                                if(value == 2){
+                                                    $('.single-price-project-area').removeClass('d-none')
+                                                    $('.pricing-select-first').addClass('d-none')
+                                                }else{
+                                                    $('.single-price-project-area').addClass('d-none')
+                                                }
+                                            }
+                                        },
+                                    });
                                     $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
                                     $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
                                     $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
@@ -2596,13 +2666,12 @@ Emlak İlanı Ekle
                                                     })
 
                                                     $('.price-only').keyup(function(){
-                                                        $('.price-only .error-text').remove();
-                                                        if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
-                                                            if($('.price-only').closest('.form-group').find('.error-text').length > 0){
-                                                                $('.price-only').val("");
+                                                        if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                                                            if($(this).closest('.form-group').find('.error-text').length > 0){
+                                                                $(this).val("");
                                                             }else{
                                                                 $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
-                                                                $('.price-only').val("");
+                                                                $(this).val("");
                                                             }
                                                             
                                                         }else{
@@ -2616,6 +2685,13 @@ Emlak İlanı Ekle
 
                                                             $(this).val(inputValue)
                                                             $(this).closest('.form-group').find('.error-text').remove();
+                                                        }
+                                                    })
+
+                                                    $('.maks-3').keyup(function(){
+                                                        console.log("asd")
+                                                        if(parseInt($(this).val()) > 3){
+                                                            $(this).val(3);
                                                         }
                                                     })
 
@@ -2697,8 +2773,29 @@ Emlak İlanı Ekle
             
             var thisx = $(this);
             console.log("asd");
-            changeData(itemSlug,'step2_slug')
-            changeData("",'step3_slug')
+            var formData = new FormData();
+            var csrfToken = $("meta[name='csrf-token']").attr("content");
+            formData.append('_token', csrfToken);
+            formData.append("key","step2_slug");
+            formData.append("value",itemSlug);
+            formData.append("item_type",2);
+            $.ajax({
+                type: "POST",
+                url: "{{route('institutional.temp.order.change.area.list.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if(key == 'pricing-type'){
+                        if(value == 2){
+                            $('.single-price-project-area').removeClass('d-none')
+                            $('.pricing-select-first').addClass('d-none')
+                        }else{
+                            $('.single-price-project-area').addClass('d-none')
+                        }
+                    }
+                },
+            });
             $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
             $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
             $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
@@ -2724,7 +2821,29 @@ Emlak İlanı Ekle
                     $('.area-list').eq(2).find('li').click(function(){
                         itemSlug = $(this).attr('slug');
                         var thisx = $(this);
-                        changeData(itemSlug,'step3_slug')
+                        var formData = new FormData();
+                        var csrfToken = $("meta[name='csrf-token']").attr("content");
+                        formData.append('_token', csrfToken);
+                        formData.append("key","step3_slug");
+                        formData.append("value",itemSlug);
+                        formData.append("item_type",2);
+                        $.ajax({
+                            type: "POST",
+                            url: "{{route('institutional.temp.order.change.area.list.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                if(key == 'pricing-type'){
+                                    if(value == 2){
+                                        $('.single-price-project-area').removeClass('d-none')
+                                        $('.pricing-select-first').addClass('d-none')
+                                    }else{
+                                        $('.single-price-project-area').addClass('d-none')
+                                    }
+                                }
+                            },
+                        });
                         $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
                         $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
                         $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
@@ -3009,13 +3128,12 @@ Emlak İlanı Ekle
                                         })
 
                                         $('.price-only').keyup(function(){
-                                            $('.price-only .error-text').remove();
-                                            if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
-                                                if($('.price-only').closest('.form-group').find('.error-text').length > 0){
-                                                    $('.price-only').val("");
+                                            if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                                                if($(this).closest('.form-group').find('.error-text').length > 0){
+                                                    $(this).val("");
                                                 }else{
                                                     $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
-                                                    $('.price-only').val("");
+                                                    $(this).val("");
                                                 }
                                                 
                                             }else{
@@ -3029,6 +3147,13 @@ Emlak İlanı Ekle
 
                                                 $(this).val(inputValue)
                                                 $(this).closest('.form-group').find('.error-text').remove();
+                                            }
+                                        })
+
+                                        $('.maks-3').keyup(function(){
+                                            console.log("asd")
+                                            if(parseInt($(this).val()) > 3){
+                                                $(this).val(3);
                                             }
                                         })
 
@@ -3083,7 +3208,29 @@ Emlak İlanı Ekle
         $('.area-list').eq(2).find('li').click(function(){
             itemSlug = $(this).attr('slug');
             var thisx = $(this);
-            changeData(itemSlug,'step3_slug')
+            var formData = new FormData();
+            var csrfToken = $("meta[name='csrf-token']").attr("content");
+            formData.append('_token', csrfToken);
+            formData.append("key","step3_slug");
+            formData.append("value",itemSlug);
+            formData.append("item_type",2);
+            $.ajax({
+                type: "POST",
+                url: "{{route('institutional.temp.order.change.area.list.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if(key == 'pricing-type'){
+                        if(value == 2){
+                            $('.single-price-project-area').removeClass('d-none')
+                            $('.pricing-select-first').addClass('d-none')
+                        }else{
+                            $('.single-price-project-area').addClass('d-none')
+                        }
+                    }
+                },
+            });
             $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
             $('.breadcrumb').append('<span class="breadcrumb-after-item">'+($(this).html())+'</span>')
             $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
@@ -3367,13 +3514,12 @@ Emlak İlanı Ekle
                             })
 
                             $('.price-only').keyup(function(){
-                                $('.price-only .error-text').remove();
-                                if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
-                                    if($('.price-only').closest('.form-group').find('.error-text').length > 0){
-                                        $('.price-only').val("");
+                                if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                                    if($(this).closest('.form-group').find('.error-text').length > 0){
+                                        $(this).val("");
                                     }else{
                                         $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
-                                        $('.price-only').val("");
+                                        $(this).val("");
                                     }
                                     
                                 }else{
@@ -3387,6 +3533,13 @@ Emlak İlanı Ekle
 
                                     $(this).val(inputValue)
                                     $(this).closest('.form-group').find('.error-text').remove();
+                                }
+                            })
+
+                            $('.maks-3').keyup(function(){
+                                console.log("asd")
+                                if(parseInt($(this).val()) > 3){
+                                    $(this).val(3);
                                 }
                             })
 
