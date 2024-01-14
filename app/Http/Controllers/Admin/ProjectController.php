@@ -29,7 +29,7 @@ class ProjectController extends Controller {
             2 => 'Admin Onayı Bekliyor',
             3 => 'Admin Tarafından Reddedildi',
         ];
-        $projects = Project::orderByDesc( 'created_at' )->get();
+        $projects = Project::orderByDesc( 'updated_at' )->get();
         return view( 'admin.projects.index', compact( 'projects', 'projectStatuses' ) );
     }
 
