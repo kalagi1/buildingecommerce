@@ -10,13 +10,14 @@
                 <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin" style="height:200px">
                     <div class="project-single no-mb " style="height:100%" data-aos="zoom-in" data-aos-delay="150">
                         <div class="listing-item compact" style="height:100%">
-                            <a href="{{ route('project.detail', $project->slug) }}" class="listing-img-container">
+                            <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
+                                class="listing-img-container">
                                 <div class="listing-img-content">
-                                    <span class="listing-compact-title">{{$project->project_title}}</span>
-                                    
+                                    <span class="listing-compact-title">{{ $project->project_title }}</span>
+
                                 </div>
-                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}" alt=""
-                                style="height:100%;object-fit:cover">
+                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                                    alt="" style="height:100%;object-fit:cover">
                             </a>
                         </div>
                     </div>

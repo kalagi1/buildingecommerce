@@ -72,7 +72,7 @@
                                     <h5>Projeler</h5>
                                     <div class="header-search__suggestions__section__items">
                                         @foreach ($institutional->projects as $item)
-                                            <a href="{{ route('project.detail', ['slug' => $item->slug]) }}"
+                                            <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id]) }}"
                                                 class="project-item"
                                                 data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
                                         @endforeach
@@ -102,13 +102,13 @@
                                     data-aos-delay="150">
                                     <div class="small-category-2">
                                         <div class="small-category-2-thumb img-1">
-                                            <a href="{{ route('project.detail', $project->slug) }}"><img
+                                            <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"><img
                                                     src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
                                                     alt=""></a>
                                         </div>
                                         <div class=" sc-2-detail">
                                             <h4 class="sc-jb-title"><a
-                                                    href="{{ route('project.detail', $project->slug) }}">{{ $project->project_title }}</a>
+                                                    href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}">{{ $project->project_title }}</a>
                                             </h4>
                                             <span>{{ $project->city->title }}
                                                 /
@@ -133,7 +133,7 @@
                                             <div class="project-single no-mb aos-init aos-animate" style="height:100%"
                                                 data-aos="zoom-in" data-aos-delay="150">
                                                 <div class="listing-item compact" style="height:100%">
-                                                    <a href="{{ route('project.detail', $project->slug) }}"
+                                                    <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
                                                         class="listing-img-container">
                                                         <img class="project_brand_profile_image"
                                                             src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"

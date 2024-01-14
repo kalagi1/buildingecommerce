@@ -112,7 +112,7 @@
                                 @foreach ($results['housings'] as $result)
                                     @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $result['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $result['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
 )
                                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$result['id']]))
                                     <div class="d-flex" style="flex-wrap: nowrap">
@@ -329,7 +329,8 @@
                                                                                         class="type-tag button alt featured">
                                                                                         @if ($result['step2_slug'] == 'kiralik')
                                                                                             Kiralık
-                                                                                            @elseif ($result['step2_slug'] == 'gunluk-kiralik')
+                                                                                            @elseif
+                                                                                            ($result['step2_slug'] == 'gunluk-kiralik')
                                                                                             Günlük Kiralık
                                                                                         @else
                                                                                             Satılık
@@ -567,12 +568,12 @@
                                     <p>Henüz İlan Yayınlanmadı</p>
                                 @endif
                             </div>
-                          
+
                             <div class="row justify-content-center">
                                 <?php
                                 $uri = $_SERVER['REQUEST_URI'];
                                 ?>
-    
+
                                 <ul class="pagination">
                                     @foreach ($results['housings']->getUrlRange(1, $results['housings']->lastPage()) as $page => $url)
                                         <li
@@ -582,7 +583,7 @@
                                         </li>
                                     @endforeach
                                 </ul>
-    
+
                             </div>
 
 
@@ -602,15 +603,15 @@
                                 <div class="project-single no-mb aos-init aos-animate" style="height:100%"
                                     data-aos="zoom-in" data-aos-delay="150">
                                     <div class="listing-item compact" style="height:100%">
-                                        <a href="{{ route('project.detail', $result['slug']) }}"
+                                        <a href="{{ route('project.detail', ['slug' => $result['slug'], 'id' => $result['id']]) }}"
                                             class="listing-img-container">
                                             <div class="listing-img-content"
                                                 style="padding-left:10px;text-transform:uppercase;">
                                                 <span class="badge badge-phoenix text-left">{{ $result['name'] }}</span>
 
                                             </div>
-                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/',$result['photo']) }}" alt=""
-                                                style="height:100%;object-fit:contain">
+                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $result['photo']) }}"
+                                                alt="" style="height:100%;object-fit:contain">
                                         </a>
                                     </div>
                                 </div>

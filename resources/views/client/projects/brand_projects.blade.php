@@ -131,7 +131,7 @@
                                     <h5>Projeler</h5>
                                     {{-- <div class="header-search__suggestions__section__items">
                                         @foreach ($brand->user->projects as $item)
-                                        <a href="{{route('project.detail', ['slug' => $item->slug])}}" class="project-item" data-title="{{$item->project_title}}"><span>{{ $item->project_title }}</span></a>
+                                        <a href="{{route('project.detail', ['slug' => $item->slug, 'id' => $item->id])}}" class="project-item" data-title="{{$item->project_title}}"><span>{{ $item->project_title }}</span></a>
                                         @endforeach
                                     </div> --}}
                                 </div>
@@ -156,7 +156,7 @@
                     @foreach ($brand->projects as $project)
                         <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
                             <!-- Image Box -->
-                            <a href="{{ route('project.detail', $project->slug) }}" class="img-box hover-effect">
+                            <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}" class="img-box hover-effect">
                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                                     class="img-fluid w100" alt="">
                             </a>

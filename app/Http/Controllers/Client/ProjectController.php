@@ -25,13 +25,13 @@ use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
-    public function index($slug,Request $request)
+    public function index($slug,$id,Request $request)
     {
         $menu = Cache::rememberForever('menu', function() {
             return Menu::getMenuItems();
         });
 
-        $project = Project::where('slug', $slug)
+        $project = Project::where('slug', $slug)->where("id",$id)
         ->with("brand","blocks",'listItemValues', "neighbourhood","roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
         ->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');

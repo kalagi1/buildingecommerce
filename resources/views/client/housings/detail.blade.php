@@ -126,7 +126,7 @@
                                         <h5>Projeler</h5>
                                         <div class="header-search__suggestions__section__items">
                                             @foreach ($housing->user->projects as $item)
-                                                <a href="{{ route('project.detail', ['slug' => $item->slug]) }}"
+                                                <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id]) }}"
                                                     class="project-item"
                                                     data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
                                             @endforeach
@@ -1737,8 +1737,7 @@
 
         .trStyle tr td {
             display: flex;
-            justify-content: space-between
-            width: 100%;
+            justify-content: space-between width: 100%;
             font-size: 11px;
             border: 1px solid #dee2e6;
         }

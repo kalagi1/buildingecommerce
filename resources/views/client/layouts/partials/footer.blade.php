@@ -181,7 +181,8 @@
                                 project: project, // project nereden alındığını kontrol etmelisiniz
                                 _token: "{{ csrf_token() }}",
                                 clear_cart: "no",
-                                selectedCollectionId: parseInt(selectedCollectionId, 10) // Convert to number using parseInt
+                                selectedCollectionId: parseInt(selectedCollectionId,
+                                    10) // Convert to number using parseInt
                             };
 
                             $.ajax({
@@ -704,7 +705,6 @@
 <script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
 
 <script>
-
     $('body').on('click', '.payment-plan-button', function(event) {
         var order = $(this).attr('order');
         var soldStatus = $(this).data('sold');
@@ -863,7 +863,7 @@
         }
 
     })
-    
+
     $(document).ready(function() {
         const searchInput = $(".search-input");
         const suggestions = $(".header-search__suggestions");
@@ -1513,10 +1513,11 @@
                                 .toUpperCase() + e.name.slice(1);
 
                             $('.header-search-box').append(`
-                                    <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <span>${formattedName}</span>
-                                    </a>
-                                `);
+    <a href="${route('project.detail', {'slug': e.slug, 'id': e.id})}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+        <span>${formattedName}</span>
+    </a>
+`);
+
                         });
                     }
 
@@ -1654,10 +1655,10 @@
                                     .toUpperCase() + e.name.slice(1);
 
                                 $('.header-search-box-mobile').append(`
-                                    <a  href="{{ route('project.detail', '') }}/${e.slug}"  class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <span>${formattedName}</span>
-                                    </a>
-                                `);
+    <a href="${route('project.detail', {'slug': e.slug, 'id': e.id})}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+        <span>${formattedName}</span>
+    </a>
+`);
                             });
                         }
 
