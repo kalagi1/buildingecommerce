@@ -269,24 +269,25 @@
     $(document).ready(function() {
         $(".box").hide();
 
-        $(".notification").click(
-            function() {
-                $(".box").toggle();
-            },
-            function() {
-                $(".box").toggle();
+        $(".notification").click(function(e) {
+            e.stopPropagation(); // Bu, dışarı tıklandığında belge olayının tetiklenmesini önler
+            $(".box").toggle();
+        });
+
+        $(document).click(function(e) {
+            if (!$(e.target).closest('.box').length && !$(e.target).closest('.notification').length) {
+                $(".box").hide();
             }
-        );
+        });
     });
+
     document.addEventListener("DOMContentLoaded", function() {
         var notificationCards = document.querySelectorAll(".notification-card");
-
         notificationCards.forEach(function(card) {
             card.addEventListener("click", function() {
                 var notificationId = card.getAttribute("data-id");
                 var notificationLink = $(this).data('link');
 
-                // AJAX ile bildirimi işaretle
                 fetch('/mark-notification-as-read/' + notificationId, {
                         method: 'POST',
                         headers: {
@@ -294,6 +295,14 @@
                         }
                     })
                     .then(function(response) {
+
+                        if (response.status == "readed") {
+                            var numberCount = parseInt($(".notBtn .number").html());
+                            if (numberCount > 0) {
+                                numberCount--;
+                                $(".notBtn .number").html(numberCount);
+                            }
+                        }
 
                         if (notificationLink) {
                             window.location.href = notificationLink;

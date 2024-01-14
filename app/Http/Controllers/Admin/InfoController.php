@@ -16,7 +16,7 @@ class InfoController extends Controller
         if ($notification) {
             $notification->readed = 1;
             $notification->save();
-            return response()->json(['message' => 'Bildirim okundu olarak işaretlendi.']);
+            return response()->json(['message' => 'Bildirim okundu olarak işaretlendi.',"status" => "readed"]);
         } else {
             return response()->json(['error' => 'Bildirim bulunamadı.'], 404);
         }
