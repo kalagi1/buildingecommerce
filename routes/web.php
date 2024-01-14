@@ -748,6 +748,7 @@ Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])
         Route::get('/get_block_data', [TempOrderController::class, 'getBlockData'])->name('temp.order.get.block.data');
         Route::get('/remove_block_data', [TempOrderController::class, 'removeBlock'])->name('temp.order.remove.block.data');
         Route::get('/location_control', [TempOrderController::class, 'locationControl'])->name('temp.order.location.control');
+        Route::post('/change_area_list_data', [TempOrderController::class, 'changeAreaListData'])->name('temp.order.change.area.list.data');
         
     });
 
