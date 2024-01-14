@@ -21,9 +21,8 @@
                                 padding: 5px;
                                 align-items: center;">
                                     <strong style="font-size: 12px;text-align:left">{{ $collection->name }} <br>
-                                        <a href="{{ route('institutional.sharer.viewsLinks.index', $collection->id) }}">
                                             <span style="color:#e54242"><i class="fa fa-eye"></i>
-                                                {{ count($collection->clicks) }} Görüntülenme</span></a>
+                                                {{ count($collection->clicks) }} Görüntülenme</span>
                                     </strong>
 
                                     <div class="col-auto" style="display: flex;align-items:center">
