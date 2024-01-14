@@ -463,8 +463,7 @@
                                                             {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
                                                             ₺
                                                         </del>
-                                                        @else
-                                                        @else
+                                                    @else
                                                         <span style="color: green; font-size:15px !important">
                                                             {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
                                                             ₺
