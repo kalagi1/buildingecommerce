@@ -80,7 +80,7 @@
 
                     <div class="card-body">
                         <div class="mobile-hidden">
-                            <div class="row project-filter-reverse blog-pots">
+                            <div class="row project-filter-reverse blog-pots" style="width: 100%">
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -294,7 +294,6 @@
                         </div>
 
                         <div class="mobile-show">
-                            <div class="row project-filter-reverse blog-pots">
 
                                 @foreach ($mergedItems as $item)
                                     <div class="d-flex" style="flex-wrap: nowrap">
@@ -510,7 +509,6 @@
                                     </div>
                                     <hr>
                                 @endforeach
-                            </div>
                         </div>
 
                     </div>
@@ -554,7 +552,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         .mobile-hidden {
-            display: block;
+            display: flex;
+            flex-wrap: wrap
         }
 
         .desktop-hidden {
