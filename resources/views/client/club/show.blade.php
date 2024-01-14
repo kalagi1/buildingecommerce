@@ -466,16 +466,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="w-100" style="height:50px;background-color:#8080802e;margin-top:20px">
-                                        <div class="d-flex justify-content-between align-items-center"
-                                            style="height: 100%;padding: 10px">
+                                   
                                             @if (
                                                 ($item['item_type'] == 2 &&
                                                     isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
                                                     json_decode($item['housing']['housing_type_data'])->discount_rate[0] != 0) ||
                                                     null)
-                                                <tr style="background-color: #8080802e">
-                                                    <td colspan="5">
+                                                     <div class="w-100" style="height:50px;background-color:#8080802e;margin-top:20px">
+                                                        <div class="d-flex justify-content-between align-items-center"
+                                                            style="height: 100%;padding: 10px">
                                                         <span style="color: #e54242;font-size:9px !important">
                                                             #{{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
                                                             Numaralı İlan İçin:
@@ -484,15 +483,17 @@
                                                             %{{ json_decode($item['housing']['housing_type_data'])->discount_rate[0] }}
                                                             indirim uygulanacaktır.
                                                         </span>
-                                                    </td>
-                                                </tr>
+                                                    </div>
+
+                                                </div>
                                             @elseif (
                                                 ($item['item_type'] == 1 &&
                                                     isset($item['project_values']['discount_rate[]']) &&
                                                     $item['project_values']['discount_rate[]'] != 0) ||
                                                     null)
-                                                <tr style="background-color: #8080802e">
-                                                    <td colspan="5">
+                                                            <div class="w-100" style="height:50px;background-color:#8080802e;margin-top:20px">
+                                                                <div class="d-flex justify-content-between align-items-center"
+                                                                    style="height: 100%;padding: 10px">
                                                         <span style="color: #e54242;font-size:9px !important">
                                                             #{{ $item['project']->id + 10000000 }}
                                                             Numaralı İlan İçin:
@@ -501,12 +502,11 @@
                                                             %{{ $item['project_values']['discount_rate[]'] }}
                                                             indirim uygulanacaktır.
                                                         </span>
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                        </div>
+                                                    </div>
 
-                                    </div>
+                                                </div>
+                                            @endif
+      
                                     <hr>
                                 @endforeach
                         </div>
