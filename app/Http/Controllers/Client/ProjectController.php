@@ -62,8 +62,7 @@ class ProjectController extends Controller
             ->where("status", "1")
             ->get();
 
-            $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
-
+        $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
         $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
         $selectedPage = $request->input('selected_page') ?? 0;
         $blockIndex = $request->input('block_id') ?? 0;
@@ -80,7 +79,6 @@ class ProjectController extends Controller
         $endIndex = 20 + $startIndex;
         $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
         $status = HousingStatus::where("id", $project->status_id)->first();
-
         return view('client.projects.index', compact('projectHousingsList','projectHousing','projectHousingSetting','parent','status','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
 
     }
