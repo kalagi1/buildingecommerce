@@ -544,8 +544,8 @@
                                         </h4>
                                         @if ( Auth::check() && Auth::user()->type == 21)
                                         <span
-                                            @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
-                                                    json_decode($housing->housing_type_data)->{"share-open"}[0]
+                                            @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
+                                                    json_decode($housing->housing_type_data)->{"share-open1"}[0]
                                             ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
                                 @else
                                 class="btn addCollection mobileAddCollection disabledShareButton" @endif>
@@ -976,8 +976,8 @@
                                                             <div class="button-effect-div">
                                                                 @if ( Auth::check() && Auth::user()->type == 21)
                                                                     <span
-                                                                        @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
-                                                                                json_decode($housing->housing_type_data)->{"share-open"}[0]
+                                                                        @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
+                                                                                json_decode($housing->housing_type_data)->{"share-open1"}[0]
                                                                         ) class="btn addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
                                                             @else
                                                             class="btn addCollection disabledShareButton" @endif>

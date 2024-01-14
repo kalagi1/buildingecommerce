@@ -51,6 +51,9 @@
 
                                 </a>
                             </p>
+                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+
+                            <p class="brand-name">{{ $collection->name }}</p>
                         </div>
 
                     </div>
@@ -70,6 +73,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="container">
             <div class="content">
                 <div class="card border mb-3 mt-3" data-list="{&quot;valueNames&quot;:[&quot;icon-list-item&quot;]}">
@@ -79,6 +83,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>
+                                        <th>İlan No</th>
                                         <th>Kapak Fotoğrafı</th>
                                         <th>İlan Başlığı</th>
                                         <th>Fiyat</th>
@@ -88,6 +93,11 @@
                                 <tbody class="collection-title">
                                     @foreach ($mergedItems as $item)
                                         <tr>
+                                            <td>
+                                                #{{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
+
+                                            </td>
+
                                             <td>
                                                 <a
                                                     href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
@@ -108,22 +118,48 @@
                                             </td>
                                             <td>
                                                 @if ($item['discount_amount'])
-                                                <svg viewBox="0 0 24 24" width="24" height="24"
-                                                stroke="red" stroke-width="2" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                <polyline points="17 18 23 18 23 12"></polyline>
-                                            </svg>
-                                                <del style="color: red;">
-                                                    {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }} ₺
-                                                </del>
-                                                <span style="color: green;font-size:15px !important">
-                                                    {{ number_format($item['project_values']['price[]']- $item['discount_amount'], 0, ',', '.') }} ₺
-                                                </span>
-                                            @else
-                                                {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }} ₺
-                                            @endif
-                                            
+                                                   
+                                                    <span style="color: green;font-size:15px !important">
+                                                        {{ number_format($item['project_values']['price[]'] - $item['discount_amount'], 0, ',', '.') }}
+                                                        ₺
+                                                    </span><br>
+                                                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="red"
+                                                    stroke-width="2" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round" class="css-i6dzq1">
+                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                    <polyline points="17 18 23 18 23 12"></polyline>
+                                                </svg>
+                                                    <del style="color: red;">
+                                                        {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                        ₺
+                                                    </del>
+                                                   
+                                                @else
+                                                    @if ($item['item_type'] != 1 && json_decode($item['housing']['housing_type_data'])->discount_rate[0])
+                                                        <?php
+                                                        $discountedPrice = number_format(($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0]) - (($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0]) * json_decode($item['housing']['housing_type_data'])->discount_rate[0]) / 100, 0, ',', '.');
+                                                        ?>
+
+                                                        <span style="color: green;font-size:15px !important">
+                                                            {{ $discountedPrice }} ₺
+                                                        </span><br>
+                                                        <svg viewBox="0 0 24 24" width="18" height="18"
+                                                            stroke="red" stroke-width="2" fill="none"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="css-i6dzq1">
+                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                                        </svg>
+                                                        <del style="color: red;">
+                                                            {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                            ₺
+                                                        </del>
+                                                    @else
+                                                        {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                        ₺
+                                                    @endif
+                                                @endif
+
                                             </td>
                                             <td>
 
@@ -216,6 +252,20 @@
 
                                             </td>
                                         </tr>
+                                        @if ($item['item_type'] != 1 && json_decode($item['housing']['housing_type_data'])->discount_rate[0])
+                                            <tr style="background-color: #8080802e">
+                                                <td colspan="5">
+                                                    <span style="color:#e54242">
+                                                        #{{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
+                                                        Numaralı İlan İçin:
+                                                        Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
+                                                        tarafından paylaşılan link aracılığıyla
+                                                        %{{ json_decode($item['housing']['housing_type_data'])->discount_rate[0] }}
+                                                        indirim uygulanacaktır.
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endforeach
 
                                 </tbody>

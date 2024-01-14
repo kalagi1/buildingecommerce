@@ -543,8 +543,8 @@
                                 </div>
                                 @if (Auth::check() && Auth::user()->type == 21)
                                     <div
-                                        @if (isset(json_decode($housing->housing_type_data)->{"share-open"}) &&
-                                                json_decode($housing->housing_type_data)->{"share-open"}[0]
+                                        @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
+                                                json_decode($housing->housing_type_data)->{"share-open1"}[0]
                                         ) class="add-to-collections-wrapper addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
                                                     @else
                                                     class="add-to-collections-wrapper disabledShareButton addCollection" @endif>
