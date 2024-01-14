@@ -120,52 +120,52 @@
                                                 </td>
                                                 <td>
                                                     @if ($item['discount_amount'])
-                                                    @php
-                                                        $discountedPrice = $item['item_type'] == 1 ? $item['project_values']['price[]'] - $item['discount_amount'] : json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'];
-                                                    @endphp
-                                                @elseif (
-                                                    $item['item_type'] == 2 &&
-                                                        isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
-                                                        json_decode($item['housing']['housing_type_data'])->discount_rate[0]
-                                                )
-                                                    @php
-                                                        $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
-                                                        $discountedPrice = ($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0]) - (($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0]) * $discountRate) / 100;
-                                                    @endphp
-                                                @elseif (
-                                                    $item['item_type'] == 1 &&
-                                                        isset($item['project_values']['discount_rate[]']) &&
-                                                        $item['project_values']['discount_rate[]']
-                                                )
-                                                    @php
-                                                        $discountRate = $item['project_values']['discount_rate[]'];
-                                                        $discountedPrice = $item['project_values']['price[]'] - ($item['project_values']['price[]'] * $discountRate) / 100;
-                                                    @endphp
-                                                @endif
+                                                        @php
+                                                            $discountedPrice = $item['item_type'] == 1 ? $item['project_values']['price[]'] - $item['discount_amount'] : json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'];
+                                                        @endphp
+                                                    @elseif (
+                                                        $item['item_type'] == 2 &&
+                                                            isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
+                                                            json_decode($item['housing']['housing_type_data'])->discount_rate[0]
+                                                    )
+                                                        @php
+                                                            $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
+                                                            $discountedPrice = ($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0]) - (($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0]) * $discountRate) / 100;
+                                                        @endphp
+                                                    @elseif (
+                                                        $item['item_type'] == 1 &&
+                                                            isset($item['project_values']['discount_rate[]']) &&
+                                                            $item['project_values']['discount_rate[]']
+                                                    )
+                                                        @php
+                                                            $discountRate = $item['project_values']['discount_rate[]'];
+                                                            $discountedPrice = $item['project_values']['price[]'] - ($item['project_values']['price[]'] * $discountRate) / 100;
+                                                        @endphp
+                                                    @endif
 
-                                                @if (isset($discountRate) && $item['discount_amount'])
-                                                    @php
-                                                        $discountedPrice -= $item['discount_amount'];
-                                                    @endphp
-                                                @endif
+                                                    @if (isset($discountRate) && $item['discount_amount'])
+                                                        @php
+                                                            $discountedPrice -= $item['discount_amount'];
+                                                        @endphp
+                                                    @endif
 
-                                                @if (isset($discountedPrice))
-                                                    <span style="color: green;">
-                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
-                                                    </span><br>
-                                                    <del style="color: red;">
-                                                        {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                        ₺
-                                                    </del>
-                                                @else
-                                                    <span style="color: green; font-size:15px !important">
-                                                        {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                        ₺
-                                                    </span>
-                                                @endif
+                                                    @if (isset($discountedPrice))
+                                                        <span style="color: green;">
+                                                            {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                        </span><br>
+                                                        <del style="color: red;">
+                                                            {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                            ₺
+                                                        </del>
+                                                    @else
+                                                        <span style="color: green; font-size:15px !important">
+                                                            {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                            ₺
+                                                        </span>
+                                                    @endif
                                                 </td>
-                                                
-                                                
+
+
 
                                                 <td>
 
