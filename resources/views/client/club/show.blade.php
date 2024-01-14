@@ -121,7 +121,7 @@
                                                 <td>
                                                     @if ($item['discount_amount'])
                                                         @php
-                                                            $discountedPrice = $item['project_values']['price[]'] - $item['discount_amount'];
+                                                            $discountedPrice =  $item['item_type'] == 1 ? $item['project_values']['price[]'] - $item['discount_amount'] :json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'] ;
                                                         @endphp
                                                     @elseif (
                                                         $item['item_type'] == 2 &&
@@ -436,7 +436,7 @@
                                                 <span class="ml-auto text-primary priceFont">
                                                     @if ($item['discount_amount'])
                                                         @php
-                                                            $discountedPrice = $item['project_values']['price[]'] - $item['discount_amount'];
+                                                            $discountedPrice =  $item['item_type'] == 1 ? $item['project_values']['price[]'] - $item['discount_amount'] :json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'] ;
                                                         @endphp
                                                     @elseif (
                                                         $item['item_type'] == 2 &&
