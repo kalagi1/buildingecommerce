@@ -1178,12 +1178,12 @@
 
                         $('.price-only').keyup(function(){
                             $('.price-only .error-text').remove();
-                            if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
-                                if($('.price-only').closest('.form-group').find('.error-text').length > 0){
-                                    $('.price-only').val("");
+                            if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                                if($(this).closest('.form-group').find('.error-text').length > 0){
+                                    $(this).val("");
                                 }else{
                                     $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
-                                    $('.price-only').val("");
+                                    $(this).val("");
                                 }
                                 
                             }else{
@@ -1655,13 +1655,12 @@
                                     })
 
                                     $('.price-only').keyup(function(){
-                                        $('.price-only .error-text').remove();
-                                        if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
-                                            if($('.price-only').closest('.form-group').find('.error-text').length > 0){
-                                                $('.price-only').val("");
+                                        if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                                            if($(this).closest('.form-group').find('.error-text').length > 0){
+                                                $(this).val("");
                                             }else{
                                                 $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
-                                                $('.price-only').val("");
+                                                $(this).val("");
                                             }
                                             
                                         }else{
@@ -1679,7 +1678,6 @@
                                     })
 
                                     $('.number-only').keyup(function(){
-                                        $('.number-only .error-text').remove();
                                         if($(this).val() != parseInt($(this).val())){
                                             if($(this).closest('.form-group').find('.error-text').length > 0){
                                                 $(this).val("");
@@ -2831,12 +2829,12 @@
 
                             $('.price-only').keyup(function(){
                                 $('.price-only .error-text').remove();
-                                if($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($('.price-only').val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
-                                    if($('.price-only').closest('.form-group').find('.error-text').length > 0){
-                                        $('.price-only').val("");
+                                if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                                    if($(this).closest('.form-group').find('.error-text').length > 0){
+                                        $(this).val("");
                                     }else{
                                         $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
-                                        $('.price-only').val("");
+                                        $(this).val("");
                                     }
                                     
                                 }else{
@@ -4155,9 +4153,29 @@
             $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
             itemSlug = $(this).attr('slug');
             var thisx = $(this);
-            changeData(itemSlug,'step1_slug')
-            changeData("",'step3_slug')
-            changeData("",'step2_slug')
+            var formData = new FormData();
+            var csrfToken = $("meta[name='csrf-token']").attr("content");
+            formData.append('_token', csrfToken);
+            formData.append("key","step1_slug");
+            formData.append("value",itemSlug);
+            formData.append("item_type",1);
+            $.ajax({
+                type: "POST",
+                url: "{{route('institutional.temp.order.change.area.list.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if(key == 'pricing-type'){
+                        if(value == 2){
+                            $('.single-price-project-area').removeClass('d-none')
+                            $('.pricing-select-first').addClass('d-none')
+                        }else{
+                            $('.single-price-project-area').addClass('d-none')
+                        }
+                    }
+                },
+            });
             itemSlug = $(this).attr('slug');
             if(itemSlug == "arsa"){
                 $('.has_blocks_input').parent('.form-group').parent('.form-group').addClass("d-none");
@@ -4199,8 +4217,29 @@
                         $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
                         itemSlug = $(this).attr('slug');
                         var thisx = $(this);
-                        changeData(itemSlug,'step2_slug')
-                        changeData("",'step3_slug')
+                        var formData = new FormData();
+                        var csrfToken = $("meta[name='csrf-token']").attr("content");
+                        formData.append('_token', csrfToken);
+                        formData.append("key","step2_slug");
+                        formData.append("value",itemSlug);
+                        formData.append("item_type",1);
+                        $.ajax({
+                            type: "POST",
+                            url: "{{route('institutional.temp.order.change.area.list.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                if(key == 'pricing-type'){
+                                    if(value == 2){
+                                        $('.single-price-project-area').removeClass('d-none')
+                                        $('.pricing-select-first').addClass('d-none')
+                                    }else{
+                                        $('.single-price-project-area').addClass('d-none')
+                                    }
+                                }
+                            },
+                        });
                         $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
                         $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
                         $('.breadcrumb-v2').find('.breadcrumb-after-item').eq(1).remove()
@@ -4230,7 +4269,29 @@
                                     $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
                                     itemSlug = $(this).attr('slug');
                                     var thisx = $(this);
-                                    changeData(itemSlug,'step3_slug')
+                                    var formData = new FormData();
+                                    var csrfToken = $("meta[name='csrf-token']").attr("content");
+                                    formData.append('_token', csrfToken);
+                                    formData.append("key","step3_slug");
+                                    formData.append("value",itemSlug);
+                                    formData.append("item_type",1);
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{route('institutional.temp.order.change.area.list.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                        data: formData,
+                                        processData: false,
+                                        contentType: false,
+                                        success: function(response) {
+                                            if(key == 'pricing-type'){
+                                                if(value == 2){
+                                                    $('.single-price-project-area').removeClass('d-none')
+                                                    $('.pricing-select-first').addClass('d-none')
+                                                }else{
+                                                    $('.single-price-project-area').addClass('d-none')
+                                                }
+                                            }
+                                        },
+                                    });
                                     $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
                                     $('.breadcrumb-v2').find('.breadcrumb-after-item').eq(2).remove()
                                     $.ajax({
@@ -4277,8 +4338,29 @@
             $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
             itemSlug = $(this).attr('slug');
             var thisx = $(this);
-            changeData(itemSlug,'step2_slug')
-            changeData("",'step3_slug')
+            var formData = new FormData();
+            var csrfToken = $("meta[name='csrf-token']").attr("content");
+            formData.append('_token', csrfToken);
+            formData.append("key","step2_slug");
+            formData.append("value",itemSlug);
+            formData.append("item_type",1);
+            $.ajax({
+                type: "POST",
+                url: "{{route('institutional.temp.order.change.area.list.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if(key == 'pricing-type'){
+                        if(value == 2){
+                            $('.single-price-project-area').removeClass('d-none')
+                            $('.pricing-select-first').addClass('d-none')
+                        }else{
+                            $('.single-price-project-area').addClass('d-none')
+                        }
+                    }
+                },
+            });
             $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
             $('.breadcrumb').find('.breadcrumb-after-item').eq(1).remove()
             $('.breadcrumb-v2').find('.breadcrumb-after-item').eq(1).remove()
@@ -4308,7 +4390,29 @@
                         $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
                         itemSlug = $(this).attr('slug');
                         var thisx = $(this);
-                        changeData(itemSlug,'step3_slug')
+                        var formData = new FormData();
+                        var csrfToken = $("meta[name='csrf-token']").attr("content");
+                        formData.append('_token', csrfToken);
+                        formData.append("key","step3_slug");
+                        formData.append("value",itemSlug);
+                        formData.append("item_type",1);
+                        $.ajax({
+                            type: "POST",
+                            url: "{{route('institutional.temp.order.change.area.list.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                if(key == 'pricing-type'){
+                                    if(value == 2){
+                                        $('.single-price-project-area').removeClass('d-none')
+                                        $('.pricing-select-first').addClass('d-none')
+                                    }else{
+                                        $('.single-price-project-area').addClass('d-none')
+                                    }
+                                }
+                            },
+                        });
                         $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
                         $('.breadcrumb-v2').find('.breadcrumb-after-item').eq(2).remove()
                         $.ajax({
@@ -4348,7 +4452,29 @@
             console.log($(this).html());
             
             var thisx = $(this);
-            changeData(itemSlug,'step3_slug')
+            var formData = new FormData();
+            var csrfToken = $("meta[name='csrf-token']").attr("content");
+            formData.append('_token', csrfToken);
+            formData.append("key","step3_slug");
+            formData.append("value",itemSlug);
+            formData.append("item_type",1);
+            $.ajax({
+                type: "POST",
+                url: "{{route('institutional.temp.order.change.area.list.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if(key == 'pricing-type'){
+                        if(value == 2){
+                            $('.single-price-project-area').removeClass('d-none')
+                            $('.pricing-select-first').addClass('d-none')
+                        }else{
+                            $('.single-price-project-area').addClass('d-none')
+                        }
+                    }
+                },
+            });
             $('.breadcrumb').find('.breadcrumb-after-item').eq(2).remove()
             $('.breadcrumb-v2').find('.breadcrumb-after-item').eq(2).remove()
             $.ajax({

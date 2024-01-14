@@ -953,4 +953,26 @@ class TempOrderController extends Controller
         ]);
     }
     
+    public function changeAreaListData(Request $request){
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempData = json_decode($tempOrder->data);
+        if($request->input('key') == "step1_slug"){
+            $tempData->step1_slug = $request->input('value');
+            $tempData->step2_slug = "";
+            $tempData->step3_slug = "";
+        }else if($request->input('key') == "step2_slug"){
+            $tempData->step2_slug = $request->input('value');
+            $tempData->step3_slug = "";
+        }else{
+            $tempData->step3_slug = $request->input('value');
+        }
+
+        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            "data" => json_encode($tempData),
+        ]);
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
 }
