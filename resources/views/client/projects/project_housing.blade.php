@@ -789,7 +789,7 @@
                                                                                                                     class="button-effect-div">
                                                                                                                     @if (Auth::check() && Auth::user()->type == 21)
                                                                                                                         <span
-                                                                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]'])) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != "[]") class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
                                                                                               data-type='project'
                                                                                               data-project='{{ $project->id }}'
                                                                                               data-id='{{ $i + 1 }}'
@@ -1167,7 +1167,7 @@
                                                                                         </h3>
                                                                                         @if (Auth::check() && Auth::user()->type == 21)
                                                                                             <span
-                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]'])) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != "[]") class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
                                                                                               data-type='project'
                                                                                               data-project='{{ $project->id }}'
                                                                                               data-id='{{ $i + 1 }}'
@@ -1420,7 +1420,7 @@
                                                                                     <div class="button-effect-div">
                                                                                         @if (Auth::check() && Auth::user()->type == 21)
                                                                                             <span
-                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]'])) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != "[]") class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
                                                                                               data-type='project'
                                                                                               data-project='{{ $project->id }}'
                                                                                               data-id='{{ $i + 1 }}'
@@ -1767,7 +1767,7 @@
                                                                     </h3>
                                                                     @if (Auth::check() && Auth::user()->type == 21)
                                                                         <span
-                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]'])) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != "[]") class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
                                                                           data-type='project'
                                                                           data-project='{{ $project->id }}'
                                                                           data-id='{{ $i + 1 }}'
