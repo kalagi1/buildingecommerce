@@ -79,8 +79,8 @@
                 <div class="card border mb-3 mt-3" data-list="{&quot;valueNames&quot;:[&quot;icon-list-item&quot;]}">
 
                     <div class="card-body">
-                        <div class="row project-filter-reverse blog-pots">
-                            <div class="mobile-hidden">
+                        <div class="mobile-hidden">
+                            <div class="row project-filter-reverse blog-pots">
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -291,8 +291,11 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
 
-                            <div class="mobile-show">
+                        <div class="mobile-show">
+                            <div class="row project-filter-reverse blog-pots">
+
                                 @foreach ($mergedItems as $item)
                                     <div class="d-flex" style="flex-wrap: nowrap">
                                         <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
@@ -315,8 +318,7 @@
 
                                                 <a style="text-decoration: none;height:100%"
                                                     href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
-                                                    <div class="d-flex"
-                                                        style="gap: 8px;justify-content:space-between">
+                                                    <div class="d-flex" style="gap: 8px;justify-content:space-between">
 
                                                         <h4>
                                                             #{{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
@@ -508,15 +510,13 @@
                                     </div>
                                     <hr>
                                 @endforeach
-
                             </div>
+                        </div>
 
-
-    </section>
-    </div>
-    </div>
-    </div>
-    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 @endsection
 
