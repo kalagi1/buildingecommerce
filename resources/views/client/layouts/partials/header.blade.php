@@ -90,10 +90,11 @@
                                 @csrf
                                 <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
                                     <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
-                                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon" onclick="return validateForm()"></button>
+                                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon"
+                                        onclick="return validateForm()"></button>
                                 </div>
                             </form>
-                            
+
                             <script>
                                 function validateForm() {
                                     var searchTerm = document.getElementById("search-form").elements["searchTerm"].value;
@@ -103,7 +104,7 @@
                                     return true; // Form post edilir
                                 }
                             </script>
-                            
+
 
                             <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
                                 style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px; max-height: 296px;">
@@ -123,11 +124,31 @@
 
 
                                     @if (auth()->user()->type == 1)
-                                        <a href="{{ route('client.index') }}" style="padding-right: 15px;">
-                                            @include('client.layouts.partials.user_icon', [
+                                    @include('client.layouts.partials.dropdown_user_icon', [
+                                        'mainLink' => 'Hesabım',
+                                        'links' => [
+                                            [
+                                                'url' => route('client.index'),
+                                                'icon' => 'fa-user',
                                                 'text' => 'Hesabım',
-                                            ])
-                                        </a>
+                                            ],
+                                            [
+                                                'url' => route('client.profile.cart-orders'),
+                                                'icon' => 'fa-shopping-cart',
+                                                'text' => 'Siparişlerim',
+                                            ],
+                                            [
+                                                'url' => route('favorites'),
+                                                'icon' => 'fa-heart',
+                                                'text' => 'Favorilerim',
+                                            ],
+                                            [
+                                                'url' => route('client.logout'),
+                                                'icon' => 'fa-sign-out',
+                                                'text' => 'Çıkış Yap',
+                                            ],
+                                        ],
+                                    ])
 
                                         <a href="{{ route('cart') }}"
                                             style="    border-left: 1px solid #666;
@@ -184,7 +205,7 @@
                                                 'text' => 'Sepetim',
                                             ])
                                         </a>
-                                        @elseif (auth()->user()->type == 21)
+                                    @elseif (auth()->user()->type == 21)
                                         @include('client.layouts.partials.dropdown_user_icon', [
                                             'mainLink' => 'Mağazam',
                                             'links' => [
@@ -401,16 +422,18 @@
                             @endforeach
                             <li>
                                 <a href="https://emlakkulup.emlaksepette.com/" target="_blank">
-                                 <b style="font-weight:700 !important;display:flex">
-                                    <img style="height: 21px;" class="lazy entered loading" src="{{url('yeniler_2.svg')}}" alt="Yeniler" data-ll-status="loading">
-                                    EMLAK KULÜP</b>
+                                    <b style="font-weight:700 !important;display:flex">
+                                        <img style="height: 21px;" class="lazy entered loading"
+                                            src="{{ url('yeniler_2.svg') }}" alt="Yeniler"
+                                            data-ll-status="loading">
+                                        EMLAK KULÜP</b>
                                 </a>
                             </li>
                         </ul>
                     </nav>
                 </div>
 
-             
+
             </div>
 
 
@@ -427,11 +450,12 @@
                 padding: 0;
                 margin-left: 0 !important;">
                     <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
-                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon" onclick="return validateForm()"></button>
+                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon"
+                        onclick="return validateForm()"></button>
                 </div>
             </form>
 
-            
+
             <script>
                 function validateForm() {
                     var searchTerm = document.getElementById("search-form").elements["searchTerm"].value;

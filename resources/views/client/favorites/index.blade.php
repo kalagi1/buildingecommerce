@@ -18,7 +18,7 @@
 
             <div class="my-properties">
 
-                <a href="{{ url('/') }}" class="btn btn-primary float-left mb-4">
+                <a href="{{ url('/') }}" class="btn btn-primary float-left mb-4" style="height: auto !important">
                     <i class="fas fa-arrow-left"></i> Geri Dön
                 </a>
 
