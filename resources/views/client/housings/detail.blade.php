@@ -1149,7 +1149,7 @@
                     lat: {{ $housing->latitude }},
                     lng: {{ $housing->longitude }}
                 },
-                zoom: 8
+                zoom: 16
             });
 
             // Harita üzerinde bir konum gösterme
