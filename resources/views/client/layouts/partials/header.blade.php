@@ -107,7 +107,7 @@
 
 
                             <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
-                                style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px;">
+                                style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px;z-index:9999">
                             </div>
                         </div>
                         <div class="rightSide d-xl-block d-none d-lg-block ">
