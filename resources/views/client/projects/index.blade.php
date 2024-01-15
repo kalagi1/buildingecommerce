@@ -320,7 +320,11 @@
                                                 <tr>
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr"><span>Toplam
+                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                               Hisse
+                                                                @else
                                                                 {{ ucfirst($project->step1_slug) }}
+                                                                @endif
                                                                 Sayısı:</span></strong>
                                                         <span class="det"
                                                             style="color: black;">{{ $project->room_count }}</span>
@@ -329,7 +333,11 @@
                                                 <tr>
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr"><span>Satışa Açık
-                                                                {{ ucfirst($project->step1_slug) }}
+                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                            Hisse
+                                                             @else
+                                                             {{ ucfirst($project->step1_slug) }}
+                                                             @endif
                                                                 Sayısı:</span></strong>
                                                         <span class="det"
                                                             style="color: black;">{{ $project->room_count - $project->cartOrders - $salesCloseProjectHousingCount }}</span>
@@ -338,7 +346,11 @@
                                                 <tr>
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr"><span>Satılan
-                                                                {{ ucfirst($project->step1_slug) }}
+                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                            Hisse
+                                                             @else
+                                                             {{ ucfirst($project->step1_slug) }}
+                                                             @endif
                                                                 Sayısı:</span></strong>
                                                         <span class="det"
                                                             style="color: black;">{{ $project->cartOrders }}</span>
@@ -347,7 +359,11 @@
                                                 <tr>
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr"><span>Satışa Kapalı
-                                                                {{ ucfirst($project->step1_slug) }}
+                                                            @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                            Hisse
+                                                             @else
+                                                             {{ ucfirst($project->step1_slug) }}
+                                                             @endif
                                                                 Sayısı:</span></strong>
                                                         <span class="det"
                                                             style="color: black;">{{ $salesCloseProjectHousingCount }}</span>
@@ -526,7 +542,7 @@
                                                 <td>
                                                     <span class="mr-1">İlan No:</span>
                                                     <span class="det" style="color: black;">
-                                                        #{{ $project->id }}
+                                                        #{{ $project->id + 10000000}}
                                                     </span>
                                                 </td>
                                             </tr>
