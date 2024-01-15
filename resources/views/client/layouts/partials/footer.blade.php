@@ -1188,7 +1188,7 @@
                     confirmButtonText: isCartEmpty() ? 'Evet' : 'Evet, temizle',
                     cancelButtonText: 'Hayır',
                 }).then((result) => {
-                 if (result.isConfirmed) {
+                    if (result.isConfirmed) {
                         $.ajax({
                             type: "POST",
                             url: "{{ route('add.to.cart') }}",
@@ -1520,10 +1520,10 @@
                                 .toUpperCase() + e.name.slice(1);
 
                             $('.header-search-box').append(`
-    <a href="${route('project.detail', {'slug': e.slug, 'id': e.id})}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-        <span>${formattedName}</span>
-    </a>
-`);
+                                <a href="${route('project.detail', {'slug': e.slug, 'id': e.id})}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                    <span>${formattedName}</span>
+                                </a>
+                            `);
 
                         });
                     }
@@ -1662,10 +1662,10 @@
                                     .toUpperCase() + e.name.slice(1);
 
                                 $('.header-search-box-mobile').append(`
-    <a href="${route('project.detail', {'slug': e.slug, 'id': e.id})}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-        <span>${formattedName}</span>
-    </a>
-`);
+                                        <a href="${route('project.detail', {'slug': e.slug, 'id': e.id})}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                            <span>${formattedName}</span>
+                                        </a>
+                                    `);
                             });
                         }
 
