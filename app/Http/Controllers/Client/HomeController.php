@@ -790,7 +790,7 @@ class HomeController extends Controller
                         ];
                     }),
                 
-                'merchants' => User::where('type', '2')->where('name', 'LIKE', "%{$term}%")->get()->map(function ($item) {
+                'merchants' => User::where('type', '2')->where("corporate_account_status", "1")->where('name', 'LIKE', "%{$term}%")->get()->map(function ($item) {
                     return [
                         'id' => $item->id,
                         'photo' => $item->profile_image,
@@ -888,7 +888,7 @@ class HomeController extends Controller
                     ];
                 }),
 
-            'merchants' => User::where('type', '2')->where('name', 'LIKE', "%{$term}%")
+            'merchants' => User::where('type', '2')->where("corporate_account_status", "1")->where('name', 'LIKE', "%{$term}%")
                 ->get()
                 ->map(function ($item) {
                     return [
