@@ -329,8 +329,7 @@
                                                                                         class="type-tag button alt featured">
                                                                                         @if ($result['step2_slug'] == 'kiralik')
                                                                                             Kiralık
-                                                                                            @elseif
-                                                                                            ($result['step2_slug'] == 'gunluk-kiralik')
+                                                                                            @elseif($result['step2_slug'] == 'gunluk-kiralik')
                                                                                             Günlük Kiralık
                                                                                         @else
                                                                                             Satılık
