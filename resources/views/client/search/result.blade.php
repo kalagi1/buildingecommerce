@@ -112,7 +112,7 @@
                                 @foreach ($results['housings'] as $result)
                                     @php(
     $discount_amount =
-        App\Models\Offer::where('type', 'housing')->where('housing_id', $result['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $result['id'])->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
 )
                                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$result['id']]))
                                     <div class="d-flex" style="flex-wrap: nowrap">
