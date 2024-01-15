@@ -1835,7 +1835,7 @@
                     lat: {{ explode(',', $project->location)[0] }},
                     lng: {{ explode(',', $project->location)[1] }}
                 },
-                zoom: 8
+                zoom: 16
             });
 
             // Harita üzerinde bir konum gösterme
