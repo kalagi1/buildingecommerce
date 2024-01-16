@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cart_orders', function (Blueprint $table) {
-            $table->string('full_name')->nullable();
-            $table->string('tc')->nullable();
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('address')->nullable();
-            $table->text('notes')->nullable();
+            // $table->string('full_name')->nullable();
+            // $table->string('tc')->nullable();
+            // $table->string('email')->nullable();
+            // $table->string('phone')->nullable();
+            // $table->string('address')->nullable();
+            // $table->text('notes')->nullable();
         });
     }
 

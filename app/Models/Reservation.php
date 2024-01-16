@@ -13,7 +13,10 @@ class Reservation extends Model
     {
         return $this->belongsTo(Housing::class);
     }
-
+    public function bank()
+    {
+        return $this->belongsTo(BankAccount::class, 'bank_id');
+    }
     public function user()
     {
         return $this->hasOne(User::class, "id", "user_id");

@@ -14,6 +14,7 @@ use App\Models\Offer;
 use App\Models\Project;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class SharerController extends Controller {
@@ -89,16 +90,15 @@ class SharerController extends Controller {
                         $userProjectIds = $store->projects->pluck('id');
                         $discount_amount = Offer::where( 'type', 'project' )->where( 'project_id', $item->project->id )->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
 
-                        $status = CartOrder::selectRaw('COUNT(*) as count, MAX(status) as status')
-                            ->whereIn('json_extract(cart, "$.item.id")', $userProjectIds)
-                            ->get()
-                            ->pluck('status', 'item.id')
-                            ->get($item->project->id);
-            
-                        $action = $status !== null ? (
-                            ($status == 0) ? 'payment_await' : (
-                                ($status == 1) ? 'sold' : (
-                                    ($status == 2) ? 'tryBuy' : ''
+                        $status = CartOrder::where(DB::raw('JSON_EXTRACT(cart, "$.item.housing")'), $item->room_order)
+                            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
+                            ->first();
+
+                            
+                            $action = $status->status !== null ? (
+                            ($status->status == "0") ? 'payment_await' : (
+                                ($status->status == "1") ? 'sold' : (
+                                    ($status->status == "2") ? 'tryBuy' : ''
                                 )
                             )
                         ) : 'noCart';
@@ -117,6 +117,7 @@ class SharerController extends Controller {
                 $mergedItems = array_map(function($item, $itemArray) {
                     return array_merge($item, $itemArray);
                 }, $items->toArray(), $itemsArray->toArray());
+
         
                 return view('client.club.show', compact("store", "mergedItems","collections", "slug", 'projects', 'itemsArray', 'sharer', 'collections', 'collection', 'items'));
             }
@@ -131,16 +132,65 @@ class SharerController extends Controller {
 
     public function showLinks( $id ) {
         $collection = Collection::where( 'id', $id )->first();
-        $sharer = User::where( 'id', auth()->user()->id )->first();
-        $items = ShareLink::where( 'user_id', auth()->user()->id )->where( 'collection_id', $collection->id )->get();
-        $collections = Collection::with( 'links' )->where( 'user_id', auth()->user()->id )->get();
-        $itemsArray = [];
-        foreach ( $items as $item ) {
-            $item[ 'project_values' ] = $item->projectHousingData( $item->item_id )->pluck( 'value', 'name' )->toArray();
-            $item[ 'housing' ] = $item->housing;
-            $item[ 'project' ] = $item->project;
-        }
-        return view( 'institutional.sharer-panel.show', compact( 'items', 'sharer', 'collections', 'collection' ) );
+        $sharer = User::findOrFail(auth()->user()->id);
+            
+        $items = ShareLink::where('user_id', auth()->user()->id)->where('collection_id', $collection->id)->get();
+        $itemsArray = $items->map(function ($item) use ($sharer) {
+            $action = null;
+            $offSale = null;
+    
+            if ($item->item_type == 2) {
+                $cartStatus = CartOrder::whereRaw("JSON_UNQUOTE(json_extract(cart, '$.type')) = 'housing'")
+                    ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->item_id])
+                    ->value('status');
+    
+                $action = $cartStatus !== null ? (
+                    ($cartStatus == 0) ? 'payment_await' : (
+                        ($cartStatus == 1) ? 'sold' : (
+                            ($cartStatus == 2) ? 'tryBuy' : ''
+                        )
+                    )
+                ) : 'noCart';
+                $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->item_id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
+                $housingTypeData = json_decode($item->housing->housing_type_data, true);
+                $offSale = isset($housingTypeData['off_sale1']);
+            }
+    
+            if ($item->item_type == 1) {
+
+                $userProjectIds = $sharer->projects->pluck('id');
+                $discount_amount = Offer::where( 'type', 'project' )->where( 'project_id', $item->project->id )->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
+
+               
+                $status = CartOrder::where(DB::raw('JSON_EXTRACT(cart, "$.item.housing")'), $item->room_order)
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
+                ->first();
+
+                
+                $action = $status->status !== null ? (
+                ($status->status == "0") ? 'payment_await' : (
+                    ($status->status == "1") ? 'sold' : (
+                        ($status->status == "2") ? 'tryBuy' : ''
+                    )
+                )
+            ) : 'noCart';
+            }
+    
+            return [
+                'project_values' => $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray(),
+                'housing' => $item->housing,
+                'project' => $item->project,
+                'action' => $action,
+                'offSale' => $offSale,
+                'discount_amount' => $discount_amount
+            ];
+        });
+
+        $mergedItems = array_map(function($item, $itemArray) {
+            return array_merge($item, $itemArray);
+        }, $items->toArray(), $itemsArray->toArray());
+
+        return view( 'institutional.sharer-panel.show', compact( 'mergedItems','items', 'sharer', 'collection' ) );
     }
 
     public function sharerPanel() {

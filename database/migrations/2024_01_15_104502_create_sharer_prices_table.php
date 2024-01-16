@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clicks', function (Blueprint $table) {
+        Schema::create('sharer_prices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('collection_id');
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->ipAddress('ip_address')->nullable();
-            $table->timestamps();
-    
             $table->foreign('collection_id')->references('id')->on('collections')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string("balance")->nullable();
+            $table->timestamps();
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clicks');
+        Schema::dropIfExists('sharer_prices');
     }
 };

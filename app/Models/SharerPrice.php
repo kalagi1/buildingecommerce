@@ -11,11 +11,4 @@ class SharerPrice extends Model
 
     protected $guarded = [];
 
-    public function project(){
-        return $this->hasOne(Project::class,"id","item_id");
-    }
-
-    public function housing(){
-        return $this->hasOne(Housing::class,"id","item_id");
-    }
 }

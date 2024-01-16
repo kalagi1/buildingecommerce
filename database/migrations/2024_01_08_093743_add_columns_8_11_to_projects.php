@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->string("create_company")->after('description')->nullable();
-            $table->string("total_project_area")->after('create_company')->nullable();
-            $table->string("start_date")->after('total_project_area')->nullable();
-            $table->string("project_end_date")->after('start_date')->nullable();
+            // $table->string("create_company")->after('description')->nullable();
+            // $table->string("total_project_area")->after('create_company')->nullable();
+            // $table->string("start_date")->after('total_project_area')->nullable();
+            // $table->string("project_end_date")->after('start_date')->nullable();
         });
     }
 
