@@ -32,7 +32,37 @@ class SharerController extends Controller {
 
         return view( 'institutional.sharer-panel.index', compact( 'items', 'sharer', 'collections' ) );
     }
+    public function earnings() {
+        $user_id = Auth::user()->id;
+    
+        $balanceStatus0Lists = SharerPrice::where("user_id", $user_id)
+        ->where("status", "0")->get();
 
+        $balanceStatus0 = SharerPrice::where("user_id", $user_id)
+            ->where("status", "0")
+            ->sum('balance');
+    
+        $balanceStatus1Lists = SharerPrice::where("user_id", $user_id)
+        ->where("status", "1")->get();
+
+        $balanceStatus1 = SharerPrice::where("user_id", $user_id)
+            ->where("status", "1")
+            ->sum('balance');
+    
+        $balanceStatus2Lists = SharerPrice::where("user_id", $user_id)
+        ->where("status", "2")->get();
+
+        $balanceStatus2 = SharerPrice::where("user_id", $user_id)
+            ->where("status", "2")
+            ->sum('balance');
+
+            $collections = Collection::with("links")->where("user_id",Auth::user()->id)->get();
+            $totalStatus1Count = $balanceStatus1Lists->count();
+            $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
+    
+        return view("institutional.earnings.index", compact("balanceStatus0","successPercentage", "collections","balanceStatus1", "balanceStatus2", "balanceStatus0Lists","balanceStatus1Lists","balanceStatus2Lists"));
+    }
+    
     public function showClientLinks($slug, $id, Request $request)
     {
         $users = User::where("type",21)->get();

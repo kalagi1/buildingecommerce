@@ -686,6 +686,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
     Route::get('/my-collections', [SharerController::class,"index"])->name('sharer.index');
+    Route::get('/my-earnings', [SharerController::class,"earnings"])->name('sharer.earnings');
 Route::get('/my-collections/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
 Route::get('/my-collections/{id}/views', [SharerController::class,"viewsLinks"])->name('sharer.viewsLinks.index');
 
