@@ -94,7 +94,7 @@ class SharerController extends Controller {
                 $collection = Collection::findOrFail($id);
                 $sharer = User::findOrFail(auth()->user()->id);
             
-                $items = ShareLink::where('user_id', auth()->user()->id)->where('collection_id', $collection->id)->get();
+                $items = ShareLink::where('user_id', $institutional->id)->where('collection_id', $collection->id)->get();
                 $itemsArray = $items->map(function ($item) use ($store) {
                     $action = null;
                     $offSale = null;
@@ -150,7 +150,6 @@ class SharerController extends Controller {
                     return array_merge($item, $itemArray);
                 }, $items->toArray(), $itemsArray->toArray());
         
-                return $mergedItems;
                 return view('client.club.show', compact("store", "mergedItems","collections", "slug", 'projects', 'itemsArray', 'sharer', 'collections', 'collection', 'items'));
             }
         }
