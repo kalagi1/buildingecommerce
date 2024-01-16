@@ -104,7 +104,7 @@ class SharerController extends Controller {
                             ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->item_id])
                             ->value('status');
             
-                        $action = $cartStatus !== null ? (
+                        $action = $cartStatus  ? (
                             ($cartStatus == 0) ? 'payment_await' : (
                                 ($cartStatus == 1) ? 'sold' : (
                                     ($cartStatus == 2) ? 'tryBuy' : ''
@@ -126,7 +126,7 @@ class SharerController extends Controller {
                             ->first();
 
                             
-                            $action = $status->status !== null ? (
+                            $action = $status ? (
                             ($status->status == "0") ? 'payment_await' : (
                                 ($status->status == "1") ? 'sold' : (
                                     ($status->status == "2") ? 'tryBuy' : ''
