@@ -327,8 +327,8 @@ class CartController extends Controller {
                                 'image' => asset( 'project_housing_images/' . $image ),
                                 'discount_amount' => $discount_amount,
                                 'share_open' => $projectHousing[ 'Paylaşıma Açık' ]->value,
-                                'share_percent' => $projectHousing[ 'Kar Oranı %' ]->value,
-                                'discount_rate' => $projectHousing[ 'İndirim Oranı %' ]->value
+                                'share_percent' => $projectHousing[ 'Kar Oranı %' ]->value ? $projectHousing[ 'Kar Oranı %' ]->value : 0,
+                                'discount_rate' => $projectHousing[ 'İndirim Oranı %' ]->value ? $projectHousing[ 'İndirim Oranı %' ]->value: 0,
                             ];
                         } else if ( $type == 'housing' ) {
                             if ( $lastClick && $collection ) {
