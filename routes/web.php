@@ -263,6 +263,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::get('/order/approve/{cartOrder}', [AdminHomeController::class, 'approveOrder'])->name('approve-order');
         Route::get('/order/unapprove/{cartOrder}', [AdminHomeController::class, 'unapproveOrder'])->name('unapprove-order');
 
+        Route::get('/share/approve/{share}', [AdminHomeController::class, 'approveShare'])->name('approve-share');
+        Route::get('/share/unapprove/{share}', [AdminHomeController::class, 'unapproveShare'])->name('unapprove-share');
+
 
         Route::get('/reservation/approve/{reservation}', [AdminHomeController::class, 'approveReservation'])->name('approve-reservation');
         Route::get('/reservation/unapprove/{reservation}', [AdminHomeController::class, 'unapproveReservation'])->name('unapprove-reservation');

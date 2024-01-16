@@ -12,6 +12,7 @@ use App\Models\HousingComment;
 use App\Models\Invoice;
 use App\Models\Project;
 use App\Models\Reservation;
+use App\Models\SharerPrice;
 use App\Models\User;
 use App\Models\UserPlan;
 use Illuminate\Support\Facades\Mail;
@@ -35,7 +36,7 @@ class HomeController extends Controller {
     }
 
     public function getOrders() {
-        $cartOrders = CartOrder::with( 'user' )->orderByDesc( 'created_at' )->get();
+        $cartOrders = CartOrder::with( 'user' ,'share')->orderByDesc( 'created_at' )->get();
         return view( 'admin.orders.index', compact( 'cartOrders' ) );
     }
 
@@ -44,6 +45,21 @@ class HomeController extends Controller {
         ->get();
 
         return view( 'admin.reservations.index', compact( 'housingReservations' ) );
+    }
+
+    public function approveShare( $share ) {
+        $sharePrice = SharerPrice::where("id",$share)->first();
+        $sharePrice->update([
+            "status" => "1"
+        ]);
+        return redirect()->back();
+    }
+    public function unapproveShare( $share ) {
+        $sharePrice = SharerPrice::where("id",$share)->first();
+        $sharePrice->update([
+            "status" => "2"
+        ]);
+        return redirect()->back();
     }
 
     public function approveOrder( CartOrder $cartOrder ) {

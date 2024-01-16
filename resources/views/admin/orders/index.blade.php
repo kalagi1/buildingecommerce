@@ -89,7 +89,26 @@
                                                     {{ App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->title ?? null }}
                                                 @endif
                                             </td>
-                                            <td class="order_amount">{{ $order->amount }}</td>
+                                            <td class="order_amount">{{ $order->amount }} <br>
+                                                @if (isset($order->share))
+                                                    @if ($order->share->status == 0)
+                                                    <strong style="color: orange">
+                                                        <span>Komisyon: </span><br>
+                                                        {{ number_format( $order->share->balance, 2, ',', '.') }} ₺
+                                                    </strong>
+                                                    @elseif ($order->share->status == 2)
+                                                    <strong style="color: red">
+                                                        <span>Komisyon Reddedildi: </span><br>
+                                                        {{ number_format( $order->share->balance, 2, ',', '.') }} ₺
+                                                    </strong>
+                                                    @else
+                                                    <strong style="color: green">
+                                                        <span>Komisyon: </span><br>
+                                                        {{ number_format( $order->share->balance, 2, ',', '.') }} ₺
+                                                    </strong>
+                                                    @endif
+                                                @endif
+                                            </td>
                                             <td class="order_date">{{ $order->created_at }}</td>
                                             <td class="order_status">{!! [
                                                 '0' => '<span class="text-warning">Rezerve Edildi</span>',
@@ -106,6 +125,16 @@
                                                 @else
                                                     <a href="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}"
                                                         class="btn btn-danger">Reddet</a>
+                                                @endif
+
+                                                @if (isset($order->share))
+                                                    @if ($order->share->status == 0 || $order->share->status == 2)
+                                                        <a href="{{ route('admin.approve-share', ['share' => $order->share->id]) }}"
+                                                            class="btn btn-success">Emlak Kulüp Komisyonu Onayla</a>
+                                                    @else
+                                                        <a href="{{ route('admin.unapprove-share', ['share' => $order->share->id]) }}"
+                                                            class="btn btn-danger">Emlak Kulüp Komisyonu Reddet</a>
+                                                    @endif
                                                 @endif
                                             </td>
                                         </tr>

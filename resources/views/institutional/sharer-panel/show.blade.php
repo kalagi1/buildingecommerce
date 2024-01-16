@@ -134,6 +134,11 @@
                                                         <span>Komisyon Kazancınız:</span><br>
                                                         {{ number_format($item['share_price']['balance'], 2, ',', '.') }} ₺
                                                     </strong>
+                                                    @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '2')
+                                                    <strong style="color: red">
+                                                        <span>Komisyon Kazancınız Reddedildi:</span><br>
+                                                        {{ number_format($item['share_price']['balance'], 2, ',', '.') }} ₺
+                                                    </strong>
                                                 @else
                                                     -
                                                 @endif

@@ -16,6 +16,11 @@ class CartOrder extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function share()
+    {
+        return $this->belongsTo(SharerPrice::class, 'id', 'cart_id');
+    }
+
     public function bank()
     {
         return $this->belongsTo(BankAccount::class, 'bank_id');
