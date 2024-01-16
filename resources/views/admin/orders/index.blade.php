@@ -54,9 +54,7 @@
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_status">Durum</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_user">Alıcı</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_seller">Satıcı</th>
+                                        data-sort="order_user">Alıcı / Satıcı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_details">Onay</th>
                                 </tr>
@@ -115,10 +113,11 @@
                                                 '1' => '<span class="text-success">Ödeme Onaylandı</span>',
                                                 '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
                                             ][$order->status] !!}</td>
-                                            <td class="order_user">{{ $order->user->email }}</td>
-                                            <td class="order_seller">{{ $project->user->email ?? $housing->user->email }}
+                                            <td class="order_user">
+                                                <span>Alıcı: {{ $order->user->email }}</span> <br>
+                                                <span>Satıcı: {{ $project->user->email ?? $housing->user->email }}</span>
                                             </td>
-                                            <td class="order_details">
+                                            <td class="order_details" >
                                                 @if ($order->status == 0 || $order->status == 2)
                                                     <a href="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}"
                                                         class="btn btn-success">Onayla</a>
