@@ -14,6 +14,7 @@ use App\Models\Offer;
 use App\Models\Project;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 
@@ -142,15 +143,17 @@ class SharerController extends Controller {
             if ($item->item_type == 2) {
                 $cartStatus = CartOrder::whereRaw("JSON_UNQUOTE(json_extract(cart, '$.type')) = 'housing'")
                     ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->item_id])
-                    ->value('status');
+                    ->first();
     
-                $action = $cartStatus !== null ? (
-                    ($cartStatus == 0) ? 'payment_await' : (
-                        ($cartStatus == 1) ? 'sold' : (
-                            ($cartStatus == 2) ? 'tryBuy' : ''
+                $action = $cartStatus->status !== null ? (
+                    ($cartStatus->status == 0) ? 'payment_await' : (
+                        ($cartStatus->status == 1) ? 'sold' : (
+                            ($cartStatus->status == 2) ? 'tryBuy' : ''
                         )
                     )
                 ) : 'noCart';
+                $sharePrice = SharerPrice::where("cart_id", $cartStatus->id)->where("user_id", Auth::user()->id)->first();
+
                 $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->item_id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
                 $housingTypeData = json_decode($item->housing->housing_type_data, true);
                 $offSale = isset($housingTypeData['off_sale1']);
@@ -165,6 +168,9 @@ class SharerController extends Controller {
                 $status = CartOrder::where(DB::raw('JSON_EXTRACT(cart, "$.item.housing")'), $item->room_order)
                 ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
                 ->first();
+
+
+              $sharePrice = SharerPrice::where("cart_id", $status->id)->where("user_id", Auth::user()->id)->first();
 
                 
                 $action = $status->status !== null ? (
@@ -182,7 +188,8 @@ class SharerController extends Controller {
                 'project' => $item->project,
                 'action' => $action,
                 'offSale' => $offSale,
-                'discount_amount' => $discount_amount
+                'discount_amount' => $discount_amount,
+                "share_price" => $sharePrice
             ];
         });
 

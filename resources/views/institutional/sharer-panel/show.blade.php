@@ -11,13 +11,13 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>İlan No</th>
-                                    <th>Kapak Fotoğrafı</th>
-                                    <th>İlan Başlığı</th>
-                                    <th>Fiyat</th>
-                                    <th>Kazanç</th>
+                                    <th style="width: 10%">İlan No</th>
+                                    <th style="width: 10%">Kapak Fotoğrafı</th>
+                                    <th style="width: 35%">İlan Başlığı</th>
+                                    <th style="width: 10%">Fiyat</th>
+                                    <th style="width: 15%">Kazanç</th>
 
-                                    <th></th>
+                                    <th style="width: 10%"></th>
                                 </tr>
                             </thead>
                             <tbody class="collection-title">
@@ -57,7 +57,7 @@
                                                 )
                                                     @php
                                                         $discountRate = json_decode($item['housing']['housing_type_data'])->{'discount_rate'}[0];
-                                                        $discountedPrice = (json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount']) - ((json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount']) * $discountRate) / 100;
+                                                        $discountedPrice = json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'] - ((json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount']) * $discountRate) / 100;
                                                     @endphp
                                                 @elseif (
                                                     $item['item_type'] == 1 &&
@@ -66,7 +66,7 @@
                                                 )
                                                     @php
                                                         $discountRate = $item['project_values']['discount_rate[]'];
-                                                        $discountedPrice = ($item['project_values']['price[]'] - $item['discount_amount']) - (($item['project_values']['price[]'] - $item['discount_amount']) * $discountRate) / 100;
+                                                        $discountedPrice = $item['project_values']['price[]'] - $item['discount_amount'] - (($item['project_values']['price[]'] - $item['discount_amount']) * $discountRate) / 100;
                                                     @endphp
                                                 @endif
 
@@ -124,14 +124,24 @@
                                                     </strong>
                                                 @endif
                                             @else
-                                                <strong style="color: #e54242">
+                                                @if (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0')
+                                                    <strong style="color: orange">
+                                                        <span>Komisyon Onayınız Bekleniyor:</span><br>
+                                                        {{ number_format($item['share_price']['balance'], 2, ',', '.') }} ₺
+                                                    </strong>
+                                                @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '1')
+                                                    <strong style="color: green">
+                                                        <span>Komisyon Kazancınız:</span><br>
+                                                        {{ number_format($item['share_price']['balance'], 2, ',', '.') }} ₺
+                                                    </strong>
+                                                @else
                                                     -
-                                                </strong>
+                                                @endif
                                             @endif
                                         </td>
 
                                         <td>
-                                            <button class="btn btn-info remove-from-collection"
+                                            <button class="btn btn-info remove-from-collection" style="float: right"
                                                 data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
                                                 data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
                                                 @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
@@ -152,7 +162,7 @@
                                                         Numaralı İlan İçin:
                                                         Bu satıştan
                                                         %{{ json_decode($item['housing']['housing_type_data'])->{'share-percent'}[0] }}
-                                                        oranında kazanç elde edeceksiniz. 
+                                                        oranında kazanç elde edeceksiniz.
                                                         <strong>Link aracılığıyla satın alan emlak sepette üyelerine
 
                                                             %{{ json_decode($item['housing']['housing_type_data'])->discount_rate[0] }}
