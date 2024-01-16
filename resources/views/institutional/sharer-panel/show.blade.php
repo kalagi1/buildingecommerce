@@ -17,7 +17,7 @@
                                     <th style="width: 10%">Fiyat</th>
                                     <th style="width: 15%">Kazanç</th>
 
-                                    <th style="width: 10%"></th>
+                                    <th style="width: 5%" ></th>
                                 </tr>
                             </thead>
                             <tbody class="collection-title">
