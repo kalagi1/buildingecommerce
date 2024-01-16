@@ -150,6 +150,7 @@ class SharerController extends Controller {
                     return array_merge($item, $itemArray);
                 }, $items->toArray(), $itemsArray->toArray());
         
+                return $mergedItems;
                 return view('client.club.show', compact("store", "mergedItems","collections", "slug", 'projects', 'itemsArray', 'sharer', 'collections', 'collection', 'items'));
             }
         }

@@ -262,7 +262,6 @@
 
                                                 </td>
                                             </tr>
-                                            {{$item['action']}}
                                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                                 @if (
                                                     ($item['item_type'] == 2 &&
