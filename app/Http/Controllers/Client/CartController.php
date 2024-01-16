@@ -49,7 +49,7 @@ class CartController extends Controller {
         $order->user_id = auth()->user()->id;
         $order->bank_id = $request->input( 'banka_id' );
         $amountWithoutDiscount = floatval( str_replace( '.', '', $cartJson[ 'item' ][ 'price' ] - $cartJson[ 'item' ][ 'discount_amount' ] ) );
-        $discountRate = floatval( $cartJson[ 'item' ][ 'discount_rate' ] );
+        $discountRate = floatval( $cartJson[ 'item' ][ 'discount_rate' ] ?? 0 );
         $amount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $discountRate / 100 ) );
         $amount = number_format( $amount * 0.01, 2, ',', '.' );
         $order->amount = $amount;
