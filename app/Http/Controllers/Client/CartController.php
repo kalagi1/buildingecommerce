@@ -317,6 +317,7 @@ class CartController extends Controller {
                             }
                             $price = $projectHousing[ 'Peşin Fiyat' ]->value ?$projectHousing[ 'Peşin Fiyat' ]->value :$projectHousing[ 'Fiyat' ]->value;
                             $image = $projectHousing[ 'Kapak Resmi' ]->value;
+
                             $cartItem = [
                                 'id' => $project->id,
                                 'housing' => $id,
@@ -327,8 +328,8 @@ class CartController extends Controller {
                                 'image' => asset( 'project_housing_images/' . $image ),
                                 'discount_amount' => $discount_amount,
                                 'share_open' => $projectHousing[ 'Paylaşıma Açık' ]->value,
-                                'share_percent' => $projectHousing[ 'Kar Oranı %' ]->value ? $projectHousing[ 'Kar Oranı %' ]->value : 0,
-                                'discount_rate' => $projectHousing[ 'İndirim Oranı %' ]->value ? $projectHousing[ 'İndirim Oranı %' ]->value: 0,
+                                'share_percent' => $projectHousing[ 'Kar Oranı %' ]->value ?? 0,
+                                'discount_rate' => $projectHousing['İndirim Oranı %'] ?? 0,
                             ];
                         } else if ( $type == 'housing' ) {
                             if ( $lastClick && $collection ) {
