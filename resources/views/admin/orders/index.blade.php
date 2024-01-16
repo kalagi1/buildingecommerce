@@ -77,7 +77,7 @@
                                                         style="object-fit: cover;width:100px;height:75px" alt="Görsel">
                                                 @endif
                                             </td>
-                                            <td class="order_project">
+                                            <td class="order_project" style="width:150px">
                                                 @if ($o->type == 'project')
                                                     <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
                                                         {{ json_decode($order->cart)->item->housing }} {{ "No'lu" }}
