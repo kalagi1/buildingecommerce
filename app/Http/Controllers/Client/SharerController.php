@@ -102,15 +102,16 @@ class SharerController extends Controller {
                     if ($item->item_type == 2) {
                         $cartStatus = CartOrder::whereRaw("JSON_UNQUOTE(json_extract(cart, '$.type')) = 'housing'")
                             ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->item_id])
-                            ->value('status');
+                            ->first();
             
-                        $action = $cartStatus  ? (
-                            ($cartStatus == 0) ? 'payment_await' : (
-                                ($cartStatus == 1) ? 'sold' : (
-                                    ($cartStatus == 2) ? 'tryBuy' : ''
+                        $action = $cartStatus ? (
+                            ($cartStatus->status == "0") ? 'payment_await' : (
+                                ($cartStatus->status == "1") ? 'sold' : (
+                                    ($cartStatus->status == "2") ? 'tryBuy' : ''
                                 )
                             )
                         ) : 'noCart';
+
                         $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->item_id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
                         $housingTypeData = json_decode($item->housing->housing_type_data, true);
                         $offSale = isset($housingTypeData['off_sale1']);
@@ -148,7 +149,6 @@ class SharerController extends Controller {
                 $mergedItems = array_map(function($item, $itemArray) {
                     return array_merge($item, $itemArray);
                 }, $items->toArray(), $itemsArray->toArray());
-
         
                 return view('client.club.show', compact("store", "mergedItems","collections", "slug", 'projects', 'itemsArray', 'sharer', 'collections', 'collection', 'items'));
             }
@@ -175,14 +175,19 @@ class SharerController extends Controller {
                     ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->item_id])
                     ->first();
     
-                $action = $cartStatus->status !== null ? (
+                $action = $cartStatus ? (
                     ($cartStatus->status == 0) ? 'payment_await' : (
                         ($cartStatus->status == 1) ? 'sold' : (
                             ($cartStatus->status == 2) ? 'tryBuy' : ''
                         )
                     )
                 ) : 'noCart';
-                $sharePrice = SharerPrice::where("cart_id", $cartStatus->id)->where("user_id", Auth::user()->id)->first();
+
+                $sharePrice = 0;
+                if ($cartStatus) {
+                    $sharePrice = SharerPrice::where("cart_id", $cartStatus->id)->where("user_id", Auth::user()->id)->first();
+
+                }
 
                 $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->item_id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
                 $housingTypeData = json_decode($item->housing->housing_type_data, true);
@@ -199,11 +204,13 @@ class SharerController extends Controller {
                 ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
                 ->first();
 
+                $sharePrice = 0;
+                if ($status) {
+                    $sharePrice = SharerPrice::where("cart_id", $status->id)->where("user_id", Auth::user()->id)->first();
 
-              $sharePrice = SharerPrice::where("cart_id", $status->id)->where("user_id", Auth::user()->id)->first();
+                }
 
-                
-                $action = $status->status !== null ? (
+                $action = $status ? (
                 ($status->status == "0") ? 'payment_await' : (
                     ($status->status == "1") ? 'sold' : (
                         ($status->status == "2") ? 'tryBuy' : ''
