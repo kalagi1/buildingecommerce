@@ -22,7 +22,7 @@
         "id": "housing",
         "label": "EMLAK SEPETTE",
         "icon": "plus",
-        "text": "Konut İlanları",
+        "text": "Emlak İlanları",
         "key": "Housings",
         "url": "admin.housings.index",
         "activePath": "admin/housing"

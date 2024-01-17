@@ -527,7 +527,7 @@
                 @foreach ($secondhandHousings as $housing)
                     @php($sold = $housing->sold)
                    
-
+                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                     @if (($sold && $sold != '1') || !$sold)
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
@@ -777,6 +777,8 @@
                         </div>
                         <hr>
                     @endif
+                    @endif
+
                 @endforeach
             </div>
 
