@@ -521,9 +521,9 @@
                                         <div class="col-md-8 col-8">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                 <button class="btn second-btn "
-                                                    style="background: #EA2B2E !important;width:100%;color:White;height:100% !important">
+                                                    style="background: #EA2B2E !important;width:100%;color:White">
 
-                                                    <span class="text">Satıldı</span>
+                                                    <span class="text">Satışa Kapatıldı</span>
                                                 </button>
                                             @else
                                                 @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
@@ -638,7 +638,7 @@
                                                     <td>
                                                         <span> İlan No :</span>
                                                         <span class="det">
-                                                            #{{ $housing->id + 2000000 }}
+                                                            {{ $housing->id + 2000000 }}
                                                         </span>
                                                     </td>
                                                 </tr>

@@ -698,7 +698,7 @@
                                                     <button class="btn second-btn  mobileCBtn"
                                                         style="background: #EA2B2E !important;width:100%;color:White">
 
-                                                        <span class="text">Satıldı</span>
+                                                        <span class="text">Satışa Kapatıldı</span>
                                                     </button>
                                                 @else
                                                     @if ($sold != null && $sold != '2')
@@ -918,8 +918,6 @@
                                                         <div class="project-inner project-head">
                                                             <div class="homes">
                                                                 <div class="homes-img">
-                                                                    <div class="homes-tag button alt featured">Sponsorlu
-                                                                    </div>
                                                                     <div class="type-tag button alt featured">
                                                                         @if ($housing->step2_slug == 'kiralik')
                                                                             Kiralık
@@ -1124,7 +1122,7 @@
                                                                     <button class="btn second-btn "
                                                                         style="background: #EA2B2E !important;width:100%;color:White">
 
-                                                                        <span class="text">Satıldı</span>
+                                                                        <span class="text">Satışa Kapatıldı</span>
                                                                     </button>
                                                                 @else
                                                                     @if ($sold != null && $sold != '2')

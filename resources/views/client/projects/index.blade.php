@@ -546,7 +546,7 @@
                                                 <td>
                                                     <span class="mr-1">İlan No:</span>
                                                     <span class="det" style="color: black;">
-                                                        #{{ $project->id + 10000000 }}
+                                                        {{ $project->id + 10000000 }}
                                                     </span>
                                                 </td>
                                             </tr>

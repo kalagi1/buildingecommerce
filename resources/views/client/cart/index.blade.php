@@ -57,8 +57,8 @@
                                                     href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug, 'id' => $cart['item']['housing']]) }}">
                                                     <h2 style="font-weight: 600;text-align: left !important">
                                                         {{ $cart['type'] == 'housing'
-                                                            ? 'İlan No: #' . $cart['item']['id'] + 2000000
-                                                            : 'İlan No: #' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
+                                                            ? 'İlan No: ' . $cart['item']['id'] + 2000000
+                                                            : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
                                                         <br>
 
                                                         {{ $cart['item']['title'] }}

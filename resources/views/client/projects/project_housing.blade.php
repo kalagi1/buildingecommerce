@@ -470,7 +470,7 @@
                                                 <td>
                                                     İlan No:
                                                     <span class="det">
-                                                        #{{ $housingOrder + $project->id + 1000000 }}
+                                                        {{ $housingOrder + $project->id + 1000000 }}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -582,7 +582,7 @@
                                                 <td>
                                                     <span class="mr-1">İlan No:</span>
                                                     <span class="det" style="color: black;">
-                                                        #{{ $housingOrder + $project->id + 1000000 }}
+                                                        {{ $housingOrder + $project->id + 1000000 }}
                                                     </span>
                                                 </td>
                                             </tr>
