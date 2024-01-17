@@ -17,7 +17,7 @@
                                     <th style="width: 10%">Fiyat</th>
                                     <th style="width: 15%">Kazanç</th>
 
-                                    <th style="width: 5%" ></th>
+                                    <th style="width: 5%"></th>
                                 </tr>
                             </thead>
                             <tbody class="collection-title">
@@ -96,48 +96,41 @@
                                         </td>
                                         <td>
                                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                                                @if (
-                                                    ($item['item_type'] == 2 &&
-                                                        isset(json_decode($item['housing']['housing_type_data'])->{'share-percent'}[0]) &&
-                                                        json_decode($item['housing']['housing_type_data'])->{'share-percent'}[0] != 0) ||
-                                                        null)
+                                                @if ($item['item_type'] == 2)
                                                     @php
-                                                        $sharePercent = json_decode($item['housing']['housing_type_data'])->{'share-percent'}[0];
+                                                        $sharePercent = 0.5;
                                                         $discountedPrice = isset($discountedPrice) ? $discountedPrice : json_decode($item['housing']['housing_type_data'])->price[0];
-                                                        $earningAmount = ($discountedPrice * $sharePercent) / 100;
+                                                        $earningAmount = number_format($discountedPrice * 0.02, 0, ',', '.') * $sharePercent;
                                                     @endphp
                                                     <strong style="color: #e54242">
-                                                        {{ number_format($earningAmount, 2, ',', '.') }} ₺
+
+                                                        {{ $earningAmount }} ₺
                                                     </strong>
-                                                @elseif (
-                                                    ($item['item_type'] == 1 &&
-                                                        isset($item['project_values']['share-percent[]']) &&
-                                                        $item['project_values']['share-percent[]'] != 0) ||
-                                                        null)
+                                                @elseif ($item['item_type'] == 1)
                                                     @php
-                                                        $sharePercent = $item['project_values']['share-percent[]'];
+                                                        $sharePercent = 0.5;
                                                         $discountedPrice = isset($discountedPrice) ? $discountedPrice : $item['project_values']['price[]'];
-                                                        $earningAmount = ($discountedPrice * $sharePercent) / 100;
+                                                        $earningAmount = number_format($discountedPrice * 0.02, 0, ',', '.') * $sharePercent;
                                                     @endphp
                                                     <strong style="color: #e54242">
-                                                        {{ number_format($earningAmount, 2, ',', '.') }} ₺
+                                                        {{ $earningAmount }} ₺
                                                     </strong>
                                                 @endif
                                             @else
                                                 @if (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0')
                                                     <strong style="color: orange">
                                                         <span>Komisyon Onayınız Bekleniyor:</span><br>
-                                                        {{ number_format($item['share_price']['balance'], 2, ',', '.') }} ₺
+                                                        {{ $item['share_price']['balance'] }} ₺
                                                     </strong>
                                                 @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '1')
                                                     <strong style="color: green">
                                                         <span>Komisyon Kazancınız:</span><br>
-                                                        {{ number_format($item['share_price']['balance'], 2, ',', '.') }} ₺
+                                                        {{ $item['share_price']['balance'] }} ₺
                                                     </strong>
-                                                    @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '2')
+                                                @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '2')
                                                     <strong style="color: red">
                                                         <span>Komisyon Kazancınız Reddedildi:</span><br>
-                                                        {{ number_format($item['share_price']['balance'], 2, ',', '.') }} ₺
+                                                        {{ $item['share_price']['balance'] }} ₺
                                                     </strong>
                                                 @else
                                                     -
@@ -150,23 +143,26 @@
                                                 data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
                                                 data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
                                                 @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
-                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                    stroke-width="2" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round" class="css-i6dzq1">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path
+                                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                    </path>
+                                                </svg>
                                             </button>
                                         </td>
                                     </tr>
                                     @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                                        @if (
-                                            ($item['item_type'] == 2 &&
-                                                isset(json_decode($item['housing']['housing_type_data'])->{'share-percent'}[0]) &&
-                                                json_decode($item['housing']['housing_type_data'])->{'share-percent'}[0] != 0) ||
-                                                null)
+                                        @if ($item['item_type'] == 2)
                                             <tr style="background-color: #8080802e">
                                                 <td colspan="6">
                                                     <span style="color: #e54242">
                                                         #{{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
                                                         Numaralı İlan İçin:
-                                                        Bu satıştan
-                                                        %{{ json_decode($item['housing']['housing_type_data'])->{'share-percent'}[0] }}
+                                                        Bu satıştan kaporanın
+                                                        %50'si
                                                         oranında kazanç elde edeceksiniz.
                                                         <strong>Link aracılığıyla satın alan emlak sepette üyelerine
 
@@ -185,8 +181,8 @@
                                                     <span style="color: #e54242">
                                                         #{{ $item['project']->id + 10000000 }}
                                                         Numaralı İlan İçin:
-                                                        Bu satıştan
-                                                        %{{ $item['project_values']['share-percent[]'] }}
+                                                        Bu satıştan kaporanın
+                                                        %50'si
                                                         oranında kazanç elde edeceksiniz.
                                                         <strong>Link aracılığıyla satın alan emlak sepette üyelerine
                                                             %{{ $item['project_values']['discount_rate[]'] }}

@@ -105,7 +105,7 @@
                                             <span>
                                                 Fiyat:
                                                 <b class="text-red">
-                                                    {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.01, 0, ',', '.') }}
+                                                    {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.02, 0, ',', '.') }}
                                                     ₺
                                                 </b>
                                             </span>

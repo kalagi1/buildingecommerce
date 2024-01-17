@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sharer_prices', function (Blueprint $table) {
-            $table->enum("status",["0","1"])->nullable()->default(0);
+            $table->string("earn2")->nullable();
         });
     }
 
@@ -21,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('share_prices', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sharer_prices', function (Blueprint $table) {
-             $table->unsignedBigInteger('cart_id');
+            $table->string("earn")->nullable();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('sharer_prices', function (Blueprint $table) {
+        Schema::table('share_prices', function (Blueprint $table) {
             //
         });
     }
