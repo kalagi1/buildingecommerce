@@ -513,10 +513,15 @@
     <!-- START SECTION RECENTLY PROPERTIES -->
     <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="featured-heads">
                 <div class="section-title">
                     <h2>Emlak İlanları</h2>
                 </div>
+                <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 12px;">
+                    <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
+                        Tümünü Gör
+                    </button>
+                </a>
             </div>
             <div class="mobile-show">
                 @foreach ($secondhandHousings as $housing)

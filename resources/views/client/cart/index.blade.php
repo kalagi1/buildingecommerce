@@ -129,27 +129,7 @@
                                                     class="far fa-trash-alt"></i></a>
                                         </td>
                                     </tr>
-                                    @if ($cart['hasCounter'])
-                                        <tr>
-                                            <td colspan="4" style="padding: 0;text-align: left !important;color:green">
-
-                                                Emlak Kulüp üyesi
-                                                tarafından paylaşılan link aracılığıyla
-                                                %{{ $discountRate }}
-                                                indirim uygulanacaktır.
-
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    @if ($housingDiscountAmount || $projectDiscountAmount)
-                                        <tr>
-                                            <td colspan="4" style="padding: 0;text-align: left !important;color:green">
-                                                Mağaza yöneticisi bu ilan için
-                                                {{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }}
-                                                ₺ indirim uygulamıştır.
-                                            </td>
-                                        </tr>
-                                    @endif
+                                  
 
 
                                 @endif
@@ -179,6 +159,36 @@
                                         <li>Toplam Fiyatın %1 Kaporası :<strong
                                                 class="pull-right">{{ number_format($discountedPrice * 0.01, 0, ',', '.') }}
                                                 TL</strong></li>
+                                                @if ($cart['hasCounter'])
+                                                @if ($housingDiscountAmount || $projectDiscountAmount)
+                                                <li style="color:red">Mağaza İndirimi :<strong class="pull-right">
+                                                        <svg viewBox="0 0 24 24" width="18" height="18"
+                                                            stroke="currentColor" stroke-width="2" fill="none"
+                                                            stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                                        </svg>
+                                                        <span
+                                                            style="margin-left: 2px">{{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }}
+                                                            ₺ </span></strong></li>
+                                            @endif
+    
+                                            @if ($discountRate)
+                                                <li style="color:red">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
+                                                        <svg viewBox="0 0 24 24" width="18" height="18"
+                                                            stroke="currentColor" stroke-width="2" fill="none"
+                                                            stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                                        </svg>
+                                                        <span style="margin-left: 2px">{{ $discountRate }}
+                                                            % </span></strong></li>
+                                            @endif
+                                                    
+                                                @endif
+                                      
+
+
                                     </ul>
                                 @endif
                             </div>

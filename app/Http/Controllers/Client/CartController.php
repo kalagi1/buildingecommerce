@@ -329,7 +329,7 @@ class CartController extends Controller {
                                 'discount_amount' => $discount_amount,
                                 'share_open' => $projectHousing[ 'Paylaşıma Açık' ]->value,
                                 'share_percent' => $projectHousing[ 'Kar Oranı %' ]->value ?? 0,
-                                'discount_rate' => $projectHousing['İndirim Oranı %'] ?? 0,
+                                'discount_rate' => $projectHousing[ 'İndirim Oranı %' ] ?? 0,
                             ];
                         } else if ( $type == 'housing' ) {
                             if ( $lastClick && $collection ) {
@@ -342,7 +342,6 @@ class CartController extends Controller {
                             $discount_amount = Offer::where( 'type', 'housing' )->where( 'housing_id', $id )->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
                             $housing = Housing::find( $id );
                             $housingData = json_decode( $housing->housing_type_data );
-
                             $cartItem = [
                                 'id' => $housing->id,
                                 'city' => $housing->city[ 'title' ],
@@ -351,15 +350,9 @@ class CartController extends Controller {
                                 'price' => $housingData->price[ 0 ],
                                 'image' => asset( 'housing_images/' . $housingData->images[ 0 ] ),
                                 'discount_amount' => $discount_amount,
-                                'share_open' => $housingData-> {
-                                    'share-open'}
-                                    [ 0 ],
-                                    'share_percent' => $housingData-> {
-                                        'share-percent'}
-                                        [ 0 ],
-                                        'discount_rate' => $housingData-> {
-                                            'discount_rate'}
-                                            [ 0 ]
+                                'share_open' => $housingData-> {'share-open'}[ 0 ] ?? null,
+                                    'share_percent' => $housingData-> {'share-percent'}[ 0 ] ?? 0,
+                                        'discount_rate' => $housingData-> {'discount_rate'}[ 0 ] ?? 0
                                         ];
 
                                     }

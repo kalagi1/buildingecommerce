@@ -1169,7 +1169,7 @@
 
                                 toastr.error("Ürün Sepetten Kaldırılıyor.");
                                 button.classList.remove("bg-success");
-                                location.reload();
+                                // location.reload();
 
                             },
                             error: function(error) {
