@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\BankAccount;
 use App\Models\CartOrder;
+use App\Models\CartPrice;
 use App\Models\Click;
 use App\Models\Collection;
 use App\Models\DocumentNotification;
@@ -42,7 +43,6 @@ class CartController extends Controller {
                 }
             }
         }
-
 
         $cartJson = $request->session()->get( 'cart' ) ;
         $order = new CartOrder;
@@ -87,28 +87,55 @@ class CartController extends Controller {
                 'share-open'}
                 : null;
 
-                if ( $shareOpen && $lastClick ) {
-                    $collection = Collection::where( 'id', $lastClick->collection_id )->first();
-                    $newAmount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $discountRate / 100 ) );
-                    $share_percent = 0.25;
-                    $share_percent2 = 0.75;
-
-                    $sharedAmount = number_format($newAmount * 0.02, 0, ',', '.') * $share_percent;
-                    $sharedAmount2 = number_format($newAmount * 0.02, 0, ',', '.') * $share_percent2;
-
-                    $balance = $sharedAmount / 2;
-                    $earn = $sharedAmount / 2;
-                    SharerPrice::create( [
+                if ($shareOpen && $lastClick) {
+                    $collection = Collection::where('id', $lastClick->collection_id)->first();
+                    $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                    $share_percent_balance = 0.25;
+                    $share_percent_earn = 0.75;
+                
+                    $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
+                    $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
+                
+                    SharerPrice::create([
                         'collection_id' => $lastClick->collection_id,
                         'user_id' => $collection->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'balance' => $balance ,
-                        'earn' => $earn ,
-                        'earn2' => $sharedAmount2 ,
-
-                    ] );
+                        'balance' => number_format($sharedAmount_balance, 0, ',', '.'),
+                        'earn' => number_format($sharedAmount_earn, 0, ',', '.'),
+                    ]);
+                } elseif (!$lastClick) {
+                    $newAmount = $amountWithoutDiscount;
+                    $share_percent_balance = 0.25;
+                    $share_percent_earn = 0.75;
+                
+                    $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
+                    $sharedAmount_earn =$newAmount * 0.02 * $share_percent_earn;
+                
+                    CartPrice::create([
+                        'user_id' => $order->user_id,
+                        'cart_id' => $order->id,
+                        'status' => '0',
+                        'earn' => number_format($sharedAmount_balance, 0, ',', '.'),
+                        'earn2' => number_format($sharedAmount_earn, 0, ',', '.'),
+                    ]);
+                } else {
+                    $newAmount = $amountWithoutDiscount;
+                    $share_percent_balance = 0.25;
+                    $share_percent_earn = 0.75;
+                
+                    $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
+                    $sharedAmount_earn =$newAmount * 0.02 * $share_percent_earn;
+                
+                    CartPrice::create([
+                        'user_id' => $order->user_id,
+                        'cart_id' => $order->id,
+                        'status' => '0',
+                        'earn' => number_format($sharedAmount_balance, 0, ',', '.'),
+                        'earn2' => number_format($sharedAmount_earn, 0, ',', '.'),
+                    ]);
                 }
+                
             } else {
                 $project = Project::where( 'id', $productDetails->id )
                 ->with( 'brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images' )
@@ -135,6 +162,29 @@ class CartController extends Controller {
                         'balance' => ( number_format( $newAmount * 0.02, 0, ',', '.' ) * $share_percent ) ,
                         'earn' => ( number_format( $newAmount * 0.02, 0, ',', '.' ) * $share_percent ) ,
                         'earn2' =>0 ,
+
+                    ] );
+                } else if ( !$lastClick ) {
+                    $newAmount = $amountWithoutDiscount;
+                  
+                    CartPrice::create( [
+                        'user_id' => $order->user_id,
+                        'cart_id' => $order->id,
+                        'status' => '0',
+                        'earn' => ( number_format( $newAmount * 0.02, 0, ',', '.' ) ) ,
+                        'earn2' => 0 ,
+
+                    ] );
+
+                }else{
+                    $newAmount = $amountWithoutDiscount;
+                  
+                    CartPrice::create( [
+                        'user_id' => $order->user_id,
+                        'cart_id' => $order->id,
+                        'status' => '0',
+                        'earn' => ( number_format( $newAmount * 0.02, 0, ',', '.' ) ) ,
+                        'earn2' => 0 ,
 
                     ] );
                 }
@@ -335,7 +385,7 @@ class CartController extends Controller {
                                 }
                             }
                         }
-                        $price = $projectHousing[ 'Peşin Fiyat' ]->value ?$projectHousing[ 'Peşin Fiyat' ]->value :$projectHousing[ 'Fiyat' ]->value;
+                        $price = isset($projectHousing[ 'Peşin Fiyat' ]->value) ? $projectHousing[ 'Peşin Fiyat' ]->value :$projectHousing[ 'Fiyat' ]->value;
                         $image = $projectHousing[ 'Kapak Resmi' ]->value;
 
                         $cartItem = [
@@ -347,7 +397,7 @@ class CartController extends Controller {
                             'price' => $price,
                             'image' => asset( 'project_housing_images/' . $image ),
                             'discount_amount' => $discount_amount,
-                            'share_open' => $projectHousing[ 'Paylaşıma Açık' ]->value,
+                            'share_open' => $projectHousing[ 'Paylaşıma Açık' ]->value ?? false,
                             'share_percent' =>  0.5,
                             'discount_rate' => $projectHousing[ 'İndirim Oranı %' ]->value ?? 0,
                         ];

@@ -161,7 +161,7 @@
                                         @endif
 
 
-                                        @if ($discountRate || $cart['hasCounter'])
+                                        @if (isset($discountRate) || $cart['hasCounter'])
                                             <li style="color:red">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
                                                         stroke="currentColor" stroke-width="2" fill="none"
