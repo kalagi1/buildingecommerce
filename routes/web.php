@@ -206,8 +206,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::get('/messages', [UserController::class, 'messages'])->name('messages');
     Route::post('/messages/store', [SupportChatController::class, 'adminStore'])->name('messages.store');
     Route::post('/upload-endpoint', [UserController::class, "upload"])->name("ckeditor.upload");
-
+    
     Route::get('/notification-history', [InfoController::class, 'notificationHistory'])->name('notification-history');
+    Route::get('/accounting', [InfoController::class, 'accounting'])->name('accounting');
 
     Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
     Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');

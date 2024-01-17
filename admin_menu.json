@@ -8,6 +8,15 @@
         "url": "admin.index",
         "activePath": "admin/"
     },
+    {
+        "id": "home",
+        "label": "EMLAK SEPETTE",
+        "icon": "dollar-sign",
+        "text": "Muhasabe",
+        "key": "ViewAccounting",
+        "url": "admin.accounting",
+        "activePath": "admin/accounting"
+    },
     
     {
         "id": "projects",
