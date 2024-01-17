@@ -151,6 +151,8 @@
                                 @endphp
                                 <div class="detail-wrapper-body">
                                     <div class="listing-title-bar pb-3">
+                                        <strong>İlan No: {{ $housing->id + 2000000 }}
+                                        </strong>
                                         <h3>
                                             @if ($status && $status != '0' && $status != '1')
                                                 @include('client.layouts.partials.housing_title', [

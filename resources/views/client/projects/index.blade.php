@@ -138,6 +138,7 @@
 
                             <div class="detail-wrapper-body">
                                 <div class="listing-title-bar">
+                                    <strong>İlan No: {{ $project->id + 10000000 }}</strong>
                                     <h3>{{ $project->project_title }}</h3>
                                 </div>
                             </div>
