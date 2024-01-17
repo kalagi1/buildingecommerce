@@ -73,6 +73,7 @@ class InstitutionalController extends Controller
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('doping_time')
                 ->orderByDesc('housings.created_at')
+                ->where("user_id",$institutional->id)
                 ->get();
 
 
@@ -215,6 +216,7 @@ class InstitutionalController extends Controller
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('doping_time')
                 ->orderByDesc('housings.created_at')
+                ->where("user_id",$institutional->id)
                 ->get();
                 return view("client.institutional.housings", compact("secondhandHousings", "store"));
             }
