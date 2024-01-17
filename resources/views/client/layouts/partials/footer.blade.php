@@ -1490,7 +1490,6 @@
                         $('.header-search-box').append(`
                                 <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
                             `);
-                        console.log(data.housings);
                         data.housings.forEach((e) => {
                             const imageUrl =
                                 `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
@@ -1512,18 +1511,24 @@
                         $('.header-search-box').append(`
                                 <div class="font-weight-bold p-2 small" style="background-color: #EEE;">PROJELER</div>
                             `);
-                        console.log(data.projects);
                         data.projects.forEach((e) => {
+                            console.log(e);
                             const imageUrl =
                                 `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
                             const formattedName = e.name.charAt(0)
                                 .toUpperCase() + e.name.slice(1);
+// Assuming you have a JavaScript variable like this:
+var baseRoute = "{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}";
 
-                            $('.header-search-box').append(`
-                                <a href="${route('project.detail', {'slug': e.slug, 'id': e.id})}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                    <span>${formattedName}</span>
-                                </a>
-                            `);
+// Now, you can use it in your append statement:
+$('.header-search-box').append(`
+    <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+        <span>${formattedName}</span>
+    </a>
+`);
+
+
+
 
                         });
                     }
@@ -1661,11 +1666,19 @@
                                 const formattedName = e.name.charAt(0)
                                     .toUpperCase() + e.name.slice(1);
 
+                                // Assuming you have a JavaScript variable like this:
+                                var baseRoute =
+                                    "{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}";
+
+                                // Now, you can use it in your append statement:
                                 $('.header-search-box-mobile').append(`
-                                        <a href="${route('project.detail', {'slug': e.slug, 'id': e.id})}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                            <span>${formattedName}</span>
-                                        </a>
-                                    `);
+    <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+        <span>${formattedName}</span>
+    </a>
+`);
+
+
+
                             });
                         }
 
