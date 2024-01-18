@@ -87,56 +87,56 @@ class CartController extends Controller {
                 'share-open'}
                 : null;
 
-                if ($shareOpen && $lastClick) {
-                    $collection = Collection::where('id', $lastClick->collection_id)->first();
-                    $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                if ( $shareOpen && $lastClick ) {
+                    $collection = Collection::where( 'id', $lastClick->collection_id )->first();
+                    $newAmount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $discountRate / 100 ) );
                     $share_percent_balance = 0.25;
                     $share_percent_earn = 0.75;
-                
+
                     $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
                     $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
-                
-                    SharerPrice::create([
+
+                    SharerPrice::create( [
                         'collection_id' => $lastClick->collection_id,
                         'user_id' => $collection->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'balance' => number_format($sharedAmount_balance / 2, 0, ',', '.'),
-                        'earn' => number_format($sharedAmount_balance / 2, 0, ',', '.'),                        
-                        'earn2' => number_format($sharedAmount_earn, 0, ',', '.'),
-                    ]);
-                } elseif (!$lastClick) {
+                        'balance' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
+                        'earn' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
+                        'earn2' => number_format( $sharedAmount_earn, 0, ',', '.' ),
+                    ] );
+                } elseif ( !$lastClick ) {
                     $newAmount = $amountWithoutDiscount;
                     $share_percent_balance = 0.25;
                     $share_percent_earn = 0.75;
-                
+
                     $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
-                    $sharedAmount_earn =$newAmount * 0.02 * $share_percent_earn;
-                
-                    CartPrice::create([
+                    $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
+
+                    CartPrice::create( [
                         'user_id' => $order->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'earn' => number_format($sharedAmount_balance, 0, ',', '.'),
-                        'earn2' => number_format($sharedAmount_earn, 0, ',', '.'),
-                    ]);
+                        'earn' => number_format( $sharedAmount_balance, 0, ',', '.' ),
+                        'earn2' => number_format( $sharedAmount_earn, 0, ',', '.' ),
+                    ] );
                 } else {
                     $newAmount = $amountWithoutDiscount;
                     $share_percent_balance = 0.25;
                     $share_percent_earn = 0.75;
-                
+
                     $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
-                    $sharedAmount_earn =$newAmount * 0.02 * $share_percent_earn;
-                
-                    CartPrice::create([
+                    $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
+
+                    CartPrice::create( [
                         'user_id' => $order->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'earn' => number_format($sharedAmount_balance, 0, ',', '.'),
-                        'earn2' => number_format($sharedAmount_earn, 0, ',', '.'),
-                    ]);
+                        'earn' => number_format( $sharedAmount_balance, 0, ',', '.' ),
+                        'earn2' => number_format( $sharedAmount_earn, 0, ',', '.' ),
+                    ] );
                 }
-                
+
             } else {
                 $project = Project::where( 'id', $productDetails->id )
                 ->with( 'brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images' )
@@ -167,7 +167,7 @@ class CartController extends Controller {
                     ] );
                 } else if ( !$lastClick ) {
                     $newAmount = $amountWithoutDiscount;
-                  
+
                     CartPrice::create( [
                         'user_id' => $order->user_id,
                         'cart_id' => $order->id,
@@ -177,9 +177,9 @@ class CartController extends Controller {
 
                     ] );
 
-                }else{
+                } else {
                     $newAmount = $amountWithoutDiscount;
-                  
+
                     CartPrice::create( [
                         'user_id' => $order->user_id,
                         'cart_id' => $order->id,
@@ -356,8 +356,6 @@ class CartController extends Controller {
                 ->latest( 'created_at' )
                 ->first();
 
-                $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
-
                 $type = $request->input( 'type' );
                 $id = $request->input( 'id' );
                 $project = $request->input( 'project' );
@@ -379,14 +377,19 @@ class CartController extends Controller {
                         ->get()
                         ->keyBy( 'key' );
 
-                        if ( $lastClick && $collection ) {
-                            foreach ( $collection->links as $link ) {
-                                if ( ( $link->item_type == 1 && $link->item_id == $project->id && $link->room_order == $id ) ) {
-                                    $hasCounter = true;
+                        if ( $lastClick ) {
+                            $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
+
+                            if ( isset($collection) ) {
+                                foreach ( $collection->links as $link ) {
+                                    if ( ( $link->item_type == 1 && $link->item_id == $project->id && $link->room_order == $id ) ) {
+                                        $hasCounter = true;
+                                    }
                                 }
                             }
+
                         }
-                        $price = isset($projectHousing[ 'Peşin Fiyat' ]->value) ? $projectHousing[ 'Peşin Fiyat' ]->value :$projectHousing[ 'Fiyat' ]->value;
+                        $price = isset( $projectHousing[ 'Peşin Fiyat' ]->value ) ? $projectHousing[ 'Peşin Fiyat' ]->value :$projectHousing[ 'Fiyat' ]->value;
                         $image = $projectHousing[ 'Kapak Resmi' ]->value;
 
                         $cartItem = [
@@ -403,12 +406,16 @@ class CartController extends Controller {
                             'discount_rate' => $projectHousing[ 'İndirim Oranı %' ]->value ?? 0,
                         ];
                     } else if ( $type == 'housing' ) {
-                        if ( $lastClick && $collection ) {
-                            foreach ( $collection->links as $link ) {
-                                if ( ( $link->item_type == 2 && $link->item_id == $id ) ) {
-                                    $hasCounter = true;
+                        if ( $lastClick ) {
+                            $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
+                            if ( isset($collection )) {
+                                foreach ( $collection->links as $link ) {
+                                    if ( ( $link->item_type == 2 && $link->item_id == $id ) ) {
+                                        $hasCounter = true;
+                                    }
                                 }
                             }
+
                         }
                         $discount_amount = Offer::where( 'type', 'housing' )->where( 'housing_id', $id )->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
                         $housing = Housing::find( $id );
