@@ -151,7 +151,7 @@
                                 @endphp
                                 <div class="detail-wrapper-body">
                                     <div class="listing-title-bar pb-3">
-                                        <strong>İlan No: {{ $housing->id + 2000000 }}
+                                        <strong>İlan No: <span style="color:#274abb;font-size: 14px !important;">{{ $housing->id + 2000000 }}</span>
                                         </strong>
                                         <h3>
                                             @if ($status && $status != '0' && $status != '1')
@@ -639,7 +639,7 @@
                                                 <tr>
                                                     <td>
                                                         <span> İlan No :</span>
-                                                        <span class="det">
+                                                        <span class="det" style="color:#274abb;">
                                                             {{ $housing->id + 2000000 }}
                                                         </span>
                                                     </td>
@@ -770,7 +770,7 @@
                                             <tr>
                                                 <td>
                                                     <span class="mr-1">İlan No:</span>
-                                                    <span class="det" style="color: black;">
+                                                    <span class="det" style="color: #274abb;" >
                                                         {{ $housing->id + 2000000 }}
                                                     </span>
                                                 </td>

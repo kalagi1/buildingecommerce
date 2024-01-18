@@ -77,7 +77,7 @@ class Project extends Model
 
     public function neighbourhood()
     {
-        return $this->hasOne(Neighborhood::class, "mahalle_key", "neighbourhood_id");
+        return $this->hasOne(Neighborhood::class, "mahalle_id", "neighbourhood_id");
     }
 
     public function blocks()

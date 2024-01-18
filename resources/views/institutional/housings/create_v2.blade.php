@@ -1988,31 +1988,14 @@ $('.rulesOpen').click(function(){
             });
         });
     </script>
-    <script src="https://cdn.tiny.cloud/1/c2puh97n9lsir0u2h6xn3id7sk6y0tbhze4ahy5uwt0u4r9e/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+    <script src="{{URL::to('/')}}/adminassets/rich-editor/jquery.richtext.min.js"></script>
     <script>
-        tinymce.init({
-            selector: '#editor', // HTML elementinizi seçin
-            plugins: 'contextmenu',
-            toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | forecolor backcolor ',
-            menubar: false, // Menü çubuğunu tamamen devre dışı bırakır
-            contextmenu: 'copy paste',
-            language : "tr",
-            // Görünümleri devre dışı bırakmak için aşağıdaki yapılandırmaları kullanın
-            file_browser_callback_types: 'image media',
-            file_browser_callback: function(field_name, url, type, win) {
-                // Herhangi bir işlem yapmadan boş bir işlev kullanarak "File" görünümünü devre dışı bırakır
-            },
-            file_picker_types: 'image media',
-            file_picker_callback: function(callback, value, meta) {
-                // Herhangi bir işlem yapmadan boş bir işlev kullanarak "File" görünümünü devre dışı bırakır
-            },
-            setup: function (editor) {
-                // 'change' olayını dinleyin
-                editor.on('change', function () {
-                    // Editör içeriği değiştiğinde yapılacak işlemi burada tanımlayabilirsiniz.
-                    console.log("Editör içeriği değişti.");
-                    const editorContent = editor.getContent();
+        $(document).ready(function(){
+            $('#editor').richText({
+                saveOnBlur : 1,
+                saveCallback: function (editor, source, content) {
+
+                    const editorContent = content;
                     console.log(editorContent);
                     if(editorContent != ""){
                         descriptionText = "evet var";
@@ -2040,8 +2023,8 @@ $('.rulesOpen').click(function(){
                     .catch(error => {
                         console.error(error);
                     });
-                })
-            }
+                }
+            });
         })
 
 
@@ -3708,4 +3691,5 @@ $('.rulesOpen').click(function(){
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.css" />
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/daterangepicker.css">
+    <link rel="stylesheet" href="{{URL::to('/')}}/adminassets/rich-editor/richtext.min.css">
 @endsection
