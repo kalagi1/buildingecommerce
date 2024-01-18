@@ -19,18 +19,18 @@
     <!-- ===============================================-->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" sizes="180x180"
-        href="{{ URL::to('/') }}/adminassets/assets/img/favicons/apple-touch-icon.png">
+        href="{{ URL::to('/') }}/favicon.png">
     <link rel="icon" type="image/png" sizes="32x32"
-        href="{{ URL::to('/') }}/adminassets/assets/img/favicons/favicon-32x32.png">
+        href="{{ URL::to('/') }}/favicon.png">
     <link rel="icon" type="image/png" sizes="16x16"
-        href="{{ URL::to('/') }}/adminassets/assets/img/favicons/favicon-16x16.png">
+        href="{{ URL::to('/') }}/favicon.png">
     <link rel="shortcut icon" type="image/x-icon"
-        href="{{ URL::to('/') }}/adminassets/assets/img/favicons/favicon.ico">
+        href="{{ URL::to('/') }}/favicon.png">
     <link rel="manifest" href="{{ URL::to('/') }}/adminassets/assets/img/favicons/manifest.json">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <meta name="msapplication-TileImage"
-        content="{{ URL::to('/') }}/adminassets/assets/img/favicons/mstile-150x150.png">
+        content="{{ URL::to('/') }}/favicon.png">
     <meta name="theme-color" content="#ffffff">
     <script src="{{ URL::to('/') }}/adminassets/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/vendors/simplebar/simplebar.min.js"></script>
