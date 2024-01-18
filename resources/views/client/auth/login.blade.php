@@ -418,35 +418,46 @@
                                             <fieldset>
 
                                                 <div class="checkboxes float-left">
-                                                    <div class="filter-tags-wrap  {{ old('type') == 1 ? 'd-show' : '' }}" id="individualFormCheck" >
-                                                        <input id="check-a" type="checkbox" name="check-a">
+                                                    <div class="filter-tags-wrap   {{ old('type') == "1" ? 'd-show ' : '' }} {{ $errors->has('check-a') ? 'error-check' : '' }}" id="individualFormCheck" >
+                                                        <input id="check-a" type="checkbox" name="check-a"  >
                                                         <label for="check-a" style="font-size: 12px;">
                                                             <a href="/sayfa/bireysel-uyelik-sozlesmesi" target="_blank">
                                                                 Bireysel üyelik sözleşmesini
                                                             </a>
                                                             okudum onaylıyorum.
-                                                        </label>
+                                                        </label> <br>
+                                                        @if ($errors->has('check-a'))
+                                                        <span class="error-message">{{ $errors->first('check-a') }}</span>
+                                                    @endif
                                                     </div>
-                                                    <div class="filter-tags-wrap  {{ old('type') == 2 ? 'd-show' : '' }}" id="corporateFormCheck" >
-                                                        <input id="check-d" type="checkbox" name="check-d">
+                                                    <div class="filter-tags-wrap {{ old('type') == "2" ? 'd-show ' : '' }}{{ $errors->has('check-d') ? 'error-check' : '' }}" id="corporateFormCheck" >
+                                                        <input id="check-d" type="checkbox" name="check-d" >
                                                         <label for="check-d" style="font-size: 12px;">
                                                             <a href="/sayfa/kurumsal-uyelik-sozlesmesi" target="_blank">
                                                                 Kurumsal üyelik sözleşmesini
                                                             </a>
                                                             okudum onaylıyorum.
                                                         </label>
+                                                        <br>
+                                                        @if ($errors->has('check-d'))
+                                                        <span class="error-message">{{ $errors->first('check-d') }}</span>
+                                                    @endif
                                                     </div>
-                                                    <div class="filter-tags-wrap">
-                                                        <input id="check-b" type="checkbox" name="check-b">
+                                                    <div class="filter-tags-wrap {{ $errors->has('check-b') ? 'error-check' : '' }}">
+                                                        <input id="check-b" type="checkbox" name="check-b" >
                                                         <label for="check-b" style="font-size: 12px;">
                                                             <a href="/sayfa/kvkk-politikasi" target="_blank">
                                                                 Kvkk metnini
                                                             </a>
                                                             okudum onaylıyorum.
                                                         </label>
+                                                        <br>
+                                                        @if ($errors->has('check-b'))
+                                                        <span class="error-message">{{ $errors->first('check-b') }}</span>
+                                                    @endif
                                                     </div>
-                                                    <div class="filter-tags-wrap">
-                                                        <input id="check-c" type="checkbox" name="check-c">
+                                                    <div class="filter-tags-wrap {{ $errors->has('check-c') ? 'error-check' : '' }}">
+                                                        <input id="check-c" type="checkbox" name="check-c" >
                                                         <label for="check-c" style="font-size: 12px;">
                                                             <a href="/sayfa/gizlilik-sozlesmesi-ve-aydinlatma-metni"
                                                                 target="_blank">
@@ -454,9 +465,13 @@
                                                             </a>
                                                             okudum onaylıyorum.
                                                         </label>
+                                                        <br>
+                                                        @if ($errors->has('check-c'))
+                                                        <span class="error-message">{{ $errors->first('check-c') }}</span>
+                                                    @endif
                                                     </div>
                                                     <div class="filter-tags-wrap">
-                                                        <input id="check-e" type="checkbox" name="check-a">
+                                                        <input id="check-e" type="checkbox" name="check-e">
                                                         <label for="check-e" style="font-size: 12px;">
                                                             Tarafıma elektronik ileti gönderilmesini kabul ediyorum.
                                                         </label>
@@ -464,7 +479,6 @@
                                                 </div>
                                             </fieldset>
 
-                                            <!-- Diğer form alanları burada bulunabilir -->
                                         </div>
 
                                         <button class="btn btn-primary q-button mb-5" type="submit"> Üye OL</button>
@@ -533,6 +547,7 @@
                     corporateFormCheck.style.display = 'block';
                     individualForm.classList.remove('hide');
                     individualFormCheck.classList.remove('hide');
+                    individualFormCheck.style.display = 'none';
 
 
 

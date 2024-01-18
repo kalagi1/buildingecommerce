@@ -17025,6 +17025,10 @@ a.button {
     display: none;
 }
 
+.error-check label:before {
+border: 1px solid #EA2B2E !important;
+    
+    }
 .inner-pages .checkboxes label:before {
     content: "";
     display: inline-block;
