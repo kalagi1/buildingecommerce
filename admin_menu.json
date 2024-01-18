@@ -37,6 +37,15 @@
         "activePath": "admin/housing"
     },
     {
+        "id": "housing",
+        "label": "EMLAK SEPETTE",
+        "icon": "plus",
+        "text": "Sat Kirala Formu",
+        "key": "sellRent",
+        "url": "admin.real.estates",
+        "activePath": "admin/real_estate*"
+    },
+    {
         "id": "user",
         "label": "EMLAK SEPETTE",
         "icon": "user",
