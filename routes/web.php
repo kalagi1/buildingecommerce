@@ -701,6 +701,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/create_coupon/{user_id}', [EstateClubController::class,"createCouponStore"])->name('estate.create.coupon.store');
     Route::get('/edit_coupon/{coupon_id}', [EstateClubController::class,"editCoupon"])->name('estate.edit.coupon');
     Route::get('/coupon_destroy/{user_id}', [EstateClubController::class,"destroy"])->name('estate.coupon.destroy');
+    
     Route::get('/my-collections', [SharerController::class,"index"])->name('sharer.index');
     Route::get('/my-earnings', [SharerController::class,"earnings"])->name('sharer.earnings');
 Route::get('/my-collections/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
