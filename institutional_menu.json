@@ -11,7 +11,7 @@
     {
         "id": "EmlakClubGift",
         "label": "Emlak Kulüp",
-        "icon": "users",
+        "icon": "gift",
         "text": "Kuponlarım",
         "key": "EmlakClubGift",
         "url": "institutional.estate.coupons",
