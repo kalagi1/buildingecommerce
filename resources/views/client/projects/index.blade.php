@@ -138,7 +138,7 @@
 
                             <div class="detail-wrapper-body">
                                 <div class="listing-title-bar">
-                                    <strong>İlan No: {{ $project->id + 10000000 }}</strong>
+                                    <strong>İlan No:  <span style="color: #274abb;font-size: 14px !important;">{{ $project->id + 10000000 }}</span></strong>
                                     <h3>{{ $project->project_title }}</h3>
                                 </div>
                             </div>
@@ -546,7 +546,7 @@
                                             <tr>
                                                 <td>
                                                     <span class="mr-1">İlan No:</span>
-                                                    <span class="det" style="color: black;">
+                                                    <span class="det" style="color: #274abb;">
                                                         {{ $project->id + 10000000 }}
                                                     </span>
                                                 </td>
