@@ -58,7 +58,6 @@
                             </thead>
                             <tbody class="list" id="order-table-body">
                                 @foreach ($mergedArray as $item)
-
                                     @php($o = json_decode($item->cart->cart ?? null))
                                     @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                     @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
@@ -95,11 +94,14 @@
                                             @if (isset($item->balance))
                                                 <strong>{{ optional($item->user)->name ?? '-' }}</strong>
                                                 <br>
-                                                <span> <strong>E-Mail: </strong>  {{ optional($item->user)->email ?? '-' }}</span>
+                                                <span> <strong>E-Mail: </strong>
+                                                    {{ optional($item->user)->email ?? '-' }}</span>
                                                 <br>
-                                                <span><strong>Telefon: </strong> {{ optional($item->user)->phone ?? '-' }}</span>
+                                                <span><strong>Telefon: </strong>
+                                                    {{ optional($item->user)->phone ?? '-' }}</span>
                                                 <br>
-                                                <span><strong>IBAN: </strong> {{ optional($item->user)->iban ?? '-' }}</span>
+                                                <span><strong>IBAN: </strong>
+                                                    {{ optional($item->user)->iban ?? '-' }}</span>
                                                 <br>
                                                 <span class="text-success">Kazanç: {{ $item->balance ?? '-' }} ₺</span>
                                             @else
@@ -114,27 +116,30 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if (isset($item->earn2))
-                                                @if ($o->type == 'project')
-                                                    <span>{{ optional(mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8'))->get() ?? '-' }}{{ ' ' }}Projesinde
-                                                        {{ json_decode($item->cart->cart)->item->housing ?? '-' }}
-                                                        {{ "No'lu" }}
-                                                        {{ optional($project->step1_slug)->get() ?? '-' }}
-                                                    </span>
-                                                @else
-                                                    <strong>{{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->name ?? '-' }}</strong>
-                                                    <br>
-                                                    {{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->email ?? '-' }}
-                                                    @if (optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->phone)
-                                                        <br>
-                                                    @endif
-                                                    {{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->phone ?? '-' }}
-                                                @endif
+
+
+                                            @if ($o->type == 'project')
+                                                <strong>{{ optional(App\Models\Project::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->name ?? '-' }}</strong>
                                                 <br>
-                                                <span class="text-success">Kazanç: {{ $item->earn2 ?? '-' }} ₺</span>
+                                                {{ optional(App\Models\Project::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->email ?? '-' }}
+                                                @if (optional(App\Models\Project::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->phone)
+                                                    <br>
+                                                @endif
+                                                {{ optional(App\Models\Project::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->phone ?? '-' }}
                                             @else
-                                                -
+                                                <strong>{{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->name ?? '-' }}</strong>
+                                                <br>
+                                                {{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->email ?? '-' }}
+                                                @if (optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->phone)
+                                                    <br>
+                                                @endif
+                                                {{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->phone ?? '-' }}
                                             @endif
+                                            <br>
+                                            @if (isset($item->earn2))
+                                                <span class="text-success">Kazanç: {{ $item->earn2 ?? '-' }} ₺</span>
+                                            @endif
+
                                         </td>
                                         <td>{{ $item->cart->amount ?? '-' }} ₺</td>
                                     </tr>
