@@ -14,19 +14,20 @@
                     <div class="row g-3">
                         <div class="col-auto">
                             <div class="search-box">
-                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
-                                        class="form-control search-input search" type="search" placeholder="Ara"
-                                        aria-label="Search" />
-                                    <span class="fas fa-search search-box-icon"></span>
-                                </form>
+                                <div class="col-auto flex-grow-1">
+                                    <p class="text-body-secondary lh-sm mb-0">EMLAK SEPETTE TOPLAM KAZANÇ :
+                                        <span style="font-size: 15px">
+                                            @if (isset($totalEarn))
+                                                <span class="text-success"> {{ number_format($totalEarn, 0, ',', '.') }}
+                                                    ₺</span>
+                                            @else
+                                                -
+                                            @endif
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-auto">
-                            @if (isset($totalEarn))
-                            <span class="text-success">{{ $totalEarn }} ₺</span>
-                        @else
-                            -
-                        @endif
+
                         </div>
                     </div>
                 </div>
@@ -40,6 +41,8 @@
                                         data-sort="order_no">Sipariş Kodu</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_image">Sipariş Tarihi</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_image">Müşteri Bilgileri</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_project">İlan :</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
@@ -60,7 +63,13 @@
                                     @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
                                     <tr>
                                         <td>{{ $item->cart->key }}</td>
-                                        <td>{{ $item->cart->created_at }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->cart->created_at)->format('d.m.Y H:i:s') }}</td>
+                                        <td>
+                                            <span>İsim: {{ $item->cart->user->name }}</span>
+                                            <br>
+                                            <span>{{ $item->cart->user->email }}</span>
+                                        </td>
+
                                         <td>
                                             <strong>İlan No:</strong>
                                             @if ($o->type == 'project')
@@ -83,9 +92,11 @@
                                         <td>
 
                                             @if (isset($item->balance))
-                                                <span>İsim: {{ $item->user->name }}</span>
+                                                <strong>{{ $item->user->name }}</strong>
                                                 <br>
                                                 <span>{{ $item->user->email }}</span>
+                                                <br>
+                                                <span>{{ $item->user->phone }}</span>
                                                 <br>
                                                 <span class="text-success">Kazanç: {{ $item->balance }} ₺</span>
                                             @else
@@ -107,6 +118,21 @@
                                         <td>
 
                                             @if (isset($item->earn2))
+                                                @if ($o->type == 'project')
+                                                    <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                                        {{ json_decode($item->cart->cart)->item->housing }}
+                                                        {{ "No'lu" }}
+                                                        {{ $project->step1_slug }}
+                                                    </span>
+                                                @else
+                                                    <strong>{{ App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user->name ?? null }}</strong> <br>
+                                                    {{ App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user->email ?? null }} 
+                                                    @if (App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user->phone)
+                                                        <br>
+                                                    @endif
+                                                    {{ App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user->phone ?? null }}
+                                                @endif
+                                                <br>
                                                 <span class="text-success">Kazanç: {{ $item->earn2 }} ₺</span>
                                             @else
                                                 -
