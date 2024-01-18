@@ -62,32 +62,34 @@
                                     @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                     @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
                                     <tr>
-                                        <td>{{ $item->cart->key ?? '-' }}</td>
-                                        <td>{{ optional(\Carbon\Carbon::parse($item->cart->created_at))->format('d.m.Y H:i:s') ?? '-' }}</td>
+                                        <td>{{ $item->cart->key }}</td>
+                                        <td>{{ optional(\Carbon\Carbon::parse($item->cart->created_at))->format('d.m.Y H:i:s') ?? '-' }}
+                                        </td>
                                         <td>
                                             <span>İsim: {{ optional($item->cart->user)->name ?? '-' }}</span>
                                             <br>
                                             <span>{{ optional($item->cart->user)->email ?? '-' }}</span>
                                         </td>
-                            
+
                                         <td>
                                             <strong>İlan No:</strong>
                                             @if ($o->type == 'project')
-                                                <strong>{{ $o->item->id + 2000000 + json_decode($item->cart->cart)->item->housing ?? '-' }}</strong>
+                                                <strong>{{ $o->item->id + 1000000 + json_decode($item->cart->cart)->item->housing }}
+                                                </strong>
                                             @else
-                                                <strong>{{ json_decode($item->cart->cart)->item->id + 1000000 ?? '-' }}</strong>
+                                                <strong>{{ json_decode($item->cart->cart)->item->id + 2000000 }}</strong>
                                             @endif <br>
                                             @if ($o->type == 'project')
-                                                <span>{{ optional(mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8'))->get() ?? '-' }}{{ ' ' }}Projesinde
-                                                    {{ json_decode($item->cart->cart)->item->housing ?? '-' }}
+                                                <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                                    {{ json_decode($item->cart->cart)->item->housing }}
                                                     {{ "No'lu" }}
-                                                    {{ optional($project->step1_slug)->get() ?? '-' }}
+                                                    {{ $project->step1_slug }}
                                                 </span>
                                             @else
-                                                {{ optional(App\Models\Housing::find(json_decode($item->cart->cart)->item->id ?? 0)->title)->get() ?? '-' }}
+                                                {{ App\Models\Housing::find(json_decode($item->cart->cart)->item->id ?? 0)->title ?? null }}
                                             @endif
                                         </td>
-                            
+
                                         <td>
                                             @if (isset($item->balance))
                                                 <strong>{{ optional($item->user)->name ?? '-' }}</strong>
@@ -117,8 +119,9 @@
                                                         {{ optional($project->step1_slug)->get() ?? '-' }}
                                                     </span>
                                                 @else
-                                                    <strong>{{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->name ?? '-' }}</strong> <br>
-                                                    {{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->email ?? '-' }} 
+                                                    <strong>{{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->name ?? '-' }}</strong>
+                                                    <br>
+                                                    {{ optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->email ?? '-' }}
                                                     @if (optional(App\Models\Housing::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->phone)
                                                         <br>
                                                     @endif
@@ -134,7 +137,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            
+
                         </table>
                     </div>
                 </div>
