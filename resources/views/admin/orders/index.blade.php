@@ -92,17 +92,17 @@
                                                     @if ($order->share->status == 0)
                                                         <strong style="color: orange">
                                                             <span>Komisyon: </span><br>
-                                                            {{ $order->share->balance}} ₺
+                                                            {{ $order->share->balance }} ₺
                                                         </strong>
                                                     @elseif ($order->share->status == 2)
                                                         <strong style="color: red">
                                                             <span>Komisyon Reddedildi: </span><br>
-                                                            {{ $order->share->balance}} ₺
+                                                            {{ $order->share->balance }} ₺
                                                         </strong>
                                                     @else
                                                         <strong style="color: green">
                                                             <span>Komisyon: </span><br>
-                                                            {{ $order->share->balance}} ₺
+                                                            {{ $order->share->balance }} ₺
                                                         </strong>
                                                     @endif
                                                 @endif
@@ -115,7 +115,12 @@
                                             ][$order->status] !!} <br>
                                                 @if (isset($order->share))
                                                     <span class="text-warning">Bu ilan emlak kulüp aracılığı ile
-                                                        satılmıştır. <br> Hakedişler Onaylandı.</span>
+                                                        satılmıştır.
+                                                        @if ($order->share->status == 1)
+                                                            <br>
+                                                            Hakedişler Onaylandı.
+                                                        @endif
+                                                    </span>
                                                 @endif
                                                 @if (isset($order->price))
                                                     <span class="text-warning">Hakedişler Onaylandı.</span>
