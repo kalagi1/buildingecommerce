@@ -47,6 +47,7 @@ use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\PageController as ClientPageController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\RealEstateController;
+use App\Http\Controllers\Admin\RealEstateController as AdminRealEstateController;
 use App\Http\Controllers\Client\RegisterController;
 use App\Http\Controllers\Client\SharerController;
 use App\Http\Controllers\Client\SupportChatController;
@@ -89,6 +90,7 @@ Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup/{slug}/koleksiyonlar/{id}', [SharerController::class,"showClientLinks"])->name('sharer.links.showClientLinks');
 
 Route::get('/sat-kirala-form', [RealEstateController::class, "index"])->name('real.estate.index');
+Route::post('/sat-kirala-form', [RealEstateController::class, "store"])->name('real.estate.post');
 Route::get('/sat-kirala', [HomeController::class, "satKirala"])->name('satKirala');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
@@ -203,6 +205,8 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
+    Route::get('/real_estates',[AdminRealEstateController::class,"index"])->name('real.estates');
+    Route::get('/real_estate/{id}',[AdminRealEstateController::class,"detail"])->name('real.estate.detail');
     Route::put('/users/{user}/block', [UserController::class, 'blockUser'])->name('users.block');
     Route::get('/messages', [UserController::class, 'messages'])->name('messages');
     Route::post('/messages/store', [SupportChatController::class, 'adminStore'])->name('messages.store');
