@@ -208,7 +208,7 @@
                                     <div class="small-category-2-thumb img-1">
                                         <a
                                             href="{{ route('project.detail', ['slug' => $project->project->slug, 'id' => $project->project->id]) }}"><img
-                                                src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}""
+                                                src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"
                                                 alt=""></a>
                                     </div>
                                     <div class="sc-2-detail">
