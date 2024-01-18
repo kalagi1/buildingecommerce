@@ -58,6 +58,7 @@ use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\BuyController;
 use App\Http\Controllers\Institutional\ChangePasswordController as InstitutionalChangePasswordController;
 use App\Http\Controllers\Institutional\DashboardController;
+use App\Http\Controllers\Institutional\EstateClubController;
 use App\Http\Controllers\Institutional\HousingController as InstitutionalHousingController;
 use App\Http\Controllers\Institutional\InvoiceController as InstitutionalInvoiceController;
 use App\Http\Controllers\Institutional\LoginController;
@@ -682,12 +683,18 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
+    Route::get('/estate_club_users', [EstateClubController::class,"index"])->name('estate.club.users');
+    Route::get('/coupons', [EstateClubController::class,"coupons"])->name('estate.coupons');
+    Route::get('/create_coupon/{user_id}', [EstateClubController::class,"createCoupon"])->name('estate.create.coupon');
+    Route::post('/create_coupon/{user_id}', [EstateClubController::class,"createCouponStore"])->name('estate.create.coupon.store');
+    Route::get('/edit_coupon/{coupon_id}', [EstateClubController::class,"editCoupon"])->name('estate.edit.coupon');
+    Route::get('/coupon_destroy/{user_id}', [EstateClubController::class,"destroy"])->name('estate.coupon.destroy');
     Route::get('/my-collections', [SharerController::class,"index"])->name('sharer.index');
-Route::get('/my-collections/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
-Route::get('/my-collections/{id}/views', [SharerController::class,"viewsLinks"])->name('sharer.viewsLinks.index');
+    Route::get('/my-collections/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
+    Route::get('/my-collections/{id}/views', [SharerController::class,"viewsLinks"])->name('sharer.viewsLinks.index');
 
-Route::delete('/collection/{id}/delete', [SharerController::class, 'deleteCollection'])->name('collection.delete');
-Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])->name('collection.edit');
+    Route::delete('/collection/{id}/delete', [SharerController::class, 'deleteCollection'])->name('collection.delete');
+    Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])->name('collection.edit');
 
     Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
     Route::get('/orders', [DashboardController::class, 'getOrders'])->name('orders');
@@ -917,6 +924,7 @@ Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])
 
 });
 
+Route::post('/check_coupon', [CartController::class, 'checkCoupon'])->name('check.coupon');
 Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
 Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
 

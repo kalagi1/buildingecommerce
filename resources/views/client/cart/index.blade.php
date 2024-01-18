@@ -96,12 +96,8 @@
                                     </ul>
                                 @else
                                     <ul>
-                                        <li>Toplam Fiyat<strong
-                                                class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])), 0, ',', '.') }}
-                                                TL</strong></li>
-                                        <li>Toplam Fiyatın %1 Kaporası :<strong
-                                                class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}
-                                                TL</strong></li>
+                                        <li>Toplam Fiyat<strong class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])), 0, ',', '.') }} TL</strong></li>
+                                        <li>Toplam Fiyatın %1 Kaporası :<strong class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }} TL</strong></li>
                                     </ul>
                                 @endif
                             </div>
@@ -114,16 +110,17 @@
                                     Alışverişe Devam Et
                                 </button>
                             @else
-                                <button type="button" class="btn btn-primary btn-lg btn-block " data-toggle="modal"
-                                    data-target="#paymentModal"
-                                    style="
-                                    height: 50px !important;
-                                font-size: 12px;
-                                margin: 0 auto;">
-                                    {{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}
-                                    TL <br> KAPORA ÖDE
+                                <button type="button" class="btn btn-primary btn-lg btn-block " data-toggle="modal" data-target="#paymentModal" style=" height: 50px !important; font-size: 12px; margin: 0 auto;">
+                                    <span class="capora-button-price">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}</span> TL <br> KAPORA ÖDE
                                 </button>
                             @endif
+
+                            <div class="coupon-cart-area mt-3">
+                                <div class="d-flex">
+                                    <input type="text" placeholder="Kupon Kodu" style="height: 40px;" class="form-control coupon-code">
+                                    <button class="btn btn-primary coupon-apply">Uygula</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -305,6 +302,48 @@
                 }
             });
         });
+
+        $('.coupon-apply').click(function(){
+            console.log($('.coupon_code').val())
+            $.ajax({
+                url: "{{ route('check.coupon') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    coupon_code : $('.coupon-code').val()
+                }, // Veriyi göndermek için POST kullanabilirsiniz, // Sepete eklemek istediğiniz ürün verilerini gönderin
+                success: function(response) {
+                    // İşlem başarılı olduğunda buraya gelir
+                    response = JSON.parse(response)
+                    if(response.status){
+                        if(response.discount_type == 1){
+                            var newPrice = parseFloat(response.cart.item.price) - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
+
+                            var newCapora = newPrice * 1 / 100;
+
+                            $('.booking-price-detail ul li').eq(0).after('<li style="color:red;">İndirim Tutarı<strong class="pull-right">'+(formatPrice(parseFloat(response.cart.item.price) * response.discount_amount / 100))+' TL</strong></li>')
+                            $('.booking-price-detail ul li').eq(1).after('<li style="color:green;">Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong></li>')
+                            $('.booking-price-detail ul li').eq(3).html('Toplam Fiyatın %1 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
+                            $('.capora-button-price').html((formatPrice(newCapora)))
+                        }
+                    }else{
+                        toastr.error(response.message)
+                    }
+
+                },
+                error: function(error) {
+                    // Hata durumunda buraya gelir
+                    toast.error(error)
+                    console.error("Hata oluştu: " + error);
+                }
+            });
+        })
+
+        function formatPrice(price) {
+            var parts = price.toString().split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return parts.join(".");
+        }
     </script>
 
 

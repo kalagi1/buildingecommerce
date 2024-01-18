@@ -85,6 +85,7 @@
 <script src="{{ URL::to('/') }}/adminassets/vendors//echarts/echarts.min.js"></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//leaflet/leaflet.js"></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//leaflet.markercluster/leaflet.markercluster.js"></script>
+<script src="{{ URL::to('/') }}/adminassets/vendors/choices/choices.min.js"></script>
 <script
     src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js">
 </script>
