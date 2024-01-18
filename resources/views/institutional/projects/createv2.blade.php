@@ -234,9 +234,7 @@
                         </div>
                         <div class="form-group description-field">
                             <label for="">Proje Açıklaması <span class="required">*</span></label>
-                            <div class="card p-2">
-                                <textarea name="description" id="editor" cols="30" rows="5"  class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea>
-                            </div>
+                            <textarea name="description" id="editor" cols="30" rows="5"  class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea>
                         </div>
                         <div class="card p-3 mb-4">
                             <div class="form-group">
@@ -675,46 +673,7 @@
     <script src="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/assets/js/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ URL::to('/') }}/adminassets/assets/js/jquery.daterangepicker.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.22.1/standard-all/ckeditor.js"></script>
-    <script>
-        function changeData(value,key,isArray = 0){
-            var formData = new FormData();
-            var csrfToken = $("meta[name='csrf-token']").attr("content");
-            formData.append('_token', csrfToken);
-            formData.append('value',value);
-            formData.append('key',key);
-            formData.append('item_type',1);
-            formData.append('array_data',isArray);
-            $.ajax({
-                type: "POST",
-                url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    if(key == 'pricing-type'){
-                        if(value == 2){
-                            $('.single-price-project-area').removeClass('d-none')
-                            $('.pricing-select-first').addClass('d-none')
-                        }else{
-                            $('.single-price-project-area').addClass('d-none')
-                        }
-                    }
-                },
-            });
-        }
 
-        CKEDITOR.replace('editor', {
-            toolbar: [
-                { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
-                { name: 'styles', items: [ 'Format' ] },
-                { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'TextColor', 'BGColor' ] },
-                { name: 'paragraph', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight' ] }
-            ],
-            extraPlugins: ['colorbutton'],
-        });
-
-    </script>
     
         
 
@@ -3381,7 +3340,32 @@
             })
             
             
-            
+            function changeData(value,key,isArray = 0){
+                var formData = new FormData();
+                var csrfToken = $("meta[name='csrf-token']").attr("content");
+                formData.append('_token', csrfToken);
+                formData.append('value',value);
+                formData.append('key',key);
+                formData.append('item_type',1);
+                formData.append('array_data',isArray);
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if(key == 'pricing-type'){
+                            if(value == 2){
+                                $('.single-price-project-area').removeClass('d-none')
+                                $('.pricing-select-first').addClass('d-none')
+                            }else{
+                                $('.single-price-project-area').addClass('d-none')
+                            }
+                        }
+                    },
+                });
+            }
 
             $('.redirect-back-pricing').click(function(){
                 $('.single-price-project-area').addClass('d-none')
@@ -3841,7 +3825,44 @@
                 });
             });
     </script>
+    <script src="{{URL::to('/')}}/adminassets/rich-editor/jquery.richtext.min.js"></script>
     <script>
+        $(document).ready(function(){
+            $('#editor').richText({
+                saveOnBlur : 1,
+                saveCallback: function (editor, source, content) {
+
+                    const editorContent = content;
+                    console.log(editorContent);
+                    if(editorContent != ""){
+                        descriptionText = "evet var";
+                    }else{
+                        descriptionText = "";
+                    }
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+                    
+                    
+                    // Verileri FormData nesnesine ekleyin
+                    const formData = new FormData();
+                    formData.append('_token', csrfToken);
+                    formData.append('value', editorContent);
+                    formData.append('key', "description");
+                    formData.append('item_type', 1);
+                    
+                    // AJAX isteği gönderin
+                    fetch("{{ route('institutional.temp.order.data.change') }}", {
+                        method: "POST",
+                        body: formData,
+                    })
+                    .then(data => {
+                        // Sunucu yanıtını işleyebilirsiniz.
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                }
+            });
+        })
 
 
         $('.finish-button').click(function(e){
@@ -4500,6 +4521,12 @@
     </script>
     <script>
         
+        var $select = $('#housing_status').selectize();
+        var selectize = $select[0].selectize;
+        selectize.on('item_click', function(item) {
+            selectize.removeItem(item);
+        });
+
 
 
         $('#housing_status').change(function(){
@@ -4542,8 +4569,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.css" />
 
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/daterangepicker.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css" integrity="sha512-Fm8kRNVGCBZn0sPmwJbVXlqfJmPC13zRsMElZenX6v721g/H7OukJd8XzDEBRQ2FSATK8xNF9UYvzsCtUpfeJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{URL::to('/')}}/adminassets/rich-editor/richtext.min.css">
     <link rel="stylesheet" href="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/content/default/content.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/colors/ui/trumbowyg.colors.min.css" integrity="sha512-vw0LMar38zTSJghtmUo0uw000TBbzhsxLZkOgXZG+U4GYEQn+c+FmVf7glhSZUQydrim3pI+/m7sTxAsKhObFA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endsection
 
