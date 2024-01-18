@@ -171,16 +171,6 @@
                                                     'text' => 'Hesabım',
                                                 ],
                                                 [
-                                                    'url' => route('institutional.profile.cart-orders'),
-                                                    'icon' => 'fa-shopping-cart',
-                                                    'text' => 'Siparişlerim',
-                                                ],
-                                                [
-                                                    'url' => route('favorites'),
-                                                    'icon' => 'fa-heart',
-                                                    'text' => 'Favorilerim',
-                                                ],
-                                                [
                                                     'url' => route('institutional.projects.index'),
                                                     'icon' => 'fa-home',
                                                     'text' => 'İlanlarım',
@@ -189,6 +179,16 @@
                                                     'url' => url('institutional/ilan-tipi-sec'),
                                                     'icon' => 'fa-plus',
                                                     'text' => 'İlan Ekle',
+                                                ],
+                                                [
+                                                    'url' => route('institutional.profile.cart-orders'),
+                                                    'icon' => 'fa-shopping-cart',
+                                                    'text' => 'Siparişlerim',
+                                                ],
+                                                [
+                                                    'url' => route('favorites'),
+                                                    'icon' => 'fa-heart',
+                                                    'text' => 'Favorilerim',
                                                 ],
                                                 [
                                                     'url' => route('client.logout'),
