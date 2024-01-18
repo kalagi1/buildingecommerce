@@ -255,12 +255,12 @@
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr"><span> İl-İlçe-Mahalle:</span></strong>
                                                         <span class="det" style="color: black;">
-                                                            {!! ucwords(mb_strtolower(optional($project->city)->title, 'UTF-8')) .
+                                                            {!! optional($project->city)->title.
                                                                 ' / ' .
-                                                                ucwords(mb_strtolower(optional($project->county)->ilce_title, 'UTF-8')) !!}
-                                                            @if ($project->neighbourhood)
-                                                                {!! ' / ' . ucwords(mb_strtolower(optional($project->neighbourhood)->mahalle_title, 'UTF-8')) !!}
-                                                            @endif
+                                                                optional($project->county)->ilce_title !!}
+                                                                @if ($project->neighbourhood)
+                                                                    {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                                @endif
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -469,12 +469,12 @@
                                         <td colspan="2">
                                             <strong><span class="mr-1"> İl-İlçe-Mahalle:</span></strong>
                                             <span class="det" style="color: black;">
-                                                {!! ucwords(mb_strtolower(optional($project->city)->title, 'UTF-8')) .
+                                                {!! optional($project->city)->title.
                                                     ' / ' .
-                                                    ucwords(mb_strtolower(optional($project->county)->ilce_title, 'UTF-8')) !!}
-                                                @if ($project->neighbourhood)
-                                                    {!! ' / ' . ucwords(mb_strtolower(optional($project->neighbourhood)->mahalle_title, 'UTF-8')) !!}
-                                                @endif
+                                                    optional($project->county)->ilce_title !!}
+                                                    @if ($project->neighbourhood)
+                                                        {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                    @endif
                                             </span>
                                         </td>
                                     </tr>
