@@ -215,11 +215,11 @@
                             <div class="widget-boxed">
                                 <div class="widget-boxed-body" style="padding: 0 !important">
                                     <div class="sidebar-widget author-widget2">
-                                        <h2 class="classifiedInfo"> {!! ucwords(mb_strtolower(optional($project->city)->title, 'UTF-8')) .
+                                        <h2 class="classifiedInfo"> {!! optional($project->city)->title.
                                             ' / ' .
-                                            ucwords(mb_strtolower(optional($project->county)->ilce_title, 'UTF-8')) !!}
+                                            optional($project->county)->ilce_title !!}
                                             @if ($project->neighbourhood)
-                                                {!! ' / ' . ucwords(mb_strtolower(optional($project->neighbourhood)->mahalle_title, 'UTF-8')) !!}
+                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
                                             @endif
                                         </h2>
                                         {{-- <div class="author-box clearfix d-flex align-items-center">
