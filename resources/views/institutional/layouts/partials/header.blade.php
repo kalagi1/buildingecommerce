@@ -54,6 +54,7 @@
     <link href="{{ URL::to('/') }}/adminassets/assets/css/client.min.css" type="text/css" rel="stylesheet"
         id="user-style-default">
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/leaflet-locationpicker.src.css" />
+    <link href="{{ URL::to('/') }}/adminassets/vendors/choices/choices.min.css" rel="stylesheet">
     <script>
         var phoenixIsRTL = window.config.config.phoenixIsRTL;
         if (phoenixIsRTL) {

@@ -42517,3 +42517,33 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .formbuilder-checkbox-inline .formbuilder-checkbox-inline{
     width: auto !important;
 }
+
+.right-icon-input{
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.right-icon-input input{
+    border: none;
+    padding: 0.275rem 0.75rem;
+    border-radius: 0.25rem;
+    width: 100%;
+    outline: 0;
+}
+
+.right-icon-input .right-icon{
+    width: 50px;
+    background: #e54242;
+    padding: 0.275rem 0.75rem;
+    border-radius: 0.25rem;
+    justify-content: center;
+    display: flex;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+}

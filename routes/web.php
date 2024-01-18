@@ -47,6 +47,7 @@ use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\Client\PageController as ClientPageController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\RealEstateController;
+use App\Http\Controllers\Admin\RealEstateController as AdminRealEstateController;
 use App\Http\Controllers\Client\RegisterController;
 use App\Http\Controllers\Client\SharerController;
 use App\Http\Controllers\Client\SupportChatController;
@@ -58,6 +59,7 @@ use App\Http\Controllers\Institutional\BrandController;
 use App\Http\Controllers\Institutional\BuyController;
 use App\Http\Controllers\Institutional\ChangePasswordController as InstitutionalChangePasswordController;
 use App\Http\Controllers\Institutional\DashboardController;
+use App\Http\Controllers\Institutional\EstateClubController;
 use App\Http\Controllers\Institutional\HousingController as InstitutionalHousingController;
 use App\Http\Controllers\Institutional\InvoiceController as InstitutionalInvoiceController;
 use App\Http\Controllers\Institutional\LoginController;
@@ -88,6 +90,7 @@ Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup/{slug}/koleksiyonlar/{id}', [SharerController::class,"showClientLinks"])->name('sharer.links.showClientLinks');
 
 Route::get('/sat-kirala-form', [RealEstateController::class, "index"])->name('real.estate.index');
+Route::post('/sat-kirala-form', [RealEstateController::class, "store"])->name('real.estate.post');
 Route::get('/sat-kirala', [HomeController::class, "satKirala"])->name('satKirala');
 Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
@@ -202,6 +205,8 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
+    Route::get('/real_estates',[AdminRealEstateController::class,"index"])->name('real.estates');
+    Route::get('/real_estate/{id}',[AdminRealEstateController::class,"detail"])->name('real.estate.detail');
     Route::put('/users/{user}/block', [UserController::class, 'blockUser'])->name('users.block');
     Route::get('/messages', [UserController::class, 'messages'])->name('messages');
     Route::post('/messages/store', [SupportChatController::class, 'adminStore'])->name('messages.store');
@@ -690,13 +695,19 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
+    Route::get('/estate_club_users', [EstateClubController::class,"index"])->name('estate.club.users');
+    Route::get('/coupons', [EstateClubController::class,"coupons"])->name('estate.coupons');
+    Route::get('/create_coupon/{user_id}', [EstateClubController::class,"createCoupon"])->name('estate.create.coupon');
+    Route::post('/create_coupon/{user_id}', [EstateClubController::class,"createCouponStore"])->name('estate.create.coupon.store');
+    Route::get('/edit_coupon/{coupon_id}', [EstateClubController::class,"editCoupon"])->name('estate.edit.coupon');
+    Route::get('/coupon_destroy/{user_id}', [EstateClubController::class,"destroy"])->name('estate.coupon.destroy');
     Route::get('/my-collections', [SharerController::class,"index"])->name('sharer.index');
     Route::get('/my-earnings', [SharerController::class,"earnings"])->name('sharer.earnings');
 Route::get('/my-collections/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
 Route::get('/my-collections/{id}/views', [SharerController::class,"viewsLinks"])->name('sharer.viewsLinks.index');
 
-Route::delete('/collection/{id}/delete', [SharerController::class, 'deleteCollection'])->name('collection.delete');
-Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])->name('collection.edit');
+    Route::delete('/collection/{id}/delete', [SharerController::class, 'deleteCollection'])->name('collection.delete');
+    Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])->name('collection.edit');
 
     Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
     Route::get('/orders', [DashboardController::class, 'getOrders'])->name('orders');
@@ -926,6 +937,7 @@ Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])
 
 });
 
+Route::post('/check_coupon', [CartController::class, 'checkCoupon'])->name('check.coupon');
 Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
 Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
 
