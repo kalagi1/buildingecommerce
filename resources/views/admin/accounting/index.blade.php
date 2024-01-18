@@ -95,9 +95,11 @@
                                             @if (isset($item->balance))
                                                 <strong>{{ optional($item->user)->name ?? '-' }}</strong>
                                                 <br>
-                                                <span>{{ optional($item->user)->email ?? '-' }}</span>
+                                                <span> <strong>E-Mail: </strong>  {{ optional($item->user)->email ?? '-' }}</span>
                                                 <br>
-                                                <span>{{ optional($item->user)->phone ?? '-' }}</span>
+                                                <span><strong>Telefon: </strong> {{ optional($item->user)->phone ?? '-' }}</span>
+                                                <br>
+                                                <span><strong>IBAN: </strong> {{ optional($item->user)->iban ?? '-' }}</span>
                                                 <br>
                                                 <span class="text-success">Kazanç: {{ $item->balance ?? '-' }} ₺</span>
                                             @else
