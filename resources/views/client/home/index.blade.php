@@ -794,7 +794,6 @@
                                                                     <div class="homes-img">
                                                                         <div class="homes-tag button alt featured">
                                                                             Sponsorlu
-                                                                            {{ $sold }}
                                                                         </div>
                                                                         <div class="type-tag button alt featured">
                                                                             @if ($housing->step2_slug == 'kiralik')
