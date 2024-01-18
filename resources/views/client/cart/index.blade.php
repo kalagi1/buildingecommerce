@@ -147,7 +147,7 @@
                                                 {{ number_format($cart['item']['price']) }}
                                                 TL</strong></li>
 
-                                        @if ( $housingDiscountAmount != 0 || $projectDiscountAmount != 0)
+                                        @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
                                             <li style="color:red">Mağaza İndirimi :<strong class="pull-right">
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
                                                         stroke="currentColor" stroke-width="2" fill="none"

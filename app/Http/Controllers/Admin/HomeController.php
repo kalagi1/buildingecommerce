@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\CartOrder;
+use App\Models\CartPrice;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\Housing;
@@ -36,7 +37,7 @@ class HomeController extends Controller {
     }
 
     public function getOrders() {
-        $cartOrders = CartOrder::with( 'user' ,'share')->orderByDesc( 'created_at' )->get();
+        $cartOrders = CartOrder::with( 'user' ,'share',"price")->orderByDesc( 'created_at' )->get();
         return view( 'admin.orders.index', compact( 'cartOrders' ) );
     }
 
@@ -56,6 +57,22 @@ class HomeController extends Controller {
     }
     public function unapproveShare( $share ) {
         $sharePrice = SharerPrice::where("id",$share)->first();
+        $sharePrice->update([
+            "status" => "2"
+        ]);
+        return redirect()->back();
+    }
+
+
+    public function approvePrice( $price ) {
+        $sharePrice = CartPrice::where("id",$price)->first();
+        $sharePrice->update([
+            "status" => "1"
+        ]);
+        return redirect()->back();
+    }
+    public function unapprovePrice ( $price ) {
+        $sharePrice = CartPrice::where("id",$price)->first();
         $sharePrice->update([
             "status" => "2"
         ]);

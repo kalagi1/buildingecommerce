@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div id="orderTable"
-                data-list='{"valueNames":["order_no","order_image","order_project","order_amount","order_date","order_status","order_user","order_seller","order_details"],"page":10,"pagination":true}'>
+                data-list='{"valueNames":["order_no","order_image","order_project","order_amount","order_date","order_status","order_user"],"page":10,"pagination":true}'>
                 <div class="mb-4">
                     <div class="row g-3">
                         <div class="col-auto">
@@ -21,6 +21,13 @@
                                 </form>
                             </div>
                         </div>
+                        <div class="col-auto">
+                            @if (isset($totalEarn))
+                            <span class="text-success">{{ $totalEarn }} ₺</span>
+                        @else
+                            -
+                        @endif
+                        </div>
                     </div>
                 </div>
                 <div
@@ -31,19 +38,84 @@
                                 <tr>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_no">Sipariş Kodu</th>
-                                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_date">Sipariş Tarihi</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_amount">Ödenen Kapora Bedeli</th>
-                                
+                                        data-sort="order_image">Sipariş Tarihi</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_project">İlan :</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_amount">Emlak Kulüp Üyesi & Hakediş :</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_date">Emlak Sepette Hakediş :</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_status">Kurumsal Üye Hakediş :</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_user">Ödenen Kapora Bedeli</th>
+
                                 </tr>
                             </thead>
                             <tbody class="list" id="order-table-body">
                                 @foreach ($mergedArray as $item)
+                                    @php($o = json_decode($item->cart->cart))
+                                    @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
+                                    @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
                                     <tr>
                                         <td>{{ $item->cart->key }}</td>
-                                        <td>{{ $item->cart->amount }}</td>
                                         <td>{{ $item->cart->created_at }}</td>
+                                        <td>
+                                            <strong>İlan No:</strong>
+                                            @if ($o->type == 'project')
+                                                <strong>{{ $o->item->id + 2000000 + json_decode($item->cart->cart)->item->housing }}
+                                                </strong>
+                                            @else
+                                                <strong>{{ json_decode($item->cart->cart)->item->id + 1000000 }}</strong>
+                                            @endif <br>
+                                            @if ($o->type == 'project')
+                                                <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+                                                    {{ json_decode($item->cart->cart)->item->housing }}
+                                                    {{ "No'lu" }}
+                                                    {{ $project->step1_slug }}
+                                                </span>
+                                            @else
+                                                {{ App\Models\Housing::find(json_decode($item->cart->cart)->item->id ?? 0)->title ?? null }}
+                                            @endif
+                                        </td>
+
+                                        <td>
+
+                                            @if (isset($item->balance))
+                                                <span>İsim: {{ $item->user->name }}</span>
+                                                <br>
+                                                <span>{{ $item->user->email }}</span>
+                                                <br>
+                                                <span class="text-success">Kazanç: {{ $item->balance }} ₺</span>
+                                            @else
+                                                -
+                                            @endif
+
+
+                                        </td>
+                                        <td>
+
+                                            @if (isset($item->earn))
+                                                <span class="text-success">Kazanç: {{ $item->earn }} ₺</span>
+                                            @else
+                                                -
+                                            @endif
+
+
+                                        </td>
+                                        <td>
+
+                                            @if (isset($item->earn2))
+                                                <span class="text-success">Kazanç: {{ $item->earn2 }} ₺</span>
+                                            @else
+                                                -
+                                            @endif
+
+
+                                        </td>
+
+                                        <td>{{ $item->cart->amount }} ₺</td>
 
 
                                     </tr>

@@ -21,6 +21,12 @@ class CartOrder extends Model
         return $this->belongsTo(SharerPrice::class, 'id', 'cart_id');
     }
 
+
+    public function price()
+    {
+        return $this->belongsTo(CartPrice::class, 'id', 'cart_id');
+    }
+
     public function bank()
     {
         return $this->belongsTo(BankAccount::class, 'bank_id');
@@ -30,4 +36,6 @@ class CartOrder extends Model
     {
         return $this->belongsTo(Invoice::class, "id", "order_id");
     }
+
+    
 }
