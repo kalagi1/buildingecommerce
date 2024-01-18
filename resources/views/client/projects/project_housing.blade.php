@@ -592,7 +592,7 @@
 
                                             @foreach ($projectHousingSetting as $key => $housingSetting)
                                                 @php
-                                                    if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
+                                                    if (isset($projectHousing[$housingSetting->column_name . '[]']) &&  isset($project[$housingSetting->column_name]) && $project[$housingSetting->column_name]) {
                                                         $isArrayCheck = $housingSetting->is_array;
                                                         $onProject = false;
                                                         $valueArray = [];
@@ -623,7 +623,7 @@
                                                         }
                                                     }
                                                 @endphp
-                                                @if (isset($projectHousing[$housingSetting->column_name . '[]']))
+                                                @if (isset($projectHousing[$housingSetting->column_name . '[]']) &&  isset($project[$housingSetting->column_name]) && $project[$housingSetting->column_name])
                                                     @if (!$isArrayCheck && (isset($value) && $value !== ''))
                                                         <tr>
                                                             @if ($housingSetting->label == 'Fiyat')
@@ -649,7 +649,7 @@
 
                                     @foreach ($projectHousingSetting as $housingSetting)
                                         @php
-                                            if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
+                                            if (isset($projectHousing[$housingSetting->column_name . '[]']) &&  isset($project[$housingSetting->column_name]) && $project[$housingSetting->column_name]) {
                                                 $isArrayCheck = $housingSetting->is_array;
                                                 $onProject = false;
                                                 $valueArray = [];
@@ -680,7 +680,7 @@
                                                 }
                                             }
                                         @endphp
-                                        @if (isset($projectHousing[$housingSetting->column_name . '[]']))
+                                        @if (isset($projectHousing[$housingSetting->column_name . '[]']) &&  isset($project[$housingSetting->column_name]) && $project[$housingSetting->column_name])
                                             @if ($isArrayCheck)
                                                 @if (isset($valueArray))
                                                     <div class="mt-5">

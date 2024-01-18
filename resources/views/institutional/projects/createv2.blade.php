@@ -234,7 +234,9 @@
                         </div>
                         <div class="form-group description-field">
                             <label for="">Proje Açıklaması <span class="required">*</span></label>
-                            <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')" class="form-control">{{isset($tempData->description) ? $tempData->description : ''}}</textarea>
+                            <div class="card p-2">
+                                <textarea name="description" id="editor" cols="30" rows="5"  class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea>
+                            </div>
                         </div>
                         <div class="card p-3 mb-4">
                             <div class="form-group">
@@ -673,7 +675,46 @@
     <script src="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/assets/js/moment.min.js" integrity="sha512-CryKbMe7sjSCDPl18jtJI5DR5jtkUWxPXWaLCst6QjH8wxDexfRJic2WRmRXmstr2Y8SxDDWuBO6CQC6IE4KTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ URL::to('/') }}/adminassets/assets/js/jquery.daterangepicker.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.22.1/standard-all/ckeditor.js"></script>
+    <script>
+        function changeData(value,key,isArray = 0){
+            var formData = new FormData();
+            var csrfToken = $("meta[name='csrf-token']").attr("content");
+            formData.append('_token', csrfToken);
+            formData.append('value',value);
+            formData.append('key',key);
+            formData.append('item_type',1);
+            formData.append('array_data',isArray);
+            $.ajax({
+                type: "POST",
+                url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if(key == 'pricing-type'){
+                        if(value == 2){
+                            $('.single-price-project-area').removeClass('d-none')
+                            $('.pricing-select-first').addClass('d-none')
+                        }else{
+                            $('.single-price-project-area').addClass('d-none')
+                        }
+                    }
+                },
+            });
+        }
 
+        CKEDITOR.replace('editor', {
+            toolbar: [
+                { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
+                { name: 'styles', items: [ 'Format' ] },
+                { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'TextColor', 'BGColor' ] },
+                { name: 'paragraph', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight' ] }
+            ],
+            extraPlugins: ['colorbutton'],
+        });
+
+    </script>
     
         
 
@@ -3340,32 +3381,7 @@
             })
             
             
-            function changeData(value,key,isArray = 0){
-                var formData = new FormData();
-                var csrfToken = $("meta[name='csrf-token']").attr("content");
-                formData.append('_token', csrfToken);
-                formData.append('value',value);
-                formData.append('key',key);
-                formData.append('item_type',1);
-                formData.append('array_data',isArray);
-                $.ajax({
-                    type: "POST",
-                    url: "{{route('institutional.temp.order.data.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        if(key == 'pricing-type'){
-                            if(value == 2){
-                                $('.single-price-project-area').removeClass('d-none')
-                                $('.pricing-select-first').addClass('d-none')
-                            }else{
-                                $('.single-price-project-area').addClass('d-none')
-                            }
-                        }
-                    },
-                });
-            }
+            
 
             $('.redirect-back-pricing').click(function(){
                 $('.single-price-project-area').addClass('d-none')
@@ -3825,62 +3841,8 @@
                 });
             });
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/40.0.0/ckeditor.min.js" integrity="sha512-Zyl/SvrviD3rEMVNCPN+m5zV0PofJYlGHnLDzol2kM224QpmWj9p5z7hQYppmnLFhZwqif5Fugjjouuk5l1lgA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.tiny.cloud/1/c2puh97n9lsir0u2h6xn3id7sk6y0tbhze4ahy5uwt0u4r9e/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
-        tinymce.init({
-            selector: '#editor', // HTML elementinizi seçin
-            plugins: 'advlist autolink lists link image charmap print preview anchor paste',
-            toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | forecolor backcolor ',
-            menubar: false, // Menü çubuğunu tamamen devre dışı bırakır
-            contextmenu: "paste | link image inserttable | cell row column deletetable",
-            language : "tr",
-            paste_as_text: true,
-            // Görünümleri devre dışı bırakmak için aşağıdaki yapılandırmaları kullanın
-            file_browser_callback_types: 'image media',
-            file_browser_callback: function(field_name, url, type, win) {
-                // Herhangi bir işlem yapmadan boş bir işlev kullanarak "File" görünümünü devre dışı bırakır
-            },
-            file_picker_types: 'image media',
-            file_picker_callback: function(callback, value, meta) {
-                // Herhangi bir işlem yapmadan boş bir işlev kullanarak "File" görünümünü devre dışı bırakır
-            },
-            setup: function (editor) {
-                // 'change' olayını dinleyin
-                editor.on('change', function () {
-                    // Editör içeriği değiştiğinde yapılacak işlemi burada tanımlayabilirsiniz.
-                    console.log("Editör içeriği değişti.");
-                    const editorContent = editor.getContent();
-                    console.log(editorContent);
-                    if(editorContent != ""){
-                        descriptionText = "evet var";
-                    }else{
-                        descriptionText = "";
-                    }
-                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-                    
-                    
-                    // Verileri FormData nesnesine ekleyin
-                    const formData = new FormData();
-                    formData.append('_token', csrfToken);
-                    formData.append('value', editorContent);
-                    formData.append('key', "description");
-                    formData.append('item_type', 1);
-                    
-                    // AJAX isteği gönderin
-                    fetch("{{ route('institutional.temp.order.data.change') }}", {
-                        method: "POST",
-                        body: formData,
-                    })
-                    .then(data => {
-                        // Sunucu yanıtını işleyebilirsiniz.
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-                })
-            }
-        })
+
 
         $('.finish-button').click(function(e){
             e.preventDefault();
@@ -4538,12 +4500,6 @@
     </script>
     <script>
         
-        var $select = $('#housing_status').selectize();
-        var selectize = $select[0].selectize;
-        selectize.on('item_click', function(item) {
-            selectize.removeItem(item);
-        });
-
 
 
         $('#housing_status').change(function(){
@@ -4586,6 +4542,8 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/vendors/choices/selectize.css" />
 
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/daterangepicker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css" integrity="sha512-Fm8kRNVGCBZn0sPmwJbVXlqfJmPC13zRsMElZenX6v721g/H7OukJd8XzDEBRQ2FSATK8xNF9UYvzsCtUpfeJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/content/default/content.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/plugins/colors/ui/trumbowyg.colors.min.css" integrity="sha512-vw0LMar38zTSJghtmUo0uw000TBbzhsxLZkOgXZG+U4GYEQn+c+FmVf7glhSZUQydrim3pI+/m7sTxAsKhObFA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endsection
 

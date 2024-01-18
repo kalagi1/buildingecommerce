@@ -1919,10 +1919,10 @@ Emlak İlanı Ekle
     <script>
         tinymce.init({
             selector: '#editor', // HTML elementinizi seçin
-            plugins: 'advlist autolink lists link image charmap print preview anchor',
+            plugins: 'contextmenu',
             toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | forecolor backcolor ',
             menubar: false, // Menü çubuğunu tamamen devre dışı bırakır
-            contextmenu: "paste | link image inserttable | cell row column deletetable",
+            contextmenu: 'copy paste',
             language : "tr",
             // Görünümleri devre dışı bırakmak için aşağıdaki yapılandırmaları kullanın
             file_browser_callback_types: 'image media',
