@@ -58,11 +58,12 @@
                             </thead>
                             <tbody class="list" id="order-table-body">
                                 @foreach ($mergedArray as $item)
+
                                     @php($o = json_decode($item->cart->cart ?? null))
                                     @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                     @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
                                     <tr>
-                                        <td>{{ $item->key }}</td>
+                                        <td>{{ $item->cart->key }}</td>
                                         <td>{{ optional(\Carbon\Carbon::parse($item->cart->created_at))->format('d.m.Y H:i:s') ?? '-' }}
                                         </td>
                                         <td>
