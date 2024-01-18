@@ -48,6 +48,7 @@
                                             <a
                                                 href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug, 'id' => $cart['item']['housing']]) }}">
                                                 <img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
+                                                style="width: 100px;height:100px;object-fit:cover"
                                                     class="img-fluid">
                                             </a>
                                         </td>
@@ -144,7 +145,7 @@
                                 @else
                                     <ul>
                                         <li>İlan Fiyatı<strong class="pull-right">
-                                                {{ number_format($cart['item']['price']) }}
+                                                {{ number_format($cart['item']['price'], 0, ',', '.') }}
                                                 TL</strong></li>
 
                                         @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
