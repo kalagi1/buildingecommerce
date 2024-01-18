@@ -195,7 +195,7 @@
                                     Alışverişe Devam Et
                                 </button>
                             @else
-                                <button type="button" class="btn btn-primary btn-lg btn-block " data-toggle="modal"
+                                <button type="button" class="btn btn-primary btn-lg btn-block paymentButton " data-toggle="modal"
                                     data-target="#paymentModal"
                                     style="height: 50px !important;font-size: 12px;margin: 0 auto;">
                                     {{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
@@ -426,7 +426,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#paymentModal').on('show.bs.modal', function(e) {
+            $(".paymentButton").on("click", function() {
                 var uniqueCode = generateUniqueCode();
                 $('#uniqueCode').text(uniqueCode);
                 $('#uniqueCodeRetry').text(uniqueCode);
