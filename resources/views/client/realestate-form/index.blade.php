@@ -5,7 +5,7 @@
 <div class="container">
     <div class="form pt-4">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12 mt-3 mb-3">
                 <h3 style="font-size: 22px;">Emlak Sepette Aracılığıyla Mülkünü Sat/Kirala</h3>
                 
                 <div class="mt-3 mb-3">
@@ -359,7 +359,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="w-100 btn btn-primary">Sat/Kirala</button>
+                        <button type="submit" class="btn btn-primary"
+                        style="width: 200px; float:right">Sat/Kirala</button>
                     </div>
                 </form>
             </div>

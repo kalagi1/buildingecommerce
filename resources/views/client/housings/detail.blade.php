@@ -1742,6 +1742,7 @@
             justify-content: space-between width: 100%;
             font-size: 11px;
             border: 1px solid #dee2e6;
+            width: 100%;
         }
 
         @media (max-width:768px) {

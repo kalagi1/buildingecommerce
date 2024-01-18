@@ -2710,7 +2710,6 @@
             display: flex;
             justify-content: space-between font-size: 11px;
             border: 1px solid #dee2e6;
-
         }
 
         .table td {

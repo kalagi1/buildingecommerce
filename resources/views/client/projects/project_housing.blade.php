@@ -3042,7 +3042,6 @@ out center;`;
             display: flex;
             justify-content: space-between;
             border: 1px solid #dee2e6;
-
         }
 
         .mobileTagProject {
