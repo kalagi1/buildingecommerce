@@ -34,15 +34,15 @@ class InfoController extends Controller
     {
         $cartPrices = CartPrice::with("cart.user")->where("status","1")->get();
         $sharerPrices = SharerPrice::with("cart.user","user")->where("status","1")->get();
-    
-        $mergedArray = $cartPrices->merge($sharerPrices);
+        
+        $mergedArray = $cartPrices->merge($sharerPrices)->sortByDesc('cart.created_at');
+        
         $totalEarn = $mergedArray->sum(function ($item) {
             $cleanedEarn = str_replace(['.', ','], '', $item->earn);
             return floatval($cleanedEarn);
         });
-
-
-        return view('admin.accounting.index', ['mergedArray' => $mergedArray,'totalEarn' => $totalEarn]);
+    
+        return view('admin.accounting.index', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
     }
     
 
