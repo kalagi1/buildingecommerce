@@ -155,13 +155,15 @@ class CartController extends Controller {
                     $collection = Collection::where( 'id', $lastClick->collection_id )->first();
                     $newAmount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $discountRate / 100 ) );
                     $share_percent =  0.5;
+
+                    $sharedAmount_balance = $newAmount * 0.02 * $share_percent;
                     SharerPrice::create( [
                         'collection_id' => $lastClick->collection_id,
                         'user_id' => $collection->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'balance' => ( number_format( $newAmount * 0.02, 0, ',', '.' ) * $share_percent ) ,
-                        'earn' => ( number_format( $newAmount * 0.02, 0, ',', '.' ) * $share_percent ) ,
+                        'balance' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ) ,
+                        'earn' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ) ,
                         'earn2' =>0 ,
 
                     ] );
@@ -380,7 +382,7 @@ class CartController extends Controller {
                         if ( $lastClick ) {
                             $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
 
-                            if ( isset($collection) ) {
+                            if ( isset( $collection ) ) {
                                 foreach ( $collection->links as $link ) {
                                     if ( ( $link->item_type == 1 && $link->item_id == $project->id && $link->room_order == $id ) ) {
                                         $hasCounter = true;
@@ -408,7 +410,7 @@ class CartController extends Controller {
                     } else if ( $type == 'housing' ) {
                         if ( $lastClick ) {
                             $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
-                            if ( isset($collection )) {
+                            if ( isset( $collection ) ) {
                                 foreach ( $collection->links as $link ) {
                                     if ( ( $link->item_type == 2 && $link->item_id == $id ) ) {
                                         $hasCounter = true;
