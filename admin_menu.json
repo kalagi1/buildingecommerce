@@ -40,7 +40,7 @@
         "id": "housing",
         "label": "EMLAK SEPETTE",
         "icon": "plus",
-        "text": "Sat Kirala Formu",
+        "text": "Sat Kirala Form Verileri",
         "key": "sellRent",
         "url": "admin.real.estates",
         "activePath": "admin/real_estate*"
