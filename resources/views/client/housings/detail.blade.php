@@ -210,45 +210,45 @@
                                     <div class="detail-wrapper-bodys">
                                         <div class="listing-title-bar">
                                             <h4>
-                                              <div>
-                                                @if ($discountAmount)
-                                                <svg viewBox="0 0 24 24" width="18" height="18"
-                                                    stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
-                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                    class="css-i6dzq1">
-                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                    <polyline points="17 18 23 18 23 12"></polyline>
-                                                </svg>
-                                            @endif
-                                            @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                <div>
                                                     @if ($discountAmount)
-                                                        <del style="font-size:11px; color:#EA2B2E">
-                                                                {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                        </del>
-                                                        {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0] - $discountAmount, 0, ',', '.') }}
-                                                        ₺
-                                                    @else
-                                                        {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                        ₺
+                                                        <svg viewBox="0 0 24 24" width="18" height="18"
+                                                            stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="css-i6dzq1">
+                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                                        </svg>
                                                     @endif
-                                                    <span style="font-size:11px; color:#EA2B2E">
-                                                        1 Gece</span>
-                                                @else
-                                                @if ($discountAmount)
-                                                <del style="font-size:11px; color:#EA2B2E">
-                                                        {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                                 
-                                                </del>
-                                                {{ number_format(json_decode($housing->housing_type_data)->price[0] - $discountAmount, 0, ',', '.') }}
-                                                ₺
-                                            @else
-                                                {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                                ₺
-                                            @endif
-                                                @endif
-                                            @endif
-                                              </div>
+                                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                        @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                            @if ($discountAmount)
+                                                                <del style="font-size:11px; color:#EA2B2E">
+                                                                    {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
+                                                                </del>
+                                                                {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0] - $discountAmount, 0, ',', '.') }}
+                                                                ₺
+                                                            @else
+                                                                {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
+                                                                ₺
+                                                            @endif
+                                                            <span style="font-size:11px; color:#EA2B2E">
+                                                                1 Gece</span>
+                                                        @else
+                                                            @if ($discountAmount)
+                                                                <del style="font-size:11px; color:#EA2B2E">
+                                                                    {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
+
+                                                                </del>
+                                                                {{ number_format(json_decode($housing->housing_type_data)->price[0] - $discountAmount, 0, ',', '.') }}
+                                                                ₺
+                                                            @else
+                                                                {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
+                                                                ₺
+                                                            @endif
+                                                        @endif
+                                                    @endif
+                                                </div>
                                             </h4>
                                         </div>
                                     </div>
@@ -709,24 +709,6 @@
                         </div>
 
 
-                        @if (count($housing->user->banners) > 0)
-                            <div class="widget-boxed popular mt-5">
-                                <div class="widget-boxed-header">
-                                    <h4>{!! $housing->user->name !!}</h4>
-                                </div>
-
-                                <div class="widget-boxed-body">
-                                    @if (count($housing->user->banners) > 0)
-                                        @php
-                                            $randomBanner = $housing->user->banners[0];
-                                            $imagePath = asset('storage/store_banners/' . $randomBanner['image']);
-                                        @endphp
-                                        <div class="banner"><img src="{{ $imagePath }}" alt=""></div>
-                                    @else
-                                        <p>No banners available.</p>
-                                    @endif
-                                </div>
-                        @endif
                     </div>
 
                 </aside>
