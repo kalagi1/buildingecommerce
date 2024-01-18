@@ -101,8 +101,9 @@ class CartController extends Controller {
                         'user_id' => $collection->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'balance' => number_format($sharedAmount_balance, 0, ',', '.'),
-                        'earn' => number_format($sharedAmount_earn, 0, ',', '.'),
+                        'balance' => number_format($sharedAmount_balance / 2, 0, ',', '.'),
+                        'earn' => number_format($sharedAmount_balance / 2, 0, ',', '.'),                        
+                        'earn2' => number_format($sharedAmount_earn, 0, ',', '.'),
                     ]);
                 } elseif (!$lastClick) {
                     $newAmount = $amountWithoutDiscount;
